@@ -14,8 +14,10 @@ param tags object
 @secure()
 param secretValue string
 
+param unique string = utcNow('yyyyMMddHHmmss')
+
 resource keyVault 'Microsoft.KeyVault/vaults@2024-04-01-preview' = {
-  name: '${keyVaultName}${uniqueString(resourceGroup().id,guid(tenant().tenantId,subscription().id,keyVaultName))}-kv'
+  name: '${keyVaultName}-${uniqueString(deployer().tenantId, location,unique,subscription().subscriptionId)}-kv'
   location: location
   tags: tags
   properties: {
