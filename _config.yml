@@ -23,7 +23,7 @@ description: > # this means to ignore newlines until "baseurl:"
   to streamline its engineer onboarding and deployment environment automation processes.
 
 # Add your baseurl here (your repository) but DO NOT CHANGE THE LINE NUMBER without editing .circleci/circle_urls.sh
-baseurl: "/DevExp-DevBox/pages" # the subpath of your site, e.g. /blog
+baseurl: "/DevExp-DevBox" # the subpath of your site, e.g. /blog
 
 # This is mostly for testing
 url: "https://evilazaro.github.io" # the base hostname & protocol for your site
