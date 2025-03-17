@@ -36,7 +36,7 @@ doks:
 # SASS settings
 sass:
     sass_dir: ./doks-theme/_sass
-    style: :compressed
+    style: compressed
 
 # Jekyll settings
 layouts_dir: ./doks-theme/_layouts
