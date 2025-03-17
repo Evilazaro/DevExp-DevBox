@@ -1,6 +1,8 @@
 - title: Documentation
   url: docs
   links:
+    - title: "Overview"
+      url: "DevExp-DevBox"
     - title: "Solution Architecture"
       url: "docs/solution-architecture"
     - title: "Microsoft Dev Box"
@@ -9,4 +11,6 @@
       url: "docs/pre-req"
     - title: "Deploying Contoso Dev Box Solution to Azure"
       url: "docs/deploy-solution-to-azure"
+    - title: "Solution Versioning"
+      url: "docs/versioning"
 

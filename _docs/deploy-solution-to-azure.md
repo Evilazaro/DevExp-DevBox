@@ -34,7 +34,7 @@ azd env new dev
 ```
 Open your file explorer window and check if you have the .azure folder created as the demonstrated in the image below:
 
-![newenv](./images/newdevenv.png)
+![newenv](../assets/img/newdevenv.png)
 
 ### Step 4: Update the .env file of your environment adding the KEY_VAULT_SECRET variable
 ```file
@@ -42,37 +42,37 @@ KEY_VAULT_SECRET="<YOUR GITHUB ACCESS TOKEN>"
 ```
 Your .env file must be like the image below.
 
-![alt text](./images/secretupdated.png)
+![alt text](../assets/img/secretupdated.png)
 ### Step 5: Run the setUp.ps1 PowerShell script
 ```powershell
 .\setUp.ps1
 ```
 You should see a similar output as below:
 
-![setup](./images/setup.png)
+![setup](../assets/img/setup.png)
 ### Step 6: Deploy the solution to Azure with azd
 ```powershell
 azd provision -e dev
 ```
 You must inform the Azure Subscription you want to deploy the soltution.
 
-![azuresub](./images//azureSubscription.png)
+![azuresub](../assets/img//azureSubscription.png)
 
 You must inform the Azure Region you want to deploy the soltution.
 
-![azureregion](./images/azureRegion.png)
+![azureregion](../assets/img/azureRegion.png)
 
 ### Step 7: Follow the deployment steps until its completed
 
 After the deployment is completed, you must see the azd output as demonstrated in the image below:
 
-![finished](./images/azuredeploymentfinished.png)
+![finished](../assets/img/azuredeploymentfinished.png)
 
 ### Step 8: Test the solution
 
 Access the https://devbox.microsoft.com Dev Portal and login to Azure with your credentials. You must see the Microsoft Dev Box and Deployment Environments Features as demonstrated int he image below:
 
-![alt text](./images/testsolution.png)
+![alt text](../assets/img/testsolution.png)
 
 # Conclusion
 By following these steps, you will have successfully deployed the Contoso Dev Box solution to Azure. Ensure to monitor and manage the Dev Boxes regularly to optimize performance and security.
