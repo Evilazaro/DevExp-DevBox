@@ -1,0 +1,54 @@
+/**
+ * Grid (objects/_grid.scss)
+ */
+
+@use "../variables";
+@use "../tools";
+
+/* ----- Container widths ----- */
+.container {
+	@include tools.container-fixed;
+
+	@media (min-width: variables.$screen-sm-min) {
+		width: variables.$container-sm;
+	}
+
+	@media (min-width: variables.$screen-md-min) {
+		width: variables.$container-md;
+	}
+
+	@media (min-width: variables.$screen-lg-min) {
+		width: variables.$container-lg;
+	}
+}
+
+/* ----- Fluid container ----- */
+.container-fluid {
+	@include tools.container-fixed;
+}
+
+/* ----- Row ----- */
+.row {
+	@include tools.make-row;
+}
+
+/* ----- Columns ----- */
+@include tools.make-grid-columns;
+
+/* ----- Extra small grid ----- */
+@include tools.make-grid(xs);
+
+/* ----- Small grid ----- */
+@media (min-width: variables.$screen-sm-min) {
+	@include tools.make-grid(sm);
+}
+
+/* ----- Medium grid ----- */
+@media (min-width: variables.$screen-md-min) {
+	@include tools.make-grid(md);
+}
+
+/* ----- Large grid ----- */
+@media (min-width: variables.$screen-lg-min) {
+	@include tools.make-grid(lg);
+}

@@ -1,0 +1,47 @@
+/**
+ * Yellow (themes/_yellow.scss)
+ */
+
+@use "../variables";
+@use "sass:color";
+
+/* ----- Hero subheader ----- */
+.yellow {
+	.hero-subheader {
+		background-color: variables.$color-theme-yellow;
+	}
+}
+
+/* ----- Nav grid ----- */
+.yellow {
+	.nav-grid__item {
+		background-color: variables.$color-theme-yellow;
+
+		&:hover,
+		&:active,
+		&:focus {
+			background-color: variables.$color-theme-yellow;
+		}
+	}
+}
+
+/* ----- Section ----- */
+.yellow {
+	.section--darker-theme-color-bg {
+		background-color: color.adjust(variables.$color-theme-yellow, $lightness: -3%);
+	}
+}
+
+/* ----- Page nav ----- */
+.yellow {
+	.page-nav {
+		background-color: variables.$color-theme-yellow;
+	}
+}
+
+/* ----- Error 404 ----- */
+.yellow {
+	&.error-404 {
+		background-color: variables.$color-theme-yellow;
+	}
+}

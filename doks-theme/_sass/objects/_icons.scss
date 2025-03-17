@@ -1,0 +1,258 @@
+/**
+ * Icons (objects/_icons.scss)
+ */
+
+/* ----- General ----- */
+@font-face {
+	font-family: 'icons';
+	src: url('../fonts/icons/icons.ttf') format('truetype'),
+		 url('../fonts/icons/icons.woff') format('woff'),
+		 url('../fonts/icons/icons.svg#icons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.icon {
+	font-family: 'icons' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+}
+
+/* ----- List of icons ----- */
+.icon--behance {
+	&::before {
+		content: '\e900';
+	}
+}
+
+.icon--bitbucket {
+	&::before {
+		content: '\e901';
+	}
+}
+
+.icon--bluesky {
+	&::before {
+		content: '\e902';
+	}
+}
+
+.icon--codepen {
+	&::before {
+		content: '\e903';
+	}
+}
+
+.icon--discord {
+	&::before {
+		content: '\e904';
+	}
+}
+
+.icon--dribbble {
+	&::before {
+		content: '\e905';
+	}
+}
+
+.icon--dropbox {
+	&::before {
+		content: '\e906';
+	}
+}
+
+.icon--facebook {
+	&::before {
+		content: '\e907';
+	}
+}
+
+.icon--github {
+	&::before {
+		content: '\e908';
+	}
+}
+
+.icon--gitlab {
+	&::before {
+		content: '\e909';
+	}
+}
+
+.icon--google-plus {
+	&::before {
+		content: '\e910';
+	}
+}
+
+.icon--gulp {
+	&::before {
+		content: '\e911';
+	}
+}
+
+.icon--instagram {
+	&::before {
+		content: '\e912';
+	}
+}
+
+.icon--kickstarter {
+	&::before {
+		content: '\e913';
+	}
+}
+
+.icon--linkedin {
+	&::before {
+		content: '\e914';
+	}
+}
+
+.icon--medium {
+	&::before {
+		content: '\e915';
+	}
+}
+
+.icon--meetup {
+	&::before {
+		content: '\e916';
+	}
+}
+
+.icon--pocket {
+	&::before {
+		content: '\e917';
+	}
+}
+
+.icon--producthunt {
+	&::before {
+		content: '\e918';
+	}
+}
+
+.icon--reddit {
+	&::before {
+		content: '\e919';
+	}
+}
+
+.icon--skype {
+	&::before {
+		content: '\e920';
+	}
+}
+
+.icon--slack {
+	&::before {
+		content: '\e921';
+	}
+}
+
+.icon--stackoverflow {
+	&::before {
+		content: '\e922';
+	}
+}
+
+.icon--telegram {
+	&::before {
+		content: '\e923';
+	}
+}
+
+.icon--trello {
+	&::before {
+		content: '\e924';
+	}
+}
+
+.icon--tumblr {
+	&::before {
+		content: '\e925';
+	}
+}
+
+.icon--twitter {
+	&::before {
+		content: '\e926';
+	}
+}
+
+.icon--youtube {
+	&::before {
+		content: '\e927';
+	}
+}
+
+.icon--arrow-down {
+	&::before {
+		content: '\e928';
+	}
+}
+
+.icon--arrow-left {
+	&::before {
+		content: '\e929';
+	}
+}
+
+.icon--arrow-right {
+	&::before {
+		content: '\e930';
+	}
+}
+
+.icon--arrow-up {
+	&::before {
+		content: '\e931';
+	}
+}
+
+.icon--chevron-down {
+	&::before {
+		content: '\e932';
+	}
+}
+
+.icon--chevron-left {
+	&::before {
+		content: '\e933';
+	}
+}
+
+.icon--chevron-right {
+	&::before {
+		content: '\e934';
+	}
+}
+
+.icon--chevron-up {
+	&::before {
+		content: '\e935';
+	}
+}
+
+.icon--home {
+	&::before {
+		content: '\e936';
+	}
+}
+
+.icon--maximize {
+	&::before {
+		content: '\e937';
+	}
+}
+
+.icon--x {
+	&::before {
+		content: '\e938';
+	}
+}

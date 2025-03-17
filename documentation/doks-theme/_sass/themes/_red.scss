@@ -1,0 +1,47 @@
+/**
+ * Red (themes/_red.scss)
+ */
+
+@use "../variables";
+@use "sass:color";
+
+/* ----- Hero subheader ----- */
+.red {
+	.hero-subheader {
+		background-color: variables.$color-theme-red;
+	}
+}
+
+/* ----- Nav grid ----- */
+.red {
+	.nav-grid__item {
+		background-color: variables.$color-theme-red;
+
+		&:hover,
+		&:active,
+		&:focus {
+			background-color: variables.$color-theme-red;
+		}
+	}
+}
+
+/* ----- Section ----- */
+.red {
+	.section--darker-theme-color-bg {
+		background-color: color.adjust(variables.$color-theme-red, $lightness: -3%);
+	}
+}
+
+/* ----- Page nav ----- */
+.red {
+	.page-nav {
+		background-color: variables.$color-theme-red;
+	}
+}
+
+/* ----- Error 404 ----- */
+.red {
+	&.error-404 {
+		background-color: variables.$color-theme-red;
+	}
+}

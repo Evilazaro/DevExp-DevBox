@@ -1,0 +1,24 @@
+/**
+ * Section (objects/_section.scss)
+ */
+
+@use "../variables";
+@use "sass:color";
+
+/* ----- General ----- */
+.section {
+	padding: 3.75rem 0 (3.75rem - 1.25rem) 0;
+
+	@media (min-width: variables.$screen-sm-min) {
+		padding: 6.25rem 0 (6.25rem - 1.25rem) 0;
+	}
+}
+
+/* ----- Variations ----- */
+.section--darker-theme-color-bg {
+	background-color: color.adjust(variables.$color-theme-blue, $lightness: -3%);
+}
+
+.section--grey {
+	background-color: variables.$color-section-grey;
+}

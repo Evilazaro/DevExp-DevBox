@@ -1,0 +1,47 @@
+/**
+ * Purple (themes/_purple.scss)
+ */
+
+@use "../variables";
+@use "sass:color";
+
+/* ----- Hero subheader ----- */
+.purple {
+	.hero-subheader {
+		background-color: variables.$color-theme-purple;
+	}
+}
+
+/* ----- Nav grid ----- */
+.purple {
+	.nav-grid__item {
+		background-color: variables.$color-theme-purple;
+
+		&:hover,
+		&:active,
+		&:focus {
+			background-color: variables.$color-theme-purple;
+		}
+	}
+}
+
+/* ----- Section ----- */
+.purple {
+	.section--darker-theme-color-bg {
+		background-color: color.adjust(variables.$color-theme-purple, $lightness: -3%);
+	}
+}
+
+/* ----- Page nav ----- */
+.purple {
+	.page-nav {
+		background-color: variables.$color-theme-purple;
+	}
+}
+
+/* ----- Error 404 ----- */
+.purple {
+	&.error-404 {
+		background-color: variables.$color-theme-purple;
+	}
+}
