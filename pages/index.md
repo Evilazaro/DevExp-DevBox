@@ -20,3 +20,5 @@ Contoso aims to enhance its engineering efficiency by adopting Microsoft Dev Box
 - **Platform Engineering Capabilities**: Platform engineers can create dev box pools, manage security settings, network configurations, and organizational policies to ensure secure access to resources [here](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box).
 
 Explore the repository to learn more about how Contoso utilizes Microsoft Dev Box to achieve these goals.
+
+# Contoso Dev Box Solution Architecture

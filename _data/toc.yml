@@ -1,20 +1,10 @@
 - title: Documentation
   url: docs
   links:
+    - title: "Solution Architecture"
+      url: "docs/solution-architecture"
     - title: "Microsoft Dev Box"
       url: "docs/microsoft-devbox"
     - title: "Pre Requisites"
       url: "docs/pre-req"
-    - title: Versioning
-      url: "docs/versioning"
-    - title: "About"
-      url: "about"
-    - title: "News"
-      url: "news"
-- title: "Extras"
-  url: "docs/extras"
-  links:
-    - title: Quizzes
-      url: "docs/extras/example-quiz"
-    - title: Tags Page
-      url: "tags"
+
