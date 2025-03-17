@@ -1,6 +1,6 @@
 # Theme settings
 doks:
-    baseurl:
+    baseurl: /docs
     color_theme: blue
     header:
         logo:
@@ -23,11 +23,13 @@ doks:
             - network_name: facebook
               profile_url: '#'
             - network_name: twitter
-              profile_url: '#'
+              profile_url: 'https://x.com/evilazaro'
             - network_name: instagram
-              profile_url: '#'
+              profile_url: 'https://instagram.com/evilazaroa'
             - network_name: youtube
-              profile_url: '#'
+              profile_url: 'https://youtube.com/evilazaro'
+            - network_name: github
+              profile_url: 'https://github.com/evilazaro'
     google_analytics:
         tracking_code: # Add your Google Analytics tracking code to activate Google Analytics
     comments:
