@@ -7,4 +7,6 @@
       url: "docs/microsoft-devbox"
     - title: "Pre Requisites"
       url: "docs/pre-req"
+    - title: "Deploying Contoso Dev Box Solution to Azure"
+      url: "docs/deploy-solution-to-azure"
 
