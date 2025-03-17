@@ -1,14 +1,15 @@
 ---
 # Page settings
-layout: homepage
+layout: default
 keywords:
+comments: false
 
 # Hero section
 title: Developer Experience with Microsoft Dev Box
-description: Developer Experience with Microsoft Dev Box
+description: Contoso aims to enhance its engineering efficiency by adopting Microsoft Dev Box. This repository demonstrates how Contoso designed and deployed its solution, enabling remote engineers to quickly and effectively set up their development environments.
 buttons:
-    - content: Button
-      url: '#'
+    - content: Microsoft Dev Box
+      url: './pages/devbox'
       external_url: false
     - icon: github
       content: Button with icon
