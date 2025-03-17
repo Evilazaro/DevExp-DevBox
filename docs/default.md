@@ -5,8 +5,8 @@ keywords:
 comments: false
 
 # Hero section
-title: Page title
-description: Page description
+title: Developer Experience with Microsoft Dev Box
+description: Developer Experience with Microsoft Dev Box
 
 # Author box
 author:

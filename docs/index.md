@@ -4,8 +4,8 @@ layout: homepage
 keywords:
 
 # Hero section
-title: Project name
-description: Project description
+title: Developer Experience with Microsoft Dev Box
+description: Developer Experience with Microsoft Dev Box
 buttons:
     - content: Button
       url: '#'
