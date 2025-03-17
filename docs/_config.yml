@@ -1,10 +1,10 @@
 # Theme settings
 doks:
     baseurl:
-    color_theme: # Available themes: blue (default), green, purple, red and yellow
+    color_theme: blue
     header:
         logo:
-            text: Project name
+            text: Developer Experience with Microsoft Dev Box
             image:
         nav:
             - item_name: Item 1
@@ -16,7 +16,7 @@ doks:
     footer:
         content:
             logo:
-                text: Project name
+                text: Developer Experience with Microsoft Dev Box
                 image:
             copyright: Copyright &copy; 2017. - Project name <br>All rights reserved.
         social_list:
