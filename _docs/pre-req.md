@@ -20,7 +20,7 @@ Before deploying the Microsoft Dev Box solution to your Azure subscription, ensu
 
 5. **RBAC Roles**: Ensure you have the following roles assigned in your Azure subscription. For more details click [here](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-role-based-access-control):
 
-![Azure Dev Box RBAC Roles](./images/devboxrbacroles.png)
+![Azure Dev Box RBAC Roles](../assets/img/devboxrbacroles.png)
 
 6. **Microsoft Entra ID**: Your organization must use Microsoft Entra ID (formerly Azure Active Directory) for identity and access management. More information can be found [here](https://learn.microsoft.com/en-us/azure/dev-box/).
 
