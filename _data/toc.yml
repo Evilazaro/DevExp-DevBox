@@ -11,6 +11,11 @@
       url: "docs/pre-req"
     - title: "Deploying Contoso Dev Box Solution to Azure"
       url: "docs/deploy-solution-to-azure"
+      children:
+        - title: "Create a Dev Box"
+          url: "docs/create-devbox"
+        - title: "Create an Environment"
+          url: "docs/create-environment"
     - title: "News"
       url: "docs/versioning"
 
