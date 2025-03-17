@@ -5,25 +5,13 @@ keywords:
 comments: false
 
 # Hero section
-title: Developer Experience with Microsoft Dev Box
-description: Contoso aims to enhance its engineering efficiency by adopting Microsoft Dev Box. This repository demonstrates how Contoso designed and deployed its solution, enabling remote engineers to quickly and effectively set up their development environments.
-
-buttons: 
-    - content: Microsoft Dev Box
-      url: 'devbox'
-      external_url: false
-
-# Author box
-author:
-    title: About Author
-    title_url: '#'
-    external_url: true
-    description: Author description
+title: Contoso Dev Box Use Case
+description: Welcome to the Contoso Dev Box repository! This project showcases how Contoso, a fictitious company with developers located worldwide, leverages Microsoft Dev Box to streamline its engineer onboarding and deployment environment automation processes.
 
 # Grid navigation
 grid_navigation:
-    - title: Grid navigation
-      excerpt: Section description
+    - title: Overview
+      excerpt: Overview
       cta: Read more
-      url: '#'
+      url: '/overview'
 ---
