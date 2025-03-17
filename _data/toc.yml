@@ -1,8 +1,8 @@
 - title: Documentation
   url: docs
   links:
-    - title: "Getting Started"
-      url: "docs/getting-started"
+    - title: "Microsoft Dev"
+      url: "docs/microsoft-devbox"
       children:
         - title: Features
           url: "docs/getting-started#getting-started"
