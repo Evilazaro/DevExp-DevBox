@@ -2,7 +2,7 @@
   url: docs
   links:
     - title: "Overview"
-      url: "DevExp-DevBox"
+      url: "/"
     - title: "Solution Architecture"
       url: "docs/solution-architecture"
     - title: "Microsoft Dev Box"

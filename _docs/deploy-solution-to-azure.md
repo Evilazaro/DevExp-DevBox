@@ -15,9 +15,9 @@ description: Deploy Contoso Dev Box Solution to Azure
 ## Step-by-Step Deployment Guide
 
 ### Step 1: Fork the following GitHub Repositories used for Demo
-- #### Dev Box Solution: [DevExp-DevBox](https://github.com/evilazaro/devexp-devbox/)
-- #### Identity Provider Project: [IdentityProvider](https://github.com/evilazaro/identityprovider/)
-- #### eShop Project: [eShop](https://github.com/evilazaro/eshop)
+- Dev Box Solution: [DevExp-DevBox](https://github.com/evilazaro/devexp-devbox/)
+- Identity Provider Project: [IdentityProvider](https://github.com/evilazaro/identityprovider/)
+- eShop Project: [eShop](https://github.com/evilazaro/eshop)
 
 ### Step 2: Create your GitHub Access Token
 [Managing your personal access tokens - GitHub Docs](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
