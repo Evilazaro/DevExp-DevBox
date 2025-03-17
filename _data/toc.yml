@@ -1,15 +1,10 @@
 - title: Documentation
   url: docs
   links:
-    - title: "Microsoft Dev"
+    - title: "Microsoft Dev Box"
       url: "docs/microsoft-devbox"
-      children:
-        - title: Features
-          url: "docs/getting-started#getting-started"
-        - title: Development
-          url: "docs/getting-started#development"
-        - title: Customization
-          url: "docs/getting-started#customization"
+    - title: "Pre Requisites"
+      url: "docs/pre-req"
     - title: Versioning
       url: "docs/versioning"
     - title: "About"
