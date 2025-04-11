@@ -37,9 +37,14 @@ param tags object
 
 type Identity = {
   type: string
+  usergroup: UserGroup
   roleAssignments: RoleAssignment[]
 }
 
+type UserGroup = {
+  id: string
+  name: string
+}
 type RoleAssignment = {
   name: string
   id: string
@@ -74,7 +79,7 @@ resource project 'Microsoft.DevCenter/projects@2024-10-01-preview' = {
 @description('Dev Center Identity Role Assignments')
 module projectIdentityRoleAssignments '../../identity/devCenterRoleAssignment.bicep'= [
   for roleAssignment in identity.roleAssignments: {
-    name: 'roleAssignment-${project.name}-${replace(roleAssignment.name, ' ', '-')}'
+    name: 'RBAC-${project.name}-${replace(roleAssignment.name, ' ', '-')}'
     scope: subscription()
     params: {
       id: roleAssignment.id
@@ -85,6 +90,23 @@ module projectIdentityRoleAssignments '../../identity/devCenterRoleAssignment.bi
     ]
   }
 ]
+
+@description('Dev Center Identity Role Assignments')
+module userGroupRoleAssingments '../../identity/devCenterRoleAssignment.bicep'= [
+  for roleAssignment in identity.roleAssignments: {
+    name: 'RBAC-${guid(project.name,identity.usergroup.name,replace(roleAssignment.name, ' ', '-'))}'
+    scope: subscription()
+    params: {
+      id: roleAssignment.id
+      principalId: identity.usergroup.id
+      principalType: 'Group'
+    }
+    dependsOn: [
+      projectIdentityRoleAssignments
+    ]
+  }
+]
+
 
 @description('Key Vault Access Policies')
 module keyVaultAccessPolicies '../../security/keyvault-access.bicep' = {

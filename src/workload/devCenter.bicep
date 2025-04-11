@@ -36,9 +36,14 @@ type Status = 'Enabled' | 'Disabled'
 
 type Identity = {
   type: string
+  usergroup: UserGroup
   roleAssignments: RoleAssignment[]
 }
 
+type UserGroup = {
+  id: string
+  name: string
+}
 type RoleAssignment = {
   name: string
   id: string
@@ -101,7 +106,7 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
 @description('Dev Center Identity Role Assignments')
 module roleAssignments '../identity/devCenterRoleAssignment.bicep' = [
   for role in config.identity.roleAssignments: {
-    name: 'roleAssignment-${replace(role.name, ' ', '-')}'
+    name: 'RBAC-${replace(role.name, ' ', '-')}'
     scope: subscription()
     params: {
       id: role.id

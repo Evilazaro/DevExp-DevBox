@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=./devcenter.schema.json
 
-name: "devexp-devcenter"
+name: "contoso-devexp-devcenter"
 location: "eastus2"
 catalogItemSyncEnableStatus: "Enabled"
 microsoftHostedNetworkEnableStatus: "Enabled"
@@ -8,6 +8,10 @@ installAzureMonitorAgentEnableStatus: "Enabled"
 
 identity:
   type: "SystemAssigned"
+  usergroup:
+    id: "87d1a1df-38cf-416f-b5f7-a5e115de66ad"
+    name: "devexp-devbox"
+  
   roleAssignments:
     - name: "Contributor"
       id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
@@ -38,19 +42,19 @@ environmentTypes:
 projects:
   - name: "identityProvider"
     description: "Identity Provider project."
-    
+
     pools:
       - name: "backend-engineer"
         imageDefinitionName: "identityProvider-backend-engineer"
       - name: "frontend-engineer"
         imageDefinitionName: "identityProvider-frontend-engineer"
-    
+
     environmentTypes:
       - name: "dev"
         deploymentTargetId: ""
       - name: "staging"
         deploymentTargetId: ""
-    
+
     catalogs:
       environmentDefinition:
         name: "environments"
@@ -64,7 +68,7 @@ projects:
         uri: "https://github.com/Evilazaro/identityProvider.git"
         branch: "main"
         path: ".configuration/devcenter/imageDefinitions"
-    
+
     tags:
       environment: "dev"
       division: "Platforms"
@@ -76,19 +80,19 @@ projects:
 
   - name: "eShop"
     description: "eShop project."
-    
+
     pools:
       - name: "backend-engineer"
         imageDefinitionName: "eShop-backend-engineer"
       - name: "frontend-engineer"
         imageDefinitionName: "eShop-frontend-engineer"
-    
+
     environmentTypes:
       - name: "dev"
         deploymentTargetId: ""
       - name: "staging"
         deploymentTargetId: ""
-    
+
     catalogs:
       environmentDefinition:
         name: "environments"
@@ -102,7 +106,7 @@ projects:
         uri: "https://github.com/Evilazaro/eShop.git"
         branch: "main"
         path: ".devcenter/imageDefinitions"
-    
+
     tags:
       environment: "dev"
       division: "Platforms"

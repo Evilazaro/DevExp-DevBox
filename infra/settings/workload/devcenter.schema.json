@@ -9,11 +9,11 @@
       "description": "Name of the DevCenter.",
       "minLength": 1,
       "maxLength": 64,
-      "default": "DevExP-devcenter"
+      "default": "devexp-devcenter"
     },
     "location": {
       "type": "string",
-      "description": "Location of the DevCenter.",
+      "description": "Azure region where the DevCenter is deployed.",
       "minLength": 1,
       "maxLength": 64,
       "default": "eastus2"
@@ -46,8 +46,56 @@
       "default": "Enabled"
     },
     "identity": {
-      "$ref": "#/definitions/identity",
-      "description": "Identity configuration for the DevCenter."
+      "type": "object",
+      "description": "Identity configuration for the DevCenter.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of identity.",
+          "enum": [
+            "None",
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned"
+          ],
+          "default": "SystemAssigned"
+        },
+        "usergroup": {
+          "type": "object",
+          "description": "User group configuration.",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "ID of the user group.",
+              "minLength": 1
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the user group.",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "id",
+            "name"
+          ],
+          "additionalProperties": false
+        },
+        "roleAssignments": {
+          "type": "array",
+          "description": "List of role assignments.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/roleDefinition"
+          }
+        }
+      },
+      "required": [
+        "type",
+        "usergroup",
+        "roleAssignments"
+      ],
+      "additionalProperties": false
     },
     "catalogs": {
       "type": "array",
@@ -82,10 +130,11 @@
       "default": {
         "environment": "dev",
         "division": "Platforms",
-        "team": "DevEx",
+        "team": "DevExP",
         "project": "DevExP-DevBox",
         "costCenter": "IT",
-        "owner": "Evilazaro"
+        "owner": "Evilazaro",
+        "resources": "DevCenter"
       }
     }
   },
@@ -141,36 +190,8 @@
         "uri",
         "branch",
         "path"
-      ]
-    },
-    "identity": {
-      "type": "object",
-      "description": "Identity configuration.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "Type of identity.",
-          "enum": [
-            "None",
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned"
-          ],
-          "default": "SystemAssigned"
-        },
-        "roleAssignments": {
-          "type": "array",
-          "description": "List of role assignments.",
-          "minItems": 1,
-          "items": {
-            "$ref": "#/definitions/roleDefinition"
-          }
-        }
-      },
-      "required": [
-        "type",
-        "roleAssignments"
-      ]
+      ],
+      "additionalProperties": false
     },
     "roleDefinition": {
       "type": "object",
@@ -190,7 +211,8 @@
       "required": [
         "name",
         "id"
-      ]
+      ],
+      "additionalProperties": false
     },
     "environmentType": {
       "type": "object",
@@ -200,11 +222,18 @@
           "type": "string",
           "description": "Name of the environment type.",
           "minLength": 1
+        },
+        "deploymentTargetId": {
+          "type": "string",
+          "description": "Deployment target ID of the environment type.",
+          "default": ""
         }
       },
       "required": [
-        "name"
-      ]
+        "name",
+        "deploymentTargetId"
+      ],
+      "additionalProperties": false
     },
     "project": {
       "type": "object",
@@ -219,25 +248,6 @@
           "type": "string",
           "description": "Description of the project.",
           "minLength": 1
-        },
-        "environmentTypes": {
-          "type": "array",
-          "description": "List of environment types associated with the project.",
-          "items": {
-            "$ref": "#/definitions/projectEnvironmentType"
-          }
-        },
-        "catalogs": {
-          "type": "object",
-          "description": "Catalogs associated with the project.",
-          "properties": {
-            "environmentDefinition": {
-              "$ref": "#/definitions/catalog"
-            },
-            "imageDefinition": {
-              "$ref": "#/definitions/catalog"
-            }
-          }
         },
         "pools": {
           "type": "array",
@@ -259,52 +269,60 @@
             "required": [
               "name",
               "imageDefinitionName"
-            ]
+            ],
+            "additionalProperties": false
           }
+        },
+        "environmentTypes": {
+          "type": "array",
+          "description": "List of environment types associated with the project.",
+          "items": {
+            "$ref": "#/definitions/environmentType"
+          }
+        },
+        "catalogs": {
+          "type": "object",
+          "description": "Catalogs associated with the project.",
+          "properties": {
+            "environmentDefinition": {
+              "$ref": "#/definitions/catalog"
+            },
+            "imageDefinition": {
+              "$ref": "#/definitions/catalog"
+            }
+          },
+          "required": [
+            "environmentDefinition",
+            "imageDefinition"
+          ],
+          "additionalProperties": false
         },
         "tags": {
           "type": "object",
-          "description": "Tags associated with the DevCenter.",
+          "description": "Tags associated with the project.",
           "additionalProperties": {
             "type": "string"
           },
           "default": {
             "environment": "dev",
             "division": "Platforms",
-            "team": "DevEx",
+            "team": "DevExP",
             "project": "DevExP-DevBox",
             "costCenter": "IT",
-            "owner": "Evilazaro"
+            "owner": "Evilazaro",
+            "resources": "Project"
           }
         }
       },
       "required": [
         "name",
         "description",
+        "pools",
         "environmentTypes",
         "catalogs",
-        "pools",
         "tags"
-      ]
-    },
-    "projectEnvironmentType": {
-      "type": "object",
-      "description": "Project environment type configuration.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the project environment type.",
-          "minLength": 1
-        },
-        "deploymentTargetId": {
-          "type": "string",
-          "description": "Deployment target ID of the project environment type."
-        }
-      },
-      "required": [
-        "name",
-        "deploymentTargetId"
-      ]
+      ],
+      "additionalProperties": false
     }
   }
 }
