@@ -14,11 +14,11 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Contoso Dev Box Use Case
+title: Contoso Dev Box Accelerator
 email: evalvesd@microsoft.com
 author: Evilazaro Alves
 description: > # this means to ignore newlines until "baseurl:"
-  Welcome to the Contoso Dev Box repository! This project showcases how Contoso, 
+  Welcome to the Contoso Dev Box Accelerator repository! This project showcases how Contoso, 
   a fictitious company with developers located worldwide, leverages Microsoft Dev Box 
   to streamline its engineer onboarding and deployment environment automation processes.
 

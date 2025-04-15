@@ -1,6 +1,6 @@
-# Contoso Dev Box Use Case
+# Contoso Dev Box Accelerator
 
-Welcome to the Contoso Dev Box repository! This project showcases how Contoso, a fictitious company with developers located worldwide, leverages Microsoft Dev Box to streamline its engineer onboarding and deployment environment automation processes.
+Welcome to the Contoso Dev Box Accelerator repository! This project showcases how Contoso, a fictitious company with developers located worldwide, leverages Microsoft Dev Box to streamline its engineer onboarding and deployment environment automation processes.
 
 ## Table of Contents
 - [Overview](#overview)
