@@ -11,7 +11,7 @@
       url: "docs/pre-req"
       children:
         - title: "Pre Requisites installation scripts for Microsoft Dev Box"
-          url: "docs/pre-req-installation-scripts"
+          url: "docs/pre-req-scripts"
     - title: "Deploying Contoso Dev Box Solution to Azure"
       url: "docs/deploy-solution-to-azure"
       children:
