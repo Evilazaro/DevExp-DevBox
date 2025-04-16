@@ -5,20 +5,9 @@
       url: "/"
     - title: "Solution Architecture"
       url: "docs/solution-architecture"
-    - title: "Microsoft Dev Box"
-      url: "docs/microsoft-devbox"
-    - title: "Pre Requisites"
-      url: "docs/pre-req"
       children:
+        - title: "Pre Requisites"
+          url: "docs/pre-req"
         - title: "Pre Requisites installation scripts for Microsoft Dev Box"
           url: "docs/pre-req-scripts"
-    - title: "Deploying Contoso Dev Box Solution to Azure"
-      url: "docs/deploy-solution-to-azure"
-      children:
-        - title: "Create a Dev Box"
-          url: "docs/create-devbox"
-        - title: "Create an Environment"
-          url: "docs/create-environment"
-    - title: "News"
-      url: "docs/versioning"
-
+    
