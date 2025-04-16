@@ -9,6 +9,9 @@
       url: "docs/microsoft-devbox"
     - title: "Pre Requisites"
       url: "docs/pre-req"
+      children:
+        - title: "Pre Requisites installation scripts for Microsoft Dev Box"
+          url: "docs/pre-req-installation-scripts"
     - title: "Deploying Contoso Dev Box Solution to Azure"
       url: "docs/deploy-solution-to-azure"
       children:
