@@ -49,9 +49,15 @@ jobs:
 
       - name: Reset workspace ownership
         run: sudo chown -R "$(id -u):$(id -g)" "${{ github.workspace }}"
-        
+
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
