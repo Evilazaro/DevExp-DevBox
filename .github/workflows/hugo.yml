@@ -33,15 +33,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-          cache: "npm"
 
       - name: Install npm dependencies
         run: |
-          # If we have a lock file, do a clean CI install…
           if [ -f package-lock.json ]; then
             npm ci
           else
-            # …otherwise install PostCSS & friends so Hugo can call them via `npx postcss`
             npm install --save-dev postcss postcss-cli autoprefixer
           fi
 
@@ -78,7 +75,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
