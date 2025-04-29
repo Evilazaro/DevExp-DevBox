@@ -46,6 +46,10 @@ jobs:
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
       - name: Install Dart Sass
         run: sudo snap install dart-sass
+
+      - name: Reset workspace ownership
+        run: sudo chown -R "$(id -u):$(id -g)" "${{ github.workspace }}"
+        
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Pages
