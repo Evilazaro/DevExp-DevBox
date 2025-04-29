@@ -1,0 +1,358 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DevCenter Configuration",
+  "type": "object",
+  "required": [
+    "name",
+    "location",
+    "projects"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "catalogItemSyncEnableStatus": {
+      "type": "string",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ]
+    },
+    "microsoftHostedNetworkEnableStatus": {
+      "type": "string",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ]
+    },
+    "installAzureMonitorAgentEnableStatus": {
+      "type": "string",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ]
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "type",
+        "roleAssignments"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "SystemAssigned"
+          ]
+        },
+        "roleAssignments": {
+          "type": "object",
+          "properties": {
+            "devCenter": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "name"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "orgRoleTypes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "type",
+                  "azureADGroupId",
+                  "azureADGroupName",
+                  "azureRBACRoles"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "azureADGroupId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "azureADGroupName": {
+                    "type": "string"
+                  },
+                  "azureRBACRoles": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "id"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "catalogs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "uri",
+          "branch",
+          "path"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "uri": {
+            "type": "string",
+            "format": "uri"
+          },
+          "branch": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "environmentTypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "deploymentTargetId"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "deploymentTargetId": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "identity",
+          "pools",
+          "environmentTypes",
+          "catalogs"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "identity": {
+            "type": "object",
+            "required": [
+              "type",
+              "roleAssignments"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "SystemAssigned"
+                ]
+              },
+              "roleAssignments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "azureADGroupId",
+                    "azureADGroupName",
+                    "azureRBACRoles"
+                  ],
+                  "properties": {
+                    "azureADGroupId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "azureADGroupName": {
+                      "type": "string"
+                    },
+                    "azureRBACRoles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "id"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "pools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "imageDefinitionName"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "imageDefinitionName": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "environmentTypes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "deploymentTargetId"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "deploymentTargetId": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "catalogs": {
+            "type": "object",
+            "required": [
+              "environmentDefinition",
+              "imageDefinition"
+            ],
+            "properties": {
+              "environmentDefinition": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "type",
+                  "uri",
+                  "branch",
+                  "path"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "uri": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "branch": {
+                    "type": "string"
+                  },
+                  "path": {
+                    "type": "string"
+                  }
+                }
+              },
+              "imageDefinition": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "type",
+                  "uri",
+                  "branch",
+                  "path"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "uri": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "branch": {
+                    "type": "string"
+                  },
+                  "path": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "tags": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}
