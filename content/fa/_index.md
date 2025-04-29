@@ -6,7 +6,7 @@ title: اسناد گلدی
 <a class="btn btn-lg btn-primary me-3 mb-4" href="docs/">
     بیشتر بخوانید <i class="fas fa-arrow-alt-circle-left ms-2"></i>
 </a>
-<a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/google/docsy-example">
+<a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/Evilazaro/DevExp-DevBox">
     دانلود <i class="fab fa-github ms-2 "></i>
 </a>
 <p class="lead mt-5">ارزیابی درجه حرارت فرنی - در فضای ابری!</p>
@@ -31,8 +31,8 @@ title: اسناد گلدی
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-github" title="همکاری" url="https://github.com/google/docsy-example" %}}
-ما یک فرآیند [پول ریکوئست](https://github.com/google/docsy-example/pulls) در **گیتهاب** داریم. ما همیشه از همکاران جدید
+{{% blocks/feature icon="fab fa-github" title="همکاری" url="https://github.com/Evilazaro/DevExp-DevBox" %}}
+ما یک فرآیند [پول ریکوئست](https://github.com/Evilazaro/DevExp-DevBox/pulls) در **گیتهاب** داریم. ما همیشه از همکاران جدید
 خوشحال می‌شویم.
 {{% /blocks/feature %}}
 
@@ -57,8 +57,8 @@ Get the Goldydocs app!
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-github" title="همکاری" url="https://github.com/google/docsy-example" %}}
-ما یک فرآیند [پول ریکوئست](https://github.com/google/docsy-example/pulls) در **گیتهاب** داریم. ما همیشه از همکاران جدید
+{{% blocks/feature icon="fab fa-github" title="همکاری" url="https://github.com/Evilazaro/DevExp-DevBox" %}}
+ما یک فرآیند [پول ریکوئست](https://github.com/Evilazaro/DevExp-DevBox/pulls) در **گیتهاب** داریم. ما همیشه از همکاران جدید
 خوشحال می‌شویم.
 {{% /blocks/feature %}}
 

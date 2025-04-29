@@ -1,12 +1,12 @@
 ---
-title: Goldydocs
+title: Microsoft Dev Box Accelerator
 ---
 
-{{< blocks/cover title="Welcome to Goldydocs: A Docsy Example Project!" image_anchor="top" height="full" >}}
+{{< blocks/cover title="Welcome to  Microsoft Dev Box Accelerator!!" image_anchor="top" height="full" >}}
 <a class="btn btn-lg btn-primary me-3 mb-4" href="/docs/">
   Learn More <i class="fas fa-arrow-alt-circle-right ms-2"></i>
 </a>
-<a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/google/docsy-example">
+<a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/Evilazaro/DevExp-DevBox">
   Download <i class="fab fa-github ms-2 "></i>
 </a>
 <p class="lead mt-5">Porridge temperature assessment &mdash; in the cloud!</p>
@@ -32,8 +32,8 @@ Please follow this space for updates!
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/google/docsy-example" %}}
-We do a [Pull Request](https://github.com/google/docsy-example/pulls) contributions workflow on **GitHub**. New users are always welcome!
+{{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/Evilazaro/DevExp-DevBox" %}}
+We do a [Pull Request](https://github.com/Evilazaro/DevExp-DevBox/pulls) contributions workflow on **GitHub**. New users are always welcome!
 {{% /blocks/feature %}}
 
 
@@ -58,8 +58,8 @@ Get the Goldydocs app!
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fab fa-github" title="Contributions welcome!"
-    url="https://github.com/google/docsy-example" %}}
-We do a [Pull Request](https://github.com/google/docsy-example/pulls)
+    url="https://github.com/Evilazaro/DevExp-DevBox" %}}
+We do a [Pull Request](https://github.com/Evilazaro/DevExp-DevBox/pulls)
 contributions workflow on **GitHub**. New users are always welcome!
 {{% /blocks/feature %}}
 
