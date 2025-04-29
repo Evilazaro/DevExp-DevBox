@@ -62,7 +62,7 @@ jobs:
         run: |
           hugo \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+            --baseURL "${{ steps.pages.outputs.base_url }}/DevExp-DevBox/"
 
       - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3
