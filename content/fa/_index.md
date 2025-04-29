@@ -37,7 +37,7 @@ title: اسناد گلدی
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-twitter" title="ما را در توییتر دنبال کنید." url="https://twitter.com/docsydocs" %}}
+{{% blocks/feature icon="fab fa-twitter" title="ما را در توییتر دنبال کنید." url="https://x.com/evilazaro" %}}
 برای اطلاع از آخرین خبرها
 {{% /blocks/feature %}}
 

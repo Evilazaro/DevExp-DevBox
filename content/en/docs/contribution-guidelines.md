@@ -13,7 +13,7 @@ Don't forget to link to your own doc repo rather than our example site! Also mak
 {{% /pageinfo %}}
 
 We use [Hugo](https://gohugo.io/) to format and generate our website, the
-[Docsy](https://github.com/google/docsy) theme for styling and site structure,
+[Docsy](https://github.com/Evilazaro/DevExp-DevBox) theme for styling and site structure,
 and [Netlify](https://www.netlify.com/) to manage the deployment of the site.
 Hugo is an open-source static site generator that provides us with templates,
 content organisation in a standard directory structure, and a website generation

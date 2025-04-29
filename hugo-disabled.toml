@@ -123,7 +123,7 @@ url_latest_version = "https://example.com"
 # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
 github_repo = "https://github.com/Evilazaro/DevExp-DevBox"
 # An optional link to a related project repo. For example, the sibling repository where your product code lives.
-github_project_repo = "https://github.com/google/docsy"
+github_project_repo = "https://github.com/Evilazaro/DevExp-DevBox"
 
 # Specify a value here if your content directory is not in your repo's root directory
 # github_subdir = ""
@@ -183,7 +183,7 @@ enable = false
   desc = "Discussion and help from your fellow users"
 [[params.links.user]]
   name ="Twitter"
-  url = "https://example.org/twitter"
+  url = "https://x.com/evilazaro"
   icon = "fab fa-twitter"
   desc = "Follow us on Twitter to get the latest news!"
 [[params.links.user]]
@@ -194,7 +194,7 @@ enable = false
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
 [[params.links.developer]]
   name = "GitHub"
-  url = "https://github.com/google/docsy"
+  url = "https://github.com/Evilazaro/DevExp-DevBox"
   icon = "fab fa-github"
   desc = "Development takes place here!"
 [[params.links.developer]]

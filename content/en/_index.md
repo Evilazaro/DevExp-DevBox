@@ -32,7 +32,7 @@ We do a [Pull Request](https://github.com/Evilazaro/DevExp-DevBox/pulls) contrib
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-twitter" title="Follow us on Twitter!" url="https://twitter.com/docsydocs" %}}
+{{% blocks/feature icon="fab fa-twitter" title="Follow us on Twitter!" url="https://x.com/evilazaro" %}}
 For announcement of latest features etc.
 {{% /blocks/feature %}}
 

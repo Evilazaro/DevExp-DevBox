@@ -46,7 +46,7 @@ imaging:
 languages:
   en:
     languageName: English
-    title: Dev Box Accelerator Docs
+    title: Docs
     params:
       description: A Docsy example site
   # cSpell:disable
@@ -187,7 +187,7 @@ params:
         icon: fa fa-envelope
         desc: Discussion and help from your fellow users
       - name: Twitter
-        url: https://example.org/twitter
+        url: https://x.com/evilazaro
         icon: fab fa-twitter
         desc: Follow us on Twitter to get the latest news!
       - name: Stack Overflow
@@ -197,7 +197,7 @@ params:
     # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
     developer:
       - name: GitHub
-        url: https://github.com/google/docsy
+        url: https://github.com/Evilazaro/DevExp-DevBox
         icon: fab fa-github
         desc: Development takes place here!
       - name: Slack
