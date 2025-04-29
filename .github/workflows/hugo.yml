@@ -1,151 +1,74 @@
-# ========================================================================
-# GitHub Actions Workflow: Deploy Hugo site to GitHub Pages
-# ========================================================================
-# Purpose: Automates the build and deployment of a Hugo static site to GitHub Pages.
-# This workflow compiles Hugo content, processes assets with Node.js,
-# and deploys the resulting site using GitHub Pages.
-#
-# Documentation References:
-# - Hugo: https://gohugo.io/documentation/
-# - GitHub Pages: https://docs.github.com/en/pages
-# - GitHub Actions: https://docs.github.com/en/actions
+# Sample workflow for building and deploying a Hugo site to GitHub Pages
 name: Deploy Hugo site to Pages
 
-# Workflow Triggers
-# ----------------
-# Controls when the workflow will run:
-# - On push to the "docs" branch (automated updates)
-# - Manual trigger via GitHub UI (workflow_dispatch for on-demand builds)
 on:
+  # Runs on pushes targeting the default branch
   push:
-    branches: ["docs"]
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Required Permissions
-# -------------------
-# Sets the necessary permissions for GitHub Pages deployment:
-# - contents:read - Access to repository content
-# - pages:write - Ability to publish to Pages
-# - id-token:write - Authentication for Pages deployment
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Concurrency Management
-# ---------------------
-# Ensures only one deployment runs at a time to prevent conflicts.
-# If a new workflow is triggered while one is in progress, the new one will queue.
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: pages
+  group: "pages"
   cancel-in-progress: false
 
-# Default Configurations
-# --------------------
-# Sets bash as the default shell for all run steps (ensures consistency across platforms)
+# Default to bash
 defaults:
   run:
     shell: bash
 
 jobs:
-  # Build Job
-  # =========
-  # Responsible for generating the static site content with Hugo
-  # - Sets up development environment
-  # - Installs dependencies
-  # - Builds site content
-  # - Prepares artifact for deployment
+  # Build job
   build:
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: "0.128.0"  # Specify exact Hugo version for reproducibility
-
+      HUGO_VERSION: 0.128.0
     steps:
-      # Repository Preparation
-      # ---------------------
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        # Checks out the repository content to the runner
-
-      # Node.js Setup
-      # ------------
-      # Required for processing CSS/JS assets in Hugo themes
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"  # Using LTS version for stability
-
-      # Frontend Dependencies
-      # -------------------
-      # Installs required npm packages for CSS processing
-      # Uses cache-optimized install if package-lock.json exists
-      - name: Install npm dependencies
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci  # Clean install using lockfile (faster, deterministic)
-          else
-            npm install --save-dev postcss postcss-cli autoprefixer  # Install CSS processing tools
-          fi
-
-      # Hugo Installation
-      # ---------------
-      # Downloads and installs the Hugo extended version (required for Sass processing)
       - name: Install Hugo CLI
         run: |
-          wget -qO hugo.deb \
-            https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb
-          sudo dpkg -i hugo.deb
-          # Verify installation
-          hugo version
-
-      # Sass Processor Installation
-      # -------------------------
-      # Required for themes using Sass/SCSS styling
+          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
       - name: Install Dart Sass
-        run: sudo snap install dart-sass --classic
-
-      # GitHub Pages Configuration
-      # ------------------------
-      # Sets up the base URL and environment for Pages deployment
-      - name: Configure Pages
+        run: sudo snap install dart-sass
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-
-      # Site Generation
-      # -------------
-      # Builds the Hugo site with production settings
-      - name: Build site with Hugo
+      - name: Install Node.js dependencies
+        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+      - name: Build with Hugo
         env:
-          HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache  # Sets cache location for faster builds
-          HUGO_ENVIRONMENT: production  # Ensures production optimizations are applied
+          HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
+          HUGO_ENVIRONMENT: production
         run: |
           hugo \
-            --minify \  # Minifies HTML/CSS/JS for performance
-            --baseURL "${{ steps.pages.outputs.base_url }}/"  # Sets correct base URL from Pages config
-
-      # Artifact Preparation
-      # ------------------
-      # Packages the built site for deployment
-      - name: Upload artifact for Pages
+            --minify \
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public  # Standard Hugo output directory
+          path: ./public
 
-  # Deploy Job
-  # ==========
-  # Responsible for deploying the built site to GitHub Pages
-  # Only runs after build job completes successfully
+  # Deployment job
   deploy:
-    needs: build  # Creates dependency on build job completion
-    runs-on: ubuntu-latest
     environment:
-      name: github-pages  # Specifies the GitHub Pages environment
-      url: ${{ steps.deployment.outputs.page_url }}  # Sets output URL for easy access
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
     steps:
-      # GitHub Pages Deployment
-      # ---------------------
-      # Takes the artifact from build job and publishes to Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        # This action handles the authentication and deployment process
