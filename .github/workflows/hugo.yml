@@ -89,10 +89,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Update Packages
-        run: |
-          sudo apt-get update && sudo apt-get upgrade -y
-          
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
