@@ -51,6 +51,7 @@ The network configuration (`network.yaml`) establishes the networking foundation
 create: true
 virtualNetworkType: Managed
 name: contoso-vnet
+
 addressPrefixes:
   - 10.0.0.0/16
 subnets:
