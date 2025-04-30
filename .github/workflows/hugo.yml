@@ -52,7 +52,7 @@ jobs:
             echo "No package-lock.json found, installing dependencies..."
             npm install --save-exact @fortawesome/fontawesome-free@latest bootstrap@latest
             npm install --save-exact -D hugo-extended@${HUGO_VERSION}
-            npx npm-check-updates -u && npm run cd:docs update:pkgs
+            npx npm-check-updates -u && npm run update:pkgs
             # npm install --save-dev postcss postcss-cli autoprefixer
             # npm install --save-dev postcss-rtlcss rtlcss
             echo "Dependencies installed."
