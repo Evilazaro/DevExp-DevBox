@@ -1,21 +1,26 @@
 ---
-title: Microsoft Dev Box landing zone accelerator
+title: Goldydocs
 ---
 
-{{< blocks/cover title="Welcome to  Microsoft Dev Box landing zone accelerator!!" image_anchor="top" height="full" >}}
-<a class="btn btn-lg btn-primary me-3 mb-4" href="/DevExp-DevBox/docs/overview/">
+{{< blocks/cover title="Welcome to Goldydocs: A Docsy Example Project!" image_anchor="top" height="full" >}}
+<a class="btn btn-lg btn-primary me-3 mb-4" href="/docs/">
   Learn More <i class="fas fa-arrow-alt-circle-right ms-2"></i>
 </a>
-<a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/Evilazaro/DevExp-DevBox">
+<a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/google/docsy-example">
   Download <i class="fab fa-github ms-2 "></i>
 </a>
-<p class="lead mt-5">Enhance the Developer Productivity with Microsoft Dev Box landing zone accelerator &mdash; in the cloud!</p>
+<p class="lead mt-5">Porridge temperature assessment &mdash; in the cloud!</p>
 {{< blocks/link-down color="info" >}}
 {{< /blocks/cover >}}
 
 
 {{% blocks/lead color="primary" %}}
-Microsoft Dev Box landing zone accelerator v2, a solution designed to streamline the provisioning, deployment, and enablement of a Dev Box Solution for engineering teams in minutes. This is achieved by automating the creation of a Microsoft Dev Box Landing Zone, allowing platform engineering teams to provide Dev Box as a Service. The accelerator is built on Microsoft Azure Landing Zone design principles and best practices, and its architecture supports customizations for various customer use cases. It includes a set of reusable Bicep Script Modules.
+Goldydocs provides a single web UI providing visibility into porridge
+temperature, chair size, and bed softness metrics! You can even find out who's
+been eating **your** porridge.
+
+(Sadly, Goldydocs isn't a real project, but you can use this site as an example
+to create your own real websites with [Docsy](https://docsy.dev))
 {{% /blocks/lead %}}
 
 
@@ -27,12 +32,12 @@ Please follow this space for updates!
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/Evilazaro/DevExp-DevBox" %}}
-We do a [Pull Request](https://github.com/Evilazaro/DevExp-DevBox/pulls) contributions workflow on **GitHub**. New users are always welcome!
+{{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/google/docsy-example" %}}
+We do a [Pull Request](https://github.com/google/docsy-example/pulls) contributions workflow on **GitHub**. New users are always welcome!
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-twitter" title="Follow us on Twitter!" url="https://x.com/evilazaro" %}}
+{{% blocks/feature icon="fab fa-twitter" title="Follow us on Twitter!" url="https://twitter.com/docsydocs" %}}
 For announcement of latest features etc.
 {{% /blocks/feature %}}
 
@@ -53,8 +58,8 @@ Get the Goldydocs app!
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fab fa-github" title="Contributions welcome!"
-    url="https://github.com/Evilazaro/DevExp-DevBox" %}}
-We do a [Pull Request](https://github.com/Evilazaro/DevExp-DevBox/pulls)
+    url="https://github.com/google/docsy-example" %}}
+We do a [Pull Request](https://github.com/google/docsy-example/pulls)
 contributions workflow on **GitHub**. New users are always welcome!
 {{% /blocks/feature %}}
 

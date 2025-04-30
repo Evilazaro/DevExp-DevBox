@@ -1,28 +1,5 @@
-# 1. Enable deep merging of module/theme configs into your site config
-#    (so arrays and maps from imported modules are merged, not replaced)
-_merge: deep    
-
-baseURL: https://evilazaro.github.io/DevExp-DevBox/
-title: DevBox Accelerator Docs
-
-# 2. Configure the HTTP cache for resources.GetRemote
-#    Adjust the include patterns (and excludes if needed) to suit your site.
-HTTPCache:
-  cache:
-    for:
-      # By default Hugo excludes everything; here we override to cache only our targets
-      excludes:
-        - "**"
-      includes:
-        - "https://evilazaro.github.io/DevExp-DevBox/**"
-  polls:
-    - low:  "1s"                  # how often to check (minimum)
-      high: "30s"                 # how often to check (maximum)
-      for:
-        excludes:
-          - "**"
-        includes:
-          - "https://evilazaro.github.io/DevExp-DevBox/**"
+baseURL: https://github.com/Evilazaro/DevExp-DevBox
+title: Accelerator
 
 # cSpell:ignore goldmark github hugo readingtime docsy subdir lastmod pygments linenos catmullrom norsk gu
 
@@ -72,6 +49,24 @@ languages:
     title: Accelerator
     params:
       description: A Docsy example site
+  # cSpell:disable
+  'no':
+    languageName: Norsk
+    contentDir: content/no
+    title: Gulldoks
+    params:
+      description: Docsy er operativsystem for skyen
+      time_format_default: 02.01.2006
+      time_format_blog: 02.01.2006
+  fa:
+    languageDirection: rtl
+    languageName: "فارسی (Persian)"
+    contentDir: content/fa
+    title: "اسناد گلدی"
+    params:
+      description: "یک نمونه برای پوسته داکسی"
+      time_format_default: 2006.01.02
+      time_format_blog: 2006.01.02
   # cSpell:enable
 
 markup:
@@ -125,13 +120,13 @@ params:
 
   # A link to latest version of the docs. Used in the "version-banner" partial to
   # point people to the main doc site.
-  url_latest_version: https://github.com/Evilazaro/DevExp-DevBox
+  url_latest_version: https://example.com
 
   # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
-  github_repo: https://github.com/Evilazaro/DevExp-DevBox
+  github_repo: https://github.com/google/docsy-example
 
   # An optional link to a related project repo. For example, the sibling repository where your product code lives.
-  github_project_repo: https://github.com/Evilazaro/DevExp-DevBox
+  github_project_repo: https://github.com/google/docsy
 
   # Specify a value here if your content directory is not in your repo's root directory
   # github_subdir: ""
@@ -192,7 +187,7 @@ params:
         icon: fa fa-envelope
         desc: Discussion and help from your fellow users
       - name: Twitter
-        url: https://x.com/evilazaro
+        url: https://example.org/twitter
         icon: fab fa-twitter
         desc: Follow us on Twitter to get the latest news!
       - name: Stack Overflow
@@ -202,7 +197,7 @@ params:
     # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
     developer:
       - name: GitHub
-        url: https://github.com/Evilazaro/DevExp-DevBox
+        url: https://github.com/google/docsy
         icon: fab fa-github
         desc: Development takes place here!
       - name: Slack
