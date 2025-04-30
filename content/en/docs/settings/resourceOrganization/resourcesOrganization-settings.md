@@ -1,7 +1,8 @@
 ---
 title: 'Azure Resource Groups'
 tags: [resources, azure resources, resources organization, resource group, dev center, projects, catalogs, environments]
-description: 'Azure Resource Groups'
+description: >
+  How to either create new or connect to existent Azure Resource Groups to organize your Dev Box Landing Zone
 weight: 2
 ---
 

@@ -1,7 +1,8 @@
 ---
 title: 'Dev Center'
 tags: [dev center, projects, catalogs, environments]
-description: 'Dev Center'
+description: >
+  How to configure the Core, Identity and Access Management, Catalogs, Environments and Projects settings for the Dev Center
 weight: 2
 ---
 
