@@ -46,7 +46,7 @@ imaging:
 languages:
   en:
     languageName: English
-    title: Docs
+    title: Accelerator
     params:
       description: A Docsy example site
   # cSpell:enable

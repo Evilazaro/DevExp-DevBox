@@ -1,12 +1,10 @@
 ---
-title: 'Azure Network and Connectivity Settings'
-description: 'Azure Network and Connectivity Settings'
+title: 'Azure Network and Connectivity'
+description: 'Azure Network and Connectivity'
 categories: [Settings]
 tags: [network, settings, virtual network, subnet, network connection, resources, azure resources]
 weight: 2
 ---
-
-# Microsoft Dev Box landing zone accelerator: Network Settings Documentation
 
 ## Overview
 

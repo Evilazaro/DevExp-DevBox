@@ -1,11 +1,9 @@
 ---
-title: 'Azure Resource Groups Organization and Settings'
+title: 'Azure Resource Groups'
 tags: [resources, azure resources, resources organization, resource group, dev center, projects, catalogs, environments]
-description: 'Azure Resource Groups Organization and Settings'
+description: 'Azure Resource Groups'
 weight: 2
 ---
-
-# Microsoft Dev Box landing zone accelerator: Resources Organization Documentation
 
 ## Overview
 

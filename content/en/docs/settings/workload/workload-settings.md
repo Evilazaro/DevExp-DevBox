@@ -1,11 +1,9 @@
 ---
-title: 'Dev Center Settings'
+title: 'Dev Center'
 tags: [dev center, projects, catalogs, environments]
-description: 'Dev Center Settings'
+description: 'Dev Center'
 weight: 2
 ---
-
-# Microsoft Dev Box landing zone accelerator: Workload Settings Documentation
 
 ## Overview
 
