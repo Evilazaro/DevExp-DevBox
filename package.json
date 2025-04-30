@@ -7,7 +7,7 @@
   "homepage": "https://example.docsy.dev",
   "author": "Docsy Authors",
   "license": "Apache-2.0",
-  "bugs": "https://github.com/Evilazaro/DevExp-DevBox/issues",
+  "bugs": "https://github.com/google/docsy-example/issues",
   "spelling": "cSpell:ignore docsy hugo htmltest precheck postbuild rtlcss -",
   "scripts": {
     "_build": "npm run _hugo-dev --",
