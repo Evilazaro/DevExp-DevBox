@@ -1,21 +1,21 @@
 ---
-title: Microsoft Dev Box Accelerator
+title: Microsoft Dev Box landing zone accelerator
 ---
 
-{{< blocks/cover title="Welcome to  Microsoft Dev Box Accelerator!!" image_anchor="top" height="full" >}}
+{{< blocks/cover title="Welcome to  Microsoft Dev Box landing zone accelerator!!" image_anchor="top" height="full" >}}
 <a class="btn btn-lg btn-primary me-3 mb-4" href="/DevExp-DevBox/docs/overview/">
   Learn More <i class="fas fa-arrow-alt-circle-right ms-2"></i>
 </a>
 <a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/Evilazaro/DevExp-DevBox">
   Download <i class="fab fa-github ms-2 "></i>
 </a>
-<p class="lead mt-5">Enhance the Developer Productivity with Microsoft Dev Box Accelerator &mdash; in the cloud!</p>
+<p class="lead mt-5">Enhance the Developer Productivity with Microsoft Dev Box landing zone accelerator &mdash; in the cloud!</p>
 {{< blocks/link-down color="info" >}}
 {{< /blocks/cover >}}
 
 
 {{% blocks/lead color="primary" %}}
-Microsoft Dev Box Accelerator, a solution designed to streamline the provisioning, deployment, and enablement of a Dev Box Solution for engineering teams in minutes. This is achieved by automating the creation of a Microsoft Dev Box Landing Zone, allowing platform engineering teams to provide Dev Box as a Service. The accelerator is built on Microsoft Azure Landing Zone design principles and best practices, and its architecture supports customizations for various customer use cases. It includes a set of reusable Bicep Script Modules.
+Microsoft Dev Box landing zone accelerator, a solution designed to streamline the provisioning, deployment, and enablement of a Dev Box Solution for engineering teams in minutes. This is achieved by automating the creation of a Microsoft Dev Box Landing Zone, allowing platform engineering teams to provide Dev Box as a Service. The accelerator is built on Microsoft Azure Landing Zone design principles and best practices, and its architecture supports customizations for various customer use cases. It includes a set of reusable Bicep Script Modules.
 {{% /blocks/lead %}}
 
 
