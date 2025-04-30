@@ -1,5 +1,28 @@
+# 1. Enable deep merging of module/theme configs into your site config
+#    (so arrays and maps from imported modules are merged, not replaced)
+_merge: deep    
+
 baseURL: https://evilazaro.github.io/DevExp-DevBox/
 title: DevBox Accelerator Docs
+
+# 2. Configure the HTTP cache for resources.GetRemote
+#    Adjust the include patterns (and excludes if needed) to suit your site.
+HTTPCache:
+  cache:
+    for:
+      # By default Hugo excludes everything; here we override to cache only our targets
+      excludes:
+        - "**"
+      includes:
+        - "https://evilazaro.github.io/DevExp-DevBox/**"
+  polls:
+    - low:  "1s"                  # how often to check (minimum)
+      high: "30s"                 # how often to check (maximum)
+      for:
+        excludes:
+          - "**"
+        includes:
+          - "https://evilazaro.github.io/DevExp-DevBox/**"
 
 # cSpell:ignore goldmark github hugo readingtime docsy subdir lastmod pygments linenos catmullrom norsk gu
 
