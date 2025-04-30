@@ -15,7 +15,7 @@ title: Microsoft Dev Box landing zone accelerator
 
 
 {{% blocks/lead color="primary" %}}
-Microsoft Dev Box landing zone accelerator, a solution designed to streamline the provisioning, deployment, and enablement of a Dev Box Solution for engineering teams in minutes. This is achieved by automating the creation of a Microsoft Dev Box Landing Zone, allowing platform engineering teams to provide Dev Box as a Service. The accelerator is built on Microsoft Azure Landing Zone design principles and best practices, and its architecture supports customizations for various customer use cases. It includes a set of reusable Bicep Script Modules.
+Microsoft Dev Box landing zone accelerator v2, a solution designed to streamline the provisioning, deployment, and enablement of a Dev Box Solution for engineering teams in minutes. This is achieved by automating the creation of a Microsoft Dev Box Landing Zone, allowing platform engineering teams to provide Dev Box as a Service. The accelerator is built on Microsoft Azure Landing Zone design principles and best practices, and its architecture supports customizations for various customer use cases. It includes a set of reusable Bicep Script Modules.
 {{% /blocks/lead %}}
 
 
