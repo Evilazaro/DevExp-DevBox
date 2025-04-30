@@ -3,5 +3,5 @@ title: Deploy
 description: Deploy
 categories: [Examples, Placeholders]
 tags: [test, docs]
-weight: 4
+weight: 5
 ---
