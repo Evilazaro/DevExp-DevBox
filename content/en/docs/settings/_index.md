@@ -1,9 +1,7 @@
 ---
-title: Settings
+title: Accelerator Settings
 description: 'Microsoft Dev Box landing zone accelerator settings'
 categories: [Settings]
-tags: [test, docs]
+tags: [network, settings, virtual network, subnet, network connection, resources, azure resources, resources organization, resource group, dev center, projects, catalogs, environments]
 weight: 2
 ---
-
-[Connectivity Settings](./connectivity/connectivity-settings.md)

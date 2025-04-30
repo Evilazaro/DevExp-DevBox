@@ -1,10 +1,8 @@
 ---
-title: 'Workload: Dev Center Settings Documentation'
-tags: 
- - devbox
- - resources
- - subnet
-description: 'Workload: Dev Center Settings Documentation'
+title: 'Dev Center Settings'
+tags: [dev center, projects, catalogs, environments]
+description: 'Dev Center Settings'
+weight: 2
 ---
 
 # Microsoft Dev Box landing zone accelerator: Workload Settings Documentation

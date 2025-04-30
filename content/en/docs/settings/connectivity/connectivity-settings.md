@@ -1,8 +1,8 @@
 ---
-title: 'Connectivity: Network Settings Documentation'
-description: 'Connectivity: Network Settings Documentation'
+title: 'Azure Network and Connectivity Settings'
+description: 'Azure Network and Connectivity Settings'
 categories: [Settings]
-tags: [test, docs]
+tags: [network, settings, virtual network, subnet, network connection, resources, azure resources]
 weight: 2
 ---
 

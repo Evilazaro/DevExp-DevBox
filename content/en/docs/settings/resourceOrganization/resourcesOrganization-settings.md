@@ -1,10 +1,8 @@
 ---
-title: 'Resources Organization: Resource Groups Settings Documentation'
-tags: 
- - devbox
- - resources
- - subnet
-description: 'Resources Organization: Resource Groups Settings Documentation'
+title: 'Azure Resource Groups Organization and Settings'
+tags: [resources, azure resources, resources organization, resource group, dev center, projects, catalogs, environments]
+description: 'Azure Resource Groups Organization and Settings'
+weight: 2
 ---
 
 # Microsoft Dev Box landing zone accelerator: Resources Organization Documentation
