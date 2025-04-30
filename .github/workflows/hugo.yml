@@ -27,9 +27,17 @@ jobs:
       HUGO_VERSION: "0.127.0"
 
     steps:
+      - name: Update Packages
+        run: |
+          sudo apt-get update && sudo apt-get upgrade -y
       - name: Checkout repository
         uses: actions/checkout@v4
       
+      - name: Setup Go 1.24.1
+        uses: actions/setup-go@v5
+        with:
+          # Semantic version range syntax or exact version of Go
+          go-version: '1.24.1'
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
