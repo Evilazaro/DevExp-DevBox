@@ -30,7 +30,7 @@ pygmentsUseClasses: false
 pygmentsUseClassic: false
 # pygmentsOptions: "linenos=table"
 # See https://help.farbox.com/pygments.html
-pygmentsStyle: tango
+pygmentsStyle: github-dark
 
 # Configure how URLs look like per section.
 permalinks:
