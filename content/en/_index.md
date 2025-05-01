@@ -1,9 +1,5 @@
 ---
-<<<<<<< HEAD
 title: Microsoft Dev Box langing zone accelerator
-=======
-title: Microsoft Dev Box landing zone accelerator
->>>>>>> 13cfb5887715ac569f33ca83953fb922de49b1a3
 ---
 
 {{< blocks/cover title="Welcome to Microsoft Dev Box landing zone accelerator!" image_anchor="top" height="full" >}}
