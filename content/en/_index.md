@@ -50,15 +50,33 @@ Resources
 
 {{% blocks/section type="row" %}}
 
-{{% blocks/feature icon="fab fa-microsoft" title="Azure Landing Zone **documentation**" url="https://github.com/Evilazaro/DevExp-DevBox" %}}
+{{% blocks/feature icon="fab fa-microsoft" title="Azure Landing Zone **documentation**" url="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/" %}}
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fa-solid fa-video" title="Dev Box on Microsoft Build!" url="https://github.com/Evilazaro/DevExp-DevBox" %}}
+{{% blocks/feature icon="fa-solid fa-video" title="Dev Box on Microsoft Build!" url="https://www.youtube.com/watch?v=mD225hXs63s" %}}
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fa-solid fa-road" title="Microsoft Dev Box roadmap"
-    url="https://learn.microsoft.com/en-us/azure/dev-box/dev-box-roadmap?source=recommendations" %}}
+    url="https://learn.microsoft.com/en-us/azure/dev-box/dev-box-roadmap" %}}
 For announcement of latest features etc.
+{{% /blocks/feature %}}
+
+{{% /blocks/section %}}
+
+{{% blocks/section %}}
+Training
+{.h1 .text-center}
+{{% /blocks/section %}}
+
+{{% blocks/section type="row" %}}
+
+{{% blocks/feature icon="fab fa-microsoft" title="Dev Box **documentation**" url="https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box" %}}
+{{% /blocks/feature %}}
+
+{{% blocks/feature icon="fab fa-solid fa-video" title="**Build apps** from the cloud with Microsoft Dev Box Visual Studio & more | BRK184" url="https://www.youtube.com/watch?v=WMcYeOzQPtc" %}}
+{{% /blocks/feature %}}
+
+{{% blocks/feature icon="fab fa-solid fa-video" title="**Beyond VDI:** Get secure cloud dev environments with Microsoft Dev Box | BRK148" url="https://www.youtube.com/watch?v=TiXmuOxoubE" %}}
 {{% /blocks/feature %}}
 
 {{% /blocks/section %}}
