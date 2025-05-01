@@ -1,11 +1,11 @@
 ---
-title: Microsoft Dev Box langing zone accelerator
-description: What is Microsoft Dev Box langing zone accelerator?
-weight: 2
+title: Dev Box landing zone accelerator
+description: What is Dev Box landing zone accelerator?
+weight: 3
 ---
 
 {{% pageinfo %}}
-The **Microsoft Dev Box Landing Zone Accelerator** is an open-source, reference implementation designed to help you quickly establish a landing zone subscription optimized for Microsoft Dev Box deployments. Built on the principles and best practices of the [Azure Cloud Adoption Framework (CAF) enterprise-scale landing zones](https://docs.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/enterprise-scale), it provides a strategic design path and a target technical state that:
+The **Dev Box landing zone accelerator** is an open-source, reference implementation designed to help you quickly establish a landing zone subscription optimized for Microsoft Dev Box deployments. Built on the principles and best practices of the [Azure Cloud Adoption Framework (CAF) enterprise-scale landing zones](https://docs.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/enterprise-scale), it provides a strategic design path and a target technical state that:
 
 - Establishes foundational services (network, identity, security, governance) required for a scalable Dev Box environment.
 - Aligns to CAF guidance for subscription structure, management groups, policy, and role-based access control (RBAC).

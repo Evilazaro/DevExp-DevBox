@@ -9,7 +9,7 @@ weight: 5
 {{% pageinfo %}}
 ## Overview
 
-This documentation provides a comprehensive explanation of the Microsoft Dev Box landing zone accelerator defined in devcenter.yaml. Azure Dev Box is a managed service that enables organizations to provision, manage, and secure development workstations in the cloud, allowing developers to focus on code rather than environment setup.
+This documentation provides a comprehensive explanation of the Dev Box landing zone accelerator defined in devcenter.yaml. Azure Dev Box is a managed service that enables organizations to provision, manage, and secure development workstations in the cloud, allowing developers to focus on code rather than environment setup.
 {{% /pageinfo %}}
 ## Table of Contents
 
@@ -44,10 +44,10 @@ The devcenter.yaml file establishes a centralized developer workstation platform
 ```yaml
 # yaml-language-server: $schema=./devcenter.schema.json
 #
-# Microsoft Dev Box landing zone accelerator: Dev Center Configuration
+# Dev Box landing zone accelerator: Dev Center Configuration
 # ======================================
 #
-# Purpose: Defines the Dev Center resource and associated projects for Microsoft Dev Box landing zone accelerator.
+# Purpose: Defines the Dev Center resource and associated projects for Dev Box landing zone accelerator.
 # This configuration establishes a centralized developer workstation platform with
 # role-specific configurations and appropriate access controls.
 #

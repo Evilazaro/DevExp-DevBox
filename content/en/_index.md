@@ -1,8 +1,8 @@
 ---
-title: Microsoft Dev Box langing zone accelerator
+title: Dev Box landing zone accelerator
 ---
 
-{{< blocks/cover title="Welcome to Microsoft Dev Box landing zone accelerator!" image_anchor="top" height="full" >}}
+{{< blocks/cover title="Welcome to Dev Box landing zone accelerator!" image_anchor="top" height="full" >}}
 <a class="btn btn-lg btn-primary me-3 mb-4" href="/DevExp-DevBox/docs/overview/">
   Learn More <i class="fas fa-arrow-alt-circle-right ms-2"></i>
 </a>
@@ -15,7 +15,7 @@ title: Microsoft Dev Box langing zone accelerator
 
 
 {{% blocks/lead color="primary" %}}
-The Microsoft Dev Box landing zone accelerator provides a detailed overview of the strategic design path and target technical state for a Microsoft Dev Box deployment. This solution is open source and can be adapted to meet specific needs.
+The Dev Box landing zone accelerator provides a detailed overview of the strategic design path and target technical state for a Microsoft Dev Box deployment. This solution is open source and can be adapted to meet specific needs.
 
 The Microsoft Dev Box accelerator landing zone provides an architectural approach and reference implementation for preparing a landing zone subscription for a scalable Microsoft Dev Box deployment. It adheres to the architecture and best practices of the Cloud Adoption Framework's Azure landing zones, focusing on the design principles of enterprise-scale.
 {{% /blocks/lead %}}

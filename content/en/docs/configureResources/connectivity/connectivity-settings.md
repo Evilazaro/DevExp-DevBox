@@ -11,7 +11,7 @@ weight: 5
 
 ## Overview
 
-This documentation details the network configuration for Microsoft Dev Box landing zone accelerator. The configuration defines a managed virtual network infrastructure that isolates Dev Box resources while enabling secure connectivity to both Azure services and corporate resources.
+This documentation details the network configuration for Dev Box landing zone accelerator. The configuration defines a managed virtual network infrastructure that isolates Dev Box resources while enabling secure connectivity to both Azure services and corporate resources.
 
 {{% /pageinfo %}}
 
@@ -30,7 +30,7 @@ This documentation details the network configuration for Microsoft Dev Box landi
 
 ## Configuration Purpose
 
-The network configuration (`network.yaml`) establishes the networking foundation for Microsoft Dev Box landing zone accelerator environments. It defines a virtual network that:
+The network configuration (`network.yaml`) establishes the networking foundation for Dev Box landing zone accelerator environments. It defines a virtual network that:
 
 - Creates isolated network boundaries for Dev Box workstations
 - Enables controlled access to Azure services
@@ -42,10 +42,10 @@ The network configuration (`network.yaml`) establishes the networking foundation
 ```yaml
 # yaml-language-server: $schema=./network.schema.json
 #
-# Microsoft Dev Box landing zone accelerator: Network Configuration
+# Dev Box landing zone accelerator: Network Configuration
 # ===============================================
 # 
-# Purpose: Defines the virtual network infrastructure for Microsoft Dev Box landing zone accelerator environments.
+# Purpose: Defines the virtual network infrastructure for Dev Box landing zone accelerator environments.
 # This configuration creates a managed virtual network that isolates DevBox resources
 # while enabling secure connectivity to Azure services and corporate resources.
 #
@@ -230,10 +230,10 @@ tags:
 
 - [Azure Virtual Network Documentation](https://learn.microsoft.com/en-us/azure/virtual-network/)
 - [Azure VNet Best Practices](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/hybrid-networking/)
-- [Microsoft Dev Box landing zone accelerator Networking](https://learn.microsoft.com/en-us/azure/dev-box/how-to-configure-network-connectivity)
+- [Dev Box landing zone accelerator Networking](https://learn.microsoft.com/en-us/azure/dev-box/how-to-configure-network-connectivity)
 - [Azure Cloud Adoption Framework - Naming and Tagging](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming)
-- [Microsoft Dev Box landing zone accelerator GitHub](https://github.com/Evilazaro/DevExp-DevBox/)
+- [Dev Box landing zone accelerator GitHub](https://github.com/Evilazaro/DevExp-DevBox/)
 
 ---
 
-*This documentation is part of the Microsoft Dev Box landing zone accelerator project. For more information, visit the [GitHub Repository](https://github.com/Evilazaro/DevExp-DevBox/).*
+*This documentation is part of the Dev Box landing zone accelerator project. For more information, visit the [GitHub Repository](https://github.com/Evilazaro/DevExp-DevBox/).*

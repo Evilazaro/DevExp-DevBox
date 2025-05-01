@@ -1,7 +1,7 @@
 ---
 title: Microsoft Dev Box
 description: Dev workstation in the Cloud.
-weight: 2
+weight: 4
 ---
 
 {{% pageinfo %}}

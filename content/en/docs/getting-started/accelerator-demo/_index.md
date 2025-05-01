@@ -1,7 +1,7 @@
 ---
 title: Accelerator Demo
-description: Deploy the Microsoft Dev Box landing zone accelerator for demo and test  
+description: Deploy the Dev Box landing zone accelerator for demo and test  
 categories: [Examples, Placeholders]
 tags: [Getting Started, Documentation]
-weight: 3
+weight: 5
 ---
