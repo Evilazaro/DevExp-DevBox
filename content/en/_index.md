@@ -42,13 +42,12 @@ For announcement of latest features etc.
 {{% /blocks/section %}}
 
 
-{{% blocks/section %}}
+{{% blocks/lead color="primary" %}}
 Resources
-{.h1 .text-center}
-{{% /blocks/section %}}
+{{% /blocks/lead %}}
 
 
-{{% blocks/section type="row" %}}
+{{% blocks/section color="dark" type="row" %}}
 
 {{% blocks/feature icon="fab fa-microsoft" title="Azure Landing Zone **documentation**" url="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/" %}}
 {{% /blocks/feature %}}
@@ -63,20 +62,19 @@ For announcement of latest features etc.
 
 {{% /blocks/section %}}
 
-{{% blocks/section %}}
+{{% blocks/lead color="primary" %}}
 Training
-{.h1 .text-center}
-{{% /blocks/section %}}
+{{% /blocks/lead %}}
 
-{{% blocks/section type="row" %}}
+{{% blocks/section color="dark" type="row" %}}
 
 {{% blocks/feature icon="fab fa-microsoft" title="Dev Box **documentation**" url="https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box" %}}
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fab fa-solid fa-video" title="**Build apps** from the cloud with Microsoft Dev Box Visual Studio & more | BRK184" url="https://www.youtube.com/watch?v=WMcYeOzQPtc" %}}
+{{% blocks/feature icon="fa-solid fa-video" title="**Build apps** from the cloud with Microsoft Dev Box Visual Studio & more | BRK184" url="https://www.youtube.com/watch?v=WMcYeOzQPtc" %}}
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fab fa-solid fa-video" title="**Beyond VDI:** Get secure cloud dev environments with Microsoft Dev Box | BRK148" url="https://www.youtube.com/watch?v=TiXmuOxoubE" %}}
+{{% blocks/feature icon="fa-solid fa-video" title="**Beyond VDI:** Get secure cloud dev environments with Microsoft Dev Box | BRK148" url="https://www.youtube.com/watch?v=TiXmuOxoubE" %}}
 {{% /blocks/feature %}}
 
 {{% /blocks/section %}}
