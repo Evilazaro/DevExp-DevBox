@@ -38,7 +38,7 @@ For announcement of latest features etc.
 {{% /blocks/section %}}
 
 
-{{% blocks/lead color="secondary" %}}
+{{% blocks/lead color="indigo" %}}
 Resources
 {{% /blocks/lead %}}
 
@@ -57,7 +57,7 @@ For announcement of latest features etc.
 {{% /blocks/feature %}}
 {{% /blocks/section %}}
 
-{{% blocks/lead %}}
+{{% blocks/lead color="black" %}}
 Training
 {{% /blocks/lead %}}
 
