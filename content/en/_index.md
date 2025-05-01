@@ -61,9 +61,9 @@ For announcement of latest features etc.
 {{% /blocks/feature %}}
 {{% /blocks/section %}}
 
-{{% blocks/lead %}}
+{{% blocks/section type="row" %}}
 {{< blocks/link-down color="info" >}}
-{{% /blocks/lead %}}
+{{% /blocks/section %}}
 
 {{% blocks/lead %}}
 Training
