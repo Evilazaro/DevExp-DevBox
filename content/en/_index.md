@@ -21,7 +21,7 @@ The Microsoft Dev Box accelerator landing zone provides an architectural approac
 {{% /blocks/lead %}}
 
 
-{{% blocks/section color="dark" type="row" %}}
+{{% blocks/section color="white" type="row" %}}
 {{% blocks/feature icon="fa-solid fa-play" title="Get started!" url="https://evilazaro.github.io/DevExp-DevBox/docs/getting-started/" %}}
 {{% /blocks/feature %}}
 
@@ -38,12 +38,12 @@ For announcement of latest features etc.
 {{% /blocks/section %}}
 
 
-{{% blocks/lead color="black" %}}
+{{% blocks/lead color="indigo" %}}
 Resources
 {{% /blocks/lead %}}
 
 
-{{% blocks/section type="row" color="indigo" %}}
+{{% blocks/section type="row" color="white" %}}
 
 {{% blocks/feature icon="fab fa-microsoft" title="Azure Landing Zone **documentation**" url="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/" %}}
 {{% /blocks/feature %}}
@@ -57,7 +57,7 @@ For announcement of latest features etc.
 {{% /blocks/feature %}}
 {{% /blocks/section %}}
 
-{{% blocks/lead color="green" %}}
+{{% blocks/lead color="dark" %}}
 Training
 {{% /blocks/lead %}}
 
