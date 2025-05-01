@@ -142,7 +142,7 @@ offlineSearch = false
 prism_syntax_highlighting = false
 
 [params.copyright]
-  authors = "Docsy Authors | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0) | "
+  authors = "Evilazaro Alves | [Linkedin](https://www.linkedin.com/in/evilazaro/) | "
   from_year = 2018
 
 # User interface configuration
