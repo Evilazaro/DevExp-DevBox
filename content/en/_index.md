@@ -59,8 +59,11 @@ Resources
     url="https://learn.microsoft.com/en-us/azure/dev-box/dev-box-roadmap" %}}
 For announcement of latest features etc.
 {{% /blocks/feature %}}
-{{< blocks/link-down color="info" >}}
 {{% /blocks/section %}}
+
+{{% blocks/lead %}}
+{{< blocks/link-down color="info" >}}
+{{% /blocks/lead %}}
 
 {{% blocks/lead %}}
 Training

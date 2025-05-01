@@ -6,8 +6,3 @@ description: >
 tags: [test, sample, docs]
 weight: 4
 ---
-{{% pageinfo %}}
-
-This is a placeholder page that shows you how to use this template site.
-
-{{% /pageinfo %}}
