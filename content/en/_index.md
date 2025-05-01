@@ -26,7 +26,7 @@ The Microsoft Dev Box accelerator landing zone provides an architectural approac
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/Evilazaro/DevExp-DevBox/pulls" %}}
+{{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/Evilazaro/DevExp-DevBox/issues" %}}
 {{% /blocks/feature %}}
 
 
