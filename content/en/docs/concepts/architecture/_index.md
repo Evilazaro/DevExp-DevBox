@@ -1,8 +1,8 @@
 ---
-title: Concepts
+title: Architecture Overview
 date: 2017-01-05
 description: >
-  Concepts
+  Architecture Overview
 tags: [test, sample, docs]
 weight: 4
 ---

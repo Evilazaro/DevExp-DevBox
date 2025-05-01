@@ -1,5 +1,5 @@
 ---
-title: Settings
+title: Configure Resources
 description: >
     Microsoft Dev Box landing zone accelerator settings
 categories: [Settings]
