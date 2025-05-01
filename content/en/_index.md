@@ -33,7 +33,7 @@ Please follow this space for updates!
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/Evilazaro/DevExp-DevBox" %}}
+{{% blocks/feature icon="fab fa-github" title="Contributions welcome!" %}}
 We do a [Pull Request](https://github.com/Evilazaro/DevExp-DevBox/pulls) contributions workflow on **GitHub**. New users are always welcome!
 {{% /blocks/feature %}}
 
