@@ -9,7 +9,7 @@ title: Microsoft Dev Box langing zone accelerator
 <a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/Evilazaro/DevExp-DevBox">
   Download <i class="fab fa-github ms-2 "></i>
 </a>
-<p class="lead mt-5">Enhance the Developer Experience and Productivity with Microsoft Dev Box on Azure!</p>
+<p class="lead mt-5">Transform the developer experience with dev-optimized cloud workstations!</p>
 {{< blocks/link-down color="info" >}}
 {{< /blocks/cover >}}
 
