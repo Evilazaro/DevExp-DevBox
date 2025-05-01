@@ -13,18 +13,15 @@ title: Microsoft Dev Box landing zone accelerator
 <a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/Evilazaro/DevExp-DevBox">
   Download <i class="fab fa-github ms-2 "></i>
 </a>
-<p class="lead mt-5">Porridge temperature assessment &mdash; in the cloud!</p>
+<p class="lead mt-5">Enhance the Developer Experience and Productivity with Microsoft Dev Box on Azure!</p>
 {{< blocks/link-down color="info" >}}
 {{< /blocks/cover >}}
 
 
 {{% blocks/lead color="primary" %}}
-Goldydocs provides a single web UI providing visibility into porridge
-temperature, chair size, and bed softness metrics! You can even find out who's
-been eating **your** porridge.
+The Microsoft Dev Box landing zone accelerator provides a detailed overview of the strategic design path and target technical state for a Microsoft Dev Box deployment. This solution is open source and can be adapted to meet specific needs.
 
-(Sadly, Goldydocs isn't a real project, but you can use this site as an example
-to create your own real websites with [Docsy](https://docsy.dev))
+The Microsoft Dev Box accelerator landing zone provides an architectural approach and reference implementation for preparing a landing zone subscription for a scalable Microsoft Dev Box deployment. It adheres to the architecture and best practices of the Cloud Adoption Framework's Azure landing zones, focusing on the design principles of enterprise-scale.
 {{% /blocks/lead %}}
 
 
@@ -41,7 +38,7 @@ We do a [Pull Request](https://github.com/Evilazaro/DevExp-DevBox/pulls) contrib
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-twitter" title="Follow us on Twitter!" url="https://twitter.com/docsydocs" %}}
+{{% blocks/feature icon="fab fa-twitter" title="Follow us on X!" url="https://x.com/evilazaro" %}}
 For announcement of latest features etc.
 {{% /blocks/feature %}}
 
@@ -50,32 +47,22 @@ For announcement of latest features etc.
 
 
 {{% blocks/section %}}
-This is the second section
+Resources
 {.h1 .text-center}
 {{% /blocks/section %}}
 
 
 {{% blocks/section type="row" %}}
 
-{{% blocks/feature icon="fab fa-app-store-ios" title="Download **from AppStore**" %}}
-Get the Goldydocs app!
+{{% blocks/feature icon="fab fa-microsoft" title="Azure Landing Zone **documentation**" url="https://github.com/Evilazaro/DevExp-DevBox" %}}
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fab fa-github" title="Contributions welcome!"
-    url="https://github.com/Evilazaro/DevExp-DevBox" %}}
-We do a [Pull Request](https://github.com/Evilazaro/DevExp-DevBox/pulls)
-contributions workflow on **GitHub**. New users are always welcome!
+{{% blocks/feature icon="fa-solid fa-video" title="Dev Box on Microsoft Build!" url="https://github.com/Evilazaro/DevExp-DevBox" %}}
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fab fa-twitter" title="Follow us on Twitter!"
-    url="https://twitter.com/GoHugoIO" %}}
+{{% blocks/feature icon="fa-solid fa-road" title="Microsoft Dev Box roadmap"
+    url="https://learn.microsoft.com/en-us/azure/dev-box/dev-box-roadmap?source=recommendations" %}}
 For announcement of latest features etc.
 {{% /blocks/feature %}}
 
-{{% /blocks/section %}}
-
-
-{{% blocks/section %}}
-This is the another section
-{.h1 .text-center}
 {{% /blocks/section %}}
