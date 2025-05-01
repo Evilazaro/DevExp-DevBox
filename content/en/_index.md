@@ -22,15 +22,11 @@ The Microsoft Dev Box accelerator landing zone provides an architectural approac
 
 
 {{% blocks/section color="dark" type="row" %}}
-{{% blocks/feature icon="fa-lightbulb" title="New chair metrics!" %}}
-The Goldydocs UI now shows chair size metrics by default.
-
-Please follow this space for updates!
+{{% blocks/feature icon="fa-solid fa-play" title="Get started!" url="https://evilazaro.github.io/DevExp-DevBox/docs/getting-started/" %}}
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-github" title="Contributions welcome!" %}}
-We do a [Pull Request](https://github.com/Evilazaro/DevExp-DevBox/pulls) contributions workflow on **GitHub**. New users are always welcome!
+{{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/Evilazaro/DevExp-DevBox/pulls" %}}
 {{% /blocks/feature %}}
 
 
