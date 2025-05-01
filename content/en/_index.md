@@ -60,6 +60,7 @@ Resources
 For announcement of latest features etc.
 {{% /blocks/feature %}}
 {{% /blocks/section %}}
+{{< /blocks/link-down >}}
 {{< blocks/link-down color="info" >}}
 
 {{% blocks/lead %}}
@@ -78,3 +79,4 @@ Training
 {{% /blocks/feature %}}
 
 {{% /blocks/section %}}
+{{< /blocks/link-down >}}
