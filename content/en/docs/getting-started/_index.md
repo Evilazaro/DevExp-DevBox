@@ -4,7 +4,7 @@ description: What does your user need to know to try your project?
 categories: [Examples, Placeholders]
 tags: [Getting Started, Documentation]
 linkTitle: Documentation
-menu: {main: {weight: 2}}
+weight: 3
 ---
 
 {{% pageinfo %}}
