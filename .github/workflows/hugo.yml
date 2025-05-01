@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Update Packages
         run: |
-          sudo apt-get update && sudo apt-get upgrade -y
+          sudo apt-get update
       - name: Checkout repository
         uses: actions/checkout@v4
       
