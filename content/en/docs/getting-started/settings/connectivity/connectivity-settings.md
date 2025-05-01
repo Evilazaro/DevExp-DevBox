@@ -7,9 +7,13 @@ tags: [network, settings, virtual network, subnet, network connection, resources
 weight: 5
 ---
 
+{{% pageinfo %}}
+
 ## Overview
 
 This documentation details the network configuration for Microsoft Dev Box landing zone accelerator. The configuration defines a managed virtual network infrastructure that isolates Dev Box resources while enabling secure connectivity to both Azure services and corporate resources.
+
+{{% /pageinfo %}}
 
 ## Table of Contents
 

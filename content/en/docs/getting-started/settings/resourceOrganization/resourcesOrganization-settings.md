@@ -6,10 +6,11 @@ description: >
 weight: 5
 ---
 
+{{% pageinfo %}}
 ## Overview
 
 This documentation details the resource organization structure for the Microsoft Dev Box landing zone accelerator. The configuration defines a comprehensive resource group strategy aligned with Azure Landing Zone principles, segregating resources based on their functional purpose to improve manageability, security, and governance.
-
+{{% /pageinfo %}}
 ## Table of Contents
 
 - [Configuration Purpose](#configuration-purpose)
