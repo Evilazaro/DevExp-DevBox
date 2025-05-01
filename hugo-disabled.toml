@@ -184,7 +184,7 @@ enable = false
 [[params.links.user]]
   name ="Twitter"
   url = "https://example.org/twitter"
-  icon = "fab fa-twitter"
+  icon = "fa-brands fa-x-twitter"
   desc = "Follow us on Twitter to get the latest news!"
 [[params.links.user]]
   name = "Stack Overflow"

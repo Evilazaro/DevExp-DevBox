@@ -34,7 +34,7 @@ We do a [Pull Request](https://github.com/Evilazaro/DevExp-DevBox/pulls) contrib
 {{% /blocks/feature %}}
 
 
-{{% blocks/feature icon="fab fa-twitter" title="Follow us on X!" url="https://x.com/evilazaro" %}}
+{{% blocks/feature icon="fa-brands fa-x-twitter" title="Follow us on X!" url="https://x.com/evilazaro" %}}
 For announcement of latest features etc.
 {{% /blocks/feature %}}
 
@@ -59,9 +59,8 @@ Resources
     url="https://learn.microsoft.com/en-us/azure/dev-box/dev-box-roadmap" %}}
 For announcement of latest features etc.
 {{% /blocks/feature %}}
-{{% /blocks/section %}}
-{{< /blocks/link-down >}}
 {{< blocks/link-down color="info" >}}
+{{% /blocks/section %}}
 
 {{% blocks/lead %}}
 Training
@@ -79,4 +78,3 @@ Training
 {{% /blocks/feature %}}
 
 {{% /blocks/section %}}
-{{< /blocks/link-down >}}
