@@ -42,12 +42,12 @@ For announcement of latest features etc.
 {{% /blocks/section %}}
 
 
-{{% blocks/lead color="primary" %}}
+{{% blocks/lead color="secondary" %}}
 Resources
 {{% /blocks/lead %}}
 
 
-{{% blocks/section color="dark" type="row" %}}
+{{% blocks/section type="row" %}}
 
 {{% blocks/feature icon="fab fa-microsoft" title="Azure Landing Zone **documentation**" url="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/" %}}
 {{% /blocks/feature %}}
@@ -59,14 +59,14 @@ Resources
     url="https://learn.microsoft.com/en-us/azure/dev-box/dev-box-roadmap" %}}
 For announcement of latest features etc.
 {{% /blocks/feature %}}
-
+{{< blocks/link-down color="info" >}}
 {{% /blocks/section %}}
 
-{{% blocks/lead color="primary" %}}
+{{% blocks/lead %}}
 Training
 {{% /blocks/lead %}}
 
-{{% blocks/section color="dark" type="row" %}}
+{{% blocks/section type="row" %}}
 
 {{% blocks/feature icon="fab fa-microsoft" title="Dev Box **documentation**" url="https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box" %}}
 {{% /blocks/feature %}}
