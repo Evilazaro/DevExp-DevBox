@@ -3,13 +3,14 @@ title: 'Azure Resource Groups'
 tags: [resources, azure resources, resources organization, resource group, dev center, projects, catalogs, environments]
 description: >
   How to either create new or connect to existent Azure Resource Groups to organize your Dev Box Landing Zone
-weight: 3
+weight: 5
 ---
 
+{{% pageinfo %}}
 ## Overview
 
 This documentation details the resource organization structure for the Microsoft Dev Box landing zone accelerator. The configuration defines a comprehensive resource group strategy aligned with Azure Landing Zone principles, segregating resources based on their functional purpose to improve manageability, security, and governance.
-
+{{% /pageinfo %}}
 ## Table of Contents
 
 - [Configuration Purpose](#configuration-purpose)
