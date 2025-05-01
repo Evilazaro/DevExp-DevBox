@@ -61,7 +61,7 @@ For announcement of latest features etc.
 {{% /blocks/feature %}}
 {{% /blocks/section %}}
 
-{{% blocks/section type="row" %}}
+{{% blocks/section %}}
 {{< blocks/link-down color="info" >}}
 {{% /blocks/section %}}
 
