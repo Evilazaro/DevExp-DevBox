@@ -25,6 +25,7 @@ title: Dev Box landing zone accelerator
   {{% /blocks/feature %}}
   {{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/Evilazaro/DevExp-DevBox/issues" %}}
   {{% /blocks/feature %}}
+  {{% blocks/}}
 {{% /blocks/section %}}
 
 {{% blocks/lead color="indigo" %}}
@@ -32,6 +33,8 @@ title: Dev Box landing zone accelerator
 {{% /blocks/lead %}}
 
 {{% blocks/section type="row" color="white" %}}
+  {{% blocks/feature icon="fa-solid fa-book" title="**Documentation**"%}}
+  {{% /blocks/feature %}}
   {{% blocks/feature icon="fab fa-microsoft" title="Azure Landing Zone **documentation**" url="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/" %}}
   {{% /blocks/feature %}}
   {{% blocks/feature icon="fa-solid fa-video" title="Dev Box on Microsoft Build!" url="https://www.youtube.com/watch?v=mD225hXs63s" %}}
