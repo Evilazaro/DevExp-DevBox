@@ -1,8 +1,18 @@
 ---
 title: Organization roles and responsabilities requirements
 description: >
-  Dev Box Landing Zone Accelerator – Organization roles and responsabilities for: Platform engineers, development team leads, and developers. 
-tags: [test, sample, docs]
+  **Dev Box Landing Zone Accelerator –** Organization roles and responsabilities for: Platform engineers, development team leads, and developers. 
+categories: 
+  - getting-started
+  - prerequisites
+tags:
+  - roles
+  - responsabilities
+  - requirements
+  - platform engineering
+  - development team
+  - developers
+  - rbac
 weight: 5
 ---
 
