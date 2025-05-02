@@ -1,5 +1,5 @@
 ---
-title: Accelerator Documentation
-linkTitle: Accelerator Documentation
+title: Documentation
+linkTitle: Docs
 menu: {main: {weight: 1}}
 ---
