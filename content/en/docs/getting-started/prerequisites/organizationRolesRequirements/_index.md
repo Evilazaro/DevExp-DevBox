@@ -10,94 +10,113 @@ weight: 5
 **Learn more** about Microsoft Dev Box Organizational roles and responsibilities for the deployment, access the [official documentation site](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-deployment-guide#organizational-roles-and-responsibilities).
 {{% /pageinfo %}} 
 
-# Dev Box Landing Zone Accelerator – Prerequisites Checklist
-
 ## Purpose
 
-This document provides a comprehensive list of prerequisites to help you validate and prepare your environment before deploying the **Microsoft Dev Box Landing Zone Accelerator**. It ensures that all required tools, permissions, resources, and configurations are in place to streamline a successful deployment.
+This document outlines the specific **requirements and responsibilities** for each organizational role involved in deploying and using **Microsoft Dev Box**, with a focus on **RBAC permissions**, **configuration prerequisites**, and links to official Microsoft documentation.
+
+The roles covered include:
+
+- Platform Engineers
+- Development Team Leads
+- Developers
+
+Each role has distinct requirements to ensure a secure, scalable, and successful Dev Box deployment.
 
 ---
 
-## General Requirements
+## Platform Engineer Requirements
 
-| Requirement                     | Description                                                                                             | Documentation                                                                                      |
-|---------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| Azure Subscription              | A valid Azure subscription with Owner or Contributor access                                             | [Create and manage subscriptions](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-subscription) |
-| Microsoft Entra ID              | A configured Microsoft Entra tenant for identity and access control                                     | [What is Microsoft Entra ID?](https://learn.microsoft.com/en-us/entra/fundamentals/whatis)         |
-| Azure CLI                       | Required to execute Bicep templates from local environments                                              | [Install Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)                 |
-| Git                             | Required to clone the landing zone accelerator repository                                                | [Install Git](https://git-scm.com/downloads)                                                       |
-| Bicep CLI (or native support)   | Required for deploying `.bicep` infrastructure templates                                                 | [Bicep Installation Guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install) |
+Platform Engineers are responsible for deploying and governing the core infrastructure that powers Microsoft Dev Box, including Dev Centers, network connections, and governance policies.
 
----
+### Responsibilities
 
-## Role-Based RBAC Permissions
+- Create and configure Dev Centers and Projects
+- Set up network connections (Microsoft-hosted or custom VNETs)
+- Define Dev Box definitions (SKUs, base images)
+- Apply RBAC roles and enforce policies
+- Enable monitoring and diagnostics
 
-### Platform Engineer
+### Required Azure Roles
 
-| Permission / Role               | Description                                                                                             | Documentation                                                                                      |
-|---------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| Owner / Contributor             | Full access to deploy infrastructure and assign permissions                                             | [Owner Role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#owner) |
-| DevCenter Administrator         | Manage Dev Centers, projects, definitions, and network connections                                      | [Dev Box RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
-| Network Contributor             | Required to manage VNETs and DNS integrations                                                           | [Network Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#network-contributor) |
+| Role Name                | Purpose                                                                                             | Documentation                                                                                      |
+|--------------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| Owner / Contributor      | Grants full control of resource deployment and access management                                    | [Owner Role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#owner) |
+| DevCenter Administrator  | Allows managing Dev Centers, Projects, Dev Box Definitions, and network connections                 | [Dev Box RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
+| Network Contributor      | Required to manage virtual networks and DNS for custom connectivity                                | [Network Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#network-contributor) |
 
-### Development Team Lead
+### Additional Requirements
 
-| Permission / Role               | Description                                                                                             | Documentation                                                                                      |
-|---------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| DevCenter Project Admin         | Assign users, manage Dev Box pools and configurations                                                   | [Dev Box RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
-| Contributor (Optional)          | Needed to manage custom images or compute gallery resources                                             | [Contributor Role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor) |
-
-### Developer
-
-| Permission / Role               | Description                                                                                             | Documentation                                                                                      |
-|---------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| Dev Box User                    | Grants access to view, start, and stop assigned Dev Boxes                                               | [Dev Box User Role](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
-
-To learn how to assign RBAC roles in Azure, refer to:  
-[Assign roles using Azure portal](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal)
+| Component                  | Description                                                                                          | Documentation                                                                                      |
+|---------------------------|------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| Azure Subscription         | Must have access to a valid Azure subscription                                                       | [Manage subscriptions](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-subscription) |
+| Microsoft Entra ID         | Configured for managing access and identity                                                          | [What is Microsoft Entra ID?](https://learn.microsoft.com/en-us/entra/fundamentals/whatis)         |
+| Custom Network (Optional)  | Required if using private VNETs, DNS, or domain join                                                 | [Network connection overview](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview) |
+| Azure Monitor              | Recommended for collecting diagnostics and telemetry                                                 | [Monitor Dev Box usage](https://learn.microsoft.com/en-us/azure/dev-box/monitor-dev-box-usage)    |
 
 ---
 
-## Networking Requirements
+## Development Team Lead Requirements
 
-| Requirement                     | Description                                                                                             | Documentation                                                                                      |
-|---------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| Microsoft-hosted Network        | Quick start network managed by Microsoft                                                                | [Networking Overview](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview) |
-| Custom VNET (Optional)          | Required for domain join, hybrid networking, or custom DNS                                              | [Custom network configuration](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview) |
-| DNS Resolution                  | Necessary when using custom VNETs or domain join scenarios                                              | [DNS requirements](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview#dns-requirements) |
-| Hybrid Join or AD DS (Optional) | Supports domain-joined Dev Boxes via Azure AD DS or hybrid join                                         | [AD integration](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview#active-directory-integration) |
+Development Team Leads manage the Dev Box experience for their teams by defining image configurations, Dev Box pools, and assigning users to environments.
+
+### Responsibilities
+
+- Define Dev Box pools per team or project
+- Customize and manage Dev Box definitions
+- Assign users to Dev Box environments via Microsoft Entra ID groups
+- Validate Dev Box readiness and configurations
+
+### Required Azure Roles
+
+| Role Name                | Purpose                                                                                             | Documentation                                                                                      |
+|--------------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| DevCenter Project Admin  | Allows creation and management of projects, Dev Box pools, and user assignments                    | [Dev Box RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
+| Contributor (Optional)   | Required for managing custom images or shared galleries                                             | [Contributor Role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor) |
+
+### Additional Requirements
+
+| Component                       | Description                                                                                      | Documentation                                                                                      |
+|----------------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| Dev Box Definitions              | Templates that specify the image and SKU (compute size)                                          | [Dev Box Definitions](https://learn.microsoft.com/en-us/azure/dev-box/dev-box-definitions)         |
+| Dev Box Pools                    | Logical grouping of Dev Boxes for users                                                          | [Dev Box Pools](https://learn.microsoft.com/en-us/azure/dev-box/dev-box-pools)                     |
+| Azure Compute Gallery (Optional) | Required if using custom images across environments                                              | [Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries) |
+| Azure Image Builder (Optional)   | Used to automate creation of custom Dev Box images                                               | [Image Builder](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview)   |
 
 ---
 
-## Dev Box Configuration Prerequisites
+## Developer Requirements
 
-| Component                       | Description                                                                                             | Documentation                                                                                      |
-|---------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| Dev Center                      | Central management plane for all Dev Box resources                                                      | [Create a Dev Center](https://learn.microsoft.com/en-us/azure/dev-box/quick-create-dev-center-portal) |
-| Project                         | Used to group dev box pools, images, and user permissions                                               | [Set up projects](https://learn.microsoft.com/en-us/azure/dev-box/projects)                        |
-| Dev Box Definitions             | Templates defining SKUs, base images, and settings                                                      | [Define dev box configurations](https://learn.microsoft.com/en-us/azure/dev-box/dev-box-definitions) |
-| Dev Box Pools                   | Logical groupings of dev boxes assigned to specific users or groups                                     | [Create dev box pools](https://learn.microsoft.com/en-us/azure/dev-box/dev-box-pools)              |
+Developers are end users of Microsoft Dev Box and require access to preconfigured environments that match their team's development stack.
 
----
+### Responsibilities
 
-## Optional (Advanced) Components
+- Access and manage assigned Dev Boxes via the portal
+- Use the Dev Box to develop, build, and test code
+- Customize environment (if permitted) within constraints
 
-| Component                       | Description                                                                                             | Documentation                                                                                      |
-|---------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| Azure Image Builder             | Automates creation of golden images                                                                    | [Azure Image Builder](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview) |
-| Azure Compute Gallery           | Hosts and shares custom images across regions or environments                                           | [Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries) |
-| Azure Monitor                   | Enables diagnostics and telemetry collection from Dev Boxes                                             | [Monitor Dev Box usage](https://learn.microsoft.com/en-us/azure/dev-box/monitor-dev-box-usage)    |
-| Azure Policy                    | Enforce organizational rules and compliance (e.g., allowed locations or SKUs)                          | [Azure Policy Overview](https://learn.microsoft.com/en-us/azure/governance/policy/overview)       |
+### Required Azure Roles
+
+| Role Name         | Purpose                                                                                     | Documentation                                                                                      |
+|-------------------|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| Dev Box User      | Grants the ability to view, start, and use Dev Boxes assigned through Dev Box pools        | [Dev Box RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
+
+### Additional Requirements
+
+| Component              | Description                                                                 | Documentation                                                                                      |
+|------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| Microsoft Entra ID     | Developers must be part of an Entra ID group assigned to a Dev Box pool     | [Access Dev Box portal](https://learn.microsoft.com/en-us/azure/dev-box/end-user-dev-box-portal)   |
+| Dev Box Portal Access  | Access the Dev Box portal to start, stop, and connect to the Dev Box        | [Using Dev Box Portal](https://learn.microsoft.com/en-us/azure/dev-box/end-user-dev-box-portal)    |
+| Remote Desktop (Optional) | Used if connecting via RDP instead of the browser-based interface       | [Connect to Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/end-user-connect-dev-box)     |
 
 ---
 
 ## Summary
 
-Before deploying the Dev Box Landing Zone Accelerator, ensure:
+Before deploying or using the Dev Box Landing Zone Accelerator, ensure each role has the following:
 
-- All necessary **roles and permissions** are assigned
-- **Network and DNS infrastructure** is in place (if using custom VNET)
-- All required **Azure resources and configurations** are pre-created or defined
-- Your team is equipped with the **Azure CLI**, **Git**, and optional **Bicep** tooling
+- **Platform Engineers**: Subscription access, network configuration, Dev Center ownership, and monitoring setup  
+- **Team Leads**: RBAC permissions, Dev Box definitions and pools, image strategy, and group assignments  
+- **Developers**: Assigned Entra ID group, portal access, and an understanding of the configured environment  
 
-With this checklist completed, your organization will be ready to deploy scalable, compliant, and developer-ready Microsoft Dev Box environments using the landing zone accelerator.
+For RBAC setup instructions, see:  
+[Assign roles using Azure portal](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal)
