@@ -32,26 +32,17 @@ title: Dev Box landing zone accelerator
 {{% /blocks/lead %}}
 
 {{% blocks/section type="row" color="white" %}}
-  {{% blocks/feature icon="fa-solid fa-book" title="**Documentation**"%}}
+  {{% blocks/feature icon="fa-solid fa-arrows-to-circle" title="Accelerator **concepts**" url="https://evilazaro.github.io/DevExp-DevBox/docs/concepts/" %}}
   {{% /blocks/feature %}}
-  {{% blocks/feature icon="fab fa-microsoft" title="Azure Landing Zone **documentation**" url="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/" %}}
+  {{% blocks/feature icon="fa-solid fa-book" title="Dev Box **documentation**" url="https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box" %}}
+  {{% /blocks/feature %}}
+  {{% blocks/feature icon="fa-solid fa-road" title="Microsoft Dev Box **roadmap**" url="https://learn.microsoft.com/en-us/azure/dev-box/dev-box-roadmap" %}}
+    For announcement of latest features etc.
+  {{% /blocks/feature %}}
+  {{% blocks/feature icon="fa-solid fa-book" title="Azure Landing Zone **documentation**" url="https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/" %}}
   {{% /blocks/feature %}}
   {{% blocks/feature icon="fa-solid fa-video" title="Dev Box on Microsoft Build!" url="https://www.youtube.com/watch?v=mD225hXs63s" %}}
   {{% /blocks/feature %}}
-  {{% blocks/feature icon="fa-solid fa-road" title="Microsoft Dev Box roadmap" url="https://learn.microsoft.com/en-us/azure/dev-box/dev-box-roadmap" %}}
-    For announcement of latest features etc.
-  {{% /blocks/feature %}}
-{{% /blocks/section %}}
-
-{{% blocks/lead color="dark" %}}
-  Training
-{{% /blocks/lead %}}
-
-{{% blocks/section type="row" color="white" %}}
-  {{% blocks/feature icon="fab fa-microsoft" title="Dev Box **documentation**" url="https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box" %}}
-  {{% /blocks/feature %}}
   {{% blocks/feature icon="fa-solid fa-video" title="**Build apps** from the cloud with Microsoft Dev Box Visual Studio & more | BRK184" url="https://www.youtube.com/watch?v=WMcYeOzQPtc" %}}
-  {{% /blocks/feature %}}
-  {{% blocks/feature icon="fa-solid fa-video" title="**Beyond VDI:** Get secure cloud dev environments with Microsoft Dev Box | BRK148" url="https://www.youtube.com/watch?v=TiXmuOxoubE" %}}
-  {{% /blocks/feature %}}
+  {{% /blocks/feature %}}  
 {{% /blocks/section %}}
