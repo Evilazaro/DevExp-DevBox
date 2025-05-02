@@ -2,7 +2,7 @@
 title: Dev Box landing zone accelerator
 description: What is Dev Box landing zone accelerator?
 tags:
-   - Dev Box
+   - accelerator
    - overview
    - landing zone
    - resources
