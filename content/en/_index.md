@@ -14,24 +14,22 @@ title: Dev Box landing zone accelerator
 {{< /blocks/cover >}}
 
 
-{{% blocks/lead color="primary" %}}
-The Dev Box landing zone accelerator provides a detailed overview of the strategic design path and target technical state for a Microsoft Dev Box deployment. This solution is open source and can be adapted to meet specific needs.
-
+{{% blocks/lead color="primary" %}} 
 The Microsoft Dev Box accelerator landing zone provides an architectural approach and reference implementation for preparing a landing zone subscription for a scalable Microsoft Dev Box deployment. It adheres to the architecture and best practices of the Cloud Adoption Framework's Azure landing zones, focusing on the design principles of enterprise-scale.
+This solution is open source and can be adapted to meet specific needs.
 {{% /blocks/lead %}}
 
 
 {{% blocks/section color="white" type="row" %}}
-{{% blocks/feature icon="fa-solid fa-play" title="Get started!" url="https://evilazaro.github.io/DevExp-DevBox/docs/getting-started/" %}}
+{{% blocks/feature icon="fa-solid fa-play" title="Overview!" url="https://evilazaro.github.io/DevExp-DevBox/docs/overview/" %}}
+{{% /blocks/feature %}}
+
+{{% blocks/section color="white" type="row" %}}
+{{% blocks/feature icon="fa-solid fa-gauge-high" title="Get Started!" url="https://evilazaro.github.io/DevExp-DevBox/docs/getting-started/" %}}
 {{% /blocks/feature %}}
 
 
 {{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/Evilazaro/DevExp-DevBox/issues" %}}
-{{% /blocks/feature %}}
-
-
-{{% blocks/feature icon="fa-brands fa-x-twitter" title="Follow us on X!" url="https://x.com/evilazaro" %}}
-For announcement of latest features etc.
 {{% /blocks/feature %}}
 
 
