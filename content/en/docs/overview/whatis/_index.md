@@ -12,6 +12,10 @@ The **Dev Box landing zone accelerator** is an open-source, reference implementa
 - Is fully modular, parameterized, and ready to be adapted to your organization’s existing landing zone or to provision new platform services from scratch.
 - Is open source—feel free to fork, extend, or customize the Bicep modules, policies, and scripts to meet your unique requirements.
 
+## Resources Visualization
+
+![Resources Visualization](mainbicepvisualization.png)
+
 ## What the Microsoft Dev Box Accelerator Landing Zone Provides
 
 1. **Architectural Approach & Reference Implementation**  
