@@ -18,6 +18,8 @@ Microsoft Dev Box enables organizations to provide secure, preconfigured, and re
 - **Development Team Leads**
 - **Developers**
 
+![Dev Box Roles](dev-box-roles.png)
+
 These roles ensure that Dev Box is deployed in accordance with technical, operational, and team-specific needs. In some organizations, multiple roles may be performed by the same individual or team.
 
 ---
