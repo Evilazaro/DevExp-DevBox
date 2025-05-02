@@ -19,7 +19,7 @@ title: Dev Box landing zone accelerator
 {{% /blocks/lead %}}
 
 {{% blocks/section color="white" type="row" %}}
-  {{% blocks/feature icon="fa-solid fa-play" title="Overview!" url="https://evilazaro.github.io/DevExp-DevBox/docs/overview/" %}}
+  {{% blocks/feature icon="fa-solid fa-play" title="Overview!" url="https://evilazaro.github.io/DevExp-DevBox/docs/overview/whatis/" %}}
     What is Microsoft Dev Box landing zone accelerator?
   {{% /blocks/feature %}}
   {{% blocks/feature icon="fa-solid fa-gauge-high" title="Get Started!" url="https://evilazaro.github.io/DevExp-DevBox/docs/getting-started/" %}}
