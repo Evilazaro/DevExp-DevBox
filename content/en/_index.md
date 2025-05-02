@@ -25,7 +25,6 @@ title: Dev Box landing zone accelerator
   {{% /blocks/feature %}}
   {{% blocks/feature icon="fab fa-github" title="Contributions welcome!" url="https://github.com/Evilazaro/DevExp-DevBox/issues" %}}
   {{% /blocks/feature %}}
-  {{% blocks/}}
 {{% /blocks/section %}}
 
 {{% blocks/lead color="indigo" %}}
