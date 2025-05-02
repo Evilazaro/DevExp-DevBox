@@ -38,7 +38,7 @@ When implementing a scalable Microsoft Dev Box landing zone, consider the follow
 | Design Area                | Considerations                                                                                                           |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------|
 | **Subscription Topology**  | Placement under a dedicated “DevBox” management group; isolation from production workloads; environment-dependent naming. |
-| **Resource Organization**  | Resource group structure (e.g., `platform-rg`, `network-rg`, `devbox-rg`); consistent naming & tagging policies.        |
+| **Resource Organization**  | Resource group structure (e.g., `connectivity-rg`, `monitoring-rg`, `security-rg`, and `workload-rg`); consistent naming & tagging policies.        |
 | **Networking**             | Hub-and-spoke or standalone VNet; subnet segmentation; Azure Firewall or NVA integration; optional VPN/ExpressRoute.     |
 | **Identity & Access**      | Azure AD security groups for developers; managed identities for automation; service principal for DevCenter integration. |
 | **Policies & Governance**  | Policy definitions for allowed SKUs, location constraints, storage encryption, and tagging enforcement.                 |
