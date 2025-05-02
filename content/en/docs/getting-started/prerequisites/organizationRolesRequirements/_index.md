@@ -143,3 +143,90 @@ Developers consume Dev Box as a pre-provisioned environment. They focus on devel
 
 - [Dev Box Deployment Guide](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-deployment-guide#organizational-roles-and-responsibilities)
 - [Dev Box Documentation](https://learn.microsoft.com/en-us/azure/dev-box/)
+
+## Microsoft Dev Box vs Dev Box Landing Zone Accelerator
+
+### Purpose
+
+While **Microsoft Dev Box** provides cloud-based, ready-to-code developer workstations, the **Dev Box Landing Zone Accelerator** takes it further by automating and operationalizing the provisioning, governance, and scalability processes aligned to enterprise standards.
+
+Together, they enable organizations to offer **Developer Workstations as a Service**, reducing friction and overhead across Platform Engineering, Development Leads, and Developer teams.
+
+---
+
+### Capability Comparison
+
+| Capability                               | Microsoft Dev Box                            | Dev Box Landing Zone Accelerator                                                   |
+|------------------------------------------|----------------------------------------------|-------------------------------------------------------------------------------------|
+| **Dev Box Provisioning**                 | Manual via Portal or API                     | Automated via Bicep templates and GitHub workflows                                 |
+| **Dev Center & Project Setup**           | Manual configuration                         | Infrastructure-as-code definitions for fast and repeatable setup                  |
+| **Network Integration**                  | Supports Microsoft-hosted and custom VNETs   | Deploys and configures custom VNETs, DNS, and domain join options                 |
+| **RBAC & Access Control**                | Must be manually assigned                    | Predefined Entra ID group roles aligned with Platform Engineer, Lead, Developer   |
+| **Dev Box Definitions & Pools**          | Configured manually                          | Defined as part of the IaC templates with flexibility to extend                   |
+| **Monitoring & Compliance**              | Optional, must be enabled                    | Integrated with Azure Monitor, diagnostic settings, and Azure Policy              |
+| **Onboarding Speed**                     | Depends on manual setup                      | Entire environment deployable in < 1 hour, ready for developer onboarding         |
+| **Governance & Policy Enforcement**      | Optional, manually managed                   | Embedded in deployment templates (naming, tagging, region, policy, identity)      |
+| **Enterprise Readiness**                 | Requires orchestration                       | Out-of-the-box enterprise-aligned architecture                                     |
+
+---
+
+### How the Accelerator Supports Each Role
+
+#### Platform Engineers
+
+| Responsibility                         | Dev Box (Base)                                      | Accelerator Enhancement                                                                 |
+|----------------------------------------|-----------------------------------------------------|------------------------------------------------------------------------------------------|
+| Create Dev Center and Projects         | Manually in Portal                                  | Fully automated via Bicep; governed by naming and tagging standards                     |
+| Configure Network Connections          | Manual VNET setup required                          | Prebuilt modules for custom VNETs, DNS, and hybrid domain join                          |
+| Apply Governance & Compliance          | Must build policies manually                        | Governance integrated into deployment pipeline (CAF aligned)                            |
+| Assign RBAC Roles                      | Manual and error-prone                              | Built-in role assignment templates based on Entra groups                                |
+| Monitoring & Telemetry                 | Optional, not enforced                              | Automatically enabled using Azure Monitor and Diagnostic Settings                       |
+
+**Result**: Reduced infrastructure setup from days/weeks to under 1 hour, with secure, scalable, and compliant environments.
+
+---
+
+#### Development Team Leads
+
+| Responsibility                         | Dev Box (Base)                                      | Accelerator Enhancement                                                                 |
+|----------------------------------------|-----------------------------------------------------|------------------------------------------------------------------------------------------|
+| Define Dev Box Pools                   | Manual creation                                     | Pools and definitions are preconfigured and customizable via parameters                 |
+| Assign Developers                      | Requires manual RBAC setup                          | Entra group-based access aligned to Dev Box pools                                       |
+| Validate and Test Environments         | Set up per environment                              | Get consistent, tested, compliant environments every time                               |
+| Manage DevEx Policies (auto-start, etc)| Set per box                                         | Templates include policies for retention, idle shutdown, and auto-start configurations  |
+
+**Result**: Faster environment readiness, centralized control, and less time spent managing infrastructure.
+
+---
+
+#### Developers
+
+| Responsibility                         | Dev Box (Base)                                      | Accelerator Enhancement                                                                 |
+|----------------------------------------|-----------------------------------------------------|------------------------------------------------------------------------------------------|
+| Access Dev Box                         | Must wait until setup is complete                   | Ready-to-code environments available immediately after group assignment                 |
+| Development Environment Consistency    | Depends on team-specific setup                      | Consistent tooling and configurations across teams and projects                         |
+| Self-Service Management                | Supported via portal                                | No change — still managed through the Dev Box portal                                    |
+| Fast Onboarding                        | Blocked by provisioning delays                      | No delays — entire environment can be operational in a matter of hours                  |
+
+**Result**: Developers spend less time waiting, more time coding — with consistent and secure environments.
+
+---
+
+### Summary
+
+The **Dev Box Landing Zone Accelerator** enhances **Microsoft Dev Box** by:
+
+- Automating all foundational setup work
+- Aligning to Microsoft’s Cloud Adoption Framework
+- Encapsulating best practices for governance, networking, RBAC, and diagnostics
+- Scaling onboarding for development teams with minimal manual intervention
+
+Together, they empower organizations to deliver **Developer Workstations as a Service** — faster, more securely, and at enterprise scale.
+
+---
+
+### Additional Resources
+
+- [Dev Box Landing Zone Accelerator (GitHub)](https://github.com/Azure/devbox-landing-zone-accelerator)
+- [Microsoft Dev Box Documentation](https://learn.microsoft.com/en-us/azure/dev-box/)
+- [Cloud Adoption Framework](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/)
