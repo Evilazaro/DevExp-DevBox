@@ -4,14 +4,13 @@ description: What is Dev Box landing zone accelerator?
 weight: 3
 ---
 
-{{% pageinfo %}}
+# Overview
 The **Dev Box landing zone accelerator** is an open-source, reference implementation designed to help you quickly establish a landing zone subscription optimized for Microsoft Dev Box deployments. Built on the principles and best practices of the [Azure Cloud Adoption Framework (CAF) enterprise-scale landing zones](https://docs.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/enterprise-scale), it provides a strategic design path and a target technical state that:
 
 - Establishes foundational services (network, identity, security, governance) required for a scalable Dev Box environment.
 - Aligns to CAF guidance for subscription structure, management groups, policy, and role-based access control (RBAC).
 - Is fully modular, parameterized, and ready to be adapted to your organization’s existing landing zone or to provision new platform services from scratch.
 - Is open source—feel free to fork, extend, or customize the Bicep modules, policies, and scripts to meet your unique requirements.
-{{% /pageinfo %}}
 
 ## What the Microsoft Dev Box Accelerator Landing Zone Provides
 
@@ -46,8 +45,9 @@ When implementing a scalable Microsoft Dev Box landing zone, consider the follow
 | **Platform Services**      | Key Vault for secrets; Log Analytics workspace for telemetry; Automation Account for scheduled tasks.                    |
 | **Dev Center Integration** | Configuration of Dev Center environments and host pools; assignment of Dev Center roles via RBAC.                        |
 
-> **Adaptation Paths**  
+{{% pageinfo %}}
+> **Journey Paths**  
 > - **Greenfield**: Deploy the accelerator’s Bicep modules to create platform foundational services, then launch your Dev Box environment.  
 > - **Brownfield**: Import existing landing zone services by disabling overlapping modules and parameterizing connections (e.g., pointing to an existing VNet, Subnet, Resource Group or Key Vault).
-
 Learn more how to configure the Accelerator in the [Configure Resources](../../configureResources/) session.
+{{% /pageinfo %}}
