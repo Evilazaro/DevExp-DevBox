@@ -17,7 +17,7 @@ The **Dev Box landing zone accelerator** is an open-source, reference implementa
 1. **Architectural Approach & Reference Implementation**  
    A set of Bicep modules, and scripts that together prepare a landing zone subscription for production-ready Microsoft Dev Box workloads. This includes:
    - **Networking**: Virtual network, subnets (management, Dev Box), and optional peering to hub networks.  
-   - **Identity & Access**: Integration with Azure AD, service principals, managed identities, and RBAC assignments.  
+   - **Identity & Access**: Integration with Microsoft Entra, service principals, managed identities, and RBAC assignments.  
    - **Security & Governance**: Policy assignments (tagging, security baseline, resource consistency), Azure Monitor and Log Analytics integration.  
    - **Platform Services**: Key Vault, and optional DevCenter host pools.
 
@@ -40,7 +40,7 @@ When implementing a scalable Microsoft Dev Box landing zone, consider the follow
 | **Subscription Topology**  | Placement under a dedicated “DevBox” management group; isolation from production workloads; environment-dependent naming. |
 | **Resource Organization**  | Resource group structure (e.g., `connectivity-rg`, `monitoring-rg`, `security-rg`, and `workload-rg`); consistent naming & tagging policies.        |
 | **Networking**             | Hub-and-spoke or standalone VNet; subnet segmentation; Azure Firewall or NVA integration; optional VPN/ExpressRoute.     |
-| **Identity & Access**      | Azure AD security groups for developers; managed identities for automation; service principal for DevCenter integration. |
+| **Identity & Access**      | Microsoft Entra security groups for developers; managed identities for automation; service principal for DevCenter integration. |
 | **Policies & Governance**  | Policy definitions for allowed SKUs, location constraints, storage encryption, and tagging enforcement.                 |
 | **Platform Services**      | Key Vault for secrets; Log Analytics workspace for telemetry; Automation Account for scheduled tasks.                    |
 | **Dev Center Integration** | Configuration of Dev Center environments and host pools; assignment of Dev Center roles via RBAC.                        |

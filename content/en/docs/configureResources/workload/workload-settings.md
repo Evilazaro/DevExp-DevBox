@@ -273,7 +273,7 @@ roleAssignments:
 
 ### Organizational Roles
 
-Organizational roles map Azure AD groups to Dev Box-specific roles:
+Organizational roles map Microsoft Entra groups to Dev Box-specific roles:
 
 ```yaml
 orgRoleTypes:
@@ -288,11 +288,11 @@ orgRoleTypes:
 | Property | Description |
 |----------|-------------|
 | `type` | Dev Box organizational role type |
-| `azureADGroupId` | ID of the Azure AD group to assign this role |
-| `azureADGroupName` | Name of the Azure AD group |
+| `azureADGroupId` | ID of the Microsoft Entra group to assign this role |
+| `azureADGroupName` | Name of the Microsoft Entra group |
 | `azureRBACRoles` | RBAC roles assigned to this organizational role |
 
-**Best Practice**: Use Azure AD groups rather than individual users to simplify access management.
+**Best Practice**: Use Microsoft Entra groups rather than individual users to simplify access management.
 
 ## Content Management
 
@@ -383,7 +383,7 @@ identity:
 | Dev Box User | 45d50f46-0b78-4001-a660-4198cbe8cd05 | Create and use Dev Boxes |
 | Deployment Environment User | 18e40d4e-8d2e-438d-97e1-9528336e149c | Use deployment environments |
 
-**Best Practice**: Assign users to appropriate Azure AD groups and grant only the permissions needed for their role.
+**Best Practice**: Assign users to appropriate Microsoft Entra groups and grant only the permissions needed for their role.
 
 ### Dev Box Pools
 
@@ -475,7 +475,7 @@ tags:
 
 - Use managed identities rather than service principals with credentials
 - Follow the principle of least privilege when assigning roles
-- Use Azure AD groups for role assignments instead of individual users
+- Use Microsoft Entra groups for role assignments instead of individual users
 - Regularly audit role assignments and remove unnecessary permissions
 
 ### Organization

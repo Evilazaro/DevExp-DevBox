@@ -12,13 +12,13 @@ weight: 5
 
 # Overview
 
-To deploy and manage the Microsoft Dev Box effectively, organizations should align responsibilities across three key roles:
+Microsoft Dev Box enables organizations to provide secure, preconfigured, and ready-to-code development environments in the cloud. To successfully deploy and operate Microsoft Dev Box, organizations should align responsibilities across three primary roles:
 
 - **Platform Engineers**
 - **Development Team Leads**
 - **Developers**
 
-Depending on the size and maturity of the organization, these roles might overlap or be combined. This document outlines each role's responsibilities, requirements, and configuration steps to help ensure a successful Dev Box deployment.
+These roles ensure that Dev Box is deployed in accordance with technical, operational, and team-specific needs. In some organizations, multiple roles may be performed by the same individual or team.
 
 ---
 
@@ -26,33 +26,27 @@ Depending on the size and maturity of the organization, these roles might overla
 
 ### Responsibilities
 
-Platform engineers are responsible for setting up, securing, and maintaining the foundational infrastructure for Dev Box. They ensure the platform is scalable, secure, and aligned with enterprise governance.
+Platform engineers are responsible for the initial setup and long-term governance of Dev Box infrastructure. They ensure Dev Box operates within the organization's cloud environment in a scalable, secure, and compliant manner.
 
 ### Key Responsibilities
 
-- Set up **Dev Center**, **projects**, **networks**, and **Dev Box definitions**
-- Integrate **identity and RBAC** with Azure AD
-- Apply governance and compliance policies
-- Manage **networking**, **monitoring**, and **storage**
+- Set up Dev Center, network connections, projects, and dev box definitions
+- Manage network integration, DNS, identity integration, and hybrid join scenarios
+- Define custom virtual networks and subnet infrastructure
+- Apply policies for governance, compliance, and cost management
+- Configure monitoring and diagnostics
 
 ### Requirements
 
-| Requirement                     | Description                                                                                              | Documentation Link                                                                                       |
-|---------------------------------|----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| Azure Subscription & Permissions | Required to create and manage Dev Center, projects, and networking resources                            | [Assign Azure roles using the Azure portal](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal) |
-| Network Infrastructure          | Set up custom virtual networks (VNETs), DNS, and optionally join devices to a domain                     | [Configure a custom network](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview) |
-| Azure RBAC                      | Assign roles at the Dev Center, project, and resource group levels to manage access                      | [What is Azure RBAC?](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview) |
-| Dev Box Architecture            | Understand concepts such as Dev Center, Dev Box definitions, and projects                               | [Dev Box Concepts](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-concepts) |
-| Monitoring                      | Enable diagnostics and integrate with Azure Monitor for logging and metrics                             | [Monitor Dev Box usage](https://learn.microsoft.com/en-us/azure/dev-box/monitor-dev-box-usage) |
-
-### Configuration Steps
-
-1. **Create Dev Center**
-2. **Create Projects**
-3. **Configure Dev Box Definitions**
-4. **Configure Network Connections**
-5. **Assign RBAC Roles**
-6. **Set Up Monitoring**
+| Requirement                           | Description                                                                                               | Documentation Link                                                                 |
+|---------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| Azure Subscription                    | A valid Azure subscription with permission to deploy and manage Azure resources                           | [Create and manage subscriptions](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-subscription) |
+| Microsoft Entra ID                    | Microsoft Entra tenant configured for identity and access management                                       | [What is Microsoft Entra ID?](https://learn.microsoft.com/en-us/entra/fundamentals/whatis)    |
+| Azure Role-Based Access Control (RBAC)| RBAC must be used to control access to Dev Box resources across Dev Center, projects, and VNETs            | [Azure RBAC Overview](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview) |
+| Custom Virtual Network (Optional)     | Required if deploying Dev Box in a network that connects to on-prem resources or requires domain join      | [Configure custom networks](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview) |
+| Azure DNS or Custom DNS               | Required for domain resolution inside private virtual networks                                             | [DNS Integration](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview#dns-requirements) |
+| Hybrid Join / AD DS Integration (Optional) | Required if using on-premises domain join via Azure AD DS or hybrid join                            | [Join devices to domain](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview#active-directory-integration) |
+| Azure Monitor                         | To enable diagnostics and monitoring for deployed Dev Boxes                                                | [Monitor Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/monitor-dev-box-usage) |
 
 ---
 
@@ -60,31 +54,25 @@ Platform engineers are responsible for setting up, securing, and maintaining the
 
 ### Responsibilities
 
-Development team leads curate and configure Dev Boxes for their team. They define the tools, environments, and policies developers need to build and test code effectively.
+Development team leads are responsible for customizing Dev Box pools to meet the development team’s needs. They define and assign appropriate environments, tools, and images, ensuring alignment with the software lifecycle.
 
 ### Key Responsibilities
 
-- Create and manage **Dev Box pools**
-- Define **images** and **software stack**
-- Assign **users** to Dev Box pools
-- Align environments with development lifecycle and team needs
+- Create Dev Box pools and assign users
+- Define and curate custom or base images with development tools
+- Configure auto-start schedules, idle shutdown, and retention settings
+- Ensure Dev Box definitions meet the development requirements
+- Test and validate pools before enabling broad use
 
 ### Requirements
 
-| Requirement                     | Description                                                                                              | Documentation Link                                                                                       |
-|---------------------------------|----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| Contributor Role                | Needed to manage Dev Box resources like projects and pools                                               | [Built-in roles for Azure Dev Center](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control) |
-| Developer Tool Knowledge        | Understand required SDKs, frameworks, and tools for the team                                             | [Customize Dev Box images](https://learn.microsoft.com/en-us/azure/dev-box/customize-dev-box) |
-| Azure Image Builder (Optional)  | Create and manage custom images with automation                                                          | [Use Azure Image Builder](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview) |
-| Azure Compute Gallery (Optional)| Host and share custom images across the organization                                                     | [Azure Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries) |
-
-### Configuration Steps
-
-1. **Define Dev Box Pools**
-2. **Select or Customize Images**
-3. **Assign Users to Pools**
-4. **Configure Project Settings**
-5. **Review and Validate**
+| Requirement                           | Description                                                                                              | Documentation Link                                                                 |
+|---------------------------------------|----------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| Dev Box Contributor Access            | Permissions to create and manage Dev Box resources and assignments within Dev Center                      | [Dev Box RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control) |
+| Dev Box Definitions                   | Templates that define base image, compute size, and configuration                                         | [Configure Dev Box definitions](https://learn.microsoft.com/en-us/azure/dev-box/dev-box-definitions) |
+| Azure Compute Gallery (Optional)      | Used to create and distribute custom images organization-wide                                              | [Use Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries) |
+| Azure Image Builder (Optional)        | Allows automated creation of golden images                                                               | [Image Builder Overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview) |
+| Knowledge of Team Tooling             | Understanding of frameworks, SDKs, and runtimes required by the development teams                         | [Customize Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/customize-dev-box) |
 
 ---
 
@@ -92,27 +80,38 @@ Development team leads curate and configure Dev Boxes for their team. They defin
 
 ### Responsibilities
 
-Developers use Dev Boxes as ready-to-code environments. They focus on productivity, keeping their environments aligned with project needs, and reporting any issues to the team lead or platform engineer.
+Developers consume Dev Box as a pre-provisioned environment. They focus on development and testing activities while following any constraints or guidelines set by the organization.
 
 ### Key Responsibilities
 
-- Access and use Dev Box to build, debug, and test code
-- Customize their Dev Box within defined constraints
-- Report issues with performance or software to team leads
+- Access and use the Dev Box through the developer portal
+- Develop and test applications using the pre-installed tools
+- Customize personal environment as allowed (e.g., installing extensions)
+- Restart, stop, or delete personal Dev Boxes as needed
+- Report issues to team leads or IT admins
 
 ### Requirements
 
-| Requirement                     | Description                                                                                              | Documentation Link                                                                                       |
-|---------------------------------|----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| Azure AD Access                 | User must be assigned to a Dev Box pool and authenticated via Azure Active Directory                    | [Access Dev Box portal](https://learn.microsoft.com/en-us/azure/dev-box/end-user-dev-box-portal) |
-| Developer Tools                 | Basic knowledge of development tools provided in the Dev Box image                                       | [Preconfigured Dev Box images](https://learn.microsoft.com/en-us/azure/dev-box/available-dev-box-images) |
-| Dev Box Portal Usage            | Ability to start, stop, and connect to a Dev Box                                                          | [Use the Dev Box portal](https://learn.microsoft.com/en-us/azure/dev-box/end-user-dev-box-portal) |
-
-### Usage Steps
-
-1. **Sign in to Dev Box Portal**
-2. **Start and Connect**
-3. **Develop and Customize**
-4. **Manage Dev Box**
+| Requirement                           | Description                                                                                              | Documentation Link                                                                 |
+|---------------------------------------|----------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| Microsoft Entra ID Account            | The user must have a Microsoft Entra ID identity and be assigned to a Dev Box pool                        | [Access Dev Box portal](https://learn.microsoft.com/en-us/azure/dev-box/end-user-dev-box-portal) |
+| Assigned Dev Box Pool                 | User must be added to a group associated with a Dev Box pool                                              | [Assign Dev Box users](https://learn.microsoft.com/en-us/azure/dev-box/dev-box-pools#assign-users-to-a-pool) |
+| Dev Box Portal Access                 | User interface to manage Dev Boxes (start, stop, connect, delete)                                         | [Using the portal](https://learn.microsoft.com/en-us/azure/dev-box/end-user-dev-box-portal) |
+| Remote Desktop (Optional)             | RDP client may be needed for certain Dev Box connection types                                             | [Connect to a Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/end-user-connect-dev-box) |
 
 ---
+
+## Summary Table
+
+| Role                | Responsibilities                                                                 | Key Requirements                                            |
+|---------------------|----------------------------------------------------------------------------------|-------------------------------------------------------------|
+| Platform Engineer   | Infrastructure setup, governance, security, networking                          | Azure subscription, VNETs, RBAC, DNS, Monitoring            |
+| Team Lead           | Dev Box pool setup, image curation, developer assignment                        | Contributor access, Dev Box definitions, image customization|
+| Developer           | Use assigned Dev Box for coding and testing                                     | Microsoft Entra ID identity, Dev Box portal access, Dev Box pool      |
+
+---
+
+## References
+
+- [Dev Box Deployment Guide](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-deployment-guide#organizational-roles-and-responsibilities)
+- [Dev Box Documentation](https://learn.microsoft.com/en-us/azure/dev-box/)
