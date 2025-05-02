@@ -9,6 +9,8 @@ weight: 4
 
 The Dev Box service was designed with three organizational roles in mind: platform engineers, development team leads, and developers.
 
-[More information](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box)
-
+## About Microsoft Dev Box
+{{% pageinfo %}}  
+**Learn more** about Microsoft Dev Box in the [official documentation site](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box) session.
+{{% /pageinfo %}} 
 
