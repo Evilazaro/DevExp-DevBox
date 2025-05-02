@@ -41,12 +41,22 @@ Platform engineers are responsible for the initial setup and long-term governanc
 | Requirement                           | Description                                                                                               | Documentation Link                                                                 |
 |---------------------------------------|-----------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
 | Azure Subscription                    | A valid Azure subscription with permission to deploy and manage Azure resources                           | [Create and manage subscriptions](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-subscription) |
-| Microsoft Entra ID                    | Microsoft Entra tenant configured for identity and access management                                       | [What is Microsoft Entra ID?](https://learn.microsoft.com/en-us/entra/fundamentals/whatis)    |
-| Azure Role-Based Access Control (RBAC)| RBAC must be used to control access to Dev Box resources across Dev Center, projects, and VNETs            | [Azure RBAC Overview](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview) |
+| Microsoft Entra ID                    | Microsoft Entra tenant configured for identity and access management                                       | [What is Microsoft Entra ID?](https://learn.microsoft.com/en-us/entra/fundamentals/whatis) |
 | Custom Virtual Network (Optional)     | Required if deploying Dev Box in a network that connects to on-prem resources or requires domain join      | [Configure custom networks](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview) |
 | Azure DNS or Custom DNS               | Required for domain resolution inside private virtual networks                                             | [DNS Integration](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview#dns-requirements) |
 | Hybrid Join / AD DS Integration (Optional) | Required if using on-premises domain join via Azure AD DS or hybrid join                            | [Join devices to domain](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview#active-directory-integration) |
 | Azure Monitor                         | To enable diagnostics and monitoring for deployed Dev Boxes                                                | [Monitor Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/monitor-dev-box-usage) |
+
+#### Required RBAC Permissions
+
+| RBAC Role                 | Description                                                                                         | Documentation Link                                                                 |
+|---------------------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| **Owner**                 | Full access to all resources, including the right to delegate access to others                      | [Owner Role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#owner) |
+| **Contributor**           | Can create and manage all types of Azure resources but can’t grant access to others                 | [Contributor Role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor) |
+| **Network Contributor**   | Lets you manage virtual networks, but not access them                                               | [Network Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#network-contributor) |
+| **DevCenter Administrator** | Manage Dev Centers, including definitions, projects, and network connections                        | [DevCenter RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
+
+> To learn more about how to assign RBAC roles on Azure, [click here](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal)
 
 ---
 
@@ -68,11 +78,19 @@ Development team leads are responsible for customizing Dev Box pools to meet the
 
 | Requirement                           | Description                                                                                              | Documentation Link                                                                 |
 |---------------------------------------|----------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| Dev Box Contributor Access            | Permissions to create and manage Dev Box resources and assignments within Dev Center                      | [Dev Box RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control) |
 | Dev Box Definitions                   | Templates that define base image, compute size, and configuration                                         | [Configure Dev Box definitions](https://learn.microsoft.com/en-us/azure/dev-box/dev-box-definitions) |
 | Azure Compute Gallery (Optional)      | Used to create and distribute custom images organization-wide                                              | [Use Compute Gallery](https://learn.microsoft.com/en-us/azure/virtual-machines/shared-image-galleries) |
 | Azure Image Builder (Optional)        | Allows automated creation of golden images                                                               | [Image Builder Overview](https://learn.microsoft.com/en-us/azure/virtual-machines/image-builder-overview) |
 | Knowledge of Team Tooling             | Understanding of frameworks, SDKs, and runtimes required by the development teams                         | [Customize Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/customize-dev-box) |
+
+#### Required RBAC Permissions
+
+| RBAC Role                        | Description                                                                                             | Documentation Link                                                                 |
+|----------------------------------|---------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| **DevCenter Project Admin**      | Manages projects, assigns users, and configures Dev Box pools                                           | [DevCenter RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
+| **Contributor**                  | Allows creation and management of image galleries and related compute resources                         | [Contributor Role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor) |
+
+> To learn more about how to assign RBAC roles on Azure, [click here](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal)
 
 ---
 
@@ -99,6 +117,14 @@ Developers consume Dev Box as a pre-provisioned environment. They focus on devel
 | Dev Box Portal Access                 | User interface to manage Dev Boxes (start, stop, connect, delete)                                         | [Using the portal](https://learn.microsoft.com/en-us/azure/dev-box/end-user-dev-box-portal) |
 | Remote Desktop (Optional)             | RDP client may be needed for certain Dev Box connection types                                             | [Connect to a Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/end-user-connect-dev-box) |
 
+#### Required RBAC Permissions
+
+| RBAC Role                      | Description                                                                                     | Documentation Link                                                                 |
+|--------------------------------|-------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| **Dev Box User**               | Allows users to view and manage their own Dev Boxes                                             | [DevCenter RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
+
+> To learn more about how to assign RBAC roles on Azure, [click here](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal)
+
 ---
 
 ## Summary Table
@@ -107,7 +133,7 @@ Developers consume Dev Box as a pre-provisioned environment. They focus on devel
 |---------------------|----------------------------------------------------------------------------------|-------------------------------------------------------------|
 | Platform Engineer   | Infrastructure setup, governance, security, networking                          | Azure subscription, VNETs, RBAC, DNS, Monitoring            |
 | Team Lead           | Dev Box pool setup, image curation, developer assignment                        | Contributor access, Dev Box definitions, image customization|
-| Developer           | Use assigned Dev Box for coding and testing                                     | Microsoft Entra ID identity, Dev Box portal access, Dev Box pool      |
+| Developer           | Use assigned Dev Box for coding and testing                                     | Microsoft Entra ID identity, Dev Box portal access, Dev Box pool |
 
 ---
 
