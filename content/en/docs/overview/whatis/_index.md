@@ -1,6 +1,13 @@
 ---
 title: Dev Box landing zone accelerator
 description: What is Dev Box landing zone accelerator?
+tags:
+   - Dev Box
+   - overview
+   - landing zone
+   - resources
+   - desing areas
+   - journey paths
 weight: 3
 ---
 
@@ -26,10 +33,13 @@ The **Dev Box landing zone accelerator** is an open-source, reference implementa
    - **Security & Governance**: Policy assignments (tagging, security baseline, resource consistency), Azure Monitor and Log Analytics integration.  
    - **Platform Services**: DevCenter, Projects and its dependencies.
 
+
 2. **Cloud Adoption Framework Alignment**  
+   
    All artifacts adhere to the CAF’s enterprise-scale landing zone patterns:
    - **Management Group Hierarchy** for clear separation of environments (e.g., Connectivity, Monitoring, Security, and Workload).    
    - **Modularity** so you can pick and choose how the foundational services will be deployed.
+   
 
 3. **Enterprise-Scale Design Principles**  
    - **Scalability**: Built to support hundreds of developer seats and multiple Dev Box SKUs.    
