@@ -16,21 +16,19 @@ The **Dev Box landing zone accelerator** is an open-source, reference implementa
 ## What the Microsoft Dev Box Accelerator Landing Zone Provides
 
 1. **Architectural Approach & Reference Implementation**  
-   A set of Bicep modules, policy definitions, and scripts that together prepare a landing zone subscription for production-ready Microsoft Dev Box workloads. This includes:
-   - **Networking**: Virtual network, subnets (management, Dev Box), Azure Firewall, and optional peering to hub networks.  
+   A set of Bicep modules, and scripts that together prepare a landing zone subscription for production-ready Microsoft Dev Box workloads. This includes:
+   - **Networking**: Virtual network, subnets (management, Dev Box), and optional peering to hub networks.  
    - **Identity & Access**: Integration with Azure AD, service principals, managed identities, and RBAC assignments.  
    - **Security & Governance**: Policy assignments (tagging, security baseline, resource consistency), Azure Monitor and Log Analytics integration.  
-   - **Platform Services**: Key Vault, Storage Accounts, Automation Accounts, and optional DevCenter host pools.
+   - **Platform Services**: Key Vault, and optional DevCenter host pools.
 
 2. **Cloud Adoption Framework Alignment**  
    All artifacts adhere to the CAF’s enterprise-scale landing zone patterns:
-   - **Management Group Hierarchy** for clear separation of environments (e.g., Landing Zones, Shared Services, Sandbox).  
-   - **Policy and Blueprint** enforcement to ensure compliance with naming conventions, tagging, and security baselines.  
-   - **Modularity** so you can pick and choose which foundational services to deploy.
+   - **Management Group Hierarchy** for clear separation of environments (e.g., Connectivity, Monitoring, Security, and Workload).    
+   - **Modularity** so you can pick and choose how the foundational services will be deployed.
 
 3. **Enterprise-Scale Design Principles**  
-   - **Scalability**: Built to support hundreds of developer seats and multiple Dev Box SKUs.  
-   - **Resilience**: Use of Availability Zones, geo-redundant storage, and automated recovery scripts.  
+   - **Scalability**: Built to support hundreds of developer seats and multiple Dev Box SKUs.    
    - **Security**: Zero-trust networking, least-privilege access, and continuous compliance monitoring.  
    - **Cost Management**: Tagging, budget alerts, and automated shutdown/startup of idle Dev Boxes.
 
