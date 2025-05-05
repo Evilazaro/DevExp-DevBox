@@ -30,6 +30,8 @@ The roles covered include:
 - Development Team Leads
 - Developers
 
+![Dev Box Roles](dev-box-roles.png)
+
 Each role has distinct requirements to ensure a secure, scalable, and successful Dev Box deployment.
 
 ---
