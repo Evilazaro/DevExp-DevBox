@@ -11,7 +11,7 @@ weight: 4
 
 ## Microsoft Dev Box Documentation
 {{% pageinfo %}}  
-**Learn more** about Microsoft Dev Box in the [official documentation site](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box) session.
+**Learn more** about Microsoft Dev Box in the [official documentation site](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box).
 {{% /pageinfo %}} 
 
 # Overview
