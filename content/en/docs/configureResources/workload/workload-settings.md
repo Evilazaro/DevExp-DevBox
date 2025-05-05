@@ -253,8 +253,6 @@ The Dev Center requires specific permissions to operate:
 ```yaml
 roleAssignments:
   devCenter:
-    - id: "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
-      name: "Owner"
     - id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
       name: "Contributor"
     - id: "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
