@@ -27,7 +27,7 @@ Microsoft Dev Box bridges the gap between development teams and IT, by bringing 
 
 ![Microsoft Dev Box](Overview.png)
 
-The Dev Box service was designed with three organizational roles in mind: platform engineers, development team leads, and developers.
+The Dev Box service was designed with three organizational roles in mind: **platform engineers, development team leads, and developers.**
 
 ![Dev Box roles](dev-box-roles.png)
 
