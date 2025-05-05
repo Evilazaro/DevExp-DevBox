@@ -61,8 +61,8 @@ When implementing a scalable Microsoft Dev Box landing zone, consider the follow
 | **Security & Governance**  | Key Vault for secrets; Log Analytics workspace for logs, and telemetry.                    |
 | **Platform Services** | Configuration of Dev Center, Custom Tasks Catalogs, Networking Connections, Projects, Environments and Image Definitions, and environments types; assignment of Dev Center roles via RBAC.                        |
 
-## Journey Paths
-{{% pageinfo %}}  
+{{% pageinfo %}}
+## Journey Paths  
 > - **Greenfield**: Deploy the accelerator’s Bicep modules to create platform foundational services, then launch your Dev Box environment.  
 > - **Brownfield**: Import existing landing zone services by disabling and parameterizing connections (e.g., pointing to an existing VNet, Subnet, Resource Group or Key Vault).
 

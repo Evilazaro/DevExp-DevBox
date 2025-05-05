@@ -9,7 +9,6 @@ tags:
 weight: 4
 ---
 
-## Microsoft Dev Box Documentation
 {{% pageinfo %}}  
 **Learn more** about Microsoft Dev Box:
 
