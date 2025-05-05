@@ -20,7 +20,7 @@ weight: 5
 **Learn more** about Microsoft Dev Box Organizational roles and responsibilities for the deployment, access the [official documentation site](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-deployment-guide#organizational-roles-and-responsibilities).
 {{% /pageinfo %}} 
 
-## Purpose
+## Overview
 
 This document outlines the specific **requirements and responsibilities** for each organizational role involved in deploying and using **Microsoft Dev Box**, with a focus on **RBAC permissions**, **configuration prerequisites**, and links to official Microsoft documentation.
 
