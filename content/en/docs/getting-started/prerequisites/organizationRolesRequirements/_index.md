@@ -22,7 +22,7 @@ weight: 5
 
 ## Overview
 
-This document outlines the specific **requirements and responsibilities** for each organizational role involved in deploying and using **Microsoft Dev Box**, with a focus on **RBAC permissions**, **configuration prerequisites**, and links to official Microsoft documentation.
+The **Dev Box landing zone accelerator** aligns with the **requirements and responsibilities** for each organizational role involved in deploying and using Microsoft Dev Box, with a focus on **RBAC permissions** and **configuration prerequisites**.
 
 The roles covered include:
 
