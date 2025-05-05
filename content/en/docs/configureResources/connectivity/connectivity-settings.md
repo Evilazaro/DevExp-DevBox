@@ -4,7 +4,7 @@ description: >
   How to configure the Azure Virtual Network, Subnets and Virtual Network type for Dev Center
 categories: [Settings]
 tags: [network, settings, virtual network, subnet, network connection, resources, azure resources]
-weight: 5
+weight: 7
 ---
 
 {{% pageinfo %}}
