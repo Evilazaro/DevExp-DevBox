@@ -64,9 +64,7 @@ installAzureMonitorAgentEnableStatus: "Enabled"
 identity:
   type: "SystemAssigned"
   roleAssignments:
-    devCenter:
-      - id: "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
-        name: "Owner"      
+    devCenter:   
       - id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
         name: "Contributor"
       - id: "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
@@ -265,7 +263,6 @@ roleAssignments:
 
 | Role | ID | Purpose |
 |------|------|---------|
-| Owner | 8e3af657-a8ff-443c-a75c-2fe8c4bcb635 | Full access to manage resources |
 | Contributor | b24988ac-6180-42a0-ab88-20f7382dd24c | Create/manage resources without granting access |
 | User Access Administrator | 18d7d88d-d35e-4fb5-a5c3-7773c20a72d9 | Manage user access to Azure resources |
 
