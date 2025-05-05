@@ -1,5 +1,5 @@
 ---
-title: 'Azure Network and Connectivity'
+title: 'Network and Connectivity'
 description: >
   How to configure the Azure Virtual Network, Subnets and Virtual Network type for Dev Center
 categories: [Settings]
