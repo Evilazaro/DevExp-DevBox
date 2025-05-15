@@ -4,10 +4,6 @@ description: Deploy the Dev Box landing zone accelerator for demo and test
 weight: 5
 ---
 
-# Overview
-
-Intalls the accelerator as it is.
-
 ## Instalation
 
 ### Fork the GitHub Repositories
