@@ -12,6 +12,8 @@ Intalls the accelerator as it is.
 
 ### Fork the GitHub Repositories
 
+Windows/Linux
+
 Fork the following GitHub Repositories
 
 Dev Box landing zone accelerator repository
@@ -31,6 +33,8 @@ gh repo fork Evilazaro/eShop --clone --remote
 
 ### Initialize local environment
 
+Windows
+
 ```powershell
 $location = "eastus2"
 $envName = "prod"
@@ -42,9 +46,23 @@ Add-Content -Path ".\.azure\$EnvName\.env" -Value "AZURE_LOCATION='$location'"
 azd config show
 ```
 
+Linux
+
+```bash
+location="eastus2"
+envName="prod"
+pat=$(gh auth token)
+azd env new "$envName" --no-prompt
+echo "AZURE_ENV_NAME='$envName'" > .azure/"$envName"/.env
+echo "KEY_VAULT_SECRET='$pat'" >> .azure/"$envName"/.env
+echo "AZURE_LOCATION='$location'" >> .azure/"$envName"/.env
+azd config show
+```
 ---
 
 ### Deploy Accelerator
+
+Windows/Linux
 
 ```powershell
 azd provision -e $envName
