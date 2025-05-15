@@ -59,7 +59,7 @@ markup:
       unsafe: true
   highlight:
     # See a complete list of available styles at https://xyproto.github.io/splash/docs/all.html
-    style: github
+    style: github-dark
     # Uncomment if you want your chosen highlight style used for code blocks without a specified language
     # guessSyntax: true
 
