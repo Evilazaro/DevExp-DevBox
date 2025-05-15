@@ -47,7 +47,7 @@ This documentation provides a comprehensive explanation of the Dev Box landing z
 
 The devcenter.yaml file establishes a centralized developer workstation platform with role-specific configurations and appropriate access controls. It defines all aspects of the Azure Dev Box service, including the Dev Center resource, projects, environments, and access permissions.
 
-## Default Configuration
+### Default Configuration
 
 ```yaml
 # yaml-language-server: $schema=./devcenter.schema.json
@@ -197,6 +197,7 @@ tags:
   owner: "Contoso"
   resources: "DevCenter"
 ```
+---
 
 ## Core Settings
 
@@ -229,6 +230,8 @@ installAzureMonitorAgentEnableStatus: "Enabled"
 | `catalogItemSyncEnableStatus` | Controls automatic synchronization of catalog items | `Enabled` | Keep enabled for automated updates |
 | `microsoftHostedNetworkEnableStatus` | Controls use of Microsoft-managed networking | `Enabled` | Use `Enabled` for simpler deployments, `Disabled` for enterprise network integration |
 | `installAzureMonitorAgentEnableStatus` | Controls installation of Azure Monitor agent | `Enabled` | Keep enabled for operational visibility and security monitoring |
+
+---
 
 ## Identity and Access Control
 
@@ -286,6 +289,8 @@ orgRoleTypes:
 
 **Best Practice**: Use Microsoft Entra groups rather than individual users to simplify access management.
 
+---
+
 ## Content Management
 
 ### Catalogs
@@ -329,6 +334,8 @@ environmentTypes:
 | `deploymentTargetId` | Target subscription ID (empty for default subscription) |
 
 **Best Practice**: Create environment types that match your software development lifecycle stages (dev, test, staging, prod).
+
+---
 
 ## Project Configuration
 
@@ -460,6 +467,8 @@ tags:
 | `resources` | Resource type identifier |
 
 **Best Practice**: Apply consistent tags across all resources for improved governance, cost management, and operational visibility.
+
+--- 
 
 ## Best Practices
 
