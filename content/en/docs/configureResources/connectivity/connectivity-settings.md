@@ -45,7 +45,7 @@ The network configuration (`network.yaml`) establishes the networking foundation
 - Provides connectivity options to corporate networks
 - Follows Azure networking best practices
 
-## Default Configuration 
+### Default Configuration 
 
 ```yaml
 # yaml-language-server: $schema=./network.schema.json

@@ -47,7 +47,7 @@ The resource organization configuration (`azureResources.yaml`) establishes the 
 
 This approach aligns with the Azure Landing Zone methodology, which recommends organizing resources into management groups and resource groups based on their purpose, lifecycle, and access requirements.
 
-## Default Configuration
+### Default Configuration
 
 ```yaml
 # yaml-language-server: $schema=./azureResources.schema.json
