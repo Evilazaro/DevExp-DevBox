@@ -15,9 +15,7 @@ tags:
 weight: 6
 ---
 
-# Azure Developer Tools: Official Documentation and Installation Guide
-
-## Overview
+# Overview
 
 This document provides a reference table for key Azure development tools, along with direct links to their official documentation and installation guides.
 
