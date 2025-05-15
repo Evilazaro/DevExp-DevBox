@@ -2,7 +2,6 @@
 title: 'Network and Connectivity'
 description: >
   How to configure the Azure Virtual Network, Subnets and Virtual Network type for Dev Center
-categories: [Settings]
 tags:
   - azure
   - microsoft-dev-box

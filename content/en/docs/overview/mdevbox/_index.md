@@ -1,8 +1,6 @@
 ---
 title: Microsoft Dev Box
 description: Dev workstation in the Cloud.
-categories: 
-    - overview
 tags:
   - microsoft-dev-box
   - dev-box-overview

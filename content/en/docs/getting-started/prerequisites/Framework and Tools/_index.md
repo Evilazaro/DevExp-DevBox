@@ -2,9 +2,6 @@
 title: Framework and Tools requirements
 description: >
   **Dev Box Landing Zone Accelerator –** Framework and Tools for development and deployment. 
-categories: 
-  - getting-started
-  - prerequisites
 tags:
   - azure
   - azure-cli
