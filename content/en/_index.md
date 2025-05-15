@@ -1,34 +1,5 @@
 ---
 title: Dev Box landing zone accelerator
-tags:
-  - microsoft-dev-box
-  - dev-box-landing-zone
-  - devexp
-  - devex
-  - developer-experience
-  - azure
-  - cloud-workstations
-  - landing-zone
-  - azure-landing-zone
-  - cloud-adoption-framework
-  - enterprise-scale
-  - infrastructure-as-code
-  - bicep
-  - dev-center
-  - dev-box-projects
-  - developer-productivity
-  - developer-tools
-  - open-source
-  - github
-  - contributions-welcome
-  - get-started
-  - architecture-overview
-  - microsoft-build
-  - project-onboarding
-  - remote-development
-  - vs-code
-  - dev-box-concepts
-  - cloud-development
 
 ---
 

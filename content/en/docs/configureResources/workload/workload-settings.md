@@ -1,42 +1,14 @@
 ---
 title: 'Dev Center'
 tags:
-  - azure
   - microsoft-dev-box
   - dev-center
   - dev-box-projects
-  - dev-box-pools
-  - dev-box-images
-  - dev-box-catalogs
-  - dev-box-environment-types
-  - dev-box-identity
-  - azure-managed-identity
   - azure-rbac
-  - azure-role-assignments
-  - microsoft-entra-id
-  - azure-resource-tagging
-  - azure-governance
-  - infrastructure-as-code
-  - iac
-  - devex
-  - gitops
-  - configuration-as-code
-  - azure-cli
-  - azure-devops
-  - ci-cd
-  - project-structure
+  - azure-managed-identity
   - developer-experience
-  - cloud-workstations
-  - azure-best-practices
-  - dev-box-monitoring
-  - azure-monitor
-  - cost-management
-  - landing-zone
-  - cloud-adoption-framework
-  - identity-and-access-management
-  - least-privilege
-  - naming-conventions
-  - dev-box-automation
+  - infrastructure-as-code
+
 
 description: >
   How to configure the Core, Identity and Access Management, Catalogs, Environments and Projects settings for the Dev Center

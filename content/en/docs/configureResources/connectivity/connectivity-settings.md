@@ -6,45 +6,12 @@ categories: [Settings]
 tags:
   - azure
   - microsoft-dev-box
-  - dev-center
-  - dev-box-networking
+  - azure-networking
   - virtual-network
-  - vnet
   - subnet
-  - address-space
-  - network-isolation
-  - azure-private-link
-  - azure-bastion
-  - expressroute
-  - site-to-site-vpn
-  - hybrid-connectivity
-  - managed-network
-  - azure-ddos
-  - azure-monitor
-  - network-watcher
-  - network-security-groups
-  - nsg
-  - zero-trust
-  - defense-in-depth
-  - just-in-time-vm-access
-  - service-endpoints
   - infrastructure-as-code
-  - iac
-  - yaml
-  - cloud-adoption-framework
-  - azure-landing-zone
-  - landing-zone
-  - resource-tagging
-  - governance
-  - cost-management
-  - naming-conventions
-  - azure-policy
-  - devex
-  - cloud-governance
-  - azure-best-practices
-  - azure-reference-architectures
-  - devops
-  - enterprise-networking
+  - network-security
+
 
 weight: 7
 ---

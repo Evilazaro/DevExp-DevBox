@@ -6,34 +6,9 @@ categories:
 tags:
   - microsoft-dev-box
   - dev-box-overview
-  - cloud-workstations
-  - developer-productivity
   - developer-experience
-  - devex
-  - dev-box-roles
-  - platform-engineering
-  - dev-center
-  - dev-box-user
-  - dev-box-pools
-  - dev-box-management
-  - developer-portal
-  - it-administration
-  - project-admin
-  - dev-box-self-service
-  - azure
-  - cloud-development
-  - remote-development
-  - development-tools
-  - ready-to-code
-  - visual-studio
-  - azure-marketplace
-  - secure-development
-  - infrastructure-management
-  - enterprise-it
-  - role-based-access-control
-  - rbac
-  - team-collaboration
-  - azure-best-practices
+  - cloud-workstations
+
 
 weight: 4
 ---

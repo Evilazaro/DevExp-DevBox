@@ -6,38 +6,12 @@ categories:
   - getting-started
   - prerequisites
 tags:
-  - azure
   - microsoft-dev-box
-  - dev-center
-  - dev-box-roles
   - platform-engineering
-  - developer-experience
-  - development-teams
-  - dev-box-user
-  - dev-box-pools
-  - dev-box-definitions
-  - dev-box-deployment
   - azure-rbac
   - role-based-access-control
-  - azure-role-assignments
-  - entra-id
-  - azure-subscription
-  - custom-networking
-  - virtual-network
-  - azure-monitor
-  - azure-compute-gallery
-  - azure-image-builder
-  - remote-desktop
-  - dev-box-portal
-  - dev-box-readiness
-  - cloud-workstations
-  - enterprise-it
-  - secure-developer-environment
-  - governance
-  - devex
-  - cloud-adoption-framework
-  - azure-best-practices
-  - developer-productivity
+  - developer-experience
+
 weight: 5
 ---
 

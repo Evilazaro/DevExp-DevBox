@@ -4,46 +4,12 @@ description: What is Dev Box landing zone accelerator?
 categories: 
     - overview
 tags:
-  - azure
-  - microsoft-dev-box
   - dev-box-accelerator
-  - landing-zone
-  - azure-landing-zone
+  - azure
   - cloud-adoption-framework
-  - enterprise-scale
-  - bicep
   - infrastructure-as-code
-  - iac
-  - platform-engineering
-  - modular-architecture
-  - azure-governance
-  - azure-networking
-  - hub-and-spoke
-  - azure-firewall
-  - expressroute
-  - vpn
-  - azure-monitor
-  - log-analytics
-  - azure-policy
-  - security-baseline
-  - resource-tagging
-  - cost-management
-  - azure-subscription-design
-  - role-based-access-control
-  - azure-rbac
-  - entra-id
-  - dev-center
-  - dev-box-projects
-  - developer-productivity
-  - secure-development
-  - multi-tenant
-  - zero-trust
-  - greenfield
-  - brownfield
-  - cloud-infrastructure
-  - azure-architecture
-  - accelerator
-  - open-source
+  - enterprise-scale
+
 
 weight: 3
 ---
