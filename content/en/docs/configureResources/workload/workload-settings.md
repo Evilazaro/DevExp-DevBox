@@ -467,35 +467,3 @@ tags:
 | `resources` | Resource type identifier |
 
 **Best Practice**: Apply consistent tags across all resources for improved governance, cost management, and operational visibility.
-
---- 
-
-## Best Practices
-
-### Security
-
-- Use managed identities rather than service principals with credentials
-- Follow the principle of least privilege when assigning roles
-- Use Microsoft Entra groups for role assignments instead of individual users
-- Regularly audit role assignments and remove unnecessary permissions
-
-### Organization
-
-- Create separate projects for distinct teams or application workloads
-- Use environment types that match your deployment pipeline stages
-- Apply consistent naming conventions to all resources
-- Use tags to support governance, cost allocation, and operations
-
-### Configuration Management
-
-- Store all configuration in Git repositories
-- Use branch policies to control changes to configuration
-- Implement CI/CD pipelines for configuration deployment
-- Keep catalog synchronization enabled for automation
-
-### Dev Box Design
-
-- Create role-specific Dev Box images for different developer personas
-- Standardize on common tools and configurations across teams
-- Deploy Dev Box resources in regions close to development teams
-- Enable monitoring for security and performance insights
