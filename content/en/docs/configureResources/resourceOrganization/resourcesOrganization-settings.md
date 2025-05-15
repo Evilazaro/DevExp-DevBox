@@ -1,6 +1,41 @@
 ---
 title: 'Resource Groups'
-tags: [resources, azure resources, resources organization, resource group, dev center, projects, catalogs, environments]
+tags:
+  - azure
+  - microsoft-dev-box
+  - dev-center
+  - dev-box-definitions
+  - dev-box-pools
+  - dev-box-projects
+  - landing-zone
+  - azure-landing-zone
+  - cloud-adoption-framework
+  - azure-resource-manager
+  - resource-groups
+  - resource-segmentation
+  - workload-isolation
+  - rbac
+  - infrastructure-as-code
+  - iac
+  - governance
+  - tagging-strategy
+  - resource-tagging
+  - cost-management
+  - azure-policy
+  - naming-conventions
+  - security
+  - monitoring
+  - connectivity
+  - devex
+  - devops
+  - automation
+  - ci-cd
+  - dev-environment
+  - azure-best-practices
+  - azure-well-architected
+  - enterprise-architecture
+  - resource-organization
+
 description: >
   How to either create new or connect to existent Azure Resource Groups to organize your Dev Box Landing Zone
 weight: 6

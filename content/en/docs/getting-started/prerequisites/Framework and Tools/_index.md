@@ -6,12 +6,34 @@ categories:
   - getting-started
   - prerequisites
 tags:
-  - tools
-  - frameworks
-  - requirements
-  - platform engineering
-  - development team
-  - developers
+  - azure
+  - azure-cli
+  - azure-developer-cli
+  - azd
+  - bicep
+  - visual-studio-code
+  - vs-code
+  - cli-tools
+  - developer-tools
+  - azure-development
+  - infrastructure-as-code
+  - iac
+  - windows
+  - ubuntu
+  - linux
+  - cross-platform
+  - dev-environment
+  - automation
+  - winget
+  - apt
+  - bash
+  - powershell
+  - installation-guide
+  - toolchain
+  - dev-setup
+  - microsoft
+  - azure-docs
+  - open-source
 weight: 6
 ---
 
