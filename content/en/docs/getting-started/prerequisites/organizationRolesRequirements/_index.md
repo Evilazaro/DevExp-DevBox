@@ -52,7 +52,7 @@ Platform Engineers are responsible for deploying and governing the **core infras
 | Role Name                | Purpose                                                                                             | Learn more...                                                                                      |
 |--------------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | Owner / Contributor      | Grants full control of resource deployment and access management                                    | [Owner Role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#owner) |
-| DevCenter Administrator  | Allows managing Dev Centers, Projects, Dev Box Definitions, and network connections                 | [Dev Box RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
+| Managed Identity Contributor      | Required to Create, Read, Update, and Delete User Assigned Identity                                | [Managed Identity Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/identity#managed-identity-contributor) |
 | Network Contributor      | Required to manage virtual networks and DNS for custom connectivity                                | [Network Contributor](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#network-contributor) |
 
 ### Additional Requirements
@@ -60,9 +60,7 @@ Platform Engineers are responsible for deploying and governing the **core infras
 | Component                  | Description                                                                                          | Learn more...                                                                                      |
 |---------------------------|------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | Azure Subscription         | Must have access to a valid Azure subscription                                                       | [Manage subscriptions](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-subscription) |
-| Microsoft Entra ID         | Configured for managing access and identity                                                          | [What is Microsoft Entra ID?](https://learn.microsoft.com/en-us/entra/fundamentals/whatis)         |
-| Custom Network (Optional)  | Required if using private VNETs, DNS, or domain join                                                 | [Network connection overview](https://learn.microsoft.com/en-us/azure/dev-box/network-connection-overview) |
-| Azure Monitor              | Recommended for collecting diagnostics and telemetry                                                 | [Monitor Dev Box usage](https://learn.microsoft.com/en-us/azure/dev-box/monitor-dev-box-usage)    |
+| Microsoft Entra ID         | Configured for managing access and identity                                                          | [What is Microsoft Entra ID?](https://learn.microsoft.com/en-us/entra/fundamentals/whatis)         
 
 ---
 
@@ -81,7 +79,7 @@ Development Team Leads **manage the Dev Box experience** for their teams by defi
 
 | Role Name                | Purpose                                                                                             | Learn more...                                                                                      |
 |--------------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| DevCenter Project Admin  | Allows creation and management of projects, Dev Box pools, and user assignments                    | [Dev Box RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
+| DevCenter Project Admin  | Allows creation and management of projects, Dev Box pools, and user assignments                    | [DevCenter Project Admin Role](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-role-based-access-control#devcenter-project-admin-role) |
 | Contributor (Optional)   | Required for managing custom images or shared galleries                                             | [Contributor Role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor) |
 
 ### Additional Requirements
@@ -107,15 +105,9 @@ Developers **are end users of Microsoft Dev Box** and require access to preconfi
 
 | Role Name         | Purpose                                                                                     | Learn more...                                                                                      |
 |-------------------|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| Dev Box User      | Grants the ability to view, start, and use Dev Boxes assigned through Dev Box pools        | [Dev Box RBAC Roles](https://learn.microsoft.com/en-us/azure/dev-box/role-based-access-control#roles) |
+| Dev Box User      | Grants the ability to view, start, and use Dev Boxes assigned through Dev Box pools        | [Dev Box User Role](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-role-based-access-control#dev-box-user) |
+| Deployment Environments User      | Grants the ability to view, start, and use Dev Boxes assigned through Dev Box pools        | [Deployment Environments User Role](https://learn.microsoft.com/en-us/azure/deployment-environments/concept-deployment-environments-role-based-access-control#deployment-environments-user) |
 
-### Additional Requirements
-
-| Component              | Description                                                                 | Learn more...                                                                                      |
-|------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| Microsoft Entra ID     | Developers must be part of an Entra ID group assigned to a Dev Box pool     | [Access Dev Box portal](https://learn.microsoft.com/en-us/azure/dev-box/end-user-dev-box-portal)   |
-| Dev Box Portal Access  | Access the Dev Box portal to start, stop, and connect to the Dev Box        | [Using Dev Box Portal](https://learn.microsoft.com/en-us/azure/dev-box/end-user-dev-box-portal)    |
-| Remote Desktop (Optional) | Used if connecting via RDP instead of the browser-based interface       | [Connect to Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/end-user-connect-dev-box)     |
 
 ---
 
