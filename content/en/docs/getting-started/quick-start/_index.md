@@ -5,10 +5,11 @@ weight: 5
 ---
 
 {{% pageinfo %}}
-This guide will help you quickly deploy the Dev Box landing zone accelerator in your Azure environment for evaluation and testing purposes.
-
-Before starting, ensure you have installed all the [prerequisites.](../prerequisites/Framework%20and%20Tools/)
+## Before starting  
+> - **Prerequisites**: Ensure you have installed all the [prerequisites.](../prerequisites/Framework%20and%20Tools/)    
 {{% /pageinfo %}}
+
+This guide will help you quickly deploy the Dev Box landing zone accelerator in your Azure environment for evaluation and testing purposes.
 
 ## Installation
 
