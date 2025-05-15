@@ -19,9 +19,11 @@ weight: 6
 
 This documentation details the resource organization structure for the Dev Box landing zone accelerator. The configuration defines a comprehensive resource group strategy aligned with Azure Landing Zone principles, segregating resources based on their functional purpose to improve manageability, security, and governance.
 {{% /pageinfo %}}
+
 ## Table of Contents
 
 - [Configuration Purpose](#configuration-purpose)
+- [Default Configuration](#default-configuration)
 - [Resource Group Structure](#resource-group-structure)
   - [Workload Resource Group](#workload-resource-group)
   - [Security Resource Group](#security-resource-group)
@@ -30,6 +32,10 @@ This documentation details the resource organization structure for the Dev Box l
 - [Common Configuration Properties](#common-configuration-properties)
 - [Tagging Strategy](#tagging-strategy)
 - [Best Practices](#best-practices)
+  - [Resource Group Organization](#resource-group-organization)
+  - [Naming Conventions](#naming-conventions)
+  - [Tagging Implementation](#tagging-implementation)
+  - [Deployment Considerations](#deployment-considerations)
 - [References](#references)
 
 ## Configuration Purpose
@@ -43,10 +49,10 @@ The resource organization configuration (`azureResources.yaml`) establishes the 
 
 This approach aligns with the Azure Landing Zone methodology, which recommends organizing resources into management groups and resource groups based on their purpose, lifecycle, and access requirements.
 
-## Default Settings
+## Default Configuration
 
 ```yaml
-# yaml-language-server: $schema=./azureResources.shema.json
+# yaml-language-server: $schema=./azureResources.schema.json
 #
 # Dev Box landing zone accelerator: Resource Groups Configuration
 # =======================================================
@@ -62,7 +68,7 @@ This approach aligns with the Azure Landing Zone methodology, which recommends o
 workload:
   create: true
   name: devexp-workload
-  description: prodExp
+  description: DevBox workload resources
   tags:
     environment: dev           # Deployment environment (dev, test, prod)
     division: Platforms        # Business division responsible for the resource
@@ -76,7 +82,7 @@ workload:
 security:
   create: true
   name: devexp-security
-  description: prodExp
+  description: DevBox security resources
   tags:
     environment: dev
     division: Platforms
@@ -84,13 +90,13 @@ security:
     project: Contoso-DevExp-DevBox
     costCenter: IT
     owner: Contoso
-    landingZone: Workload
+    landingZone: Security
     resources: ResourceGroup
 
 monitoring:
   create: true
   name: devexp-monitoring
-  description: prodExp
+  description: DevBox monitoring resources
   tags:
     environment: dev
     division: Platforms
@@ -98,13 +104,13 @@ monitoring:
     project: Contoso-DevExp-DevBox
     costCenter: IT
     owner: Contoso
-    landingZone: Workload
+    landingZone: Management
     resources: ResourceGroup
 
 connectivity:
   create: true
   name: devexp-connectivity
-  description: prodExp
+  description: DevBox connectivity resources
   tags:
     environment: dev
     division: Platforms
@@ -112,7 +118,7 @@ connectivity:
     project: Contoso-DevExp-DevBox
     costCenter: IT
     owner: Contoso
-    landingZone: Workload
+    landingZone: Connectivity
     resources: ResourceGroup
 ```
 
@@ -124,7 +130,7 @@ connectivity:
 workload:
   create: true
   name: devexp-workload
-  description: prodExp
+  description: DevBox workload resources
   tags:
     # Tags detailed in the tagging section
 ```
@@ -149,7 +155,7 @@ workload:
 security:
   create: true
   name: devexp-security
-  description: prodExp
+  description: DevBox security resources
   tags:
     # Tags detailed in the tagging section
 ```
@@ -174,7 +180,7 @@ security:
 monitoring:
   create: true
   name: devexp-monitoring
-  description: prodExp
+  description: DevBox monitoring resources
   tags:
     # Tags detailed in the tagging section
 ```
@@ -199,7 +205,7 @@ monitoring:
 connectivity:
   create: true
   name: devexp-connectivity
-  description: prodExp
+  description: DevBox connectivity resources
   tags:
     # Tags detailed in the tagging section
 ```
@@ -227,7 +233,7 @@ Each resource group configuration includes the following common properties:
 |----------|-------------|---------|
 | `create` | Boolean flag to determine whether to create the resource group or use an existing one | `true` |
 | `name` | Name of the resource group | `devexp-workload` |
-| `description` | Brief description of the resource group's purpose | `prodExp` |
+| `description` | Brief description of the resource group's purpose | `DevBox workload resources` |
 | `tags` | Resource tags for governance and organization | See tagging section |
 
 ## Tagging Strategy
@@ -261,6 +267,7 @@ tags:
 - **Regional deployment**: Co-locate resource groups with their resources when possible
 - **Lifecycle alignment**: Group resources with similar lifecycles together
 - **Access control**: Define RBAC at resource group level for appropriate segregation of duties
+- **Resource locks**: Apply resource locks to prevent accidental deletion of critical resource groups
 
 ### Naming Conventions
 
@@ -283,15 +290,3 @@ Examples:
 - **CI/CD integration**: Include resource group creation in CI/CD pipelines
 - **Environment isolation**: Create separate resource groups for each environment (dev/test/prod)
 - **Documentation**: Maintain documentation on resource group purpose and ownership
-
-## References
-
-- [Azure Landing Zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
-- [Azure Resource Groups Documentation](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal)
-- [Cloud Adoption Framework - Naming and Tagging Strategy](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming)
-- [Dev Box landing zone accelerator GitHub](https://github.com/Evilazaro/DevExp-DevBox/)
-- [Azure Well-Architected Framework](https://learn.microsoft.com/en-us/azure/architecture/framework/)
-
----
-
-*This documentation is part of the Dev Box landing zone accelerator project. For more information, visit the [GitHub Repository](https://github.com/Evilazaro/DevExp-DevBox/).*

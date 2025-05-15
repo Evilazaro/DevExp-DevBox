@@ -26,15 +26,19 @@ This documentation details the network configuration for Dev Box landing zone ac
 ## Table of Contents
 
 - [Configuration Purpose](#configuration-purpose)
-- [Parameters](#parameters)
-  - [Network Creation](#netwrk-creation)
-  - [Virtual Network Type](#virtual-network-type)
-  - [Virtual Network Name](#virtual-network-name)
-  - [Address Space](#address-space)
-  - [Subnet Configuration](#subnet-configuration)
-  - [Resource Tagging](#resource-tagging)
-  - [Best Practices](#best-practices)
-  - [References](#references)
+- [Default Settings](#default-settings)
+- [Network Creation](#network-creation)
+- [Virtual Network Type](#virtual-network-type)
+- [Virtual Network Name](#virtual-network-name)
+- [Address Space](#address-space)
+- [Subnet Configuration](#subnet-configuration)
+- [Resource Tagging](#resource-tagging)
+- [Best Practices](#best-practices)
+  - [Network Design](#network-design)
+  - [Connectivity](#connectivity)
+  - [Management](#management)
+  - [Security](#security)
+- [References](#references)
 
 ## Configuration Purpose
 
@@ -45,7 +49,7 @@ The network configuration (`network.yaml`) establishes the networking foundation
 - Provides connectivity options to corporate networks
 - Follows Azure networking best practices
 
-## Default Settings 
+## Default Configuration 
 
 ```yaml
 # yaml-language-server: $schema=./network.schema.json
@@ -80,6 +84,7 @@ tags:
   owner: Contoso
   resources: Network
 ```
+
 ## Network Creation
 
 ```yaml
@@ -233,15 +238,3 @@ tags:
 - Implement defense in depth with multiple security controls
 - Regularly review and audit network security group rules
 - Use Just-In-Time VM access for administrative connections
-
-## References
-
-- [Azure Virtual Network Documentation](https://learn.microsoft.com/en-us/azure/virtual-network/)
-- [Azure VNet Best Practices](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/hybrid-networking/)
-- [Dev Box landing zone accelerator Networking](https://learn.microsoft.com/en-us/azure/dev-box/how-to-configure-network-connectivity)
-- [Azure Cloud Adoption Framework - Naming and Tagging](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming)
-- [Dev Box landing zone accelerator GitHub](https://github.com/Evilazaro/DevExp-DevBox/)
-
----
-
-*This documentation is part of the Dev Box landing zone accelerator project. For more information, visit the [GitHub Repository](https://github.com/Evilazaro/DevExp-DevBox/).*

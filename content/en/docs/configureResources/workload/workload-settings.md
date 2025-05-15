@@ -20,6 +20,7 @@ weight: 8
 
 This documentation provides a comprehensive explanation of the Dev Box landing zone accelerator defined in devcenter.yaml. Azure Dev Box is a managed service that enables organizations to provision, manage, and secure development workstations in the cloud, allowing developers to focus on code rather than environment setup.
 {{% /pageinfo %}}
+
 ## Table of Contents
 
 - [Configuration Purpose](#configuration-purpose)
@@ -41,174 +42,12 @@ This documentation provides a comprehensive explanation of the Dev Box landing z
   - [Project Tagging](#project-tagging)
 - [Resource Tagging](#resource-tagging)
 - [Best Practices](#best-practices)
-- [Default Settings](#default-configuration)
+- [Default Configuration](#default-configuration)
 - [References](#references)
 
 ## Configuration Purpose
 
 The devcenter.yaml file establishes a centralized developer workstation platform with role-specific configurations and appropriate access controls. It defines all aspects of the Azure Dev Box service, including the Dev Center resource, projects, environments, and access permissions.
-
-## Default Settings
-
-```yaml
-# yaml-language-server: $schema=./devcenter.schema.json
-#
-# Dev Box landing zone accelerator: Dev Center Configuration
-# ======================================
-#
-# Purpose: Defines the Dev Center resource and associated projects for Dev Box landing zone accelerator.
-# This configuration establishes a centralized developer workstation platform with
-# role-specific configurations and appropriate access controls.
-#
-# References:
-# - Dev Center documentation: https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box
-# - Azure RBAC roles: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
-
-name: "contoso-devexp2"
-location: "eastus2"
-catalogItemSyncEnableStatus: "Enabled"
-microsoftHostedNetworkEnableStatus: "Enabled"
-installAzureMonitorAgentEnableStatus: "Enabled"
-
-identity:
-  type: "SystemAssigned"
-  roleAssignments:
-    devCenter:   
-      - id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
-        name: "Contributor"
-      - id: "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
-        name: "User Access Administrator"
-    orgRoleTypes:
-      - type: DevManager
-        azureADGroupId: "8dae87fa-87b2-460b-b972-a4239fbd4a96"
-        azureADGroupName: "Dev Manager"
-        azureRBACRoles:
-          - name: "DevCenter Project Admin"
-            id: "331c37c6-af14-46d9-b9f4-e1909e1b95a0"
-
-catalogs:
-  - name: "customTasks"
-    type: "gitHub"
-    uri: "https://github.com/Evilazaro/DevExP-DevBox.git"
-    branch: "main"
-    path: ".configuration/devcenter/tasks"
-
-environmentTypes:
-  - name: "dev"
-    deploymentTargetId: ""  # Empty for default subscription target
-  - name: "staging"
-    deploymentTargetId: ""  # Empty for default subscription target
-
-projects:
-  - name: "identityProvider"
-    description: "Identity Provider project."
-    
-    identity:
-      type: SystemAssigned
-      roleAssignments:
-        - azureADGroupId: "331f48d7-4a23-4ec4-b03a-4af29c9c6f34"
-          azureADGroupName: "identityProvider Developers"
-          azureRBACRoles:
-            - name: "Contributor"
-              id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
-            - name: "Dev Box User"
-              id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
-            - name: "Deployment Environment User"
-              id: "18e40d4e-8d2e-438d-97e1-9528336e149c"
-    pools:
-      - name: "backend-engineer"
-        imageDefinitionName: "identityProvider-backend-engineer"
-      - name: "frontend-engineer"
-        imageDefinitionName: "identityProvider-frontend-engineer"
-
-    environmentTypes:
-      - name: "dev"
-        deploymentTargetId: ""
-      - name: "staging"
-        deploymentTargetId: ""
-
-    catalogs:
-      environmentDefinition:
-        name: "environments"
-        type: "gitHub"
-        uri: "https://github.com/Evilazaro/identityProvider.git"
-        branch: "main"
-        path: ".configuration/devcenter/environments"
-      imageDefinition:
-        name: "imageDefinitions"
-        type: "gitHub"
-        uri: "https://github.com/Evilazaro/identityProvider.git"
-        branch: "main"
-        path: ".configuration/devcenter/imageDefinitions"
-
-    tags:
-      environment: "dev"           # Identifies the deployment environment
-      division: "Platforms"        # Organizational division responsible for the project
-      team: "DevExP"               # Team responsible for implementation
-      project: "DevExP-DevBox"     # Project name for cost allocation
-      costCenter: "IT"             # Financial tracking designation
-      owner: "Contoso"             # Resource ownership
-      resources: "Project"         # Resource type identifier
-
-- name: "eShop"
-    description: "eShop project."
-
-    identity:
-      type: SystemAssigned
-      roleAssignments:
-        - azureADGroupId: "19d12c65-509f-491d-bb38-49297e1c56a0"
-          azureADGroupName: "eShop Developers"
-          azureRBACRoles:
-            - name: "Contributor"
-              id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
-            - name: "Dev Box User"
-              id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
-            - name: "Deployment Environment User"
-              id: "18e40d4e-8d2e-438d-97e1-9528336e149c"
-
-    pools:
-      - name: "backend-engineer"
-        imageDefinitionName: "eShop-backend-engineer"
-      - name: "frontend-engineer"
-        imageDefinitionName: "eShop-frontend-engineer"
-
-    environmentTypes:
-      - name: "dev"
-        deploymentTargetId: ""
-      - name: "staging"
-        deploymentTargetId: ""
-
-    catalogs:
-      environmentDefinition:
-        name: "environments"
-        type: "gitHub"
-        uri: "https://github.com/Evilazaro/eShop.git"
-        branch: "main"
-        path: ".devcenter/environments"
-      imageDefinition:
-        name: "imageDefinitions"
-        type: "gitHub"
-        uri: "https://github.com/Evilazaro/eShop.git"
-        branch: "main"
-        path: ".devcenter/imageDefinitions"
-
-    tags:
-      environment: "dev"           # Identifies the deployment environment
-      division: "Platforms"        # Organizational division responsible for the project
-      team: "DevExP"               # Team responsible for implementation
-      project: "DevExP-DevBox"     # Project name for cost allocation
-      costCenter: "IT"             # Financial tracking designation
-      owner: "Contoso"             # Resource ownership
-      resources: "Project"         # Resource type identifier
-:
-  environment: "dev"           # Identifies the deployment environment
-  division: "Platforms"        # Organizational division responsible for the resource
-  team: "DevExP"               # Team responsible for implementation
-  project: "DevExP-DevBox"     # Project name for cost allocation
-  costCenter: "IT"             # Financial tracking designation
-  owner: "Contoso"             # Resource ownership
-  resources: "DevCenter"       # Resource type identifier
-```
 
 ## Core Settings
 
@@ -308,7 +147,7 @@ Catalogs define repositories that contain Dev Box customization resources:
 catalogs:
   - name: "customTasks"
     type: "gitHub"
-    uri: "https://github.com/Evilazaro/DevExP-DevBox.git"
+    uri: "https://github.com/YOUR_USER_NAME/DevExP-DevBox.git"   # Replace YOUR_USER_NAME value for the User Name of the forked repository.
     branch: "main"
     path: ".configuration/devcenter/tasks"
 ```
@@ -417,14 +256,14 @@ catalogs:
   environmentDefinition:
     name: "environments"
     type: "gitHub"
-    uri: "https://github.com/Evilazaro/identityProvider.git"
+    uri: "https://github.com/YOUR_USER_NAME/identityProvider.git"   # Replace YOUR_USER_NAME value for the User Name of the forked repository.
     branch: "main"
     path: ".configuration/devcenter/environments"
   
   imageDefinition:
     name: "imageDefinitions"
     type: "gitHub"
-    uri: "https://github.com/Evilazaro/identityProvider.git"
+    uri: "https://github.com/YOUR_USER_NAME/identityProvider.git"   # Replace YOUR_USER_NAME value for the User Name of the forked repository.
     branch: "main"
     path: ".configuration/devcenter/imageDefinitions"
 ```
@@ -503,15 +342,153 @@ tags:
 - Deploy Dev Box resources in regions close to development teams
 - Enable monitoring for security and performance insights
 
-## References
+## Default Configuration
 
-- [Azure Dev Box Documentation](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box)
-- [Azure RBAC Roles](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles)
-- [Azure Managed Identities](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview)
-- [Azure Tagging Best Practices](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-tagging)
-- [Azure Dev Box CLI Commands](https://learn.microsoft.com/en-us/cli/azure/devcenter?view=azure-cli-latest)
-- [Azure Dev Box Accelerator GitHub](https://github.com/Evilazaro/DevExp-DevBox/)
+```yaml
+# yaml-language-server: $schema=./devcenter.schema.json
+name: "contoso-devexp"
+location: "eastus2"
+catalogItemSyncEnableStatus: "Enabled"
+microsoftHostedNetworkEnableStatus: "Enabled"
+installAzureMonitorAgentEnableStatus: "Enabled"
 
----
+identity:
+  type: "SystemAssigned"
+  roleAssignments:
+    devCenter:   
+      - id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
+        name: "Contributor"
+      - id: "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
+        name: "User Access Administrator"
+    orgRoleTypes:
+      - type: DevManager
+        azureADGroupId: "8dae87fa-87b2-460b-b972-a4239fbd4a96"
+        azureADGroupName: "Dev Manager"
+        azureRBACRoles:
+          - name: "DevCenter Project Admin"
+            id: "331c37c6-af14-46d9-b9f4-e1909e1b95a0"
 
-*This documentation is part of the Azure Dev Box Accelerator project. For more information, visit the [GitHub Repository](https://github.com/Evilazaro/DevExp-DevBox/).*
+catalogs:
+  - name: "customTasks"
+    type: "gitHub"
+    uri: "https://github.com/YOUR_USER_NAME/DevExP-DevBox.git"
+    branch: "main"
+    path: ".configuration/devcenter/tasks"
+
+environmentTypes:
+  - name: "dev"
+    deploymentTargetId: ""
+  - name: "staging"
+    deploymentTargetId: ""
+
+projects:
+  - name: "identityProvider"
+    description: "Identity Provider project."
+    
+    identity:
+      type: SystemAssigned
+      roleAssignments:
+        - azureADGroupId: "331f48d7-4a23-4ec4-b03a-4af29c9c6f34"
+          azureADGroupName: "identityProvider Developers"
+          azureRBACRoles:
+            - name: "Contributor"
+              id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
+            - name: "Dev Box User"
+              id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
+            - name: "Deployment Environment User"
+              id: "18e40d4e-8d2e-438d-97e1-9528336e149c"
+    pools:
+      - name: "backend-engineer"
+        imageDefinitionName: "identityProvider-backend-engineer"
+      - name: "frontend-engineer"
+        imageDefinitionName: "identityProvider-frontend-engineer"
+
+    environmentTypes:
+      - name: "dev"
+        deploymentTargetId: ""
+      - name: "staging"
+        deploymentTargetId: ""
+
+    catalogs:
+      environmentDefinition:
+        name: "environments"
+        type: "gitHub"
+        uri: "https://github.com/YOUR_USER_NAME/identityProvider.git"
+        branch: "main"
+        path: ".configuration/devcenter/environments"
+      imageDefinition:
+        name: "imageDefinitions"
+        type: "gitHub"
+        uri: "https://github.com/YOUR_USER_NAME/identityProvider.git"
+        branch: "main"
+        path: ".configuration/devcenter/imageDefinitions"
+
+    tags:
+      environment: "dev"
+      division: "Platforms"
+      team: "DevExP"
+      project: "DevExP-DevBox"
+      costCenter: "IT"
+      owner: "Contoso"
+      resources: "Project"
+
+  - name: "eShop"
+    description: "eShop project."
+
+    identity:
+      type: SystemAssigned
+      roleAssignments:
+        - azureADGroupId: "19d12c65-509f-491d-bb38-49297e1c56a0"
+          azureADGroupName: "eShop Developers"
+          azureRBACRoles:
+            - name: "Contributor"
+              id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
+            - name: "Dev Box User"
+              id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
+            - name: "Deployment Environment User"
+              id: "18e40d4e-8d2e-438d-97e1-9528336e149c"
+
+    pools:
+      - name: "backend-engineer"
+        imageDefinitionName: "eShop-backend-engineer"
+      - name: "frontend-engineer"
+        imageDefinitionName: "eShop-frontend-engineer"
+
+    environmentTypes:
+      - name: "dev"
+        deploymentTargetId: ""
+      - name: "staging"
+        deploymentTargetId: ""
+
+    catalogs:
+      environmentDefinition:
+        name: "environments"
+        type: "gitHub"
+        uri: "https://github.com/YOUR_USER_NAME/eShop.git"
+        branch: "main"
+        path: ".devcenter/environments"
+      imageDefinition:
+        name: "imageDefinitions"
+        type: "gitHub"
+        uri: "https://github.com/YOUR_USER_NAME/eShop.git"
+        branch: "main"
+        path: ".devcenter/imageDefinitions"
+
+    tags:
+      environment: "dev"
+      division: "Platforms"
+      team: "DevExP"
+      project: "DevExP-DevBox"
+      costCenter: "IT"
+      owner: "Contoso"
+      resources: "Project"
+
+tags:
+  environment: "dev"
+  division: "Platforms"
+  team: "DevExP"
+  project: "DevExP-DevBox"
+  costCenter: "IT"
+  owner: "Contoso"
+  resources: "DevCenter"
+```
