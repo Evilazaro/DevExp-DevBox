@@ -42,9 +42,10 @@ The Dev Box service was designed with three organizational roles in mind: **plat
 
 Microsoft Dev Box bridges the gap between development teams and IT, by bringing control of project resources closer to the development team.
 
-{{% pageinfo %}}  
-**Learn more** about Microsoft Dev Box:
+{{% pageinfo %}}
+## Journey Paths  
+> - **Greenfield**: Deploy the accelerator’s Bicep modules to create platform foundational services, then launch your Dev Box environment.  
+> - **Brownfield**: Import existing landing zone services by disabling and parameterizing connections (e.g., pointing to an existing VNet, Subnet, Resource Group or Key Vault).
 
-- [Microsoft Dev Box architecture overview](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-architecture)
-- [Key concepts in Microsoft Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-concepts)
+**Learn more** how to configure the Accelerator in the [Accelerator Configuration](../../configureResources/) session.
 {{% /pageinfo %}}
