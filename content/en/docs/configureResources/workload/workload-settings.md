@@ -197,7 +197,6 @@ tags:
   owner: "Contoso"
   resources: "DevCenter"
 ```
----
 
 ## Core Settings
 
@@ -230,8 +229,6 @@ installAzureMonitorAgentEnableStatus: "Enabled"
 | `catalogItemSyncEnableStatus` | Controls automatic synchronization of catalog items | `Enabled` | Keep enabled for automated updates |
 | `microsoftHostedNetworkEnableStatus` | Controls use of Microsoft-managed networking | `Enabled` | Use `Enabled` for simpler deployments, `Disabled` for enterprise network integration |
 | `installAzureMonitorAgentEnableStatus` | Controls installation of Azure Monitor agent | `Enabled` | Keep enabled for operational visibility and security monitoring |
-
----
 
 ## Identity and Access Control
 
@@ -289,8 +286,6 @@ orgRoleTypes:
 
 **Best Practice**: Use Microsoft Entra groups rather than individual users to simplify access management.
 
----
-
 ## Content Management
 
 ### Catalogs
@@ -334,8 +329,6 @@ environmentTypes:
 | `deploymentTargetId` | Target subscription ID (empty for default subscription) |
 
 **Best Practice**: Create environment types that match your software development lifecycle stages (dev, test, staging, prod).
-
----
 
 ## Project Configuration
 
