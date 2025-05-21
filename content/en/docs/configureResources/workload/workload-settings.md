@@ -51,7 +51,7 @@ The devcenter.yaml file establishes a centralized developer workstation platform
 
 ```yaml
 # yaml-language-server: $schema=./devcenter.schema.json
-name: "contoso-devexp"
+name: "contoso-center"
 location: "eastus2"
 catalogItemSyncEnableStatus: "Enabled"
 microsoftHostedNetworkEnableStatus: "Enabled"
@@ -205,7 +205,7 @@ tags:
 The foundation of the configuration is the Dev Center resource, which serves as the management plane for all Dev Box instances.
 
 ```yaml
-name: "contoso-devexp2"
+name: "contoso-devcenter"
 location: "eastus2"
 ```
 
