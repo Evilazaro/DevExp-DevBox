@@ -26,26 +26,27 @@ The **Dev Box accelerator** is an open-source, reference implementation designed
 
 ## What the Microsoft Dev Box accelerator Provides
 
-1. **Architectural Approach & Reference Implementation**  
-   
-   A set of Bicep modules, scripts, and yaml configuration files that together prepare a landing zone subscription for production-ready Microsoft Dev Box workloads. This includes:
-   - **Networking**: Virtual network, subnets, and optional network connections to hub networks.  
-   - **Identity & Access**: Integration with Microsoft Entra, service principals, managed identities, and RBAC assignments.  
-   - **Security & Governance**: Policy assignments (tagging, security baseline, resource consistency), Azure Monitor and Log Analytics integration.  
-   - **Platform Services**: DevCenter, Projects and its dependencies.
+The Microsoft Dev Box Accelerator delivers a comprehensive set of Bicep modules, automation scripts, and **YAML configuration files with accompanying JSON schema definitions**, designed to streamline the deployment of a production-ready Microsoft Dev Box landing zone. These artifacts empower infrastructure professionals with a **configuration-as-code** approach, enabling repeatable, scalable, and policy-compliant environments.
 
+### Key Components
 
-2. **Cloud Adoption Framework Alignment**  
-   
-   All artifacts adhere to the CAF’s enterprise-scale landing zone patterns:
-   - **Management Group Hierarchy** for clear separation of environments (e.g., Connectivity, Monitoring, Security, and Workload).    
-   - **Modularity** so you can pick and choose how the foundational services will be deployed.
-   
+- **Networking**: Virtual networks, subnets, network connections and optional hub connectivity.
+- **Identity & Access**: Microsoft Entra integration, service principals, managed identities, and RBAC assignments.
+- **Security & Governance**: Policy assignments (tagging, security baseline, resource consistency), Azure Monitor and Log Analytics integration.
+- **Platform Services**: DevCenter, Projects, and supporting components.
 
-3. **Enterprise-Scale Design Principles**  
-   - **Scalability**: Built to support hundreds of developer seats and multiple Dev Box SKUs.    
-   - **Security**: Zero-trust networking, least-privilege access, and continuous compliance monitoring.  
-   - **Cost Management**: Tagging, budget alerts, and automated shutdown/startup of idle Dev Boxes.
+## Cloud Adoption Framework Alignment
+
+All artifacts align with CAF’s enterprise-scale landing zone patterns:
+
+- **Management Group Hierarchy**: Clear separation of concerns (Connectivity, Monitoring, Security, Workload).
+- **Modularity**: Deploy only the foundational services you need.
+
+## Enterprise-Scale Design Principles
+
+- **Scalability**: Supports hundreds of developers and multiple Dev Box SKUs.
+- **Security**: Zero-trust networking, least-privilege access, continuous monitoring, and compliance.
+- **Cost Management**: Tagging, budget alerts, and automated Dev Box lifecycle management.
 
 ## Design Areas
 
