@@ -1,7 +1,7 @@
 ---
 title: Organization roles and responsabilities requirements
 description: >
-  **Dev Box Landing Zone Accelerator –** Organization roles and responsabilities for: Platform engineers, development team leads, and developers. 
+  **Dev Box accelerator –** Organization roles and responsabilities for: Platform engineers, development team leads, and developers. 
 tags:
   - microsoft-dev-box
   - platform-engineering
@@ -18,7 +18,7 @@ weight: 5
 
 ## Overview
 
-The **Dev Box landing zone accelerator** aligns with the **requirements and responsibilities** for each organizational role involved in deploying and using Microsoft Dev Box, with a focus on **RBAC permissions** and **configuration prerequisites**.
+The **Dev Box accelerator** aligns with the **requirements and responsibilities** for each organizational role involved in deploying and using Microsoft Dev Box, with a focus on **RBAC permissions** and **configuration prerequisites**.
 
 The roles covered include:
 
@@ -110,7 +110,7 @@ Developers **are end users of Microsoft Dev Box** and require access to preconfi
 
 ## Summary
 
-Before deploying or using the Dev Box Landing Zone Accelerator, ensure each role has the following:
+Before deploying or using the Dev Box accelerator, ensure each role has the following:
 
 - **Platform Engineers**: Subscription access, network configuration, Dev Center ownership, and monitoring setup  
 - **Team Leads**: RBAC permissions, Dev Box definitions and pools, image strategy, and group assignments  

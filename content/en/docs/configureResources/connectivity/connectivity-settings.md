@@ -17,7 +17,7 @@ weight: 7
 
 ## Overview
 
-This documentation details the network configuration for Dev Box landing zone accelerator. The configuration defines a managed virtual network infrastructure that isolates Dev Box resources while enabling secure connectivity to both Azure services and corporate resources.
+This documentation details the network configuration for Dev Box accelerator. The configuration defines a managed virtual network infrastructure that isolates Dev Box resources while enabling secure connectivity to both Azure services and corporate resources.
 
 ## Table of Contents
 
@@ -38,7 +38,7 @@ This documentation details the network configuration for Dev Box landing zone ac
 
 ## Configuration Purpose
 
-The network configuration (`network.yaml`) establishes the networking foundation for Dev Box landing zone accelerator environments. It defines a virtual network that:
+The network configuration (`network.yaml`) establishes the networking foundation for Dev Box accelerator environments. It defines a virtual network that:
 
 - Creates isolated network boundaries for Dev Box workstations
 - Enables controlled access to Azure services
@@ -50,10 +50,10 @@ The network configuration (`network.yaml`) establishes the networking foundation
 ```yaml
 # yaml-language-server: $schema=./network.schema.json
 #
-# Dev Box landing zone accelerator: Network Configuration
+# Dev Box accelerator: Network Configuration
 # ===============================================
 # 
-# Purpose: Defines the virtual network infrastructure for Dev Box landing zone accelerator environments.
+# Purpose: Defines the virtual network infrastructure for Dev Box accelerator environments.
 # This configuration creates a managed virtual network that isolates DevBox resources
 # while enabling secure connectivity to Azure services and corporate resources.
 #

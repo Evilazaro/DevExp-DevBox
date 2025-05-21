@@ -1,6 +1,6 @@
 ---
 title: Quick Start
-description: Deploy the Dev Box landing zone accelerator for demo and test environments
+description: Deploy the Dev Box accelerator for demo and test environments
 weight: 5
 ---
 
@@ -9,7 +9,7 @@ weight: 5
 > - **Prerequisites**: Ensure you have installed all the [prerequisites.](../prerequisites/Framework%20and%20Tools/)    
 {{% /pageinfo %}}
 
-This guide will help you quickly deploy the Dev Box landing zone accelerator in your Azure environment for evaluation and testing purposes.
+This guide will help you quickly deploy the Dev Box accelerator in your Azure environment for evaluation and testing purposes.
 
 ## Installation
 
@@ -18,7 +18,7 @@ This guide will help you quickly deploy the Dev Box landing zone accelerator in 
 Begin by forking the necessary GitHub repositories to your account.
 
 ```powershell
-# Dev Box landing zone accelerator repository
+# Dev Box accelerator repository
 gh repo fork Evilazaro/DevExp-DevBox --clone --remote
 
 # Identity Provider solution demo repository
