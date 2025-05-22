@@ -51,7 +51,7 @@ The default configuration is designed for a development environment with appropr
 ```yaml
 create: true
 keyVault:
-  name: contoso-devbox-kv
+  name: contoso
   description: Development Environment Key Vault
   secretName: gha-token
   enablePurgeProtection: true
