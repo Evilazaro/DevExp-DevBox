@@ -1,5 +1,5 @@
 ---
-title: 'Security Configuration'
+title: 'Security'
 description: >
   How to configure Azure Key Vault and manage secrets for your Dev Box environment
 tags:
@@ -14,24 +14,6 @@ tags:
 weight: 7
 ---
 
-I'll enhance your Azure Key Vault documentation by adding a Configuration Purpose section, Default Configuration section, and a Table of Contents. Let me apply Azure best practices to your document.
-
-```markdown
----
-title: 'Security Configuration'
-description: >
-  How to configure Azure Key Vault and manage secrets for your Dev Box environment
-tags:
-  - azure
-  - microsoft-dev-box
-  - azure-key-vault
-  - secrets-management
-  - security
-  - infrastructure-as-code
-  - azure-rbac
-
-weight: 7
----
 ## Overview
 
 This document provides detailed security configuration information for the Dev Box Accelerator defined in `security.yaml`. The configuration describes an Azure Key Vault resource to be deployed for storing sensitive credentials and secrets in a development environment.
