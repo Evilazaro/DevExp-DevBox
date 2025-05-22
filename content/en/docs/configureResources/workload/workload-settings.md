@@ -12,7 +12,7 @@ tags:
 
 description: >
   How to configure the Core, Identity and Access Management, Catalogs, Environments and Projects settings for the Dev Center
-weight: 8
+weight: 9
 ---
 
 ## Overview
