@@ -56,7 +56,7 @@ The devcenter.yaml file establishes a centralized developer workstation platform
 
 ```yaml
 # yaml-language-server: $schema=./devcenter.schema.json
-name: "contoso-center"
+name: "contoso-devcenter"
 location: "eastus2"
 catalogItemSyncEnableStatus: "Enabled"
 microsoftHostedNetworkEnableStatus: "Enabled"
