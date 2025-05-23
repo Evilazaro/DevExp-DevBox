@@ -21,6 +21,7 @@ This documentation details the network configuration for Dev Box accelerator. Th
 
 ## Table of Contents
 
+- [Connectivity Components](#connectivity-components)
 - [Configuration Purpose](#configuration-purpose)
 - [Default Settings](#default-settings)
 - [Network Creation](#network-creation)
@@ -35,6 +36,10 @@ This documentation details the network configuration for Dev Box accelerator. Th
   - [Management](#management)
   - [Security](#security)
 - [References](#references)
+
+## Connectivity Components
+
+![Connectivity Components](connectivity.png)
 
 ## Configuration Purpose
 

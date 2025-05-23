@@ -21,6 +21,7 @@ This documentation provides a comprehensive explanation of the Dev Box accelerat
 
 ## Table of Contents
 
+- [Workload Components](#workload-components)
 - [Configuration Purpose](#configuration-purpose)
 - [Default Configuration](#default-configuration)
 - [Core Settings](#core-settings)
@@ -42,6 +43,10 @@ This documentation provides a comprehensive explanation of the Dev Box accelerat
 - [Resource Tagging](#resource-tagging)
 - [Best Practices](#best-practices)
 - [References](#references)
+
+## Workload Components
+
+![Workload Components](workload.png)
 
 ## Configuration Purpose
 

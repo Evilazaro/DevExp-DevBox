@@ -20,6 +20,7 @@ This document provides detailed security configuration information for the Dev B
 
 ## Table of Contents
 
+- [Security Components](#security-components)
 - [Configuration Purpose](#configuration-purpose)
 - [Default Configuration](#default-configuration)
 - [Configuration Structure](#configuration-structure)
@@ -31,6 +32,10 @@ This document provides detailed security configuration information for the Dev B
 - [Best Practices](#best-practices)
 - [Considerations](#considerations)
 - [Additional Resources](#additional-resources)
+
+## Security Components
+
+![Security Components](security.png)
 
 ## Configuration Purpose
 
