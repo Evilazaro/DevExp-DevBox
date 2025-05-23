@@ -96,7 +96,7 @@ properties:
   configurationVersion: "0.2.0"
 ```
 
-**Explanation:**  
+****  
 Defines the DSC schema version used for this configuration. Keeping this up to date ensures compatibility with the latest DSC features.
 
 ---
@@ -115,7 +115,7 @@ Defines the DSC schema version used for this configuration. Keeping this up to d
     id: Microsoft.AzureCLI
 ```
 
-**Explanation:**  
+****  
 Installs the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/) tool, which is foundational for managing Azure resources, scripting, and automation. It supports unified authentication, RBAC, and is a dependency for other Azure tools.
 
 - **Best Practices:** Use `az login --tenant`, leverage managed identities, and regularly update the CLI.
@@ -137,7 +137,7 @@ Installs the [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/) tool, whi
     - Microsoft.AzureCLI # AZD requires Azure CLI to function properly
 ```
 
-**Explanation:**  
+****  
 Installs the [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/), which streamlines application development, deployment, and environment management on Azure. It depends on Azure CLI.
 
 - **Best Practices:** Use environment variables for secrets, version control environment configs, and integrate with CI/CD.
@@ -159,7 +159,7 @@ Installs the [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure
     - Microsoft.AzureCLI # Bicep extensions use Azure CLI for deployment
 ```
 
-**Explanation:**  
+****  
 Installs the [Bicep CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/), a domain-specific language for deploying Azure resources with improved syntax and modularity over ARM templates.
 
 - **Best Practices:** Use modules, parameterization, and validate files with `bicep build`.
@@ -179,7 +179,7 @@ Installs the [Bicep CLI](https://learn.microsoft.com/en-us/azure/azure-resource-
     id: Microsoft.Azure.DataCLI
 ```
 
-**Explanation:**  
+****  
 Installs the [Azure Data CLI (azdata)](https://learn.microsoft.com/en-us/sql/azdata/install/deploy-install-azdata), which provides commands for managing Azure data services, including SQL, PostgreSQL, and Synapse Analytics.
 
 - **Best Practices:** Implement data tiering, security, and backup strategies.
@@ -201,7 +201,7 @@ Installs the [Azure Data CLI (azdata)](https://learn.microsoft.com/en-us/sql/azd
     id: Microsoft.Azure.StorageEmulator
 ```
 
-**Explanation:**  
+****  
 Installs the [Azure Storage Emulator](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-emulator), which allows local development and testing of applications using Azure Storage APIs without requiring a cloud subscription.
 
 - **Best Practices:** Use consistent connection strings, validate local/cloud parity, and consider using [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite) for newer features.
@@ -221,7 +221,7 @@ Installs the [Azure Storage Emulator](https://learn.microsoft.com/en-us/azure/st
     id: Microsoft.Azure.CosmosEmulator
 ```
 
-**Explanation:**  
+****  
 Installs the [Azure Cosmos DB Emulator](https://learn.microsoft.com/en-us/azure/cosmos-db/local-emulator), providing a local instance of Cosmos DB for development and testing with multiple APIs (SQL, MongoDB, Gremlin, Cassandra).
 
 - **Best Practices:** Never use emulator certificates in production, validate partition key strategies, and simulate production workloads.

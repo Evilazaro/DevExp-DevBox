@@ -153,7 +153,7 @@ This DSC configuration automates the setup of a modern development environment, 
     Size: "50Gb"
 ```
 
-**Explanation:**  
+****  
 Configures a dedicated Dev Drive using the ReFS file system, optimized for development workloads. This improves performance for Git operations, build processes, and container workloads—especially beneficial for large Azure repositories and microservice architectures.
 
 - **Key Features:**  
@@ -182,7 +182,7 @@ Configures a dedicated Dev Drive using the ReFS file system, optimized for devel
     id: Git.Git
 ```
 
-**Explanation:**  
+****  
 Installs Git, the essential version control system for source code management. Git is required for working with Azure DevOps, GitHub, and for managing infrastructure as code (e.g., Bicep templates).
 
 **References:**  
@@ -205,7 +205,7 @@ Installs Git, the essential version control system for source code management. G
     - Git.Git
 ```
 
-**Explanation:**  
+****  
 Installs the GitHub CLI, enabling automation and management of GitHub repositories, issues, pull requests, and GitHub Actions—all from the terminal. Essential for integrating GitHub workflows with Azure deployments.
 
 **References:**  
@@ -228,7 +228,7 @@ Installs the GitHub CLI, enabling automation and management of GitHub repositori
     id: Microsoft.DotNet.SDK.9
 ```
 
-**Explanation:**  
+****  
 Installs the .NET 9 SDK, required for building, testing, and deploying .NET applications targeting Azure services. Includes tools for Azure Functions, Web Apps, and containerized workloads.
 
 **References:**  
@@ -251,7 +251,7 @@ Installs the .NET 9 SDK, required for building, testing, and deploying .NET appl
     - Microsoft.DotNet.SDK.9
 ```
 
-**Explanation:**  
+****  
 Installs the .NET 9 Runtime, enabling execution of .NET applications and Azure tools that depend on .NET. Explicit installation ensures compatibility with tools and emulators.
 
 **References:**  
@@ -272,7 +272,7 @@ Installs the .NET 9 Runtime, enabling execution of .NET applications and Azure t
     id: OpenJS.NodeJS
 ```
 
-**Explanation:**  
+****  
 Installs Node.js, a JavaScript runtime essential for web development and Azure scenarios such as Static Web Apps, Azure Functions, and DevOps pipelines.
 
 **References:**  
@@ -295,7 +295,7 @@ Installs Node.js, a JavaScript runtime essential for web development and Azure s
     id: Microsoft.VisualStudioCode
 ```
 
-**Explanation:**  
+****  
 Installs Visual Studio Code, the recommended editor for Azure development. VS Code offers rich integration with Azure services, extensions for resource management, and tools for authoring and deploying to Azure.
 
 **References:**  
