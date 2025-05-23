@@ -35,7 +35,7 @@ This document provides detailed security configuration information for the Dev B
 
 ## Security Components
 
-![Security Components](security.png)
+![Security Components](./security.pngsecurity.png)
 
 ## Configuration Purpose
 
