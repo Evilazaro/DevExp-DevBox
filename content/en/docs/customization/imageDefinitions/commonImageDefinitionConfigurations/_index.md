@@ -1,5 +1,5 @@
 ---
-title: Common DSC Configuration for .NET Engineers Sample
+title: Common Configuration Sample for .NET Engineers 
 description: >
     Dev Box Image Definitions
 weight: 9
@@ -7,30 +7,32 @@ weight: 9
 
 ## Overview
 
-This document provides comprehensive documentation for the PowerShell Desired State Configuration (DSC) YAML file: **common-config.dsc.yaml**. This configuration is designed to automate the setup of a standardized development environment for .NET engineers, with a strong focus on Azure development workflows. It provisions essential tools, runtimes, and storage optimizations to streamline development, testing, and deployment of modern cloud applications.
+This document provides comprehensive documentation for the PowerShell Desired State Configuration (DSC) YAML file: **common-config.dsc.yaml**. This configuration is designed to automate the setup of a standardized development environment for .NET engineers, with a strong focus on Azure development workflows. It provisions essential tools, runtimes, and storage optimizations to ensure a productive and performant developer experience on Windows 10/11.
 
 ---
 
 ## Table of Contents
 
-- [Dev Drive (Storage Configuration)](#dev-drive-storage-configuration)
-- [Git (Source Control Tool)](#git-source-control-tool)
-- [GitHub CLI](#github-cli)
-- [.NET 9 SDK](#net-9-sdk)
-- [.NET 9 Runtime](#net-9-runtime)
-- [Node.js](#nodejs)
-- [Visual Studio Code](#visual-studio-code)
+- [Storage Configuration](#storage-configuration)
+  - [Dev Drive](#dev-drive)
+- [Source Control Tools](#source-control-tools)
+  - [Git](#git)
+  - [GitHub CLI](#github-cli)
+- [Development Runtimes](#development-runtimes)
+  - [.NET SDK 9](#net-sdk-9)
+  - [.NET Runtime 9](#net-runtime-9)
+  - [Node.js](#nodejs)
+- [Development Tools](#development-tools)
+  - [Visual Studio Code](#visual-studio-code)
+- [Best Practices](#best-practices)
 
 ---
 
-## Component Details
+## Storage Configuration
 
----
+### Dev Drive
 
-### Dev Drive (Storage Configuration)
-
-#### YAML Configuration
-
+**YAML Configuration:**
 ````yaml
 - resource: Disk
   id: DevDrive1
@@ -49,24 +51,20 @@ This document provides comprehensive documentation for the PowerShell Desired St
     Size: "50Gb" # Recommended minimum size for development workloads
 ````
 
-#### Explanation
+**Explanation:**  
+Configures a Windows Dev Drive using the ReFS file system, optimized for development workloads. Dev Drive provides improved performance for source control operations, build processes, and large solution files—especially beneficial for Azure microservice architectures. The configuration ensures the drive is formatted and mounted as `Z:`, with Dev Drive optimizations enabled.
 
-This component provisions a dedicated Dev Drive using the ReFS file system, optimized for development workloads. Dev Drive offers improved performance for source control operations (especially with large Azure repositories), build processes, and container operations. The configuration ensures the drive is formatted and mounted as `Z:`, with Dev Drive optimizations enabled.
-
-- **Purpose:** Accelerates Git, build, and Docker operations for Azure development.
-- **Azure Context:** Recommended for Azure Dev Box and large solution files in microservice architectures.
-
-#### Official Documentation
-
+**Official Documentation:**  
 - [Windows Dev Drive](https://learn.microsoft.com/en-us/windows/dev-drive/)
 - [Optimize Dev Drive for Azure Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/how-to-optimize-dev-drive)
 
 ---
 
-### Git (Source Control Tool)
+## Source Control Tools
 
-#### YAML Configuration
+### Git
 
+**YAML Configuration:**
 ````yaml
 - resource: Microsoft.WinGet.DSC/WinGetPackage
   id: Git.Git
@@ -77,24 +75,18 @@ This component provisions a dedicated Dev Drive using the ReFS file system, opti
     id: Git.Git
 ````
 
-#### Explanation
+**Explanation:**  
+Installs Git, the essential distributed version control system for source code management. Git is foundational for Azure DevOps, GitHub integration, and infrastructure-as-code workflows. It is also required for Azure Bicep, GitOps, and optimized for performance when used with Dev Drive.
 
-Installs Git, the essential distributed version control system. Git is foundational for source code management, CI/CD, and infrastructure-as-code workflows. It is required for working with Azure DevOps, GitHub, and GitOps scenarios in Azure Arc and AKS.
-
-- **Purpose:** Enables source control, collaboration, and automation.
-- **Azure Context:** Required for Azure Repos, Bicep templates, and GitOps workflows.
-
-#### Official Documentation
-
+**Official Documentation:**  
 - [Git Documentation](https://git-scm.com/doc)
-- [Azure Repos with Git](https://learn.microsoft.com/en-us/azure/devops/repos/git/)
+- [WinGet Git Package](https://winget.run/pkg/Git.Git)
 
 ---
 
 ### GitHub CLI
 
-#### YAML Configuration
-
+**YAML Configuration:**
 ````yaml
 - resource: Microsoft.WinGet.DSC/WinGetPackage
   id: GitHub.cli
@@ -107,24 +99,20 @@ Installs Git, the essential distributed version control system. Git is foundatio
     - Git.Git # Requires Git for full functionality
 ````
 
-#### Explanation
+**Explanation:**  
+Installs the GitHub CLI (`gh`), enabling command-line management of GitHub repositories, issues, pull requests, and GitHub Actions. This tool streamlines Azure DevOps integration and automates workflows for Azure deployments. It depends on Git for core functionality.
 
-Installs the GitHub CLI (`gh`), which streamlines GitHub workflows directly from the terminal. It enables management of repositories, issues, pull requests, and GitHub Actions, all of which are critical for Azure DevOps and CI/CD automation.
-
-- **Purpose:** Automates GitHub workflows and integrates with Azure deployments.
-- **Azure Context:** Used for managing Azure infrastructure code, GitHub Actions for Azure, and authenticating to GitHub Container Registry.
-
-#### Official Documentation
-
+**Official Documentation:**  
 - [GitHub CLI Documentation](https://cli.github.com/manual/)
-- [GitHub Actions for Azure](https://learn.microsoft.com/en-us/azure/developer/github/)
+- [WinGet GitHub CLI Package](https://winget.run/pkg/GitHub.cli)
 
 ---
 
-### .NET 9 SDK
+## Development Runtimes
 
-#### YAML Configuration
+### .NET SDK 9
 
+**YAML Configuration:**
 ````yaml
 - resource: Microsoft.WinGet.DSC/WinGetPackage
   id: Microsoft.DotNet.SDK.9
@@ -135,24 +123,18 @@ Installs the GitHub CLI (`gh`), which streamlines GitHub workflows directly from
     id: Microsoft.DotNet.SDK.9
 ````
 
-#### Explanation
+**Explanation:**  
+Installs the .NET 9 SDK, which is central to Azure development. It provides tools for building, testing, and deploying applications targeting Azure services, including Azure Functions, Web Apps, and containerized workloads. The SDK includes Azure-specific templates and middleware.
 
-Installs the .NET 9 SDK, which is essential for building, testing, and deploying .NET applications targeting Azure services. The SDK includes tools for Azure Functions, Web Apps, and containerized workloads.
-
-- **Purpose:** Provides the development platform for modern .NET and Azure applications.
-- **Azure Context:** Integrates with Azure SDKs, templates, and supports Azure Functions and container apps.
-
-#### Official Documentation
-
-- [.NET SDK Documentation](https://learn.microsoft.com/en-us/dotnet/core/sdk/)
-- [Azure for .NET Developers](https://learn.microsoft.com/en-us/dotnet/azure/)
+**Official Documentation:**  
+- [.NET SDK Documentation](https://learn.microsoft.com/en-us/dotnet/core/sdk)
+- [WinGet .NET SDK Package](https://winget.run/pkg/Microsoft.DotNet.SDK.9)
 
 ---
 
-### .NET 9 Runtime
+### .NET Runtime 9
 
-#### YAML Configuration
-
+**YAML Configuration:**
 ````yaml
 - resource: Microsoft.WinGet.DSC/WinGetPackage
   id: Microsoft.DotNet.Runtime.9
@@ -165,24 +147,18 @@ Installs the .NET 9 SDK, which is essential for building, testing, and deploying
     - Microsoft.DotNet.SDK.9 # Runtime is included in SDK, but explicit dependency ensures correct order
 ````
 
-#### Explanation
+**Explanation:**  
+Installs the .NET 9 Runtime, required for running .NET applications and Azure tooling. This ensures compatibility with Azure PowerShell, Azure Functions Core Tools, and local emulators. Explicit installation guarantees availability for tools that require the runtime directly.
 
-Installs the .NET 9 Runtime, required for running .NET applications and Azure tools that depend on .NET. While the SDK includes the runtime, explicit installation ensures compatibility for tools that require the runtime directly.
-
-- **Purpose:** Enables execution of .NET applications and Azure tooling.
-- **Azure Context:** Required for Azure PowerShell, Azure Functions Core Tools, and local emulators.
-
-#### Official Documentation
-
-- [.NET Runtime Documentation](https://learn.microsoft.com/en-us/dotnet/core/runtime/)
-- [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local)
+**Official Documentation:**  
+- [.NET Runtime Documentation](https://learn.microsoft.com/en-us/dotnet/core/runtime)
+- [WinGet .NET Runtime Package](https://winget.run/pkg/Microsoft.DotNet.Runtime.9)
 
 ---
 
 ### Node.js
 
-#### YAML Configuration
-
+**YAML Configuration:**
 ````yaml
 - resource: Microsoft.WinGet.DSC/WinGetPackage
   id: OpenJS.NodeJS
@@ -193,25 +169,20 @@ Installs the .NET 9 Runtime, required for running .NET applications and Azure to
     id: OpenJS.NodeJS
 ````
 
-#### Explanation
+**Explanation:**  
+Installs Node.js, a JavaScript runtime essential for modern web development and many Azure scenarios. Node.js is required for Azure Static Web Apps, Azure Functions (JavaScript/TypeScript), and npm-based Azure SDKs. It also supports local development and testing of Azure App Service Node.js apps.
 
-Installs Node.js, a JavaScript runtime essential for modern web development and many Azure scenarios. Node.js is required for Azure Static Web Apps, Azure Functions (JavaScript/TypeScript), and npm-based Azure SDKs.
-
-- **Purpose:** Supports JavaScript/TypeScript development and Azure tooling.
-- **Azure Context:** Required for Azure Static Web Apps, Azure Functions, and DevOps pipelines.
-
-#### Official Documentation
-
+**Official Documentation:**  
 - [Node.js Documentation](https://nodejs.org/en/docs/)
-- [Azure Static Web Apps](https://learn.microsoft.com/en-us/azure/static-web-apps/)
-- [Azure Functions JavaScript](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-node)
+- [WinGet Node.js Package](https://winget.run/pkg/OpenJS.NodeJS)
 
 ---
 
+## Development Tools
+
 ### Visual Studio Code
 
-#### YAML Configuration
-
+**YAML Configuration:**
 ````yaml
 - resource: Microsoft.WinGet.DSC/WinGetPackage
   id: Microsoft.VisualStudioCode
@@ -222,29 +193,25 @@ Installs Node.js, a JavaScript runtime essential for modern web development and 
     id: Microsoft.VisualStudioCode
 ````
 
-#### Explanation
+**Explanation:**  
+Installs Visual Studio Code (VS Code), Microsoft's recommended editor for Azure development. VS Code offers deep integration with Azure services through extensions, supports ARM/Bicep authoring, and provides tools for local Azure Functions and App Service development.
 
-Installs Visual Studio Code (VS Code), the recommended editor for Azure development. VS Code offers deep integration with Azure services through extensions, supports ARM/Bicep authoring, and provides a powerful terminal for Azure CLI and PowerShell.
-
-- **Purpose:** Provides a modern, extensible code editor for cloud development.
-- **Azure Context:** Enables direct Azure resource management, debugging, and deployment.
-
-#### Official Documentation
-
+**Official Documentation:**  
 - [Visual Studio Code Documentation](https://code.visualstudio.com/docs)
-- [Azure Tools for VS Code](https://learn.microsoft.com/en-us/azure/developer/vscode/)
+- [WinGet VS Code Package](https://winget.run/pkg/Microsoft.VisualStudioCode)
 
 ---
 
 ## Best Practices
 
-- **Use Descriptive Comments:** Each component is documented with purpose, Azure context, and security/performance notes.
-- **Explicit Dependencies:** Use `dependsOn` to ensure correct installation order.
-- **Secure Installations:** All packages are installed via WinGet, ensuring verified sources.
-- **Drive Optimization:** Dev Drive is configured for maximum performance with ReFS and Dev Drive features.
-- **Extensibility:** Additional Azure extensions for VS Code should be managed in separate configurations for modularity.
-- **Documentation Links:** Each component includes links to official documentation for further reference.
+- **Use Descriptive Comments:** Each component in the YAML is well-commented, explaining its purpose and relevance to Azure development.
+- **Explicit Dependencies:** Where necessary, `dependsOn` is used to ensure correct installation order (e.g., GitHub CLI depends on Git).
+- **Secure Installations:** All tools are installed via WinGet, ensuring verified and secure sources.
+- **Optimized Storage:** Dev Drive is configured for maximum performance, especially for large Azure repositories and build workloads.
+- **Modular Configuration:** Each tool or runtime is defined as a separate resource, making the configuration easy to maintain and extend.
+- **Documentation Links:** Official documentation is provided for each component, enabling quick access to further information.
+- **YAML Formatting:** Use of consistent indentation and structure for readability and maintainability.
 
 ---
 
-**For further customization, review the [Microsoft Configuration DSC Schema](https://aka.ms/configuration-dsc-schema/0.2) and [Azure Dev Box documentation](https://learn.microsoft.com/en-us/azure/dev-box/).**
+**For further customization, consider adding Azure CLI, Azure Functions Core Tools, and specific VS Code extensions in separate configuration files to tailor the environment for specialized Azure scenarios.**
