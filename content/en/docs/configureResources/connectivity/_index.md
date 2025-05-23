@@ -77,129 +77,155 @@ tags:
 
 ### create
 
-- **Configuration Purpose**:  
+**Configuration Purpose**:  
   Determines whether a new virtual network should be created or an existing one should be used.
-- **Default Configuration**:  
+
+**Default Configuration**:  
   ```yaml
   create: true
   ```
-- **Configuration Structure**:  
+**Configuration Structure**:  
   Boolean (`true` or `false`)
-- **Detailed Configuration**:  
+
+**Detailed Configuration**:  
   - `true`: A new VNet will be created as defined in this file.
   - `false`: An existing VNet will be used; other VNet parameters should reference the existing resource.
-- **Use Cases**:  
+
+**Use Cases**:  
   - Set to `true` for greenfield deployments where isolation and a clean environment are required.
   - Set to `false` when integrating with pre-existing network infrastructure.
-- **Best Practices**:  
+
+**Best Practices**:  
   - Use `true` to ensure proper isolation for each environment.
   - For production or hybrid scenarios, consider using existing, well-managed VNets.
-- **Considerations**:  
+
+**Considerations**:  
   - Creating new VNets may require additional configuration for connectivity with on-premises or other Azure resources.
 
 ---
 
 ### virtualNetworkType
 
-- **Configuration Purpose**:  
+**Configuration Purpose**:  
   Specifies whether the VNet is managed by Azure or by the customer.
-- **Default Configuration**:  
+
+**Default Configuration**:  
   ```yaml
   virtualNetworkType: Managed
   ```
-- **Configuration Structure**:  
+**Configuration Structure**:  
   String (`Managed` or `Unmanaged`)
-- **Detailed Configuration**:  
+
+**Detailed Configuration**:  
   - `Managed`: Azure automates network configuration, simplifying setup and reducing required permissions.
   - `Unmanaged`: The customer is responsible for network configuration, providing greater control and flexibility.
-- **Use Cases**:  
+
+**Use Cases**:  
   - Use `Managed` for dev/test environments or when simplicity is preferred.
   - Use `Unmanaged` for production or hybrid scenarios requiring custom routing, security, or on-premises connectivity.
-- **Best Practices**:  
+
+**Best Practices**:  
   - Default to `Managed` unless advanced networking features are required.
-- **Considerations**:  
+
+**Considerations**:  
   - `Unmanaged` networks require more expertise and maintenance.
 
 ---
 
 ### name
 
-- **Configuration Purpose**:  
+**Configuration Purpose**:  
   Sets the name of the virtual network resource.
-- **Default Configuration**:  
+
+**Default Configuration**:  
   ```yaml
   name: contoso-vnet
   ```
-- **Configuration Structure**:  
+**Configuration Structure**:  
   String (resource name)
-- **Detailed Configuration**:  
+
+**Detailed Configuration**:  
   - Should follow naming conventions for clarity and manageability.
   - Format: `[company]-[purpose]-[env]-vnet`
-- **Use Cases**:  
+
+**Use Cases**:  
   - Naming for easy identification in the Azure portal and automation scripts.
-- **Best Practices**:  
+
+**Best Practices**:  
   - Use lowercase, include company, purpose, environment, and resource type.
-- **Considerations**:  
+
+**Considerations**:  
   - Avoid special characters; ensure uniqueness within the resource group.
 
 ---
 
 ### addressPrefixes
 
-- **Configuration Purpose**:  
+**Configuration Purpose**:  
   Defines the IP address range(s) for the VNet using CIDR notation.
-- **Default Configuration**:  
+
+**Default Configuration**:  
   ```yaml
   addressPrefixes:
     - 10.0.0.0/16
   ```
-- **Configuration Structure**:  
+**Configuration Structure**:  
   List of strings (CIDR blocks)
-- **Detailed Configuration**:  
+
+**Detailed Configuration**:  
   - Use private IP ranges (e.g., 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16).
   - Ensure no overlap with on-premises or other Azure VNets.
-- **Use Cases**:  
+
+**Use Cases**:  
   - Allocating sufficient address space for current and future workloads.
-- **Best Practices**:  
+
+**Best Practices**:  
   - Plan for growth; avoid overlapping with other networks.
-- **Considerations**:  
+
+**Considerations**:  
   - Changing address space after deployment is complex.
 
 ---
 
 ### subnets
 
-- **Configuration Purpose**:  
+**Configuration Purpose**:  
   Defines subnets within the VNet for segmenting resources.
-- **Default Configuration**:  
+
+**Default Configuration**:  
   ```yaml
   subnets:
     - name: contoso-subnet
       properties:
         addressPrefix: 10.0.1.0/24
   ```
-- **Configuration Structure**:  
+**Configuration Structure**:  
   List of objects, each with:
   - `name`: String (subnet name)
   - `properties.addressPrefix`: String (CIDR block)
-- **Detailed Configuration**:  
+
+**Detailed Configuration**:  
   - Each subnet should be sized for expected resource count plus growth.
   - Subnets can be used to apply network security groups (NSGs) and route tables.
-- **Use Cases**:  
+
+**Use Cases**:  
   - Isolating workloads, applying security policies, or segmenting environments.
-- **Best Practices**:  
+
+**Best Practices**:  
   - Create separate subnets for different workloads or security zones.
   - Apply NSGs at the subnet level.
-- **Considerations**:  
+
+**Considerations**:  
   - Azure reserves 5 IPs per subnet; plan accordingly.
 
 ---
 
 ### tags
 
-- **Configuration Purpose**:  
+**Configuration Purpose**:  
   Attaches metadata to resources for organization, governance, and cost management.
-- **Default Configuration**:  
+
+**Default Configuration**:  
   ```yaml
   tags:
     environment: dev
@@ -210,9 +236,10 @@ tags:
     owner: Contoso
     resources: Network
   ```
-- **Configuration Structure**:  
+**Configuration Structure**:  
   Key-value pairs (strings)
-- **Detailed Configuration**:  
+
+**Detailed Configuration**:  
   - `environment`: Deployment environment (dev, test, staging, prod)
   - `division`: Organizational division responsible for the resource
   - `team`: Team responsible for the resource
@@ -220,12 +247,15 @@ tags:
   - `costCenter`: Cost center for charge-back/show-back
   - `owner`: Resource owner (individual or team)
   - `resources`: Resource type or purpose
-- **Use Cases**:  
+
+**Use Cases**:  
   - Filtering resources, applying policies, cost allocation, and lifecycle management.
-- **Best Practices**:  
+
+**Best Practices**:  
   - Apply consistent tags across all resources.
   - Automate tagging where possible.
-- **Considerations**:  
+
+**Considerations**:  
   - Inconsistent tagging can hinder resource management and reporting.
 
 ---
