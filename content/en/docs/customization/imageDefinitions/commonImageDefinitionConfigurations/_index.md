@@ -5,13 +5,9 @@ description: >
 weight: 9
 ---
 
-Collecting workspace informationI'll analyze the DSC configuration file and create a Markdown document that explains it thoroughly, focusing on Azure best practices and integration.
-
-# Microsoft Dev Box - Common Configuration Documentation
-
 ## Overview
 
-This document provides comprehensive documentation for the common-config.dsc.yaml configuration file used in the Microsoft Dev Box landing zone accelerator. This Desired State Configuration (DSC) file establishes a standardized development environment with components optimized for Azure development.
+This document provides comprehensive documentation for the **common-config.dsc.yaml** configuration file used in the Microsoft Dev Box landing zone accelerator. This [Desired State Configuration (DSC)](https://learn.microsoft.com/en-us/powershell/dsc/overview?view=dsc-3.0&source=recommendations) file establishes a standardized development environment with components optimized for Azure development.
 
 ## Contents
 

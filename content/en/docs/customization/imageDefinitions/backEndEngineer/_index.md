@@ -7,7 +7,7 @@ weight: 11
 
 ## Overview
 
-This document provides comprehensive documentation for the Microsoft Dev Box landing zone accelerator Backend Development Configuration Sample. The DSC (Desired State Configuration) file sets up a standardized Azure backend development environment, ensuring developers have all necessary tools and best practices implemented.
+This document provides comprehensive documentation for the Microsoft Dev Box landing zone accelerator Backend Development Configuration Sample. The [Desired State Configuration (DSC)](https://learn.microsoft.com/en-us/powershell/dsc/overview?view=dsc-3.0&source=recommendations). file sets up a standardized Azure backend development environment, ensuring developers have all necessary tools and best practices implemented.
 
 ## Configuration Details
 
