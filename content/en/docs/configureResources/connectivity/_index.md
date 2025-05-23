@@ -23,6 +23,12 @@ This file is intended to be used as part of the Dev Box Accelerator’s infrastr
 
 ---
 
+## Components Visualization
+
+![Connectivity](connectivity.png)
+
+---
+
 ## Table of Contents
 
 - [Overview](#overview)
