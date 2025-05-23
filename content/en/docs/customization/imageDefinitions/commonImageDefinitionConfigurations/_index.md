@@ -1,7 +1,7 @@
 ---
-title: Common Configuration Sample for .NET Engineers 
+title: Common Configuration 
 description: >
-    Dev Box Image Definitions
+    Sample for .NET Engineers
 weight: 9
 ---
 

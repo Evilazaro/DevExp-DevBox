@@ -1,7 +1,7 @@
 ---
-title: Front-end Development Configuration Sample for .NET Engineers
+title: Front-end Development
 description: >
-    Dev Box Image Definitions
+    Configuration Sample for .NET Engineers
 weight: 10
 ---
 

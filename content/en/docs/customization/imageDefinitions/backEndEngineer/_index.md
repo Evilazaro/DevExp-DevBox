@@ -1,7 +1,7 @@
 ---
-title: Back-end Development Configuration Sample for .NET Engineers 
+title: Back-end Development 
 description: >
-    Dev Box Image Definitions
+    Configuration Sample for .NET Engineers
 weight: 11
 ---
 
