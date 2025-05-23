@@ -17,48 +17,36 @@ weight: 8
 
 ## Overview
 
-This documentation details the network configuration for Dev Box accelerator. The configuration defines a managed virtual network infrastructure that isolates Dev Box resources while enabling secure connectivity to both Azure services and corporate resources.
+The **newtork.yaml** file defines the virtual network infrastructure for Microsoft Dev Box environments. It specifies how Azure Virtual Networks (VNets) and subnets are created and configured, ensuring secure, isolated, and scalable connectivity for Dev Box resources. This configuration is essential for managing network boundaries, applying security controls, and supporting connectivity to Azure services and corporate resources.
+
+This file is intended for use with infrastructure-as-code deployments, enabling repeatable, auditable, and automated network provisioning in Azure.
+
+---
 
 ## Table of Contents
 
-- [Connectivity Components](#connectivity-components)
-- [Configuration Purpose](#configuration-purpose)
-- [Default Settings](#default-settings)
-- [Network Creation](#network-creation)
-- [Virtual Network Type](#virtual-network-type)
-- [Virtual Network Name](#virtual-network-name)
-- [Address Space](#address-space)
-- [Subnet Configuration](#subnet-configuration)
-- [Resource Tagging](#resource-tagging)
+- [Overview](#overview)
+- [Configuration Items](#configuration-items)
+  - [`create`](#create)
+  - [`virtualNetworkType`](#virtualnetworktype)
+  - [`name`](#name)
+  - [`addressPrefixes`](#addressprefixes)
+  - [`subnets`](#subnets)
+  - [`tags`](#tags)
 - [Best Practices](#best-practices)
-  - [Network Design](#network-design)
-  - [Connectivity](#connectivity)
-  - [Management](#management)
-  - [Security](#security)
 - [References](#references)
 
-## Connectivity Components
+---
 
-![Connectivity Components](connectivity.png)
-
-## Configuration Purpose
-
-The network configuration (`network.yaml`) establishes the networking foundation for Dev Box accelerator environments. It defines a virtual network that:
-
-- Creates isolated network boundaries for Dev Box workstations
-- Enables controlled access to Azure services
-- Provides connectivity options to corporate networks
-- Follows Azure networking best practices
-
-### Default Configuration 
+## Default Configuration
 
 ```yaml
 # yaml-language-server: $schema=./network.schema.json
 #
-# Dev Box accelerator: Network Configuration
+# Microsoft Dev Box accelerator: Network Configuration
 # ===============================================
 # 
-# Purpose: Defines the virtual network infrastructure for Dev Box accelerator environments.
+# Purpose: Defines the virtual network infrastructure for environments.
 # This configuration creates a managed virtual network that isolates DevBox resources
 # while enabling secure connectivity to Azure services and corporate resources.
 #
@@ -69,13 +57,13 @@ The network configuration (`network.yaml`) establishes the networking foundation
 create: true
 virtualNetworkType: Managed
 name: contoso-vnet
-
 addressPrefixes:
   - 10.0.0.0/16
 subnets:
   - name: contoso-subnet
     properties:
       addressPrefix: 10.0.1.0/24
+
 tags:
   environment: dev
   division: Platforms
@@ -86,130 +74,105 @@ tags:
   resources: Network
 ```
 
-## Network Creation
+---
 
-```yaml
-create: true
-```
+## Configuration Items
 
-**Description**: Determines whether to create a new virtual network or use an existing one.
+### `create`
 
-**Options**:
-- `true`: Creates a new dedicated virtual network (recommended for isolation)
-- `false`: Uses an existing virtual network (use when integrating with established networks)
+- **Description:** Determines whether to create a new virtual network (`true`) or use an existing one (`false`).
+- **Type:** Boolean
+- **Example:**
+  ```yaml
+  create: true
+  ```
+- **Use Case:**  
+  Set to `true` to provision a dedicated VNet for each environment, ensuring isolation and reducing the risk of cross-environment interference.
 
-**Best practice**: Create dedicated VNets per environment to maintain proper isolation between development, testing, and production workloads.
+---
 
-## Virtual Network Type
+### `virtualNetworkType`
 
-```yaml
-virtualNetworkType: Managed
-```
+- **Description:** Specifies how the network is managed.
+- **Options:**
+  - `Managed`: Azure manages the network configuration (recommended for dev/test).
+  - `Unmanaged`: The customer manages the network (required for hybrid or production scenarios).
+- **Example:**
+  ```yaml
+  virtualNetworkType: Managed
+  ```
+- **Use Case:**  
+  Use `Managed` for simplicity and reduced permissions in dev/test. Use `Unmanaged` for greater control, especially when integrating with on-premises networks.
 
-**Description**: Controls how network connectivity is provisioned and managed.
+---
 
-**Options**:
-- `Managed`: Azure manages the network configuration
-  - Simpler setup
-  - Fewer permissions needed
-  - Handles DNS resolution automatically
-  - Azure handles connectivity management
-  
-- `Unmanaged`: Customer manages the network configuration
-  - Provides greater control
-  - Required for hybrid connectivity scenarios
-  - Allows custom DNS configuration
-  - Enables integration with on-premises networks
+### `name`
 
-**Best practice**: Use Managed for dev/test environments; switch to Unmanaged for production or when connecting to on-premises networks.
+- **Description:** The name of the virtual network resource.
+- **Type:** String
+- **Naming Convention:** Lowercase, includes company, purpose, environment, and `vnet` suffix.
+- **Example:**
+  ```yaml
+  name: contoso-vnet
+  ```
+- **Use Case:**  
+  Ensures consistent and descriptive naming for easier management and identification.
 
-## Virtual Network Name
+---
 
-```yaml
-name: contoso-vnet
-```
+### `addressPrefixes`
 
-**Description**: Identifier for the VNet resource in Azure.
+- **Description:** List of CIDR blocks defining the VNet's IP address space.
+- **Type:** Array of strings
+- **Example:**
+  ```yaml
+  addressPrefixes:
+    - 10.0.0.0/16
+  ```
+- **Use Case:**  
+  Use private address ranges. Avoid overlaps with on-premises or other Azure VNets. Allocate enough space for current and future resources.
 
-**Naming convention best practices**:
-- Use lowercase letters, numbers, and hyphens
-- Include company name, purpose, and environment
-- Follow format: `[company]-[purpose]-[env]-vnet`
-- Keep names consistent across environments
+---
 
-**Examples**:
-- `contoso-devbox-dev-vnet`
-- `contoso-devbox-prod-vnet`
+### `subnets`
 
-## Address Space
+- **Description:** Defines subnets within the VNet, each with its own address prefix and properties.
+- **Type:** Array of objects
+- **Example:**
+  ```yaml
+  subnets:
+    - name: contoso-subnet
+      properties:
+        addressPrefix: 10.0.1.0/24
+  ```
+- **Use Case:**  
+  Segment resources by workload or security requirements. Apply Network Security Groups (NSGs) at the subnet level for traffic filtering.
 
-```yaml
-addressPrefixes:
-  - 10.0.0.0/16
-```
+---
 
-**Description**: CIDR blocks that define the IP address range for the virtual network.
+### `tags`
 
-**Configuration details**:
-- Uses private IP range (10.0.0.0/16) providing 65,536 IP addresses
-- Can include multiple address prefixes if needed
-- Follows RFC 1918 private address standards
+- **Description:** Key-value pairs for resource metadata, organization, governance, and cost management.
+- **Type:** Object
+- **Example:**
+  ```yaml
+  tags:
+    environment: dev
+    division: Platforms
+    team: DevExP
+    project: DevExP-DevBox
+    costCenter: IT
+    owner: Contoso
+    resources: Network
+  ```
+- **Use Case:**  
+  Enables filtering, cost allocation, and policy enforcement. Tags should be consistent and automated where possible.
 
-**Best practices**:
-- Use private ranges (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)
-- Ensure no overlap with on-premises networks or other Azure VNets
-- Allocate sufficient address space for future growth
-- Document your IP addressing scheme
+---
 
-## Subnet Configuration
+## References
 
-```yaml
-subnets:
-  - name: contoso-subnet
-    properties:
-      addressPrefix: 10.0.1.0/24
-```
-
-**Description**: Network segments within the VNet to organize and secure resources.
-
-**Configuration details**:
-- `name`: Identifies the subnet (should follow naming conventions)
-- `addressPrefix`: CIDR block for the subnet within the VNet's address space
-  - A /24 subnet provides 251 usable IP addresses (Azure reserves 5 IPs)
-
-**Best practices**:
-- Create separate subnets based on workload type and security requirements
-- Apply Network Security Groups (NSGs) at the subnet level for traffic filtering
-- Size subnets appropriately for the expected number of resources plus growth
-- Consider adding service endpoints to secure access to Azure services
-
-## Resource Tagging
-
-```yaml
-tags:
-  environment: dev
-  division: Platforms
-  team: DevExP
-  project: DevExP-DevBox
-  costCenter: IT
-  owner: Contoso
-  resources: Network
-```
-
-**Description**: Metadata attached to resources for organization, governance, and cost management.
-
-**Tag details**:
-- `environment`: Identifies the deployment environment (dev, test, staging, prod)
-- `division`: Organizational division responsible for the resource
-- `team`: Team responsible for operational ownership
-- `project`: Associates the resource with a specific project
-- `costCenter`: Links resource costs to specific cost centers
-- `owner`: Identifies the resource owner (individual or team)
-- `resources`: Describes the resource type or purpose
-
-**Best practices**:
-- Apply consistent tags across all resources
-- Automate tagging with naming and tagging conventions
-- Include ownership, environment, and cost allocation information
-- Use Azure Policy to enforce mandatory tags
-- Regularly audit and update tags
+- [Azure Virtual Network Documentation](https://learn.microsoft.com/en-us/azure/virtual-network/)
+- [Azure VNet Best Practices](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/hybrid-networking/)
+- [Dev Box Networking](https://learn.microsoft.com/en-us/azure/dev-box/how-to-configure-network-connectivity)
+- [Azure Resource Tagging Best Practices](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources)
