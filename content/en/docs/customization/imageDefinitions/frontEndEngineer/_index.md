@@ -1,5 +1,5 @@
 ---
-title: Accelerator Frontend Development Configuration Guide
+title: Frontend Development Configuration Sample
 description: >
     Dev Box Image Definitions
 weight: 10
@@ -7,7 +7,7 @@ weight: 10
 
 ## Overview
 
-This document provides comprehensive documentation for the frontend development configuration used in the Microsoft Dev Box landing zone accelerator. This configuration establishes a standardized Azure frontend development environment through Desired State Configuration (DSC).
+This document provides comprehensive documentation for the Frontend Development Configuration Sample used in the Microsoft Dev Box landing zone accelerator. This configuration establishes a standardized Azure frontend development environment through Desired State Configuration (DSC).
 
 ## Configuration Details
 

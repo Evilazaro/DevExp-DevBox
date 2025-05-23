@@ -1,9 +1,13 @@
 ---
-title: Accelerator Common Engineer Image Configuration Documentation
+title: Common Engineer Image Configuration Sample
 description: >
     Dev Box Image Definitions
 weight: 9
 ---
+
+Collecting workspace informationI'll analyze the DSC configuration file and create a Markdown document that explains it thoroughly, focusing on Azure best practices and integration.
+
+# Microsoft Dev Box - Common Configuration Documentation
 
 ## Overview
 
