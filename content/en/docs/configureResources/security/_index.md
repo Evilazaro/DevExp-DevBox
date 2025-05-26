@@ -14,54 +14,83 @@ tags:
 weight: 7
 ---
 
+# Azure Key Vault Configuration (security.yaml)  
+*Part of Dev Box Accelerator Infrastructure Settings*
+
+---
+
 ## Overview
 
-This document provides detailed security configuration information for the Dev Box Accelerator defined in `security.yaml`. The configuration describes an Azure Key Vault resource to be deployed for storing sensitive credentials and secrets in a development environment.
+The security.yaml file defines the configuration for an **Azure Key Vault** resource, which is a critical component of the Dev Box Accelerator's infrastructure settings. This file is located at security.yaml and is responsible for specifying how sensitive credentials and secrets are managed in the development environment. By centralizing secret management, the configuration ensures secure storage, access control, and compliance with organizational security policies.
+
+The Key Vault configuration in this file enables teams to automate the provisioning and management of secrets, tokens, and other sensitive data, supporting secure DevOps workflows and protecting resources in the cloud.
+
+---
 
 ## Table of Contents
 
-- [Security Components](#security-components)
-- [Configuration Purpose](#configuration-purpose)
-- [Default Configuration](#default-configuration)
-- [Configuration Structure](#configuration-structure)
-- [Detailed Configuration](#detailed-configuration)
-  - [Creation Flag](#creation-flag)
-  - [Basic Key Vault Settings](#basic-key-vault-settings)
-  - [Security Settings](#security-settings)
-  - [Resource Organization (Tags)](#resource-organization-tags)
-- [Best Practices](#best-practices)
-- [Considerations](#considerations)
-- [Additional Resources](#additional-resources)
+- create
+- keyVault
+  - name
+  - description
+  - secretName
+  - enablePurgeProtection
+  - enableSoftDelete
+  - softDeleteRetentionInDays
+  - enableRbacAuthorization
+  - tags
 
-## Security Components
+---
 
-![Security Components](security.png)
+## Configuration Items
 
-## Configuration Purpose
+---
 
-Azure Key Vault in Dev Box environments serves several critical purposes:
+### `create`
 
-1. **Centralized Secret Management**: Securely store and manage access to GitHub tokens, connection strings, certificates, and other secrets needed by Dev Box environments
-2. **Controlled Access**: Implement role-based access control (RBAC) to restrict which developers and services can access specific secrets
-3. **Audit Logging**: Track when and by whom secrets are accessed for security monitoring
-4. **Secret Rotation**: Enable secure rotation of credentials without disrupting dependent applications
-5. **Compliance Requirements**: Meet organizational security and compliance requirements for secret management
+| Property | Type    | Default | Required | Description                                 |
+|----------|---------|---------|----------|---------------------------------------------|
+| create   | boolean | true    | Yes      | Whether to create the Azure Key Vault       |
 
-The Key Vault configuration is designed to follow Azure security best practices while providing flexibility for different development scenarios.
+#### Purpose
+Determines if the Key Vault resource should be provisioned as part of the deployment.
 
-## Default Configuration
-
-The default configuration is designed for a development environment with appropriate security controls. It includes:
-
+#### Default Configuration
 ```yaml
 create: true
+```
+
+#### Detailed Configuration
+- `true`: The Key Vault will be created during deployment.
+- `false`: The Key Vault will not be created (useful if an existing vault is managed externally).
+
+#### Use Cases
+- Set to `true` for new environments.
+- Set to `false` if using a pre-existing Key Vault.
+
+#### Best Practices
+- Use `true` for automated, repeatable deployments.
+- Use `false` to avoid accidental overwrites in shared environments.
+
+#### Considerations
+- Ensure the value aligns with your infrastructure provisioning strategy.
+
+---
+
+### `keyVault`
+
+#### Purpose
+Defines all settings related to the Azure Key Vault resource.
+
+#### Default Configuration
+```yaml
 keyVault:
   name: contoso
   description: Development Environment Key Vault
   secretName: gha-token
   enablePurgeProtection: true
   enableSoftDelete: true
-  softDeleteRetentionInDays: 90
+  softDeleteRetentionInDays: 7
   enableRbacAuthorization: true
   tags:
     environment: dev
@@ -74,111 +103,112 @@ keyVault:
     resources: ResourceGroup
 ```
 
-This configuration establishes a baseline that can be customized according to your specific requirements.
+#### Detailed Configuration
 
-## Configuration Structure
+##### `name`
 
-The configuration is organized into several sections:
+| Property | Type   | Default  | Required | Description                                 |
+|----------|--------|----------|----------|---------------------------------------------|
+| name     | string | contoso  | Yes      | Globally unique name of the Key Vault       |
 
-1. **Creation Flag**
-2. **Basic Key Vault Settings**
-3. **Security Settings**
-4. **Resource Organization (Tags)**
+- **Purpose:** Identifies the Key Vault resource.
+- **Best Practices:** Use a unique, descriptive name following naming conventions.
+- **Considerations:** Must be globally unique in Azure.
 
-## Detailed Configuration
+##### `description`
 
-### Creation Flag
+| Property    | Type   | Default                         | Required | Description                      |
+|-------------|--------|---------------------------------|----------|----------------------------------|
+| description | string | Development Environment Key Vault | No       | Purpose of the Key Vault         |
 
-```yaml
-create: true
-```
+- **Purpose:** Documents the intended use of the Key Vault.
+- **Best Practices:** Keep descriptions clear and concise.
 
-| Parameter | Description | Value |
-|-----------|-------------|-------|
-| `create` | Determines whether the Key Vault resource should be created | `true` (resource will be created) |
+##### `secretName`
 
-### Basic Key Vault Settings
+| Property   | Type   | Default    | Required | Description                         |
+|------------|--------|------------|----------|-------------------------------------|
+| secretName | string | gha-token  | Yes      | Name of the secret (e.g., token)    |
 
-```yaml
-keyVault:
-  name: contoso
-  description: Development Environment Key Vault
-  secretName: gha-token
-```
+- **Purpose:** Specifies the name of a secret to be stored (e.g., GitHub Actions token).
+- **Use Cases:** Store CI/CD tokens, API keys, etc.
 
-| Parameter | Description | Value | Notes |
-|-----------|-------------|-------|-------|
-| `name` | Name of the Key Vault | `contoso` | Must be globally unique across all of Azure. Should follow naming conventions (3-24 alphanumeric characters). |
-| `description` | Purpose of this Key Vault | `Development Environment Key Vault` | Provides context for the resource's intended use. |
-| `secretName` | Name of the GitHub Actions token secret | `gha-token` | Identifies the secret that will store GitHub Actions authentication token. |
+##### `enablePurgeProtection`
 
-### Security Settings
+| Property             | Type    | Default | Required | Description                                             |
+|----------------------|---------|---------|----------|---------------------------------------------------------|
+| enablePurgeProtection| boolean | true    | No       | Prevents permanent deletion of secrets                  |
 
-```yaml
-enablePurgeProtection: true
-enableSoftDelete: true
-softDeleteRetentionInDays: 90
-enableRbacAuthorization: true
-```
+- **Purpose:** Ensures secrets cannot be permanently deleted, even by authorized users.
+- **Best Practices:** Always enable in production for compliance.
 
-| Parameter | Description | Value | Notes |
-|-----------|-------------|-------|-------|
-| `enablePurgeProtection` | Prevents permanent deletion of secrets | `true` | Provides additional protection against accidental or malicious deletion. |
-| `enableSoftDelete` | Enables recovery of deleted secrets | `true` | Azure recommended security practice. |
-| `softDeleteRetentionInDays` | Retention period for deleted items | `90` days | Maximum allowed value is 90 days. Minimum is 7 days. |
-| `enableRbacAuthorization` | Authentication mechanism | `true` | Uses Azure RBAC instead of vault access policies for more granular control. |
+##### `enableSoftDelete`
 
-### Resource Organization (Tags)
+| Property         | Type    | Default | Required | Description                                 |
+|------------------|---------|---------|----------|---------------------------------------------|
+| enableSoftDelete | boolean | true    | No       | Allows recovery of deleted secrets           |
 
-```yaml
-tags:
-  environment: dev
-  division: Platforms
-  team: DevExP
-  project: Contoso-DevExp-DevBox
-  costCenter: IT
-  owner: Contoso
-  landingZone: security
-  resources: ResourceGroup
-```
+- **Purpose:** Enables recovery of deleted secrets within a retention period.
+- **Best Practices:** Enable to protect against accidental deletions.
 
-| Tag | Description | Value | Purpose |
-|-----|-------------|-------|---------|
-| `environment` | Deployment environment | `dev` | Identifies non-production environment (dev/test/staging/prod) |
-| `division` | Organizational division | `Platforms` | Maps resource to organizational structure |
-| `team` | Team ownership | `DevExP` | Identifies team responsible for the resource |
-| `project` | Project association | `Contoso-DevExp-DevBox` | Links resource to specific project |
-| `costCenter` | Financial allocation | `IT` | For billing and cost allocation purposes |
-| `owner` | Resource owner | `Contoso` | Identifies organizational ownership |
-| `landingZone` | Landing zone classification | `security` | Categorizes resource within Azure landing zone model |
-| `resources` | Resource grouping | `ResourceGroup` | Identifies grouping strategy |
+##### `softDeleteRetentionInDays`
+
+| Property                  | Type | Default | Required | Description                                         |
+|---------------------------|------|---------|----------|-----------------------------------------------------|
+| softDeleteRetentionInDays | int  | 7       | No       | Days deleted secrets remain recoverable (7-90 days)  |
+
+- **Purpose:** Sets the retention period for soft-deleted secrets.
+- **Considerations:** Choose a value that balances recovery needs and compliance.
+
+##### `enableRbacAuthorization`
+
+| Property                | Type    | Default | Required | Description                                         |
+|-------------------------|---------|---------|----------|-----------------------------------------------------|
+| enableRbacAuthorization | boolean | true    | No       | Uses Azure RBAC for access control                  |
+
+- **Purpose:** Switches access control from vault policies to Azure RBAC.
+- **Best Practices:** Use RBAC for centralized, scalable access management.
+
+##### `tags`
+
+| Property      | Type   | Default Value                  | Description                                 |
+|---------------|--------|-------------------------------|---------------------------------------------|
+| environment   | string | dev                           | Deployment environment                      |
+| division      | string | Platforms                     | Organizational division                     |
+| team          | string | DevExP                        | Team responsible                            |
+| project       | string | Contoso-DevExp-DevBox         | Associated project                          |
+| costCenter    | string | IT                            | Cost center for billing                     |
+| owner         | string | Contoso                       | Resource owner                              |
+| landingZone   | string | security                      | Azure landing zone classification           |
+| resources     | string | ResourceGroup                 | Resource grouping identifier                |
+
+- **Purpose:** Adds metadata for resource organization, billing, and management.
+- **Best Practices:** Use consistent tagging across resources for governance.
+
+---
 
 ## Best Practices
 
-This configuration implements several Azure Key Vault best practices:
+- **Security:** Always enable `enablePurgeProtection` and `enableSoftDelete` for production environments.
+- **Access Control:** Prefer `enableRbacAuthorization` for scalable and auditable access management.
+- **Naming:** Use clear, unique names for resources and secrets.
+- **Tagging:** Apply consistent tags for cost management, ownership, and automation.
+- **Documentation:** Keep descriptions up to date for operational clarity.
+- **Retention:** Set `softDeleteRetentionInDays` according to compliance and recovery requirements.
 
-1. **Data Protection**:
-   - Soft delete enabled with 90-day retention period
-   - Purge protection enabled to prevent permanent deletion
-
-2. **Access Control**:
-   - RBAC authorization enabled (more granular than access policies)
-
-3. **Organization**:
-   - Comprehensive tagging strategy for governance and management
-   - Clear naming conventions
+---
 
 ## Considerations
 
-When working with this configuration, consider:
+- **Global Uniqueness:** The Key Vault name must be unique across Azure.
+- **Compliance:** Some settings (like purge protection) may be required for regulatory compliance.
+- **Automation:** Ensure the `create` flag aligns with your CI/CD and infrastructure-as-code workflows.
+- **Cost:** Retention and protection features may impact resource costs.
 
-1. **Key Vault Name**: The `contoso` name must be globally unique across Azure
-2. **Secret Management**: Additional access policies may need configuration
-3. **Networking**: Consider adding network security rules for production environments
-4. **Compliance**: Verify that the configuration meets your organization's compliance requirements
+---
 
-## Additional Resources
+## References
 
-- [Azure Key Vault documentation](https://docs.microsoft.com/en-us/azure/key-vault/)
-- [Azure Key Vault security best practices](https://docs.microsoft.com/en-us/azure/key-vault/general/security-best-practices)
-- [Azure tagging best practices](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-tagging)
+- [Azure Key Vault Documentation](https://learn.microsoft.com/azure/key-vault/general/)
+- [Azure Key Vault Best Practices](https://learn.microsoft.com/azure/key-vault/general/best-practices)
+- [Azure Resource Tagging](https://learn.microsoft.com/azure/azure-resource-manager/management/tag-resources)
