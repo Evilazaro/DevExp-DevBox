@@ -17,157 +17,187 @@ weight: 8
 
 ## Overview
 
-The **newtork.yaml** file defines the virtual network infrastructure for environments managed by the **Microsoft Dev Box Accelerator**. This YAML configuration is a key part of the accelerator’s infrastructure-as-code approach, enabling automated, consistent, and secure provisioning of Azure Virtual Networks (VNets) and related resources. It ensures Dev Box resources are isolated, securely connected to Azure services, and aligned with organizational governance and cost management requirements.
+The newtork.yaml file defines the virtual network infrastructure for Microsoft Dev Box environments. As part of the Dev Box Accelerator, this configuration enables secure, isolated, and scalable networking for developer resources in Azure. It specifies how virtual networks (VNets), subnets, and resource tags are provisioned and managed, ensuring alignment with Azure best practices for security, governance, and operational efficiency.
 
-This file is intended to be used as part of a broader set of infrastructure settings, providing a declarative way to manage network topology, address spaces, subnets, and resource tagging for Dev Box environments.
+This file is essential for automating and standardizing network setup, supporting both managed and unmanaged network scenarios, and providing metadata for resource management and cost allocation.
 
 ---
 
 ## Table of Contents
 
-- [Create](#create)
-- [Virtual Network Type](#virtual-network-type)
-- [Virtual Network Name](#virtual-network-name)
-- [Address Prefixes](#address-prefixes)
-- [Subnets](#subnets)
-- [Tags](#tags)
+- Create Flag (`create`)
+- Virtual Network Type (`virtualNetworkType`)
+- Virtual Network Name (`name`)
+- Address Prefixes (`addressPrefixes`)
+- Subnets (`subnets`)
+- Tags (`tags`)
 
 ---
 
-## Configuration Items
+## Create Flag (`create`)
 
----
+| Key    | Type    | Default | Description                                      |
+|--------|---------|---------|--------------------------------------------------|
+| create | boolean | true    | Whether to create a new VNet or use an existing one |
 
-### Create
+### Purpose
 
-| Key    | Type    | Default | Example |
-|--------|---------|---------|---------|
-| create | Boolean | `true`  | `true` or `false` |
+Determines if a new virtual network should be created or if an existing network will be used for the Dev Box environment.
 
-#### Purpose
-Determines whether to create a new virtual network or use an existing one.
+### Default Configuration
 
-#### Default Configuration
 ```yaml
 create: true
 ```
 
-#### Detailed Configuration
-- `true`: A new, dedicated VNet will be created for the environment.
-- `false`: An existing VNet will be used.
+### Detailed Configuration
 
-#### Use Cases
-- Set to `true` for isolated, environment-specific VNets (recommended for dev/test).
-- Set to `false` when integrating with pre-existing corporate networks.
+- `true`: A new, dedicated VNet is created for the environment.
+- `false`: An existing VNet is used, which may be shared with other resources.
 
-#### Best Practices
-- Use dedicated VNets per environment for isolation and security.
-- Automate VNet creation for repeatable deployments.
+### Use Cases
 
-#### Considerations
-- Using existing VNets may require additional permissions and careful address space management.
+- **true**: For isolated dev/test environments where network separation is required.
+- **false**: When integrating with existing corporate networks or hybrid scenarios.
+
+### Best Practices
+
+- Use `true` for each environment to maintain isolation and reduce risk of cross-environment impact.
+- Use `false` only when you have strict requirements to integrate with existing VNets.
+
+### Considerations
+
+- Creating new VNets increases isolation but may add management overhead.
+- Using existing VNets requires careful IP planning to avoid conflicts.
 
 ---
 
-### Virtual Network Type
+## Virtual Network Type (`virtualNetworkType`)
 
-| Key                | Type   | Default    | Example      |
-|--------------------|--------|------------|--------------|
-| virtualNetworkType | String | `Managed`  | `Managed` or `Unmanaged` |
+| Key                | Type   | Default   | Description                                 |
+|--------------------|--------|-----------|---------------------------------------------|
+| virtualNetworkType | string | Managed   | How the VNet is provisioned and managed     |
 
-#### Purpose
-Specifies how network connectivity is provisioned and managed.
+### Purpose
 
-#### Default Configuration
+Specifies whether Azure manages the VNet configuration or if the customer does.
+
+### Default Configuration
+
 ```yaml
 virtualNetworkType: Managed
 ```
 
-#### Detailed Configuration
-- `Managed`: Azure manages the network configuration (simpler, fewer permissions).
-- `Unmanaged`: Customer manages the network (greater control, required for hybrid/on-prem scenarios).
+### Detailed Configuration
 
-#### Use Cases
-- Use `Managed` for dev/test environments.
-- Use `Unmanaged` for production or hybrid connectivity.
+- `Managed`: Azure automates network setup, ideal for dev/test.
+- `Unmanaged`: Customer is responsible for network configuration, required for advanced or hybrid scenarios.
 
-#### Best Practices
-- Prefer `Managed` for simplicity unless advanced scenarios require `Unmanaged`.
+### Use Cases
 
-#### Considerations
-- `Unmanaged` requires more expertise and responsibility for security and routing.
+- **Managed**: Quick setup, fewer permissions, less complexity.
+- **Unmanaged**: Needed for production, custom routing, or on-premises connectivity.
+
+### Best Practices
+
+- Use `Managed` for most dev/test workloads.
+- Use `Unmanaged` for production or when integrating with on-premises networks.
+
+### Considerations
+
+- `Managed` networks may not support all advanced features.
+- `Unmanaged` requires more Azure networking expertise.
 
 ---
 
-### Virtual Network Name
+## Virtual Network Name (`name`)
 
-| Key  | Type   | Default         | Example                |
-|------|--------|-----------------|------------------------|
-| name | String | `contoso-vnet`  | `contoso-dev-devbox-vnet` |
+| Key  | Type   | Default         | Description                      |
+|------|--------|-----------------|----------------------------------|
+| name | string | contoso-vnet    | Name of the virtual network      |
 
-#### Purpose
-Defines the name of the VNet resource.
+### Purpose
 
-#### Default Configuration
+Defines the unique name for the VNet resource.
+
+### Default Configuration
+
 ```yaml
 name: contoso-vnet
 ```
 
-#### Detailed Configuration
-- Should be lowercase and include company, purpose, environment, and resource type.
+### Detailed Configuration
 
-#### Use Cases
-- Naming conventions help with resource identification and automation.
+- Should follow naming conventions: lowercase, include company, purpose, environment, and resource type.
 
-#### Best Practices
-- Use `[company]-[purpose]-[env]-vnet` format for clarity and consistency.
+### Use Cases
 
-#### Considerations
-- Names must be unique within the resource group.
+- `contoso-dev-devbox-vnet` for a development environment.
+- `contoso-prod-app-vnet` for a production application.
+
+### Best Practices
+
+- Use clear, descriptive names for easier management and automation.
+- Example: `[company]-[purpose]-[env]-vnet`
+
+### Considerations
+
+- Name must be unique within the resource group.
+- Changing the name after deployment may require resource recreation.
 
 ---
 
-### Address Prefixes
+## Address Prefixes (`addressPrefixes`)
 
-| Key             | Type   | Default           | Example           |
-|-----------------|--------|-------------------|-------------------|
-| addressPrefixes | Array  | `10.0.0.0/16`     | `10.1.0.0/16`     |
+| Key             | Type   | Default         | Description                        |
+|-----------------|--------|-----------------|------------------------------------|
+| addressPrefixes | array  | 10.0.0.0/16     | CIDR blocks for the VNet address space |
 
-#### Purpose
-Defines the IP address range(s) for the VNet using CIDR notation.
+### Purpose
 
-#### Default Configuration
+Defines the IP address range(s) for the VNet.
+
+### Default Configuration
+
 ```yaml
 addressPrefixes:
   - 10.0.0.0/16
 ```
 
-#### Detailed Configuration
-- Use private address ranges (e.g., 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16).
+### Detailed Configuration
+
+- Use private IP ranges (RFC 1918).
 - Ensure no overlap with on-premises or other Azure VNets.
 
-#### Use Cases
-- Allocate sufficient address space for current and future resources.
+### Use Cases
 
-#### Best Practices
-- Plan for growth and avoid overlapping ranges.
-- Document address space allocations.
+- `10.0.0.0/16` for large environments.
+- `192.168.100.0/24` for smaller, isolated environments.
 
-#### Considerations
-- Changing address prefixes after deployment is complex and disruptive.
+### Best Practices
+
+- Allocate sufficient space for future growth.
+- Avoid overlapping with existing networks.
+
+### Considerations
+
+- Changing address space after deployment can be complex.
+- Plan for peering and hybrid connectivity.
 
 ---
 
-### Subnets
+## Subnets (`subnets`)
 
-| Key     | Type   | Default Example         | Example Name      |
-|---------|--------|------------------------|-------------------|
-| subnets | Array  | `contoso-subnet`       | `devbox-subnet`   |
+| Key     | Type   | Default Example                | Description                       |
+|---------|--------|-------------------------------|-----------------------------------|
+| subnets | array  | See below                     | Defines subnets within the VNet   |
 
-#### Purpose
-Defines subnets within the VNet for organizing and securing resources.
+### Purpose
 
-#### Default Configuration
+Organizes resources into logical segments for security and management.
+
+### Default Configuration
+
 ```yaml
 subnets:
   - name: contoso-subnet
@@ -175,39 +205,47 @@ subnets:
       addressPrefix: 10.0.1.0/24
 ```
 
-#### Detailed Configuration
-- Each subnet has a name and an address prefix.
-- Subnets segment the VNet for different workloads or security zones.
+### Detailed Configuration
 
-#### Use Cases
-- Separate subnets for Dev Box, databases, and application services.
+- Each subnet has a name and an address prefix within the VNet's address space.
+- Subnets can be sized according to workload requirements.
 
-#### Best Practices
+### Use Cases
+
+- Separate subnets for application, database, and management workloads.
 - Apply Network Security Groups (NSGs) at the subnet level.
-- Size subnets appropriately for expected resource count.
 
-#### Considerations
+### Best Practices
+
+- Create subnets based on workload type and security needs.
+- Size subnets to allow for growth.
+- Apply NSGs for traffic filtering.
+
+### Considerations
+
 - Azure reserves 5 IPs per subnet.
-- Subnet size cannot be changed after creation.
+- Subnet address ranges must not overlap.
 
 ---
 
-### Tags
+## Tags (`tags`)
 
-| Key         | Type   | Example Value      | Purpose                                   |
-|-------------|--------|-------------------|-------------------------------------------|
-| environment | String | `dev`             | Identifies deployment environment         |
-| division    | String | `Platforms`       | Organizational division                   |
-| team        | String | `DevExP`          | Responsible team                          |
-| project     | String | `DevExP-DevBox`   | Associated project                        |
-| costCenter  | String | `IT`              | Cost allocation                           |
-| owner       | String | `Contoso`         | Resource owner                            |
-| resources   | String | `Network`         | Resource type or purpose                  |
+| Key         | Type   | Example Value      | Description                                    |
+|-------------|--------|-------------------|------------------------------------------------|
+| environment | string | dev               | Deployment environment (dev, test, prod, etc.) |
+| division    | string | Platforms         | Organizational division                        |
+| team        | string | DevExP            | Responsible team                               |
+| project     | string | DevExP-DevBox     | Project name                                   |
+| costCenter  | string | IT                | Cost center for billing                        |
+| owner       | string | Contoso           | Resource owner                                 |
+| resources   | string | Network           | Resource type or purpose                       |
 
-#### Purpose
+### Purpose
+
 Attaches metadata to resources for organization, governance, and cost management.
 
-#### Default Configuration
+### Default Configuration
+
 ```yaml
 tags:
   environment: dev
@@ -219,37 +257,32 @@ tags:
   resources: Network
 ```
 
-#### Detailed Configuration
-- Tags are key-value pairs applied to all resources created from this configuration.
+### Detailed Configuration
 
-#### Use Cases
-- Filtering resources, applying policies, and cost tracking.
+- Tags are key-value pairs.
+- Used for filtering, automation, and cost allocation.
 
-#### Best Practices
+### Use Cases
+
+- Automate resource cleanup by environment.
+- Track costs by project or division.
+
+### Best Practices
+
 - Apply consistent tags across all resources.
-- Automate tagging using policies or deployment scripts.
+- Automate tagging via deployment pipelines.
 
-#### Considerations
-- Tag values should follow organizational standards.
-- Some Azure services have tag limits.
+### Considerations
 
----
-
-## Best Practices
-
-- **Consistency**: Use standardized naming and tagging conventions.
-- **Isolation**: Create dedicated VNets per environment for security.
-- **Documentation**: Document address spaces and subnet allocations.
-- **Automation**: Automate network provisioning and tagging.
-- **Security**: Apply NSGs and monitor network traffic.
-- **Scalability**: Plan address spaces and subnet sizes for future growth.
-- **Governance**: Use tags for cost management and resource ownership.
+- Tags are case-sensitive.
+- Some Azure policies may require specific tags.
 
 ---
 
 ## References
 
-- [Azure Virtual Network documentation](https://learn.microsoft.com/en-us/azure/virtual-network/)
-- [Azure Dev Box networking](https://learn.microsoft.com/en-us/azure/dev-box/how-to-configure-network-connectivity)
-- [Azure VNet best practices](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/hybrid-networking/)
-- [Azure resource naming and tagging](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming)
+- [Azure Virtual Network Documentation](https://learn.microsoft.com/en-us/azure/virtual-network/)
+- [Azure Dev Box Networking](https://learn.microsoft.com/en-us/azure/dev-box/how-to-configure-network-connectivity)
+- [Azure Resource Naming and Tagging](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming)
+- [Azure VNet Best Practices](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/hybrid-networking/)
+

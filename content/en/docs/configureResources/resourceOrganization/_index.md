@@ -14,11 +14,13 @@ description: >
 weight: 6
 ---
 
-# Azure Dev Box Accelerator: Resource Groups Configuration (azureResources.yaml)
+# Dev Box Accelerator: Azure Resource Groups Configuration
 
 ## Overview
 
-The **azureResources.yaml** file is a core configuration asset for the **Microsoft Dev Box Accelerator**. It defines the organizational structure of Azure Resource Groups for Dev Box environments, aligning with [Azure Landing Zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/) principles. This file enables teams to segregate resources by functional purpose—such as workload, security, monitoring, and connectivity—ensuring scalable, secure, and manageable Azure environments. By centralizing resource group definitions, it supports consistent governance, cost allocation, and lifecycle management across projects.
+This documentation describes the azureResources.yaml configuration file, which is a core part of the Microsoft Dev Box Accelerator. The file defines the organization and structure of Azure Resource Groups for a Dev Box environment, following Azure Landing Zone principles. It enables teams to segregate resources by functional purpose—such as workload, security, monitoring, and connectivity—ensuring scalable, secure, and manageable cloud infrastructure.
+
+The configuration supports best practices for resource management, access control, cost allocation, and operational monitoring, making it easier to deploy, govern, and maintain Dev Box environments in Azure.
 
 ---
 
@@ -33,20 +35,20 @@ The **azureResources.yaml** file is a core configuration asset for the **Microso
 
 ## Workload Resource Group
 
-| Key         | Type    | Default Value        | Description                                      |
-|-------------|---------|---------------------|--------------------------------------------------|
-| create      | bool    | `true`              | Whether to create the resource group             |
-| name        | string  | `devexp-workload`   | Resource group name                              |
-| description | string  | `prodExp`           | Description of the resource group                |
-| tags        | object  | See below           | Key-value pairs for resource tagging             |
+| Key         | Type    | Default Value         | Description                                                      |
+|-------------|---------|----------------------|------------------------------------------------------------------|
+| create      | bool    | true                 | Whether to create the resource group or use an existing one      |
+| name        | string  | devexp-workload      | Name of the resource group                                       |
+| description | string  | prodExp              | Brief description of the resource group purpose                  |
+| tags        | object  | See below            | Key-value pairs for resource governance and organization         |
 
 ### Purpose
 
-Defines the primary resource group for Dev Box workloads, including Dev Center resources, Dev Box definitions, pools, and project-specific resources.
+The **Workload Resource Group** contains the primary Dev Box workload resources, such as Dev Center resources, Dev Box definitions, Dev Box pools, and project-specific resources. It separates application workloads from infrastructure components for independent scaling, access control, and lifecycle management.
 
 ### Default Configuration
 
-```yaml
+````yaml
 workload:
   create: true
   name: devexp-workload
@@ -60,49 +62,51 @@ workload:
     owner: Contoso
     landingZone: Workload
     resources: ResourceGroup
-```
+````
 
 ### Detailed Configuration
 
-- **create**: Controls whether the resource group is provisioned by automation.
-- **name**: Follows a naming convention for clarity and consistency.
-- **description**: Briefly describes the resource group's purpose.
-- **tags**: Metadata for governance, cost management, and resource classification.
+- **create**: Set to `true` to create a new resource group; set to `false` to use an existing one.
+- **name**: Follows a naming convention for clarity and consistency (e.g., `[project]-[purpose]-[environment]-rg`).
+- **description**: Describes the purpose of the resource group.
+- **tags**: Metadata for governance, cost allocation, and resource management.
 
 ### Use Cases
 
-- Hosting Dev Box pools and definitions for a development project.
-- Segregating application workloads from infrastructure for independent management.
+- Deploying Dev Box resources for a new project.
+- Segregating workloads for different environments (dev, test, prod).
+- Applying role-based access control (RBAC) at the workload level.
 
 ### Best Practices
 
-- Use a consistent naming convention: `[project]-[purpose]-[environment]-rg`.
-- Apply standardized tags for all resources to enable effective cost tracking and governance.
-- Separate workloads from infrastructure for better scalability and access control.
+- Use consistent naming conventions.
+- Apply standardized tags for all resources.
+- Separate workloads from infrastructure for better management.
 
 ### Considerations
 
-- Ensure the naming convention aligns with organizational policies.
-- Tags should be updated to reflect changes in ownership or project scope.
+- Ensure naming conventions align with organizational policies.
+- Review tag values for compliance and cost tracking.
+- Confirm that resource group location matches workload requirements.
 
 ---
 
 ## Security Resource Group
 
-| Key         | Type    | Default Value        | Description                                      |
-|-------------|---------|---------------------|--------------------------------------------------|
-| create      | bool    | `true`              | Whether to create the resource group             |
-| name        | string  | `devexp-security`   | Resource group name                              |
-| description | string  | `prodExp`           | Description of the resource group                |
-| tags        | object  | See below           | Key-value pairs for resource tagging             |
+| Key         | Type    | Default Value         | Description                                                      |
+|-------------|---------|----------------------|------------------------------------------------------------------|
+| create      | bool    | true                 | Whether to create the resource group or use an existing one      |
+| name        | string  | devexp-security      | Name of the resource group                                       |
+| description | string  | prodExp              | Brief description of the resource group purpose                  |
+| tags        | object  | See below            | Key-value pairs for resource governance and organization         |
 
 ### Purpose
 
-Contains security-related resources such as Key Vaults, Microsoft Defender for Cloud, Network Security Groups, and private endpoints.
+The **Security Resource Group** contains security-related resources, such as Key Vaults, Microsoft Defender for Cloud configurations, Network Security Groups, and private endpoints. It isolates security resources to enable stricter access controls and separate monitoring/auditing.
 
 ### Default Configuration
 
-```yaml
+````yaml
 security:
   create: true
   name: devexp-security
@@ -116,49 +120,51 @@ security:
     owner: Contoso
     landingZone: Workload
     resources: ResourceGroup
-```
+````
 
 ### Detailed Configuration
 
-- **create**: Indicates if the security resource group should be created.
-- **name**: Should reflect its security purpose.
-- **description**: Short description of the group.
-- **tags**: Inherits the same tagging structure for consistency.
+- **create**: Determines if the group should be created.
+- **name**: Follows security naming conventions.
+- **description**: Describes the security focus.
+- **tags**: Ensures traceability and compliance.
 
 ### Use Cases
 
-- Isolating Key Vaults and security policies from application workloads.
-- Applying stricter access controls and monitoring to sensitive resources.
+- Storing secrets in Azure Key Vault.
+- Managing security policies and monitoring.
+- Isolating security resources for audit and compliance.
 
 ### Best Practices
 
-- Isolate security resources for enhanced monitoring and auditing.
-- Restrict access to security resource groups to only necessary personnel.
-- Regularly review and update security configurations.
+- Restrict access to security resource groups.
+- Enable logging and monitoring for all security resources.
+- Regularly review access policies.
 
 ### Considerations
 
-- Ensure compliance with organizational and regulatory security requirements.
-- Monitor for unauthorized changes or access.
+- Security resources may require stricter compliance.
+- Ensure only authorized users have access.
+- Monitor for changes and anomalies.
 
 ---
 
 ## Monitoring Resource Group
 
-| Key         | Type    | Default Value        | Description                                      |
-|-------------|---------|---------------------|--------------------------------------------------|
-| create      | bool    | `true`              | Whether to create the resource group             |
-| name        | string  | `devexp-monitoring` | Resource group name                              |
-| description | string  | `prodExp`           | Description of the resource group                |
-| tags        | object  | See below           | Key-value pairs for resource tagging             |
+| Key         | Type    | Default Value         | Description                                                      |
+|-------------|---------|----------------------|------------------------------------------------------------------|
+| create      | bool    | true                 | Whether to create the resource group or use an existing one      |
+| name        | string  | devexp-monitoring    | Name of the resource group                                       |
+| description | string  | prodExp              | Brief description of the resource group purpose                  |
+| tags        | object  | See below            | Key-value pairs for resource governance and organization         |
 
 ### Purpose
 
-Centralizes monitoring and observability resources, such as Log Analytics, Application Insights, Azure Monitor alerts, and dashboards.
+The **Monitoring Resource Group** centralizes monitoring and observability resources, including Log Analytics workspaces, Application Insights, Azure Monitor alerts, and dashboards. This provides a unified view of operational health and simplifies diagnostics.
 
 ### Default Configuration
 
-```yaml
+````yaml
 monitoring:
   create: true
   name: devexp-monitoring
@@ -172,49 +178,51 @@ monitoring:
     owner: Contoso
     landingZone: Workload
     resources: ResourceGroup
-```
+````
 
 ### Detailed Configuration
 
-- **create**: Controls creation of the monitoring group.
-- **name**: Identifies the group as monitoring-related.
-- **description**: Briefly describes the group.
-- **tags**: Standardized tags for governance.
+- **create**: Indicates if the group should be created.
+- **name**: Follows monitoring naming conventions.
+- **description**: Describes the monitoring focus.
+- **tags**: Supports operational and financial tracking.
 
 ### Use Cases
 
-- Aggregating logs and metrics from all Dev Box resources.
-- Centralizing alerting and dashboarding for operational health.
+- Centralizing logs and metrics for all workloads.
+- Setting up alerts and dashboards for Dev Box environments.
+- Enabling unified monitoring across environments.
 
 ### Best Practices
 
-- Centralize monitoring resources for unified visibility.
-- Use role-based access control (RBAC) to restrict access to monitoring data.
-- Regularly review alert rules and dashboards for relevance.
+- Centralize monitoring resources for all environments.
+- Use consistent tagging for traceability.
+- Regularly review and update monitoring configurations.
 
 ### Considerations
 
-- Ensure monitoring covers all critical resources.
-- Plan for log retention and data export policies.
+- Ensure monitoring resources have access to all relevant workloads.
+- Plan for data retention and storage costs.
+- Secure monitoring data appropriately.
 
 ---
 
 ## Connectivity Resource Group
 
-| Key         | Type    | Default Value           | Description                                      |
-|-------------|---------|------------------------|--------------------------------------------------|
-| create      | bool    | `true`                 | Whether to create the resource group             |
-| name        | string  | `devexp-connectivity`  | Resource group name                              |
-| description | string  | `prodExp`              | Description of the resource group                |
-| tags        | object  | See below              | Key-value pairs for resource tagging             |
+| Key         | Type    | Default Value         | Description                                                      |
+|-------------|---------|----------------------|------------------------------------------------------------------|
+| create      | bool    | true                 | Whether to create the resource group or use an existing one      |
+| name        | string  | devexp-connectivity  | Name of the resource group                                       |
+| description | string  | prodExp              | Brief description of the resource group purpose                  |
+| tags        | object  | See below            | Key-value pairs for resource governance and organization         |
 
 ### Purpose
 
-Hosts networking and connectivity resources, including Virtual Networks, Subnets, Network Security Groups, Peerings, Private DNS Zones, and Azure Bastion.
+The **Connectivity Resource Group** contains networking and connectivity resources, such as Virtual Networks, Subnets, Network Security Groups, Virtual Network Peerings, Private DNS Zones, and Azure Bastion. It enables specialized management by networking teams and facilitates network-wide security policies.
 
 ### Default Configuration
 
-```yaml
+````yaml
 connectivity:
   create: true
   name: devexp-connectivity
@@ -228,40 +236,42 @@ connectivity:
     owner: Contoso
     landingZone: Workload
     resources: ResourceGroup
-```
+````
 
 ### Detailed Configuration
 
-- **create**: Indicates if the connectivity group should be created.
-- **name**: Should reflect its networking focus.
-- **description**: Short description.
-- **tags**: Consistent tagging for all resources.
+- **create**: Indicates if the group should be created.
+- **name**: Follows connectivity naming conventions.
+- **description**: Describes the connectivity focus.
+- **tags**: Supports governance and cost allocation.
 
 ### Use Cases
 
-- Managing all networking components for Dev Box environments.
-- Enabling specialized management by networking teams.
+- Managing virtual networks and subnets for Dev Box environments.
+- Isolating network infrastructure for security and compliance.
+- Facilitating network peering and secure connectivity.
 
 ### Best Practices
 
-- Segregate networking resources for better security and management.
-- Apply network-wide security policies and monitoring.
-- Use private endpoints and secure connectivity patterns.
+- Segregate networking resources from workloads.
+- Apply network security policies at the resource group level.
+- Document network topology and dependencies.
 
 ### Considerations
 
 - Coordinate with networking teams for changes.
-- Monitor for configuration drift or unauthorized changes.
+- Monitor network resource usage and costs.
+- Ensure compliance with organizational network policies.
 
 ---
 
-## General Best Practices for azureResources.yaml
+## Best Practices
 
 - **Consistent Naming**: Use clear, descriptive, and consistent naming conventions for all resource groups.
-- **Tagging**: Apply a standardized set of tags for governance, cost management, and automation.
-- **Separation of Concerns**: Segregate resources by function (workload, security, monitoring, connectivity) to enable specialized management and security.
-- **Documentation**: Keep this file updated and document any changes for auditability.
-- **Review**: Regularly review resource group configurations to ensure alignment with organizational policies and Azure best practices.
+- **Tagging**: Apply standardized tags for governance, cost management, and operational tracking.
+- **Separation of Concerns**: Isolate resources by function (workload, security, monitoring, connectivity) for better management and security.
+- **Access Control**: Apply RBAC and least privilege principles at the resource group level.
+- **Documentation**: Keep configuration files and documentation up to date and accessible.
 
 ---
 
@@ -273,28 +283,8 @@ connectivity:
 
 ---
 
-## Example
-
-```yaml
-workload:
-  create: true
-  name: devexp-workload
-  description: Dev Box primary workload resources
-  tags:
-    environment: dev
-    division: Platforms
-    team: DevExP
-    project: Contoso-DevExp-DevBox
-    costCenter: IT
-    owner: Contoso
-    landingZone: Workload
-    resources: ResourceGroup
-```
-
----
-
 ## Considerations
 
-- Ensure all resource group definitions are reviewed and approved by relevant stakeholders.
-- Update tags and descriptions as project scopes or ownership change.
-- Align resource group structure with Azure subscription and management group hierarchy for optimal governance.
+- Review and update configurations regularly to align with evolving organizational and security requirements.
+- Ensure all stakeholders understand the purpose and structure of each resource group.
+- Monitor resource usage and costs to optimize cloud spend.
