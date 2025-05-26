@@ -15,7 +15,7 @@ description: >
 weight: 9
 ---
 
-## Overview
+..## Overview
 
 This document provides comprehensive documentation for the devcenter.yaml configuration file, which is a core component of the Microsoft Dev Box Accelerator. The file defines the structure, access controls, environments, and resource governance for a centralized developer workstation platform in Azure. It enables organizations to manage Dev Center resources, projects, environments, and developer access in a scalable, secure, and automated manner.
 
