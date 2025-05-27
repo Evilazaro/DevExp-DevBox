@@ -62,12 +62,14 @@ installAzureMonitorAgentEnableStatus: "Enabled"
 ```yaml
 identity:
   type: "SystemAssigned"
+  
   roleAssignments:
     devCenter:
       - id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
         name: "Contributor"
       - id: "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
         name: "User Access Administrator"
+    
     orgRoleTypes:
       - type: DevManager
         azureADGroupId: "8dae87fa-87b2-460b-b972-a4239fbd4a96"
