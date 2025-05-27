@@ -7,7 +7,7 @@ weight: 8
 
 ## Overview
 
-This YAML file defines the **base image configuration** for backend engineers working on the Identity Provider Project Demo at Contoso, using the [Microsoft Dev Box Accelerator](https://learn.microsoft.com/en-us/azure/dev-box/tutorial-dev-box-service). It specifies the tools, environment setup, and project-specific tasks required to provision a consistent, ready-to-code development environment in Azure Dev Box. The configuration ensures that all backend engineers have a standardized, secure, and productive workspace aligned with Contoso’s engineering requirements.
+This YAML file defines the **base image configuration** for backend engineers working on the [Identity Provider Project Demo](https://github.com/evilazaro/identityprovider) at Contoso, using the **Microsoft Dev Box Accelerator**. It specifies the tools, environment setup, and project-specific tasks required to provision a consistent, ready-to-code development environment in Azure Dev Box. The configuration ensures that all backend engineers have a standardized, secure, and productive workspace aligned with Contoso’s engineering requirements.
 
 ---
 

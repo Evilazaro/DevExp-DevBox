@@ -7,7 +7,7 @@ weight: 8
 
 ## Overview
 
-This YAML configuration file defines the **development environment image** for frontend engineers working on the Identity Provider Project Demo at Contoso, leveraging the [Microsoft Dev Box Accelerator](https://learn.microsoft.com/en-us/azure/dev-box/tutorial-dev-box-service). The file specifies the base image, core tools, environment setup tasks, and optional user tasks to ensure a consistent, secure, and productive workspace for frontend development. It is designed to automate environment provisioning, reduce onboarding friction, and enforce organizational best practices.
+This YAML configuration file defines the **development environment image** for frontend engineers working on the [Identity Provider Project Demo](https://github.com/evilazaro/identityprovider) at Contoso, leveraging the **Microsoft Dev Box Accelerator**. The file specifies the base image, core tools, environment setup tasks, and optional user tasks to ensure a consistent, secure, and productive workspace for frontend development. It is designed to automate environment provisioning, reduce onboarding friction, and enforce organizational best practices.
 
 ---
 
