@@ -7,40 +7,39 @@ weight: 8
 
 ## Overview
 
-This YAML configuration file defines the **development environment image** for frontend engineers working on the Identity Provider Project Demo at Contoso, leveraging the [Microsoft Dev Box Accelerator](https://learn.microsoft.com/en-us/azure/dev-box/tutorial-dev-box-service). The file specifies the base image, core tools, environment setup tasks, and optional user tasks to ensure a consistent, secure, and productive workspace for frontend development. It is designed to automate environment provisioning, reduce onboarding friction, and enforce organizational best practices.
+This YAML file defines the **base image configuration** for backend engineers working on the Identity Provider Project Demo at Contoso, using the [Microsoft Dev Box Accelerator](https://learn.microsoft.com/en-us/azure/dev-box/tutorial-dev-box-service). It specifies the tools, environment setup, and project-specific tasks required to provision a consistent, ready-to-code development environment in Azure Dev Box. The configuration ensures that all backend engineers have a standardized, secure, and productive workspace aligned with Contoso’s engineering requirements.
 
 ---
 
 {{% pageinfo %}}  
 > - **Common Engineering DSC Configuration File**: [Learn more](commontConfig.md) 
-> - **Front-End Engineering DSC Configuration File**: [Learn more](frontEndDscFile.md).  
+> - **Back-End Engineering DSC Configuration File**: [Learn more](backEndDscFile.md).  
 {{% /pageinfo %}}
 
 ---
 
 ## Configurations
 
-Below is a breakdown of each section and key in the YAML file, with explanations and YAML snippets for clarity.
+Below is a breakdown of each section and key in the YAML file, with explanations and YAML snippets.
 
-### Metadata & Schema
+### Metadata
 
 ```yaml
 $schema: "1.0"
-name: identityProvider-frontend-engineer
-description: "This image definition sets up a development environment for frontend engineers."
-image: microsoftvisualstudio_windowsplustools_base-win11-gen2
+name: identityProvider-backend-engineer
+description: "This image definition sets up a development environment for backend engineers."
+image: microsoftvisualstudio_visualstudioplustools_vs-2022-ent-general-win11-m365-gen2
 ```
-
-- **$schema**: Specifies the schema version for validation.
-- **name**: Unique identifier for the image definition.
-- **description**: Human-readable summary of the environment’s purpose.
-- **image**: The Microsoft-provided base image (Windows 11 + dev tools), ensuring compatibility and performance.
+- **$schema**: Version of the image definition schema.
+- **name**: Unique identifier for this image definition.
+- **description**: Human-readable summary of the image’s purpose.
+- **image**: The Microsoft-provided base image (includes Visual Studio 2022, Windows 11, and M365).
 
 ---
 
 ### Tasks
 
-Defines the **installation and configuration steps** for the environment. Each task is an object with a `name`, `description`, and `parameters`.
+Defines the **mandatory steps** to set up the environment.
 
 #### Core Environment Setup
 
@@ -54,7 +53,7 @@ Defines the **installation and configuration steps** for the environment. Each t
       Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
       Install-Module -Name PSDSCResources -Force -AllowClobber -Scope AllUsers
 ```
-- **Purpose**: Ensures PowerShell is ready for automation and installs DSC resources for idempotent configuration.
+- Installs PowerShell DSC resources for consistent environment configuration.
 
 #### Common Development Tools
 
@@ -65,7 +64,7 @@ Defines the **installation and configuration steps** for the environment. Each t
     downloadUrl: "https://raw.githubusercontent.com/Evilazaro/DevExp-DevBox/refs/heads/main/.configuration/devcenter/workloads/common-config.dsc.yaml"
     configurationFile: "c:\\winget\\common-config.dsc.yaml"
 ```
-- **Purpose**: Imports a shared configuration for tools used across engineering teams.
+- Imports a shared configuration file for common tools.
 
 ```yaml
 - name: ~/winget
@@ -73,15 +72,7 @@ Defines the **installation and configuration steps** for the environment. Each t
   parameters:
     package: "GitHub.GitHubDesktop"
 ```
-- **Purpose**: Installs GitHub Desktop for GUI-based Git operations.
-
-```yaml
-- name: ~/winget
-  description: "Install Visual Studio Code for web development"
-  parameters:
-    package: "Microsoft.VisualStudioCode"
-```
-- **Purpose**: Installs VS Code, the primary IDE for frontend development.
+- Installs GitHub Desktop for source control.
 
 ```yaml
 - name: ~/git-clone
@@ -90,81 +81,99 @@ Defines the **installation and configuration steps** for the environment. Each t
     repositoryUrl: https://github.com/Evilazaro/IdentityProvider.git
     directory: Z:\Workspaces
 ```
-- **Purpose**: Pre-clones the project repository for immediate access.
+- Clones the project repository into the workspace.
 
----
-
-### User-Specific Tasks (`userTasks`)
-
-Tasks that can be customized or run by individual developers.
-
-#### Optional Frontend Tools
+#### Backend Development Environment
 
 ```yaml
 - name: ~/winget
-  description: "Install additional frontend-specific tools"
+  description: "Install specialized backend development tools"
   parameters:
-    downloadUrl: "https://raw.githubusercontent.com/Evilazaro/DevExp-DevBox/refs/heads/main/.configuration/devcenter/workloads/common-frontend-usertasks-config.dsc.yaml"
-    configurationFile: "c:\\winget\\common-frontend-usertasks-config.dsc.yaml"
+    downloadUrl: "https://raw.githubusercontent.com/Evilazaro/DevExp-DevBox/refs/heads/main/.configuration/devcenter/workloads/common-backend-config.dsc.yaml"
+    configurationFile: "c:\\winget\\common-backend-config.dsc.yaml"
 ```
-- **Purpose**: Allows engineers to install specialized frontend tools as needed.
+- Installs backend-specific tools (e.g., database, API, server utilities).
 
-#### Environment Maintenance
+---
+
+### User Tasks
+
+Defines **optional tasks** that individual engineers can run as needed.
+
+```yaml
+userTasks:
+  - name: ~/winget
+    description: "Install additional backend-specific tools"
+    parameters:
+      downloadUrl: "https://raw.githubusercontent.com/Evilazaro/DevExp-DevBox/refs/heads/main/.configuration/devcenter/workloads/common-backend-usertasks-config.dsc.yaml"
+      configurationFile: "c:\\winget\\common-backend-usertasks-config.dsc.yaml"
+```
+- Optional backend tools for specialized scenarios.
+
+---
+
+### Environment Maintenance
 
 ```yaml
 - name: ~/powershell
   description: "Update Winget Packages"
   parameters:
     command: |
-      # Updates all packages, Node.js, npm, and frontend CLIs; restores .NET dependencies
+      # Updates all packages, .NET workloads, restores NuGet, builds, and tests the solution
 ```
-- **Purpose**: Keeps all tools and dependencies up to date, ensuring security and compatibility.
-
-#### Project Setup
-
-```yaml
-- name: ~/powershell
-  description: "Build Identity Provider Frontend Components"
-  parameters:
-    command: |
-      # Installs dependencies, builds the frontend, and runs unit tests
-```
-- **Purpose**: Validates that the environment is ready for development by building and testing the frontend.
+- Keeps all installed tools and packages up to date.
+- Ensures the .NET solution is restored, built, and tested.
 
 ---
 
-## 3. Examples and Use Cases
+### Project Setup
 
-### Example: New Engineer Onboarding
+```yaml
+- name: ~/powershell
+  description: "Build Identity Provider Solution"
+  parameters:
+    command: |
+      # Restores, builds, and tests the solution to validate the environment
+```
+- Validates that the environment is ready for development by building and testing the main project.
 
-**Scenario**: A new frontend engineer joins the Identity Provider project.
-- **Action**: The engineer provisions a Dev Box using this image definition.
-- **Result**: The Dev Box is automatically configured with all required tools (VS Code, GitHub Desktop), project code is cloned, and the environment is validated by building and testing the frontend—all with minimal manual setup.
+---
 
-### Example: Keeping Environments Consistent
+## Examples and Use Cases
 
-**Scenario**: The engineering team wants to ensure all members use the same versions of tools and dependencies.
-- **Action**: Updates are made to the shared configuration files referenced in the YAML.
-- **Result**: All new Dev Boxes and environment refreshes use the updated configurations, reducing "works on my machine" issues.
+### Example: Provisioning a Dev Box for a New Engineer
+
+1. **Dev Box Service** reads this YAML file.
+2. **Base image** is provisioned with Visual Studio, Windows 11, and M365.
+3. **Tasks** run automatically:
+   - PowerShell DSC resources are installed.
+   - Common and backend tools are set up via WinGet.
+   - GitHub Desktop is installed.
+   - The Identity Provider repository is cloned to `Z:\Workspaces`.
+   - All packages are updated, and the solution is built and tested.
+4. **User Tasks**: The engineer can optionally install additional backend tools as needed.
+
+### Use Case: Ensuring Consistency Across Teams
+
+- All backend engineers receive the same environment, reducing "works on my machine" issues.
+- Updates and new tools can be rolled out by updating the YAML or referenced configuration files.
 
 ---
 
 ## Best Practices
 
-- **Use Microsoft Base Images**: Always start from official Microsoft images for security, support, and compatibility.
-- **Automate Environment Setup**: Use PowerShell DSC and WinGet to automate tool installation and configuration, ensuring repeatability.
-- **Centralize Common Configurations**: Reference shared configuration files for tools to maintain consistency across teams.
-- **Separate Mandatory and Optional Tasks**: Use `userTasks` for tools that are not required by everyone, keeping the base image lean.
-- **Keep Everything Updated**: Include maintenance scripts to regularly update packages and dependencies.
-- **Validate Setup**: Automate build and test steps to ensure the environment is ready for development immediately after provisioning.
-- **Follow Security Best Practices**: Use scoped execution policy changes and trusted repositories to minimize security risks.
-- **Document Each Step**: Comment each section and task for clarity and maintainability.
+- **Use Microsoft Base Images**: Ensures compatibility and support.
+- **Leverage DSC and WinGet**: For idempotent, repeatable environment setup.
+- **Centralize Tool Configurations**: Reference shared configuration files for consistency.
+- **Separate Mandatory and Optional Tasks**: Keep the base image lean and allow customization.
+- **Automate Updates and Validation**: Regularly update packages and validate the build/test pipeline as part of environment setup.
+- **Use Trusted Sources**: Only install packages from trusted repositories and URLs.
+- **Document Each Section**: Use comments in the YAML to explain the purpose of each task.
+- **Follow Azure Dev Box Best Practices**: Such as using the Z: drive for workspaces and scoped execution policies for security.
 
 ---
 
-**References**  
+**References:**
 - [Microsoft Dev Box Documentation](https://learn.microsoft.com/en-us/azure/dev-box/)
 - [Azure Dev Box Best Practices](https://learn.microsoft.com/en-us/azure/dev-box/concepts-best-practices)
-- [PowerShell DSC Resources](https://learn.microsoft.com/en-us/powershell/dsc/overview)
 - [WinGet Documentation](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
-
