@@ -1,10 +1,3 @@
----
-title: Common Configuration 
-description: >
-    Sample for .NET Engineers
-weight: 7
----
-
 ## Overview
 
 This document provides comprehensive documentation for the PowerShell Desired State Configuration (DSC) YAML file: **common-config.dsc.yaml**. This configuration is designed to automate the setup of a standardized development environment for .NET engineers, with a strong focus on Azure development workflows. It provisions essential tools, runtimes, and storage optimizations to ensure a productive and performant developer experience on Windows 10/11.

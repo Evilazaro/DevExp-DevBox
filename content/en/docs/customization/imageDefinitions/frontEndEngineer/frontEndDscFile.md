@@ -1,10 +1,3 @@
----
-title: Front-end engineer DSC configuration file
-description: >
-    Configuration Sample for .NET Engineers
-weight: 7
----
-
 ## Overview
 
 The **common-frontend-usertasks-config.dsc.yaml** file is a PowerShell Desired State Configuration (DSC) YAML file designed to automate the setup of a comprehensive Azure frontend development environment for .NET engineers. This configuration ensures that essential tools, SDKs, and Visual Studio Code extensions are installed and kept up to date, providing a consistent and productive environment for frontend development targeting Azure services. The configuration leverages best practices for cross-platform development, automation, and security.

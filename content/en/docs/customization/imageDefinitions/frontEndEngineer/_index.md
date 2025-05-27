@@ -11,9 +11,10 @@ This YAML configuration file defines the **development environment image** for f
 
 ---
 
-{{% pageinfo %}}  
-**Common Engineering DSC Configuration File**: [Learn more](../dscFiles/commonImageDefinitionConfigurations/commontConfig.md) 
-**Front-End Engineering DSC Configuration File**: [Learn more](../frontEnd/frontEndDscFile.md).  
+{{% pageinfo %}}
+> ## PowerShell DSC Files  
+> - **Common Engineering DSC Configuration File**: [Learn more](commontConfig.md) 
+> - **Front-End Engineering DSC Configuration File**: [Learn more](frontEndDscFile.md).  
 {{% /pageinfo %}}
 
 ---
