@@ -16,15 +16,28 @@ weight: 7
 
 ## Overview
 
-This document provides a comprehensive analysis of the security.yaml configuration file, a core component of the Microsoft Dev Box Accelerator. The Microsoft Dev Box Accelerator enables rapid, modular, and secure provisioning of development environments in Azure. The security.yaml file specifically governs the setup and management of an Azure Key Vault resource, which is critical for securely storing sensitive credentials and secrets required by development teams. By decoupling security configuration, the Accelerator ensures best practices, compliance, and flexibility across environments.
+This document provides a comprehensive analysis of the [**security.yaml**](https://github.com/Evilazaro/DevExp-DevBox/blob/main/infra/settings/security/security.yaml) configuration file, a core component of the Microsoft Dev Box Accelerator. The Microsoft Dev Box Accelerator enables rapid, modular, and secure provisioning of development environments in Azure. The security.yaml file specifically governs the setup and management of an Azure Key Vault resource, which is critical for securely storing sensitive credentials and secrets required by development teams. By decoupling security configuration, the Accelerator ensures best practices, compliance, and flexibility across environments.
 
 ---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Configurations](#configurations)
+  - [Resource Creation](#resource-creation)
+  - [Key Vault Configuration](#key-vault-configuration)
+  - [Security Settings](#security-settings)
+  - [Resource Organization (Tags)](#resource-organization-tags)
+- [Examples and Use Cases](#examples-and-use-cases)
+  - [Example 1: Provisioning a Key Vault for a New Dev Environment](#example-1-provisioning-a-key-vault-for-a-new-dev-environment)
+  - [Example 2: Reusing an Existing Key Vault](#example-2-reusing-an-existing-key-vault)
+- [Tips](#tips)
 
 ## Configurations
 
 Below is a detailed breakdown of each section and key in the security.yaml file, including their YAML representation and purpose.
 
-### 1. Resource Creation
+### Resource Creation
 
 ```yaml
 create: true
@@ -35,7 +48,7 @@ create: true
 
 ---
 
-### 2. Key Vault Configuration
+### Key Vault Configuration
 
 ```yaml
 keyVault:
@@ -49,7 +62,7 @@ keyVault:
 
 ---
 
-### 3. Security Settings
+### Security Settings
 
 ```yaml
   enablePurgeProtection: true
@@ -64,7 +77,7 @@ keyVault:
 
 ---
 
-### 4. Resource Organization (Tags)
+### Resource Organization (Tags)
 
 ```yaml
   tags:

@@ -15,17 +15,32 @@ tags:
 weight: 8
 ---
 
-## 1. Overview
+## Overview
 
-This document provides a comprehensive analysis of the newtork.yaml configuration file, a core component of the **Microsoft Dev Box Accelerator**. This YAML file defines the virtual network (VNet) infrastructure for Dev Box environments, enabling secure, isolated, and scalable connectivity for development resources in Azure. The modular and decoupled design of this configuration allows organizations to tailor network settings to their specific needs, ensuring best practices for security, governance, and operational efficiency.
+This document provides a comprehensive analysis of the [**newtork.yaml**](https://github.com/Evilazaro/DevExp-DevBox/blob/main/infra/settings/connectivity/newtork.yaml) configuration file, a core component of the **Microsoft Dev Box Accelerator**. This YAML file defines the virtual network (VNet) infrastructure for Dev Box environments, enabling secure, isolated, and scalable connectivity for development resources in Azure. The modular and decoupled design of this configuration allows organizations to tailor network settings to their specific needs, ensuring best practices for security, governance, and operational efficiency.
 
 ---
 
-## 2. Configurations
+## Table of Contents
+
+- [Overview](#overview)
+- [Configurations](#configurations)
+  - [Create Flag](#create-flag)
+  - [Virtual Network Type](#virtual-network-type)
+  - [Virtual Network Name](#virtual-network-name)
+  - [Address Prefixes](#address-prefixes)
+  - [Subnets](#subnets)
+  - [Tags](#tags)
+- [Examples and Use Cases](#examples-and-use-cases)
+  - [Example 1: Isolated Dev Environment](#example-1-isolated-dev-environment)
+  - [Example 2: Hybrid Production Scenario](#example-2-hybrid-production-scenario)
+- [Best Practices](#best-practices)
+
+## Configurations
 
 Below, each section and key of the YAML file is explained in detail, with the corresponding YAML representation.
 
-### 2.1. Create Flag
+### Create Flag
 
 ```yaml
 create: true
@@ -35,7 +50,7 @@ create: true
 
 ---
 
-### 2.2. Virtual Network Type
+### Virtual Network Type
 
 ```yaml
 virtualNetworkType: Managed
@@ -47,7 +62,7 @@ virtualNetworkType: Managed
 
 ---
 
-### 2.3. Virtual Network Name
+### Virtual Network Name
 
 ```yaml
 name: contoso-vnet
@@ -57,7 +72,7 @@ name: contoso-vnet
 
 ---
 
-### 2.4. Address Prefixes
+### Address Prefixes
 
 ```yaml
 addressPrefixes:
@@ -71,7 +86,7 @@ addressPrefixes:
 
 ---
 
-### 2.5. Subnets
+### Subnets
 
 ```yaml
 subnets:
@@ -87,7 +102,7 @@ subnets:
 
 ---
 
-### 2.6. Tags
+### Tags
 
 ```yaml
 tags:
@@ -114,7 +129,7 @@ tags:
 
 ---
 
-## 3. Examples and Use Cases
+## Examples and Use Cases
 
 ### Example 1: Isolated Dev Environment
 
@@ -145,7 +160,7 @@ For production, the organization uses `virtualNetworkType: Unmanaged` to connect
 
 ---
 
-## 4. Tips
+## Best Practices
 
 - **Avoid IP Overlaps:** Always check that your address space does not overlap with existing Azure or on-premises networks.
 - **Subnet Sizing:** Plan for future growth; resizing subnets later can be complex.

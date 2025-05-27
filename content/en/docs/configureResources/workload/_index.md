@@ -14,11 +14,10 @@ description: >
   How to configure the Core, Identity and Access Management, Catalogs, Environments and Projects settings for the Dev Center
 weight: 9
 ---
-# Microsoft Dev Box Accelerator – devcenter.yaml Configuration Documentation
 
-## 1. Overview
+## Overview
 
-The devcenter.yaml file is the central configuration for the Microsoft Dev Box Accelerator. It defines the structure, governance, and operational parameters for a Dev Center resource in Azure, enabling organizations to provide secure, scalable, and role-specific developer workstations (Dev Boxes). This YAML file orchestrates Dev Box pools, access controls, environment types, project boundaries, and integration with version-controlled catalogs, ensuring a modular and decoupled approach to developer environment management.
+The [**devcenter.yaml**](https://github.com/Evilazaro/DevExp-DevBox/blob/main/infra/settings/workload/devcenter.yaml) file is the central configuration for the Microsoft Dev Box Accelerator. It defines the structure, governance, and operational parameters for a Dev Center resource in Azure, enabling organizations to provide secure, scalable, and role-specific developer workstations (Dev Boxes). This YAML file orchestrates Dev Box pools, access controls, environment types, project boundaries, and integration with version-controlled catalogs, ensuring a modular and decoupled approach to developer environment management.
 
 **Key Roles of this YAML:**
 - Centralizes Dev Center resource setup and policy.
@@ -28,13 +27,13 @@ The devcenter.yaml file is the central configuration for the Microsoft Dev Box A
 
 ---
 
-## 2. Configurations
+## Configurations
 
 Below is a breakdown of each major section, its YAML representation, and an explanation of its purpose.
 
 ---
 
-### 2.1. Dev Center Metadata
+### Dev Center Metadata
 
 ```yaml
 name: "contoso-devcenter"
@@ -45,7 +44,7 @@ location: "eastus2"
 
 ---
 
-### 2.2. Global Settings
+### Global Settings
 
 ```yaml
 catalogItemSyncEnableStatus: "Enabled"
@@ -58,7 +57,7 @@ installAzureMonitorAgentEnableStatus: "Enabled"
 
 ---
 
-### 2.3. Identity and Access Control
+### Identity and Access Control
 
 ```yaml
 identity:
@@ -82,7 +81,7 @@ identity:
 
 ---
 
-### 2.4. Catalogs
+### Catalogs
 
 ```yaml
 catalogs:
@@ -96,7 +95,7 @@ catalogs:
 
 ---
 
-### 2.5. Environment Types
+### Environment Types
 
 ```yaml
 environmentTypes:
@@ -109,7 +108,7 @@ environmentTypes:
 
 ---
 
-### 2.6. Projects
+### Projects
 
 Each project is a distinct logical unit with its own pools, catalogs, and access controls.
 
@@ -119,6 +118,7 @@ Each project is a distinct logical unit with its own pools, catalogs, and access
 projects:
   - name: "identityProvider"
     description: "Identity Provider project."
+    
     identity:
       type: SystemAssigned
       roleAssignments:
@@ -131,16 +131,19 @@ projects:
               id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
             - name: "Deployment Environment User"
               id: "18e40d4e-8d2e-438d-97e1-9528336e149c"
+    
     pools:
       - name: "backend-engineer"
         imageDefinitionName: "identityProvider-backend-engineer"
       - name: "frontend-engineer"
         imageDefinitionName: "identityProvider-frontend-engineer"
+    
     environmentTypes:
       - name: "dev"
         deploymentTargetId: ""
       - name: "staging"
         deploymentTargetId: ""
+    
     catalogs:
       environmentDefinition:
         name: "environments"
@@ -148,12 +151,14 @@ projects:
         uri: "https://github.com/Evilazaro/identityProvider.git"
         branch: "main"
         path: ".configuration/devcenter/environments"
+      
       imageDefinition:
         name: "imageDefinitions"
         type: "gitHub"
         uri: "https://github.com/Evilazaro/identityProvider.git"
         branch: "main"
         path: ".configuration/devcenter/imageDefinitions"
+    
     tags:
       environment: "dev"
       division: "Platforms"
@@ -173,7 +178,7 @@ projects:
 
 ---
 
-### 2.7. Top-Level Tags
+### Top-Level Tags
 
 ```yaml
 tags:
@@ -189,7 +194,7 @@ tags:
 
 ---
 
-## 3. Examples and Use Cases
+## Examples and Use Cases
 
 ### Example 1: Adding a New Project
 
@@ -208,7 +213,7 @@ Point `catalogs` to your organization's GitHub repositories for configuration-as
 
 ---
 
-## 4. Tips
+## Best Practices
 
 - **Use Azure AD Groups:** Assign permissions via groups, not individuals, for easier management.
 - **Leverage Tags:** Apply consistent tags for cost tracking, ownership, and resource organization.

@@ -14,20 +14,33 @@ description: >
 weight: 6
 ---
 
-## 1. Overview
+## Overview
 
-This YAML configuration file (azureResources.yaml) defines the organizational structure for Azure resource groups as part of the **Microsoft Dev Box Accelerator**. It follows Azure Landing Zone best practices, enabling modular, decoupled, and scalable management of cloud resources. By segmenting resources into functional groups—**workload**, **security**, **monitoring**, and **connectivity**—the configuration supports clear governance, access control, and lifecycle management for enterprise-scale Dev Box deployments.
+This YAML configuration file [**azureResources.yaml**](https://github.com/Evilazaro/DevExp-DevBox/blob/main/infra/settings/resourceOrganization/azureResources.yaml) defines the organizational structure for Azure resource groups as part of the **Microsoft Dev Box Accelerator**. It follows Azure Landing Zone best practices, enabling modular, decoupled, and scalable management of cloud resources. By segmenting resources into functional groups—**workload**, **security**, **monitoring**, and **connectivity**—the configuration supports clear governance, access control, and lifecycle management for enterprise-scale Dev Box deployments.
 
 **Role in Dev Box Accelerator:**  
 This file is a foundational component, ensuring that all resources deployed for Microsoft Dev Box environments are organized, tagged, and governed according to enterprise standards. It enables teams to manage infrastructure and workloads independently, supporting both operational efficiency and compliance.
 
 ---
 
-## 2. Configurations
+## Table of Contents
+
+- [Overview](#overview)
+- [Configurations](#configurations)
+  - [Workload Resource Group](#workload-resource-group)
+  - [Security Resource Group](#security-resource-group)
+  - [Monitoring Resource Group](#monitoring-resource-group)
+  - [Connectivity Resource Group](#connectivity-resource-group)
+- [Examples and Use Cases](#examples-and-use-cases)
+- [Best Practices](#best-practices)
+- [References](#references)
+
+
+## Configurations
 
 Each top-level section in the YAML file represents a distinct Azure resource group category. Below is a breakdown of each section, its keys, and their purposes.
 
-### 2.1. Workload Resource Group
+### Workload Resource Group
 
 **Purpose:**  
 Holds primary Dev Box workload resources (Dev Center, Dev Box definitions, pools, and project resources).
@@ -57,7 +70,7 @@ workload:
 
 ---
 
-### 2.2. Security Resource Group
+### Security Resource Group
 
 **Purpose:**  
 Isolates security-related resources (Key Vaults, Defender for Cloud, NSGs, private endpoints).
@@ -84,7 +97,7 @@ Same structure as `workload`, but dedicated to security assets for stricter acce
 
 ---
 
-### 2.3. Monitoring Resource Group
+### Monitoring Resource Group
 
 **Purpose:**  
 Centralizes monitoring and observability resources (Log Analytics, Application Insights, Azure Monitor).
@@ -111,7 +124,7 @@ Enables unified operational health monitoring and diagnostics.
 
 ---
 
-### 2.4. Connectivity Resource Group
+### Connectivity Resource Group
 
 **Purpose:**  
 Contains networking and connectivity resources (VNets, NSGs, peerings, DNS zones, Azure Bastion).
@@ -138,7 +151,7 @@ Segregates network infrastructure for specialized management and security.
 
 ---
 
-## 3. Examples and Use Cases
+## Examples and Use Cases
 
 ### Example: Deploying Dev Box Resources
 
@@ -163,7 +176,7 @@ This ensures resources are deployed into the correct, pre-defined groups.
 
 ---
 
-## 4. Tips
+## Best Practices
 
 - **Consistent Naming:**  
   Use a standard naming convention for resource groups (e.g., `[project]-[purpose]-[environment]-rg`) to simplify management and automation.
