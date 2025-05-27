@@ -2,7 +2,7 @@
 title: Front-End Engineering Development Environment
 description: >
     Configuration Sample for .NET Engineers
-weight: 10
+weight: 8
 ---
 
 ## Overview

@@ -2,7 +2,7 @@
 title: Common Configuration 
 description: >
     Sample for .NET Engineers
-weight: 9
+weight: 7
 ---
 
 ## Overview
