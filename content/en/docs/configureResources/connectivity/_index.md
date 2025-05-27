@@ -36,6 +36,8 @@ This document provides a comprehensive analysis of the [**newtork.yaml**](https:
   - [Example 2: Hybrid Production Scenario](#example-2-hybrid-production-scenario)
 - [Best Practices](#best-practices)
 
+---
+
 ## Configurations
 
 Below, each section and key of the YAML file is explained in detail, with the corresponding YAML representation.

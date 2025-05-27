@@ -31,7 +31,7 @@ This document provides a comprehensive analysis of the [**security.yaml**](https
 - [Examples and Use Cases](#examples-and-use-cases)
   - [Example 1: Provisioning a Key Vault for a New Dev Environment](#example-1-provisioning-a-key-vault-for-a-new-dev-environment)
   - [Example 2: Reusing an Existing Key Vault](#example-2-reusing-an-existing-key-vault)
-- [Tips](#tips)
+- [Best Practices](#best-practices)
 
 ## Configurations
 
@@ -140,7 +140,7 @@ keyVault:
 
 ---
 
-## Tips
+## Best Practices
 
 - **Unique Naming**: Ensure the `name` is globally unique within Azure to avoid deployment failures.
 - **Retention Period**: Adjust `softDeleteRetentionInDays` based on your organization’s compliance and recovery requirements.

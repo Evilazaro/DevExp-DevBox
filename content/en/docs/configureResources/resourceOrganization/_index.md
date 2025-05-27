@@ -35,6 +35,7 @@ This file is a foundational component, ensuring that all resources deployed for 
 - [Best Practices](#best-practices)
 - [References](#references)
 
+---
 
 ## Configurations
 
