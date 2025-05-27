@@ -1,5 +1,5 @@
 ---
-title: Identity Provider - Front-End Engineer Development Environment
+title: Front-End Engineering Development Environment
 description: >
     Configuration Sample for .NET Engineers
 weight: 10
@@ -8,6 +8,13 @@ weight: 10
 ## Overview
 
 This YAML configuration file defines the **development environment image** for frontend engineers working on the Identity Provider Project Demo at Contoso, leveraging the [Microsoft Dev Box Accelerator](https://learn.microsoft.com/en-us/azure/dev-box/tutorial-dev-box-service). The file specifies the base image, core tools, environment setup tasks, and optional user tasks to ensure a consistent, secure, and productive workspace for frontend development. It is designed to automate environment provisioning, reduce onboarding friction, and enforce organizational best practices.
+
+---
+
+{{% pageinfo %}}  
+**Common Engineering DSC Configuration File**: [Learn more](../dscFiles/commonImageDefinitionConfigurations/commontConfig.md) 
+**Front-End Engineering DSC Configuration File**: [Learn more](../frontEnd/frontEndDscFile.md).  
+{{% /pageinfo %}}
 
 ---
 
@@ -160,3 +167,4 @@ Tasks that can be customized or run by individual developers.
 - [Azure Dev Box Best Practices](https://learn.microsoft.com/en-us/azure/dev-box/concepts-best-practices)
 - [PowerShell DSC Resources](https://learn.microsoft.com/en-us/powershell/dsc/overview)
 - [WinGet Documentation](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
+

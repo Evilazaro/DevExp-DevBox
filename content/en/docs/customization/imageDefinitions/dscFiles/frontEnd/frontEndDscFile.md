@@ -1,5 +1,5 @@
 ---
-title: Front-end Development
+title: Front-end engineer DSC configuration file
 description: >
     Configuration Sample for .NET Engineers
 weight: 10
