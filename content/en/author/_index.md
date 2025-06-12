@@ -3,7 +3,7 @@ title: Author
 linkTitle: Author
 menu: {main: {weight: 2}}
 ---
-{{% blocks/lead image_anchor="top" height="full" %}} 
+{{% blocks/lead color="black" %}} 
     🧑‍💼 Author – Professional Bio!
     Evilazaro Alves has been working in the technology industry for over **30 years**, beginning his career as a junior systems engineer and progressing to roles such as senior consultant, solution architect, CTO, and currently as a **Principal Cloud Solution Architect at Microsoft US**. Specializing in **Digital & App Innovation**, he leads global engagements focused on **system engineering, cloud-native development, containerization, microservices, DevOps, platform engineering, developer experience**, and **artificial intelligence**. His work enables companies to drive impactful digital transformation and disrupt their industries through modern, scalable solutions.
   {{< blocks/link-down color="info" >}}
