@@ -1,6 +1,5 @@
 ---
 title: Dev Box accelerator
-
 ---
 
 {{< blocks/cover title="Welcome to Dev Box accelerator!" image_anchor="top" height="full" >}}
