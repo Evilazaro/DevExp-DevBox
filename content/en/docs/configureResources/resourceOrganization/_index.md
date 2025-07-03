@@ -29,8 +29,7 @@ This file is a foundational component, ensuring that all resources deployed for 
 - [Configurations](#configurations)
   - [Workload Resource Group](#workload-resource-group)
   - [Security Resource Group](#security-resource-group)
-  - [Monitoring Resource Group](#monitoring-resource-group)
-  - [Connectivity Resource Group](#connectivity-resource-group)
+  - [Monitoring Resource Group](#monitoring-resource-group)  
 - [Examples and Use Cases](#examples-and-use-cases)
 - [Best Practices](#best-practices)
 - [References](#references)
@@ -41,10 +40,14 @@ This file is a foundational component, ensuring that all resources deployed for 
 
 Each top-level section in the YAML file represents a distinct Azure resource group category. Below is a breakdown of each section, its keys, and their purposes.
 
+
 ### Workload Resource Group
 
 **Purpose:**  
-Holds primary Dev Box workload resources (Dev Center, Dev Box definitions, pools, and project resources).
+Contains the primary Dev Box workload resources including Dev Center resources, Dev Box definitions, Dev Box pools, and project resources.
+
+**Best Practice:**  
+Separate application workloads from infrastructure components to enable independent scaling, access control, and lifecycle management.
 
 **YAML Representation:**
 ```yaml
@@ -53,14 +56,14 @@ workload:
   name: devexp-workload
   description: prodExp
   tags:
-    environment: dev
-    division: Platforms
-    team: DevExP
-    project: Contoso-DevExp-DevBox
-    costCenter: IT
-    owner: Contoso
-    landingZone: Workload
-    resources: ResourceGroup
+    environment: dev           # Deployment environment (dev, test, prod)
+    division: Platforms        # Business division responsible for the resource
+    team: DevExP              # Team owning the resource
+    project: Contoso-DevExp-DevBox  # Project name
+    costCenter: IT            # Financial allocation center
+    owner: Contoso            # Resource owner
+    landingZone: Workload     # Landing zone classification
+    resources: ResourceGroup  # Resource type
 ```
 
 **Key Explanations:**
@@ -71,10 +74,14 @@ workload:
 
 ---
 
+
 ### Security Resource Group
 
 **Purpose:**  
-Isolates security-related resources (Key Vaults, Defender for Cloud, NSGs, private endpoints).
+Contains security-related resources including Key Vaults for secret management, Microsoft Defender for Cloud configurations, Network Security Groups, and private endpoints.
+
+**Best Practice:**  
+Isolate security resources to apply stricter access controls and enable separate monitoring/auditing of security components.
 
 **YAML Representation:**
 ```yaml
@@ -98,10 +105,14 @@ Same structure as `workload`, but dedicated to security assets for stricter acce
 
 ---
 
+
 ### Monitoring Resource Group
 
 **Purpose:**  
-Centralizes monitoring and observability resources (Log Analytics, Application Insights, Azure Monitor).
+Contains monitoring and observability resources including Log Analytics workspaces, Application Insights components, Azure Monitor alerts and action groups, and dashboard/reporting resources.
+
+**Best Practice:**  
+Centralize monitoring resources to provide a unified view of operational health and simplify diagnostic activities.
 
 **YAML Representation:**
 ```yaml
@@ -125,6 +136,8 @@ Enables unified operational health monitoring and diagnostics.
 
 ---
 
+
+<!--
 ### Connectivity Resource Group
 
 **Purpose:**  
@@ -149,6 +162,7 @@ connectivity:
 
 **Key Explanations:**  
 Segregates network infrastructure for specialized management and security.
+-->
 
 ---
 
@@ -177,6 +191,7 @@ This ensures resources are deployed into the correct, pre-defined groups.
 
 ---
 
+
 ## Best Practices
 
 - **Consistent Naming:**  
@@ -186,7 +201,16 @@ This ensures resources are deployed into the correct, pre-defined groups.
   Apply consistent tags across all resource groups for effective cost tracking, ownership, and compliance.
 
 - **Separation of Concerns:**  
-  Segregate resources by function (workload, security, monitoring, connectivity) to enable independent scaling, access control, and lifecycle management.
+  Segregate resources by function (workload, security, monitoring) to enable independent scaling, access control, and lifecycle management.
+
+- **Workload Group:**  
+  Separate application workloads from infrastructure components for flexibility and easier management.
+
+- **Security Group:**  
+  Isolate security resources to apply stricter access controls and enable separate monitoring/auditing.
+
+- **Monitoring Group:**  
+  Centralize monitoring resources to provide a unified view of operational health and simplify diagnostics.
 
 - **Adapt for Environments:**  
   Duplicate or adjust sections for different environments (dev, test, prod) by changing the `environment` tag and resource group names.
