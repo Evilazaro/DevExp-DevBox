@@ -33,13 +33,14 @@ Below is a breakdown of each major section, its YAML representation, and an expl
 
 ---
 
+
 ### Dev Center Metadata
 
 ```yaml
-name: "contoso-devcenter"
+name: "devexp-devcenter"
 location: "eastus2"
 ```
-- **name**: Globally unique identifier for the Dev Center resource.  
+- **name**: Globally unique identifier for the Dev Center resource (update to match your YAML).
 - **location**: Azure region for deployment; select a region close to your team for performance.
 
 ---
@@ -57,19 +58,18 @@ installAzureMonitorAgentEnableStatus: "Enabled"
 
 ---
 
+
 ### Identity and Access Control
 
 ```yaml
 identity:
   type: "SystemAssigned"
-  
   roleAssignments:
     devCenter:
       - id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
         name: "Contributor"
       - id: "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
         name: "User Access Administrator"
-    
     orgRoleTypes:
       - type: DevManager
         azureADGroupId: "8dae87fa-87b2-460b-b972-a4239fbd4a96"
@@ -79,7 +79,7 @@ identity:
             id: "331c37c6-af14-46d9-b9f4-e1909e1b95a0"
 ```
 - **type**: Managed identity type (`SystemAssigned` recommended for simplicity).
-- **roleAssignments**: Assigns Azure RBAC roles to the Dev Center and organizational groups for secure operations.
+- **roleAssignments**: Assigns Azure RBAC roles to the Dev Center and organizational groups for secure operations. The `roleAssignments` section includes both `devCenter` (for resource-level roles) and `orgRoleTypes` (for organization-level roles such as `DevManager`).
 
 ---
 
@@ -112,15 +112,36 @@ environmentTypes:
 
 ### Projects
 
-Each project is a distinct logical unit with its own pools, catalogs, and access controls.
 
-#### Example Project Structure
+Each project is a distinct logical unit with its own network, pools, catalogs, access controls, and tags.
+
+#### Example Project Structures
 
 ```yaml
 projects:
   - name: "identityProvider"
     description: "Identity Provider project."
-    
+
+    network:
+      name: identityProvider
+      create: true
+      resourceGroupName: "identityProvider-connectivity-RG"
+      virtualNetworkType: Unmanaged  
+      addressPrefixes:
+        - 10.0.0.0/16
+      subnets:
+        - name: identityProvider-subnet
+          properties:
+            addressPrefix: 10.0.1.0/24
+      tags:
+        environment: dev
+        division: Platforms
+        team: DevExP
+        project: DevExP-DevBox
+        costCenter: IT
+        owner: Contoso
+        resources: Network
+
     identity:
       type: SystemAssigned
       roleAssignments:
@@ -133,19 +154,19 @@ projects:
               id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
             - name: "Deployment Environment User"
               id: "18e40d4e-8d2e-438d-97e1-9528336e149c"
-    
+
     pools:
       - name: "backend-engineer"
         imageDefinitionName: "identityProvider-backend-engineer"
       - name: "frontend-engineer"
         imageDefinitionName: "identityProvider-frontend-engineer"
-    
+
     environmentTypes:
       - name: "dev"
         deploymentTargetId: ""
       - name: "staging"
         deploymentTargetId: ""
-    
+
     catalogs:
       environmentDefinition:
         name: "environments"
@@ -153,14 +174,86 @@ projects:
         uri: "https://github.com/Evilazaro/identityProvider.git"
         branch: "main"
         path: ".configuration/devcenter/environments"
-      
       imageDefinition:
         name: "imageDefinitions"
         type: "gitHub"
         uri: "https://github.com/Evilazaro/identityProvider.git"
         branch: "main"
         path: ".configuration/devcenter/imageDefinitions"
-    
+
+    tags:
+      environment: "dev"
+      division: "Platforms"
+      team: "DevExP"
+      project: "DevExP-DevBox"
+      costCenter: "IT"
+      owner: "Contoso"
+      resources: "Project"
+
+  - name: "eShop"
+    description: "eShop project."
+
+    network:
+      name: eShop
+      create: true
+      resourceGroupName: "eShop-connectivity-RG"
+      virtualNetworkType: Unmanaged  
+      addressPrefixes:
+        - 10.0.0.0/16
+      subnets:
+        - name: identityProvider-subnet
+          properties:
+            addressPrefix: 10.0.1.0/24
+      tags:
+        environment: dev
+        division: Platforms
+        team: DevExP
+        project: DevExP-DevBox
+        costCenter: IT
+        owner: Contoso
+        resources: Network
+
+    identity:
+      type: SystemAssigned
+      roleAssignments:
+        - azureADGroupId: "19d12c65-509f-491d-bb38-49297e1c56a0"
+          azureADGroupName: "eShop Developers"
+          azureRBACRoles:
+            - name: "Contributor"
+              id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
+            - name: "Dev Box User"
+              id: "45d50f46-0b78-4001-a660-4198cbe8cd05"            
+            - name: "Deployment Environment User"
+              id: "18e40d4e-8d2e-438d-97e1-9528336e149c"
+            - name: "Key Vault Secrets User"
+              id: "4633458b-17de-408a-b874-0445c86b69e6"
+
+    pools:
+      - name: "backend-engineer"
+        imageDefinitionName: "eShop-backend-engineer"
+      - name: "frontend-engineer"
+        imageDefinitionName: "eShop-frontend-engineer"
+
+    environmentTypes:
+      - name: "dev"
+        deploymentTargetId: ""
+      - name: "staging"
+        deploymentTargetId: ""
+
+    catalogs:
+      environmentDefinition:
+        name: "environments"
+        type: "gitHub"
+        uri: "https://github.com/Evilazaro/eShop.git"
+        branch: "main"
+        path: ".devcenter/environments"
+      imageDefinition:
+        name: "imageDefinitions"
+        type: "gitHub"
+        uri: "https://github.com/Evilazaro/eShop.git"
+        branch: "main"
+        path: ".devcenter/imageDefinitions"
+
     tags:
       environment: "dev"
       division: "Platforms"
@@ -172,10 +265,11 @@ projects:
 ```
 
 **Key Elements:**
+- **network**: Project-level network configuration, including VNet, subnets, and network tags.
 - **identity**: Project-level identity and RBAC assignments.
 - **pools**: Role-specific Dev Box pools (e.g., backend, frontend).
 - **environmentTypes**: Environments available to the project.
-- **catalogs**: Project-specific catalogs for IaC and image definitions.
+- **catalogs**: Project-specific catalogs for IaC and image definitions. Note the path differences for each project.
 - **tags**: Resource tags for governance and cost tracking.
 
 ---
@@ -215,6 +309,7 @@ Point `catalogs` to your organization's GitHub repositories for configuration-as
 
 ---
 
+
 ## Best Practices
 
 - **Use Azure AD Groups:** Assign permissions via groups, not individuals, for easier management.
@@ -224,6 +319,7 @@ Point `catalogs` to your organization's GitHub repositories for configuration-as
 - **Align Environments with SDLC:** Define `dev`, `staging`, and `prod` environments to match your release process.
 - **Review RBAC Assignments:** Grant only necessary permissions to minimize risk.
 - **Document Custom Pools:** Clearly describe the purpose and configuration of each Dev Box pool for maintainability.
+- **Use the `network` section:** Define project-level network configuration for each project to control connectivity and isolation.
 
 ---
 
