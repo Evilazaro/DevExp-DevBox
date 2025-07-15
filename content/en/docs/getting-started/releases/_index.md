@@ -1,12 +1,10 @@
 ---
 title: Release Strategy
-description: Release strategy for the Dev Box landing zone accelerator
+description: |
+  Dev Box Landing Zone Accelerator - Release Strategy
+  This document outlines the comprehensive release strategy for the Dev Box landing zone accelerator, detailing branch-based versioning, automated workflows, and deployment processes.
 weight: 6
 ---
-
-# Dev Box Landing Zone Accelerator - Release Strategy
-
-This document outlines the comprehensive release strategy for the Dev Box landing zone accelerator, detailing branch-based versioning, automated workflows, and deployment processes.
 
 ## Overview
 
