@@ -12,6 +12,11 @@ This document outlines the comprehensive release strategy for the Dev Box landin
 
 The Dev Box landing zone accelerator uses a **branch-based semantic release strategy** with intelligent overflow handling and conditional versioning rules. This approach ensures consistent, predictable releases while maintaining development flexibility across different branch types.
 
+## Build and Deploy Status
+
+[![Deploy to Azure](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/deploy.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/deploy.yml)
+[![Release](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/release.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/release.yml)
+
 ## Release Strategy Summary
 
 | Branch Pattern | Version Strategy | Release Publication | Tag Creation | Artifacts |
