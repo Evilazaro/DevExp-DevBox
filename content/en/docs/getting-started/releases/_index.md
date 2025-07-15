@@ -14,6 +14,11 @@ The Dev Box landing zone accelerator uses a **branch-based semantic release stra
 [![Deploy to Azure](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/deploy.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/deploy.yml)
 [![Release](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/release.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/release.yml)
 
+{{% pageinfo %}}
+## Releases  
+**Learn more** about the Dev Box accelerator landing zone [releases](https://github.com/Evilazaro/DevExp-DevBox/releases).
+{{% /pageinfo %}}
+
 ## Release Strategy Summary
 
 | Branch Pattern | Version Strategy | Release Publication | Tag Creation | Artifacts |
