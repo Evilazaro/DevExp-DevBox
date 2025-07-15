@@ -142,7 +142,3 @@ Each release includes comprehensive documentation:
 1. **Main Branch Protection**: Only merge tested, reviewed code to main
 2. **Version Monitoring**: Monitor version progression to prevent unexpected major increments
 3. **Release Planning**: Use the conditional major increment rule for planned major releases
-
-This release strategy provides a robust, automated approach to version management while maintaining flexibility for different development workflows and ensuring consistent, trackable releases for the Dev Box landing zone accelerator.
-```
-This comprehensive documentation explains the entire release strategy, providing clear examples, troubleshooting guidance, and best practices for the Dev Box landing zone accelerator project.
