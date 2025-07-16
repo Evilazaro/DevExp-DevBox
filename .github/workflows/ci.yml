@@ -1,0 +1,19 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+      - 'fix/**'
+
+permissions:
+  contents: write
+  pull-requests: read  # Added for PR triggers
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Bicep Code
+        uses: ./.github/actions/ci/bicep-standard-ci.yml

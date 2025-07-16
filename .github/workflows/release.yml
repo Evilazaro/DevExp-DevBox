@@ -1,11 +1,11 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - main
-      - 'feature/**'
-      - 'fix/**'
+  # push:
+  #   branches:
+  #     - main
+  #     - 'feature/**'
+  #     - 'fix/**'
   workflow_dispatch:
     inputs:
       release_type:
@@ -29,24 +29,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
-
-      - name: Build Accelerator Bicep
-        run: |
-          echo "✅ Building Bicep templates..."
-          mkdir -p ./artifacts
-          
-          # Check if Azure CLI is available
-          if command -v az &> /dev/null; then
-            az bicep build --file ./infra/main.bicep --outdir ./artifacts
-            echo "✅ Bicep build completed"
-          else
-            echo "⚠️ Azure CLI not available, creating placeholder artifacts"
-            echo "Bicep build would be executed here" > ./artifacts/placeholder.txt
-          fi
+      - name: Build Bicep Code
+        uses: ./.github/actions/ci/bicep-standard-ci.yml     
 
   generate_release:
     runs-on: ubuntu-latest
