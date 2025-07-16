@@ -1,31 +1,36 @@
-name: Release
+name: Branch-Based Release Strategy
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #     - 'feature/**'
-  #     - 'fix/**'
+  # Manual workflow dispatch for all branches
   workflow_dispatch:
     inputs:
-      release_type:
-        description: 'Release type (only for main branch)'
+      force_release:
+        description: 'Force create a release (even for non-main branches)'
         required: false
-        default: 'major'
-        type: choice
-        options:
-          - major
-  # Add pull_request trigger for testing on feature/fix branches
+        default: false
+        type: boolean
+  
+  # Automatic triggers
   push:
     branches:
+      - main           # Auto-release from main branch
+      - 'feature/**'   # Build and tag feature branches (no release)
+      - 'fix/**'       # Build and tag fix branches (no release)
+  
+  pull_request:
+    branches:
       - main
+    types: [opened, synchronize, reopened]
           
 permissions:
   contents: write
-  pull-requests: read  # Added for PR triggers
+  pull-requests: read
+  actions: read
 
 jobs:
+  # 🔍 Generate release metadata and version information
   generate-release:
+    name: Generate Release Metadata
     runs-on: ubuntu-latest
     outputs:
       new_version: ${{ steps.release.outputs.new_version }}
@@ -34,27 +39,63 @@ jobs:
       should_release: ${{ steps.release.outputs.should_release }}
       should_publish: ${{ steps.release.outputs.should_publish }}
       branch_name: ${{ steps.release.outputs.branch_name }}
+      commit_sha: ${{ github.sha }}
 
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout Repository
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+          fetch-depth: 0  # Full history for proper tag analysis
 
-      - name: Generate Release
+      - name: 🚀 Generate Release Information
         id: release
         uses: ./.github/actions/ci/generate-release
 
+      - name: 📋 Release Strategy Summary
+        shell: bash
+        run: |
+          echo "🌟 Branch-Based Release Strategy with Conditional Major Increment"
+          echo ""
+          echo "🔀 Branch: ${{ steps.release.outputs.branch_name }}"
+          echo "🏷️ Version: ${{ steps.release.outputs.new_version }}"
+          echo "📦 Previous Version: ${{ steps.release.outputs.previous_tag }}"
+          echo "🚀 Release Type: ${{ steps.release.outputs.release_type }}"
+          echo "🤖 Trigger: ${{ github.event_name }}"
+          echo "📝 Commit: ${{ github.sha }}"
+          echo ""
+          echo "Release Strategy Applied:"
+          echo "🎯 Main Branch: Conditional major increment (only if minor=0 AND patch=0, otherwise increment patch with overflow logic)"
+          echo ""
+          echo "Main Branch Logic (NEW RULE):"
+          echo "• If minor=0 AND patch=0: Increment major → major+1.0.0"
+          echo "• If minor≠0 OR patch≠0: Keep major, increment patch → major.minor.(patch+1)"
+          echo "• Overflow handling: If patch > 99 → minor+1, patch=0; if minor > 99 → major+1, minor=0"
+          echo ""
+          echo "Feature/Fix Branch Overflow Logic:"
+          echo "• Feature branches: If patch + commits > 99 → patch = 0, minor += 1"
+          echo "• Fix branches: If minor + commits > 99 → minor = 0, major += 1"
+          echo "• Cascading overflow: If minor overflows during patch overflow → minor = 0, major += 1"
+
+  # 🏗️ Build artifacts and compile Bicep templates
   build:
+    name: Build Artifacts
     runs-on: ubuntu-latest
     needs: generate-release
+    if: needs.generate-release.outputs.should_release == 'true'
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout Repository
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+          fetch-depth: 0
 
-      - name: Build Bicep Code
+      - name: 🔧 Setup Azure CLI
+        uses: azure/setup-cli@v1
+        with:
+          azcli-version: latest
+
+      - name: 🏗️ Build Bicep Templates and Create Artifacts
         id: build
         uses: ./.github/actions/ci/bicep-standard-ci
         with:
@@ -62,36 +103,140 @@ jobs:
           new_version: ${{ needs.generate-release.outputs.new_version }}
           should_publish: ${{ needs.generate-release.outputs.should_publish }}
 
+      - name: 📊 Build Summary
+        shell: bash
+        run: |
+          echo "📦 Build Artifacts Created:"
+          echo "  - 📄 Bicep templates compiled to ARM templates"
+          echo "  - 🏗️ Infrastructure deployment files"
+          echo "  - 📋 Release metadata and documentation"
+          echo "  - 🏷️ Version: ${{ needs.generate-release.outputs.new_version }}"
+          echo "  - 🔀 Branch: ${{ needs.generate-release.outputs.branch_name }}"
+
+  # 📢 Publish GitHub Release (only for main branch or forced releases)
   publish-release:
+    name: Publish GitHub Release
     runs-on: ubuntu-latest
     needs: [generate-release, build]
-    if: needs.generate-release.outputs.should_release == 'true'
+    if: |
+      needs.generate-release.outputs.should_release == 'true' && 
+      (needs.generate-release.outputs.should_publish == 'true' || 
+       github.event.inputs.force_release == 'true')
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout Repository
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+          fetch-depth: 0
 
-      - name: Publish Release
-        uses: softprops/action-gh-release@v1
-        id: publish
+      - name: 📦 Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: artifacts-${{ needs.generate-release.outputs.new_version }}
+          path: ./artifacts
+
+      - name: 📋 Generate Release Notes
+        id: release_notes
+        shell: bash
+        run: |
+          branch_name="${{ needs.generate-release.outputs.branch_name }}"
+          release_type="${{ needs.generate-release.outputs.release_type }}"
+          previous_tag="${{ needs.generate-release.outputs.previous_tag }}"
+          new_version="${{ needs.generate-release.outputs.new_version }}"
+          commit_sha="${{ needs.generate-release.outputs.commit_sha }}"
+          
+          # Determine if this is a prerelease
+          is_prerelease="false"
+          if [[ "$branch_name" != "main" ]] || [[ "$new_version" == *"-"* ]]; then
+            is_prerelease="true"
+          fi
+          
+          # Generate release body
+          cat > release_notes.md << EOF
+          ## 🌟 Branch-Based Release Strategy with Conditional Major Increment
+          
+          ### 📊 Release Information
+          - **🔀 Branch:** \`$branch_name\`
+          - **🏷️ Version:** \`$new_version\`
+          - **📦 Previous Version:** \`$previous_tag\`
+          - **🚀 Release Type:** \`$release_type\`
+          - **🤖 Trigger:** ${{ github.event_name }}
+          - **📝 Commit:** \`$commit_sha\`
+          
+          ### 🎯 Release Strategy Applied
+          **Main Branch:** Conditional major increment (only if minor=0 AND patch=0, otherwise increment patch with overflow logic)
+          
+          #### Main Branch Logic (NEW RULE)
+          - **If minor=0 AND patch=0:** Increment major → major+1.0.0
+          - **If minor≠0 OR patch≠0:** Keep major, increment patch → major.minor.(patch+1)
+          - **Overflow handling:** If patch > 99 → minor+1, patch=0; if minor > 99 → major+1, minor=0
+          
+          #### Feature/Fix Branch Overflow Logic
+          - **Feature branches:** If patch + commits > 99 → patch = 0, minor += 1
+          - **Fix branches:** If minor + commits > 99 → minor = 0, major += 1
+          - **Cascading overflow:** If minor overflows during patch overflow → minor = 0, major += 1
+          
+          ### 📦 Artifacts
+          - 📄 Bicep templates compiled to ARM templates
+          - 🏗️ Infrastructure deployment files
+          - 📋 Release metadata and documentation
+          
+          ### 🔗 Links
+          - [Commit History](https://github.com/${{ github.repository }}/commits/$branch_name)
+          - [Compare Changes](https://github.com/${{ github.repository }}/compare/$previous_tag...$new_version)
+          EOF
+          
+          echo "is_prerelease=$is_prerelease" >> $GITHUB_OUTPUT
+
+      - name: 🚀 Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.generate-release.outputs.new_version }}
           name: Release ${{ needs.generate-release.outputs.new_version }}
-          body: |
-            ## Changes
+          body_path: release_notes.md
+          draft: false
+          prerelease: ${{ steps.release_notes.outputs.is_prerelease }}
+          generate_release_notes: true
+          files: |
+            ./artifacts/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - Automated release generated by workflow.
-            - Previous tag: ${{ needs.generate-release.outputs.previous_tag }}
-            - Release type: ${{ needs.generate-release.outputs.release_type }}
-            - Branch: ${{ needs.generate-release.outputs.branch_name }}
+      - name: ✅ Release Published
+        shell: bash
+        run: |
+          echo "🎉 Release ${{ needs.generate-release.outputs.new_version }} has been published!"
+          echo "🔗 Release URL: https://github.com/${{ github.repository }}/releases/tag/${{ needs.generate-release.outputs.new_version }}"
 
-            See [commit history](https://github.com/${{ github.repository }}/commits/${{ needs.generate-release.outputs.branch_name }}) for details.
-              draft: false
-              prerelease: false
-              generate_release_notes: true
-            env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            continue-on-error: false
+  # 📊 Summary job for workflow status
+  summary:
+    name: Workflow Summary
+    runs-on: ubuntu-latest
+    needs: [generate-release, build, publish-release]
+    if: always()
+    steps:
+      - name: 📊 Workflow Summary
+        shell: bash
+        run: |
+          echo "📊 Workflow Execution Summary"
+          echo "================================"
+          echo ""
+          echo "🔀 Branch: ${{ needs.generate-release.outputs.branch_name || 'N/A' }}"
+          echo "🏷️ Version: ${{ needs.generate-release.outputs.new_version || 'N/A' }}"
+          echo "🚀 Release Type: ${{ needs.generate-release.outputs.release_type || 'N/A' }}"
+          echo "🤖 Trigger: ${{ github.event_name }}"
+          echo ""
+          echo "📋 Job Status:"
+          echo "  - Generate Release: ${{ needs.generate-release.result }}"
+          echo "  - Build: ${{ needs.build.result }}"
+          echo "  - Publish Release: ${{ needs.publish-release.result }}"
+          echo ""
+          if [[ "${{ needs.publish-release.result }}" == "success" ]]; then
+            echo "✅ Release published successfully!"
+          elif [[ "${{ needs.generate-release.outputs.should_publish }}" == "false" ]]; then
+            echo "ℹ️  Development build completed. Tag created but no release published."
+          else
+            echo "⚠️  Workflow completed with issues. Check individual job logs."
+          fi
 
   
