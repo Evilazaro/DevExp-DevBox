@@ -42,17 +42,17 @@ jobs:
       commit_sha: ${{ github.sha }}
 
     steps:
-      - name: 📥 Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
           fetch-depth: 0  # Full history for proper tag analysis
 
-      - name: 🚀 Generate Release Information
+      - name: Generate Release Information
         id: release
         uses: ./.github/actions/ci/generate-release
 
-      - name: 📋 Release Strategy Summary
+      - name: Release Strategy Summary
         shell: bash
         run: |
           echo "🌟 Branch-Based Release Strategy with Conditional Major Increment"
@@ -84,18 +84,13 @@ jobs:
     needs: generate-release
     if: needs.generate-release.outputs.should_release == 'true'
     steps:
-      - name: 📥 Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
           fetch-depth: 0
 
-      - name: 🔧 Setup Azure CLI
-        uses: azure/setup-cli@v1
-        with:
-          azcli-version: latest
-
-      - name: 🏗️ Build Bicep Templates and Create Artifacts
+      - name: Build Bicep Templates and Create Artifacts
         id: build
         uses: ./.github/actions/ci/bicep-standard-ci
         with:
@@ -103,7 +98,7 @@ jobs:
           new_version: ${{ needs.generate-release.outputs.new_version }}
           should_publish: ${{ needs.generate-release.outputs.should_publish }}
 
-      - name: 📊 Build Summary
+      - name: Build Summary
         shell: bash
         run: |
           echo "📦 Build Artifacts Created:"
@@ -123,19 +118,19 @@ jobs:
       (needs.generate-release.outputs.should_publish == 'true' || 
        github.event.inputs.force_release == 'true')
     steps:
-      - name: 📥 Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
           fetch-depth: 0
 
-      - name: 📦 Download Build Artifacts
+      - name: Download Build Artifacts
         uses: actions/download-artifact@v4
         with:
           name: artifacts-${{ needs.generate-release.outputs.new_version }}
           path: ./artifacts
 
-      - name: 📋 Generate Release Notes
+      - name: Generate Release Notes
         id: release_notes
         shell: bash
         run: |
@@ -188,7 +183,7 @@ jobs:
           
           echo "is_prerelease=$is_prerelease" >> $GITHUB_OUTPUT
 
-      - name: 🚀 Create GitHub Release
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.generate-release.outputs.new_version }}
@@ -202,7 +197,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: ✅ Release Published
+      - name: Release Published
         shell: bash
         run: |
           echo "🎉 Release ${{ needs.generate-release.outputs.new_version }} has been published!"
@@ -215,7 +210,7 @@ jobs:
     needs: [generate-release, build, publish-release]
     if: always()
     steps:
-      - name: 📊 Workflow Summary
+      - name: Workflow Summary
         shell: bash
         run: |
           echo "📊 Workflow Execution Summary"
