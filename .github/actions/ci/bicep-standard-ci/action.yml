@@ -20,33 +20,3 @@ runs:
             echo "⚠️ Azure CLI not available, creating placeholder artifacts"
             echo "Bicep build would be executed here" > ./artifacts/placeholder.txt
           fi
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifacts-${{ needs.generate_release.outputs.new_version }}
-          path: ./artifacts
-          compression-level: 6
-          overwrite: true
-          if-no-files-found: warn
-          retention-days: 7
-
-      - name: Artifact Summary
-        shell: bash
-        run: |
-          branch_name="${{ needs.generate_release.outputs.branch_name }}"
-          version="${{ needs.generate_release.outputs.new_version }}"
-          should_publish="${{ needs.generate_release.outputs.should_publish }}"
-          
-          echo "📦 Artifacts Summary:"
-          echo "  - Version: $version"
-          echo "  - Branch: $branch_name"
-          echo "  - Tag created: ✅"
-          echo "  - Artifacts uploaded: ✅"
-          echo "  - GitHub release will be published: $should_publish"
-          
-          if [[ "$should_publish" == "false" ]]; then
-            echo ""
-            echo "ℹ️  This is a development build from a non-main branch."
-            echo "   Tag and artifacts are created for tracking, but no GitHub release is published."
-          fi
