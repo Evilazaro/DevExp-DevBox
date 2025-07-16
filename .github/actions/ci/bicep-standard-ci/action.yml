@@ -106,6 +106,53 @@ runs:
           echo "  - Will create tag and version: $should_release"
           echo "  - Will publish GitHub release: $should_publish"
 
+      - name: Count commits since last tag
+        shell: bash
+        id: count_commits
+        if: steps.determine_release_type.outputs.should_release == 'true'
+        run: |
+          last_tag="${{ steps.get_tag.outputs.tag }}"
+          branch_name="${{ steps.branch_info.outputs.branch_name }}"
+          
+          echo "🔍 Counting commits for branch: $branch_name"
+          echo "🏷️ Last tag: $last_tag"
+          
+          if [ "$last_tag" = "v0.0.0" ]; then
+            # No previous tags, count all commits
+            if [[ "$branch_name" == "main" ]]; then
+              commit_count=$(git rev-list --count HEAD)
+            else
+              # For feature/fix branches, count commits in this branch only
+              merge_base=$(git merge-base HEAD origin/main 2>/dev/null || git merge-base HEAD main 2>/dev/null || echo "")
+              if [ -n "$merge_base" ]; then
+                commit_count=$(git rev-list --count ${merge_base}..HEAD)
+              else
+                commit_count=$(git rev-list --count HEAD)
+              fi
+            fi
+          else
+            # Count commits since last tag
+            if [[ "$branch_name" == "main" ]]; then
+              commit_count=$(git rev-list --count ${last_tag}..HEAD)
+            else
+              # For feature/fix branches, count commits since branch diverged from main
+              merge_base=$(git merge-base HEAD origin/main 2>/dev/null || git merge-base HEAD main 2>/dev/null || echo "")
+              if [ -n "$merge_base" ]; then
+                commit_count=$(git rev-list --count ${merge_base}..HEAD)
+              else
+                commit_count=$(git rev-list --count ${last_tag}..HEAD)
+              fi
+            fi
+          fi
+          
+          # Ensure minimum commit count of 1
+          if [ "$commit_count" -eq 0 ]; then
+            commit_count=1
+          fi
+          
+          echo "commit_count=$commit_count" >> $GITHUB_OUTPUT
+          echo "✅ Commits to include: $commit_count"
+
       - name: Build Accelerator Bicep
         shell: bash
         run: |
