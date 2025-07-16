@@ -72,8 +72,10 @@ runs:
         # If tag matches v<major>.<minor>.<patch>-<suffix>, extract only v<major>.<minor>.<patch>
         base_tag=$(echo "$tag" | sed -E 's/^(v[0-9]+\.[0-9]+\.[0-9]+).*$/\1/')
 
-        echo "tag=$base_tag" >> $GITHUB_OUTPUT
-        echo "✅ Latest tag: $base_tag"
+        echo "tag=$tag" >> $GITHUB_OUTPUT
+        echo "base_tag=$base_tag" >> $GITHUB_OUTPUT
+        echo "Previous tag: $base_tag"
+        echo "✅ Latest tag: $tag"
 
     - name: Determine release type and strategy
       shell: bash
@@ -177,7 +179,7 @@ runs:
       id: calculate_next_version
       if: steps.determine_release_type.outputs.should_release == 'true'
       run: |
-        current_version="${{ steps.get_tag.outputs.tag }}"
+        current_version="${{ steps.get_tag.outputs.base_tag }}"
         release_type="${{ steps.determine_release_type.outputs.release_type }}"
         commit_count="${{ steps.count_commits.outputs.commit_count }}"
         branch_name="${{ steps.branch_info.outputs.branch_name }}"
