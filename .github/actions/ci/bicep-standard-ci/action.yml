@@ -5,7 +5,14 @@ description: |
 runs:
   using: composite
   steps:
-
+      - name: Update Packages
+        shell: bash
+        run: |
+          echo "✅ Updating packages..."
+          # Simulate package update
+          sudo apt-get update
+          echo "✅ Packages updated successfully"
+          
       - name: Build Accelerator Bicep
         shell: bash
         run: |

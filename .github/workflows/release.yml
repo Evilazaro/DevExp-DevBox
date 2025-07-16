@@ -1,11 +1,11 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - main
-      - 'feature/**'
-      - 'fix/**'
+  # push:
+  #   branches:
+  #     - main
+  #     - 'feature/**'
+  #     - 'fix/**'
   workflow_dispatch:
     inputs:
       release_type:
