@@ -3,10 +3,6 @@ name: Bicep Standard CI
 runs:
   using: composite
   steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
 
       - name: Build Accelerator Bicep
         run: |
