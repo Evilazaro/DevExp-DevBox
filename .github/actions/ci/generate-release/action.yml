@@ -1,6 +1,26 @@
 name: Generate Release
 description: Generate a release based on the build outputs
 
+outputs:
+  new_version:
+    description: 'The new version generated for the release'
+    value: ${{ steps.calculate_next_version.outputs.new_version }}
+  release_type:
+    description: 'The type of release (major, minor, patch, etc.)'
+    value: ${{ steps.determine_release_type.outputs.release_type }}
+  previous_tag:
+    description: 'The last tag before this release'
+    value: ${{ steps.get_tag.outputs.tag }}
+  should_release:
+    description: 'Whether a release should be created'
+    value: ${{ steps.determine_release_type.outputs.should_release }}
+  should_publish:
+    description: 'Whether the release should be published on GitHub'
+    value: ${{ steps.determine_release_type.outputs.should_publish }}
+  branch_name:
+    description: 'The name of the branch being built'
+    value: ${{ steps.branch_info.outputs.branch_name }}
+
 runs:
   using: composite
   steps:
