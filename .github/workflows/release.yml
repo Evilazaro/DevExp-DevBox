@@ -26,7 +26,7 @@ permissions:
   pull-requests: read  # Added for PR triggers
 
 jobs:
-  build:
+  generate-release:
     runs-on: ubuntu-latest
     outputs:
       new_version: ${{ steps.release.outputs.new_version }}
@@ -35,6 +35,7 @@ jobs:
       should_release: ${{ steps.release.outputs.should_release }}
       should_publish: ${{ steps.release.outputs.should_publish }}
       branch_name: ${{ steps.release.outputs.branch_name }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -44,5 +45,43 @@ jobs:
       - name: Generate Release
         id: release
         uses: ./.github/actions/ci/generate-release
+
+  build:
+    runs-on: ubuntu-latest
+    needs: generate-release
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+
+      - name: Build Bicep Code
+        id: build
+        uses: ./.github/actions/ci/bicep-standard-ci
+        with:
+          branch_name: ${{ needs.generate-release.outputs.branch_name }}
+          new_version: ${{ needs.generate-release.outputs.new_version }}
+          should_publish: ${{ needs.generate-release.outputs.should_publish }}
+
+  publish-release:
+    runs-on: ubuntu-latest
+    needs: [generate-release, build]
+    if: needs.generate-release.outputs.should_release == 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+
+      - name: Publish Release
+        uses: softprops/action-gh-release@v1
+        id: publish
+        with:
+          tag_name: ${{ needs.generate-release.outputs.new_version }}
+          name: Release ${{ needs.generate-release.outputs.new_version }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   
