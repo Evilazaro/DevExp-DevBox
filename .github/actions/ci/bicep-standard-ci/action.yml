@@ -155,7 +155,7 @@ runs:
 
       - name: Calculate next version
         shell: bash
-        id: next_version
+        id: calculate_next_version
         if: steps.determine_release_type.outputs.should_release == 'true'
         run: |
           current_version="${{ steps.get_tag.outputs.tag }}"
@@ -285,7 +285,7 @@ runs:
       - name: Create and push tag
         shell: bash
         run: |
-          tag_name="${{ steps.new_version.outputs.new_version }}"
+          tag_name="${{ steps.calculate_next_version.outputs.new_version }}"
           branch_name="${{ steps.branch_info.outputs.branch_name }}"
           should_publish="${{ steps.determine_release_type.outputs.should_publish }}"
           
