@@ -302,8 +302,12 @@ runs:
           
           # Fetch latest tags and set up authentication before pushing
           git fetch --tags --force
-          git push origin "$tag_name"
-          echo "✅ Tag $tag_name created and pushed successfully"
+          if git rev-parse "$tag_name" >/dev/null 2>&1; then
+            echo "⚠️ Tag $tag_name already exists. Skipping push."
+          else
+            git push origin "$tag_name"
+            echo "✅ Tag $tag_name created and pushed successfully"
+          fi
 
       - name: Build Accelerator Bicep
         shell: bash
