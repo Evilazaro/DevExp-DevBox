@@ -56,6 +56,56 @@ runs:
           echo "tag=$tag" >> $GITHUB_OUTPUT
           echo "✅ Latest tag: $tag"
 
+      - name: Determine release type and strategy
+        shell: bash
+        id: determine_release_type
+        run: |
+          branch_name="${{ steps.branch_info.outputs.branch_name }}"
+          should_release="true"
+          should_publish="true"
+          
+          echo "🔍 Analyzing branch: $branch_name"
+          
+          # For PR events, only create pre-releases
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "📋 Pull Request detected - Creating pre-release"
+            should_publish="false"
+          fi
+          
+          if [[ "$branch_name" == "main" ]]; then
+            # Main branch: conditional major increment with new rule
+            release_type="main"
+            should_publish="true"
+            echo "✅ Main branch detected - Conditional major release strategy with new rule"
+            
+          elif [[ "$branch_name" == feature/* ]]; then
+            # Feature branch: patch increment with overflow logic
+            release_type="feature"
+            should_publish="false"
+            echo "✅ Feature branch detected - Patch increment with overflow strategy (no release publication)"
+            
+          elif [[ "$branch_name" == fix/* ]]; then
+            # Fix branch: minor increment with overflow logic
+            release_type="fix"
+            should_publish="false"
+            echo "✅ Fix branch detected - Minor increment with overflow strategy (no release publication)"
+            
+          else
+            echo "⚠️ Unsupported branch pattern: $branch_name"
+            echo "Only main, feature/*, and fix/* branches are supported for releases"
+            should_release="false"
+            should_publish="false"
+            release_type="none"
+          fi
+          
+          echo "release_type=$release_type" >> $GITHUB_OUTPUT
+          echo "should_release=$should_release" >> $GITHUB_OUTPUT
+          echo "should_publish=$should_publish" >> $GITHUB_OUTPUT
+          
+          echo "📋 Release Summary:"
+          echo "  - Will create tag and version: $should_release"
+          echo "  - Will publish GitHub release: $should_publish"
+
       - name: Build Accelerator Bicep
         shell: bash
         run: |
