@@ -289,22 +289,27 @@ runs:
           branch_name="${{ steps.branch_info.outputs.branch_name }}"
           should_publish="${{ steps.determine_release_type.outputs.should_publish }}"
           
-          echo "🏷️ Creating tag: $tag_name"
+          echo "🏷️ Preparing to create tag: $tag_name"
           echo "🔀 For branch: $branch_name"
           echo "📋 Will publish release: $should_publish"
           
-          # Create annotated tag
-          if [[ "$branch_name" == "main" ]]; then
-            git tag -a "$tag_name" -m "Release $tag_name from main branch"
-          else
-            git tag -a "$tag_name" -m "Development tag $tag_name from $branch_name branch (no release)"
-          fi
-          
-          # Fetch latest tags and set up authentication before pushing
+          # Fetch latest tags first to check for existing tags
           git fetch --tags --force
+          
+          # Check if tag already exists before creating it
           if git rev-parse "$tag_name" >/dev/null 2>&1; then
-            echo "⚠️ Tag $tag_name already exists. Skipping push."
+            echo "⚠️ Tag $tag_name already exists locally or remotely. Skipping tag creation and push."
           else
+            echo "✅ Tag $tag_name does not exist. Creating new tag..."
+            
+            # Create annotated tag
+            if [[ "$branch_name" == "main" ]]; then
+              git tag -a "$tag_name" -m "Release $tag_name from main branch"
+            else
+              git tag -a "$tag_name" -m "Development tag $tag_name from $branch_name branch (no release)"
+            fi
+            
+            # Push the newly created tag
             git push origin "$tag_name"
             echo "✅ Tag $tag_name created and pushed successfully"
           fi
