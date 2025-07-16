@@ -63,13 +63,17 @@ runs:
       run: |
         # Fetch all tags
         git fetch --tags --force
-        # Get the latest tag matching v<major>.<minor>.<patch>
-        tag=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' | sort -V | tail -n 1)
+        # Get the latest tag matching v<major>.<minor>.<patch> optionally with a suffix
+        tag=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*'* | sort -V | tail -n 1)
         if [ -z "$tag" ]; then
           tag="v0.0.0"
         fi
-        echo "tag=$tag" >> $GITHUB_OUTPUT
-        echo "✅ Latest tag: $tag"
+
+        # If tag matches v<major>.<minor>.<patch>-<suffix>, extract only v<major>.<minor>.<patch>
+        base_tag=$(echo "$tag" | sed -E 's/^(v[0-9]+\.[0-9]+\.[0-9]+).*$/\1/')
+
+        echo "tag=$base_tag" >> $GITHUB_OUTPUT
+        echo "✅ Latest tag: $base_tag"
 
     - name: Determine release type and strategy
       shell: bash
@@ -295,7 +299,7 @@ runs:
           version_suffix="${version_suffix}-pr${{ github.event.number }}"
         fi
         
-        new_version="v$major.$minor.$patch"
+        new_version="v$major.$minor.$patch-$version_suffix"
         echo "✅ Next version: $new_version"
         echo "📊 Final version breakdown: major=$major, minor=$minor, patch=$patch"
         echo "new_version=$new_version" >> $GITHUB_OUTPUT
