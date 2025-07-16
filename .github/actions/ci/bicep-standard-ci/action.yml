@@ -1,10 +1,13 @@
 name: Bicep Standard CI
+description: |
+  This action builds Bicep templates and uploads the artifacts.
 
 runs:
   using: composite
   steps:
 
       - name: Build Accelerator Bicep
+        shell: bash
         run: |
           echo "✅ Building Bicep templates..."
           mkdir -p ./artifacts
@@ -29,6 +32,7 @@ runs:
           retention-days: 7
 
       - name: Artifact Summary
+        shell: bash
         run: |
           branch_name="${{ needs.generate_release.outputs.branch_name }}"
           version="${{ needs.generate_release.outputs.new_version }}"
