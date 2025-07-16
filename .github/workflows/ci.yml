@@ -3,9 +3,12 @@ name: Continuous Integration
 on:
   push:
     branches:
-      - main
       - 'feature/**'
       - 'fix/**'
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: write

@@ -16,11 +16,10 @@ on:
         options:
           - major
   # Add pull_request trigger for testing on feature/fix branches
-  pull_request:
+  push:
     branches:
       - main
-    types: [opened, synchronize, reopened]
-    
+          
 permissions:
   contents: write
   pull-requests: read  # Added for PR triggers
