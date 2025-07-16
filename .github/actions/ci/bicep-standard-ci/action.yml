@@ -31,6 +31,31 @@ runs:
           echo "Actor: ${{ github.actor }}"
           echo "SHA: ${{ github.sha }}"
 
+      - name: Get branch information
+        shell: bash
+        id: branch_info
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            branch_name="${{ github.ref_name }}"
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            branch_name="${{ github.head_ref }}"
+          else
+            branch_name="${{ github.ref_name }}"
+          fi
+          
+          echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
+          echo "✅ Current branch: $branch_name"
+
+      - name: Get latest tag
+        shell: bash
+        id: get_tag
+        run: |
+          # Fetch all tags
+          git fetch --tags --force
+          tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "tag=$tag" >> $GITHUB_OUTPUT
+          echo "✅ Latest tag: $tag"
+
       - name: Build Accelerator Bicep
         shell: bash
         run: |
