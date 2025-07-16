@@ -300,7 +300,8 @@ runs:
             git tag -a "$tag_name" -m "Development tag $tag_name from $branch_name branch (no release)"
           fi
           
-          # Push the tag
+          # Fetch latest tags and set up authentication before pushing
+          git fetch --tags --force
           git push origin "$tag_name"
           echo "✅ Tag $tag_name created and pushed successfully"
 
