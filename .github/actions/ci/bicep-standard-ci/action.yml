@@ -48,7 +48,7 @@ runs:
           compression-level: 6
           overwrite: true
           if-no-files-found: warn
-          retention-days: 30
+          retention-days: 7
 
       - name: Artifact Summary
         shell: bash
@@ -69,7 +69,6 @@ runs:
             echo "ℹ️  This is a development build from a non-main branch."
             echo "   Tag and artifacts are created for tracking, but no GitHub release is published."
           fi
-          retention-days: 7
 
       - name: Artifact Summary
         shell: bash
