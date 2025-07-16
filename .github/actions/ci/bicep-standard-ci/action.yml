@@ -2,8 +2,20 @@ name: Bicep Standard CI
 description: |
   This action builds Bicep templates and uploads the artifacts.
 
+inputs:
+  branch_name:
+    description: 'The name of the branch being built'
+    required: true
+  new_version:
+    description: 'The version being built'
+    required: true
+  should_publish:
+    description: 'Whether the build should be published'
+    required: true
+
 runs:
   using: composite
+
   steps:
       - name: Update Packages
         shell: bash
@@ -41,9 +53,9 @@ runs:
       - name: Artifact Summary
         shell: bash
         run: |
-          branch_name="${{ steps.branch_info.outputs.branch_name }}"
-          version="${{ steps.calculate_next_version.outputs.new_version }}"
-          should_publish="${{ steps.determine_release_type.outputs.should_publish }}"
+          branch_name="${{ inputs.branch_name }}"
+          version="${{ inputs.new_version }}"
+          should_publish="${{ inputs.should_publish }}"
           
           echo "📦 Artifacts Summary:"
           echo "  - Version: $version"

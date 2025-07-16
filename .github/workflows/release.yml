@@ -27,7 +27,14 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.release.outputs.new_version }}
+      release_type: ${{ steps.release.outputs.release_type }}
+      previous_tag: ${{ steps.release.outputs.previous_tag }}
+      should_release: ${{ steps.release.outputs.should_release }}
+      should_publish: ${{ steps.release.outputs.should_publish }}
+      branch_name: ${{ steps.release.outputs.branch_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

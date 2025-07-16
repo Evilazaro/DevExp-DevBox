@@ -24,6 +24,10 @@ jobs:
         id: release
         uses: ./.github/actions/ci/generate-release
         
-      # - name: Build Bicep Code
-      #   id: build
-      #   uses: ./.github/actions/ci/bicep-standard-ci
+      - name: Build Bicep Code
+        id: build
+        uses: ./.github/actions/ci/bicep-standard-ci
+        with:
+          branch_name: ${{ steps.release.outputs.branch_name }}
+          new_version: ${{ steps.release.outputs.new_version }}
+          should_publish: ${{ steps.release.outputs.should_publish }}
