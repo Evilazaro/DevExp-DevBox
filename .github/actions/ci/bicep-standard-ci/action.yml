@@ -12,7 +12,25 @@ runs:
           # Simulate package update
           sudo apt-get update
           echo "✅ Packages updated successfully"
-          
+
+      - name: Setup Git identity
+        shell: bash
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Debug trigger information
+        shell: bash
+        run: |
+          echo "🐛 Debug Information:"
+          echo "Event name: ${{ github.event_name }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "Head ref: ${{ github.head_ref }}"
+          echo "Base ref: ${{ github.base_ref }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "SHA: ${{ github.sha }}"
+
       - name: Build Accelerator Bicep
         shell: bash
         run: |
