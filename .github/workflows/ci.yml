@@ -14,6 +14,13 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.build.outputs.new_version }}
+      release_type: ${{ steps.build.outputs.release_type }}
+      previous_tag: ${{ steps.build.outputs.previous_tag }}
+      should_release: ${{ steps.build.outputs.should_release }}
+      should_publish: ${{ steps.build.outputs.should_publish }}
+      branch_name: ${{ steps.build.outputs.branch_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,4 +28,5 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
 
       - name: Build Bicep Code
+        id: build
         uses: ./.github/actions/ci/bicep-standard-ci
