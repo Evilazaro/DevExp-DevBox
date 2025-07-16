@@ -40,3 +40,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+
+
+      - name: Build Bicep Code
+        id: build
+        uses: ./.github/actions/ci/bicep-standard-ci
+        with:
+          branch_name: ${{ needs.generate-release.outputs.branch_name }}
+          new_version: ${{ needs.generate-release.outputs.new_version }}
+          should_publish: ${{ needs.generate-release.outputs.should_publish }}
