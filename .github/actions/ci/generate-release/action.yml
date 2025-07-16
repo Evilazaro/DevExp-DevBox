@@ -63,7 +63,11 @@ runs:
       run: |
         # Fetch all tags
         git fetch --tags --force
-        tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+        # Get the latest tag matching v<major>.<minor>.<patch>
+        tag=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' | sort -V | tail -n 1)
+        if [ -z "$tag" ]; then
+          tag="v0.0.0"
+        fi
         echo "tag=$tag" >> $GITHUB_OUTPUT
         echo "✅ Latest tag: $tag"
 
