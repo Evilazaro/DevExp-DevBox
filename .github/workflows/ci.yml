@@ -15,7 +15,7 @@ permissions:
   pull-requests: read  # Added for PR triggers
 
 jobs:
-  generate-release:
+  generate-tag-version:
     runs-on: ubuntu-latest
     outputs:
       new_version: ${{ steps.release.outputs.new_version }}
@@ -33,11 +33,11 @@ jobs:
 
       - name: Generate Release
         id: release
-        uses: ./.github/actions/ci/generate-release
+        uses: ./.github/actions/ci/generate-tag-version
 
   build:
     runs-on: ubuntu-latest
-    needs: generate-release
+    needs: generate-tag-version
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -48,6 +48,6 @@ jobs:
         id: build
         uses: ./.github/actions/ci/bicep-standard-ci
         with:
-          branch_name: ${{ needs.generate-release.outputs.branch_name }}
-          new_version: ${{ needs.generate-release.outputs.new_version }}
-          should_publish: ${{ needs.generate-release.outputs.should_publish }}
+          branch_name: ${{ needs.generate-tag-version.outputs.branch_name }}
+          new_version: ${{ needs.generate-tag-version.outputs.new_version }}
+          should_publish: ${{ needs.generate-tag-version.outputs.should_publish }}
