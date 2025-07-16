@@ -295,7 +295,7 @@ runs:
           version_suffix="${version_suffix}-pr${{ github.event.number }}"
         fi
         
-        new_version="v$major.$minor.$patch$version_suffix"
+        new_version="v$major.$minor.$patch"
         echo "✅ Next version: $new_version"
         echo "📊 Final version breakdown: major=$major, minor=$minor, patch=$patch"
         echo "new_version=$new_version" >> $GITHUB_OUTPUT
