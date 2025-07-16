@@ -177,6 +177,9 @@ runs:
         # Remove 'v' prefix if present
         current_version=${current_version#v}
         IFS='.' read -r major minor patch <<< "$current_version"
+        # Fallback for missing minor/patch
+        if [ -z "$minor" ]; then minor=0; fi
+        if [ -z "$patch" ]; then patch=0; fi
         
         echo "📊 Current version: v$major.$minor.$patch"
         echo "📊 Release type: $release_type"
