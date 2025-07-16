@@ -16,4 +16,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Bicep Code
-        uses: ./.github/actions/ci/bicep-standard-ci.yml
+        uses: ./.github/actions/ci/bicep-standard-ci
