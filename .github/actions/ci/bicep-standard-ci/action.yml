@@ -153,6 +153,135 @@ runs:
           echo "commit_count=$commit_count" >> $GITHUB_OUTPUT
           echo "✅ Commits to include: $commit_count"
 
+      - name: Calculate next version
+        shell: bash
+        id: next_version
+        if: steps.determine_release_type.outputs.should_release == 'true'
+        run: |
+          current_version="${{ steps.get_tag.outputs.tag }}"
+          release_type="${{ steps.determine_release_type.outputs.release_type }}"
+          commit_count="${{ steps.count_commits.outputs.commit_count }}"
+          branch_name="${{ steps.branch_info.outputs.branch_name }}"
+          
+          # Remove 'v' prefix if present
+          current_version=${current_version#v}
+          IFS='.' read -r major minor patch <<< "$current_version"
+          
+          echo "📊 Current version: v$major.$minor.$patch"
+          echo "📊 Release type: $release_type"
+          echo "📊 Commit count: $commit_count"
+          
+          case "$release_type" in
+            main)
+              # NEW RULE: Main branch conditional major increment
+              # Only increase major if minor and patch are both 0
+              # Otherwise, keep major and update minor/patch accordingly
+              
+              echo "🎯 Main branch: Applying new conditional major increment rule"
+              echo "📋 Current state: major=$major, minor=$minor, patch=$patch"
+              
+              if [ "$minor" -eq 0 ] && [ "$patch" -eq 0 ]; then
+                # Rule condition met: minor=0 AND patch=0 -> increment major
+                major=$((major + 1))
+                minor=0
+                patch=0
+                echo "✅ Rule condition met (minor=0 AND patch=0): Incrementing major to $major"
+              else
+                # Rule condition NOT met: keep major, update minor/patch
+                echo "⚠️ Rule condition NOT met (minor≠0 OR patch≠0): Keeping major=$major"
+                
+                # Increment patch first, then handle overflow
+                new_patch=$((patch + 1))
+                
+                if [ $new_patch -gt 99 ]; then
+                  # Patch overflow: reset patch to 0 and increment minor
+                  patch=0
+                  minor=$((minor + 1))
+                  
+                  # Check if minor also overflows
+                  if [ $minor -gt 99 ]; then
+                    # Minor overflow: reset minor to 0 and increment major
+                    minor=0
+                    major=$((major + 1))
+                    echo "⚠️ Minor overflow detected: Incrementing major to $major, resetting minor to 0"
+                  fi
+                  
+                  echo "⚠️ Patch overflow detected: Incrementing minor to $minor, resetting patch to 0"
+                else
+                  patch=$new_patch
+                  echo "✅ Incrementing patch to $patch"
+                fi
+              fi
+              
+              version_suffix=""
+              echo "🎯 Main branch result: major=$major, minor=$minor, patch=$patch"
+              ;;
+            feature)
+              # Feature branch: patch increment with overflow logic
+              # patch: if previous patch + commits > 99, then patch = 0 and minor += 1
+              new_patch=$((patch + commit_count))
+              
+              echo "🔢 Calculating patch overflow: $patch + $commit_count = $new_patch"
+              
+              if [ $new_patch -gt 99 ]; then
+                # Overflow: reset patch to 0 and increment minor
+                patch=0
+                minor=$((minor + 1))
+                
+                # Check if minor also overflows
+                if [ $minor -gt 99 ]; then
+                  minor=0
+                  major=$((major + 1))
+                  echo "⚠️ Minor overflow detected: Incrementing major to $major, resetting minor to 0"
+                fi
+                
+                echo "⚠️ Patch overflow detected: Incrementing minor to $minor, resetting patch to 0"
+              else
+                patch=$new_patch
+                echo "✅ No overflow: Setting patch to $patch"
+              fi
+              
+              # Clean branch name for version suffix
+              clean_branch_name=$(echo "${branch_name#feature/}" | sed 's/[^a-zA-Z0-9]/-/g')
+              version_suffix="-feature.$clean_branch_name"
+              ;;
+            fix)
+              # Fix branch: minor increment with overflow logic
+              # minor: if previous minor + commits > 99, then minor = 0 and major += 1
+              new_minor=$((minor + commit_count))
+              
+              echo "🔢 Calculating minor overflow: $minor + $commit_count = $new_minor"
+              
+              if [ $new_minor -gt 99 ]; then
+                # Overflow: reset minor to 0 and increment major
+                minor=0
+                major=$((major + 1))
+                echo "⚠️ Minor overflow detected: Incrementing major to $major, resetting minor to 0"
+              else
+                minor=$new_minor
+                echo "✅ No overflow: Setting minor to $minor"
+              fi
+              
+              # Clean branch name for version suffix
+              clean_branch_name=$(echo "${branch_name#fix/}" | sed 's/[^a-zA-Z0-9]/-/g')
+              version_suffix="-fix.$clean_branch_name"
+              ;;
+            *)
+              echo "❌ Invalid release type: $release_type"
+              exit 1
+              ;;
+          esac
+          
+          # Add PR suffix if this is a pull request
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            version_suffix="${version_suffix}-pr${{ github.event.number }}"
+          fi
+          
+          new_version="v$major.$minor.$patch$version_suffix"
+          echo "✅ Next version: $new_version"
+          echo "📊 Final version breakdown: major=$major, minor=$minor, patch=$patch"
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+
       - name: Build Accelerator Bicep
         shell: bash
         run: |
