@@ -282,6 +282,28 @@ runs:
           echo "📊 Final version breakdown: major=$major, minor=$minor, patch=$patch"
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
 
+      - name: Create and push tag
+        shell: bash
+        run: |
+          tag_name="${{ steps.new_version.outputs.new_version }}"
+          branch_name="${{ steps.branch_info.outputs.branch_name }}"
+          should_publish="${{ steps.determine_release_type.outputs.should_publish }}"
+          
+          echo "🏷️ Creating tag: $tag_name"
+          echo "🔀 For branch: $branch_name"
+          echo "📋 Will publish release: $should_publish"
+          
+          # Create annotated tag
+          if [[ "$branch_name" == "main" ]]; then
+            git tag -a "$tag_name" -m "Release $tag_name from main branch"
+          else
+            git tag -a "$tag_name" -m "Development tag $tag_name from $branch_name branch (no release)"
+          fi
+          
+          # Push the tag
+          git push origin "$tag_name"
+          echo "✅ Tag $tag_name created and pushed successfully"
+
       - name: Build Accelerator Bicep
         shell: bash
         run: |
