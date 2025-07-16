@@ -41,6 +41,15 @@ jobs:
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
 
+      - name: Job Outputs
+        run: |
+          echo "new_version=${{ needs.generate-release.outputs.new_version }}" >> $GITHUB_ENV
+          echo "release_type=${{ needs.generate-release.outputs.release_type }}" >> $GITHUB_ENV
+          echo "previous_tag=${{ needs.generate-release.outputs.previous_tag }}" >> $GITHUB_ENV
+          echo "should_release=${{ needs.generate-release.outputs.should_release }}" >> $GITHUB_ENV
+          echo "should_publish=${{ needs.generate-release.outputs.should_publish }}" >> $GITHUB_ENV
+          echo "branch_name=${{ needs.generate-release.outputs.branch_name }}" >> $GITHUB_ENV
+
 
       - name: Build Bicep Code
         id: build
