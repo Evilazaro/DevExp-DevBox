@@ -42,7 +42,10 @@ module virtualNetwork 'vnet.bicep' = {
   ]
 }
 
-module networkConnection './networkConnection.bicep' = if ((projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged') || (!projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged')) {
+var vnetCreate = (projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged') || (!projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged')
+
+@description('Network Connection resource for DevCenter')
+module networkConnection './networkConnection.bicep' = if (vnetCreate) {
   name: 'netconn-${uniqueString(projectNetwork.name,resourceGroup().id)}'
   scope: resourceGroup()
   params: {
@@ -55,7 +58,7 @@ module networkConnection './networkConnection.bicep' = if ((projectNetwork.creat
   ]
 }
 
-output networkConnectionName string = ((projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged') || (!projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged'))
+output networkConnectionName string = vnetCreate
   ? networkConnection!.outputs.networkConnectionName
   : projectNetwork.name
 
