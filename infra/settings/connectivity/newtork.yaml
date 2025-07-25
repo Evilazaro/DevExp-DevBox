@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=./network.schema.json
+ 
+create: false
+virtualNetworkType: Managed
+name: AG_Windows365_PRD_01_EASTUS2_01_VNET
+addressPrefixes:
+  - 10.232.96.0/19
+subnets:
+  - name: Subnet_10.232.96.0_19
+    properties:
+      addressPrefix: 10.232.96.0/19
+tags:
+  environment: dev
+  division: Platforms
+  team: DevExP
+  project: DevExP-DevBox
+  costCenter: IT
+  owner: Evilazaro
+  resources: Network
+ 

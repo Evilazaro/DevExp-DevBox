@@ -12,7 +12,7 @@
 # - Dev Center documentation: https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box
 # - Azure RBAC roles: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
 
-name: "devexp-devcenter"
+name: "Corteva-POC-Managed"
 catalogItemSyncEnableStatus: "Enabled"
 microsoftHostedNetworkEnableStatus: "Enabled"
 installAzureMonitorAgentEnableStatus: "Enabled"
@@ -28,22 +28,25 @@ identity:
       - id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
         name: "Contributor"
         scope: "Subscription"
-      - id: "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
-        name: "User Access Administrator"
-        scope: "Subscription"
+      # - id: "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
+      #   name: "User Access Administrator"
+      #   scope: "Subscription"
       - id: "4633458b-17de-408a-b874-0445c86b69e6"
         name: "Key Vault Secrets User"
-        scope: "ResourceGroup"
+        scope: "Subscription"
       - id: "b86a8fe4-44ce-4948-aee5-eccb2c155cd7"
         name: "Key Vault Secrets Officer"
-        scope: "ResourceGroup"
+        scope: "Subscription"
+      - id: "e40ec5ca-96e0-45a2-b4ff-59039f2c2b59"
+        name: "Managed Identity Contributor"
+        scope: Subscription
 
     orgRoleTypes:
       # Dev Manager role - for users who manage Dev Box deployments
       # These users can configure Dev Box definitions but typically don't use Dev Boxes
       - type: DevManager
-        azureADGroupId: "8dae87fa-87b2-460b-b972-a4239fbd4a96"
-        azureADGroupName: "Dev Manager"
+        azureADGroupId: "f0220b4f-3e65-4675-bc0a-0f56e622b620"
+        azureADGroupName: "DEVBOX-Administrator"
 
         # RBAC roles assigned to Dev Managers
         azureRBACRoles:
@@ -57,9 +60,9 @@ identity:
 # Best practice: Use Git repositories for configuration-as-code approach
 catalogs:
   - name: "customTasks"
-    type: gitHub
-    uri: "https://github.com/Evilazaro/DevExp-DevBox.git"
-    branch: "main"
+    type: adoGit
+    uri: "https://vs-pioneer.visualstudio.com/DefaultCollection/infrastructure/_git/IT-MSDevBox-POC"
+    branch: "master"
     path: "/.configuration/devcenter/tasks"
 
 # Environment Types section - defines deployment environments for applications
@@ -78,18 +81,18 @@ environmentTypes:
 # Best practice: Create separate projects for different teams or workstreams
 projects:
   # Identity Provider project - for authentication/authorization services
-  - name: "identityProvider"
-    description: "Identity Provider project."
+  - name: "DevBox-POC-Project"
+    description: "Demo project."
 
     network:
-      name: identityProvider
+      name: AG_Windows365_PRD_01_EASTUS2_01_VNET
       create: true
-      resourceGroupName: "identityProvider-connectivity-RG"
+      resourceGroupName: "AG_Windows365_PRD_01_NRG"
       virtualNetworkType: Managed
       addressPrefixes:
         - 10.0.0.0/16
       subnets:
-        - name: identityProvider-subnet
+        - name: Subnet_10.232.96.0_19
           properties:
             addressPrefix: 10.0.1.0/24
       tags:
@@ -105,8 +108,8 @@ projects:
     identity:
       type: SystemAssigned
       roleAssignments:
-        - azureADGroupId: "331f48d7-4a23-4ec4-b03a-4af29c9c6f34"
-          azureADGroupName: "identityProvider Developers"
+        - azureADGroupId: "3cf62ed3-690b-417b-9fbf-8d3923382d0e"
+          azureADGroupName: "DEVBOX-Users"
           azureRBACRoles:
             - name: "Contributor"
               id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
@@ -127,12 +130,12 @@ projects:
     # Dev Box pools - collections of Dev Boxes with specific configurations
     # Best practice: Create role-specific pools with appropriate tools and settings
     pools:
-      - name: "backend-engineer"
-        imageDefinitionName: "identityProvider-backend-engineer"
-        vmSku: general_i_32c128gb512ssd_v2
-      - name: "frontend-engineer"
-        imageDefinitionName: "identityProvider-frontend-engineer"
-        vmSku: general_i_16c64gb256ssd_v2
+      - name: "DevBox-POC-Pool-VS-Pro"
+        imageDefinitionName: "DevBox-POC-Pool-VS-Pro-img"
+        vmSku: general_i_16c64gb512ssd_v2
+      - name: "DevBox-POC-Pool-VS"
+        imageDefinitionName: "DevBox-POC-Pool-VS-img"
+        vmSku: general_i_16c64gb512ssd_v2
 
     # Project-specific environment types
     # Defines which deployment environments are available to the project
@@ -146,16 +149,16 @@ projects:
     catalogs:
       environmentDefinition:
         name: "environments"
-        type: gitHub
-        uri: "https://github.com/Evilazaro/IdentityProvider.git"
+        type: adoGit
+        uri: "https://vs-pioneer.visualstudio.com/DefaultCollection/infrastructure/_git/IT-MSDevBox-POC"
         branch: "main"
-        path: "/.configuration/devcenter/environments"
+        path: "/.configuration/projects/Corteva-POC-Project/.configuration/devcenter/environments"
       imageDefinition:
         name: "imageDefinitions"
-        type: gitHub
-        uri: "https://github.com/Evilazaro/IdentityProvider.git"
-        branch: "main"
-        path: "/.configuration/devcenter/imageDefinitions"
+        type: adoGit
+        uri: "https://vs-pioneer.visualstudio.com/DefaultCollection/infrastructure/_git/IT-MSDevBox-POC"
+        branch: "master"
+        path: "/.configuration/projects/Corteva-POC-Project/.configuration/devcenter/imageDefinitions"
 
     # Project-specific tags for resource governance and organization
     # Best practice: Apply consistent tags for cost allocation and ownership
@@ -168,97 +171,97 @@ projects:
       owner: "Contoso" # Resource ownership
       resources: "Project" # Resource type identifier
 
-  - name: "eShop"
-    description: "eShop project."
+  # - name: "eShop"
+  #   description: "eShop project."
 
-    network:
-      name: eShop
-      create: true
-      resourceGroupName: "eShop-connectivity-RG"
-      virtualNetworkType: Managed
-      addressPrefixes:
-        - 10.0.0.0/16
-      subnets:
-        - name: identityProvider-subnet
-          properties:
-            addressPrefix: 10.0.1.0/24
-      tags:
-        environment: dev
-        division: Platforms
-        team: DevExP
-        project: DevExP-DevBox
-        costCenter: IT
-        owner: Contoso
-        resources: Network
+  #   network:
+  #     name: eShop
+  #     create: true
+  #     resourceGroupName: "eShop-connectivity-RG"
+  #     virtualNetworkType: Managed
+  #     addressPrefixes:
+  #       - 10.0.0.0/16
+  #     subnets:
+  #       - name: identityProvider-subnet
+  #         properties:
+  #           addressPrefix: 10.0.1.0/24
+  #     tags:
+  #       environment: dev
+  #       division: Platforms
+  #       team: DevExP
+  #       project: DevExP-DevBox
+  #       costCenter: IT
+  #       owner: Contoso
+  #       resources: Network
 
-    # Project identity configuration - controls project-level security
-    identity:
-      type: SystemAssigned
-      roleAssignments:
-        - azureADGroupId: "19d12c65-509f-491d-bb38-49297e1c56a0"
-          azureADGroupName: "eShop Developers"
-          azureRBACRoles:
-            - name: "Contributor"
-              id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
-              scope: Project
-            - name: "Dev Box User"
-              id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
-              scope: Project
-            - name: "Deployment Environment User"
-              id: "18e40d4e-8d2e-438d-97e1-9528336e149c"
-              scope: Project
-            - name: "Key Vault Secrets User"
-              id: "4633458b-17de-408a-b874-0445c86b69e6"
-              scope: ResourceGroup
-            - id: "b86a8fe4-44ce-4948-aee5-eccb2c155cd7"
-              name: "Key Vault Secrets Officer"
-              scope: ResourceGroup
+  #   # Project identity configuration - controls project-level security
+  #   identity:
+  #     type: SystemAssigned
+  #     roleAssignments:
+  #       - azureADGroupId: "19d12c65-509f-491d-bb38-49297e1c56a0"
+  #         azureADGroupName: "eShop Developers"
+  #         azureRBACRoles:
+  #           - name: "Contributor"
+  #             id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
+  #             scope: Project
+  #           - name: "Dev Box User"
+  #             id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
+  #             scope: Project
+  #           - name: "Deployment Environment User"
+  #             id: "18e40d4e-8d2e-438d-97e1-9528336e149c"
+  #             scope: Project
+  #           - name: "Key Vault Secrets User"
+  #             id: "4633458b-17de-408a-b874-0445c86b69e6"
+  #             scope: ResourceGroup
+  #           - id: "b86a8fe4-44ce-4948-aee5-eccb2c155cd7"
+  #             name: "Key Vault Secrets Officer"
+  #             scope: ResourceGroup
 
-    # Dev Box pools - collections of Dev Boxes with specific configurations
-    # Best practice: Create role-specific pools with appropriate tools and settings
-    pools:
-      - name: "backend-engineer"
-        imageDefinitionName: "eShop-backend-engineer"
-        vmSku: general_i_32c128gb512ssd_v2
-      - name: "frontend-engineer"
-        imageDefinitionName: "eShop-frontend-engineer"
-        vmSku: general_i_16c64gb256ssd_v2
+  #   # Dev Box pools - collections of Dev Boxes with specific configurations
+  #   # Best practice: Create role-specific pools with appropriate tools and settings
+  #   pools:
+  #     - name: "backend-engineer"
+  #       imageDefinitionName: "eShop-backend-engineer"
+  #       vmSku: general_i_32c128gb512ssd_v2
+  #     - name: "frontend-engineer"
+  #       imageDefinitionName: "eShop-frontend-engineer"
+  #       vmSku: general_i_16c64gb256ssd_v2
 
-    # Project-specific environment types
-    # Defines which deployment environments are available to the project
-    environmentTypes:
-      - name: "dev"
-        deploymentTargetId: ""
-      - name: "staging"
-        deploymentTargetId: ""
-      - name: "UAT"
-        deploymentTargetId: ""
+  #   # Project-specific environment types
+  #   # Defines which deployment environments are available to the project
+  #   environmentTypes:
+  #     - name: "dev"
+  #       deploymentTargetId: ""
+  #     - name: "staging"
+  #       deploymentTargetId: ""
+  #     - name: "UAT"
+  #       deploymentTargetId: ""
 
-    # Project-specific catalogs - repositories containing project configurations
-    catalogs:
-      environmentDefinition:
-        name: "environments"
-        type: gitHub
-        uri: "https://github.com/Evilazaro/eShop.git"
-        branch: "main"
-        path: "/.devcenter/environments"
-      imageDefinition:
-        name: "imageDefinitions"
-        type: gitHub
-        uri: "https://github.com/Evilazaro/eShop.git"
-        branch: "main"
-        path: "/.devcenter/imageDefinitions"
+  #   # Project-specific catalogs - repositories containing project configurations
+  #   catalogs:
+  #     environmentDefinition:
+  #       name: "environments"
+  #       type: gitHub
+  #       uri: "https://github.com/Evilazaro/eShop.git"
+  #       branch: "main"
+  #       path: "/.devcenter/environments"
+  #     imageDefinition:
+  #       name: "imageDefinitions"
+  #       type: gitHub
+  #       uri: "https://github.com/Evilazaro/eShop.git"
+  #       branch: "main"
+  #       path: "/.devcenter/imageDefinitions"
 
-    # Project-specific tags for resource governance and organization
-    # Best practice: Apply consistent tags for cost allocation and ownership
-    tags:
-      environment: "dev" # Identifies the deployment environment
-      division: "Platforms" # Organizational division responsible for the project
-      team: "DevExP" # Team responsible for implementation
-      project: "DevExP-DevBox" # Project name for cost allocation
-      costCenter: "IT" # Financial tracking designation
-      owner: "Contoso" # Resource ownership
-      resources: "Project" # Resource type identifier
+    # # Project-specific tags for resource governance and organization
+    # # Best practice: Apply consistent tags for cost allocation and ownership
+    # tags:
+    #   environment: "dev" # Identifies the deployment environment
+    #   division: "Platforms" # Organizational division responsible for the project
+    #   team: "DevExP" # Team responsible for implementation
+    #   project: "DevExP-DevBox" # Project name for cost allocation
+    #   costCenter: "IT" # Financial tracking designation
+    #   owner: "Contoso" # Resource ownership
+    #   resources: "Project" # Resource type identifier
 
 # Top-level tags applied to the Dev Center resource
 # Best practice: Implement consistent tagging across all Azure resources

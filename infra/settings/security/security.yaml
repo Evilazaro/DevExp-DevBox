@@ -18,7 +18,7 @@ create: true
 # Key Vault configuration
 keyVault:
   # Basic settings
-  name: contoso                               # Name of the Key Vault (must be globally unique)
+  name: corteva                               # Name of the Key Vault (must be globally unique)
   description: Development Environment Key Vault  # Purpose of this Key Vault
   secretName: gha-token                       # Name of the GitHub Actions token secret
 
@@ -33,7 +33,7 @@ keyVault:
     environment: dev                          # Deployment environment (dev/test/staging/prod)
     division: Platforms                       # Organizational division responsible for this resource
     team: DevExP                              # Team that owns this resource
-    project: Contoso-DevExp-DevBox            # Project associated with this resource
+    project: Corteva-DevExp-DevBox            # Project associated with this resource
     costCenter: IT                            # Cost center for billing and chargeback
     owner: Contoso                            # Resource owner
     landingZone: security                     # Azure landing zone classification
