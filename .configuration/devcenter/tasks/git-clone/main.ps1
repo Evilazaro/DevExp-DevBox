@@ -151,10 +151,9 @@ function InstallWinGet {
     pwsh.exe -MTA -Command "Set-PSRepository -Name PSGallery -InstallationPolicy Trusted"
 
     # check if the Microsoft.Winget.Client module is installed
-    $wingetClientPackage = Get-Module -ListAvailable -Name Microsoft.WinGet.Client | Where-Object { $_.Version -ge "1.9.2411" }
+    $wingetClientPackage = pwsh.exe -Command "Get-Module -ListAvailable -Name Microsoft.WinGet.Client | Where-Object { `$_.Version -ge '1.9.2411' }"
     if (!($wingetClientPackage)) {
         Write-Host "Installing Microsoft.Winget.Client"
-        Install-Module Microsoft.WinGet.Client -Scope $PsInstallScope
         pwsh.exe -MTA -Command "Install-Module Microsoft.WinGet.Client -Scope $PsInstallScope"
         Write-Host "Done Installing Microsoft.Winget.Client"
     }
@@ -163,7 +162,7 @@ function InstallWinGet {
     }
 
     # check if the Microsoft.WinGet.Configuration module is installed
-    $wingetConfigurationPackage = Get-Module -ListAvailable -Name Microsoft.WinGet.Configuration | Where-Object { $_.Version -ge "1.8.1911" }
+    $wingetConfigurationPackage = pwsh.exe -Command "Get-Module -ListAvailable -Name Microsoft.WinGet.Configuration | Where-Object { `$_.Version -ge '1.8.1911' }"
     if (!($wingetConfigurationPackage)) {
         Write-Host "Installing Microsoft.WinGet.Configuration"
         pwsh.exe -MTA -Command "Install-Module Microsoft.WinGet.Configuration -AllowPrerelease -Scope $PsInstallScope"
@@ -187,18 +186,37 @@ function InstallWinGet {
     if ($PsInstallScope -eq "CurrentUser") {
         # Under a user account, the way to materialize winget.exe and make it work is by installing DesktopAppInstaller appx,
         # which in turn may have Xaml and VC++ redistributable requirements.
+        
+        $architecture = "x64"
+        if ($env:PROCESSOR_ARCHITECTURE -eq "ARM64") {
+            $architecture = "arm64"
+        }
+
+        $msVCLibsPackage = Get-AppxPackage -Name "Microsoft.VCLibs.140.00.UWPDesktop" | Where-Object { $_.Version -ge "14.0.30035.0" }
+        if (!($msVCLibsPackage)) {
+        # Install Microsoft.VCLibs.140.00.UWPDesktop
+            try {
+                Write-Host "Installing Microsoft.VCLibs.140.00.UWPDesktop"
+                $MsVCLibs = "$env:TEMP\$([System.IO.Path]::GetRandomFileName())-Microsoft.VCLibs.140.00.UWPDesktop"
+                $MsVCLibsAppx = "$($MsVCLibs).appx"
+
+                Invoke-WebRequest -Uri "https://aka.ms/Microsoft.VCLibs.$($architecture).14.00.Desktop.appx" -OutFile $MsVCLibsAppx
+                Add-AppxPackage -Path $MsVCLibsAppx -ForceApplicationShutdown
+                Write-Host "Done Installing Microsoft.VCLibs.140.00.UWPDesktop"
+            } catch {
+                Write-Host "Failed to install Microsoft.VCLibs.140.00.UWPDesktop"
+                Write-Error $_
+            }
+        }
+
         $msUiXamlPackage = Get-AppxPackage -Name "Microsoft.UI.Xaml.2.8" | Where-Object { $_.Version -ge "8.2310.30001.0" }
         if (!($msUiXamlPackage)) {
             # install Microsoft.UI.Xaml
             try {
                 Write-Host "Installing Microsoft.UI.Xaml"
-                $architecture = "x64"
-                if ($env:PROCESSOR_ARCHITECTURE -eq "ARM64") {
-                    $architecture = "arm64"
-                }
-                $MsUiXaml = "$env:TEMP\$([System.IO.Path]::GetRandomFileName())-Microsoft.UI.Xaml.2.8.7"
+                $MsUiXaml = "$env:TEMP\$([System.IO.Path]::GetRandomFileName())-Microsoft.UI.Xaml.2.8.6"
                 $MsUiXamlZip = "$($MsUiXaml).zip"
-                Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.8.7" -OutFile $MsUiXamlZip
+                Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.8.6" -OutFile $MsUiXamlZip
                 Expand-Archive $MsUiXamlZip -DestinationPath $MsUiXaml
                 Add-AppxPackage -Path "$($MsUiXaml)\tools\AppX\$($architecture)\Release\Microsoft.UI.Xaml.2.8.appx" -ForceApplicationShutdown
                 Write-Host "Done Installing Microsoft.UI.Xaml"
@@ -209,7 +227,7 @@ function InstallWinGet {
         }
 
         $desktopAppInstallerPackage = Get-AppxPackage -Name "Microsoft.DesktopAppInstaller"
-        if (!($desktopAppInstallerPackage) ) {
+        if (!($desktopAppInstallerPackage) -or ($desktopAppInstallerPackage.Version -lt "1.22.0.0")) {
             # install Microsoft.DesktopAppInstaller
             try {
                 Write-Host "Installing Microsoft.DesktopAppInstaller"
@@ -247,9 +265,9 @@ function InstallPackage{
         # if winget is available, use it to install package
         if (Get-Command winget -ErrorAction SilentlyContinue) {
             Write-Host "Installing $PackageId with winget"
-            winget install --id $PackageId -e --source winget
+            winget install --id $PackageId -e --source winget --silent
             $installExitCode = $LASTEXITCODE
-            Write-Host "'winget install --id $PackageId -e --source winget' exited with code: $($installExitCode)"
+            Write-Host "'winget install --id $PackageId -e --source winget --silent' exited with code: $($installExitCode)"
             if ($installExitCode -eq 0) {
                 # add package path to path
                 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") + ";" + $PackagePath
@@ -277,7 +295,7 @@ function InstallPackage{
             $tempOutFile = [System.IO.Path]::GetTempFileName() + ".out.json"
 
             $installCommandBlock = {
-                $installPackageCommand = "Install-WinGetPackage -Scope $($scopeFlagValue) -Source winget -Id $($PackageId) | ConvertTo-Json -Depth 10 | Tee-Object -FilePath '$($tempOutFile)'"
+                $installPackageCommand = "Install-WinGetPackage -Scope $($scopeFlagValue) -Mode Silent -Source winget -Id $($PackageId) | ConvertTo-Json -Depth 10 | Tee-Object -FilePath '$($tempOutFile)'"
                 $processCreation = Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine="C:\Program Files\PowerShell\7\pwsh.exe $($mtaFlag) -Command `"$($installPackageCommand)`""}
                 if (!($processCreation) -or !($processCreation.ProcessId)) {
                     Write-Error "Failed to install $PackageId package. Process creation failed."
