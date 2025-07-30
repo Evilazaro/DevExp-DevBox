@@ -42,8 +42,8 @@ identity:
       # Dev Manager role - for users who manage Dev Box deployments
       # These users can configure Dev Box definitions but typically don't use Dev Boxes
       - type: DevManager
-        azureADGroupId: "8dae87fa-87b2-460b-b972-a4239fbd4a96"
-        azureADGroupName: "Dev Manager"
+        azureADGroupId: "5a1d1455-e771-4c19-aa03-fb4a08418f22"
+        azureADGroupName: "Platform Engineering Team"
 
         # RBAC roles assigned to Dev Managers
         azureRBACRoles:
@@ -105,8 +105,8 @@ projects:
     identity:
       type: SystemAssigned
       roleAssignments:
-        - azureADGroupId: "331f48d7-4a23-4ec4-b03a-4af29c9c6f34"
-          azureADGroupName: "identityProvider Developers"
+        - azureADGroupId: "67a29bc3-f25c-4599-9cb1-4da19507e8ee"
+          azureADGroupName: "Identity Provider Engineers"
           azureRBACRoles:
             - name: "Contributor"
               id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
@@ -195,7 +195,7 @@ projects:
     identity:
       type: SystemAssigned
       roleAssignments:
-        - azureADGroupId: "19d12c65-509f-491d-bb38-49297e1c56a0"
+        - azureADGroupId: "9d42a792-2d74-441d-8bcb-71009371725f"
           azureADGroupName: "eShop Developers"
           azureRBACRoles:
             - name: "Contributor"

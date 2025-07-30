@@ -99,7 +99,7 @@ resource project 'Microsoft.DevCenter/projects@2025-04-01-preview' = {
 module projectIdentity '../../identity/projectIdentityRoleAssignment.bicep' = [
   for (role, i) in identity.roleAssignments: {
     name: 'prj-rbac${i}-${uniqueString(project.id, project.name)}'
-    scope: resourceGroup(securityResourceGroupName)
+    scope: resourceGroup()
     params: {
       projectName: project.name
       principalId: project.identity.principalId

@@ -22,19 +22,22 @@ Remove-Item -Path "$($CustomizationScriptsDir)\$($LockFile)"
 
 Write-Host "Updating WinGet"
 # ensure NuGet provider is installed
-if (!(Get-PackageProvider | Where-Object { $_.Name -eq "NuGet" -and $_.Version -gt "3.0.0.0" })) {
+if (!(Get-PackageProvider | Where-Object { $_.Name -eq "NuGet" -and $_.Version -gt "2.8.5.201" })) {
     Write-Host "Installing NuGet provider"
-    Install-PackageProvider -Name "NuGet" -MinimumVersion "3.0.0.0" -Force -Scope $PsInstallScope
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser
     Write-Host "Done Installing NuGet provider"
 }
 else {
     Write-Host "NuGet provider is already installed"
 }
 
+# Set PSGallery installation policy to trusted
+Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
+
 # check if the Microsoft.Winget.Client module is installed
 if (!(Get-Module -ListAvailable -Name Microsoft.Winget.Client)) {
     Write-Host "Installing Microsoft.Winget.Client"
-    Install-Module Microsoft.WinGet.Client -Scope $PsInstallScope
+    Install-Module Microsoft.WinGet.Client -Scope CurrentUser
     Write-Host "Done Installing Microsoft.Winget.Client"
 }
 else {
@@ -44,24 +47,43 @@ else {
 # check if the Microsoft.WinGet.Configuration module is installed
 if (!(Get-Module -ListAvailable -Name Microsoft.WinGet.Configuration)) {
     Write-Host "Installing Microsoft.WinGet.Configuration"
-    pwsh.exe -MTA -Command "Install-Module Microsoft.WinGet.Configuration -AllowPrerelease -Scope $PsInstallScope"
+    pwsh.exe -MTA -Command "Install-Module Microsoft.WinGet.Configuration -AllowPrerelease -Scope CurrentUser"
     Write-Host "Done Installing Microsoft.WinGet.Configuration"
 }
 else {
     Write-Host "Microsoft.WinGet.Configuration is already installed"
 }
 
-if (!(Get-AppxPackage -Name "Microsoft.UI.Xaml.2.8")){
+$architecture = "x64"
+if ($env:PROCESSOR_ARCHITECTURE -eq "ARM64") {
+    $architecture = "arm64"
+}
+
+$msVCLibsPackage = Get-AppxPackage -Name "Microsoft.VCLibs.140.00.UWPDesktop" | Where-Object { $_.Version -ge "14.0.30035.0" }
+if (!($msVCLibsPackage)) {
+# Install Microsoft.VCLibs.140.00.UWPDesktop
+    try {
+        Write-Host "Installing Microsoft.VCLibs.140.00.UWPDesktop"
+        $MsVCLibs = "$env:TEMP\$([System.IO.Path]::GetRandomFileName())-Microsoft.VCLibs.140.00.UWPDesktop"
+        $MsVCLibsAppx = "$($MsVCLibs).appx"
+
+        Invoke-WebRequest -Uri "https://aka.ms/Microsoft.VCLibs.$($architecture).14.00.Desktop.appx" -OutFile $MsVCLibsAppx
+        Add-AppxPackage -Path $MsVCLibsAppx -ForceApplicationShutdown
+        Write-Host "Done Installing Microsoft.VCLibs.140.00.UWPDesktop"
+    } catch {
+        Write-Host "Failed to install Microsoft.VCLibs.140.00.UWPDesktop"
+        Write-Error $_
+    }
+}
+
+$msUiXamlPackage = Get-AppxPackage -Name "Microsoft.UI.Xaml.2.8" | Where-Object { $_.Version -ge "8.2310.30001.0" }
+if (!($msUiXamlPackage)) {
     # instal Microsoft.UI.Xaml
     try{
         Write-Host "Installing Microsoft.UI.Xaml"
-        $architecture = "x64"
-        if ($env:PROCESSOR_ARCHITECTURE -eq "ARM64") {
-            $architecture = "arm64"
-        }
-        $MsUiXaml = "$env:TEMP\$([System.IO.Path]::GetRandomFileName())-Microsoft.UI.Xaml.2.8.7"
+        $MsUiXaml = "$env:TEMP\$([System.IO.Path]::GetRandomFileName())-Microsoft.UI.Xaml.2.8.6"
         $MsUiXamlZip = "$($MsUiXaml).zip"
-        Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.8.7" -OutFile $MsUiXamlZip
+        Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.8.6" -OutFile $MsUiXamlZip
         Expand-Archive $MsUiXamlZip -DestinationPath $MsUiXaml
         Add-AppxPackage -Path "$($MsUiXaml)\tools\AppX\$($architecture)\Release\Microsoft.UI.Xaml.2.8.appx" -ForceApplicationShutdown
         Write-Host "Done Installing Microsoft.UI.Xaml"
@@ -72,7 +94,7 @@ if (!(Get-AppxPackage -Name "Microsoft.UI.Xaml.2.8")){
 }
 
 $desktopAppInstallerPackage = Get-AppxPackage -Name "Microsoft.DesktopAppInstaller"
-if (!($desktopAppInstallerPackage) ) {
+if (!($desktopAppInstallerPackage) -or ($desktopAppInstallerPackage.Version -lt "1.22.0.0")) {
     # install Microsoft.DesktopAppInstaller
     try {
         Write-Host "Installing Microsoft.DesktopAppInstaller"
@@ -95,5 +117,8 @@ Write-Host "WinGet version: $(winget -v)"
 
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 Write-Host "Done Updating WinGet"
+
+# Revert PSGallery installation policy to untrusted
+Set-PSRepository -Name "PSGallery" -InstallationPolicy Untrusted
 
 
