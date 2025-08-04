@@ -10,7 +10,7 @@ param logAnalyticsId string
 @description('Azure region for resource deployment')
 param location string
 
-var rgCreate = (projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged') 
+var rgCreate = (projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged')
 
 module Rg 'resourceGroup.bicep' = {
   name: 'projectNetworkRg-${uniqueString(projectNetwork.name, location)}'
@@ -23,7 +23,7 @@ module Rg 'resourceGroup.bicep' = {
   }
 }
 
-module virtualNetwork 'vnet.bicep' = if (rgCreate) {
+module virtualNetwork 'vnet.bicep' = {
   name: 'virtualNetwork-${uniqueString(projectNetwork.name, location)}'
   scope: resourceGroup(projectNetwork.resourceGroupName)
   params: {
