@@ -1,32 +1,17 @@
-# yaml-language-server: $schema=./azureResources.shema.json
-#
-# Microsoft Dev Box accelerator: Resource Groups Configuration
-# =======================================================
-#
-# Purpose: Defines the resource group organization structure for environments.
-# This configuration aligns with Azure Landing Zone principles by segregating resources
-# based on their functional purpose (workload, security, monitoring, connectivity).
-#
+# azureResources.yaml
+# -------------------------------------------------------
+# Purpose: Defines resource group organization for Dev Box environments.
+# Follows Azure Landing Zone principles for segregation by function.
 # References:
 # - Microsoft Dev Box accelerator: https://evilazaro.github.io/DevExp-DevBox/docs/configureresources/resourceorganization/
 # - Azure Landing Zones: https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/
 # - Azure Resource Groups: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal
 
 # Workload Resource Group
-# -----------------------
-# Purpose: Contains the primary Dev Box workload resources including:
-# - Dev Center resources
-# - Dev Box definitions
-# - Dev Box pools
-# - Project resources
-#
-# Best practice: Separate application workloads from infrastructure components
-# to enable independent scaling, access control, and lifecycle management.
-workload:
+workload:  # Main application resources
   create: true
   name: devexp-workload
   description: prodExp
-  
   tags:
     environment: dev           # Deployment environment (dev, test, prod)
     division: Platforms        # Business division responsible for the resource
@@ -38,51 +23,31 @@ workload:
     resources: ResourceGroup  # Resource type
 
 # Security Resource Group
-# ----------------------
-# Purpose: Contains security-related resources including:
-# - Key Vaults for secret management
-# - Microsoft Defender for Cloud configurations
-# - Network Security Groups
-# - Private endpoints
-#
-# Best practice: Isolate security resources to apply stricter access controls
-# and enable separate monitoring/auditing of security components.
-security:
+security:  # Security-related resources (Key Vaults, NSGs, Defender, etc.)
   create: true
   name: devexp-security
   description: prodExp
-  
   tags:
-    environment: dev
-    division: Platforms
-    team: DevExP
-    project: Contoso-DevExp-DevBox
-    costCenter: IT
-    owner: Contoso
-    landingZone: Workload
-    resources: ResourceGroup
+    environment: dev           # Deployment environment
+    division: Platforms        # Business division
+    team: DevExP              # Team
+    project: Contoso-DevExp-DevBox  # Project name
+    costCenter: IT            # Cost center
+    owner: Contoso            # Owner
+    landingZone: Workload     # Landing zone
+    resources: ResourceGroup  # Resource type
 
 # Monitoring Resource Group
-# ------------------------
-# Purpose: Contains monitoring and observability resources including:
-# - Log Analytics workspaces
-# - Application Insights components
-# - Azure Monitor alerts and action groups
-# - Dashboard and reporting resources
-#
-# Best practice: Centralize monitoring resources to provide a unified view
-# of operational health and simplify diagnostic activities.
-monitoring:
+monitoring:  # Monitoring and observability resources
   create: true
   name: devexp-monitoring
   description: prodExp
-  
   tags:
-    environment: dev
-    division: Platforms
-    team: DevExP
-    project: Contoso-DevExp-DevBox
-    costCenter: IT
-    owner: Contoso
-    landingZone: Workload
-    resources: ResourceGroup
+    environment: dev           # Deployment environment
+    division: Platforms        # Business division
+    team: DevExP              # Team
+    project: Contoso-DevExp-DevBox  # Project name
+    costCenter: IT            # Cost center
+    owner: Contoso            # Owner
+    landingZone: Workload     # Landing zone
+    resources: ResourceGroup  # Resource type
