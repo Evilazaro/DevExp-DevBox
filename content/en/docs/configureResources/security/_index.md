@@ -16,7 +16,7 @@ weight: 7
 
 ## Overview
 
-This document provides a comprehensive analysis of the [**security.yaml**](https://github.com/Evilazaro/DevExp-DevBox/blob/main/infra/settings/security/security.yaml) configuration file, a core component of the Microsoft Dev Box Accelerator. The Microsoft Dev Box Accelerator enables rapid, modular, and secure provisioning of development environments in Azure. The security.yaml file specifically governs the setup and management of an Azure Key Vault resource, which is critical for securely storing sensitive credentials and secrets required by development teams. By decoupling security configuration, the Accelerator ensures best practices, compliance, and flexibility across environments.
+This document provides a comprehensive analysis of the [**security.yaml**](https://github.com/Evilazaro/DevExp-DevBox/blob/main/infra/settings/security/security.yaml) configuration file, a core component of the Microsoft Dev Box Accelerator. The Accelerator enables rapid, modular, and secure provisioning of development environments in Azure. The `security.yaml` file governs the setup and management of an Azure Key Vault resource, which is critical for securely storing sensitive credentials and secrets required by development teams. By decoupling security configuration, the Accelerator ensures best practices, compliance, and flexibility across environments.
 
 ---
 
@@ -32,10 +32,13 @@ This document provides a comprehensive analysis of the [**security.yaml**](https
   - [Example 1: Provisioning a Key Vault for a New Dev Environment](#example-1-provisioning-a-key-vault-for-a-new-dev-environment)
   - [Example 2: Reusing an Existing Key Vault](#example-2-reusing-an-existing-key-vault)
 - [Best Practices](#best-practices)
+- [References](#references)
+
+---
 
 ## Configurations
 
-Below is a detailed breakdown of each section and key in the security.yaml file, including their YAML representation and purpose.
+Below is a detailed breakdown of each section and key in the `security.yaml` file, including their YAML representation and purpose.
 
 ### Resource Creation
 
@@ -148,3 +151,12 @@ keyVault:
 - **Tagging**: Use descriptive and consistent tags to simplify resource management, cost tracking, and automation.
 - **Security**: Always enable `enablePurgeProtection` and `enableSoftDelete` for production environments to prevent accidental or malicious loss of secrets.
 - **Schema Validation**: Use the provided `$schema` directive for IDE validation and to prevent misconfiguration.
+
+---
+
+## References
+
+- [Microsoft Dev Box Accelerator Security Docs](https://evilazaro.github.io/DevExp-DevBox/docs/configureresources/security/)
+- [Azure Key Vault Documentation](https://learn.microsoft.com/en-us/azure/key-vault/general/basic-concepts)
+- [Azure Key Vault Best Practices](https://learn.microsoft.com/en-us/azure/key-vault/general/best-practices)
+
