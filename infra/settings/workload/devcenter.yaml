@@ -171,36 +171,37 @@ projects:
   - name: "eShop"
     description: "eShop project."
 
+    # Network configuration for eShop project
     network:
-      name: eShop
-      create: true
-      resourceGroupName: "eShop-connectivity-RG"
-      virtualNetworkType: Managed
+      name: eShop                                 # Name of the virtual network
+      create: true                                # Should the network be created?
+      resourceGroupName: "eShop-connectivity-RG"  # Resource group for network
+      virtualNetworkType: Managed                 # Type of virtual network
       addressPrefixes:
-        - 10.0.0.0/16
+        - 10.0.0.0/16                             # Address space for VNet
       subnets:
-        - name: identityProvider-subnet
+        - name: eShop-subnet           # Subnet name
           properties:
-            addressPrefix: 10.0.1.0/24
+            addressPrefix: 10.0.1.0/24            # Subnet address range
       tags:
-        environment: dev
-        division: Platforms
-        team: DevExP
-        project: DevExP-DevBox
-        costCenter: IT
-        owner: Contoso
-        resources: Network
+        environment: dev                          # Deployment environment
+        division: Platforms                       # Organizational division
+        team: DevExP                              # Team responsible
+        project: DevExP-DevBox                    # Project name
+        costCenter: IT                            # Cost center for billing
+        owner: Contoso                            # Resource owner
+        resources: Network                        # Resource type identifier
 
     # Project identity configuration - controls project-level security
     identity:
-      type: SystemAssigned
+      type: SystemAssigned                        # Managed identity type
       roleAssignments:
-        - azureADGroupId: "9d42a792-2d74-441d-8bcb-71009371725f"
-          azureADGroupName: "eShop Developers"
+        - azureADGroupId: "9d42a792-2d74-441d-8bcb-71009371725f" # Azure AD group ID
+          azureADGroupName: "eShop Developers"                    # Azure AD group name
           azureRBACRoles:
-            - name: "Contributor"
-              id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
-              scope: Project
+            - name: "Contributor"                 # RBAC role name
+              id: "b24988ac-6180-42a0-ab88-20f7382dd24c" # RBAC role ID
+              scope: Project                      # Role scope
             - name: "Dev Box User"
               id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
               scope: Project
@@ -217,21 +218,21 @@ projects:
     # Dev Box pools - collections of Dev Boxes with specific configurations
     # Best practice: Create role-specific pools with appropriate tools and settings
     pools:
-      - name: "backend-engineer"
-        imageDefinitionName: "eShop-backend-engineer"
-        vmSku: general_i_32c128gb512ssd_v2
-      - name: "frontend-engineer"
-        imageDefinitionName: "eShop-frontend-engineer"
-        vmSku: general_i_16c64gb256ssd_v2
+      - name: "backend-engineer"                  # Pool for backend engineers
+        imageDefinitionName: "eShop-backend-engineer" # Image definition for backend
+        vmSku: general_i_32c128gb512ssd_v2         # VM SKU for backend pool
+      - name: "frontend-engineer"                 # Pool for frontend engineers
+        imageDefinitionName: "eShop-frontend-engineer" # Image definition for frontend
+        vmSku: general_i_16c64gb256ssd_v2          # VM SKU for frontend pool
 
     # Project-specific environment types
     # Defines which deployment environments are available to the project
     environmentTypes:
-      - name: "dev"
+      - name: "dev"                               # Development environment
         deploymentTargetId: ""
-      - name: "staging"
+      - name: "staging"                           # Staging environment
         deploymentTargetId: ""
-      - name: "UAT"
+      - name: "UAT"                               # User Acceptance Testing environment
         deploymentTargetId: ""
 
     # Project-specific catalogs - repositories containing project configurations
