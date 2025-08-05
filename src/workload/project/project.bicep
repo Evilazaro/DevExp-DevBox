@@ -36,6 +36,8 @@ param identity Identity
 @description('Tags to be applied to all resources')
 param tags object = {}
 
+param dateTime string = utcNow('yyyyMMdd-HHmmss')
+
 @description('Identity configuration for the project')
 type Identity = {
   @description('Type of managed identity (SystemAssigned or UserAssigned)')
@@ -98,7 +100,7 @@ resource project 'Microsoft.DevCenter/projects@2025-04-01-preview' = {
 @description('Configure project identity role assignments')
 module projectIdentity '../../identity/projectIdentityRoleAssignment.bicep' = [
   for (role, i) in identity.roleAssignments: {
-    name: 'prj-rbac${i}-${uniqueString(project.id, project.name)}'
+    name: 'prj-rbac${i}-${uniqueString(project.id, project.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
       projectName: project.name
@@ -112,7 +114,7 @@ module projectIdentity '../../identity/projectIdentityRoleAssignment.bicep' = [
 @description('Configure project identity role assignments')
 module projectIdentityRG '../../identity/projectIdentityRoleAssignmentRG.bicep' = [
   for (role, i) in identity.roleAssignments: {
-    name: 'prj-rbac-RG-${i}-${uniqueString(project.id, project.name)}'
+    name: 'prj-rbac-RG-${i}-${uniqueString(project.id, project.name)}-${dateTime}'
     scope: resourceGroup(securityResourceGroupName)
     params: {
       projectName: project.name
@@ -126,7 +128,7 @@ module projectIdentityRG '../../identity/projectIdentityRoleAssignmentRG.bicep' 
 @description('Add the AD Group to the DevCenter project')
 module projectADGroup '../../identity/projectIdentityRoleAssignment.bicep' = [
   for (role, i) in identity.roleAssignments: {
-    name: 'prj-adgroup-${i}-${uniqueString(project.id, project.name)}'
+    name: 'prj-adgroup-${i}-${uniqueString(project.id, project.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
       projectName: project.name
@@ -139,7 +141,7 @@ module projectADGroup '../../identity/projectIdentityRoleAssignment.bicep' = [
 
 @description('Configure environment definition catalogs')
 module catalogs 'projectCatalog.bicep' = {
-  name: 'catalog-${uniqueString(project.id)}'
+  name: 'catalog-${uniqueString(project.id)}-${dateTime}'
   scope: resourceGroup()
   params: {
     projectName: project.name
@@ -156,7 +158,7 @@ module catalogs 'projectCatalog.bicep' = {
 @description('Configure project environment types')
 module environmentTypes 'projectEnvironmentType.bicep' = [
   for (envType, i) in projectEnvironmentTypes: {
-    name: 'env-type-${i}-${uniqueString(project.id, envType.name)}'
+    name: 'env-type-${i}-${uniqueString(project.id, envType.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
       projectName: project.name
@@ -173,7 +175,7 @@ module environmentTypes 'projectEnvironmentType.bicep' = [
 
 @description('Connectivity configuration for the project')
 module connectivity '../../connectivity/connectivity.bicep' = {
-  name: 'connectivity-${uniqueString(project.id)}'
+  name: 'connectivity-${uniqueString(project.id)}-${dateTime}'
   scope: resourceGroup()
   params: {
     devCenterName: devCenterName
@@ -192,7 +194,7 @@ module connectivity '../../connectivity/connectivity.bicep' = {
 @description('Configure DevBox pools for the project')
 module pools 'projectPool.bicep' = [
   for (pool, i) in projectPools: {
-    name: 'pool-${i}-${uniqueString(project.id, pool.name)}'
+    name: 'pool-${i}-${uniqueString(project.id, pool.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
       name: pool.name
