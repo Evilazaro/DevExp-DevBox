@@ -34,7 +34,7 @@ var devCenterSettings = loadYamlContent('../../infra/settings/workload/devcenter
 // Deploy core DevCenter infrastructure
 @description('DevCenter Core Infrastructure')
 module devcenter 'core/devCenter.bicep' = {
-  name: 'devCenterDeployment-${dateTime}'
+  name: 'devCenter-${dateTime}'
   scope: resourceGroup()
   params: {
     config: devCenterSettings
