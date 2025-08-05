@@ -24,9 +24,13 @@ identity:
 
   # Role assignments section - defines permissions for Dev Center operation
   roleAssignments:
+    # Dev Center role assignments
+    # These roles control who can manage the Dev Center and its projects
+    # Best practice: Assign roles based on team responsibilities
+    # The following roles follow the principle of least privilege and best practices described in https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-deployment-guide#organizational-roles-and-responsibilities guidance.
     devCenter:
       - id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
-        name: "Contributor"
+        name: "Contributor" # Azure Contributor role for Dev Center management
         scope: "Subscription"
       - id: "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
         name: "User Access Administrator"
@@ -42,7 +46,7 @@ identity:
       # Dev Manager role - for users who manage Dev Box deployments
       # These users can configure Dev Box definitions but typically don't use Dev Boxes
       - type: DevManager
-        azureADGroupId: "5a1d1455-e771-4c19-aa03-fb4a08418f22"
+        azureADGroupId: "5a1d1455-e771-4c19-aa03-fb4a08418f22" # Azure AD group ID for Dev Managers. You must create this group in Azure AD and replace the <Azure AD group ID>, the default value in this example is "Platform Engineering Team"
         azureADGroupName: "Platform Engineering Team"
 
         # RBAC roles assigned to Dev Managers
@@ -67,31 +71,31 @@ catalogs:
 # Best practice: Create environments that match your SDLC stages (dev, test, prod)
 environmentTypes:
   - name: "dev"
-    deploymentTargetId: "" # Empty for default subscription target
+    deploymentTargetId: "" # Empty for default subscription target. If you want to deploy to a specific target, provide the target ID here.
   - name: "staging"
-    deploymentTargetId: "" # Empty for default subscription target
+    deploymentTargetId: "" # Empty for default subscription target. If you want to deploy to a specific target, provide the target ID here.
   - name: "UAT"
-    deploymentTargetId: "" # Empty for default subscription target
+    deploymentTargetId: "" # Empty for default subscription target. If you want to deploy to a specific target, provide the target ID here.
 
 # Projects section - defines distinct projects within the Dev Center
 # Each project has its own Dev Box configurations, catalogs, and permissions
 # Best practice: Create separate projects for different teams or workstreams
 projects:
   # Identity Provider project - for authentication/authorization services
-  - name: "identityProvider"
-    description: "Identity Provider project."
+  - name: "identityProvider" # Name of the project
+    description: "Identity Provider project." # Project description
 
     network:
-      name: identityProvider
-      create: true
-      resourceGroupName: "identityProvider-connectivity-RG"
-      virtualNetworkType: Managed
-      addressPrefixes:
+      name: identityProvider  # Name of the virtual network
+      create: true # Set this parameter to true to create the network. If its value is false, the the accelerator will connect to an existing network.
+      resourceGroupName: "identityProvider-connectivity-RG" # Resource group for network. If the create parameter is set to false, the resource group must already exist.
+      virtualNetworkType: Managed # Managed network type is recommended for Dev Center projects to ensure proper connectivity and security
+      addressPrefixes: # Address space for the virtual network. This should be a unique CIDR block that does not overlap with other networks in your Azure subscription. If the create parameter is set to true, the accelerator will create the network with this address space.
         - 10.0.0.0/16
       subnets:
-        - name: identityProvider-subnet
+        - name: identityProvider-subnet # Subnet name. If the create parameter is set to true, the accelerator will create the subnet with this name and address prefix. If its value is false, the subnet must already exist.
           properties:
-            addressPrefix: 10.0.1.0/24
+            addressPrefix: 10.0.1.0/24 # Subnet address range. If the create parameter is set to true, the accelerator will create the subnet with this address range. If its value is false, the subnet must already exist.
       tags:
         environment: dev
         division: Platforms
@@ -104,9 +108,15 @@ projects:
     # Project identity configuration - controls project-level security
     identity:
       type: SystemAssigned
+      # Role assignments for the Project
+      # These roles control who can manage the project and its resources
+      # You must create the corresponding Azure AD groups and assign users to them
+      # The default values in this example are "Identity Provider Engineers"
+      # You can customize these values based on your organization's requirements
+      # The following roles follow the principle of least privilege and best practices described in https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-deployment-guide#organizational-roles-and-responsibilities guidance.
       roleAssignments:
-        - azureADGroupId: "67a29bc3-f25c-4599-9cb1-4da19507e8ee"
-          azureADGroupName: "Identity Provider Engineers"
+        - azureADGroupId: "67a29bc3-f25c-4599-9cb1-4da19507e8ee" # Azure AD group ID for Identity Provider Engineers. You must create this group in Azure AD and replace the <Azure AD group ID>, the default value in this example is "Identity Provider Engineers"
+          azureADGroupName: "Identity Provider Engineers" # Azure AD group name
           azureRBACRoles:
             - name: "Contributor"
               id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
