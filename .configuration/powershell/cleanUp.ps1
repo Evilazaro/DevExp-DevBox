@@ -7,7 +7,7 @@ param(
     [string]$EnvName = "demo",
     
     [Parameter(Mandatory=$false)]
-    [ValidateSet("eastus", "eastus2", "westus", "westus2", "northeurope", "westeurope")]
+    [ValidateSet("eastus", "eastus2", "westus", "westus2", "westus3", "northeurope", "westeurope")]
     [string]$Location = "eastus2"
 )
 
