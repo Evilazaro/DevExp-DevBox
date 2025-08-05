@@ -22,6 +22,8 @@ param secretIdentifier string
 
 param securityResourceGroupName string
 
+param dateTime string = utcNow('yyyyMMdd-HHmmss')
+
 // Type definitions with proper naming conventions
 @description('DevCenter configuration type')
 type DevCenterConfig = {
@@ -122,7 +124,7 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
 @description('Dev Center Identity Role Assignments')
 module devCenterIdentityRoleAssignment '../../identity/devCenterRoleAssignment.bicep' = [
   for (role, i) in config.identity.roleAssignments.devCenter: {
-    name: 'RBACDevCenterSub-${i}-${devCenterName}'
+    name: 'RBACDevCenterSub-${i}-${devCenterName}-${dateTime}'
     scope: subscription()
     params: {
       id: role.id
@@ -135,7 +137,7 @@ module devCenterIdentityRoleAssignment '../../identity/devCenterRoleAssignment.b
 @description('Dev Center Identity Role Assignments')
 module devCenterIdentityRoleAssignmentRG '../../identity/devCenterRoleAssignmentRG.bicep' = [
   for (role, i) in config.identity.roleAssignments.devCenter: {
-    name: 'RBACDevCenterRG-${i}-${devCenterName}'
+    name: 'RBACDevCenterRG-${i}-${devCenterName}-${dateTime}'
     scope: resourceGroup(securityResourceGroupName)
     params: {
       id: role.id
@@ -151,7 +153,7 @@ module devCenterIdentityRoleAssignmentRG '../../identity/devCenterRoleAssignment
 @description('Dev Center Identity User Groups role assignments')
 module devCenterIdentityUserGroupsRoleAssignment '../../identity/orgRoleAssignment.bicep' = [
   for (role, i) in config.identity.roleAssignments.orgRoleTypes: {
-    name: 'RBACUserGroup-${i}-${devCenterName}'
+    name: 'RBACUserGroup-${i}-${devCenterName}-${dateTime}'
     scope: resourceGroup()
     params: {
       principalId: role.azureADGroupId
@@ -167,7 +169,7 @@ module devCenterIdentityUserGroupsRoleAssignment '../../identity/orgRoleAssignme
 @description('Dev Center Catalogs')
 module catalog 'catalog.bicep' = [
   for (catalog, i) in catalogs: {
-    name: 'catalog-${i}-${devCenterName}'
+    name: 'catalog-${i}-${devCenterName}-${dateTime}'
     scope: resourceGroup()
     params: {
       devCenterName: devCenterName
@@ -185,7 +187,7 @@ module catalog 'catalog.bicep' = [
 @description('Dev Center Environments')
 module environment 'environmentType.bicep' = [
   for (environment, i) in environmentTypes: {
-    name: 'environmentType-${i}-${devCenterName}'
+    name: 'environmentType-${i}-${devCenterName}-${dateTime}'
     scope: resourceGroup()
     params: {
       devCenterName: devCenterName
@@ -193,4 +195,3 @@ module environment 'environmentType.bicep' = [
     }
   }
 ]
-
