@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
 #
-# Frontend Development Configuration Sample for .NET Engineers 
+# Frontend Development Configuration Sample for .NET Engineers
 # =============================================
 #
 # Purpose:
@@ -41,57 +41,6 @@ properties:
         allowPrerelease: true
       settings:
         id: Postman.Postman
-
-    # Resource: .NET Workload Update
-    # This resource ensures all installed .NET workloads are up to date, which is
-    # important for maintaining compatibility with Azure services and security updates.
-    # Following Microsoft's recommendation to regularly update workloads for optimal tooling.
-    #
-    # Frontend-specific .NET workloads include:
-    # - Blazor for interactive web applications
-    # - MAUI for cross-platform desktop/mobile applications
-    # - ASP.NET Core for web APIs and server-rendered applications
-    # - Azure Static Web Apps tools for serverless hosting
-    # - JavaScript/.NET interoperability tools
-    - resource: PSDscResources/Script
-      id: Dotnet.WorkloadUpdate
-      directives:
-        description: Update all installed .NET workloads
-        securityContext: elevated # Requires admin rights to update .NET workloads
-      settings:
-        SetScript: |
-          try {
-              # Set execution policy for current process
-              # This ensures scripts can run without manual confirmation prompts
-              # Following Azure automation best practices for non-interactive execution
-              Set-ExecutionPolicy Bypass -Scope Process -Force -ErrorAction SilentlyContinue            
-              
-              # Ensure path is properly set
-              # This combines both machine and user paths to ensure we can find dotnet command
-              # Follows best practice for managing PATH environment
-              $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-              
-              # Check if dotnet command exists before attempting updates
-              if (Get-Command dotnet -ErrorAction SilentlyContinue) {
-                  Write-Verbose "Updating .NET workloads - this may take several minutes..." -Verbose
-                  
-                  # Update all workloads and ignore failures from sources that might be temporarily unavailable
-                  # This ensures the update continues even if one workload source is unreachable
-                  # Following Microsoft recommended practice for .NET SDK maintenance
-                  dotnet workload update --ignore-failed-sources
-                  
-                  Write-Verbose ".NET workloads updated successfully" -Verbose
-              } else {
-                  Write-Warning "dotnet command not found. .NET SDK may not be installed."
-              }
-          } catch {
-              # Fixed error message to correctly reference .NET workloads
-              Write-Error "Failed to update .NET workloads: $_"
-          }
-        GetScript: return $false
-        # Check if VSCode extensions need to be installed
-        # In a fully idempotent implementation, this would check for specific extensions
-        TestScript: return $false
 
     # Resource: Visual Studio Code Extensions
     # Installs essential extensions for frontend development with Azure integration.
