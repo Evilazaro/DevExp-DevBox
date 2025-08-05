@@ -57,7 +57,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2024-07-01' = if (set
 @description('Reference to existing Virtual Network')
 resource existingVirtualNetwork 'Microsoft.Network/virtualNetworks@2024-07-01' existing = if (!settings.create && settings.virtualNetworkType == 'Unmanaged') {
   name: settings.name
-  scope: resourceGroup()
+  scope: resourceGroup(settings.resourceGroupName)
 }
 
 @description('Log Analytics Diagnostic Settings')

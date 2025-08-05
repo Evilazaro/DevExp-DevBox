@@ -10,7 +10,7 @@ param logAnalyticsId string
 @description('Azure region for resource deployment')
 param location string
 
-var rgCreate = (projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged')
+var netConectCreate = (projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged') || (!projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged')
 
 module Rg 'resourceGroup.bicep' = {
   name: 'projectNetworkRg-${uniqueString(projectNetwork.name, location)}'
@@ -19,13 +19,15 @@ module Rg 'resourceGroup.bicep' = {
     name: projectNetwork.resourceGroupName
     location: location
     tags: projectNetwork.tags
-    create: rgCreate
+    create: netConectCreate
   }
 }
 
+var rgName = (netConectCreate) ? projectNetwork.resourceGroupName : resourceGroup().name
+
 module virtualNetwork 'vnet.bicep' = {
   name: 'virtualNetwork-${uniqueString(projectNetwork.name, location)}'
-  scope: resourceGroup(projectNetwork.resourceGroupName)
+  scope: resourceGroup(rgName)
   params: {
     logAnalyticsId: logAnalyticsId
     location: location
@@ -43,8 +45,6 @@ module virtualNetwork 'vnet.bicep' = {
     Rg
   ]
 }
-
-var netConectCreate = (projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged') || (!projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged')
 
 @description('Network Connection resource for DevCenter')
 module networkConnection './networkConnection.bicep' = if (netConectCreate) {
