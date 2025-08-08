@@ -1,22 +1,24 @@
+#Requires -Version 5.1
+
 <#
 .SYNOPSIS
     Sets up Azure Dev Box environment with source control integration
 
 .DESCRIPTION
     Automates the setup of an Azure Developer CLI (azd) environment for Dev Box,
-    handles GitHub and Azure DevOps authentication, and provisions required Azure resources.
+    handles source control authentication, and provisions required Azure resources.
     
     This script follows Azure best practices for security, error handling, 
     and resource management.
 
 .PARAMETER EnvName
-    Name of the Azure environment to create
+    Name of the Azure environment to create (required)
 
 .PARAMETER SourceControl
-    Source control platform (github or adogit)
+    Source control platform: 'github' or 'adogit' (Azure DevOps)
 
 .PARAMETER Help
-    Show help information
+    Show help message
 
 .EXAMPLE
     .\setUp.ps1 -EnvName "prod" -SourceControl "github"
@@ -28,13 +30,14 @@
 
 .NOTES
     Requirements:
-    - Azure CLI (az)
-    - Azure Developer CLI (azd)
-    - GitHub CLI (gh) [if using GitHub]
-    - Valid authentication for chosen platform
+    * Azure CLI (az)
+    * Azure Developer CLI (azd)
+    * PowerShell 5.1 or later
+    * GitHub CLI (gh) [if using GitHub]
+    * Valid authentication for chosen platform
     
     Author: DevExp Team
-    Last Updated: 2025-07-15
+    Last Updated: 2025-08-08
 #>
 
 [CmdletBinding()]
@@ -43,33 +46,43 @@ param(
     [ValidateNotNullOrEmpty()]
     [string]$EnvName,
     
-    [Parameter(Mandatory = $false, HelpMessage = "Source control platform (github or adogit)")]
-    [ValidateSet("github", "adogit", IgnoreCase = $true)]
-    [string]$SourceControl,
+    [Parameter(Mandatory = $false, HelpMessage = "Source control platform")]
+    [ValidateSet("github", "adogit", "", IgnoreCase = $true)]
+    [string]$SourceControl = "",
     
-    [Parameter(Mandatory = $false, HelpMessage = "Show help information")]
+    [Parameter(Mandatory = $false)]
     [switch]$Help
 )
 
 # Script Configuration
 $ErrorActionPreference = "Stop"
-$ProgressPreference = "SilentlyContinue"
+$InformationPreference = "Continue"
+$WarningPreference = "Continue"
 
 # Global Variables
-$script:ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$script:ScriptDir = $PSScriptRoot
 $script:TimestampFormat = "yyyy-MM-dd HH:mm:ss"
 
-# Unicode icons for cross-platform compatibility
+# Unicode icons for better user experience
 $script:Icons = @{
-    Info    = "ℹ️"
-    Warning = "⚠️"
-    Error   = "❌"
-    Success = "✅"
+    Info    = [char]0x2139 + [char]0xFE0F  # ℹ️
+    Warning = [char]0x26A0 + [char]0xFE0F  # ⚠️
+    Error   = [char]0x274C                 # ❌
+    Success = [char]0x2705                 # ✅
 }
 
-# Script state variables
-$script:GitHubToken = $null
-$script:AdoToken = $null
+# PowerShell color support (compatible with Windows PowerShell 5.1)
+$script:Colors = @{
+    Red    = "Red"
+    Green  = "Green"
+    Yellow = "Yellow"
+    Cyan   = "Cyan"
+    Reset  = "White"
+}
+
+# Global variables for script state
+$script:GitHubToken = ""
+$script:AdoToken = ""
 
 #######################################
 # Helper Functions
@@ -78,7 +91,7 @@ $script:AdoToken = $null
 function Write-LogMessage {
     <#
     .SYNOPSIS
-        Logging function with different levels and colors
+        Writes formatted log messages with timestamps and colors
     #>
     [CmdletBinding()]
     param(
@@ -92,20 +105,23 @@ function Write-LogMessage {
     
     $timestamp = Get-Date -Format $script:TimestampFormat
     $icon = $script:Icons[$Level]
+    $logMessage = "[$timestamp] $Message"
     
+    # Use Write-Host for colored output with PowerShell native colors
     switch ($Level) {
         "Error" {
-            Write-Host "$icon [$timestamp] $Message" -ForegroundColor Red
+            Write-Host "$icon $logMessage" -ForegroundColor $script:Colors.Red
             Write-Error $Message -ErrorAction Continue
         }
         "Warning" {
-            Write-Host "$icon [$timestamp] $Message" -ForegroundColor Yellow
+            Write-Host "$icon $logMessage" -ForegroundColor $script:Colors.Yellow
+            Write-Warning $Message -WarningAction Continue
         }
         "Success" {
-            Write-Host "$icon [$timestamp] $Message" -ForegroundColor Green
+            Write-Host "$icon $logMessage" -ForegroundColor $script:Colors.Green
         }
         default {
-            Write-Host "$icon [$timestamp] $Message" -ForegroundColor Cyan
+            Write-Host "$icon $logMessage" -ForegroundColor $script:Colors.Cyan
         }
     }
 }
@@ -113,7 +129,7 @@ function Write-LogMessage {
 function Test-CommandAvailability {
     <#
     .SYNOPSIS
-        Check if a command is available in PATH
+        Checks if a command is available in the system PATH
     #>
     [CmdletBinding()]
     param(
@@ -121,43 +137,387 @@ function Test-CommandAvailability {
         [string]$Command
     )
     
-    $exists = $null -ne (Get-Command -Name $Command -ErrorAction SilentlyContinue)
-    
-    if (-not $exists) {
-        Write-LogMessage "Required command '$Command' was not found. Please install it before continuing." -Level "Error"
+    try {
+        $null = Get-Command $Command -ErrorAction Stop
+        return $true
+    }
+    catch {
+        Write-LogMessage "Required command '$Command' was not found. Please install it before continuing." "Error"
         return $false
     }
-    
-    return $true
 }
 
 function Show-Help {
     <#
     .SYNOPSIS
-        Show comprehensive help message
+        Displays help information for the script
     #>
     
-    Write-Host @"
+    $helpText = @"
 setUp.ps1 - Sets up Azure Dev Box environment with source control integration
 
 USAGE:
     .\setUp.ps1 -EnvName ENV_NAME -SourceControl PLATFORM
 
 PARAMETERS:
-    -EnvName ENV_NAME              Name of the Azure environment to create
-    -SourceControl PLATFORM        Source control platform (github or adogit)
-    -Help                          Show this help message
+    -EnvName ENV_NAME          Name of the Azure environment to create (required)
+    -SourceControl PLATFORM    Source control platform (github or adogit)
+    -Help                      Show this help message
 
 EXAMPLES:
     .\setUp.ps1 -EnvName "prod" -SourceControl "github"
     .\setUp.ps1 -EnvName "dev" -SourceControl "adogit"
 
 REQUIREMENTS:
-    - Azure CLI (az)
-    - Azure Developer CLI (azd)
-    - GitHub CLI (gh) [if using GitHub]
-    - Valid authentication for chosen platform
+    * Azure CLI (az)
+    * Azure Developer CLI (azd)
+    * PowerShell 5.1 or later
+    * GitHub CLI (gh) [if using GitHub]
+    * Valid authentication for chosen platform
 "@
+    
+    Write-Host $helpText
+}
+
+function Test-SourceControlPlatform {
+    <#
+    .SYNOPSIS
+        Validates the source control platform parameter
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Platform
+    )
+    
+    $validPlatforms = @("github", "adogit", "")
+    
+    if ($Platform -in $validPlatforms) {
+        return $true
+    }
+    else {
+        Write-LogMessage "Invalid source control platform: $Platform" "Error"
+        Write-LogMessage "Valid platforms: github, adogit" "Info"
+        return $false
+    }
+}
+
+#######################################
+# Authentication Functions
+#######################################
+
+function Test-AzureAuthentication {
+    <#
+    .SYNOPSIS
+        Tests Azure CLI authentication and subscription state
+    #>
+    
+    Write-LogMessage "Verifying Azure authentication..." "Info"
+    
+    try {
+        $azContext = & az account show 2>$null | ConvertFrom-Json
+        
+        if (-not $azContext) {
+            Write-LogMessage "Not logged into Azure. Please run 'az login' first." "Error"
+            return $false
+        }
+        
+        # Check if subscription is enabled (Azure best practice)
+        if ($azContext.state -ne "Enabled") {
+            Write-LogMessage "Current subscription '$($azContext.name)' is not in 'Enabled' state." "Error"
+            return $false
+        }
+        
+        # Output subscription details for verification
+        Write-LogMessage "Using Azure subscription: $($azContext.name) (ID: $($azContext.id))" "Info"
+        return $true
+    }
+    catch {
+        Write-LogMessage "Failed to verify Azure authentication: $_" "Error"
+        return $false
+    }
+}
+
+function Test-AdoAuthentication {
+    <#
+    .SYNOPSIS
+        Tests Azure DevOps CLI authentication
+    #>
+    
+    Write-LogMessage "Verifying Azure DevOps authentication..." "Info"
+    
+    try {
+        $null = & az devops configure --list 2>$null
+        if ($LASTEXITCODE -ne 0) {
+            Write-LogMessage "Not logged into Azure DevOps. Please run 'az devops login' first." "Error"
+            return $false
+        }
+        
+        Write-LogMessage "Azure DevOps authentication verified successfully" "Success"
+        return $true
+    }
+    catch {
+        Write-LogMessage "Azure DevOps authentication check failed: $_" "Error"
+        return $false
+    }
+}
+
+function Test-GitHubAuthentication {
+    <#
+    .SYNOPSIS
+        Tests GitHub CLI authentication
+    #>
+    
+    Write-LogMessage "Verifying GitHub authentication..." "Info"
+    
+    try {
+        $null = & gh auth status 2>$null
+        if ($LASTEXITCODE -ne 0) {
+            Write-LogMessage "Not logged into GitHub. Please run 'gh auth login' first." "Error"
+            return $false
+        }
+        
+        Write-LogMessage "GitHub authentication verified successfully" "Success"
+        return $true
+    }
+    catch {
+        Write-LogMessage "GitHub authentication check failed: $_" "Error"
+        return $false
+    }
+}
+
+function Get-SecureGitHubToken {
+    <#
+    .SYNOPSIS
+        Retrieves GitHub token securely from environment or GitHub CLI
+    #>
+    
+    Write-LogMessage "Retrieving GitHub token..." "Info"
+    
+    # Check if KEY_VAULT_SECRET environment variable is already set
+    $envToken = $env:KEY_VAULT_SECRET
+    if (-not [string]::IsNullOrEmpty($envToken)) {
+        Write-LogMessage "Using existing KEY_VAULT_SECRET from environment" "Info"
+        $script:GitHubToken = $envToken
+    }
+    else {
+        try {
+            # Retrieve GitHub token using gh CLI
+            $token = & gh auth token 2>$null
+            if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrEmpty($token)) {
+                Write-LogMessage "Failed to retrieve GitHub token" "Error"
+                return $false
+            }
+            
+            $script:GitHubToken = $token.Trim()
+            # Export as environment variable for future use (session only)
+            $env:KEY_VAULT_SECRET = $script:GitHubToken
+        }
+        catch {
+            Write-LogMessage "Failed to retrieve GitHub token: $_" "Error"
+            return $false
+        }
+    }
+    
+    if ([string]::IsNullOrEmpty($script:GitHubToken)) {
+        Write-LogMessage "Failed to retrieve GitHub token" "Error"
+        return $false
+    }
+    
+    Write-LogMessage "GitHub token retrieved and stored securely" "Success"
+    return $true
+}
+
+function Get-SecureAdoToken {
+    <#
+    .SYNOPSIS
+        Retrieves Azure DevOps Personal Access Token securely
+    #>
+    
+    Write-LogMessage "Retrieving Azure DevOps token..." "Info"
+    
+    # Try to get PAT from environment variable first
+    $envToken = $env:KEY_VAULT_SECRET
+    if (-not [string]::IsNullOrEmpty($envToken)) {
+        $script:AdoToken = $envToken
+        Write-LogMessage "Azure DevOps PAT retrieved from Key Vault" "Success"
+    }
+    else {
+        Write-LogMessage "Azure DevOps PAT not found in environment variables." "Warning"
+        Write-LogMessage "Please enter your PAT securely." "Warning"
+        
+        # Prompt for PAT securely (masked input)
+        $secureToken = Read-Host "Enter your Azure DevOps Personal Access Token" -AsSecureString
+        $script:AdoToken = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureToken))
+        
+        # Get organization URL interactively (fix for hardcoded URL issue)
+        $orgUrl = Read-Host "Enter your Azure DevOps organization URL (e.g., https://dev.azure.com/yourorg)"
+        if ([string]::IsNullOrEmpty($orgUrl)) {
+            Write-LogMessage "Organization URL is required for Azure DevOps integration." "Error"
+            return $false
+        }
+        
+        $projectName = Read-Host "Enter your Azure DevOps project name"
+        if ([string]::IsNullOrEmpty($projectName)) {
+            Write-LogMessage "Project name is required for Azure DevOps integration." "Error"
+            return $false
+        }
+        
+        # Configure Azure DevOps defaults
+        try {
+            $null = & az devops configure --defaults organization=$orgUrl project=$projectName 2>$null
+            if ($LASTEXITCODE -ne 0) {
+                Write-LogMessage "Failed to configure Azure DevOps organization and project." "Error"
+                return $false
+            }
+        }
+        catch {
+            Write-LogMessage "Azure DevOps configuration failed: $_" "Error"
+            return $false
+        }
+    }
+    
+    if ([string]::IsNullOrEmpty($script:AdoToken)) {
+        Write-LogMessage "Failed to retrieve Azure DevOps PAT" "Error"
+        return $false
+    }
+    
+    # Export the token to environment variable (session only)
+    $env:AZURE_DEVOPS_EXT_PAT = $script:AdoToken
+    
+    Write-LogMessage "Azure DevOps PAT retrieved and stored securely" "Success"
+    return $true
+}
+
+#######################################
+# Azure Configuration Functions
+#######################################
+
+function Initialize-AzdEnvironment {
+    <#
+    .SYNOPSIS
+        Initializes Azure Developer CLI environment with secure token storage
+    #>
+    
+    Write-LogMessage "Initializing Azure Developer CLI environment..." "Info"
+    
+    $pat = ""
+    $tokenType = ""
+    
+    # Get appropriate token based on source control platform
+    switch ($SourceControl.ToLower()) {
+        "github" {
+            Write-LogMessage "Retrieving GitHub token for environment initialization..." "Info"
+            if (-not (Get-SecureGitHubToken)) {
+                Write-LogMessage "Unable to retrieve GitHub token. Aborting environment initialization." "Error"
+                return $false
+            }
+            $pat = $script:GitHubToken
+            $tokenType = "GitHub"
+        }
+        "adogit" {
+            Write-LogMessage "Retrieving Azure DevOps token for environment initialization..." "Info"
+            if (-not (Get-SecureAdoToken)) {
+                Write-LogMessage "Unable to retrieve Azure DevOps token. Aborting environment initialization." "Error"
+                return $false
+            }
+            $pat = $script:AdoToken
+            $tokenType = "Azure DevOps"
+        }
+        default {
+            Write-LogMessage "Unsupported source control platform: $SourceControl" "Error"
+            return $false
+        }
+    }
+    
+    # Mask most of the token for security best practices
+    $maskedToken = if ($pat.Length -ge 8) {
+        $pat.Substring(0, 4) + "****" + $pat.Substring($pat.Length - 2)
+    } else {
+        "****"
+    }
+    
+    Write-LogMessage "[SECURE] $tokenType token stored securely in memory. Masked: $maskedToken" "Success"
+    
+    # Azure best practice: Verify environment exists or use existing
+    Write-LogMessage "Using Azure Developer CLI environment: '$EnvName'" "Info"
+    
+    # Prepare environment file path
+    $envDir = Join-Path $script:ScriptDir ".azure" $EnvName
+    $envFile = Join-Path $envDir ".env"
+    
+    # Create directory if it doesn't exist
+    if (-not (Test-Path $envDir)) {
+        $null = New-Item -Path $envDir -ItemType Directory -Force
+    }
+    
+    # Azure best practice: Use environment-specific configuration with secure storage
+    Write-LogMessage "Configuring environment variables in $envFile" "Info"
+    
+    try {
+        # Use more secure approach - avoid plain text storage in production
+        $envContent = @"
+KEY_VAULT_SECRET='$pat'
+SOURCE_CONTROL_PLATFORM='$SourceControl'
+"@
+        $envContent | Out-File -FilePath $envFile -Encoding UTF8 -Append
+        
+        # Set secure file permissions (Windows)
+        if ($IsWindows -or $PSVersionTable.PSVersion.Major -le 5) {
+            $acl = Get-Acl $envFile
+            $acl.SetAccessRuleProtection($true, $false)  # Disable inheritance
+            $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($env:USERNAME, "FullControl", "Allow")
+            $acl.SetAccessRule($accessRule)
+            Set-Acl $envFile $acl
+        }
+    }
+    catch {
+        Write-LogMessage "Failed to create environment file: $_" "Error"
+        return $false
+    }
+    
+    # Show current configuration for verification
+    Write-LogMessage "Current Azure Developer CLI configuration:" "Info"
+    try {
+        $azdConfig = & azd config show 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host $azdConfig
+        } else {
+            Write-LogMessage "Warning: Could not display azd configuration" "Warning"
+        }
+    }
+    catch {
+        Write-LogMessage "Warning: Could not display azd configuration: $_" "Warning"
+    }
+    
+    Write-LogMessage "Azure Developer CLI environment '$EnvName' initialized successfully." "Success"
+    return $true
+}
+
+function Start-AzureProvisioning {
+    <#
+    .SYNOPSIS
+        Starts Azure resource provisioning using azd
+    #>
+    
+    Write-LogMessage "Starting Azure resource provisioning with azd..." "Info"
+    
+    try {
+        $result = & azd provision -e $EnvName 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            Write-LogMessage "Azure provisioning failed with exit code $LASTEXITCODE" "Error"
+            Write-LogMessage "Output: $result" "Error"
+            Write-LogMessage "This might be a quota or permissions issue. Check your Azure subscription limits and role assignments." "Warning"
+            return $false
+        }
+        
+        Write-LogMessage "Azure provisioning completed successfully" "Success"
+        return $true
+    }
+    catch {
+        Write-LogMessage "Azure provisioning failed: $_" "Error"
+        return $false
+    }
 }
 
 function Select-SourceControlPlatform {
@@ -166,7 +526,7 @@ function Select-SourceControlPlatform {
         Interactive source control platform selection
     #>
     
-    Write-LogMessage "Please select your source control platform:" -Level "Info"
+    Write-LogMessage "Please select your source control platform:" "Info"
     Write-Host ""
     Write-Host "  1. Azure DevOps Git (adogit)" -ForegroundColor Yellow
     Write-Host "  2. GitHub (github)" -ForegroundColor Yellow
@@ -178,416 +538,107 @@ function Select-SourceControlPlatform {
         switch ($selection) {
             "1" {
                 $script:SourceControl = "adogit"
-                Write-LogMessage "Selected: Azure DevOps Git" -Level "Success"
-                return $true
+                Write-LogMessage "Selected: Azure DevOps Git" "Success"
+                return "adogit"
             }
             "2" {
                 $script:SourceControl = "github"
-                Write-LogMessage "Selected: GitHub" -Level "Success"
-                return $true
+                Write-LogMessage "Selected: GitHub" "Success"
+                return "github"
             }
             default {
-                Write-LogMessage "Invalid selection. Please enter 1 or 2." -Level "Warning"
+                Write-LogMessage "Invalid selection. Please enter 1 or 2." "Warning"
             }
         }
     } while ($true)
 }
 
 #######################################
-# Authentication Functions
-#######################################
-
-function Test-AzureAuthentication {
-    <#
-    .SYNOPSIS
-        Test Azure CLI authentication
-    #>
-    
-    Write-LogMessage "Verifying Azure authentication..." -Level "Info"
-    
-    try {
-        $azContext = az account show 2>$null | ConvertFrom-Json
-        
-        if (-not $azContext) {
-            Write-LogMessage "Not logged into Azure. Please run 'az login' first." -Level "Error"
-            return $false
-        }
-        
-        # Check if subscription is enabled (Azure best practice)
-        if ($azContext.state -ne "Enabled") {
-            Write-LogMessage "Current subscription '$($azContext.name)' is not in 'Enabled' state." -Level "Error"
-            return $false
-        }
-        
-        # Output subscription details for verification
-        Write-LogMessage "Using Azure subscription: $($azContext.name) (ID: $($azContext.id))" -Level "Info"
-        return $true
-    }
-    catch {
-        Write-LogMessage "Azure authentication check failed: $($_.Exception.Message)" -Level "Error"
-        return $false
-    }
-}
-
-function Test-AdoAuthentication {
-    <#
-    .SYNOPSIS
-        Test Azure DevOps authentication
-    #>
-    
-    Write-LogMessage "Verifying Azure DevOps authentication..." -Level "Info"
-    
-    try {
-        $null = az devops configure --list 2>$null
-        
-        if ($LASTEXITCODE -ne 0) {
-            Write-LogMessage "Not logged into Azure DevOps. Please run 'az devops login' first." -Level "Error"
-            return $false
-        }
-        
-        Write-LogMessage "Azure DevOps authentication verified successfully" -Level "Success"
-        return $true
-    }
-    catch {
-        Write-LogMessage "Azure DevOps authentication check failed: $($_.Exception.Message)" -Level "Error"
-        return $false
-    }
-}
-
-function Test-GitHubAuthentication {
-    <#
-    .SYNOPSIS
-        Test GitHub CLI authentication
-    #>
-    
-    Write-LogMessage "Verifying GitHub authentication..." -Level "Info"
-    
-    try {
-        $null = gh auth status 2>$null
-        
-        if ($LASTEXITCODE -ne 0) {
-            Write-LogMessage "Not logged into GitHub. Please run 'gh auth login' first." -Level "Error"
-            return $false
-        }
-        
-        Write-LogMessage "GitHub authentication verified successfully" -Level "Success"
-        return $true
-    }
-    catch {
-        Write-LogMessage "GitHub authentication check failed: $($_.Exception.Message)" -Level "Error"
-        return $false
-    }
-}
-
-function Get-SecureGitHubToken {
-    <#
-    .SYNOPSIS
-        Get GitHub token securely
-    #>
-    
-    Write-LogMessage "Retrieving GitHub token..." -Level "Info"
-    
-    try {
-        # Check if KEY_VAULT_SECRET environment variable is already set
-        if ($env:KEY_VAULT_SECRET) {
-            Write-LogMessage "Using existing KEY_VAULT_SECRET from environment" -Level "Info"
-            $script:GitHubToken = $env:KEY_VAULT_SECRET
-        }
-        else {
-            # Retrieve GitHub token using gh CLI
-            $token = gh auth token 2>$null
-            
-            if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrEmpty($token)) {
-                Write-LogMessage "Failed to retrieve GitHub token" -Level "Error"
-                return $false
-            }
-            
-            $script:GitHubToken = $token.Trim()
-            # Export as environment variable for future use
-            $env:KEY_VAULT_SECRET = $script:GitHubToken
-        }
-        
-        if ([string]::IsNullOrEmpty($script:GitHubToken)) {
-            Write-LogMessage "Failed to retrieve GitHub token" -Level "Error"
-            return $false
-        }
-        
-        Write-LogMessage "GitHub token retrieved and stored securely" -Level "Success"
-        return $true
-    }
-    catch {
-        Write-LogMessage "Error retrieving GitHub token: $($_.Exception.Message)" -Level "Error"
-        return $false
-    }
-}
-
-function Get-SecureAdoToken {
-    <#
-    .SYNOPSIS
-        Get Azure DevOps token securely
-    #>
-    
-    Write-LogMessage "Retrieving Azure DevOps token..." -Level "Info"
-    
-    try {
-        # Try to get PAT from environment variable first
-        if ($env:KEY_VAULT_SECRET) {
-            $script:AdoToken = $env:KEY_VAULT_SECRET
-            Write-LogMessage "Azure DevOps PAT retrieved from Key Vault" -Level "Success"
-        }
-        else {
-            Write-LogMessage "Azure DevOps PAT not found in environment variables." -Level "Warning"
-            Write-LogMessage "Please enter your PAT securely." -Level "Warning"
-            
-            # Prompt for PAT securely
-            $secureInput = Read-Host -Prompt "Enter your Azure DevOps Personal Access Token" -AsSecureString
-            $script:AdoToken = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureInput))
-            
-            # Configure Azure DevOps defaults
-            $null = az devops configure --defaults organization=https://dev.azure.com/contososa2 project=DevExp-DevBox 2>$null
-            
-            if ($LASTEXITCODE -ne 0) {
-                Write-LogMessage "Azure DevOps organization and project not set. Please configure them first." -Level "Error"
-                return $false
-            }
-        }
-        
-        if ([string]::IsNullOrEmpty($script:AdoToken)) {
-            Write-LogMessage "Failed to retrieve Azure DevOps PAT" -Level "Error"
-            return $false
-        }
-        
-        # Export the token to environment variable
-        $env:AZURE_DEVOPS_EXT_PAT = $script:AdoToken
-        
-        Write-LogMessage "Azure DevOps PAT retrieved and stored securely" -Level "Success"
-        return $true
-    }
-    catch {
-        Write-LogMessage "Error retrieving Azure DevOps token: $($_.Exception.Message)" -Level "Error"
-        return $false
-    }
-}
-
-#######################################
-# Azure Configuration Functions
-#######################################
-
-function Initialize-AzdEnvironment {
-    <#
-    .SYNOPSIS
-        Initialize Azure Developer CLI environment
-    #>
-    
-    Write-LogMessage "Initializing Azure Developer CLI environment..." -Level "Info"
-    
-    try {
-        # Get appropriate token based on source control platform
-        $pat = $null
-        $tokenType = ""
-        
-        switch ($SourceControl.ToLower()) {
-            "github" {
-                Write-LogMessage "Retrieving GitHub token for environment initialization..." -Level "Info"
-                if (-not (Get-SecureGitHubToken)) {
-                    Write-LogMessage "Unable to retrieve GitHub token. Aborting environment initialization." -Level "Error"
-                    return $false
-                }
-                $pat = $script:GitHubToken
-                $tokenType = "GitHub"
-            }
-            "adogit" {
-                Write-LogMessage "Retrieving Azure DevOps token for environment initialization..." -Level "Info"
-                if (-not (Get-SecureAdoToken)) {
-                    Write-LogMessage "Unable to retrieve Azure DevOps token. Aborting environment initialization." -Level "Error"
-                    return $false
-                }
-                $pat = $script:AdoToken
-                $tokenType = "Azure DevOps"
-            }
-            default {
-                Write-LogMessage "Unsupported source control platform: $SourceControl" -Level "Error"
-                return $false
-            }
-        }
-        
-        # Mask most of the token for security best practices
-        $maskedToken = if ($pat.Length -ge 8) {
-            $pat.Substring(0, 4) + "****" + $pat.Substring($pat.Length - 2)
-        }
-        else {
-            "****"
-        }
-        
-        Write-LogMessage "🔐 $tokenType token stored securely in memory. Masked: $maskedToken" -Level "Success"
-        
-        # Azure best practice: Verify environment exists or use existing
-        Write-LogMessage "Using Azure Developer CLI environment: '$EnvName'" -Level "Info"
-        
-        # Prepare environment file path
-        $envDir = ".\.azure\$EnvName"
-        $envFile = Join-Path $envDir ".env"
-        
-        if (-not (Test-Path $envDir)) {
-            New-Item -ItemType Directory -Path $envDir -Force | Out-Null
-        }
-        
-        # Azure best practice: Use environment-specific configuration
-        Write-LogMessage "Configuring environment variables in $envFile" -Level "Info"
-        
-        # Create environment configuration
-        $envContent = @"
-KEY_VAULT_SECRET='$pat'
-SOURCE_CONTROL_PLATFORM='$SourceControl'
-"@
-        
-        Set-Content -Path $envFile -Value $envContent -Encoding UTF8
-        
-        # Show current configuration for verification
-        Write-LogMessage "Current Azure Developer CLI configuration:" -Level "Info"
-        azd config show
-        
-        Write-LogMessage "Azure Developer CLI environment '$EnvName' initialized successfully." -Level "Success"
-        return $true
-    }
-    catch {
-        Write-LogMessage "Error initializing Azure Developer CLI environment: $($_.Exception.Message)" -Level "Error"
-        return $false
-    }
-}
-
-function Start-AzureProvisioning {
-    <#
-    .SYNOPSIS
-        Start Azure resource provisioning
-    #>
-    
-    Write-LogMessage "Starting Azure resource provisioning with azd..." -Level "Info"
-    
-    try {
-        # Run the provisioning process
-        azd provision -e $EnvName
-        
-        if ($LASTEXITCODE -ne 0) {
-            Write-LogMessage "Azure provisioning failed with exit code $LASTEXITCODE" -Level "Error"
-            Write-LogMessage "This might be a quota or permissions issue. Check your Azure subscription limits and role assignments." -Level "Warning"
-            return $false
-        }
-        
-        Write-LogMessage "Azure provisioning completed successfully" -Level "Success"
-        return $true
-    }
-    catch {
-        Write-LogMessage "Azure provisioning failed: $($_.Exception.Message)" -Level "Error"
-        return $false
-    }
-}
-
-#######################################
 # Main Script Logic
 #######################################
 
-function Invoke-Cleanup {
+function Start-Setup {
     <#
     .SYNOPSIS
-        Cleanup function to secure sensitive data
+        Main execution function for the setup script
     #>
     
-    Write-LogMessage "Cleaning up sensitive data..." -Level "Info"
+    # Show help if requested
+    if ($Help) {
+        Show-Help
+        return
+    }
     
-    # Clear sensitive variables
-    $script:GitHubToken = $null
-    $script:AdoToken = $null
+    # If source control not provided, prompt for it
+    if ([string]::IsNullOrEmpty($SourceControl)) {
+        $SourceControl = Select-SourceControlPlatform
+    }
     
-    # Remove sensitive environment variables
-    Remove-Variable -Name "AZURE_DEVOPS_EXT_PAT" -Scope Global -ErrorAction SilentlyContinue
+    # Validate parameters
+    if (-not (Test-SourceControlPlatform -Platform $SourceControl)) {
+        throw "Invalid source control platform specified."
+    }
     
-    Write-LogMessage "Cleanup completed" -Level "Info"
-}
-
-function Invoke-Main {
-    <#
-    .SYNOPSIS
-        Main execution function
-    #>
+    # Define required tools
+    $requiredTools = @("az", "azd")
     
-    try {
-        # Show help if requested
-        if ($Help) {
-            Show-Help
-            return $true
-        }
-        
-        # If source control not provided, prompt for it
-        if ([string]::IsNullOrEmpty($SourceControl)) {
-            if (-not (Select-SourceControlPlatform)) {
-                return $false
-            }
-        }
-        
-        # Define required tools
-        $requiredTools = @("az", "azd")
-        
-        # Add GitHub CLI to required tools if using GitHub
-        if ($SourceControl -eq "github") {
+    # Add source control specific tools
+    switch ($SourceControl.ToLower()) {
+        "github" {
             $requiredTools += "gh"
         }
-        
-        # Script header with basic information
-        Write-LogMessage "Starting Dev Box environment setup" -Level "Info"
-        Write-LogMessage "Environment name: $EnvName" -Level "Info"
-        Write-LogMessage "Source control platform: $SourceControl" -Level "Info"
-        
-        # Verify required tools - Azure best practice for dependency validation
-        Write-LogMessage "Checking required tools..." -Level "Info"
-        foreach ($tool in $requiredTools) {
-            if (-not (Test-CommandAvailability -Command $tool)) {
-                Write-LogMessage "Missing required tools. Please install them and retry." -Level "Error"
-                return $false
+    }
+    
+    # Script header with basic information
+    Write-LogMessage "Starting Dev Box environment setup" "Info"
+    Write-LogMessage "Environment name: $EnvName" "Info"
+    Write-LogMessage "Source control platform: $SourceControl" "Info"
+    
+    # Verify required tools - Azure best practice for dependency validation
+    Write-LogMessage "Checking required tools..." "Info"
+    $allToolsAvailable = $true
+    foreach ($tool in $requiredTools) {
+        if (-not (Test-CommandAvailability -Command $tool)) {
+            $allToolsAvailable = $false
+        }
+    }
+    
+    if (-not $allToolsAvailable) {
+        Write-LogMessage "Missing required tools. Please install them and retry." "Error"
+        throw "Required dependencies not met."
+    }
+    
+    Write-LogMessage "All required tools are available" "Success"
+    
+    # Verify Azure authentication - Azure security best practice
+    if (-not (Test-AzureAuthentication)) {
+        throw "Azure authentication failed."
+    }
+    
+    # Verify source control authentication
+    switch ($SourceControl.ToLower()) {
+        "github" {
+            if (-not (Test-GitHubAuthentication)) {
+                throw "GitHub authentication failed."
             }
         }
-        Write-LogMessage "All required tools are available" -Level "Success"
-        
-        # Verify Azure authentication - Azure security best practice
-        if (-not (Test-AzureAuthentication)) {
-            return $false
-        }
-        
-        # Verify source control authentication
-        switch ($SourceControl.ToLower()) {
-            "github" {
-                if (-not (Test-GitHubAuthentication)) {
-                    return $false
-                }
-            }
-            "adogit" {
-                if (-not (Test-AdoAuthentication)) {
-                    return $false
-                }
+        "adogit" {
+            if (-not (Test-AdoAuthentication)) {
+                throw "Azure DevOps authentication failed."
             }
         }
-        
-        # Initialize azd environment
-        if (-not (Initialize-AzdEnvironment)) {
-            Write-LogMessage "Failed to initialize Azure Developer CLI environment. Exiting." -Level "Error"
-            return $false
-        }
-        
-        # Success message with environment details
-        Write-LogMessage "Dev Box environment '$EnvName' setup successfully" -Level "Success"
-        Write-LogMessage "Access your Dev Center from the Azure portal" -Level "Info"
-        Write-LogMessage "Use 'azd env get-values' to view environment settings" -Level "Info"
-        
-        return $true
     }
-    catch {
-        Write-LogMessage "An unexpected error occurred: $($_.Exception.Message)" -Level "Error"
-        Write-LogMessage "Stack trace: $($_.ScriptStackTrace)" -Level "Error"
-        return $false
+    
+    # Initialize azd environment
+    if (-not (Initialize-AzdEnvironment)) {
+        Write-LogMessage "Failed to initialize Azure Developer CLI environment. Exiting." "Error"
+        throw "Environment initialization failed."
     }
-    finally {
-        Invoke-Cleanup
-    }
+    
+    # Success message with environment details
+    Write-LogMessage "Dev Box environment '$EnvName' setup successfully" "Success"
+    Write-LogMessage "Access your Dev Center from the Azure portal" "Info"
+    Write-LogMessage "Use 'azd env get-values' to view environment settings" "Info"
 }
 
 #######################################
@@ -596,18 +647,20 @@ function Invoke-Main {
 
 # Set up error handling
 trap {
-    Write-LogMessage "Script interrupted or failed. Cleaning up..." -Level "Warning"
-    Invoke-Cleanup
-    break
+    Write-LogMessage "Script execution failed: $_" "Error"
+    exit 1
+}
+
+# Handle Ctrl+C gracefully
+$null = Register-EngineEvent PowerShell.Exiting -Action {
+    Write-LogMessage "Script interrupted by user" "Warning"
 }
 
 # Execute main function
-$success = Invoke-Main
-
-# Exit with appropriate code
-if ($success) {
-    exit 0
+try {
+    Start-Setup
 }
-else {
+catch {
+    Write-LogMessage "Setup failed: $_" "Error"
     exit 1
 }

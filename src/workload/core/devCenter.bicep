@@ -77,6 +77,18 @@ resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-
   location: resourceGroup().location
 }
 
+resource federatedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2024-11-30' = {
+  name: 'devCenter-federatedIdentity'
+  parent: managedIdentity
+  properties: {
+    audiences: [
+      'api://AzureADTokenExchange'
+    ]
+    issuer: 'https://vstoken.dev.azure.com/023bf353-bd71-4028-ac46-0ab056a2ba87'
+    subject: 'sc://contososa2/DevExp-DevBox/devboxazconnection'
+  }
+}
+
 @description('Dev Center Identity Role Assignments')
 module devCenterMIroleAssignment '../../identity/devCenterRoleAssignment.bicep' = [
   for (role, i) in config.identity.roleAssignments.devCenter: {
@@ -112,9 +124,9 @@ resource devcenter 'Microsoft.DevCenter/devcenters@2025-04-01-preview' = {
   name: devCenterName
   location: resourceGroup().location
   identity: {
-    type: config.identity.type
+    type: 'UserAssigned'
     userAssignedIdentities: {
-      '${managedIdentity.name}': {}
+      '${managedIdentity.id}': {}
     }
   }
   properties: {
@@ -131,6 +143,7 @@ resource devcenter 'Microsoft.DevCenter/devcenters@2025-04-01-preview' = {
   tags: config.tags
   dependsOn: [
     managedIdentity
+    devCenterMIroleAssignment
     devCenterMIroleAssignmentRG
   ]
 }
@@ -161,36 +174,6 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
   }
 }
 
-// RBAC and Identity Management
-@description('Dev Center Identity Role Assignments')
-module devCenterIdentityRoleAssignment '../../identity/devCenterRoleAssignment.bicep' = [
-  for (role, i) in config.identity.roleAssignments.devCenter: {
-    name: 'RBACDevCenterSub-${i}-${devCenterName}-${dateTime}'
-    scope: subscription()
-    params: {
-      id: role.id
-      principalId: devCenterPrincipalId
-      scope: role.scope
-    }
-  }
-]
-
-@description('Dev Center Identity Role Assignments')
-module devCenterIdentityRoleAssignmentRG '../../identity/devCenterRoleAssignmentRG.bicep' = [
-  for (role, i) in config.identity.roleAssignments.devCenter: {
-    name: 'RBACDevCenterRG-${i}-${devCenterName}-${dateTime}'
-    scope: resourceGroup(securityResourceGroupName)
-    params: {
-      id: role.id
-      principalId: devCenterPrincipalId
-      scope: role.scope
-    }
-    dependsOn: [
-      devCenterIdentityRoleAssignment
-    ]
-  }
-]
-
 @description('Dev Center Identity User Groups role assignments')
 module devCenterIdentityUserGroupsRoleAssignment '../../identity/orgRoleAssignment.bicep' = [
   for (role, i) in config.identity.roleAssignments.orgRoleTypes: {
@@ -201,7 +184,9 @@ module devCenterIdentityUserGroupsRoleAssignment '../../identity/orgRoleAssignme
       roles: role.azureRBACRoles
     }
     dependsOn: [
-      devCenterIdentityRoleAssignment
+      managedIdentity
+      devCenterMIroleAssignment
+      devCenterMIroleAssignmentRG
     ]
   }
 ]
@@ -218,8 +203,7 @@ module catalog 'catalog.bicep' = [
       secretIdentifier: secretIdentifier
     }
     dependsOn: [
-      devCenterIdentityRoleAssignment
-      devCenterIdentityRoleAssignmentRG
+      devcenter
     ]
   }
 ]
@@ -234,5 +218,8 @@ module environment 'environmentType.bicep' = [
       devCenterName: devCenterName
       environmentConfig: environment
     }
+    dependsOn: [
+      devcenter
+    ]
   }
 ]
