@@ -72,6 +72,40 @@ type OrgRoleType = {
   azureRBACRoles: AzureRBACRole[]
 }
 
+resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-11-30' = {
+  name: 'devCenter-managedIdentity'
+  location: resourceGroup().location
+}
+
+@description('Dev Center Identity Role Assignments')
+module devCenterMIroleAssignment '../../identity/devCenterRoleAssignment.bicep' = [
+  for (role, i) in config.identity.roleAssignments.devCenter: {
+    name: 'RBACDevCenterSub-${i}-${managedIdentity.name}-${dateTime}'
+    scope: subscription()
+    params: {
+      id: role.id
+      principalId: managedIdentity.properties.principalId
+      scope: role.scope
+    }
+  }
+]
+
+@description('Dev Center Identity Role Assignments')
+module devCenterMIroleAssignmentRG '../../identity/devCenterRoleAssignmentRG.bicep' = [
+  for (role, i) in config.identity.roleAssignments.devCenter: {
+    name: 'RBACDevCenterRG-${i}-${managedIdentity.name}-${dateTime}'
+    scope: resourceGroup(securityResourceGroupName)
+    params: {
+      id: role.id
+      principalId: managedIdentity.properties.principalId
+      scope: role.scope
+    }
+    dependsOn: [
+      devCenterMIroleAssignment
+    ]
+  }
+]
+
 // Main DevCenter resource
 @description('Dev Center Resource')
 resource devcenter 'Microsoft.DevCenter/devcenters@2025-04-01-preview' = {
@@ -79,6 +113,9 @@ resource devcenter 'Microsoft.DevCenter/devcenters@2025-04-01-preview' = {
   location: resourceGroup().location
   identity: {
     type: config.identity.type
+    userAssignedIdentities: {
+      '${managedIdentity.name}': {}
+    }
   }
   properties: {
     projectCatalogSettings: {
@@ -92,6 +129,10 @@ resource devcenter 'Microsoft.DevCenter/devcenters@2025-04-01-preview' = {
     }
   }
   tags: config.tags
+  dependsOn: [
+    managedIdentity
+    devCenterMIroleAssignmentRG
+  ]
 }
 
 @description('Deployed Dev Center name')
