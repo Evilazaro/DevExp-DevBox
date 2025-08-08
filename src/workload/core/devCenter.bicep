@@ -1,6 +1,5 @@
 // Common variables for reuse
 var devCenterName = config.name
-var devCenterPrincipalId = devcenter.identity.principalId
 
 // Parameters with improved metadata and validation
 @description('DevCenter configuration including identity and settings')
@@ -73,12 +72,12 @@ type OrgRoleType = {
 }
 
 resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-11-30' = {
-  name: 'devCenter-managedIdentity'
+  name: '${devCenterName}-MI'
   location: resourceGroup().location
 }
 
 resource federatedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2024-11-30' = {
-  name: 'devCenter-federatedIdentity'
+  name: '${devCenterName}-federatedIdentity'
   parent: managedIdentity
   properties: {
     audiences: [
