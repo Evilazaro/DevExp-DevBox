@@ -119,7 +119,7 @@ module devCenterMIroleAssignmentRG '../../identity/devCenterRoleAssignmentRG.bic
 
 // Main DevCenter resource
 @description('Dev Center Resource')
-resource devcenter 'Microsoft.DevCenter/devcenters@2025-04-01-preview' = {
+resource devcenter 'Microsoft.DevCenter/devcenters@2025-02-01' = {
   name: devCenterName
   location: resourceGroup().location
   identity: {

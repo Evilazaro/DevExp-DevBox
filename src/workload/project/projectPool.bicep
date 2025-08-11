@@ -23,12 +23,12 @@ param networkType string
 param projectName string
 
 @description('Project')
-resource project 'Microsoft.DevCenter/projects@2025-04-01-preview' existing = {
+resource project 'Microsoft.DevCenter/projects@2025-02-01' existing = {
   name: projectName
 }
 
 @description('Dev Box Pool resource')
-resource pool 'Microsoft.DevCenter/projects/pools@2025-04-01-preview' = {
+resource pool 'Microsoft.DevCenter/projects/pools@2025-02-01' = {
   name: name
   location: location
   parent: project

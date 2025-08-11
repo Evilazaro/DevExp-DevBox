@@ -2,42 +2,42 @@
 
 name: ContosoDevExp
 
-# hooks:
-#   preprovision:
-#     shell: sh
-#     continueOnError: false
-#     interactive: true
-#     run: |
-#       #!/bin/bash
-      
-#       set -e 
-#       defaultPlatform="github"
-      
-#       # Add a if statement to check if the environment variable is set
-#       if [ -z "${SOURCE_CONTROL_PLATFORM}" ]; then
-#           echo "SOURCE_CONTROL_PLATFORM is not set. Setting it to '${defaultPlatform}' by default."
-#           export SOURCE_CONTROL_PLATFORM="${SOURCE_CONTROL_PLATFORM:-${defaultPlatform}}"
-#       else
-#           echo "Existing SOURCE_CONTROL_PLATFORM is set to '${SOURCE_CONTROL_PLATFORM}'."
-#       fi      
-#       ./setup.sh -e ${AZURE_ENV_NAME} -s ${SOURCE_CONTROL_PLATFORM}
-
-
 hooks:
   preprovision:
-    shell: pwsh
+    shell: sh
     continueOnError: false
     interactive: true
     run: |
-      $ErrorActionPreference = "Stop"
-      $defaultPlatform = "github"
+      #!/bin/bash
       
-      # Check if the environment variable is set
-      if ([string]::IsNullOrEmpty($env:SOURCE_CONTROL_PLATFORM)) {
-          Write-Host "SOURCE_CONTROL_PLATFORM is not set. Setting it to '$defaultPlatform' by default."
-          $env:SOURCE_CONTROL_PLATFORM = $defaultPlatform
-      } else {
-          Write-Host "Existing SOURCE_CONTROL_PLATFORM is set to '$($env:SOURCE_CONTROL_PLATFORM)'."
-      }
+      set -e 
+      defaultPlatform="adogit"
       
-      .\setup.ps1 -e $env:AZURE_ENV_NAME -s $env:SOURCE_CONTROL_PLATFORM
+      # Add a if statement to check if the environment variable is set
+      if [ -z "${SOURCE_CONTROL_PLATFORM}" ]; then
+          echo "SOURCE_CONTROL_PLATFORM is not set. Setting it to '${defaultPlatform}' by default."
+          export SOURCE_CONTROL_PLATFORM="${SOURCE_CONTROL_PLATFORM:-${defaultPlatform}}"
+      else
+          echo "Existing SOURCE_CONTROL_PLATFORM is set to '${SOURCE_CONTROL_PLATFORM}'."
+      fi      
+      ./setup.sh -e ${AZURE_ENV_NAME} -s ${SOURCE_CONTROL_PLATFORM}
+
+
+# hooks:
+#   preprovision:
+#     shell: pwsh
+#     continueOnError: false
+#     interactive: true
+#     run: |
+#       $ErrorActionPreference = "Stop"
+#       $defaultPlatform = "github"
+      
+#       # Check if the environment variable is set
+#       if ([string]::IsNullOrEmpty($env:SOURCE_CONTROL_PLATFORM)) {
+#           Write-Host "SOURCE_CONTROL_PLATFORM is not set. Setting it to '$defaultPlatform' by default."
+#           $env:SOURCE_CONTROL_PLATFORM = $defaultPlatform
+#       } else {
+#           Write-Host "Existing SOURCE_CONTROL_PLATFORM is set to '$($env:SOURCE_CONTROL_PLATFORM)'."
+#       }
+      
+#       .\setup.ps1 -e $env:AZURE_ENV_NAME -s $env:SOURCE_CONTROL_PLATFORM

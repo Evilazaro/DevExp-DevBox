@@ -12,7 +12,7 @@
 # - Dev Center documentation: https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box
 # - Azure RBAC roles: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
 
-name: "devexp-devcenter"
+name: "devexp-devcenterAZDO"
 catalogItemSyncEnableStatus: "Enabled"
 microsoftHostedNetworkEnableStatus: "Enabled"
 installAzureMonitorAgentEnableStatus: "Enabled"
@@ -20,17 +20,13 @@ installAzureMonitorAgentEnableStatus: "Enabled"
 # Identity configuration for the Dev Center resource
 # Defines how the Dev Center authenticates and what permissions it has
 identity:
-  type: "SystemAssigned"
+  type: UserAssigned
 
   # Role assignments section - defines permissions for Dev Center operation
   roleAssignments:
-    # Dev Center role assignments
-    # These roles control who can manage the Dev Center and its projects
-    # Best practice: Assign roles based on team responsibilities
-    # The following roles follow the principle of least privilege and best practices described in https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-deployment-guide#organizational-roles-and-responsibilities guidance.
     devCenter:
       - id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
-        name: "Contributor" # Azure Contributor role for Dev Center management
+        name: "Contributor"
         scope: "Subscription"
       - id: "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
         name: "User Access Administrator"
@@ -46,7 +42,7 @@ identity:
       # Dev Manager role - for users who manage Dev Box deployments
       # These users can configure Dev Box definitions but typically don't use Dev Boxes
       - type: DevManager
-        azureADGroupId: "5a1d1455-e771-4c19-aa03-fb4a08418f22" # Azure AD group ID for Dev Managers. You must create this group in Azure AD and replace the <Azure AD group ID>, the default value in this example is "Platform Engineering Team"
+        azureADGroupId: "417d8ce2-1042-461a-9ac0-706826defaec"
         azureADGroupName: "Platform Engineering Team"
 
         # RBAC roles assigned to Dev Managers
@@ -61,8 +57,8 @@ identity:
 # Best practice: Use Git repositories for configuration-as-code approach
 catalogs:
   - name: "customTasks"
-    type: gitHub
-    uri: "https://github.com/Evilazaro/DevExp-DevBox.git"
+    type: adoGit
+    uri: "https://contososa2@dev.azure.com/contososa2/DevExp-DevBox/_git/DevExp-DevBox"
     branch: "main"
     path: "/.configuration/devcenter/tasks"
 
@@ -71,31 +67,31 @@ catalogs:
 # Best practice: Create environments that match your SDLC stages (dev, test, prod)
 environmentTypes:
   - name: "dev"
-    deploymentTargetId: "" # Empty for default subscription target. If you want to deploy to a specific target, provide the target ID here.
+    deploymentTargetId: "" # Empty for default subscription target
   - name: "staging"
-    deploymentTargetId: "" # Empty for default subscription target. If you want to deploy to a specific target, provide the target ID here.
+    deploymentTargetId: "" # Empty for default subscription target
   - name: "UAT"
-    deploymentTargetId: "" # Empty for default subscription target. If you want to deploy to a specific target, provide the target ID here.
+    deploymentTargetId: "" # Empty for default subscription target
 
 # Projects section - defines distinct projects within the Dev Center
 # Each project has its own Dev Box configurations, catalogs, and permissions
 # Best practice: Create separate projects for different teams or workstreams
 projects:
   # Identity Provider project - for authentication/authorization services
-  - name: "identityProvider" # Name of the project
-    description: "Identity Provider project." # Project description
+  - name: "identityProvider-AZDO"
+    description: "Identity Provider project."
 
     network:
-      name: identityProvider  # Name of the virtual network
-      create: true # Set this parameter to true to create the network. If its value is false, the the accelerator will connect to an existing network.
-      resourceGroupName: "identityProvider-connectivity-RG" # Resource group for network. If the create parameter is set to false, the resource group must already exist.
-      virtualNetworkType: Managed # Managed network type is recommended for Dev Center projects to ensure proper connectivity and security
-      addressPrefixes: # Address space for the virtual network. This should be a unique CIDR block that does not overlap with other networks in your Azure subscription. If the create parameter is set to true, the accelerator will create the network with this address space.
+      name: identityProvider-AZDO
+      create: true
+      resourceGroupName: "identityProvider-AZDO-connectivity-RG"
+      virtualNetworkType: Managed
+      addressPrefixes:
         - 10.0.0.0/16
       subnets:
-        - name: identityProvider-subnet # Subnet name. If the create parameter is set to true, the accelerator will create the subnet with this name and address prefix. If its value is false, the subnet must already exist.
+        - name: identityProvider-AZDO-subnet
           properties:
-            addressPrefix: 10.0.1.0/24 # Subnet address range. If the create parameter is set to true, the accelerator will create the subnet with this address range. If its value is false, the subnet must already exist.
+            addressPrefix: 10.0.1.0/24
       tags:
         environment: dev
         division: Platforms
@@ -108,15 +104,9 @@ projects:
     # Project identity configuration - controls project-level security
     identity:
       type: SystemAssigned
-      # Role assignments for the Project
-      # These roles control who can manage the project and its resources
-      # You must create the corresponding Azure AD groups and assign users to them
-      # The default values in this example are "Identity Provider Engineers"
-      # You can customize these values based on your organization's requirements
-      # The following roles follow the principle of least privilege and best practices described in https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-deployment-guide#organizational-roles-and-responsibilities guidance.
       roleAssignments:
-        - azureADGroupId: "67a29bc3-f25c-4599-9cb1-4da19507e8ee" # Azure AD group ID for Identity Provider Engineers. You must create this group in Azure AD and replace the <Azure AD group ID>, the default value in this example is "Identity Provider Engineers"
-          azureADGroupName: "Identity Provider Engineers" # Azure AD group name
+        - azureADGroupId: "edcb3946-418d-4e8e-b67b-5e8ba099d671"
+          azureADGroupName: "Identity Provider Engineers"
           azureRBACRoles:
             - name: "Contributor"
               id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
@@ -156,14 +146,14 @@ projects:
     catalogs:
       environmentDefinition:
         name: "environments"
-        type: gitHub
-        uri: "https://github.com/Evilazaro/IdentityProvider.git"
+        type: adoGit
+        uri: "https://contososa2@dev.azure.com/contososa2/IdentityProvider/_git/IdentityProvider"
         branch: "main"
         path: "/.configuration/devcenter/environments"
       imageDefinition:
         name: "imageDefinitions"
-        type: gitHub
-        uri: "https://github.com/Evilazaro/IdentityProvider.git"
+        type: adoGit
+        uri: "https://contososa2@dev.azure.com/contososa2/IdentityProvider/_git/IdentityProvider"
         branch: "main"
         path: "/.configuration/devcenter/imageDefinitions"
 
@@ -178,40 +168,39 @@ projects:
       owner: "Contoso" # Resource ownership
       resources: "Project" # Resource type identifier
 
-  - name: "eShop"
-    description: "eShop project."
+  - name: "eShop-AZDO"
+    description: "eShop-AZDO project."
 
-    # Network configuration for eShop project
     network:
-      name: eShop                                 # Name of the virtual network
-      create: true                                # Should the network be created?
-      resourceGroupName: "eShop-connectivity-RG"  # Resource group for network
-      virtualNetworkType: Managed                 # Type of virtual network
+      name: eShop-AZDO
+      create: true
+      resourceGroupName: "eShop-AZDO-connectivity-RG"
+      virtualNetworkType: Managed
       addressPrefixes:
-        - 10.0.0.0/16                             # Address space for VNet
+        - 10.0.0.0/16
       subnets:
-        - name: eShop-subnet           # Subnet name
+        - name: eShop-AZDO-subnet
           properties:
-            addressPrefix: 10.0.1.0/24            # Subnet address range
+            addressPrefix: 10.0.1.0/24
       tags:
-        environment: dev                          # Deployment environment
-        division: Platforms                       # Organizational division
-        team: DevExP                              # Team responsible
-        project: DevExP-DevBox                    # Project name
-        costCenter: IT                            # Cost center for billing
-        owner: Contoso                            # Resource owner
-        resources: Network                        # Resource type identifier
+        environment: dev
+        division: Platforms
+        team: DevExP
+        project: DevExP-DevBox
+        costCenter: IT
+        owner: Contoso
+        resources: Network
 
     # Project identity configuration - controls project-level security
     identity:
-      type: SystemAssigned                        # Managed identity type
+      type: SystemAssigned
       roleAssignments:
-        - azureADGroupId: "9d42a792-2d74-441d-8bcb-71009371725f" # Azure AD group ID
-          azureADGroupName: "eShop Developers"                    # Azure AD group name
+        - azureADGroupId: "5d42557c-18cb-4eac-ac65-7fda1e4af0d9"
+          azureADGroupName: "eShop-AZDO Developers"
           azureRBACRoles:
-            - name: "Contributor"                 # RBAC role name
-              id: "b24988ac-6180-42a0-ab88-20f7382dd24c" # RBAC role ID
-              scope: Project                      # Role scope
+            - name: "Contributor"
+              id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
+              scope: Project
             - name: "Dev Box User"
               id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
               scope: Project
@@ -228,35 +217,35 @@ projects:
     # Dev Box pools - collections of Dev Boxes with specific configurations
     # Best practice: Create role-specific pools with appropriate tools and settings
     pools:
-      - name: "backend-engineer"                  # Pool for backend engineers
-        imageDefinitionName: "eShop-backend-engineer" # Image definition for backend
-        vmSku: general_i_32c128gb512ssd_v2         # VM SKU for backend pool
-      - name: "frontend-engineer"                 # Pool for frontend engineers
-        imageDefinitionName: "eShop-frontend-engineer" # Image definition for frontend
-        vmSku: general_i_16c64gb256ssd_v2          # VM SKU for frontend pool
+      - name: "backend-engineer"
+        imageDefinitionName: "eShop-backend-engineer"
+        vmSku: general_i_32c128gb512ssd_v2
+      - name: "frontend-engineer"
+        imageDefinitionName: "eShop-frontend-engineer"
+        vmSku: general_i_16c64gb256ssd_v2
 
     # Project-specific environment types
     # Defines which deployment environments are available to the project
     environmentTypes:
-      - name: "dev"                               # Development environment
+      - name: "dev"
         deploymentTargetId: ""
-      - name: "staging"                           # Staging environment
+      - name: "staging"
         deploymentTargetId: ""
-      - name: "UAT"                               # User Acceptance Testing environment
+      - name: "UAT"
         deploymentTargetId: ""
 
     # Project-specific catalogs - repositories containing project configurations
     catalogs:
       environmentDefinition:
         name: "environments"
-        type: gitHub
-        uri: "https://github.com/Evilazaro/eShop.git"
+        type: adoGit
+        uri: "https://contososa2@dev.azure.com/contososa2/eShop/_git/eShop"
         branch: "main"
         path: "/.devcenter/environments"
       imageDefinition:
         name: "imageDefinitions"
-        type: gitHub
-        uri: "https://github.com/Evilazaro/eShop.git"
+        type: adoGit
+        uri: "https://contososa2@dev.azure.com/contososa2/eShop/_git/eShop"
         branch: "main"
         path: "/.devcenter/imageDefinitions"
 
