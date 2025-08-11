@@ -12,6 +12,7 @@ hooks:
       
       set -e 
       defaultPlatform="adogit"
+      keyVaultSecretDefaultValue=""
       
       # Add a if statement to check if the environment variable is set
       if [ -z "${SOURCE_CONTROL_PLATFORM}" ]; then
@@ -19,8 +20,15 @@ hooks:
           export SOURCE_CONTROL_PLATFORM="${SOURCE_CONTROL_PLATFORM:-${defaultPlatform}}"
       else
           echo "Existing SOURCE_CONTROL_PLATFORM is set to '${SOURCE_CONTROL_PLATFORM}'."
-      fi      
-      ./setup.sh -e ${AZURE_ENV_NAME} -s ${SOURCE_CONTROL_PLATFORM}
+      fi
+      if [ -z "${KEY_VAULT_SECRET}" ]; then
+          echo "KEY_VAULT_SECRET is not set. Setting it to '${keyVaultSecretDefaultValue}' by default."
+          export KEY_VAULT_SECRET="${KEY_VAULT_SECRET:-${keyVaultSecretDefaultValue}}"
+      else
+          echo "Existing KEY_VAULT_SECRET is set to '${KEY_VAULT_SECRET}'."
+      fi
+
+      ./setup.sh --source-control-platform "${SOURCE_CONTROL_PLATFORM}" --azure-env-name "${AZURE_ENV_NAME}" --key-vault-secret "${KEY_VAULT_SECRET}"
 
 
 # hooks:
