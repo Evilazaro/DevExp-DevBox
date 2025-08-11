@@ -193,5 +193,8 @@ module environment 'environmentType.bicep' = [
       devCenterName: devCenterName
       environmentConfig: environment
     }
+    dependsOn: [
+      devcenter
+    ]
   }
 ]
