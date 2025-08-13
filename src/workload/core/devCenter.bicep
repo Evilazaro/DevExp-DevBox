@@ -177,6 +177,7 @@ module catalog 'catalog.bicep' = [
       secretIdentifier: secretIdentifier
     }
     dependsOn: [
+      devcenter
       devCenterIdentityRoleAssignment
       devCenterIdentityRoleAssignmentRG
     ]
