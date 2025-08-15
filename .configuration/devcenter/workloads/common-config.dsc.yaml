@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
 #
-# Common Configuration Sample for .NET Engineers 
+# Common Configuration Sample for .NET Engineers
 # =================================
 #
 # Purpose:
@@ -19,13 +19,30 @@
 properties:
   configurationVersion: "0.2.0"
   resources:
+    - resource: PSDscResources/Script
+      id: Winget-Upgrade-Packages
+      directives:
+        description: Upgrade all Microsoft Store apps using winget
+        securityContext: elevated # Requires admin rights to install apps
+      settings:
+        SetScript: |
+          $scriptPath = "https://raw.githubusercontent.com/Evilazaro/DevExp-DevBox/refs/heads/main/.configuration/devcenter/workloads/winget-update.ps1"
+          if (Test-Path $scriptPath) {
+            Write-Verbose "Running setup script: $scriptPath" -Verbose
+            & $scriptPath
+          } else {
+            Write-Error "Setup script not found: $scriptPath"
+          }
+        GetScript: return $false
+        TestScript: return $false
+
     #----------------------------------------------
     # Storage Configuration
     #----------------------------------------------
     # Resource: Dev Drive
     # Dev Drive provides optimized filesystem performance for development workloads
     # with ReFS features like integrity streams and block cloning for Git operations.
-    # 
+    #
     # Key benefits for Azure development:
     # - Significantly faster Git operations for large Azure repositories
     # - Improved file system performance for build operations
