@@ -1,0 +1,195 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+#
+# Backend Development Configuration Sample for .NET Engineers
+# =============================================
+#
+# Purpose:
+#   This DSC configuration installs essential tools for Azure backend development including:
+#   - Source control tools (GitHub Desktop)
+#   - Azure command-line tools (CLI, AZD, Bicep)
+#   - Local development emulators for Azure services
+#
+# Best Practices:
+#   - All tools are installed via WinGet for consistent versioning
+#   - Dependencies are explicitly declared to ensure proper installation order
+#   - Tools are grouped logically by purpose
+#   - Configuration should be version controlled and tested in CI/CD pipelines
+#   - Regular updates to ensure latest security patches and features
+#   - Separation of development tools from production configurations
+#
+properties:
+  configurationVersion: "0.2.0"
+  resources:
+    #----------------------------------------------
+    # Azure Command-Line Tools
+    #----------------------------------------------
+    # Resource: Azure CLI
+    # Azure CLI is the foundation for Azure management and serves as a dependency for other Azure tools.
+    # It provides command-line access to nearly all Azure service operations.
+    #
+    # Key Azure integration points:
+    # - Unified authentication with Microsoft Entra ID (formerly Azure AD)
+    # - Support for service principals and managed identities
+    # - JSON-based output for automation and scripting
+    # - Cross-platform compatibility for consistent workflows
+    #
+    # Security best practices:
+    # - Use 'az login --tenant' to explicitly specify tenants
+    # - Leverage managed identities where available
+    # - Apply RBAC with principle of least privilege
+    # - Use service principals with certificate-based auth for automation
+    # - Regularly update CLI using 'az upgrade' command
+    # - Avoid storing credentials in CLI cache in shared environments
+    # - Configure CLI to use your organization's approved proxy if required
+    #
+    # Common development scenarios:
+    # - Resource provisioning via templates and scripts
+    # - Querying resource status and configurations
+    # - Integrated deployment workflows with CI/CD
+    # - Management of secrets and connection strings
+    #
+    # DSC-specific notes:
+    # - WinGet ensures automatic updates to secure versions
+    # - Installation is idempotent and will not reinstall if present
+    # - Consider adding environment PATH validation during configuration testing
+    #
+    # Reference: https://learn.microsoft.com/en-us/cli/azure/
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: Microsoft.AzureCLI
+      directives:
+        allowPrerelease: true
+        description: Install Azure CLI for managing Azure resources from the command line
+      settings:
+        id: Microsoft.AzureCLI
+
+    # Resource: Azure Developer CLI (azd)
+    # Azure Developer CLI (azd) simplifies application development workflow with templates
+    # and integrated deployment capabilities.
+    #
+    # Key Azure integration points:
+    # - End-to-end application development lifecycle management
+    # - Built-in templates for common Azure architectural patterns
+    # - Automated environment provisioning with infrastructure as code
+    # - Integration with GitHub Actions and Azure DevOps for CI/CD
+    # - Application monitoring and logging setup
+    #
+    # Development best practices:
+    # - Use environment variables for secrets ('azd env set')
+    # - Leverage service templates for consistent architecture
+    # - Implement standardized application structures
+    # - Follow Azure landing zone principles for environments
+    # - Store azd environment configurations in version control
+    # - Use azd pipeline integration for repeatable deployments
+    # - Include .env.template file but exclude .env files from source control
+    #
+    # Common development scenarios:
+    # - Setting up complete development environments
+    # - Implementing production-ready services with best practices
+    # - Consistent local-to-cloud development experience
+    # - Orchestrating multi-service deployments
+    #
+    # DSC-specific notes:
+    # - Dependency on Azure CLI is explicitly declared
+    # - Installation validates presence of required prerequisites
+    # - Consider adding post-install validation of azd version
+    #
+    # Reference: https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: Microsoft.Azd
+      directives:
+        allowPrerelease: true
+        description: Install Azure Developer CLI (azd) for end-to-end application development
+      settings:
+        id: Microsoft.Azd
+      dependsOn:
+        - Microsoft.AzureCLI # AZD requires Azure CLI to function properly
+
+    # Resource: Bicep CLI
+    # Bicep provides a domain-specific language for deploying Azure resources
+    # with improved syntax over ARM templates.
+    #
+    # Key Azure integration points:
+    # - Native integration with Azure Resource Manager
+    # - Support for all Azure resource types and apiVersions
+    # - Resource visualization capabilities
+    # - Module composition for reusable infrastructure
+    # - Built-in functions for dynamic deployments
+    #
+    # IaC best practices:
+    # - Use modules for reusable components
+    # - Implement parameterization for environment flexibility
+    # - Apply Azure Policy as Code for governance
+    # - Use symbolic references instead of string manipulation
+    # - Implement deployment validation with 'what-if'
+    # - Structure Bicep modules with clear separation of concerns
+    # - Validate Bicep files with 'bicep build' before deployment
+    # - Use linting tools to enforce conventions and best practices
+    # - Test deployments in isolation before integrating
+    #
+    # Common development scenarios:
+    # - Defining infrastructure as code for Azure environments
+    # - Creating reusable infrastructure modules
+    # - Setting up complex multi-resource deployments
+    # - Implementing infrastructure governance
+    #
+    # DSC-specific notes:
+    # - Bicep CLI is installed via Azure CLI extension
+    # - Installation updates to latest version automatically
+    # - Consider adding VS Code extension for Bicep in developer environments
+    #
+    # Reference: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: Microsoft.Bicep
+      directives:
+        allowPrerelease: true
+        description: Install Bicep CLI for Infrastructure as Code development on Azure
+      settings:
+        id: Microsoft.Bicep
+      dependsOn:
+        - Microsoft.AzureCLI # Bicep extensions use Azure CLI for deployment
+
+    #----------------------------------------------
+    # Local Development Emulators
+    #----------------------------------------------
+    # Resource: Azure Storage Emulator
+    # Azure Storage Emulator provides a local environment for testing Azure Storage applications
+    # without requiring an Azure subscription for development.
+    #
+    # Key Azure integration points:
+    # - Local emulation of Blob, Queue, and Table storage
+    # - Development connection string compatibility with Azure Storage
+    # - Support for Azure Storage SDK integration
+    # - Local debugging of storage-dependent applications
+    # - Reduced development costs by minimizing cloud resource usage
+    #
+    # Development best practices:
+    # - Use consistent connection strings between local and cloud
+    # - Validate local operations match cloud behavior
+    # - Implement proper exception handling for both environments
+    # - Test with both emulator and actual Azure resources before deployment
+    # - Create automated tests that work with both environments
+    # - Consider using Azurite (newer emulator) for feature parity
+    # - Configure proper data persistence for development data
+    # - Document how to initialize the emulator in your project
+    #
+    # Common development scenarios:
+    # - Building applications using Azure Storage
+    # - Performing rapid iterative development
+    # - Unit and integration testing without cloud dependencies
+    # - Offline development scenarios
+    # - Cost optimization during development phases
+    #
+    # DSC-specific notes:
+    # - Installation may require administrator privileges
+    # - Consider validating emulator is running after installation
+    # - May need to configure firewall exceptions
+    # - Check SQL Server dependency is met (LocalDB)
+    #
+    # Reference: https://learn.microsoft.com/en-us/azure/storage/common/storage-use-emulator
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: Microsoft.Azure.StorageEmulator
+      directives:
+        allowPrerelease: true
+        description: Install Azure Storage Emulator for local development
+      settings:
+        id: Microsoft.Azure.StorageEmulator

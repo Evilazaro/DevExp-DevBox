@@ -1,0 +1,114 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+#
+# Frontend Development Configuration Sample for .NET Engineers
+# =============================================
+#
+# Purpose:
+#   This DSC configuration creates a complete Azure Frontend development environment with:
+#   - .NET development tools in both environments
+#   - API testing tools (Postman)
+#
+# Requirements:
+#   - with Windows 11
+#   - Administrator access for tool installation
+#   - Internet connectivity for package downloads
+#
+# Best Practices:
+#   - Uses Windows and WSL2 for a complete cross-platform experience
+#   - Applies principle of least privilege where possible
+#   - Maintains consistent environment between Windows and Linux
+#   - Uses official Microsoft installation methods for all tools
+#
+# Maintainer: DevExp Team
+#
+properties:
+  configurationVersion: 0.2.0
+
+  resources:
+    # Resource: Postman API Platform
+    # Postman enables API testing and documentation, ensuring reliable integrations
+    # between Frontend services and Azure APIs. This tool is essential for:
+    # - Testing REST API endpoints from Azure services
+    # - Creating and managing API collections for consistent testing
+    # - Generating API documentation for team collaboration
+    # - Setting up automated test suites for frontend-to-backend integration
+    #
+    # Using WinGet ensures we install the official, verified package.
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: Postman.Postman
+      directives:
+        description: Install Postman API platform for designing, testing and documenting APIs
+        allowPrerelease: true
+      settings:
+        id: Postman.Postman
+
+    # Resource: Visual Studio Code Extensions
+    # Installs essential extensions for frontend development with Azure integration.
+    # These extensions provide syntax highlighting, IntelliSense, debugging, and other
+    # features specific to Azure and web development technologies.
+    #
+    # Following best practices for developer productivity and
+    # standardized tooling across development teams.
+    - resource: PSDscResources/Script
+      id: Microsoft.VisualStudioCode.Extensions
+      directives:
+        description: Install VS Code Extensions for Azure frontend development
+        securityContext: elevated # Requires admin rights to install extensions for all users
+        allowPrerelease: true # Allow prerelease versions when needed for latest features
+      settings:
+        SetScript: |
+          try {
+              # Set execution policy to bypass for automation
+              # Required for running scripts in restricted environments
+              Set-ExecutionPolicy Bypass -Scope Process -Force
+              
+              # Ensure VS Code CLI is in PATH
+              $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+              
+              Write-Verbose "Installing VS Code extensions for Azure frontend development..." -Verbose
+              
+              # PowerShell extension for Azure automation scripts and DevOps
+              code --install-extension ms-vscode.powershell
+              
+              # WSL integration for cross-platform development targeting Linux environments
+              code --install-extension ms-vscode-remote.remote-wsl
+              
+              # C# extension for backend integration and full-stack development
+              code --install-extension ms-dotnettools.csdevkit
+              
+              # TypeScript with latest features for modern web development
+              code --install-extension ms-vscode.vscode-typescript-next
+              
+              # YAML support for deployment configurations and GitHub Actions
+              code --install-extension redhat.vscode-yaml
+              
+              # Bicep for Azure infrastructure as code deployments
+              # Follows Azure best practice for IaC with native Azure syntax
+              code --install-extension ms-azuretools.vscode-bicep
+              
+              # Azure Tools pack for comprehensive Azure service integration
+              code --install-extension ms-vscode.vscode-node-azure-pack
+              
+              # Azure CLI tools for command-line Azure management
+              code --install-extension ms-vscode.azurecli
+              
+              # GitHub integration for repository management
+              # Essential for modern DevOps workflows with Azure
+              code --install-extension GitHub.remotehub
+              
+              # GitHub Pull Request integration for code reviews
+              code --install-extension GitHub.vscode-pull-request-github
+
+              # Postman extension for API testing and documentation
+              code --install-extension Postman.postman-for-vscode
+              
+              Write-Verbose "VS Code extensions installed successfully" -Verbose
+          } catch {
+              Write-Error "Failed to install VS Code extensions: $_"
+          }
+        # Returns information about installed extensions
+        # In a fully idempotent implementation, this would check for specific extensions
+        GetScript: return $false
+        # Check if VSCode extensions need to be installed
+        # In a fully idempotent implementation, this would check for specific extensions
+        TestScript: return $false
