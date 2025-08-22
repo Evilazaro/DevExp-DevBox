@@ -154,14 +154,14 @@ projects:
       - name: "environments"
         type: environmentDefinition
         sourceControl: gitHub
-        visibility: public
+        visibility: private
         uri: "https://github.com/Evilazaro/eShop.git"
         branch: "main"
         path: "/.devcenter/environments"
       - name: "devboxImages"
         type: imageDefinition
         sourceControl: gitHub
-        visibility: public
+        visibility: private
         uri: "https://github.com/Evilazaro/eShop.git"
         branch: "main"
         path: "/.devcenter/imageDefinitions"
