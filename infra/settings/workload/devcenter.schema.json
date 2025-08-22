@@ -1,596 +1,433 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://schemas.devexp.io/devcenter-settings.json",
-  "title": "DevCenter Configuration",
-  "description": "Schema for defining Microsoft DevCenter settings including projects, pools, and environment configurations.",
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "name",
-    "projects",
-    "tags"
-  ],
-  "properties": {
-    "name": {
-      "type": "string",
-      "description": "Name of the DevCenter resource",
-      "minLength": 1,
-      "maxLength": 64,
-      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9\\-_.]*[a-zA-Z0-9]$",
-      "examples": [
-        "contoso-devcenter",
-        "my-devcenter"
-      ]
-    },
-    "catalogItemSyncEnableStatus": {
-      "type": "string",
-      "description": "Status of catalog item synchronization",
-      "enum": [
-        "Enabled",
-        "Disabled"
-      ],
-      "default": "Enabled"
-    },
-    "microsoftHostedNetworkEnableStatus": {
-      "type": "string",
-      "description": "Status of Microsoft hosted network feature",
-      "enum": [
-        "Enabled",
-        "Disabled"
-      ],
-      "default": "Enabled"
-    },
-    "installAzureMonitorAgentEnableStatus": {
-      "type": "string",
-      "description": "Status of Azure Monitor agent installation",
-      "enum": [
-        "Enabled",
-        "Disabled"
-      ],
-      "default": "Enabled"
-    },
-    "identity": {
-      "type": "object",
-      "description": "Identity configuration for the DevCenter resource",
-      "additionalProperties": false,
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "Type of managed identity",
-          "enum": [
-            "SystemAssigned",
-            "UserAssigned"
-          ],
-          "default": "SystemAssigned"
-        },
-        "roleAssignments": {
-          "type": "object",
-          "description": "Role assignments for the DevCenter identity",
-          "additionalProperties": false,
-          "properties": {
-            "devCenter": {
-              "type": "array",
-              "description": "Role assignments for DevCenter operations",
-              "items": {
-                "$ref": "#/definitions/roleAssignment"
-              }
-            },
-            "orgRoleTypes": {
-              "type": "array",
-              "description": "Organizational role type configurations",
-              "items": {
-                "$ref": "#/definitions/orgRoleType"
-              }
-            }
-          }
-        }
-      }
-    },
-    "catalogs": {
-      "type": "array",
-      "description": "Global catalogs available to all projects",
-      "items": {
-        "$ref": "#/definitions/catalog"
-      }
-    },
-    "environmentTypes": {
-      "type": "array",
-      "description": "Global environment types available to all projects",
-      "items": {
-        "$ref": "#/definitions/environmentType"
-      }
-    },
-    "projects": {
-      "type": "array",
-      "description": "DevCenter projects configuration",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/definitions/project"
-      }
-    },
-    "tags": {
-      "type": "object",
-      "description": "Resource tags for the DevCenter",
-      "additionalProperties": {
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 256
-      },
-      "maxProperties": 50,
-      "examples": [
-        {
-          "environment": "dev",
-          "division": "Platforms",
-          "team": "DevExP",
-          "project": "DevExP-DevBox",
-          "costCenter": "IT",
-          "owner": "Contoso",
-          "resources": "DevCenter"
-        }
-      ]
-    }
-  },
-  "definitions": {
-    "roleAssignment": {
-      "type": "object",
-      "description": "Azure RBAC role assignment",
-      "additionalProperties": false,
-      "required": [
-        "id",
-        "name",
-        "scope"
-      ],
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "UUID of the role definition",
-          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
-          "examples": [
-            "b24988ac-6180-42a0-ab88-20f7382dd24c"
-          ]
-        },
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Dev Center configuration schema",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
         "name": {
-          "type": "string",
-          "description": "Name of the role",
-          "minLength": 1,
-          "examples": [
-            "Contributor",
-            "Reader"
-          ]
+            "type": "string",
+            "minLength": 1
         },
-        "scope": {
-          "type": "string",
-          "description": "Scope of the role assignment",
-          "enum": [
-            "Subscription",
-            "ResourceGroup",
-            "Project"
-          ],
-          "default": "Subscription",
-          "examples": [
-            "Subscription",
-            "ResourceGroup",
-            "Project"
-          ]
-        }
-      }
-    },
-    "orgRoleType": {
-      "type": "object",
-      "description": "Organizational role type configuration",
-      "additionalProperties": false,
-      "required": [
-        "type",
-        "azureADGroupId",
-        "azureADGroupName",
-        "azureRBACRoles"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": "Type of organizational role",
-          "examples": [
-            "DevManager",
-            "Developer"
-          ]
+        "catalogItemSyncEnableStatus": {
+            "type": "string",
+            "enum": [
+                "Enabled",
+                "Disabled"
+            ]
         },
-        "azureADGroupId": {
-          "type": "string",
-          "description": "Azure AD group ID",
-          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        "microsoftHostedNetworkEnableStatus": {
+            "type": "string",
+            "enum": [
+                "Enabled",
+                "Disabled"
+            ]
         },
-        "azureADGroupName": {
-          "type": "string",
-          "description": "Azure AD group name",
-          "minLength": 1
-        },
-        "azureRBACRoles": {
-          "type": "array",
-          "description": "Azure RBAC roles assigned to this group",
-          "items": {
-            "$ref": "#/definitions/roleAssignment"
-          }
-        }
-      }
-    },
-    "catalog": {
-      "type": "object",
-      "description": "Catalog configuration",
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "type",
-        "uri",
-        "branch",
-        "path"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the catalog",
-          "minLength": 1
-        },
-        "type": {
-          "type": "string",
-          "description": "Type of catalog repository",
-          "enum": [
-            "gitHub",
-            "adoGit"
-          ],
-          "examples": [
-            "gitHub"
-          ]
-        },
-        "uri": {
-          "type": "string",
-          "description": "URI of the catalog repository",
-          "format": "uri"
-        },
-        "branch": {
-          "type": "string",
-          "description": "Branch name in the repository",
-          "default": "main"
-        },
-        "path": {
-          "type": "string",
-          "description": "Path within the repository",
-          "examples": [
-            ".configuration/devcenter/tasks"
-          ]
-        }
-      }
-    },
-    "environmentType": {
-      "type": "object",
-      "description": "Environment type configuration",
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "deploymentTargetId"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the environment type",
-          "minLength": 1,
-          "examples": [
-            "dev",
-            "staging",
-            "prod"
-          ]
-        },
-        "deploymentTargetId": {
-          "type": "string",
-          "description": "Deployment target identifier (empty for default subscription)",
-          "examples": [
-            "",
-            "subscription-id"
-          ]
-        }
-      }
-    },
-    "project": {
-      "type": "object",
-      "description": "DevCenter project configuration",
-      "additionalProperties": false,
-      "required": [
-        "name"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the project",
-          "minLength": 1,
-          "maxLength": 64,
-          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9\\-_.]*[a-zA-Z0-9]$"
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of the project",
-          "maxLength": 512
-        },
-        "network": {
-          "type": "object",
-          "description": "Network configuration for the project",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "Name of the network configuration",
-              "minLength": 1
-            },
-            "create": {
-              "type": "boolean",
-              "description": "Whether to create the network resources",
-              "default": true
-            },
-            "resourceGroupName": {
-              "type": "string",
-              "description": "Name of the resource group for network resources",
-              "minLength": 1
-            },
-            "virtualNetworkType": {
-              "type": "string",
-              "description": "Type of virtual network",
-              "enum": [
-                "Managed",
-                "Unmanaged"
-              ],
-              "default": "Managed"
-            },
-            "addressPrefixes": {
-              "type": "array",
-              "description": "Address prefixes for the virtual network",
-              "items": {
-                "type": "string",
-                "format": "cidr"
-              }
-            },
-            "subnets": {
-              "type": "array",
-              "description": "Subnets within the virtual network",
-              "items": {
-                "$ref": "#/definitions/subnet"
-              }
-            }
-          }
+        "installAzureMonitorAgentEnableStatus": {
+            "type": "string",
+            "enum": [
+                "Enabled",
+                "Disabled"
+            ]
         },
         "identity": {
-          "type": "object",
-          "description": "Identity configuration for the project",
-          "additionalProperties": false,
-          "required": [
-            "type",
-            "roleAssignments"
-          ],
-          "properties": {
-            "type": {
-              "type": "string",
-              "description": "Type of managed identity",
-              "enum": [
-                "SystemAssigned",
-                "UserAssigned"
-              ],
-              "default": "SystemAssigned"
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "SystemAssigned",
+                        "UserAssigned",
+                        "SystemAssignedUserAssigned",
+                        "None"
+                    ]
+                },
+                "roleAssignments": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "devCenter": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/roleAssignment"
+                            }
+                        },
+                        "orgRoleTypes": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "azureADGroupId": {
+                                        "$ref": "#/definitions/guid"
+                                    },
+                                    "azureADGroupName": {
+                                        "type": "string"
+                                    },
+                                    "azureRBACRoles": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/definitions/rbacRole"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "type",
+                                    "azureADGroupId",
+                                    "azureADGroupName"
+                                ]
+                            }
+                        }
+                    }
+                }
             },
-            "roleAssignments": {
-              "type": "array",
-              "description": "Role assignments for project users",
-              "items": {
-                "$ref": "#/definitions/projectRoleAssignment"
-              }
-            }
-          }
-        },
-        "pools": {
-          "type": "array",
-          "description": "DevBox pools for the project",
-          "items": {
-            "$ref": "#/definitions/pool"
-          }
-        },
-        "environmentTypes": {
-          "type": "array",
-          "description": "Environment types available to the project",
-          "items": {
-            "$ref": "#/definitions/environmentType"
-          }
+            "required": [
+                "type"
+            ]
         },
         "catalogs": {
-          "type": "object",
-          "description": "Project-specific catalogs",
-          "additionalProperties": false,
-          "properties": {
-            "environmentDefinition": {
-              "$ref": "#/definitions/catalog"
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "visibility": {
+                        "type": "string",
+                        "enum": [
+                            "public",
+                            "private"
+                        ]
+                    },
+                    "uri": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "branch": {
+                        "type": "string"
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "sourceControl": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "type",
+                    "uri"
+                ]
+            }
+        },
+        "environmentTypes": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "deploymentTargetId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name"
+                ]
+            }
+        },
+        "projects": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "network": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "create": {
+                                "type": "boolean"
+                            },
+                            "resourceGroupName": {
+                                "type": "string"
+                            },
+                            "virtualNetworkType": {
+                                "type": "string"
+                            },
+                            "addressPrefixes": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}\\/\\d{1,2}$"
+                                }
+                            },
+                            "subnets": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "properties": {
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "addressPrefix": {
+                                                    "type": "string",
+                                                    "pattern": "^(?:\\d{1,3}\\.){3}\\d{1,3}\\/\\d{1,2}$"
+                                                }
+                                            },
+                                            "required": [
+                                                "addressPrefix"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "name",
+                                        "properties"
+                                    ]
+                                }
+                            },
+                            "tags": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "environment": {
+                                        "type": "string"
+                                    },
+                                    "division": {
+                                        "type": "string"
+                                    },
+                                    "team": {
+                                        "type": "string"
+                                    },
+                                    "project": {
+                                        "type": "string"
+                                    },
+                                    "costCenter": {
+                                        "type": "string"
+                                    },
+                                    "owner": {
+                                        "type": "string"
+                                    },
+                                    "resources": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "create"
+                        ]
+                    },
+                    "identity": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "type": {
+                                "type": "string"
+                            },
+                            "roleAssignments": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "azureADGroupId": {
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "azureADGroupName": {
+                                            "type": "string"
+                                        },
+                                        "azureRBACRoles": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/rbacRole"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "azureADGroupId",
+                                        "azureADGroupName"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "type"
+                        ]
+                    },
+                    "pools": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "imageDefinitionName": {
+                                    "type": "string"
+                                },
+                                "vmSku": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "imageDefinitionName"
+                            ]
+                        }
+                    },
+                    "environmentTypes": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/properties/environmentTypes/items"
+                        }
+                    },
+                    "catalogs": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/properties/catalogs/items"
+                        }
+                    },
+                    "tags": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "environment": {
+                                "type": "string"
+                            },
+                            "division": {
+                                "type": "string"
+                            },
+                            "team": {
+                                "type": "string"
+                            },
+                            "project": {
+                                "type": "string"
+                            },
+                            "costCenter": {
+                                "type": "string"
+                            },
+                            "owner": {
+                                "type": "string"
+                            },
+                            "resources": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "name"
+                ]
+            }
+        },
+        "tags": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "environment": {
+                    "type": "string"
+                },
+                "division": {
+                    "type": "string"
+                },
+                "team": {
+                    "type": "string"
+                },
+                "project": {
+                    "type": "string"
+                },
+                "costCenter": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "string"
+                },
+                "resources": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "definitions": {
+        "guid": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "roleAssignment": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "$ref": "#/definitions/guid"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "scope": {
+                    "type": "string",
+                    "enum": [
+                        "Subscription",
+                        "ResourceGroup",
+                        "Project",
+                        "Tenant",
+                        "ManagementGroup"
+                    ]
+                }
             },
-            "imageDefinition": {
-              "$ref": "#/definitions/catalog"
-            }
-          }
+            "required": [
+                "id",
+                "name",
+                "scope"
+            ]
         },
-        "tags": {
-          "type": "object",
-          "description": "Resource tags for the project",
-          "additionalProperties": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 256
-          },
-          "maxProperties": 50
+        "rbacRole": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "id": {
+                    "$ref": "#/definitions/guid"
+                },
+                "scope": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "id"
+            ]
         }
-      }
-    },
-    "networkConfiguration": {
-      "type": "object",
-      "description": "Network configuration for a project",
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "create",
-        "resourceGroupName",
-        "virtualNetworkType",
-        "addressPrefixes",
-        "subnets"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the network configuration",
-          "minLength": 1
-        },
-        "create": {
-          "type": "boolean",
-          "description": "Whether to create the network resources",
-          "default": true
-        },
-        "resourceGroupName": {
-          "type": "string",
-          "description": "Name of the resource group for network resources",
-          "minLength": 1
-        },
-        "virtualNetworkType": {
-          "type": "string",
-          "description": "Type of virtual network",
-          "enum": [
-            "Managed",
-            "Unmanaged"
-          ],
-          "default": "Managed"
-        },
-        "addressPrefixes": {
-          "type": "array",
-          "description": "Address prefixes for the virtual network",
-          "minItems": 1,
-          "items": {
-            "type": "string",
-            "pattern": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
-          }
-        },
-        "subnets": {
-          "type": "array",
-          "description": "Subnets within the virtual network",
-          "minItems": 1,
-          "items": {
-            "$ref": "#/definitions/subnet"
-          }
-        },
-        "tags": {
-          "type": "object",
-          "description": "Tags for the network resources",
-          "additionalProperties": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 256
-          }
-        }
-      }
-    },
-    "subnet": {
-      "type": "object",
-      "description": "Subnet configuration",
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "properties"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the subnet",
-          "minLength": 1
-        },
-        "properties": {
-          "type": "object",
-          "description": "Subnet properties",
-          "additionalProperties": false,
-          "required": [
-            "addressPrefix"
-          ],
-          "properties": {
-            "addressPrefix": {
-              "type": "string",
-              "description": "Address prefix for the subnet",
-              "pattern": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
-            }
-          }
-        }
-      }
-    },
-    "projectRoleAssignment": {
-      "type": "object",
-      "description": "Role assignment for project users",
-      "additionalProperties": false,
-      "required": [
-        "azureADGroupId",
-        "azureADGroupName",
-        "azureRBACRoles"
-      ],
-      "properties": {
-        "azureADGroupId": {
-          "type": "string",
-          "description": "Azure AD group ID",
-          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
-        },
-        "azureADGroupName": {
-          "type": "string",
-          "description": "Azure AD group name",
-          "minLength": 1
-        },
-        "azureRBACRoles": {
-          "type": "array",
-          "description": "Azure RBAC roles for the group",
-          "items": {
-            "$ref": "#/definitions/roleAssignment"
-          }
-        }
-      }
-    },
-    "pool": {
-      "type": "object",
-      "description": "DevBox pool configuration",
-      "additionalProperties": false,
-      "required": [
-        "name",
-        "imageDefinitionName",
-        "vmSku"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the DevBox pool",
-          "minLength": 1,
-          "examples": [
-            "backend-engineer",
-            "frontend-engineer"
-          ]
-        },
-        "imageDefinitionName": {
-          "type": "string",
-          "description": "Name of the image definition to use",
-          "minLength": 1
-        },
-        "vmSku": {
-          "type": "string",
-          "description": "SKU of the virtual machine to use for this pool",
-          "minLength": 1,
-          "enum": [
-            "general_i_8c32gb256ssd_v2",
-            "general_i_8c32gb512ssd_v2",
-            "general_i_8c32gb1024ssd_v2",
-            "general_i_8c32gb2048ssd_v2",
-            "general_i_16c64gb256ssd_v2",
-            "general_i_16c64gb512ssd_v2",
-            "general_i_16c64gb1024ssd_v2",
-            "general_i_16c64gb2048ssd_v2",
-            "general_i_32c128gb512ssd_v2",
-            "general_i_32c128gb1024ssd_v2",
-            "general_i_32c128gb2048ssd_v2"
-          ]
-        }
-      }
     }
-  }
 }

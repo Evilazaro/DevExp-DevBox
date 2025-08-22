@@ -16,6 +16,9 @@ type Catalog = {
   @description('Type of repository (GitHub or Azure DevOps Git)')
   type: CatalogType
 
+   @description('Visibility of the catalog')
+  visibility: 'public' | 'private'
+
   @description('URI of the repository')
   uri: string
 
@@ -48,7 +51,7 @@ resource catalog 'Microsoft.DevCenter/devcenters/catalogs@2025-04-01-preview' = 
             uri: catalogConfig.uri
             branch: catalogConfig.branch
             path: catalogConfig.path
-            secretIdentifier: secretIdentifier
+            secretIdentifier: (catalogConfig.visibility == 'private') ? secretIdentifier : null
           }
         }
       : {
@@ -56,7 +59,7 @@ resource catalog 'Microsoft.DevCenter/devcenters/catalogs@2025-04-01-preview' = 
             uri: catalogConfig.uri
             branch: catalogConfig.branch
             path: catalogConfig.path
-            secretIdentifier: secretIdentifier
+            secretIdentifier: (catalogConfig.visibility == 'private') ? secretIdentifier : null
           }
         }
   )

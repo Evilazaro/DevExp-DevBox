@@ -60,7 +60,7 @@ module projects 'project/project.bicep' = [
       logAnalyticsId: logAnalyticsId
       projectDescription: project.description ?? project.name
       devCenterName: devcenter.outputs.AZURE_DEV_CENTER_NAME
-      projectCatalogs: project.catalogs
+      catalogs: project.catalogs
       projectEnvironmentTypes: project.environmentTypes
       projectPools: project.pools
       projectNetwork: project.network

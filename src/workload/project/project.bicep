@@ -12,7 +12,7 @@ param logAnalyticsId string
 param projectDescription string
 
 @description('Catalog configuration for the project')
-param projectCatalogs object
+param catalogs object[]
 
 @description('Environment types to be associated with the project')
 param projectEnvironmentTypes array
@@ -139,21 +139,23 @@ module projectADGroup '../../identity/projectIdentityRoleAssignment.bicep' = [
   }
 ]
 
-@description('Configure environment definition catalogs')
-module catalogs 'projectCatalog.bicep' = {
-  name: 'catalog-${uniqueString(project.id)}-${dateTime}'
-  scope: resourceGroup()
-  params: {
-    projectName: project.name
-    catalogConfig: projectCatalogs
-    secretIdentifier: secretIdentifier
+@description('Configure project catalogs')
+module projectCatalogs 'projectCatalog.bicep' = [
+  for (catalog, i) in catalogs: {
+    name: 'catalog-${i}-${uniqueString(project.id, catalog.name)}-${dateTime}'
+    scope: resourceGroup()
+    params: {
+      projectName: project.name
+      catalogConfig: catalog
+      secretIdentifier: secretIdentifier
+    }
+    dependsOn: [
+      projectIdentity
+      projectIdentityRG
+      projectADGroup
+    ]
   }
-  dependsOn: [
-    projectIdentity
-    projectIdentityRG
-    projectADGroup
-  ]
-}
+]
 
 @description('Configure project environment types')
 module environmentTypes 'projectEnvironmentType.bicep' = [
@@ -168,7 +170,7 @@ module environmentTypes 'projectEnvironmentType.bicep' = [
       projectIdentity
       projectIdentityRG
       projectADGroup
-      catalogs
+      projectCatalogs
     ]
   }
 ]
@@ -187,7 +189,7 @@ module connectivity '../../connectivity/connectivity.bicep' = {
     projectIdentity
     projectIdentityRG
     projectADGroup
-    catalogs
+    projectCatalogs
   ]
 }
 
@@ -199,7 +201,7 @@ module pools 'projectPool.bicep' = [
     params: {
       name: pool.name
       projectName: project.name
-      catalogName: projectCatalogs.imageDefinition.name
+      catalogs: catalogs
       imageDefinitionName: pool.imageDefinitionName
       vmSku: pool.vmSku
       networkConnectionName: connectivity.outputs.networkConnectionName
