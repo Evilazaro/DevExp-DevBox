@@ -12,7 +12,7 @@ param logAnalyticsId string
 param projectDescription string
 
 @description('Catalog configuration for the project')
-param projectCatalogs object
+param projectCatalogs object[]
 
 @description('Environment types to be associated with the project')
 param projectEnvironmentTypes array
@@ -139,21 +139,23 @@ module projectADGroup '../../identity/projectIdentityRoleAssignment.bicep' = [
   }
 ]
 
-@description('Configure environment definition catalogs')
-module catalogs 'projectCatalog.bicep' = {
-  name: 'catalog-${uniqueString(project.id)}-${dateTime}'
-  scope: resourceGroup()
-  params: {
-    projectName: project.name
-    catalogConfig: projectCatalogs
-    secretIdentifier: secretIdentifier
+@description('Configure project catalogs')
+module catalogs 'projectCatalog.bicep' = [
+  for (catalog, i) in projectCatalogs: {
+    name: 'catalog-${i}-${uniqueString(project.id, catalog.name)}-${dateTime}'
+    scope: resourceGroup()
+    params: {
+      projectName: project.name
+      catalogConfig: catalog
+      secretIdentifier: secretIdentifier
+    }
+    dependsOn: [
+      projectIdentity
+      projectIdentityRG
+      projectADGroup
+    ]
   }
-  dependsOn: [
-    projectIdentity
-    projectIdentityRG
-    projectADGroup
-  ]
-}
+]
 
 @description('Configure project environment types')
 module environmentTypes 'projectEnvironmentType.bicep' = [
@@ -193,13 +195,13 @@ module connectivity '../../connectivity/connectivity.bicep' = {
 
 @description('Configure DevBox pools for the project')
 module pools 'projectPool.bicep' = [
-  for (pool, i) in projectPools: {
+  for (pool, i) in projectPools: if (projectCatalogs[i].type == 'imageDefinition') {
     name: 'pool-${i}-${uniqueString(project.id, pool.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
       name: pool.name
       projectName: project.name
-      catalogName: projectCatalogs.imageDefinition.name
+      catalogName: projectCatalogs[i].name
       imageDefinitionName: pool.imageDefinitionName
       vmSku: pool.vmSku
       networkConnectionName: connectivity.outputs.networkConnectionName

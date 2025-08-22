@@ -62,9 +62,10 @@ identity:
 catalogs:
   - name: "customTasks"
     type: gitHub
-    uri: "https://github.com/Evilazaro/DevExp-DevBox.git"
+    visibility: public
+    uri: "https://github.com/microsoft/devcenter-catalog.git"
     branch: "main"
-    path: "/.configuration/devcenter/tasks"
+    path: "./Tasks"
 
 # Environment Types section - defines deployment environments for applications
 # Each environment type represents a different stage in the development lifecycle
@@ -81,103 +82,6 @@ environmentTypes:
 # Each project has its own Dev Box configurations, catalogs, and permissions
 # Best practice: Create separate projects for different teams or workstreams
 projects:
-  # Identity Provider project - for authentication/authorization services
-  - name: "identityProvider" # Name of the project
-    description: "Identity Provider project." # Project description
-
-    network:
-      name: identityProvider  # Name of the virtual network
-      create: true # Set this parameter to true to create the network. If its value is false, the the accelerator will connect to an existing network.
-      resourceGroupName: "identityProvider-connectivity-RG" # Resource group for network. If the create parameter is set to false, the resource group must already exist.
-      virtualNetworkType: Managed # Managed network type is recommended for Dev Center projects to ensure proper connectivity and security
-      addressPrefixes: # Address space for the virtual network. This should be a unique CIDR block that does not overlap with other networks in your Azure subscription. If the create parameter is set to true, the accelerator will create the network with this address space.
-        - 10.0.0.0/16
-      subnets:
-        - name: identityProvider-subnet # Subnet name. If the create parameter is set to true, the accelerator will create the subnet with this name and address prefix. If its value is false, the subnet must already exist.
-          properties:
-            addressPrefix: 10.0.1.0/24 # Subnet address range. If the create parameter is set to true, the accelerator will create the subnet with this address range. If its value is false, the subnet must already exist.
-      tags:
-        environment: dev
-        division: Platforms
-        team: DevExP
-        project: DevExP-DevBox
-        costCenter: IT
-        owner: Contoso
-        resources: Network
-
-    # Project identity configuration - controls project-level security
-    identity:
-      type: SystemAssigned
-      # Role assignments for the Project
-      # These roles control who can manage the project and its resources
-      # You must create the corresponding Azure AD groups and assign users to them
-      # The default values in this example are "Identity Provider Engineers"
-      # You can customize these values based on your organization's requirements
-      # The following roles follow the principle of least privilege and best practices described in https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-deployment-guide#organizational-roles-and-responsibilities guidance.
-      roleAssignments:
-        - azureADGroupId: "67a29bc3-f25c-4599-9cb1-4da19507e8ee" # Azure AD group ID for Identity Provider Engineers. You must create this group in Azure AD and replace the <Azure AD group ID>, the default value in this example is "Identity Provider Engineers"
-          azureADGroupName: "Identity Provider Engineers" # Azure AD group name
-          azureRBACRoles:
-            - name: "Contributor"
-              id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
-              scope: Project
-            - name: "Dev Box User"
-              id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
-              scope: Project
-            - name: "Deployment Environment User"
-              id: "18e40d4e-8d2e-438d-97e1-9528336e149c"
-              scope: Project
-            - name: "Key Vault Secrets User"
-              id: "4633458b-17de-408a-b874-0445c86b69e6"
-              scope: ResourceGroup
-            - id: "b86a8fe4-44ce-4948-aee5-eccb2c155cd7"
-              name: "Key Vault Secrets Officer"
-              scope: ResourceGroup
-
-    # Dev Box pools - collections of Dev Boxes with specific configurations
-    # Best practice: Create role-specific pools with appropriate tools and settings
-    pools:
-      - name: "backend-engineer"
-        imageDefinitionName: "identityProvider-backend-engineer"
-        vmSku: general_i_32c128gb512ssd_v2
-      - name: "frontend-engineer"
-        imageDefinitionName: "identityProvider-frontend-engineer"
-        vmSku: general_i_16c64gb256ssd_v2
-
-    # Project-specific environment types
-    # Defines which deployment environments are available to the project
-    environmentTypes:
-      - name: "dev"
-        deploymentTargetId: ""
-      - name: "staging"
-        deploymentTargetId: ""
-
-    # Project-specific catalogs - repositories containing project configurations
-    catalogs:
-      environmentDefinition:
-        name: "environments"
-        type: gitHub
-        uri: "https://github.com/Evilazaro/IdentityProvider.git"
-        branch: "main"
-        path: "/.configuration/devcenter/environments"
-      imageDefinition:
-        name: "imageDefinitions"
-        type: gitHub
-        uri: "https://github.com/Evilazaro/IdentityProvider.git"
-        branch: "main"
-        path: "/.configuration/devcenter/imageDefinitions"
-
-    # Project-specific tags for resource governance and organization
-    # Best practice: Apply consistent tags for cost allocation and ownership
-    tags:
-      environment: "dev" # Identifies the deployment environment
-      division: "Platforms" # Organizational division responsible for the project
-      team: "DevExP" # Team responsible for implementation
-      project: "DevExP-DevBox" # Project name for cost allocation
-      costCenter: "IT" # Financial tracking designation
-      owner: "Contoso" # Resource ownership
-      resources: "Project" # Resource type identifier
-
   - name: "eShop"
     description: "eShop project."
 
@@ -247,15 +151,17 @@ projects:
 
     # Project-specific catalogs - repositories containing project configurations
     catalogs:
-      environmentDefinition:
-        name: "environments"
-        type: gitHub
+      - name: "environments"
+        type: environmentDefinition
+        sourceControl: gitHub
+        visibility: public
         uri: "https://github.com/Evilazaro/eShop.git"
         branch: "main"
         path: "/.devcenter/environments"
-      imageDefinition:
-        name: "imageDefinitions"
-        type: gitHub
+      - name: "devboxImages"
+        type: imageDefinition
+        sourceControl: gitHub
+        visibility: public
         uri: "https://github.com/Evilazaro/eShop.git"
         branch: "main"
         path: "/.devcenter/imageDefinitions"

@@ -2,7 +2,7 @@
 param projectName string
 
 @description('Catalog configurations for the project')
-param catalogConfig ProjectCatalog
+param catalogConfig Catalog
 
 @description('Secret identifier for Git repository authentication')
 @secure()
@@ -13,8 +13,14 @@ type Catalog = {
   @description('Name of the catalog')
   name: string
 
-  @description('Type of repository (GitHub or Azure DevOps Git)')
-  type: CatalogType
+  @description('Type of catalog (environment or image)')
+  type: 'environmentDefinition' | 'imageDefinition'
+
+  @description('Source control type')
+  sourceControl: 'gitHub' | 'adoGit'
+
+  @description('Visibility of the catalog')
+  visibility: 'public' | 'private'
 
   @description('URI of the repository')
   uri: string
@@ -26,81 +32,32 @@ type Catalog = {
   path: string
 }
 
-@description('Project catalog configuration')
-type ProjectCatalog = {
-  @description('Environment definition catalog configuration')
-  environmentDefinition: Catalog
-
-  @description('Image definition catalog configuration')
-  imageDefinition: Catalog
-}
-
-@description('Supported catalog repository types')
-type CatalogType = string
-
 @description('Reference to the existing DevCenter project')
 resource project 'Microsoft.DevCenter/projects@2025-04-01-preview' existing = {
   name: projectName
 }
 
 @description('Environment Definition Catalog')
-resource environmentDefinitionCatalog 'Microsoft.DevCenter/projects/catalogs@2025-04-01-preview' = {
-  name: catalogConfig.environmentDefinition.name
+resource catalog 'Microsoft.DevCenter/projects/catalogs@2025-04-01-preview' = {
+  name: catalogConfig.name
   parent: project
   properties: {
     syncType: 'Scheduled'
-    gitHub: catalogConfig.environmentDefinition.type == 'gitHub'
+    gitHub: catalogConfig.sourceControl == 'gitHub'
       ? {
-          uri: catalogConfig.environmentDefinition.uri
-          branch: catalogConfig.environmentDefinition.branch
-          path: catalogConfig.environmentDefinition.path
-          secretIdentifier: secretIdentifier
+          uri: catalogConfig.uri
+          branch: catalogConfig.branch
+          path: catalogConfig.path
+          secretIdentifier: (catalogConfig.visibility == 'private') ? secretIdentifier : null
         }
       : null
-    adoGit: catalogConfig.environmentDefinition.type == 'adoGit'
+    adoGit: catalogConfig.sourceControl == 'adoGit'
       ? {
-          uri: catalogConfig.environmentDefinition.uri
-          branch: catalogConfig.environmentDefinition.branch
-          path: catalogConfig.environmentDefinition.path
-          secretIdentifier: secretIdentifier
+          uri: catalogConfig.uri
+          branch: catalogConfig.branch
+          path: catalogConfig.path
+          secretIdentifier: (catalogConfig.visibility == 'private') ? secretIdentifier : null
         }
       : null
   }
 }
-
-@description('Image Definition Catalog')
-resource imageDefinitionCatalog 'Microsoft.DevCenter/projects/catalogs@2025-04-01-preview' = {
-  name: catalogConfig.imageDefinition.name
-  parent: project
-  properties: {
-    syncType: 'Scheduled'
-    gitHub: catalogConfig.imageDefinition.type == 'gitHub'
-      ? {
-          uri: catalogConfig.imageDefinition.uri
-          branch: catalogConfig.imageDefinition.branch
-          path: catalogConfig.imageDefinition.path
-          secretIdentifier: secretIdentifier
-        }
-      : null
-    adoGit: catalogConfig.imageDefinition.type == 'adoGit'
-      ? {
-          uri: catalogConfig.imageDefinition.uri
-          branch: catalogConfig.imageDefinition.branch
-          path: catalogConfig.imageDefinition.path
-          secretIdentifier: secretIdentifier
-        }
-      : null
-  }
-}
-
-@description('The name of the environment definition catalog')
-output environmentDefinitionCatalogName string = environmentDefinitionCatalog.name
-
-@description('The ID of the environment definition catalog')
-output environmentDefinitionCatalogId string = environmentDefinitionCatalog.id
-
-@description('The name of the image definition catalog')
-output imageDefinitionCatalogName string = imageDefinitionCatalog.name
-
-@description('The ID of the image definition catalog')
-output imageDefinitionCatalogId string = imageDefinitionCatalog.id
