@@ -48,7 +48,7 @@ resource catalog 'Microsoft.DevCenter/projects/catalogs@2025-04-01-preview' = {
           uri: catalogConfig.uri
           branch: catalogConfig.branch
           path: catalogConfig.path
-          secretIdentifier: (catalogConfig.visibility == 'private') ? secretIdentifier : null
+          // secretIdentifier: (catalogConfig.visibility == 'private') ? secretIdentifier : null
         }
       : null
     adoGit: catalogConfig.sourceControl == 'adoGit'
@@ -56,7 +56,7 @@ resource catalog 'Microsoft.DevCenter/projects/catalogs@2025-04-01-preview' = {
           uri: catalogConfig.uri
           branch: catalogConfig.branch
           path: catalogConfig.path
-          secretIdentifier: (catalogConfig.visibility == 'private') ? secretIdentifier : null
+          // secretIdentifier: (catalogConfig.visibility == 'private') ? secretIdentifier : null
         }
       : null
   }
