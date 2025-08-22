@@ -12,7 +12,7 @@ param logAnalyticsId string
 param projectDescription string
 
 @description('Catalog configuration for the project')
-param projectCatalogs object[]
+param catalogs object[]
 
 @description('Environment types to be associated with the project')
 param projectEnvironmentTypes array
@@ -140,8 +140,8 @@ module projectADGroup '../../identity/projectIdentityRoleAssignment.bicep' = [
 ]
 
 @description('Configure project catalogs')
-module catalogs 'projectCatalog.bicep' = [
-  for (catalog, i) in projectCatalogs: {
+module projectCatalogs 'projectCatalog.bicep' = [
+  for (catalog, i) in catalogs: {
     name: 'catalog-${i}-${uniqueString(project.id, catalog.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
@@ -170,7 +170,7 @@ module environmentTypes 'projectEnvironmentType.bicep' = [
       projectIdentity
       projectIdentityRG
       projectADGroup
-      catalogs
+      projectCatalogs
     ]
   }
 ]
@@ -189,19 +189,19 @@ module connectivity '../../connectivity/connectivity.bicep' = {
     projectIdentity
     projectIdentityRG
     projectADGroup
-    catalogs
+    projectCatalogs
   ]
 }
 
 @description('Configure DevBox pools for the project')
 module pools 'projectPool.bicep' = [
-  for (pool, i) in projectPools: if (projectCatalogs[i].type == 'imageDefinition') {
+  for (pool, i) in projectPools: {
     name: 'pool-${i}-${uniqueString(project.id, pool.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
       name: pool.name
       projectName: project.name
-      catalogName: projectCatalogs[i].name
+      catalogs: catalogs
       imageDefinitionName: pool.imageDefinitionName
       vmSku: pool.vmSku
       networkConnectionName: connectivity.outputs.networkConnectionName

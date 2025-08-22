@@ -5,7 +5,7 @@ param name string
 param location string = resourceGroup().location
 
 @description('The name of the catalog to use for the pool')
-param catalogName string
+param catalogs object[]
 
 @description('The name of the dev box definition to use for the pool')
 param imageDefinitionName string
@@ -28,30 +28,29 @@ resource project 'Microsoft.DevCenter/projects@2025-04-01-preview' existing = {
 }
 
 @description('Dev Box Pool resource')
-resource pool 'Microsoft.DevCenter/projects/pools@2025-04-01-preview' = {
-  name: name
-  location: location
-  parent: project
-  properties: {
-    devBoxDefinitionType: 'Value'
-    devBoxDefinitionName: '~Catalog~${catalogName}~${imageDefinitionName}'
-    devBoxDefinition: {
-      imageReference: {
-        id: '${project.id}/images/~Catalog~${catalogName}~${imageDefinitionName}'
+resource pool 'Microsoft.DevCenter/projects/pools@2025-04-01-preview' = [
+  for (catalog, i) in catalogs: if (catalog.type == 'imageDefinition') {
+    name: '${name}-${i}-pool'
+    location: location
+    parent: project
+    properties: {
+      devBoxDefinitionType: 'Value'
+      devBoxDefinitionName: '~Catalog~${catalog.name}~${imageDefinitionName}'
+      devBoxDefinition: {
+        imageReference: {
+          id: '${project.id}/images/~Catalog~${catalog.name}~${imageDefinitionName}'
+        }
+        sku: {
+          name: vmSku
+        }
       }
-      sku: {
-        name: vmSku
-      }
+      networkConnectionName: networkConnectionName
+      licenseType: 'Windows_Client'
+      localAdministrator: 'Enabled'
+      singleSignOnStatus: 'Enabled'
+      displayName: name
+      virtualNetworkType: networkType
+      managedVirtualNetworkRegions: (networkType == 'Managed') ? [resourceGroup().location] : []
     }
-    networkConnectionName: networkConnectionName
-    licenseType: 'Windows_Client'
-    localAdministrator: 'Enabled'
-    singleSignOnStatus: 'Enabled'
-    displayName: name
-    virtualNetworkType: networkType
-    managedVirtualNetworkRegions: (networkType == 'Managed') ? [resourceGroup().location] : []
   }
-}
-
-@description('The name of the pool')
-output poolName string = pool.name
+]
