@@ -25,7 +25,7 @@ resource project 'Microsoft.DevCenter/projects@2025-04-01-preview' existing = {
 @description('Role assignments for the project')
 resource roleAssignmentRG 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
   for role in roles: if (role.scope == 'ResourceGroup') {
-    name: guid(project.id, principalId, role.id)
+    name: guid(subscription().id, resourceGroup().id, project.id, principalId, role.id)
     scope: resourceGroup()
     properties: {
       principalId: principalId
