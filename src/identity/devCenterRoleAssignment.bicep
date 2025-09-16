@@ -23,9 +23,11 @@ resource roleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' exi
   scope: subscription()
 }
 
+var roleAssignmentId = guid(subscription().id, principalId, id)
+
 @description('Role assignment resource')
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (scope == 'Subscription') {
-  name: guid(subscription().id, principalId, id)
+  name: roleAssignmentId
   scope: subscription()
   properties: {
     roleDefinitionId: roleDefinition.id
