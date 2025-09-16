@@ -17,7 +17,7 @@ param principalType string = 'Group'
 @description('Role assignments for the security group')
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
   for role in roles: {
-    name: guid(subscription().id, resourceGroup().id,principalId, role.id)
+    name: guid(subscription().id, resourceGroup().id, principalId, role.id, role.name, principalType)
     scope: resourceGroup()
     properties: {
       principalId: principalId
