@@ -1,8 +1,3 @@
-# Build
-
-[![Accelerator CD](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/azure-dev.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/azure-dev.yml)
-[![Documentation CI/CD](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/hugo.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/hugo.yml)
-
 # Overview
 The [**Dev Box accelerator**](https://evilazaro.github.io/DevExp-DevBox/) is an open-source, reference implementation designed to help you quickly establish a landing zone subscription optimized for Microsoft Dev Box deployments. Built on the principles and best practices of the [**Azure Cloud Adoption Framework (CAF) enterprise-scale landing zones**](https://docs.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/enterprise-scale), it provides a strategic design path and a target technical state that:
 
