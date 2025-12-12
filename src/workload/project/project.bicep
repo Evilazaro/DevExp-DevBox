@@ -36,7 +36,8 @@ param identity Identity
 @description('Tags to be applied to all resources')
 param tags object = {}
 
-param dateTime string = utcNow('yyyyMMdd-HHmmss')
+@description('Azure region for resource deployment')
+param location string = resourceGroup().location
 
 @description('Identity configuration for the project')
 type Identity = {
@@ -76,7 +77,7 @@ resource devCenter 'Microsoft.DevCenter/devcenters@2025-10-01-preview' existing 
 @description('DevCenter Project resource')
 resource project 'Microsoft.DevCenter/projects@2025-10-01-preview' = {
   name: name
-  location: resourceGroup().location
+  location: location
   identity: {
     type: identity.type
   }
@@ -100,7 +101,6 @@ resource project 'Microsoft.DevCenter/projects@2025-10-01-preview' = {
 @description('Configure project identity role assignments')
 module projectIdentity '../../identity/projectIdentityRoleAssignment.bicep' = [
   for (role, i) in identity.roleAssignments: {
-    name: 'prj-rbac${i}-${uniqueString(project.id, project.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
       projectName: project.name
@@ -114,7 +114,6 @@ module projectIdentity '../../identity/projectIdentityRoleAssignment.bicep' = [
 @description('Configure project identity role assignments')
 module projectIdentityRG '../../identity/projectIdentityRoleAssignmentRG.bicep' = [
   for (role, i) in identity.roleAssignments: {
-    name: 'prj-rbac-RG-${i}-${uniqueString(project.id, project.name)}-${dateTime}'
     scope: resourceGroup(securityResourceGroupName)
     params: {
       projectName: project.name
@@ -128,7 +127,6 @@ module projectIdentityRG '../../identity/projectIdentityRoleAssignmentRG.bicep' 
 @description('Add the AD Group to the DevCenter project')
 module projectADGroup '../../identity/projectIdentityRoleAssignment.bicep' = [
   for (role, i) in identity.roleAssignments: {
-    name: 'prj-adgroup-${i}-${uniqueString(project.id, project.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
       projectName: project.name
@@ -142,61 +140,41 @@ module projectADGroup '../../identity/projectIdentityRoleAssignment.bicep' = [
 @description('Configure project catalogs')
 module projectCatalogs 'projectCatalog.bicep' = [
   for (catalog, i) in catalogs: {
-    name: 'catalog-${i}-${uniqueString(project.id, catalog.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
       projectName: project.name
       catalogConfig: catalog
       secretIdentifier: secretIdentifier
     }
-    dependsOn: [
-      projectIdentity
-      projectIdentityRG
-      projectADGroup
-    ]
   }
 ]
 
 @description('Configure project environment types')
 module environmentTypes 'projectEnvironmentType.bicep' = [
   for (envType, i) in projectEnvironmentTypes: {
-    name: 'env-type-${i}-${uniqueString(project.id, envType.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
       projectName: project.name
       environmentConfig: envType
+      location: location
     }
-    dependsOn: [
-      projectIdentity
-      projectIdentityRG
-      projectADGroup
-      projectCatalogs
-    ]
   }
 ]
 
 @description('Connectivity configuration for the project')
 module connectivity '../../connectivity/connectivity.bicep' = {
-  name: 'connectivity-${uniqueString(project.id)}-${dateTime}'
   scope: resourceGroup()
   params: {
     devCenterName: devCenterName
     projectNetwork: projectNetwork
     logAnalyticsId: logAnalyticsId
-    location: resourceGroup().location
+    location: location
   }
-  dependsOn: [
-    projectIdentity
-    projectIdentityRG
-    projectADGroup
-    projectCatalogs
-  ]
 }
 
 @description('Configure DevBox pools for the project')
 module pools 'projectPool.bicep' = [
   for (pool, i) in projectPools: {
-    name: 'pool-${i}-${uniqueString(project.id, pool.name)}-${dateTime}'
     scope: resourceGroup()
     params: {
       name: pool.name
@@ -206,6 +184,7 @@ module pools 'projectPool.bicep' = [
       vmSku: pool.vmSku
       networkConnectionName: connectivity.outputs.networkConnectionName
       networkType: connectivity.outputs.networkType
+      location: location
     }
   }
 ]

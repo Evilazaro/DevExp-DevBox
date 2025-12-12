@@ -31,8 +31,6 @@ param secretValue string
 @maxLength(10)
 param environmentName string
 
-param dateTime string = utcNow('yyyyMMdd-HHmmss')
-
 // Load configuration from YAML
 @description('Landing Zone resource organization')
 var landingZones = loadYamlContent('settings/resourceOrganization/azureResources.yaml')
@@ -96,7 +94,6 @@ output WORKLOAD_AZURE_RESOURCE_GROUP_NAME string = workloadRg.name
 // Module deployments with improved names and organization
 @description('Log Analytics Workspace for centralized monitoring')
 module monitoring '../src/management/logAnalytics.bicep' = {
-  name: 'monitoring-logAnalytics-${environmentName}-${dateTime}'
   scope: resourceGroup(monitoringRgName)
   params: {
     name: 'logAnalytics'
@@ -114,7 +111,6 @@ output AZURE_LOG_ANALYTICS_WORKSPACE_NAME string = monitoring.outputs.AZURE_LOG_
 
 @description('Security components including Key Vault')
 module security '../src/security/security.bicep' = {
-  name: 'security-keyvault-${environmentName}-${dateTime}'
   scope: resourceGroup(securityRgName)
   params: {
     secretValue: secretValue
@@ -137,7 +133,6 @@ output AZURE_KEY_VAULT_ENDPOINT string = security.outputs.AZURE_KEY_VAULT_ENDPOI
 
 @description('DevCenter workload deployment')
 module workload '../src/workload/workload.bicep' = {
-  name: 'workload-${environmentName}-${dateTime}'
   scope: resourceGroup(workloadRgName)
   params: {
     logAnalyticsId: monitoring.outputs.AZURE_LOG_ANALYTICS_WORKSPACE_ID

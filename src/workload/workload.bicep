@@ -17,7 +17,8 @@ param secretIdentifier string
 @minLength(3)
 param securityResourceGroupName string
 
-param dateTime string = utcNow('yyyyMMdd-HHmmss')
+@description('Azure region for resource deployment')
+param location string = resourceGroup().location
 
 // Resource types with documentation
 @description('Landing Zone configuration type')
@@ -34,7 +35,6 @@ var devCenterSettings = loadYamlContent('../../infra/settings/workload/devcenter
 // Deploy core DevCenter infrastructure
 @description('DevCenter Core Infrastructure')
 module devcenter 'core/devCenter.bicep' = {
-  name: 'devCenter-${dateTime}'
   scope: resourceGroup()
   params: {
     config: devCenterSettings
@@ -43,6 +43,7 @@ module devcenter 'core/devCenter.bicep' = {
     logAnalyticsId: logAnalyticsId
     secretIdentifier: secretIdentifier
     securityResourceGroupName: securityResourceGroupName
+    location: location
   }
 }
 
@@ -53,7 +54,6 @@ output AZURE_DEV_CENTER_NAME string = devcenter.outputs.AZURE_DEV_CENTER_NAME
 @description('DevCenter Projects')
 module projects 'project/project.bicep' = [
   for (project, i) in devCenterSettings.projects: {
-    name: 'project-${project.name}-${dateTime}'
     scope: resourceGroup()
     params: {
       name: project.name
@@ -68,10 +68,8 @@ module projects 'project/project.bicep' = [
       securityResourceGroupName: securityResourceGroupName
       identity: project.identity
       tags: project.tags
+      location: location
     }
-    dependsOn: [
-      devcenter
-    ]
   }
 ]
 

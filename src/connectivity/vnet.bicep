@@ -83,17 +83,17 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
 
 output AZURE_VIRTUAL_NETWORK object = (settings.create && settings.virtualNetworkType == 'Unmanaged')
   ? {
-      name: virtualNetwork!.name
+      name: virtualNetwork.?name ?? ''
       resourceGroupName: resourceGroup().name
       virtualNetworkType: settings.virtualNetworkType
-      subnets: virtualNetwork!.properties.subnets
+      subnets: virtualNetwork.?properties.?subnets ?? []
     }
   : (!settings.create && settings.virtualNetworkType == 'Unmanaged')
       ? {
-          name: existingVirtualNetwork!.name
+          name: existingVirtualNetwork.?name ?? ''
           resourceGroupName: resourceGroup().name
           virtualNetworkType: settings.virtualNetworkType
-          subnets: existingVirtualNetwork!.properties.subnets
+          subnets: existingVirtualNetwork.?properties.?subnets ?? []
         }
       : {
           name: ''

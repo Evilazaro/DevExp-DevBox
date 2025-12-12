@@ -10,12 +10,9 @@ param logAnalyticsId string
 @description('Azure region for resource deployment')
 param location string
 
-param dateTime string = utcNow('yyyy-MM-ddTHH:mm:ssZ')
-
 var netConectCreate = (projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged') || (!projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged')
 
 module Rg 'resourceGroup.bicep' = {
-  name: 'projectNetworkRg-${uniqueString(projectNetwork.name, location)}'
   scope: subscription()
   params: {
     name: projectNetwork.resourceGroupName
@@ -28,7 +25,6 @@ module Rg 'resourceGroup.bicep' = {
 var rgName = (netConectCreate) ? projectNetwork.resourceGroupName : resourceGroup().name
 
 module virtualNetwork 'vnet.bicep' = {
-  name: 'virtualNetwork-${uniqueString(projectNetwork.name, resourceGroup().id, dateTime)}'
   scope: resourceGroup(rgName)
   params: {
     logAnalyticsId: logAnalyticsId
@@ -50,20 +46,16 @@ module virtualNetwork 'vnet.bicep' = {
 
 @description('Network Connection resource for DevCenter')
 module networkConnection './networkConnection.bicep' = if (netConectCreate) {
-  name: 'netconn-${uniqueString(projectNetwork.name,resourceGroup().id,dateTime)}'
   scope: resourceGroup()
   params: {
     devCenterName: devCenterName
     name: 'netconn-${virtualNetwork.outputs.AZURE_VIRTUAL_NETWORK.name}'
     subnetId: virtualNetwork.outputs.AZURE_VIRTUAL_NETWORK.subnets[0].id
   }
-  dependsOn: [
-    virtualNetwork
-  ]
 }
 
 output networkConnectionName string = netConectCreate
-  ? networkConnection!.outputs.networkConnectionName
+  ? networkConnection.?outputs.?networkConnectionName ?? projectNetwork.name
   : projectNetwork.name
 
 output networkType string = projectNetwork.virtualNetworkType

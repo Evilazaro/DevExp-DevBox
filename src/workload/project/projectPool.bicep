@@ -1,7 +1,7 @@
 @description('Pool Name')
 param name string
 
-@description('Location for the deployment')
+@description('Azure region for resource deployment')
 param location string = resourceGroup().location
 
 @description('The name of the catalog to use for the pool')
@@ -74,7 +74,7 @@ resource pool 'Microsoft.DevCenter/projects/pools@2025-10-01-preview' = [
       singleSignOnStatus: 'Enabled'
       displayName: name
       virtualNetworkType: networkType
-      managedVirtualNetworkRegions: (networkType == 'Managed') ? [resourceGroup().location] : []
+      managedVirtualNetworkRegions: (networkType == 'Managed') ? [location] : []
     }
   }
 ]

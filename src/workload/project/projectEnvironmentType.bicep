@@ -1,6 +1,9 @@
 @description('Project Name')
 param projectName string
 
+@description('Azure region for resource deployment')
+param location string = resourceGroup().location
+
 @description('Environment Configuration')
 param environmentConfig ProjectEnvironmentType
 
@@ -24,6 +27,7 @@ resource project 'Microsoft.DevCenter/projects@2025-10-01-preview' existing = {
 @description('Dev Center Environments')
 resource environmentType 'Microsoft.DevCenter/projects/environmentTypes@2025-10-01-preview' = {
   name: environmentConfig.name
+  location: location
   parent: project
   identity: {
     type: 'SystemAssigned'

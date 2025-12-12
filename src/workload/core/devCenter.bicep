@@ -22,7 +22,8 @@ param secretIdentifier string
 
 param securityResourceGroupName string
 
-param dateTime string = utcNow('yyyyMMdd-HHmmss')
+@description('Azure region for resource deployment')
+param location string = resourceGroup().location
 
 // Type definitions with proper naming conventions
 @description('DevCenter configuration type')
@@ -76,7 +77,7 @@ type OrgRoleType = {
 @description('Dev Center Resource')
 resource devcenter 'Microsoft.DevCenter/devcenters@2025-10-01-preview' = {
   name: devCenterName
-  location: resourceGroup().location
+  location: location
   identity: {
     type: config.identity.type
   }
@@ -124,7 +125,6 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
 @description('Dev Center Identity Role Assignments')
 module devCenterIdentityRoleAssignment '../../identity/devCenterRoleAssignment.bicep' = [
   for (role, i) in config.identity.roleAssignments.devCenter: {
-    name: 'RBACDevCenterSub-${i}-${devCenterName}-${dateTime}'
     scope: subscription()
     params: {
       id: role.id
@@ -137,7 +137,6 @@ module devCenterIdentityRoleAssignment '../../identity/devCenterRoleAssignment.b
 @description('Dev Center Identity Role Assignments')
 module devCenterIdentityRoleAssignmentRG '../../identity/devCenterRoleAssignmentRG.bicep' = [
   for (role, i) in config.identity.roleAssignments.devCenter: {
-    name: 'RBACDevCenterRG-${i}-${devCenterName}-${dateTime}'
     scope: resourceGroup(securityResourceGroupName)
     params: {
       id: role.id
@@ -153,15 +152,11 @@ module devCenterIdentityRoleAssignmentRG '../../identity/devCenterRoleAssignment
 @description('Dev Center Identity User Groups role assignments')
 module devCenterIdentityUserGroupsRoleAssignment '../../identity/orgRoleAssignment.bicep' = [
   for (role, i) in config.identity.roleAssignments.orgRoleTypes: {
-    name: 'RBACUserGroup-${i}-${devCenterName}-${dateTime}'
     scope: resourceGroup()
     params: {
       principalId: role.azureADGroupId
       roles: role.azureRBACRoles
     }
-    dependsOn: [
-      devCenterIdentityRoleAssignment
-    ]
   }
 ]
 
@@ -169,18 +164,12 @@ module devCenterIdentityUserGroupsRoleAssignment '../../identity/orgRoleAssignme
 @description('Dev Center Catalogs')
 module catalog 'catalog.bicep' = [
   for (catalog, i) in catalogs: {
-    name: 'catalog-${i}-${devCenterName}-${dateTime}'
     scope: resourceGroup()
     params: {
       devCenterName: devCenterName
       catalogConfig: catalog
       secretIdentifier: secretIdentifier
     }
-    dependsOn: [
-      devcenter
-      devCenterIdentityRoleAssignment
-      devCenterIdentityRoleAssignmentRG
-    ]
   }
 ]
 
@@ -188,14 +177,10 @@ module catalog 'catalog.bicep' = [
 @description('Dev Center Environments')
 module environment 'environmentType.bicep' = [
   for (environment, i) in environmentTypes: {
-    name: 'environmentType-${i}-${devCenterName}-${dateTime}'
     scope: resourceGroup()
     params: {
       devCenterName: devCenterName
       environmentConfig: environment
     }
-    dependsOn: [
-      devcenter
-    ]
   }
 ]
