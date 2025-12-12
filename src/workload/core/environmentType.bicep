@@ -11,12 +11,12 @@ type EnvironmentType = {
 }
 
 @description('Reference to the existing DevCenter')
-resource devCenter 'Microsoft.DevCenter/devcenters@2025-04-01-preview' existing = {
+resource devCenter 'Microsoft.DevCenter/devcenters@2025-10-01-preview' existing = {
   name: devCenterName
 }
 
 @description('DevCenter Environment Type resource')
-resource environmentType 'Microsoft.DevCenter/devcenters/environmentTypes@2025-04-01-preview' = {
+resource environmentType 'Microsoft.DevCenter/devcenters/environmentTypes@2025-10-01-preview' = {
   name: environmentConfig.name
   parent: devCenter
   properties: {

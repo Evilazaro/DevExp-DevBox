@@ -29,7 +29,7 @@ var truncatedName = length(name) > maxNameLength ? take(name, maxNameLength) : n
 var workspaceName = '${truncatedName}-${uniqueSuffix}'
 
 @description('Log Analytics Workspace')
-resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2025-02-01' = {
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2025-07-01' = {
   name: workspaceName
   location: location
   tags: union(tags, {

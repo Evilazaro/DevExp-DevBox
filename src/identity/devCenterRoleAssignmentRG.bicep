@@ -18,7 +18,7 @@ param principalType string = 'ServicePrincipal'
 param scope string
 
 @description('Existing role definition reference')
-resource roleDefinition 'Microsoft.Authorization/roleDefinitions@2022-04-01' existing = {
+resource roleDefinition 'Microsoft.Authorization/roleDefinitions@2022-05-01-preview' existing = {
   name: id
   scope: resourceGroup()
 }

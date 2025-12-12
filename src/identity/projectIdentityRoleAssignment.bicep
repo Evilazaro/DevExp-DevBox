@@ -18,7 +18,7 @@ param roles array
 param principalType string
 
 @description('Reference to the existing DevCenter project')
-resource project 'Microsoft.DevCenter/projects@2025-04-01-preview' existing = {
+resource project 'Microsoft.DevCenter/projects@2025-10-01-preview' existing = {
   name: projectName
 }
 

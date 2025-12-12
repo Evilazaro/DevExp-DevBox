@@ -69,12 +69,12 @@ type RoleAssignment = {
 }
 
 @description('Reference to existing DevCenter')
-resource devCenter 'Microsoft.DevCenter/devcenters@2025-04-01-preview' existing = {
+resource devCenter 'Microsoft.DevCenter/devcenters@2025-10-01-preview' existing = {
   name: devCenterName
 }
 
 @description('DevCenter Project resource')
-resource project 'Microsoft.DevCenter/projects@2025-04-01-preview' = {
+resource project 'Microsoft.DevCenter/projects@2025-10-01-preview' = {
   name: name
   location: resourceGroup().location
   identity: {

@@ -59,7 +59,7 @@ var workloadRgName = createResourceGroupName.workload
 
 // Security resources
 @description('Security Resource Group for Key Vault and related resources')
-resource securityRg 'Microsoft.Resources/resourceGroups@2024-11-01' = if (landingZones.security.create) {
+resource securityRg 'Microsoft.Resources/resourceGroups@2025-04-01' = if (landingZones.security.create) {
   name: securityRgName
   location: location
   tags: union(landingZones.security.tags, {
@@ -71,7 +71,7 @@ output SECURITY_AZURE_RESOURCE_GROUP_NAME string = securityRg.name
 
 // Monitoring resources
 @description('Monitoring Resource Group for Log Analytics and related resources')
-resource monitoringRg 'Microsoft.Resources/resourceGroups@2024-11-01' = if (landingZones.monitoring.create) {
+resource monitoringRg 'Microsoft.Resources/resourceGroups@2025-04-01' = if (landingZones.monitoring.create) {
   name: monitoringRgName
   location: location
   tags: union(landingZones.monitoring.tags, {
@@ -83,7 +83,7 @@ output MONITORING_AZURE_RESOURCE_GROUP_NAME string = monitoringRg.name
 
 // Workload resources
 @description('Workload Resource Group for DevCenter resources')
-resource workloadRg 'Microsoft.Resources/resourceGroups@2024-11-01' = if (landingZones.workload.create) {
+resource workloadRg 'Microsoft.Resources/resourceGroups@2025-04-01' = if (landingZones.workload.create) {
   name: workloadRgName
   location: location
   tags: union(landingZones.workload.tags, {

@@ -23,7 +23,7 @@ module keyVault 'keyVault.bicep' = if (securitySettings.create) {
 }
 
 @description('Existing Key Vault')
-resource existingKeyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = if (!securitySettings.create) {
+resource existingKeyVault 'Microsoft.KeyVault/vaults@2025-05-01' existing = if (!securitySettings.create) {
   name: securitySettings.keyVault.name
   scope: resourceGroup()
 }
