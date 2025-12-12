@@ -1,120 +1,127 @@
-# Microsoft Dev Box Landing Zone Accelerator
-
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FEvilazaro%2FDevExp-DevBox%2Fmain%2Finfra%2Fmain.bicep)
-[![CI](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/ci.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+# Dev Box Landing Zone Accelerator
 
 ## Project Overview
 
 ### Problem Statement
 
-Organizations adopting Microsoft Dev Box face significant challenges when establishing secure, scalable, and compliant cloud development environments. Without a standardized approach, teams often struggle with inconsistent configurations, security vulnerabilities, resource sprawl, and difficulty maintaining governance across multiple development teams. The lack of a well-architected landing zone leads to increased operational overhead, longer time-to-value, and higher costs as organizations attempt to build Dev Box infrastructure from scratch.
+Organizations adopting Microsoft Dev Box face significant challenges in establishing secure, scalable, and compliant cloud development environments. Traditional approaches often result in fragmented deployments, inconsistent security configurations, and lengthy setup times that hinder developer productivity. Development teams need standardized, pre-configured environments that align with enterprise governance policies while maintaining flexibility for different project requirements.
 
-The Microsoft Dev Box Landing Zone Accelerator addresses these challenges by providing an enterprise-ready, Infrastructure as Code (IaC) solution that implements best practices from the Azure Cloud Adoption Framework and Well-Architected Framework. This accelerator delivers a production-grade landing zone subscription optimized specifically for Microsoft Dev Box deployments, enabling organizations to rapidly provision secure, compliant development environments at scale.
+The Dev Box Landing Zone Accelerator addresses these challenges by providing an enterprise-ready, Infrastructure as Code (IaC) solution that automates the deployment of Microsoft Dev Box environments following Azure Cloud Adoption Framework best practices. This accelerator eliminates the complexity of manual configuration, ensures consistent security postures across all development environments, and significantly reduces the time-to-productivity for development teams.
 
-By leveraging this accelerator, organizations can reduce deployment time from months to days, ensure consistent security and governance policies, maintain operational excellence through automation, and provide developers with self-service access to powerful cloud-based development workstations that integrate seamlessly with existing enterprise infrastructure.
+Built on Azure Bicep and integrated with Azure Developer CLI (azd), this solution provides a repeatable, testable deployment pattern that scales from individual projects to enterprise-wide implementations. It incorporates identity management, network isolation, monitoring, and security controls out-of-the-box, enabling organizations to focus on building applications rather than managing infrastructure.
 
 ### Key Features
 
 | **Feature** | **Description** | **Implementation Details** |
-|-------------|----------------|----------------------------|
-| Infrastructure as Code | Complete Bicep-based infrastructure definitions for reproducible deployments | Modular Bicep templates in infra with parameterized configurations via main.parameters.json |
-| Modular Architecture | Separated concerns across connectivity, identity, management, security, and workload domains | Organized source structure in connectivity, identity, management, security, and workload |
-| Azure Developer CLI Integration | Simplified deployment and management using Azure Developer CLI | Configuration via azure.yaml and azure-pwh.yaml for streamlined operations |
-| CI/CD Pipeline Support | Automated validation and deployment workflows | GitHub Actions workflows in workflows and Azure DevOps pipelines in pipelines |
-| Security Best Practices | Built-in security controls, RBAC configurations, and compliance alignment | Security-focused resources and policies in security |
-| Network Segmentation | Isolated network architecture with proper connectivity patterns | Network resources and configurations in connectivity |
-| Automated Setup Scripts | PowerShell and Bash scripts for quick environment setup | Setup automation via setUp.ps1, setUp.sh, and cleanup via cleanSetUp.ps1 |
+|------------|-----------------|---------------------------|
+| Infrastructure as Code | Complete Bicep-based deployment automation | Modular Bicep templates in infra and src directories with parameterized configurations |
+| Multi-Source Control Support | Integration with GitHub and Azure DevOps Git | Configurable catalog sources in catalog.bicep supporting both platforms |
+| Landing Zone Architecture | Enterprise-scale resource organization | Structured deployment across connectivity, identity, management, security, and workload landing zones |
+| Automated RBAC Configuration | Pre-configured role assignments for DevCenter resources | Role assignment modules in identity with support for users, groups, and service principals |
+| Secure Secret Management | Azure Key Vault integration for credentials | Key Vault deployment in security with RBAC-based access control |
+| Cross-Platform Setup | PowerShell and Bash setup scripts | Platform-specific scripts setUp.ps1 and setUp.sh for Windows and Linux/macOS |
+| Network Flexibility | Support for managed and unmanaged virtual networks | Configurable network types in connectivity with Azure AD join support |
+| Centralized Monitoring | Log Analytics workspace integration | Diagnostic settings configured across all resources via logAnalytics.bicep |
+| Project Isolation | Multi-project support with independent configurations | Project-level resources in project with separate catalogs and pools |
+| Catalog Management | Support for environment definitions and custom images | Catalog configuration in catalog.bicep and projectCatalog.bicep |
 
 ### Solution Components
 
 | **Component** | **Purpose** | **Role in Solution** |
-|---------------|-------------|----------------------|
-| Infrastructure Layer | Defines Azure resources and dependencies | Provides declarative infrastructure definitions in main.bicep for consistent deployment |
-| Connectivity Module | Establishes network connectivity and segmentation | Implements virtual networks, subnets, NSGs, and connectivity to on-premises resources in connectivity |
-| Identity Module | Manages identity and access controls | Configures Azure AD integration, RBAC assignments, and identity governance in identity |
-| Management Module | Provides operational management capabilities | Implements monitoring, logging, governance, and policy enforcement in management |
-| Security Module | Enforces security controls and compliance | Deploys security baseline, Key Vault, encryption, and threat protection in security |
-| Workload Module | Provisions Dev Box workload resources | Creates Dev Centers, projects, pools, and network connections in workload |
-| CI/CD Pipelines | Automates testing and deployment | Validates infrastructure changes and orchestrates deployments via workflows and pipelines |
+|---------------|-------------|---------------------|
+| Setup Scripts | Automated environment initialization | setUp.ps1 and setUp.sh orchestrate authentication, environment configuration, and resource provisioning |
+| Infrastructure Templates | Azure resource deployment definitions | Bicep modules in infra define subscription-level deployments with resource group organization |
+| Connectivity Module | Network infrastructure provisioning | connectivity manages virtual networks, subnets, and network connections for Dev Box |
+| Identity Module | Role-based access control configuration | identity implements RBAC assignments for DevCenter, projects, and organizational groups |
+| Management Module | Observability and monitoring setup | management deploys Log Analytics workspaces and diagnostic settings |
+| Security Module | Secrets and credentials management | security provisions Key Vault and manages secret storage with RBAC authorization |
+| Workload Module | DevCenter and project resources | workload deploys DevCenter instances, projects, pools, catalogs, and environment types |
+| Configuration Files | YAML-based settings management | Files in settings define resource configurations for modular deployments |
 
 ### Azure Components
 
 | **Azure Service** | **Purpose** | **Role in Solution** |
-|-------------------|-------------|----------------------|
-| Microsoft Dev Box | Cloud-based developer workstations | Core service providing secure, ready-to-code development environments for developers |
-| Azure Dev Center | Centralized governance for Dev Box | Manages projects, environments, and configurations with consistent policies across teams |
-| Azure Virtual Network | Network isolation and connectivity | Provides secure network segmentation and connectivity for Dev Box resources |
-| Azure Key Vault | Secrets and certificate management | Stores and manages sensitive configuration data, certificates, and secrets securely |
-| Azure Monitor | Observability and diagnostics | Collects logs, metrics, and diagnostics for operational insights and troubleshooting |
-| Azure Policy | Governance and compliance | Enforces organizational standards and compliance requirements across resources |
-| Azure Resource Manager | Resource deployment and management | Orchestrates infrastructure deployment via Bicep templates |
-| Azure Active Directory | Identity and access management | Provides authentication, authorization, and user/group management |
-| Azure Network Security Groups | Network traffic filtering | Controls inbound and outbound traffic to Dev Box network connections |
-| Azure Resource Groups | Resource organization | Logically groups related Azure resources for management and governance |
+|-------------------|-------------|---------------------|
+| Azure DevCenter | Centralized management for development environments | Core service deployed via devCenter.bicep providing project management and catalog orchestration |
+| Azure Dev Box | Cloud-based development workstations | Provisioned through DevCenter projects with customizable pools and images defined in projectPool.bicep |
+| Azure Key Vault | Secure storage for secrets and credentials | Deployed in keyVault.bicep with RBAC-based access for storing source control tokens |
+| Azure Virtual Network | Network isolation and connectivity | Configurable managed or unmanaged networks in vnet.bicep with subnet delegation |
+| Azure Log Analytics | Centralized logging and monitoring | Workspace deployment in logAnalytics.bicep collecting diagnostic data from all resources |
+| Azure Active Directory | Identity and access management | Integration for Azure AD join, group-based RBAC, and service principal authentication |
+| Azure Resource Manager | Infrastructure deployment orchestration | Executes Bicep templates for consistent resource provisioning across subscriptions |
+| Azure Monitor | Performance monitoring and alerting | Diagnostic settings configured across DevCenter, Key Vault, and network resources |
 
 ### Project Structure
 
 ```
 DevExp-DevBox/
-├── .azdo/
-│   └── pipelines/
-│       └── azure-dev.yml                    # Azure DevOps CI/CD pipeline
-├── .configuration/
-│   ├── readme.md                            # Configuration documentation
-│   ├── devcenter/
-│   │   └── workloads/                       # Dev Center workload definitions
-│   ├── powershell/
-│   │   ├── cleanUp.ps1                      # PowerShell cleanup utilities
-│   │   └── readme.md
-│   └── setup/
-│       └── powershell/                      # PowerShell setup scripts
-├── .github/
-│   ├── actions/
-│   │   └── ci/                              # Custom GitHub Actions
-│   └── workflows/
-│       ├── ci.yml                           # Continuous Integration workflow
-│       ├── deploy.yml                       # Deployment workflow
-│       └── ...                              # Additional workflows
-├── infra/
-│   ├── main.bicep                           # Main Bicep infrastructure template
-│   ├── main.parameters.json                 # Infrastructure parameters
-│   └── settings/                            # Infrastructure settings
-├── src/
-│   ├── connectivity/                        # Network connectivity resources
-│   ├── identity/                            # Identity and access resources
-│   ├── management/                          # Management and monitoring resources
-│   ├── security/                            # Security and compliance resources
-│   └── workload/                            # Dev Box workload resources
-├── .gitignore                               # Git ignore rules
-├── azure-pwh.yaml                           # Azure Developer CLI PowerShell config
-├── azure.yaml                               # Azure Developer CLI configuration
-├── cleanSetUp.ps1                           # Windows cleanup script
-├── CODE_OF_CONDUCT.md                       # Community code of conduct
-├── CONTRIBUTING.md                          # Contribution guidelines
-├── LICENSE                                  # MIT License
-├── package.json                             # Node.js dependencies
-├── README.md                                # Project documentation
-├── RELEASE_STRATEGY.md                      # Release management strategy
-├── SECURITY.md                              # Security policy
-├── setUp.ps1                                # Windows setup script
-└── setUp.sh                                 # Linux/macOS setup script
+├── infra/                                    # Infrastructure deployment definitions
+│   ├── main.bicep                           # Subscription-level deployment orchestration
+│   ├── main.parameters.json                 # Environment-specific parameters
+│   └── settings/                            # YAML configuration files
+│       ├── resourceOrganization/            # Landing zone structure definitions
+│       ├── security/                        # Key Vault and security settings
+│       └── workload/                        # DevCenter and project configurations
+├── src/                                     # Modular Bicep components
+│   ├── connectivity/                        # Network infrastructure
+│   │   ├── connectivity.bicep              # Network orchestration module
+│   │   ├── networkConnection.bicep         # DevCenter network attachment
+│   │   ├── resourceGroup.bicep             # Network resource group
+│   │   └── vnet.bicep                      # Virtual network deployment
+│   ├── identity/                           # Role-based access control
+│   │   ├── devCenterRoleAssignment.bicep   # Subscription-scoped roles
+│   │   ├── devCenterRoleAssignmentRG.bicep # Resource group-scoped roles
+│   │   ├── keyVaultAccess.bicep            # Key Vault RBAC assignments
+│   │   ├── orgRoleAssignment.bicep         # Organization-level roles
+│   │   ├── projectIdentityRoleAssignment.bicep      # Project identity roles
+│   │   └── projectIdentityRoleAssignmentRG.bicep    # Project RG roles
+│   ├── management/                         # Monitoring and observability
+│   │   └── logAnalytics.bicep              # Log Analytics workspace
+│   ├── security/                           # Secrets management
+│   │   ├── keyVault.bicep                  # Key Vault deployment
+│   │   ├── secret.bicep                    # Secret creation module
+│   │   └── security.bicep                  # Security orchestration
+│   └── workload/                           # DevCenter resources
+│       ├── workload.bicep                  # Workload orchestration
+│       ├── core/                           # DevCenter core resources
+│       │   ├── catalog.bicep               # DevCenter catalogs
+│       │   ├── devCenter.bicep             # DevCenter instance
+│       │   └── environmentType.bicep       # Environment type definitions
+│       └── project/                        # Project-level resources
+│           ├── project.bicep               # DevCenter project
+│           ├── projectCatalog.bicep        # Project-specific catalogs
+│           ├── projectEnvironmentType.bicep # Project environment types
+│           └── projectPool.bicep           # Dev Box pools
+├── .configuration/                         # Setup and configuration utilities
+│   ├── devcenter/                          # DevCenter customization workloads
+│   │   └── workloads/                      # Custom setup scripts
+│   ├── powershell/                         # PowerShell utilities
+│   │   └── cleanUp.ps1                     # Resource cleanup script
+│   └── setup/                              # Deployment setup scripts
+│       └── powershell/                     # Azure setup automation
+│           └── Azure/                      # Azure-specific scripts
+├── setUp.ps1                               # Windows setup script
+├── setUp.sh                                # Linux/macOS setup script
+├── cleanSetUp.ps1                          # Windows cleanup script
+├── azure.yaml                              # Azure Developer CLI configuration
+├── package.json                            # Node.js project metadata
+└── README.md                               # Project documentation
 ```
 
 ## Target Audience
 
 | **Role Name** | **Role Description** | **Key Responsibilities & Deliverables** | **How this solution helps** |
-|---------------|----------------------|----------------------------------------|---------------------------|
-| 👔 Solution Owner | Executive or business leader accountable for the Dev Box solution's success and ROI | Define business requirements, approve budget and resources, align solution with organizational objectives, measure business outcomes | Provides a proven, cost-effective landing zone that accelerates time-to-value and reduces implementation risk |
-| 🏗️ Solution Architect | Designs the end-to-end architecture for Dev Box deployments across the enterprise | Define architectural standards, ensure scalability and reliability, integrate with existing systems, document architecture decisions | Delivers a reference architecture following Azure best practices with modular design for easy customization |
-| ☁️ Cloud Architect | Responsible for cloud infrastructure design, governance, and alignment with Cloud Adoption Framework | Design cloud landing zones, implement governance policies, optimize resource utilization, ensure compliance with standards | Provides a CAF-aligned landing zone with pre-configured governance, policies, and resource organization |
-| 🌐 Network Architect | Designs network topology, connectivity, and security for Dev Box environments | Plan network segmentation, establish connectivity patterns, design hub-spoke topology, implement network security controls | Includes network isolation, connectivity modules, and integration patterns for hybrid scenarios |
-| 📊 Data Architect | Ensures data governance, security, and compliance for development environments | Define data access patterns, implement data protection controls, ensure data residency compliance, design data lifecycle policies | Provides secure data handling patterns, encryption at rest/transit, and compliance-ready configurations |
-| 🔐 Security Architect | Responsible for security design, threat modeling, and compliance for Dev Box infrastructure | Implement Zero Trust principles, design security controls, conduct threat assessments, ensure compliance certifications | Implements security baseline with built-in controls, Key Vault integration, RBAC, and security policies |
-| 🚀 DevOps / SRE Lead | Manages CI/CD pipelines, automation, and operational reliability of the Dev Box platform | Implement deployment automation, establish monitoring and alerting, optimize operational processes, manage incident response | Provides ready-to-use CI/CD pipelines, IaC templates, and operational playbooks for automated deployments |
-| 👨‍💻 Developer | Uses Dev Box workstations for application development and testing | Provision development environments, write and test code, collaborate with team members, integrate with source control | Enables self-service provisioning of powerful, pre-configured development environments with instant access |
-| ⚙️ System Engineer | Manages infrastructure, performs operational tasks, and troubleshoots Dev Box resources | Deploy and configure resources, perform maintenance, troubleshoot issues, implement monitoring, manage capacity | Offers standardized, repeatable deployments with comprehensive documentation and troubleshooting guides |
-| 📋 Project Manager | Plans, coordinates, and tracks Dev Box deployment initiatives across teams | Define project scope, manage timelines and milestones, coordinate stakeholders, track progress, manage risks | Reduces project complexity with pre-built templates, clear documentation, and proven deployment patterns |
+|---------------|---------------------|----------------------------------------|---------------------------|
+| 👤 Solution Owner | Business stakeholder accountable for solution success and ROI | Define business requirements, approve architecture decisions, ensure alignment with organizational objectives, manage stakeholder expectations | Provides cost-optimized, scalable Dev Box deployment that reduces time-to-market and accelerates developer onboarding with minimal operational overhead |
+| 🏗️ Solution Architect | Designs end-to-end technical architecture for enterprise solutions | Define architecture standards, create technical blueprints, ensure integration between systems, validate non-functional requirements | Delivers a reference architecture following Azure Well-Architected Framework and Cloud Adoption Framework best practices with proven deployment patterns |
+| ☁️ Cloud Architect | Defines cloud infrastructure strategy and landing zone design | Establish cloud governance, design subscription architecture, define resource organization, ensure compliance with cloud policies | Provides a complete landing zone implementation with proper resource organization, tagging strategy, and Azure Policy integration |
+| 🌐 Network Architect | Designs network topology, connectivity, and security boundaries | Define network segmentation, plan IP addressing, configure DNS and routing, establish hybrid connectivity patterns | Offers flexible network configurations supporting both managed and unmanaged virtual networks with Azure AD join and proper subnet isolation |
+| 📊 Data Architect | Defines data management strategy and data governance | Establish data classification, design data flows, ensure data security and privacy, define retention policies | Implements secure secret management with Azure Key Vault and centralized logging with Log Analytics for audit and compliance |
+| 🔐 Security Architect | Establishes security controls, identity management, and compliance | Define security baselines, implement zero trust principles, configure RBAC policies, manage privileged access | Provides pre-configured RBAC assignments, managed identities, Key Vault integration, and security baseline configurations aligned with Azure Security Benchmark |
+| 🔄 DevOps / SRE Lead | Manages CI/CD pipelines, automation, and operational excellence | Implement Infrastructure as Code, establish deployment pipelines, configure monitoring and alerting, optimize resource utilization | Delivers fully automated deployment with Azure Developer CLI, modular Bicep templates, and integrated diagnostic settings for observability |
+| 💻 Developer | Builds applications and requires consistent development environments | Write code, test applications, collaborate with team members, maintain development tools and dependencies | Provides self-service access to standardized, pre-configured Dev Box environments with customizable images and immediate availability |
+| ⚙️ System Engineer | Manages infrastructure operations, monitoring, and incident response | Deploy and maintain infrastructure, configure monitoring, troubleshoot issues, perform capacity planning | Offers repeatable deployment automation, centralized monitoring, and diagnostic logging for efficient operations and troubleshooting |
+| 📋 Project Manager | Oversees project delivery, timeline, and resource allocation | Define project scope, manage dependencies, track progress, coordinate cross-functional teams, report to stakeholders | Accelerates project delivery with rapid environment provisioning, reduces infrastructure setup time from weeks to hours, and provides clear deployment documentation |
 
 ## Architecture
 
@@ -122,461 +129,584 @@ DevExp-DevBox/
 
 ```mermaid
 graph TB
-    subgraph "Enterprise Landing Zone"
-        subgraph "Identity"
-            AAD[Azure Active Directory]
-            RBAC[RBAC Assignments]
+    subgraph "Azure Subscription"
+        subgraph "Security Landing Zone"
+            KV[("🔐 Azure Key Vault<br/>Secrets Management")]
+            style KV fill:#0078D4,stroke:#004578,color:#fff
         end
         
-        subgraph "Management & Governance"
-            Policy[Azure Policy]
-            Monitor[Azure Monitor]
-            Log[Log Analytics]
-            Gov[Management Groups]
+        subgraph "Management Landing Zone"
+            LA[("📊 Log Analytics<br/>Centralized Monitoring")]
+            style LA fill:#0078D4,stroke:#004578,color:#fff
         end
         
-        subgraph "Connectivity"
-            VNet[Virtual Network]
-            NSG[Network Security Groups]
-            Route[Route Tables]
-            DNS[Private DNS Zones]
+        subgraph "Connectivity Landing Zone"
+            VNET[("🌐 Virtual Network<br/>Network Isolation")]
+            SUBNET["📡 Subnets<br/>Network Segmentation"]
+            NC["🔗 Network Connection<br/>DevCenter Attachment"]
+            
+            VNET --> SUBNET
+            SUBNET --> NC
+            style VNET fill:#00BCF2,stroke:#0078D4,color:#fff
+            style SUBNET fill:#00BCF2,stroke:#0078D4,color:#fff
+            style NC fill:#00BCF2,stroke:#0078D4,color:#fff
         end
         
-        subgraph "Security"
-            KV[Key Vault]
-            Defender[Microsoft Defender]
-            Sentinel[Azure Sentinel]
+        subgraph "Workload Landing Zone"
+            DC[("⚡ DevCenter<br/>Central Management")]
+            
+            subgraph "Project 1"
+                P1["📁 DevCenter Project"]
+                CAT1["📚 Catalogs<br/>Images & Definitions"]
+                POOL1["💻 Dev Box Pools<br/>Compute Resources"]
+                ENV1["🌍 Environment Types<br/>Dev/Test/Prod"]
+                
+                P1 --> CAT1
+                P1 --> POOL1
+                P1 --> ENV1
+                style P1 fill:#50E6FF,stroke:#0078D4,color:#000
+                style CAT1 fill:#50E6FF,stroke:#0078D4,color:#000
+                style POOL1 fill:#50E6FF,stroke:#0078D4,color:#000
+                style ENV1 fill:#50E6FF,stroke:#0078D4,color:#000
+            end
+            
+            subgraph "Project N"
+                PN["📁 DevCenter Project"]
+                CATN["📚 Catalogs<br/>Images & Definitions"]
+                POOLN["💻 Dev Box Pools<br/>Compute Resources"]
+                ENVN["🌍 Environment Types<br/>Dev/Test/Prod"]
+                
+                PN --> CATN
+                PN --> POOLN
+                PN --> ENVN
+                style PN fill:#50E6FF,stroke:#0078D4,color:#000
+                style CATN fill:#50E6FF,stroke:#0078D4,color:#000
+                style POOLN fill:#50E6FF,stroke:#0078D4,color:#000
+                style ENVN fill:#50E6FF,stroke:#0078D4,color:#000
+            end
+            
+            DC --> P1
+            DC --> PN
+            style DC fill:#7FBA00,stroke:#5E9624,color:#fff
         end
         
-        subgraph "Dev Box Workload"
-            DC[Dev Center]
-            Proj[Dev Box Projects]
-            Pool[Dev Box Pools]
-            NC[Network Connections]
-            Def[Dev Box Definitions]
+        subgraph "Identity & Access"
+            AAD[("👥 Azure Active Directory<br/>Authentication")]
+            RBAC["🔑 RBAC Policies<br/>Authorization"]
+            MI["🎭 Managed Identities<br/>Service Authentication"]
+            
+            AAD --> RBAC
+            AAD --> MI
+            style AAD fill:#00A4EF,stroke:#0078D4,color:#fff
+            style RBAC fill:#00A4EF,stroke:#0078D4,color:#fff
+            style MI fill:#00A4EF,stroke:#0078D4,color:#fff
+        end
+        
+        subgraph "Source Control"
+            GH["🐙 GitHub<br/>Code Repository"]
+            ADO["🔷 Azure DevOps<br/>Code Repository"]
+            style GH fill:#E1DFDD,stroke:#000,color:#000
+            style ADO fill:#E1DFDD,stroke:#000,color:#000
         end
     end
     
-    subgraph "Developers"
-        Dev1[Developer 1]
-        Dev2[Developer 2]
-        DevN[Developer N]
-    end
+    %% Connections
+    DC -.->|Authenticates| AAD
+    DC -.->|Reads Secrets| KV
+    DC -.->|Sends Diagnostics| LA
+    DC -.->|Attaches Network| NC
     
-    subgraph "On-Premises/Hybrid"
-        OnPrem[On-Premises Network]
-        VPN[VPN Gateway]
-    end
+    P1 -.->|Applies Roles| RBAC
+    P1 -.->|Uses Identity| MI
+    P1 -.->|Syncs Catalogs| GH
+    P1 -.->|Syncs Catalogs| ADO
     
-    AAD -->|Authentication| DC
-    RBAC -->|Authorization| DC
-    Policy -->|Enforce Standards| DC
-    Monitor -->|Telemetry| DC
-    Log -->|Logs & Metrics| DC
+    PN -.->|Applies Roles| RBAC
+    PN -.->|Uses Identity| MI
+    PN -.->|Syncs Catalogs| GH
+    PN -.->|Syncs Catalogs| ADO
     
-    VNet -->|Connectivity| NC
-    NSG -->|Traffic Control| NC
-    Route -->|Routing| NC
-    DNS -->|Name Resolution| NC
+    POOL1 -.->|Uses Network| NC
+    POOLN -.->|Uses Network| NC
     
-    KV -->|Secrets| DC
-    Defender -->|Threat Protection| DC
-    Sentinel -->|Security Monitoring| DC
+    KV -.->|Sends Logs| LA
+    VNET -.->|Sends Logs| LA
     
-    DC -->|Manages| Proj
-    Proj -->|Contains| Pool
-    Pool -->|Uses| Def
-    Pool -->|Connected via| NC
-    
-    Dev1 -->|Access| Pool
-    Dev2 -->|Access| Pool
-    DevN -->|Access| Pool
-    
-    VPN -->|Hybrid Connectivity| VNet
-    OnPrem -->|Secure Connection| VPN
-    
-    style DC fill:#0078d4,stroke:#333,stroke-width:2px,color:#fff
-    style Proj fill:#0078d4,stroke:#333,stroke-width:2px,color:#fff
-    style Pool fill:#0078d4,stroke:#333,stroke-width:2px,color:#fff
-    style AAD fill:#00bcf2,stroke:#333,stroke-width:2px,color:#fff
-    style KV fill:#f25022,stroke:#333,stroke-width:2px,color:#fff
-    style VNet fill:#7fba00,stroke:#333,stroke-width:2px,color:#fff
+    classDef securityStyle fill:#0078D4,stroke:#004578,color:#fff
+    classDef managementStyle fill:#0078D4,stroke:#004578,color:#fff
+    classDef networkStyle fill:#00BCF2,stroke:#0078D4,color:#fff
+    classDef workloadStyle fill:#7FBA00,stroke:#5E9624,color:#fff
+    classDef identityStyle fill:#00A4EF,stroke:#0078D4,color:#fff
 ```
 
 ### Dataflow Diagram
 
 ```mermaid
 flowchart TD
-    Start([Developer Requests Dev Box]) --> Auth{Authenticate via Azure AD}
-    Auth -->|Success| CheckRBAC{Check RBAC Permissions}
-    Auth -->|Failure| Denied([Access Denied])
+    START([👤 Administrator<br/>Starts Deployment])
+    style START fill:#7FBA00,stroke:#5E9624,color:#fff
     
-    CheckRBAC -->|Authorized| CheckPolicy{Azure Policy Evaluation}
-    CheckRBAC -->|Unauthorized| Denied
+    AUTH{🔐 Authentication<br/>Method}
+    style AUTH fill:#FF6B00,stroke:#D35400,color:#fff
     
-    CheckPolicy -->|Compliant| SelectProject[Select Dev Box Project]
-    CheckPolicy -->|Non-Compliant| Denied
+    GH_AUTH[🐙 GitHub CLI<br/>Authentication]
+    ADO_AUTH[🔷 Azure DevOps<br/>PAT Authentication]
+    style GH_AUTH fill:#E1DFDD,stroke:#000,color:#000
+    style ADO_AUTH fill:#E1DFDD,stroke:#000,color:#000
     
-    SelectProject --> SelectPool[Choose Dev Box Pool]
-    SelectPool --> GetDef[Retrieve Dev Box Definition]
+    AZ_LOGIN[☁️ Azure CLI<br/>Subscription Login]
+    style AZ_LOGIN fill:#0078D4,stroke:#004578,color:#fff
     
-    GetDef --> ProvisionVM[Provision Virtual Machine]
-    ProvisionVM --> ConfigNetwork[Configure Network Connection]
+    AZD_INIT[⚡ Azure Developer CLI<br/>Environment Initialization]
+    style AZD_INIT fill:#0078D4,stroke:#004578,color:#fff
     
-    ConfigNetwork --> ApplyNSG[Apply Network Security Groups]
-    ApplyNSG --> ConnectVNet[Connect to Virtual Network]
+    KV_STORE[🔐 Store Credentials<br/>in Key Vault]
+    style KV_STORE fill:#0078D4,stroke:#004578,color:#fff
     
-    ConnectVNet --> GetSecrets{Retrieve Secrets from Key Vault}
-    GetSecrets --> ConfigVM[Configure VM Settings]
+    VALIDATE{✅ Validate<br/>Prerequisites}
+    style VALIDATE fill:#FF6B00,stroke:#D35400,color:#fff
     
-    ConfigVM --> InstallSoftware[Install Development Tools]
-    InstallSoftware --> ApplyCompliance[Apply Compliance Policies]
+    DEPLOY[🚀 Deploy Infrastructure<br/>azd provision]
+    style DEPLOY fill:#7FBA00,stroke:#5E9624,color:#fff
     
-    ApplyCompliance --> EnableMonitor[Enable Monitoring & Diagnostics]
-    EnableMonitor --> SendLogs[Send Logs to Log Analytics]
+    subgraph "Resource Deployment Flow"
+        direction TB
+        RG_DEPLOY[📦 Create Resource Groups<br/>Security, Management, Connectivity, Workload]
+        style RG_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
+        
+        LA_DEPLOY[📊 Deploy Log Analytics<br/>Centralized Monitoring]
+        style LA_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
+        
+        KV_DEPLOY[🔐 Deploy Key Vault<br/>Store Secrets]
+        style KV_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
+        
+        VNET_DEPLOY[🌐 Deploy Virtual Network<br/>Network Isolation]
+        style VNET_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
+        
+        NC_DEPLOY[🔗 Create Network Connection<br/>DevCenter Attachment]
+        style NC_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
+        
+        DC_DEPLOY[⚡ Deploy DevCenter<br/>Central Management]
+        style DC_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
+        
+        CAT_DEPLOY[📚 Configure Catalogs<br/>Sync from Source Control]
+        style CAT_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
+        
+        PROJ_DEPLOY[📁 Create Projects<br/>Isolated Workspaces]
+        style PROJ_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
+        
+        RBAC_DEPLOY[🔑 Configure RBAC<br/>Assign Roles & Permissions]
+        style RBAC_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
+        
+        POOL_DEPLOY[💻 Create Dev Box Pools<br/>Provision Compute]
+        style POOL_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
+        
+        RG_DEPLOY --> LA_DEPLOY
+        RG_DEPLOY --> KV_DEPLOY
+        RG_DEPLOY --> VNET_DEPLOY
+        VNET_DEPLOY --> NC_DEPLOY
+        LA_DEPLOY --> DC_DEPLOY
+        KV_DEPLOY --> DC_DEPLOY
+        NC_DEPLOY --> DC_DEPLOY
+        DC_DEPLOY --> CAT_DEPLOY
+        DC_DEPLOY --> PROJ_DEPLOY
+        PROJ_DEPLOY --> RBAC_DEPLOY
+        PROJ_DEPLOY --> POOL_DEPLOY
+    end
     
-    SendLogs --> Ready{Dev Box Ready?}
-    Ready -->|Yes| NotifyUser[Notify Developer]
-    Ready -->|No| Troubleshoot[Troubleshoot Issues]
+    MONITOR[📈 Configure Diagnostics<br/>Enable Logging]
+    style MONITOR fill:#7FBA00,stroke:#5E9624,color:#fff
     
-    Troubleshoot --> CheckDiag[Check Diagnostics]
-    CheckDiag --> ResolveIssue[Resolve Issue]
-    ResolveIssue --> Ready
+    SUCCESS([✅ Deployment Complete<br/>Environment Ready])
+    style SUCCESS fill:#7FBA00,stroke:#5E9624,color:#fff
     
-    NotifyUser --> DevAccess[Developer Accesses Dev Box]
-    DevAccess --> WorkSession[Development Work Session]
+    ERROR([❌ Deployment Failed<br/>Review Logs])
+    style ERROR fill:#D13438,stroke:#A1260D,color:#fff
     
-    WorkSession --> Telemetry[Collect Usage Telemetry]
-    Telemetry --> Monitor[Azure Monitor]
-    Monitor --> Alerts{Anomaly Detected?}
-    
-    Alerts -->|Yes| SecurityAlert[Trigger Security Alert]
-    Alerts -->|No| ContinueWork[Continue Development]
-    
-    SecurityAlert --> Investigate[Security Investigation]
-    Investigate --> Remediate[Remediate if Needed]
-    Remediate --> ContinueWork
-    
-    ContinueWork --> SessionEnd{Session Complete?}
-    SessionEnd -->|No| WorkSession
-    SessionEnd -->|Yes| Shutdown[Shutdown/Deallocate Dev Box]
-    
-    Shutdown --> AuditLog[Log Audit Trail]
-    AuditLog --> End([End])
-    
-    style Start fill:#00bcf2,stroke:#333,stroke-width:2px,color:#fff
-    style End fill:#00bcf2,stroke:#333,stroke-width:2px,color:#fff
-    style Denied fill:#f25022,stroke:#333,stroke-width:2px,color:#fff
-    style DevAccess fill:#7fba00,stroke:#333,stroke-width:2px,color:#fff
-    style SecurityAlert fill:#ffb900,stroke:#333,stroke-width:2px,color:#000
+    %% Flow connections
+    START --> AUTH
+    AUTH -->|GitHub| GH_AUTH
+    AUTH -->|Azure DevOps| ADO_AUTH
+    GH_AUTH --> AZ_LOGIN
+    ADO_AUTH --> AZ_LOGIN
+    AZ_LOGIN --> AZD_INIT
+    AZD_INIT --> KV_STORE
+    KV_STORE --> VALIDATE
+    VALIDATE -->|Valid| DEPLOY
+    VALIDATE -->|Invalid| ERROR
+    DEPLOY --> RG_DEPLOY
+    POOL_DEPLOY --> MONITOR
+    MONITOR --> SUCCESS
+    DEPLOY -.->|Failure| ERROR
 ```
 
 ## Installation & Configuration
 
 ### Prerequisites
 
-Before deploying the Microsoft Dev Box Landing Zone Accelerator, ensure you have the following prerequisites:
+Before deploying the Dev Box Landing Zone Accelerator, ensure you have the following prerequisites installed and configured:
 
-#### Azure Subscription
-- An active Azure subscription with sufficient permissions
-- Subscription must have available quota for compute resources (vCPUs)
+#### Required Software
 
-#### Required Tools
+- **Azure Subscription**
+  - Active Azure subscription with appropriate permissions
+  - Subscription-level access for resource group creation
+  - Sufficient quota for Azure DevCenter and compute resources
 
-- **Azure CLI** (version 2.50.0 or later)
-  - Install: https://learn.microsoft.com/cli/azure/install-azure-cli
-  - Verify: `az --version`
+- **Azure CLI**
+  - Version 2.50.0 or later
+  - Install: [Azure CLI Installation Guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
+  - Verify installation: `az --version`
 
-- **Azure Developer CLI** (version 1.5.0 or later)
-  - Install: https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd
-  - Verify: `azd version`
+- **Azure Developer CLI (azd)**
+  - Version 1.5.0 or later
+  - Install: [Azure Developer CLI Installation](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
+  - Verify installation: `azd version`
 
-- **Visual Studio Code** (latest version)
-  - Install: https://code.visualstudio.com/download
+- **Visual Studio Code**
+  - Latest stable version
+  - Download: [Visual Studio Code](https://code.visualstudio.com/)
 
-#### Required VS Code Extensions
+#### Visual Studio Code Extensions
 
-- **Azure Tools Extension Pack**
-  - Install: https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-node-azure-pack
-  - Includes: Azure Account, Azure Resources, Azure CLI Tools
+Install the following extensions in Visual Studio Code:
 
-- **Bicep Extension**
-  - Install: https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-bicep
-  - Provides: Bicep language support, IntelliSense, validation
+- **Azure Tools**
+  - Extension ID: `ms-vscode.vscode-node-azure-pack`
+  - Provides comprehensive Azure resource management capabilities
+  - [Azure Tools Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-node-azure-pack)
+
+- **Bicep**
+  - Extension ID: `ms-azuretools.vscode-bicep`
+  - Enables Bicep language support, IntelliSense, and validation
+  - [Bicep Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-bicep)
+
+#### Source Control Prerequisites
+
+Depending on your chosen source control platform, you'll need:
+
+**For GitHub:**
+- GitHub CLI (gh) installed and authenticated
+- Personal Access Token (PAT) with `repo` scope
+- Install: [GitHub CLI Installation](https://cli.github.com/)
+
+**For Azure DevOps:**
+- Azure DevOps organization and project configured
+- Personal Access Token (PAT) with Code (Read) permissions
+- Azure DevOps CLI extension installed: `az extension add --name azure-devops`
 
 ### Azure RBAC Roles
 
-The following Azure RBAC roles are required for deploying and managing this solution. Ensure appropriate role assignments are in place before deployment:
+The following Azure built-in roles are required or assigned during deployment:
 
 | **Name** | **Description** | **Documentation Link** |
-|----------|----------------|------------------------|
-| Contributor | Grants full access to manage all resources, but does not allow you to assign roles in Azure RBAC, manage assignments in Azure Blueprints, or share image galleries | [Contributor Role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#contributor) |
-| User Access Administrator | Lets you manage user access to Azure resources, including the ability to assign roles | [User Access Administrator Role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#user-access-administrator) |
-| Dev Box User | Provides access to create, manage, and delete their own dev boxes in a project | [Dev Box User Role](https://learn.microsoft.com/azure/dev-box/how-to-dev-box-user) |
-| DevCenter Project Admin | Grants administrative permissions to manage dev center projects, pools, and configurations | [DevCenter Project Admin Role](https://learn.microsoft.com/azure/dev-box/how-to-project-admin) |
-| Deployment Environments Reader | Provides read-only access to deployment environments within a project | [Deployment Environments Reader Role](https://learn.microsoft.com/azure/deployment-environments/how-to-configure-deployment-environments-user) |
-| Deployment Environments User | Enables users to create and manage deployment environments in a project | [Deployment Environments User Role](https://learn.microsoft.com/azure/deployment-environments/how-to-configure-deployment-environments-user) |
-| Key Vault Secrets User | Read secret contents for applications and services to retrieve secrets from Key Vault | [Key Vault Secrets User Role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#key-vault-secrets-user) |
-| Key Vault Secrets Officer | Perform any action on the secrets of a key vault, except manage permissions | [Key Vault Secrets Officer Role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#key-vault-secrets-officer) |
+|----------|----------------|----------------------|
+| Contributor | Grants full access to manage all resources, but does not allow role assignment or management | [Contributor Role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor) |
+| User Access Administrator | Lets you manage user access to Azure resources, including role assignments | [User Access Administrator](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#user-access-administrator) |
+| DevCenter Dev Box User | Provides access to create and manage Dev Boxes in DevCenter projects | [DevCenter Dev Box User](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#devcenter-dev-box-user) |
+| DevCenter Project Admin | Grants administrative access to DevCenter projects, including catalog and pool management | [DevCenter Project Admin](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#devcenter-project-admin) |
+| Deployment Environments Reader | Allows reading deployment environment definitions and properties | [Deployment Environments Reader](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#deployment-environments-reader) |
+| Deployment Environments User | Enables creation and management of deployment environments from catalog definitions | [Deployment Environments User](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#deployment-environments-user) |
+| Key Vault Secrets User | Read secret contents from Azure Key Vault using RBAC-based access | [Key Vault Secrets User](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#key-vault-secrets-user) |
+| Key Vault Secrets Officer | Perform any action on the secrets of a key vault, including create, read, update, and delete | [Key Vault Secrets Officer](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#key-vault-secrets-officer) |
+
+**Note:** The deployment process automatically configures role assignments for DevCenter managed identities, project identities, and user groups as defined in your configuration files.
 
 ### Deployment Steps
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/Evilazaro/DevExp-DevBox.git
-   cd DevExp-DevBox
-   ```
+#### 1. Clone the Repository
 
-2. **Authenticate to Azure**
-   ```bash
-   az login
-   azd auth login
-   ```
-
-3. **Configure Parameters**
-   
-   Edit main.parameters.json to customize your deployment:
-   ```json
-   {
-     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
-     "contentVersion": "1.0.0.0",
-     "parameters": {
-       "environmentName": {
-         "value": "dev"
-       },
-       "location": {
-         "value": "eastus"
-       }
-     }
-   }
-   ```
-
-4. **Run Setup Script**
-   
-   **Windows (PowerShell):**
-   ```powershell
-   .\setUp.ps1
-   ```
-   
-   **Linux/macOS (Bash):**
-   ```bash
-   chmod +x setUp.sh
-   ./setUp.sh
-   ```
-
-5. **Deploy with Azure Developer CLI**
-   ```bash
-   azd up
-   ```
-   
-   This command will:
-   - Provision all Azure resources
-   - Configure networking and security
-   - Set up Dev Centers and projects
-   - Apply governance policies
-
-6. **Verify Deployment**
-   ```bash
-   azd show
-   az devbox dev-center list --resource-group <your-rg-name>
-   ```
-
-### Post-Deployment Configuration
-
-1. **Configure Dev Box Definitions**
-   - Navigate to the Azure Portal
-   - Open your Dev Center resource
-   - Configure custom images or use marketplace images
-   - Define compute and storage configurations
-
-2. **Create Dev Box Pools**
-   - Define pools for different teams or projects
-   - Configure auto-stop schedules
-   - Set network connections
-
-3. **Assign User Permissions**
-   - Assign `Dev Box User` role to developers
-   - Assign `DevCenter Project Admin` role to administrators
-   - Configure Azure AD group-based access
-
-4. **Configure Monitoring**
-   - Review Azure Monitor dashboards
-   - Configure alert rules
-   - Set up Log Analytics queries
-
-### Cleanup
-
-To remove all deployed resources:
-
-**Windows (PowerShell):**
-```powershell
-.\cleanSetUp.ps1
-```
-
-**Azure Developer CLI:**
 ```bash
-azd down
+git clone https://github.com/Evilazaro/DevExp-DevBox.git
+cd DevExp-DevBox
 ```
+
+#### 2. Authenticate to Azure
+
+```bash
+# Login to Azure
+az login
+
+# Set your subscription (if you have multiple subscriptions)
+az account set --subscription "YOUR_SUBSCRIPTION_ID"
+
+# Verify your current subscription
+az account show
+```
+
+#### 3. Configure Environment
+
+**For Windows (PowerShell):**
+
+```powershell
+# Run the setup script
+.\setUp.ps1 -EnvName "dev" -SourceControl "github"
+
+# Or for Azure DevOps
+.\setUp.ps1 -EnvName "dev" -SourceControl "adogit"
+```
+
+**For Linux/macOS (Bash):**
+
+```bash
+# Make the script executable
+chmod +x setUp.sh
+
+# Run the setup script
+./setUp.sh -e "dev" -s "github"
+
+# Or for Azure DevOps
+./setUp.sh -e "dev" -s "adogit"
+```
+
+#### 4. Provide Authentication Credentials
+
+When prompted, provide your source control credentials:
+
+**For GitHub:**
+- The script will use GitHub CLI to authenticate
+- Ensure you have a valid GitHub session or login when prompted
+- Your Personal Access Token (PAT) will be securely stored in Azure Key Vault
+
+**For Azure DevOps:**
+- Enter your Personal Access Token when prompted
+- Configure your organization and project defaults
+- The PAT will be securely stored in Azure Key Vault
+
+#### 5. Monitor Deployment
+
+The deployment process will:
+1. Initialize the Azure Developer CLI environment
+2. Store credentials securely in Key Vault
+3. Provision all infrastructure resources
+4. Configure RBAC assignments
+5. Set up monitoring and diagnostics
+
+Monitor the deployment output for:
+- Resource creation progress
+- Any warnings or errors
+- Deployment completion status
+
+#### 6. Verify Deployment
+
+After successful deployment:
+
+```bash
+# View environment configuration
+azd env get-values
+
+# List deployed resources
+az resource list --resource-group <workload-resource-group> --output table
+
+# Check DevCenter status
+az devcenter admin show --name <devcenter-name> --resource-group <workload-resource-group>
+```
+
+#### 7. Access Your Dev Box Environment
+
+1. Navigate to the [Azure Portal](https://portal.azure.com)
+2. Search for "DevCenter" or navigate to your deployed DevCenter resource
+3. Select your project
+4. Create or access Dev Boxes from the available pools
+
+### Configuration Customization
+
+To customize your deployment, modify the YAML configuration files in settings:
+
+- **Resource Organization**: azureResources.yaml
+- **Security Settings**: security.yaml
+- **DevCenter Configuration**: devcenter.yaml
+
+### Troubleshooting
+
+**Authentication Issues:**
+- Ensure Azure CLI is logged in: `az account show`
+- Verify source control authentication is valid
+- Check Key Vault access permissions
+
+**Quota Limitations:**
+- Verify Azure subscription quotas for compute resources
+- Request quota increases if needed
+- Check regional availability for Azure DevCenter
+
+**Deployment Failures:**
+- Review deployment logs in Azure Portal under Deployments
+- Check diagnostic settings in Log Analytics workspace
+- Verify RBAC permissions at subscription and resource group levels
+
+**Network Connectivity:**
+- Ensure virtual network address spaces don't conflict with existing networks
+- Verify network connection status in DevCenter
+- Check subnet delegation for Dev Box service
 
 ## Usage Examples
 
-### Example 1: Provision a Dev Box for a Developer
-
-A developer can provision their own Dev Box through the Azure Portal or Dev Box Developer Portal:
-
-1. Navigate to the [Dev Box Developer Portal](https://devbox.microsoft.com)
-2. Sign in with your Azure AD credentials
-3. Select your project
-4. Click **New Dev Box**
-5. Choose a Dev Box pool and provide a name
-6. Click **Create**
-
-The Dev Box will be provisioned within minutes and accessible via Remote Desktop.
-
-### Example 2: Deploy Custom Dev Box Definition
-
-Platform administrators can create custom Dev Box definitions with specific tools and configurations:
+### Example 1: Deploy Dev Box Environment for Development Team
 
 ```bash
-# Create a custom image from an existing Dev Box
-az devbox admin image create \
-  --dev-center-name myDevCenter \
-  --resource-group myResourceGroup \
-  --name CustomDevImage \
-  --source-dev-box-id /subscriptions/.../devboxes/myDevBox
+# Windows PowerShell
+.\setUp.ps1 -EnvName "dev-team-east" -SourceControl "github"
 
-# Create a Dev Box definition using the custom image
-az devbox admin devbox-definition create \
-  --dev-center-name myDevCenter \
-  --resource-group myResourceGroup \
-  --name CustomDefinition \
-  --image-reference id="/subscriptions/.../images/CustomDevImage" \
-  --sku-name general_a_8c32gb_v1 \
-  --storage-type ssd_256gb
+# Linux/macOS
+./setUp.sh -e "dev-team-east" -s "github"
 ```
 
-### Example 3: Configure Network Connection for On-Premises Access
+This command:
+- Creates a new Azure Developer CLI environment named "dev-team-east"
+- Configures GitHub as the source control platform for catalogs
+- Provisions all landing zone resources in the default region (eastus2)
+- Sets up a complete DevCenter instance with projects and pools
 
-Enable Dev Box connectivity to on-premises resources:
+**Expected Outcome:**
+- DevCenter deployed with managed identity
+- Log Analytics workspace for centralized monitoring
+- Key Vault storing GitHub credentials
+- Virtual network with proper segmentation
+- Dev Box pools ready for developer provisioning
+
+### Example 2: Deploy Multi-Project Environment with Azure DevOps
+
+```powershell
+# Configure Azure DevOps defaults first
+az devops configure --defaults organization=https://dev.azure.com/your-org project=YourProject
+
+# Run deployment
+.\setUp.ps1 -EnvName "multi-project-prod" -SourceControl "adogit"
+```
+
+This deployment:
+- Creates separate DevCenter projects as defined in devcenter.yaml
+- Syncs catalogs from Azure DevOps Git repositories
+- Configures project-specific RBAC assignments
+- Establishes network connections for each project
+
+**Expected Outcome:**
+- Multiple isolated projects within single DevCenter
+- Independent catalogs per project
+- Project-specific role assignments
+- Separate Dev Box pools with different SKUs
+
+### Example 3: Deploy with Custom Configuration
 
 ```bash
-# Create a network connection
-az devbox admin network-connection create \
-  --name OnPremConnection \
-  --resource-group myResourceGroup \
-  --subnet-id /subscriptions/.../subnets/DevBoxSubnet \
-  --domain-join-type AzureADJoin \
-  --networking-resource-group-name NetworkRG
+# 1. Customize settings
+code infra/settings/workload/devcenter.yaml
 
-# Attach network connection to Dev Center
-az devbox admin attached-network create \
-  --dev-center-name myDevCenter \
-  --resource-group myResourceGroup \
-  --name OnPremConnection \
-  --network-connection-id /subscriptions/.../networkConnections/OnPremConnection
+# 2. Modify network configuration
+code infra/settings/resourceOrganization/azureResources.yaml
+
+# 3. Deploy with custom settings
+./setUp.sh -e "custom-config" -s "github"
 ```
 
-### Example 4: Implement Auto-Stop Policy
+**Customization Example:**
 
-Configure automatic shutdown schedules to optimize costs:
-
-```bash
-# Create a pool schedule
-az devbox admin pool create \
-  --dev-center-name myDevCenter \
-  --project-name myProject \
-  --name DevelopmentPool \
-  --resource-group myResourceGroup \
-  --devbox-definition-name StandardDefinition \
-  --network-connection-name OnPremConnection \
-  --license-type Windows_Client
-
-# Configure auto-stop schedule
-az devbox admin schedule create \
-  --pool-name DevelopmentPool \
-  --project-name myProject \
-  --resource-group myResourceGroup \
-  --name AutoStop \
-  --time "18:00" \
-  --time-zone "Pacific Standard Time" \
-  --state Enabled
-```
-
-### Example 5: Monitor Dev Box Usage and Performance
-
-Query Log Analytics for Dev Box usage insights:
-
-```kusto
-// Dev Box creation events
-DevBoxOperations
-| where OperationName == "DevBoxCreated"
-| summarize Count=count() by bin(TimeGenerated, 1d), ProjectName
-| render timechart
-
-// Average Dev Box provisioning time
-DevBoxOperations
-| where OperationName in ("DevBoxCreationStarted", "DevBoxCreated")
-| extend ProvisioningTime = datetime_diff('minute', TimeGenerated, PrevTimeGenerated)
-| summarize AvgProvisioningTime=avg(ProvisioningTime) by ProjectName
-
-// Dev Box usage by user
-DevBoxOperations
-| where OperationName == "DevBoxConnected"
-| summarize ConnectionCount=count() by UserPrincipalName, DevBoxName
-| order by ConnectionCount desc
-```
-
-### Example 6: Integrate with CI/CD Pipeline
-
-Deploy infrastructure changes automatically using GitHub Actions:
+Edit devcenter.yaml:
 
 ```yaml
-name: Deploy Dev Box Infrastructure
-
-on:
-  push:
-    branches: [main]
-    paths:
-      - 'infra/**'
-      - 'src/**'
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
-      - name: Install Azure Developer CLI
-        run: curl -fsSL https://aka.ms/install-azd.sh | bash
-      
-      - name: Deploy Infrastructure
-        run: azd up --no-prompt
-        env:
-          AZURE_ENV_NAME: ${{ secrets.AZURE_ENV_NAME }}
-          AZURE_LOCATION: ${{ secrets.AZURE_LOCATION }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+projects:
+  - name: "frontend-project"
+    description: "Frontend Development Environment"
+    pools:
+      - name: "frontend-pool"
+        vmSku: "general_a_8c32gb_v1"
+        imageDefinitionName: "DevBoxWindows11"
+    catalogs:
+      - name: "frontend-catalog"
+        type: "imageDefinition"
+        sourceControl: "gitHub"
+        visibility: "private"
+        uri: "https://github.com/your-org/frontend-images"
+        branch: "main"
+        path: "/images"
 ```
 
----
+**Expected Outcome:**
+- Custom project with specialized configuration
+- Tailored VM SKUs for specific workload requirements
+- Private catalog synced from custom repository
+- Optimized for frontend development workflows
 
-## Additional Resources
+### Example 4: Query Deployed Resources
 
-- [Microsoft Dev Box Documentation](https://learn.microsoft.com/azure/dev-box/)
-- [Azure Cloud Adoption Framework](https://learn.microsoft.com/azure/cloud-adoption-framework/)
-- [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/)
-- [Microsoft Dev Box Best Practices](https://learn.microsoft.com/training/modules/explore-microsoft-dev-box-deployment-guidelines-best-practices/)
+```bash
+# Get DevCenter name
+azd env get-values | grep AZURE_DEV_CENTER_NAME
 
-## Support
+# List all projects
+az devcenter admin project list --dev-center-name <devcenter-name> --resource-group <workload-rg> --output table
 
-For issues, questions, or contributions, please refer to:
-- [Issues](https://github.com/Evilazaro/DevExp-DevBox/issues)
-- [Discussions](https://github.com/Evilazaro/DevExp-DevBox/discussions)
+# Check Dev Box pool status
+az devcenter admin pool list --project-name <project-name> --resource-group <workload-rg> --output table
 
----
+# View catalog sync status
+az devcenter admin catalog list --dev-center-name <devcenter-name> --resource-group <workload-rg> --output table
 
-**Last Updated:** 2024
+# Check network connection status
+az devcenter admin network-connection list-health-detail --network-connection-name <network-connection-name> --resource-group <connectivity-rg>
+```
+
+### Example 5: Access Log Analytics Insights
+
+```bash
+# Get Log Analytics workspace details
+WORKSPACE_ID=$(azd env get-values | grep AZURE_LOG_ANALYTICS_WORKSPACE_ID | cut -d'=' -f2)
+
+# Query DevCenter diagnostics
+az monitor log-analytics query \
+  --workspace $WORKSPACE_ID \
+  --analytics-query "AzureDiagnostics | where ResourceProvider == 'MICROSOFT.DEVCENTER' | take 100" \
+  --output table
+
+# Check Key Vault access logs
+az monitor log-analytics query \
+  --workspace $WORKSPACE_ID \
+  --analytics-query "AzureDiagnostics | where ResourceProvider == 'MICROSOFT.KEYVAULT' | where OperationName == 'SecretGet' | take 50" \
+  --output table
+```
+
+### Example 6: Grant User Access to Dev Box
+
+```bash
+# Assign Dev Box User role to a user
+az role assignment create \
+  --assignee "user@contoso.com" \
+  --role "DevCenter Dev Box User" \
+  --scope "/subscriptions/<subscription-id>/resourceGroups/<workload-rg>/providers/Microsoft.DevCenter/projects/<project-name>"
+
+# Verify role assignment
+az role assignment list \
+  --assignee "user@contoso.com" \
+  --scope "/subscriptions/<subscription-id>/resourceGroups/<workload-rg>/providers/Microsoft.DevCenter/projects/<project-name>" \
+  --output table
+```
+
+### Example 7: Clean Up Resources
+
+```powershell
+# Windows PowerShell
+.\cleanSetUp.ps1 -EnvName "dev-team-east" -Location "eastus2"
+
+# This script will:
+# - Delete all deployments
+# - Remove service principals
+# - Delete resource groups
+# - Clean up Azure DevOps/GitHub configurations
+```
+
+**Note:** Always review resources before deletion to prevent accidental data loss.
+
+### Example 8: Update Existing Deployment
+
+```bash
+# Make configuration changes
+code infra/settings/workload/devcenter.yaml
+
+# Re-run provisioning (updates existing resources)
+azd provision -e "dev-team-east"
+
+# Monitor update progress
+azd show -e "dev-team-east"
+```
+
+**Note:** Azure Developer CLI performs incremental updates, modifying only changed resources while preserving existing configurations.
