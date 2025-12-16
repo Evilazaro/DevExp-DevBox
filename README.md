@@ -1,8 +1,6 @@
 # Dev Box Landing Zone Accelerator
 
-## Project Overview
-
-### Problem Statement
+## Overview
 
 Organizations adopting Microsoft Dev Box face significant challenges in establishing secure, scalable, and compliant cloud development environments. Traditional approaches often result in fragmented deployments, inconsistent security configurations, and lengthy setup times that hinder developer productivity. Development teams need standardized, pre-configured environments that align with enterprise governance policies while maintaining flexibility for different project requirements.
 
@@ -10,703 +8,993 @@ The Dev Box Landing Zone Accelerator addresses these challenges by providing an 
 
 Built on Azure Bicep and integrated with Azure Developer CLI (azd), this solution provides a repeatable, testable deployment pattern that scales from individual projects to enterprise-wide implementations. It incorporates identity management, network isolation, monitoring, and security controls out-of-the-box, enabling organizations to focus on building applications rather than managing infrastructure.
 
-### Key Features
+## Architecture Overview
 
-| **Feature** | **Description** | **Implementation Details** |
-|------------|-----------------|---------------------------|
-| Infrastructure as Code | Complete Bicep-based deployment automation | Modular Bicep templates in infra and src directories with parameterized configurations |
-| Multi-Source Control Support | Integration with GitHub and Azure DevOps Git | Configurable catalog sources in catalog.bicep supporting both platforms |
-| Landing Zone Architecture | Enterprise-scale resource organization | Structured deployment across connectivity, identity, management, security, and workload landing zones |
-| Automated RBAC Configuration | Pre-configured role assignments for DevCenter resources | Role assignment modules in identity with support for users, groups, and service principals |
-| Secure Secret Management | Azure Key Vault integration for credentials | Key Vault deployment in security with RBAC-based access control |
-| Cross-Platform Setup | PowerShell and Bash setup scripts | Platform-specific scripts setUp.ps1 and setUp.sh for Windows and Linux/macOS |
-| Network Flexibility | Support for managed and unmanaged virtual networks | Configurable network types in connectivity with Azure AD join support |
-| Centralized Monitoring | Log Analytics workspace integration | Diagnostic settings configured across all resources via logAnalytics.bicep |
-| Project Isolation | Multi-project support with independent configurations | Project-level resources in project with separate catalogs and pools |
-| Catalog Management | Support for environment definitions and custom images | Catalog configuration in catalog.bicep and projectCatalog.bicep |
+The solution implements a multi-layered architecture aligned with TOGAF principles, organized into four primary landing zones: Security, Monitoring, Connectivity, and Workload. Each landing zone serves a distinct purpose in the overall architecture while maintaining clear separation of concerns and enabling independent scaling.
 
-### Solution Components
+### Business Architecture
 
-| **Component** | **Purpose** | **Role in Solution** |
-|---------------|-------------|---------------------|
-| Setup Scripts | Automated environment initialization | setUp.ps1 and setUp.sh orchestrate authentication, environment configuration, and resource provisioning |
-| Infrastructure Templates | Azure resource deployment definitions | Bicep modules in infra define subscription-level deployments with resource group organization |
-| Connectivity Module | Network infrastructure provisioning | connectivity manages virtual networks, subnets, and network connections for Dev Box |
-| Identity Module | Role-based access control configuration | identity implements RBAC assignments for DevCenter, projects, and organizational groups |
-| Management Module | Observability and monitoring setup | management deploys Log Analytics workspaces and diagnostic settings |
-| Security Module | Secrets and credentials management | security provisions Key Vault and manages secret storage with RBAC authorization |
-| Workload Module | DevCenter and project resources | workload deploys DevCenter instances, projects, pools, catalogs, and environment types |
-| Configuration Files | YAML-based settings management | Files in settings define resource configurations for modular deployments |
+#### Purpose
+The business architecture layer defines the organizational capabilities, value streams, and outcomes required for establishing enterprise-scale cloud development environments. It aligns technical implementation with business objectives such as developer productivity, security compliance, cost optimization, and operational efficiency.
 
-### Azure Components
+#### Key Capabilities
+- **Developer Environment Provisioning**: Automated creation and management of standardized development environments
+- **Security and Compliance Management**: Enforcement of enterprise security policies and regulatory compliance
+- **Resource Governance**: Centralized control of resource allocation, cost management, and policy enforcement
+- **Identity and Access Management**: Role-based access control and authentication services
+- **Monitoring and Observability**: Centralized logging, metrics, and operational insights
 
-| **Azure Service** | **Purpose** | **Role in Solution** |
-|-------------------|-------------|---------------------|
-| Azure DevCenter | Centralized management for development environments | Core service deployed via devCenter.bicep providing project management and catalog orchestration |
-| Azure Dev Box | Cloud-based development workstations | Provisioned through DevCenter projects with customizable pools and images defined in projectPool.bicep |
-| Azure Key Vault | Secure storage for secrets and credentials | Deployed in keyVault.bicep with RBAC-based access for storing source control tokens |
-| Azure Virtual Network | Network isolation and connectivity | Configurable managed or unmanaged networks in vnet.bicep with subnet delegation |
-| Azure Log Analytics | Centralized logging and monitoring | Workspace deployment in logAnalytics.bicep collecting diagnostic data from all resources |
-| Azure Active Directory | Identity and access management | Integration for Azure AD join, group-based RBAC, and service principal authentication |
-| Azure Resource Manager | Infrastructure deployment orchestration | Executes Bicep templates for consistent resource provisioning across subscriptions |
-| Azure Monitor | Performance monitoring and alerting | Diagnostic settings configured across DevCenter, Key Vault, and network resources |
-
-### Project Structure
-
-```
-DevExp-DevBox/
-├── infra/                                    # Infrastructure deployment definitions
-│   ├── main.bicep                           # Subscription-level deployment orchestration
-│   ├── main.parameters.json                 # Environment-specific parameters
-│   └── settings/                            # YAML configuration files
-│       ├── resourceOrganization/            # Landing zone structure definitions
-│       ├── security/                        # Key Vault and security settings
-│       └── workload/                        # DevCenter and project configurations
-├── src/                                     # Modular Bicep components
-│   ├── connectivity/                        # Network infrastructure
-│   │   ├── connectivity.bicep              # Network orchestration module
-│   │   ├── networkConnection.bicep         # DevCenter network attachment
-│   │   ├── resourceGroup.bicep             # Network resource group
-│   │   └── vnet.bicep                      # Virtual network deployment
-│   ├── identity/                           # Role-based access control
-│   │   ├── devCenterRoleAssignment.bicep   # Subscription-scoped roles
-│   │   ├── devCenterRoleAssignmentRG.bicep # Resource group-scoped roles
-│   │   ├── keyVaultAccess.bicep            # Key Vault RBAC assignments
-│   │   ├── orgRoleAssignment.bicep         # Organization-level roles
-│   │   ├── projectIdentityRoleAssignment.bicep      # Project identity roles
-│   │   └── projectIdentityRoleAssignmentRG.bicep    # Project RG roles
-│   ├── management/                         # Monitoring and observability
-│   │   └── logAnalytics.bicep              # Log Analytics workspace
-│   ├── security/                           # Secrets management
-│   │   ├── keyVault.bicep                  # Key Vault deployment
-│   │   ├── secret.bicep                    # Secret creation module
-│   │   └── security.bicep                  # Security orchestration
-│   └── workload/                           # DevCenter resources
-│       ├── workload.bicep                  # Workload orchestration
-│       ├── core/                           # DevCenter core resources
-│       │   ├── catalog.bicep               # DevCenter catalogs
-│       │   ├── devCenter.bicep             # DevCenter instance
-│       │   └── environmentType.bicep       # Environment type definitions
-│       └── project/                        # Project-level resources
-│           ├── project.bicep               # DevCenter project
-│           ├── projectCatalog.bicep        # Project-specific catalogs
-│           ├── projectEnvironmentType.bicep # Project environment types
-│           └── projectPool.bicep           # Dev Box pools
-├── .configuration/                         # Setup and configuration utilities
-│   ├── devcenter/                          # DevCenter customization workloads
-│   │   └── workloads/                      # Custom setup scripts
-│   ├── powershell/                         # PowerShell utilities
-│   │   └── cleanUp.ps1                     # Resource cleanup script
-│   └── setup/                              # Deployment setup scripts
-│       └── powershell/                     # Azure setup automation
-│           └── Azure/                      # Azure-specific scripts
-├── setUp.ps1                               # Windows setup script
-├── setUp.sh                                # Linux/macOS setup script
-├── cleanSetUp.ps1                          # Windows cleanup script
-├── azure.yaml                              # Azure Developer CLI configuration
-├── package.json                            # Node.js project metadata
-└── README.md                               # Project documentation
-```
-
-## Target Audience
-
-| **Role Name** | **Role Description** | **Key Responsibilities & Deliverables** | **How this solution helps** |
-|---------------|---------------------|----------------------------------------|---------------------------|
-| 👤 Solution Owner | Business stakeholder accountable for solution success and ROI | Define business requirements, approve architecture decisions, ensure alignment with organizational objectives, manage stakeholder expectations | Provides cost-optimized, scalable Dev Box deployment that reduces time-to-market and accelerates developer onboarding with minimal operational overhead |
-| 🏗️ Solution Architect | Designs end-to-end technical architecture for enterprise solutions | Define architecture standards, create technical blueprints, ensure integration between systems, validate non-functional requirements | Delivers a reference architecture following Azure Well-Architected Framework and Cloud Adoption Framework best practices with proven deployment patterns |
-| ☁️ Cloud Architect | Defines cloud infrastructure strategy and landing zone design | Establish cloud governance, design subscription architecture, define resource organization, ensure compliance with cloud policies | Provides a complete landing zone implementation with proper resource organization, tagging strategy, and Azure Policy integration |
-| 🌐 Network Architect | Designs network topology, connectivity, and security boundaries | Define network segmentation, plan IP addressing, configure DNS and routing, establish hybrid connectivity patterns | Offers flexible network configurations supporting both managed and unmanaged virtual networks with Azure AD join and proper subnet isolation |
-| 📊 Data Architect | Defines data management strategy and data governance | Establish data classification, design data flows, ensure data security and privacy, define retention policies | Implements secure secret management with Azure Key Vault and centralized logging with Log Analytics for audit and compliance |
-| 🔐 Security Architect | Establishes security controls, identity management, and compliance | Define security baselines, implement zero trust principles, configure RBAC policies, manage privileged access | Provides pre-configured RBAC assignments, managed identities, Key Vault integration, and security baseline configurations aligned with Azure Security Benchmark |
-| 🔄 DevOps / SRE Lead | Manages CI/CD pipelines, automation, and operational excellence | Implement Infrastructure as Code, establish deployment pipelines, configure monitoring and alerting, optimize resource utilization | Delivers fully automated deployment with Azure Developer CLI, modular Bicep templates, and integrated diagnostic settings for observability |
-| 💻 Developer | Builds applications and requires consistent development environments | Write code, test applications, collaborate with team members, maintain development tools and dependencies | Provides self-service access to standardized, pre-configured Dev Box environments with customizable images and immediate availability |
-| ⚙️ System Engineer | Manages infrastructure operations, monitoring, and incident response | Deploy and maintain infrastructure, configure monitoring, troubleshoot issues, perform capacity planning | Offers repeatable deployment automation, centralized monitoring, and diagnostic logging for efficient operations and troubleshooting |
-| 📋 Project Manager | Oversees project delivery, timeline, and resource allocation | Define project scope, manage dependencies, track progress, coordinate cross-functional teams, report to stakeholders | Accelerates project delivery with rapid environment provisioning, reduces infrastructure setup time from weeks to hours, and provides clear deployment documentation |
-
-## Architecture
-
-### Architecture Diagram
+#### Value Stream Map
 
 ```mermaid
-graph TB
-    subgraph "Azure Subscription"
-        subgraph "Security Landing Zone"
-            KV[("🔐 Azure Key Vault<br/>Secrets Management")]
-            style KV fill:#0078D4,stroke:#004578,color:#fff
-        end
-        
-        subgraph "Management Landing Zone"
-            LA[("📊 Log Analytics<br/>Centralized Monitoring")]
-            style LA fill:#0078D4,stroke:#004578,color:#fff
-        end
-        
-        subgraph "Connectivity Landing Zone"
-            VNET[("🌐 Virtual Network<br/>Network Isolation")]
-            SUBNET["📡 Subnets<br/>Network Segmentation"]
-            NC["🔗 Network Connection<br/>DevCenter Attachment"]
-            
-            VNET --> SUBNET
-            SUBNET --> NC
-            style VNET fill:#00BCF2,stroke:#0078D4,color:#fff
-            style SUBNET fill:#00BCF2,stroke:#0078D4,color:#fff
-            style NC fill:#00BCF2,stroke:#0078D4,color:#fff
-        end
-        
-        subgraph "Workload Landing Zone"
-            DC[("⚡ DevCenter<br/>Central Management")]
-            
-            subgraph "Project 1"
-                P1["📁 DevCenter Project"]
-                CAT1["📚 Catalogs<br/>Images & Definitions"]
-                POOL1["💻 Dev Box Pools<br/>Compute Resources"]
-                ENV1["🌍 Environment Types<br/>Dev/Test/Prod"]
-                
-                P1 --> CAT1
-                P1 --> POOL1
-                P1 --> ENV1
-                style P1 fill:#50E6FF,stroke:#0078D4,color:#000
-                style CAT1 fill:#50E6FF,stroke:#0078D4,color:#000
-                style POOL1 fill:#50E6FF,stroke:#0078D4,color:#000
-                style ENV1 fill:#50E6FF,stroke:#0078D4,color:#000
-            end
-            
-            subgraph "Project N"
-                PN["📁 DevCenter Project"]
-                CATN["📚 Catalogs<br/>Images & Definitions"]
-                POOLN["💻 Dev Box Pools<br/>Compute Resources"]
-                ENVN["🌍 Environment Types<br/>Dev/Test/Prod"]
-                
-                PN --> CATN
-                PN --> POOLN
-                PN --> ENVN
-                style PN fill:#50E6FF,stroke:#0078D4,color:#000
-                style CATN fill:#50E6FF,stroke:#0078D4,color:#000
-                style POOLN fill:#50E6FF,stroke:#0078D4,color:#000
-                style ENVN fill:#50E6FF,stroke:#0078D4,color:#000
-            end
-            
-            DC --> P1
-            DC --> PN
-            style DC fill:#7FBA00,stroke:#5E9624,color:#fff
-        end
-        
-        subgraph "Identity & Access"
-            AAD[("👥 Azure Active Directory<br/>Authentication")]
-            RBAC["🔑 RBAC Policies<br/>Authorization"]
-            MI["🎭 Managed Identities<br/>Service Authentication"]
-            
-            AAD --> RBAC
-            AAD --> MI
-            style AAD fill:#00A4EF,stroke:#0078D4,color:#fff
-            style RBAC fill:#00A4EF,stroke:#0078D4,color:#fff
-            style MI fill:#00A4EF,stroke:#0078D4,color:#fff
-        end
-        
-        subgraph "Source Control"
-            GH["🐙 GitHub<br/>Code Repository"]
-            ADO["🔷 Azure DevOps<br/>Code Repository"]
-            style GH fill:#E1DFDD,stroke:#000,color:#000
-            style ADO fill:#E1DFDD,stroke:#000,color:#000
-        end
-    end
+flowchart LR
+    A[Developer Request] --> B[Environment Provisioning]
+    B --> C[Identity Configuration]
+    C --> D[Network Setup]
+    D --> E[Security Policy Application]
+    E --> F[Monitoring Integration]
+    F --> G[Developer Access]
     
-    %% Connections
-    DC -.->|Authenticates| AAD
-    DC -.->|Reads Secrets| KV
-    DC -.->|Sends Diagnostics| LA
-    DC -.->|Attaches Network| NC
-    
-    P1 -.->|Applies Roles| RBAC
-    P1 -.->|Uses Identity| MI
-    P1 -.->|Syncs Catalogs| GH
-    P1 -.->|Syncs Catalogs| ADO
-    
-    PN -.->|Applies Roles| RBAC
-    PN -.->|Uses Identity| MI
-    PN -.->|Syncs Catalogs| GH
-    PN -.->|Syncs Catalogs| ADO
-    
-    POOL1 -.->|Uses Network| NC
-    POOLN -.->|Uses Network| NC
-    
-    KV -.->|Sends Logs| LA
-    VNET -.->|Sends Logs| LA
-    
-    classDef securityStyle fill:#0078D4,stroke:#004578,color:#fff
-    classDef managementStyle fill:#0078D4,stroke:#004578,color:#fff
-    classDef networkStyle fill:#00BCF2,stroke:#0078D4,color:#fff
-    classDef workloadStyle fill:#7FBA00,stroke:#5E9624,color:#fff
-    classDef identityStyle fill:#00A4EF,stroke:#0078D4,color:#fff
+    style A fill:#E6E6FA
+    style B fill:#E6E6FA
+    style C fill:#E6E6FA
+    style D fill:#E6E6FA
+    style E fill:#E6E6FA
+    style F fill:#E6E6FA
+    style G fill:#E6E6FA
 ```
 
-### Dataflow Diagram
+#### Business Capability Map
 
 ```mermaid
-flowchart TD
-    START([👤 Administrator<br/>Starts Deployment])
-    style START fill:#7FBA00,stroke:#5E9624,color:#fff
-    
-    AUTH{🔐 Authentication<br/>Method}
-    style AUTH fill:#FF6B00,stroke:#D35400,color:#fff
-    
-    GH_AUTH[🐙 GitHub CLI<br/>Authentication]
-    ADO_AUTH[🔷 Azure DevOps<br/>PAT Authentication]
-    style GH_AUTH fill:#E1DFDD,stroke:#000,color:#000
-    style ADO_AUTH fill:#E1DFDD,stroke:#000,color:#000
-    
-    AZ_LOGIN[☁️ Azure CLI<br/>Subscription Login]
-    style AZ_LOGIN fill:#0078D4,stroke:#004578,color:#fff
-    
-    AZD_INIT[⚡ Azure Developer CLI<br/>Environment Initialization]
-    style AZD_INIT fill:#0078D4,stroke:#004578,color:#fff
-    
-    KV_STORE[🔐 Store Credentials<br/>in Key Vault]
-    style KV_STORE fill:#0078D4,stroke:#004578,color:#fff
-    
-    VALIDATE{✅ Validate<br/>Prerequisites}
-    style VALIDATE fill:#FF6B00,stroke:#D35400,color:#fff
-    
-    DEPLOY[🚀 Deploy Infrastructure<br/>azd provision]
-    style DEPLOY fill:#7FBA00,stroke:#5E9624,color:#fff
-    
-    subgraph "Resource Deployment Flow"
-        direction TB
-        RG_DEPLOY[📦 Create Resource Groups<br/>Security, Management, Connectivity, Workload]
-        style RG_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
-        
-        LA_DEPLOY[📊 Deploy Log Analytics<br/>Centralized Monitoring]
-        style LA_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
-        
-        KV_DEPLOY[🔐 Deploy Key Vault<br/>Store Secrets]
-        style KV_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
-        
-        VNET_DEPLOY[🌐 Deploy Virtual Network<br/>Network Isolation]
-        style VNET_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
-        
-        NC_DEPLOY[🔗 Create Network Connection<br/>DevCenter Attachment]
-        style NC_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
-        
-        DC_DEPLOY[⚡ Deploy DevCenter<br/>Central Management]
-        style DC_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
-        
-        CAT_DEPLOY[📚 Configure Catalogs<br/>Sync from Source Control]
-        style CAT_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
-        
-        PROJ_DEPLOY[📁 Create Projects<br/>Isolated Workspaces]
-        style PROJ_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
-        
-        RBAC_DEPLOY[🔑 Configure RBAC<br/>Assign Roles & Permissions]
-        style RBAC_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
-        
-        POOL_DEPLOY[💻 Create Dev Box Pools<br/>Provision Compute]
-        style POOL_DEPLOY fill:#50E6FF,stroke:#0078D4,color:#000
-        
-        RG_DEPLOY --> LA_DEPLOY
-        RG_DEPLOY --> KV_DEPLOY
-        RG_DEPLOY --> VNET_DEPLOY
-        VNET_DEPLOY --> NC_DEPLOY
-        LA_DEPLOY --> DC_DEPLOY
-        KV_DEPLOY --> DC_DEPLOY
-        NC_DEPLOY --> DC_DEPLOY
-        DC_DEPLOY --> CAT_DEPLOY
-        DC_DEPLOY --> PROJ_DEPLOY
-        PROJ_DEPLOY --> RBAC_DEPLOY
-        PROJ_DEPLOY --> POOL_DEPLOY
+flowchart TB
+    subgraph DevEnv[Developer Environment Management]
+        DE1[Environment Provisioning]
+        DE2[Catalog Management]
+        DE3[Image Definition Management]
     end
     
-    MONITOR[📈 Configure Diagnostics<br/>Enable Logging]
-    style MONITOR fill:#7FBA00,stroke:#5E9624,color:#fff
+    subgraph SecComp[Security & Compliance]
+        SC1[Identity Management]
+        SC2[Secret Management]
+        SC3[Network Isolation]
+        SC4[RBAC Enforcement]
+    end
     
-    SUCCESS([✅ Deployment Complete<br/>Environment Ready])
-    style SUCCESS fill:#7FBA00,stroke:#5E9624,color:#fff
+    subgraph ResGov[Resource Governance]
+        RG1[Cost Management]
+        RG2[Policy Enforcement]
+        RG3[Resource Lifecycle]
+    end
     
-    ERROR([❌ Deployment Failed<br/>Review Logs])
-    style ERROR fill:#D13438,stroke:#A1260D,color:#fff
+    subgraph MonObs[Monitoring & Observability]
+        MO1[Centralized Logging]
+        MO2[Metrics Collection]
+        MO3[Diagnostic Settings]
+    end
     
-    %% Flow connections
-    START --> AUTH
-    AUTH -->|GitHub| GH_AUTH
-    AUTH -->|Azure DevOps| ADO_AUTH
-    GH_AUTH --> AZ_LOGIN
-    ADO_AUTH --> AZ_LOGIN
-    AZ_LOGIN --> AZD_INIT
-    AZD_INIT --> KV_STORE
-    KV_STORE --> VALIDATE
-    VALIDATE -->|Valid| DEPLOY
-    VALIDATE -->|Invalid| ERROR
-    DEPLOY --> RG_DEPLOY
-    POOL_DEPLOY --> MONITOR
-    MONITOR --> SUCCESS
-    DEPLOY -.->|Failure| ERROR
+    style DevEnv fill:#E6E6FA
+    style SecComp fill:#E6E6FA
+    style ResGov fill:#E6E6FA
+    style MonObs fill:#E6E6FA
+    style DE1 fill:#E6E6FA
+    style DE2 fill:#E6E6FA
+    style DE3 fill:#E6E6FA
+    style SC1 fill:#E6E6FA
+    style SC2 fill:#E6E6FA
+    style SC3 fill:#E6E6FA
+    style SC4 fill:#E6E6FA
+    style RG1 fill:#E6E6FA
+    style RG2 fill:#E6E6FA
+    style RG3 fill:#E6E6FA
+    style MO1 fill:#E6E6FA
+    style MO2 fill:#E6E6FA
+    style MO3 fill:#E6E6FA
 ```
 
-## Installation & Configuration
+### Data Architecture
 
-### Prerequisites
+#### Purpose
+The data architecture layer defines how configuration data, secrets, monitoring data, and operational metadata flow through the system. It ensures data security, integrity, and accessibility while maintaining compliance with enterprise data governance policies.
 
-Before deploying the Dev Box Landing Zone Accelerator, ensure you have the following prerequisites installed and configured:
+#### Key Capabilities
+- **Configuration Management**: YAML-based declarative configuration for all resources
+- **Secret Management**: Secure storage and retrieval of sensitive data via Azure Key Vault
+- **Operational Data Collection**: Centralized logging and metrics via Log Analytics Workspace
+- **Diagnostic Data**: Resource-level diagnostic settings for all Azure services
 
-#### Required Software
+#### Master Data Management
 
-- **Azure Subscription**
-  - Active Azure subscription with appropriate permissions
-  - Subscription-level access for resource group creation
-  - Sufficient quota for Azure DevCenter and compute resources
+```mermaid
+flowchart LR
+    subgraph Sources[Data Sources]
+        S1[Configuration YAML]
+        S2[Environment Variables]
+        S3[Source Control Tokens]
+    end
+    
+    subgraph Ingestion[Ingestion Layer]
+        I1[Setup Scripts]
+        I2[Azure CLI]
+        I3[AZD CLI]
+    end
+    
+    subgraph Processing[Processing Layer]
+        P1[Bicep Compilation]
+        P2[Parameter Validation]
+        P3[Secret Storage]
+    end
+    
+    subgraph Storage[Storage Layer]
+        ST1[Key Vault Secrets]
+        ST2[Log Analytics]
+        ST3[Resource Metadata]
+    end
+    
+    subgraph Governance[Governance Layer]
+        G1[RBAC Policies]
+        G2[Diagnostic Settings]
+        G3[Access Policies]
+    end
+    
+    S1 --> I1
+    S2 --> I2
+    S3 --> I3
+    
+    I1 --> P1
+    I2 --> P2
+    I3 --> P3
+    
+    P1 --> ST3
+    P2 --> ST3
+    P3 --> ST1
+    
+    ST1 --> G3
+    ST2 --> G2
+    ST3 --> G1
+    
+    style Sources fill:#ADD8E6
+    style Ingestion fill:#ADD8E6
+    style Processing fill:#90EE90
+    style Storage fill:#FFFACD
+    style Governance fill:#D3D3D3
+    style S1 fill:#ADD8E6
+    style S2 fill:#ADD8E6
+    style S3 fill:#ADD8E6
+    style I1 fill:#ADD8E6
+    style I2 fill:#ADD8E6
+    style I3 fill:#ADD8E6
+    style P1 fill:#90EE90
+    style P2 fill:#90EE90
+    style P3 fill:#90EE90
+    style ST1 fill:#FFFACD
+    style ST2 fill:#FFFACD
+    style ST3 fill:#FFFACD
+    style G1 fill:#D3D3D3
+    style G2 fill:#D3D3D3
+    style G3 fill:#D3D3D3
+```
 
-- **Azure CLI**
-  - Version 2.50.0 or later
-  - Install: [Azure CLI Installation Guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
-  - Verify installation: `az --version`
+### Application Architecture
 
-- **Azure Developer CLI (azd)**
-  - Version 1.5.0 or later
-  - Install: [Azure Developer CLI Installation](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
-  - Verify installation: `azd version`
+#### Purpose
+The application architecture layer defines the logical organization of infrastructure components, their relationships, and deployment patterns. It implements a modular, reusable design that supports enterprise-scale deployments while maintaining separation of concerns.
 
-- **Visual Studio Code**
-  - Latest stable version
-  - Download: [Visual Studio Code](https://code.visualstudio.com/)
+#### Key Capabilities
+- **Modular Component Design**: Reusable Bicep modules for each landing zone
+- **Identity-Based Security**: Managed identities for service-to-service authentication
+- **Catalog Integration**: GitHub and Azure DevOps repository integration for environment definitions
+- **Network Abstraction**: Support for both managed and unmanaged virtual networks
+- **Project Isolation**: Independent project configurations with dedicated resource groups
 
-#### Visual Studio Code Extensions
+#### Solution Architecture
 
-Install the following extensions in Visual Studio Code:
+```mermaid
+flowchart TB
+    subgraph Clients[Client Layer]
+        C1[Developers]
+        C2[Administrators]
+        C3[CI/CD Pipelines]
+    end
+    
+    subgraph Gateway[Management Layer]
+        G1[Azure Portal]
+        G2[Azure CLI]
+        G3[Azure Developer CLI]
+    end
+    
+    subgraph Services[Service Layer]
+        SV1[DevCenter Core]
+        SV2[Projects]
+        SV3[Catalogs]
+        SV4[Environment Types]
+        SV5[DevBox Pools]
+    end
+    
+    subgraph Security[Security Layer]
+        SE1[Key Vault]
+        SE2[Managed Identities]
+        SE3[RBAC Assignments]
+    end
+    
+    subgraph Monitoring[Monitoring Layer]
+        M1[Log Analytics]
+        M2[Diagnostic Settings]
+        M3[Azure Monitor]
+    end
+    
+    subgraph Connectivity[Connectivity Layer]
+        CN1[Virtual Network]
+        CN2[Network Connection]
+        CN3[Subnets]
+    end
+    
+    C1 --> G1
+    C2 --> G2
+    C3 --> G3
+    
+    G1 --> SV1
+    G2 --> SV1
+    G3 --> SV1
+    
+    SV1 --> SV2
+    SV1 --> SV3
+    SV1 --> SV4
+    SV2 --> SV5
+    
+    SV1 --> SE2
+    SV2 --> SE2
+    SV3 --> SE1
+    SE2 --> SE3
+    
+    SV1 --> M2
+    SV2 --> M2
+    M2 --> M1
+    M1 --> M3
+    
+    SV5 --> CN2
+    CN2 --> CN1
+    CN1 --> CN3
+    
+    style Clients fill:#ADD8E6
+    style Gateway fill:#E6E6FA
+    style Services fill:#90EE90
+    style Security fill:#D3D3D3
+    style Monitoring fill:#D3D3D3
+    style Connectivity fill:#FFFACD
+    style C1 fill:#ADD8E6
+    style C2 fill:#ADD8E6
+    style C3 fill:#ADD8E6
+    style G1 fill:#E6E6FA
+    style G2 fill:#E6E6FA
+    style G3 fill:#E6E6FA
+    style SV1 fill:#90EE90
+    style SV2 fill:#90EE90
+    style SV3 fill:#90EE90
+    style SV4 fill:#90EE90
+    style SV5 fill:#90EE90
+    style SE1 fill:#D3D3D3
+    style SE2 fill:#D3D3D3
+    style SE3 fill:#D3D3D3
+    style M1 fill:#D3D3D3
+    style M2 fill:#D3D3D3
+    style M3 fill:#D3D3D3
+    style CN1 fill:#FFFACD
+    style CN2 fill:#FFFACD
+    style CN3 fill:#FFFACD
+```
 
-- **Azure Tools**
-  - Extension ID: `ms-vscode.vscode-node-azure-pack`
-  - Provides comprehensive Azure resource management capabilities
-  - [Azure Tools Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-node-azure-pack)
+### Technology Architecture
 
-- **Bicep**
-  - Extension ID: `ms-azuretools.vscode-bicep`
-  - Enables Bicep language support, IntelliSense, and validation
-  - [Bicep Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-bicep)
+#### Purpose
+The technology architecture layer defines the specific Azure services, deployment tools, and integration patterns used to implement the solution. It ensures the use of cloud-native services and platform engineering best practices.
 
-#### Source Control Prerequisites
+#### Key Capabilities
+- **Infrastructure as Code**: Azure Bicep for declarative infrastructure provisioning
+- **Deployment Automation**: Azure Developer CLI for repeatable deployments
+- **Source Control Integration**: GitHub and Azure DevOps for catalog management
+- **Monitoring Integration**: Azure Monitor and Log Analytics for operational insights
+- **Identity Integration**: Azure Active Directory for authentication and authorization
 
-Depending on your chosen source control platform, you'll need:
+#### Cloud-Native Architecture
 
-**For GitHub:**
-- GitHub CLI (gh) installed and authenticated
-- Personal Access Token (PAT) with `repo` scope
-- Install: [GitHub CLI Installation](https://cli.github.com/)
+```mermaid
+flowchart LR
+    subgraph Clients[Client Interfaces]
+        CL1[Azure Portal]
+        CL2[Azure CLI]
+        CL3[PowerShell/Bash]
+    end
+    
+    subgraph Gateway[API Gateway]
+        GW1[Azure Resource Manager]
+    end
+    
+    subgraph Services[Azure Services]
+        SR1[Microsoft DevCenter]
+        SR2[DevCenter Projects]
+        SR3[Azure Key Vault]
+        SR4[Virtual Network]
+    end
+    
+    subgraph EventBus[Event Integration]
+        EB1[Diagnostic Settings]
+    end
+    
+    subgraph DataStorage[Data & Storage]
+        DS1[Log Analytics Workspace]
+        DS2[Key Vault Secrets]
+    end
+    
+    subgraph Observability[Observability & Security]
+        OB1[Azure Monitor]
+        OB2[RBAC Policies]
+        OB3[Managed Identities]
+    end
+    
+    CL1 --> GW1
+    CL2 --> GW1
+    CL3 --> GW1
+    
+    GW1 --> SR1
+    GW1 --> SR2
+    GW1 --> SR3
+    GW1 --> SR4
+    
+    SR1 --> EB1
+    SR2 --> EB1
+    SR3 --> EB1
+    
+    EB1 --> DS1
+    SR3 --> DS2
+    
+    DS1 --> OB1
+    SR1 --> OB3
+    SR2 --> OB3
+    OB3 --> OB2
+    
+    style Clients fill:#ADD8E6
+    style Gateway fill:#E6E6FA
+    style Services fill:#90EE90
+    style EventBus fill:#FFB347
+    style DataStorage fill:#FFFACD
+    style Observability fill:#D3D3D3
+    style CL1 fill:#ADD8E6
+    style CL2 fill:#ADD8E6
+    style CL3 fill:#ADD8E6
+    style GW1 fill:#E6E6FA
+    style SR1 fill:#90EE90
+    style SR2 fill:#90EE90
+    style SR3 fill:#90EE90
+    style SR4 fill:#90EE90
+    style EB1 fill:#FFB347
+    style DS1 fill:#FFFACD
+    style DS2 fill:#FFFACD
+    style OB1 fill:#D3D3D3
+    style OB2 fill:#D3D3D3
+    style OB3 fill:#D3D3D3
+```
 
-**For Azure DevOps:**
-- Azure DevOps organization and project configured
-- Personal Access Token (PAT) with Code (Read) permissions
-- Azure DevOps CLI extension installed: `az extension add --name azure-devops`
+#### Platform Engineering Architecture
 
-### Azure RBAC Roles
+```mermaid
+flowchart TB
+    subgraph Developers[Developer Experience]
+        D1[Setup Scripts]
+        D2[Configuration Files]
+        D3[Azure Developer CLI]
+    end
+    
+    subgraph IDP[Internal Developer Platform]
+        IDP1[Bicep Modules]
+        IDP2[YAML Configuration]
+        IDP3[Resource Templates]
+    end
+    
+    subgraph CICD[CI/CD & Policies]
+        CI1[GitHub Actions]
+        CI2[Azure Pipelines]
+        CI3[Policy Enforcement]
+    end
+    
+    subgraph Runtime[Runtime Platforms]
+        RT1[Microsoft DevCenter]
+        RT2[DevBox Pools]
+        RT3[Environment Types]
+    end
+    
+    subgraph Shared[Shared Services]
+        SH1[Azure Key Vault]
+        SH2[Log Analytics]
+        SH3[Virtual Networks]
+    end
+    
+    subgraph Data[Data Services]
+        DT1[Configuration Store]
+        DT2[Secret Store]
+        DT3[Metrics Store]
+    end
+    
+    D1 --> IDP1
+    D2 --> IDP2
+    D3 --> IDP1
+    
+    IDP1 --> CI1
+    IDP2 --> CI2
+    IDP3 --> CI3
+    
+    CI1 --> RT1
+    CI2 --> RT1
+    CI3 --> RT1
+    
+    RT1 --> RT2
+    RT1 --> RT3
+    
+    RT1 --> SH1
+    RT2 --> SH2
+    RT3 --> SH3
+    
+    SH1 --> DT2
+    SH2 --> DT3
+    IDP2 --> DT1
+    
+    style Developers fill:#ADD8E6
+    style IDP fill:#90EE90
+    style CICD fill:#90EE90
+    style Runtime fill:#E6E6FA
+    style Shared fill:#D3D3D3
+    style Data fill:#FFFACD
+    style D1 fill:#ADD8E6
+    style D2 fill:#ADD8E6
+    style D3 fill:#ADD8E6
+    style IDP1 fill:#90EE90
+    style IDP2 fill:#90EE90
+    style IDP3 fill:#90EE90
+    style CI1 fill:#90EE90
+    style CI2 fill:#90EE90
+    style CI3 fill:#90EE90
+    style RT1 fill:#E6E6FA
+    style RT2 fill:#E6E6FA
+    style RT3 fill:#E6E6FA
+    style SH1 fill:#D3D3D3
+    style SH2 fill:#D3D3D3
+    style SH3 fill:#D3D3D3
+    style DT1 fill:#FFFACD
+    style DT2 fill:#FFFACD
+    style DT3 fill:#FFFACD
+```
 
-The following Azure built-in roles are required or assigned during deployment:
+## Key Features and Benefits
 
-| **Name** | **Description** | **Documentation Link** |
-|----------|----------------|----------------------|
-| Contributor | Grants full access to manage all resources, but does not allow role assignment or management | [Contributor Role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor) |
-| User Access Administrator | Lets you manage user access to Azure resources, including role assignments | [User Access Administrator](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#user-access-administrator) |
-| DevCenter Dev Box User | Provides access to create and manage Dev Boxes in DevCenter projects | [DevCenter Dev Box User](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#devcenter-dev-box-user) |
-| DevCenter Project Admin | Grants administrative access to DevCenter projects, including catalog and pool management | [DevCenter Project Admin](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#devcenter-project-admin) |
-| Deployment Environments Reader | Allows reading deployment environment definitions and properties | [Deployment Environments Reader](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#deployment-environments-reader) |
-| Deployment Environments User | Enables creation and management of deployment environments from catalog definitions | [Deployment Environments User](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#deployment-environments-user) |
-| Key Vault Secrets User | Read secret contents from Azure Key Vault using RBAC-based access | [Key Vault Secrets User](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#key-vault-secrets-user) |
-| Key Vault Secrets Officer | Perform any action on the secrets of a key vault, including create, read, update, and delete | [Key Vault Secrets Officer](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#key-vault-secrets-officer) |
+### Enterprise-Scale Deployment
+- **Multi-Project Support**: Deploy multiple DevCenter projects with independent configurations
+- **Hierarchical Partition Keys**: Support for complex organizational structures
+- **Resource Group Isolation**: Separate resource groups for security, monitoring, connectivity, and workload
 
-**Note:** The deployment process automatically configures role assignments for DevCenter managed identities, project identities, and user groups as defined in your configuration files.
+### Security and Compliance
+- **Managed Identity Integration**: System-assigned identities for secure service-to-service authentication
+- **Azure Key Vault Integration**: Centralized secret management with automated rotation support
+- **Role-Based Access Control**: Fine-grained permission management at subscription, resource group, and resource levels
+- **Network Isolation**: Support for both Azure AD-joined and domain-joined scenarios
 
-### Deployment Steps
+### Operational Excellence
+- **Centralized Logging**: Log Analytics Workspace integration for all resources
+- **Diagnostic Settings**: Automated configuration of diagnostic data collection
+- **Azure Monitor Integration**: Built-in monitoring and alerting capabilities
+- **Purge Protection**: Soft delete and purge protection for critical resources
 
-#### 1. Clone the Repository
+### Developer Productivity
+- **Automated Environment Provisioning**: One-command deployment of complete development environments
+- **Catalog Integration**: Support for both GitHub and Azure DevOps repository catalogs
+- **Image Definition Management**: Centralized management of DevBox images
+- **Environment Templates**: Reusable environment definitions for consistent deployments
+
+### Infrastructure as Code
+- **Declarative Configuration**: YAML-based configuration for all resources
+- **Modular Design**: Reusable Bicep modules for each component
+- **Parameter Validation**: Built-in validation for deployment parameters
+- **Idempotent Deployments**: Safe to run multiple times without side effects
+
+## Prerequisites
+
+### Required Tools
+
+| Tool | Minimum Version | Purpose | Installation Link |
+|------|----------------|---------|-------------------|
+| Azure CLI | 2.50.0+ | Azure resource management | [Install Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) |
+| Azure Developer CLI | 1.5.0+ | Deployment automation | [Install Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) |
+| PowerShell | 5.1+ (Windows) | Setup script execution | Built-in on Windows |
+| Bash | 4.0+ (Linux/macOS) | Setup script execution | Built-in on Linux/macOS |
+| GitHub CLI | 2.0+ (optional) | GitHub integration | [Install GitHub CLI](https://cli.github.com/) |
+| Git | 2.30.0+ | Version control | [Install Git](https://git-scm.com/downloads) |
+
+### Azure Subscription Requirements
+
+- Active Azure subscription with sufficient quota for DevCenter resources
+- Permissions to create service principals and role assignments
+- No existing DevCenter resources with conflicting names
+
+### Network Requirements
+
+- Virtual network address space available (if using unmanaged networking)
+- Subnet delegation permissions (if using unmanaged networking)
+- Firewall rules configured for outbound connectivity (if using corporate proxies)
+
+## Azure RBAC Roles
+
+The following Azure built-in roles are required or assigned by this solution:
+
+| Role Name | Description | Scope | Documentation Link |
+|-----------|-------------|-------|-------------------|
+| **Contributor** | Full access to manage all resources but cannot grant access to others | Subscription | [Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#contributor) |
+| **User Access Administrator** | Manage user access to Azure resources, including role assignments | Subscription | [User Access Administrator](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#user-access-administrator) |
+| **Managed Identity Contributor** | Create, read, update, and delete managed identities | Subscription | [Managed Identity Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#managed-identity-contributor) |
+| **Key Vault Secrets User** | Read secret contents from Azure Key Vault | Resource Group | [Key Vault Secrets User](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#key-vault-secrets-user) |
+| **DevCenter Dev Box User** | Provides access to create and manage Dev Boxes | Project | [DevCenter Dev Box User](https://learn.microsoft.com/azure/dev-box/how-to-dev-box-user) |
+| **DevCenter Project Admin** | Provides full access to manage DevCenter projects | Project | [DevCenter Project Admin](https://learn.microsoft.com/azure/dev-box/how-to-project-admin) |
+| **Network Contributor** | Manage networks, including virtual networks and subnets | Resource Group | [Network Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#network-contributor) |
+
+### Role Assignment Strategy
+
+The solution implements role assignments at multiple scopes:
+
+1. **Subscription Level**: Service principal roles for deployment automation
+2. **Resource Group Level**: Managed identity roles for service-to-service authentication
+3. **Project Level**: User and group roles for developer access
+4. **Resource Level**: Specific resource permissions (e.g., Key Vault access policies)
+
+## Deployment Instructions
+
+### Step 1: Clone the Repository
 
 ```bash
 git clone https://github.com/Evilazaro/DevExp-DevBox.git
 cd DevExp-DevBox
 ```
 
-#### 2. Authenticate to Azure
+### Step 2: Configure Source Control Platform
 
-```bash
-# Login to Azure
-az login
+The solution supports two source control platforms for catalog integration:
 
-# Set your subscription (if you have multiple subscriptions)
-az account set --subscription "YOUR_SUBSCRIPTION_ID"
+#### Option A: GitHub
 
-# Verify your current subscription
-az account show
-```
+1. Ensure GitHub CLI is installed and authenticated:
+   ```bash
+   gh auth login
+   ```
 
-#### 3. Configure Environment
+2. Create a personal access token with `repo` scope:
+   - Navigate to GitHub Settings → Developer settings → Personal access tokens
+   - Create a classic token with `repo` permissions
+   - Save the token securely
 
-**For Windows (PowerShell):**
+#### Option B: Azure DevOps
+
+1. Create a Personal Access Token (PAT):
+   - Navigate to Azure DevOps → User settings → Personal access tokens
+   - Create a token with `Code (Read)` permissions
+   - Save the token securely
+
+2. Configure Azure DevOps defaults:
+   ```bash
+   az devops configure --defaults organization=https://dev.azure.com/YOUR_ORG project=YOUR_PROJECT
+   ```
+
+### Step 3: Run the Setup Script
+
+#### Windows (PowerShell)
 
 ```powershell
-# Run the setup script
-.\setUp.ps1 -EnvName "dev" -SourceControl "github"
-
-# Or for Azure DevOps
-.\setUp.ps1 -EnvName "dev" -SourceControl "adogit"
+.\setUp.ps1 -EnvName "prod" -SourceControl "github"
 ```
 
-**For Linux/macOS (Bash):**
+#### Linux/macOS (Bash)
 
 ```bash
-# Make the script executable
 chmod +x setUp.sh
-
-# Run the setup script
-./setUp.sh -e "dev" -s "github"
-
-# Or for Azure DevOps
-./setUp.sh -e "dev" -s "adogit"
+./setUp.sh -e "prod" -s "github"
 ```
 
-#### 4. Provide Authentication Credentials
+**Parameters:**
+- `-EnvName` / `-e`: Name of the Azure environment (e.g., dev, test, prod)
+- `-SourceControl` / `-s`: Source control platform (`github` or `adogit`)
 
-When prompted, provide your source control credentials:
+The setup script will:
+1. Validate required tools and authentication
+2. Prompt for source control credentials (PAT)
+3. Initialize Azure Developer CLI environment
+4. Store secrets securely in Key Vault
+5. Provision Azure resources using Bicep templates
 
-**For GitHub:**
-- The script will use GitHub CLI to authenticate
-- Ensure you have a valid GitHub session or login when prompted
-- Your Personal Access Token (PAT) will be securely stored in Azure Key Vault
+### Step 4: Configure Environment Settings
 
-**For Azure DevOps:**
-- Enter your Personal Access Token when prompted
-- Configure your organization and project defaults
-- The PAT will be securely stored in Azure Key Vault
+The solution uses YAML configuration files located in settings:
 
-#### 5. Monitor Deployment
+#### Resource Organization (azureResources.yaml)
 
-The deployment process will:
-1. Initialize the Azure Developer CLI environment
-2. Store credentials securely in Key Vault
-3. Provision all infrastructure resources
-4. Configure RBAC assignments
-5. Set up monitoring and diagnostics
-
-Monitor the deployment output for:
-- Resource creation progress
-- Any warnings or errors
-- Deployment completion status
-
-#### 6. Verify Deployment
-
-After successful deployment:
-
-```bash
-# View environment configuration
-azd env get-values
-
-# List deployed resources
-az resource list --resource-group <workload-resource-group> --output table
-
-# Check DevCenter status
-az devcenter admin show --name <devcenter-name> --resource-group <workload-resource-group>
-```
-
-#### 7. Access Your Dev Box Environment
-
-1. Navigate to the [Azure Portal](https://portal.azure.com)
-2. Search for "DevCenter" or navigate to your deployed DevCenter resource
-3. Select your project
-4. Create or access Dev Boxes from the available pools
-
-### Configuration Customization
-
-To customize your deployment, modify the YAML configuration files in settings:
-
-- **Resource Organization**: azureResources.yaml
-- **Security Settings**: security.yaml
-- **DevCenter Configuration**: devcenter.yaml
-
-### Troubleshooting
-
-**Authentication Issues:**
-- Ensure Azure CLI is logged in: `az account show`
-- Verify source control authentication is valid
-- Check Key Vault access permissions
-
-**Quota Limitations:**
-- Verify Azure subscription quotas for compute resources
-- Request quota increases if needed
-- Check regional availability for Azure DevCenter
-
-**Deployment Failures:**
-- Review deployment logs in Azure Portal under Deployments
-- Check diagnostic settings in Log Analytics workspace
-- Verify RBAC permissions at subscription and resource group levels
-
-**Network Connectivity:**
-- Ensure virtual network address spaces don't conflict with existing networks
-- Verify network connection status in DevCenter
-- Check subnet delegation for Dev Box service
-
-## Usage Examples
-
-### Example 1: Deploy Dev Box Environment for Development Team
-
-```bash
-# Windows PowerShell
-.\setUp.ps1 -EnvName "dev-team-east" -SourceControl "github"
-
-# Linux/macOS
-./setUp.sh -e "dev-team-east" -s "github"
-```
-
-This command:
-- Creates a new Azure Developer CLI environment named "dev-team-east"
-- Configures GitHub as the source control platform for catalogs
-- Provisions all landing zone resources in the default region (eastus2)
-- Sets up a complete DevCenter instance with projects and pools
-
-**Expected Outcome:**
-- DevCenter deployed with managed identity
-- Log Analytics workspace for centralized monitoring
-- Key Vault storing GitHub credentials
-- Virtual network with proper segmentation
-- Dev Box pools ready for developer provisioning
-
-### Example 2: Deploy Multi-Project Environment with Azure DevOps
-
-```powershell
-# Configure Azure DevOps defaults first
-az devops configure --defaults organization=https://dev.azure.com/your-org project=YourProject
-
-# Run deployment
-.\setUp.ps1 -EnvName "multi-project-prod" -SourceControl "adogit"
-```
-
-This deployment:
-- Creates separate DevCenter projects as defined in devcenter.yaml
-- Syncs catalogs from Azure DevOps Git repositories
-- Configures project-specific RBAC assignments
-- Establishes network connections for each project
-
-**Expected Outcome:**
-- Multiple isolated projects within single DevCenter
-- Independent catalogs per project
-- Project-specific role assignments
-- Separate Dev Box pools with different SKUs
-
-### Example 3: Deploy with Custom Configuration
-
-```bash
-# 1. Customize settings
-code infra/settings/workload/devcenter.yaml
-
-# 2. Modify network configuration
-code infra/settings/resourceOrganization/azureResources.yaml
-
-# 3. Deploy with custom settings
-./setUp.sh -e "custom-config" -s "github"
-```
-
-**Customization Example:**
-
-Edit devcenter.yaml:
+Configure landing zone resource groups:
 
 ```yaml
+security:
+  name: "security"
+  create: true
+  tags:
+    component: "security"
+
+monitoring:
+  name: "monitoring"
+  create: true
+  tags:
+    component: "monitoring"
+
+workload:
+  name: "workload"
+  create: true
+  tags:
+    component: "workload"
+```
+
+#### Security Settings (security.yaml)
+
+Configure Key Vault settings:
+
+```yaml
+create: true
+keyVault:
+  name: "keyvault"
+  enablePurgeProtection: true
+  enableSoftDelete: true
+  softDeleteRetentionInDays: 90
+  enableRbacAuthorization: true
+  secretName: "GitHubPAT"
+```
+
+#### DevCenter Configuration (devcenter.yaml)
+
+Configure DevCenter, catalogs, projects, and pools:
+
+```yaml
+name: "devcenter"
+identity:
+  type: "SystemAssigned"
+  roleAssignments:
+    devCenter:
+      - id: "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+        name: "Owner"
+        scope: "ResourceGroup"
+
+catalogs:
+  - name: "catalog-github"
+    type: "gitHub"
+    visibility: "private"
+    uri: "https://github.com/YOUR_ORG/YOUR_REPO"
+    branch: "main"
+    path: "/environments"
+
 projects:
-  - name: "frontend-project"
-    description: "Frontend Development Environment"
-    pools:
-      - name: "frontend-pool"
-        vmSku: "general_a_8c32gb_v1"
-        imageDefinitionName: "DevBoxWindows11"
+  - name: "project-dev"
+    description: "Development Project"
     catalogs:
-      - name: "frontend-catalog"
+      - name: "catalog-github"
         type: "imageDefinition"
-        sourceControl: "gitHub"
-        visibility: "private"
-        uri: "https://github.com/your-org/frontend-images"
-        branch: "main"
-        path: "/images"
+    environmentTypes:
+      - name: "dev"
+        deploymentTargetId: "/subscriptions/YOUR_SUBSCRIPTION_ID"
+    pools:
+      - name: "pool-dev"
+        imageDefinitionName: "windows-11-enterprise"
+        vmSku: "general_i_8c32gb256ssd_v2"
 ```
 
-**Expected Outcome:**
-- Custom project with specialized configuration
-- Tailored VM SKUs for specific workload requirements
-- Private catalog synced from custom repository
-- Optimized for frontend development workflows
+### Step 5: Provision Resources
 
-### Example 4: Query Deployed Resources
+The setup script automatically provisions resources, but you can manually trigger provisioning:
 
 ```bash
-# Get DevCenter name
-azd env get-values | grep AZURE_DEV_CENTER_NAME
-
-# List all projects
-az devcenter admin project list --dev-center-name <devcenter-name> --resource-group <workload-rg> --output table
-
-# Check Dev Box pool status
-az devcenter admin pool list --project-name <project-name> --resource-group <workload-rg> --output table
-
-# View catalog sync status
-az devcenter admin catalog list --dev-center-name <devcenter-name> --resource-group <workload-rg> --output table
-
-# Check network connection status
-az devcenter admin network-connection list-health-detail --network-connection-name <network-connection-name> --resource-group <connectivity-rg>
+azd provision -e prod
 ```
 
-### Example 5: Access Log Analytics Insights
+This command will:
+1. Compile Bicep templates to ARM templates
+2. Validate deployment parameters
+3. Create resource groups
+4. Deploy security resources (Key Vault)
+5. Deploy monitoring resources (Log Analytics)
+6. Deploy workload resources (DevCenter, projects, pools)
+7. Configure role assignments and diagnostic settings
+
+### Step 6: Verify Deployment
+
+#### Verify Resource Groups
 
 ```bash
-# Get Log Analytics workspace details
-WORKSPACE_ID=$(azd env get-values | grep AZURE_LOG_ANALYTICS_WORKSPACE_ID | cut -d'=' -f2)
+az group list --query "[?tags.component].{Name:name, Component:tags.component}" -o table
+```
 
-# Query DevCenter diagnostics
+#### Verify DevCenter
+
+```bash
+az devcenter admin devcenter show --name YOUR_DEVCENTER_NAME --resource-group workload-ENV_NAME-LOCATION-RG
+```
+
+#### Verify Projects
+
+```bash
+az devcenter admin project list --resource-group workload-ENV_NAME-LOCATION-RG -o table
+```
+
+#### Verify Key Vault
+
+```bash
+az keyvault show --name YOUR_KEYVAULT_NAME --resource-group security-ENV_NAME-LOCATION-RG
+```
+
+### Step 7: Access DevCenter
+
+1. Navigate to the [Azure Portal](https://portal.azure.com)
+2. Search for "DevCenter" and select your deployed DevCenter
+3. Navigate to "Projects" to view deployed projects
+4. Users with appropriate RBAC roles can now create Dev Boxes
+
+### Step 8: Monitor Deployment
+
+View logs and metrics in Log Analytics Workspace:
+
+```bash
+az monitor log-analytics workspace show \
+  --resource-group monitoring-ENV_NAME-LOCATION-RG \
+  --workspace-name YOUR_WORKSPACE_NAME
+```
+
+Query deployment logs:
+
+```bash
 az monitor log-analytics query \
-  --workspace $WORKSPACE_ID \
-  --analytics-query "AzureDiagnostics | where ResourceProvider == 'MICROSOFT.DEVCENTER' | take 100" \
-  --output table
-
-# Check Key Vault access logs
-az monitor log-analytics query \
-  --workspace $WORKSPACE_ID \
-  --analytics-query "AzureDiagnostics | where ResourceProvider == 'MICROSOFT.KEYVAULT' | where OperationName == 'SecretGet' | take 50" \
-  --output table
+  --workspace YOUR_WORKSPACE_ID \
+  --analytics-query "AzureActivity | where OperationNameValue contains 'MICROSOFT.DEVCENTER' | project TimeGenerated, OperationNameValue, ActivityStatusValue"
 ```
 
-### Example 6: Grant User Access to Dev Box
+## Cleanup
 
-```bash
-# Assign Dev Box User role to a user
-az role assignment create \
-  --assignee "user@contoso.com" \
-  --role "DevCenter Dev Box User" \
-  --scope "/subscriptions/<subscription-id>/resourceGroups/<workload-rg>/providers/Microsoft.DevCenter/projects/<project-name>"
+To remove all deployed resources:
 
-# Verify role assignment
-az role assignment list \
-  --assignee "user@contoso.com" \
-  --scope "/subscriptions/<subscription-id>/resourceGroups/<workload-rg>/providers/Microsoft.DevCenter/projects/<project-name>" \
-  --output table
-```
-
-### Example 7: Clean Up Resources
+### Windows (PowerShell)
 
 ```powershell
-# Windows PowerShell
-.\cleanSetUp.ps1 -EnvName "dev-team-east" -Location "eastus2"
-
-# This script will:
-# - Delete all deployments
-# - Remove service principals
-# - Delete resource groups
-# - Clean up Azure DevOps/GitHub configurations
+.\cleanSetUp.ps1 -EnvName "prod" -Location "eastus2"
 ```
 
-**Note:** Always review resources before deletion to prevent accidental data loss.
-
-### Example 8: Update Existing Deployment
+### Linux/macOS (Bash)
 
 ```bash
-# Make configuration changes
-code infra/settings/workload/devcenter.yaml
-
-# Re-run provisioning (updates existing resources)
-azd provision -e "dev-team-east"
-
-# Monitor update progress
-azd show -e "dev-team-east"
+# Manual cleanup
+azd down -e prod --purge --force
 ```
 
-**Note:** Azure Developer CLI performs incremental updates, modifying only changed resources while preserving existing configurations.
+**Warning:** This operation is irreversible and will delete all resources, including Key Vault secrets with purge protection.
+
+## Configuration Reference
+
+### Landing Zone Configuration
+
+The solution organizes resources into four landing zones:
+
+| Landing Zone | Purpose | Resources | Configuration File |
+|--------------|---------|-----------|-------------------|
+| **Security** | Secret and key management | Key Vault, Secrets | security.yaml |
+| **Monitoring** | Observability and logging | Log Analytics Workspace | N/A (auto-configured) |
+| **Connectivity** | Network infrastructure | Virtual Network, Subnets, Network Connection | Defined per-project in devcenter.yaml |
+| **Workload** | DevCenter resources | DevCenter, Projects, Pools, Catalogs | devcenter.yaml |
+
+### Catalog Configuration
+
+Catalogs provide environment definitions and image definitions for Dev Boxes:
+
+```yaml
+catalogs:
+  - name: "catalog-name"
+    type: "gitHub" | "adoGit"
+    visibility: "public" | "private"
+    uri: "https://github.com/org/repo"
+    branch: "main"
+    path: "/path/to/definitions"
+```
+
+**Supported Catalog Types:**
+- `gitHub`: GitHub repositories
+- `adoGit`: Azure DevOps Git repositories
+
+**Visibility Options:**
+- `public`: No authentication required
+- `private`: Requires PAT stored in Key Vault
+
+### Network Configuration
+
+The solution supports two networking models:
+
+#### Managed Networking (Microsoft-Hosted)
+
+```yaml
+network:
+  virtualNetworkType: "Managed"
+  microsoftHostedNetworkEnableStatus: "Enabled"
+```
+
+#### Unmanaged Networking (Customer-Managed)
+
+```yaml
+network:
+  name: "vnet-devcenter"
+  virtualNetworkType: "Unmanaged"
+  create: true
+  resourceGroupName: "connectivity-ENV_NAME-LOCATION-RG"
+  addressPrefixes:
+    - "10.0.0.0/16"
+  subnets:
+    - name: "subnet-devbox"
+      addressPrefix: "10.0.0.0/24"
+```
+
+### Identity and RBAC Configuration
+
+The solution supports multiple identity and RBAC patterns:
+
+#### DevCenter Identity
+
+```yaml
+identity:
+  type: "SystemAssigned"
+  roleAssignments:
+    devCenter:
+      - id: "ROLE_DEFINITION_ID"
+        name: "Role Name"
+        scope: "Subscription" | "ResourceGroup"
+```
+
+#### Project Identity
+
+```yaml
+identity:
+  type: "SystemAssigned"
+  roleAssignments:
+    - azureADGroupId: "GROUP_OBJECT_ID"
+      azureADGroupName: "Group Name"
+      azureRBACRoles:
+        - id: "ROLE_DEFINITION_ID"
+          name: "Role Name"
+          scope: "Project" | "ResourceGroup"
+```
+
+#### Environment Type Identity
+
+```yaml
+environmentTypes:
+  - name: "dev"
+    deploymentTargetId: "/subscriptions/SUBSCRIPTION_ID"
+    # System-assigned identity created automatically
+```
+
+## Troubleshooting
+
+### Common Issues
+
+#### Authentication Failures
+
+**Symptom**: Setup script fails with authentication errors
+
+**Resolution**:
+1. Verify Azure CLI authentication: `az account show`
+2. Verify GitHub CLI authentication: `gh auth status`
+3. Ensure PAT has correct permissions
+4. Re-run setup script
+
+#### Quota Exceeded
+
+**Symptom**: Deployment fails with quota error
+
+**Resolution**:
+1. Check DevCenter quota: `az devcenter admin usage list --location LOCATION`
+2. Request quota increase via Azure Portal
+3. Retry deployment
+
+#### Network Connection Failures
+
+**Symptom**: Network connection attachment fails
+
+**Resolution**:
+1. Verify subnet exists: `az network vnet subnet show`
+2. Ensure subnet is not in use by other resources
+3. Verify subnet delegation is not configured
+4. Check NSG rules for outbound connectivity
+
+#### Key Vault Access Denied
+
+**Symptom**: Unable to retrieve secrets from Key Vault
+
+**Resolution**:
+1. Verify RBAC assignments: `az role assignment list --assignee YOUR_IDENTITY`
+2. Check Key Vault access policies: `az keyvault show --name YOUR_KEYVAULT`
+3. Ensure managed identity has Key Vault Secrets User role
+
+### Diagnostic Commands
+
+#### View Resource Deployment Status
+
+```bash
+az deployment sub show --name DEPLOYMENT_NAME
+```
+
+#### View Role Assignments
+
+```bash
+az role assignment list --scope /subscriptions/SUBSCRIPTION_ID --output table
+```
+
+#### View Diagnostic Settings
+
+```bash
+az monitor diagnostic-settings list --resource RESOURCE_ID
+```
+
+#### View Log Analytics Queries
+
+```bash
+az monitor log-analytics query \
+  --workspace YOUR_WORKSPACE_ID \
+  --analytics-query "AzureDiagnostics | where ResourceProvider == 'MICROSOFT.DEVCENTER' | limit 100"
+```
+
+## Release Strategy
+
+The solution implements a branch-based semantic versioning strategy:
+
+| Branch Pattern | Version Strategy | Release Publication |
+|----------------|------------------|-------------------|
+| `main` | Conditional major increment | ✅ Published |
+| `feature/**` | Patch increment with overflow | ❌ Not published |
+| `fix/**` | Minor increment with overflow | ❌ Not published |
+
+For detailed release strategy documentation, see RELEASE_STRATEGY.md.
+
+## Contributing
+
+Contributions are welcome! Please read CONTRIBUTING.md for guidelines on:
+- Code of conduct
+- Development workflow
+- Pull request process
+- Coding standards
+
+## Security
+
+For reporting security vulnerabilities, please review SECURITY.md.
+
+## License
+
+This project is licensed under the MIT License. See LICENSE for details.
+
+## Support
+
+For issues, questions, or feature requests:
+1. Check existing [GitHub Issues](https://github.com/Evilazaro/DevExp-DevBox/issues)
+2. Create a new issue with detailed information
+3. Use appropriate labels (bug, enhancement, question)
+
+## Additional Resources
+
+### Microsoft Documentation
+
+- [Microsoft Dev Box Documentation](https://learn.microsoft.com/azure/dev-box/)
+- [Azure DevCenter Documentation](https://learn.microsoft.com/azure/dev-center/)
+- [Azure Bicep Documentation](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
+- [Azure Developer CLI Documentation](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
+
+### Related Projects
+
+- [Azure Landing Zones](https://github.com/Azure/Enterprise-Scale)
+- [Azure Verified Modules](https://github.com/Azure/bicep-registry-modules)
+- [Cloud Adoption Framework](https://learn.microsoft.com/azure/cloud-adoption-framework/)
+
+---
+
+**Maintained by**: DevExp Team  
+**Last Updated**: 2024
