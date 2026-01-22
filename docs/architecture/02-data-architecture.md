@@ -542,33 +542,40 @@ AzureDiagnostics
 ### Configuration Loading Flow
 
 ```mermaid
+---
+title: Configuration Loading Flow
+---
 flowchart TB
-    subgraph "Source Control"
-        YAML1[azureResources.yaml]
-        YAML2[security.yaml]
-        YAML3[devcenter.yaml]
+    %% ===== SOURCE CONTROL =====
+    subgraph sourceControl["Source Control"]
+        YAML1["azureResources.yaml"]
+        YAML2["security.yaml"]
+        YAML3["devcenter.yaml"]
     end
     
-    subgraph "Bicep Compilation"
-        MAIN[main.bicep]
-        LOAD1[loadYamlContent<br/>resourceOrganization]
-        LOAD2[loadYamlContent<br/>security]
-        LOAD3[loadYamlContent<br/>workload]
+    %% ===== BICEP COMPILATION =====
+    subgraph bicepCompile["Bicep Compilation"]
+        MAIN["main.bicep"]
+        LOAD1["loadYamlContent<br/>resourceOrganization"]
+        LOAD2["loadYamlContent<br/>security"]
+        LOAD3["loadYamlContent<br/>workload"]
     end
     
-    subgraph "Azure Resources"
-        RG1[Security RG]
-        RG2[Monitoring RG]
-        RG3[Workload RG]
+    %% ===== AZURE RESOURCES =====
+    subgraph azureResources["Azure Resources"]
+        RG1["Security RG"]
+        RG2["Monitoring RG"]
+        RG3["Workload RG"]
     end
     
-    YAML1 --> LOAD1
-    YAML2 --> LOAD2
-    YAML3 --> LOAD3
+    %% ===== RELATIONSHIPS =====
+    YAML1 -->|loads| LOAD1
+    YAML2 -->|loads| LOAD2
+    YAML3 -->|loads| LOAD3
     
-    MAIN --> LOAD1
-    MAIN --> LOAD2
-    MAIN --> LOAD3
+    MAIN -->|invokes| LOAD1
+    MAIN -->|invokes| LOAD2
+    MAIN -->|invokes| LOAD3
     
     LOAD1 -->|createResourceGroupName| RG1
     LOAD1 -->|createResourceGroupName| RG2
@@ -577,7 +584,21 @@ flowchart TB
     LOAD2 -->|keyVault config| RG1
     LOAD3 -->|devCenter config| RG3
     
-    style MAIN fill:#FF6B35,color:#fff
+    %% ===== CLASS DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    %% ===== CLASS ASSIGNMENTS =====
+    class MAIN primary
+    class YAML1,YAML2,YAML3 datastore
+    class LOAD1,LOAD2,LOAD3 secondary
+    class RG1,RG2,RG3 primary
+    
+    %% ===== SUBGRAPH STYLES =====
+    style sourceControl fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style bicepCompile fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style azureResources fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ### Secrets Flow Diagram
