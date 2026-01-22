@@ -2,12 +2,12 @@
 
 > **DevExp-DevBox Landing Zone Accelerator**
 
-| Metadata | Value |
-|----------|-------|
-| **Version** | 1.0.0 |
-| **Last Updated** | January 22, 2026 |
-| **Author** | Platform Engineering Team |
-| **Status** | Active |
+| Metadata         | Value                     |
+| ---------------- | ------------------------- |
+| **Version**      | 1.0.0                     |
+| **Last Updated** | January 22, 2026          |
+| **Author**       | Platform Engineering Team |
+| **Status**       | Active                    |
 
 ---
 
@@ -27,7 +27,10 @@
 
 ## Architecture Overview
 
-The DevExp-DevBox Landing Zone Accelerator implements a **modular Bicep architecture** following Azure Landing Zone patterns. The solution is organized into four distinct landing zones, each with dedicated resource groups and specialized Bicep modules.
+The DevExp-DevBox Landing Zone Accelerator implements a **modular Bicep
+architecture** following Azure Landing Zone patterns. The solution is organized
+into four distinct landing zones, each with dedicated resource groups and
+specialized Bicep modules.
 
 ### Landing Zone Architecture
 
@@ -37,26 +40,26 @@ flowchart TB
         subgraph Main["main.bicep (Orchestrator)"]
             PARAMS[/"Parameters:<br/>location, secretValue,<br/>environmentName"/]
         end
-        
+
         subgraph Security["Security Landing Zone"]
             SEC_RG[Security Resource Group]
             KV[Key Vault]
             SECRET[Secrets]
         end
-        
+
         subgraph Monitoring["Monitoring Landing Zone"]
             MON_RG[Monitoring Resource Group]
             LA[Log Analytics Workspace]
             SOL[Solutions]
         end
-        
+
         subgraph Connectivity["Connectivity Landing Zone"]
             CON_RG[Connectivity Resource Group]
             VNET[Virtual Network]
             SUBNET[Subnets]
             NC[Network Connection]
         end
-        
+
         subgraph Workload["Workload Landing Zone"]
             WRK_RG[Workload Resource Group]
             DC[DevCenter]
@@ -66,46 +69,46 @@ flowchart TB
             POOL[Pools]
         end
     end
-    
+
     PARAMS --> SEC_RG
     PARAMS --> MON_RG
     PARAMS --> WRK_RG
-    
+
     MON_RG --> LA
     LA --> SOL
-    
+
     SEC_RG --> KV
     KV --> SECRET
-    
+
     WRK_RG --> DC
     DC --> CAT
     DC --> ENV
     DC --> PROJ
     PROJ --> POOL
-    
+
     PROJ -.->|Optional| CON_RG
     CON_RG --> VNET
     VNET --> SUBNET
     SUBNET --> NC
     NC --> DC
-    
+
     LA -.->|Diagnostics| KV
     LA -.->|Diagnostics| DC
     LA -.->|Diagnostics| VNET
-    
+
     SECRET -.->|Auth| CAT
 ```
 
 ### Architecture Principles
 
-| Principle | Description | Implementation |
-|-----------|-------------|----------------|
-| **Modularity** | Each module has a single responsibility | Separate `.bicep` files per resource type |
-| **Declarative Configuration** | Infrastructure defined as code | YAML configuration files with JSON schemas |
-| **Separation of Concerns** | Landing zones isolate different functions | Resource groups by security, monitoring, workload |
-| **Least Privilege** | Minimal permissions per identity | Scoped RBAC role assignments |
-| **Configuration as Code** | All settings version controlled | Git repository with YAML files |
-| **Idempotency** | Repeated deployments yield same result | Bicep's declarative model |
+| Principle                     | Description                               | Implementation                                    |
+| ----------------------------- | ----------------------------------------- | ------------------------------------------------- |
+| **Modularity**                | Each module has a single responsibility   | Separate `.bicep` files per resource type         |
+| **Declarative Configuration** | Infrastructure defined as code            | YAML configuration files with JSON schemas        |
+| **Separation of Concerns**    | Landing zones isolate different functions | Resource groups by security, monitoring, workload |
+| **Least Privilege**           | Minimal permissions per identity          | Scoped RBAC role assignments                      |
+| **Configuration as Code**     | All settings version controlled           | Git repository with YAML files                    |
+| **Idempotency**               | Repeated deployments yield same result    | Bicep's declarative model                         |
 
 ---
 
@@ -152,30 +155,31 @@ src/
 
 - **Path**: `infra/main.bicep`
 - **Scope**: Subscription
-- **Purpose**: Top-level orchestrator that creates resource groups and coordinates all module deployments
+- **Purpose**: Top-level orchestrator that creates resource groups and
+  coordinates all module deployments
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `location` | string | Yes | Azure region (validated against allowed list) |
-| `secretValue` | securestring | Yes | GitHub/ADO PAT token |
-| `environmentName` | string | Yes | Environment name (2-10 chars) |
+| Parameter         | Type         | Required | Description                                   |
+| ----------------- | ------------ | -------- | --------------------------------------------- |
+| `location`        | string       | Yes      | Azure region (validated against allowed list) |
+| `secretValue`     | securestring | Yes      | GitHub/ADO PAT token                          |
+| `environmentName` | string       | Yes      | Environment name (2-10 chars)                 |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
-| `SECURITY_AZURE_RESOURCE_GROUP_NAME` | string | Security RG name |
-| `MONITORING_AZURE_RESOURCE_GROUP_NAME` | string | Monitoring RG name |
-| `WORKLOAD_AZURE_RESOURCE_GROUP_NAME` | string | Workload RG name |
-| `AZURE_LOG_ANALYTICS_WORKSPACE_ID` | string | Log Analytics resource ID |
-| `AZURE_LOG_ANALYTICS_WORKSPACE_NAME` | string | Log Analytics workspace name |
-| `AZURE_KEY_VAULT_NAME` | string | Key Vault name |
-| `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | string | Secret URI |
-| `AZURE_KEY_VAULT_ENDPOINT` | string | Key Vault URI |
-| `AZURE_DEV_CENTER_NAME` | string | DevCenter name |
-| `AZURE_DEV_CENTER_PROJECTS` | array | List of project names |
+| Output                                 | Type   | Description                  |
+| -------------------------------------- | ------ | ---------------------------- |
+| `SECURITY_AZURE_RESOURCE_GROUP_NAME`   | string | Security RG name             |
+| `MONITORING_AZURE_RESOURCE_GROUP_NAME` | string | Monitoring RG name           |
+| `WORKLOAD_AZURE_RESOURCE_GROUP_NAME`   | string | Workload RG name             |
+| `AZURE_LOG_ANALYTICS_WORKSPACE_ID`     | string | Log Analytics resource ID    |
+| `AZURE_LOG_ANALYTICS_WORKSPACE_NAME`   | string | Log Analytics workspace name |
+| `AZURE_KEY_VAULT_NAME`                 | string | Key Vault name               |
+| `AZURE_KEY_VAULT_SECRET_IDENTIFIER`    | string | Secret URI                   |
+| `AZURE_KEY_VAULT_ENDPOINT`             | string | Key Vault URI                |
+| `AZURE_DEV_CENTER_NAME`                | string | DevCenter name               |
+| `AZURE_DEV_CENTER_PROJECTS`            | array  | List of project names        |
 
 **Dependencies**: None (entry point)
 
@@ -191,25 +195,26 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `name` | string | Yes | - | Base name (4-49 chars) |
-| `location` | string | No | resourceGroup().location | Azure region |
-| `tags` | object | No | {} | Resource tags |
-| `sku` | string | No | PerGB2018 | Workspace SKU |
+| Parameter  | Type   | Required | Default                  | Description            |
+| ---------- | ------ | -------- | ------------------------ | ---------------------- |
+| `name`     | string | Yes      | -                        | Base name (4-49 chars) |
+| `location` | string | No       | resourceGroup().location | Azure region           |
+| `tags`     | object | No       | {}                       | Resource tags          |
+| `sku`      | string | No       | PerGB2018                | Workspace SKU          |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
-| `AZURE_LOG_ANALYTICS_WORKSPACE_ID` | string | Workspace resource ID |
-| `AZURE_LOG_ANALYTICS_WORKSPACE_NAME` | string | Workspace name |
+| Output                               | Type   | Description           |
+| ------------------------------------ | ------ | --------------------- |
+| `AZURE_LOG_ANALYTICS_WORKSPACE_ID`   | string | Workspace resource ID |
+| `AZURE_LOG_ANALYTICS_WORKSPACE_NAME` | string | Workspace name        |
 
 **Dependencies**: Monitoring resource group
 
 **Dependents**: `security.bicep`, `workload.bicep`, `vnet.bicep`
 
 **Resources Created**:
+
 - `Microsoft.OperationalInsights/workspaces` - Log Analytics workspace
 - `Microsoft.OperationsManagement/solutions` - Azure Activity solution
 - `Microsoft.Insights/diagnosticSettings` - Self-diagnostics
@@ -224,19 +229,19 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `tags` | object | Yes | Resource tags |
-| `secretValue` | securestring | Yes | Secret content |
-| `logAnalyticsId` | string | Yes | Log Analytics workspace ID |
+| Parameter        | Type         | Required | Description                |
+| ---------------- | ------------ | -------- | -------------------------- |
+| `tags`           | object       | Yes      | Resource tags              |
+| `secretValue`    | securestring | Yes      | Secret content             |
+| `logAnalyticsId` | string       | Yes      | Log Analytics workspace ID |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
-| `AZURE_KEY_VAULT_NAME` | string | Key Vault name |
-| `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | string | Secret URI |
-| `AZURE_KEY_VAULT_ENDPOINT` | string | Key Vault endpoint |
+| Output                              | Type   | Description        |
+| ----------------------------------- | ------ | ------------------ |
+| `AZURE_KEY_VAULT_NAME`              | string | Key Vault name     |
+| `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | string | Secret URI         |
+| `AZURE_KEY_VAULT_ENDPOINT`          | string | Key Vault endpoint |
 
 **Dependencies**: `logAnalytics.bicep`
 
@@ -252,26 +257,28 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `keyvaultSettings` | object | Yes | Key Vault configuration from YAML |
-| `location` | string | No | Azure region |
-| `tags` | object | Yes | Resource tags |
-| `unique` | string | No | Unique suffix for naming |
+| Parameter          | Type   | Required | Description                       |
+| ------------------ | ------ | -------- | --------------------------------- |
+| `keyvaultSettings` | object | Yes      | Key Vault configuration from YAML |
+| `location`         | string | No       | Azure region                      |
+| `tags`             | object | Yes      | Resource tags                     |
+| `unique`           | string | No       | Unique suffix for naming          |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
-| `AZURE_KEY_VAULT_NAME` | string | Key Vault name |
-| `AZURE_KEY_VAULT_ENDPOINT` | string | Vault URI |
+| Output                     | Type   | Description    |
+| -------------------------- | ------ | -------------- |
+| `AZURE_KEY_VAULT_NAME`     | string | Key Vault name |
+| `AZURE_KEY_VAULT_ENDPOINT` | string | Vault URI      |
 
 **Dependencies**: Security resource group
 
 **Dependents**: `secret.bicep`
 
 **Resources Created**:
-- `Microsoft.KeyVault/vaults` - Key Vault with RBAC, soft delete, purge protection
+
+- `Microsoft.KeyVault/vaults` - Key Vault with RBAC, soft delete, purge
+  protection
 
 ---
 
@@ -283,18 +290,18 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `name` | string | Yes | Secret name |
-| `secretValue` | securestring | Yes | Secret content |
-| `keyVaultName` | string | Yes | Target Key Vault |
-| `logAnalyticsId` | string | Yes | Log Analytics workspace ID |
+| Parameter        | Type         | Required | Description                |
+| ---------------- | ------------ | -------- | -------------------------- |
+| `name`           | string       | Yes      | Secret name                |
+| `secretValue`    | securestring | Yes      | Secret content             |
+| `keyVaultName`   | string       | Yes      | Target Key Vault           |
+| `logAnalyticsId` | string       | Yes      | Log Analytics workspace ID |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
-| `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | string | Secret URI |
+| Output                              | Type   | Description |
+| ----------------------------------- | ------ | ----------- |
+| `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | string | Secret URI  |
 
 **Dependencies**: `keyVault.bicep`, `logAnalytics.bicep`
 
@@ -310,19 +317,19 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `logAnalyticsId` | string | Yes | Log Analytics workspace ID |
-| `secretIdentifier` | securestring | Yes | Key Vault secret URI |
-| `securityResourceGroupName` | string | Yes | Security RG for RBAC |
-| `location` | string | No | Azure region |
+| Parameter                   | Type         | Required | Description                |
+| --------------------------- | ------------ | -------- | -------------------------- |
+| `logAnalyticsId`            | string       | Yes      | Log Analytics workspace ID |
+| `secretIdentifier`          | securestring | Yes      | Key Vault secret URI       |
+| `securityResourceGroupName` | string       | Yes      | Security RG for RBAC       |
+| `location`                  | string       | No       | Azure region               |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
-| `AZURE_DEV_CENTER_NAME` | string | DevCenter name |
-| `AZURE_DEV_CENTER_PROJECTS` | array | List of project names |
+| Output                      | Type   | Description           |
+| --------------------------- | ------ | --------------------- |
+| `AZURE_DEV_CENTER_NAME`     | string | DevCenter name        |
+| `AZURE_DEV_CENTER_PROJECTS` | array  | List of project names |
 
 **Dependencies**: `logAnalytics.bicep`, `security.bicep`
 
@@ -338,20 +345,20 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `config` | DevCenterConfig | Yes | DevCenter configuration |
-| `catalogs` | array | Yes | Catalog definitions |
-| `environmentTypes` | array | Yes | Environment type definitions |
-| `logAnalyticsId` | string | Yes | Log Analytics workspace ID |
-| `secretIdentifier` | securestring | Yes | Secret for private catalogs |
-| `securityResourceGroupName` | string | Yes | Security RG name |
-| `location` | string | No | Azure region |
+| Parameter                   | Type            | Required | Description                  |
+| --------------------------- | --------------- | -------- | ---------------------------- |
+| `config`                    | DevCenterConfig | Yes      | DevCenter configuration      |
+| `catalogs`                  | array           | Yes      | Catalog definitions          |
+| `environmentTypes`          | array           | Yes      | Environment type definitions |
+| `logAnalyticsId`            | string          | Yes      | Log Analytics workspace ID   |
+| `secretIdentifier`          | securestring    | Yes      | Secret for private catalogs  |
+| `securityResourceGroupName` | string          | Yes      | Security RG name             |
+| `location`                  | string          | No       | Azure region                 |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
+| Output                  | Type   | Description    |
+| ----------------------- | ------ | -------------- |
 | `AZURE_DEV_CENTER_NAME` | string | DevCenter name |
 
 **Dependencies**: `logAnalytics.bicep`, `secret.bicep`
@@ -359,6 +366,7 @@ src/
 **Dependents**: `project.bicep`, `catalog.bicep`, `environmentType.bicep`
 
 **Resources Created**:
+
 - `Microsoft.DevCenter/devcenters` - DevCenter resource
 - `Microsoft.Insights/diagnosticSettings` - Diagnostic settings
 - Role assignments via identity modules
@@ -375,31 +383,32 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `devCenterName` | string | Yes | Parent DevCenter |
-| `name` | string | Yes | Project name |
-| `logAnalyticsId` | string | Yes | Log Analytics workspace ID |
-| `projectDescription` | string | Yes | Project description |
-| `catalogs` | object[] | Yes | Project-specific catalogs |
-| `projectEnvironmentTypes` | array | Yes | Enabled environment types |
-| `projectPools` | array | Yes | Dev Box pool definitions |
-| `projectNetwork` | object | Yes | Network configuration |
-| `secretIdentifier` | securestring | Yes | Secret for private catalogs |
-| `securityResourceGroupName` | string | Yes | Security RG name |
-| `identity` | Identity | Yes | Project identity config |
-| `tags` | object | No | Resource tags |
-| `location` | string | No | Azure region |
+| Parameter                   | Type         | Required | Description                 |
+| --------------------------- | ------------ | -------- | --------------------------- |
+| `devCenterName`             | string       | Yes      | Parent DevCenter            |
+| `name`                      | string       | Yes      | Project name                |
+| `logAnalyticsId`            | string       | Yes      | Log Analytics workspace ID  |
+| `projectDescription`        | string       | Yes      | Project description         |
+| `catalogs`                  | object[]     | Yes      | Project-specific catalogs   |
+| `projectEnvironmentTypes`   | array        | Yes      | Enabled environment types   |
+| `projectPools`              | array        | Yes      | Dev Box pool definitions    |
+| `projectNetwork`            | object       | Yes      | Network configuration       |
+| `secretIdentifier`          | securestring | Yes      | Secret for private catalogs |
+| `securityResourceGroupName` | string       | Yes      | Security RG name            |
+| `identity`                  | Identity     | Yes      | Project identity config     |
+| `tags`                      | object       | No       | Resource tags               |
+| `location`                  | string       | No       | Azure region                |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
+| Output               | Type   | Description  |
+| -------------------- | ------ | ------------ |
 | `AZURE_PROJECT_NAME` | string | Project name |
 
 **Dependencies**: `devCenter.bicep`
 
-**Dependents**: `projectPool.bicep`, `projectCatalog.bicep`, `projectEnvironmentType.bicep`
+**Dependents**: `projectPool.bicep`, `projectCatalog.bicep`,
+`projectEnvironmentType.bicep`
 
 ---
 
@@ -411,16 +420,16 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `name` | string | Yes | Pool name (e.g., `backend-engineer`) |
-| `location` | string | No | Azure region |
-| `catalogs` | Catalog[] | Yes | Catalog references for images |
-| `imageDefinitionName` | string | Yes | Image definition name |
-| `networkConnectionName` | string | Yes | Network connection name |
-| `vmSku` | string | Yes | VM SKU (e.g., `general_i_32c128gb512ssd_v2`) |
-| `networkType` | string | Yes | Managed or Unmanaged |
-| `projectName` | string | Yes | Parent project |
+| Parameter               | Type      | Required | Description                                  |
+| ----------------------- | --------- | -------- | -------------------------------------------- |
+| `name`                  | string    | Yes      | Pool name (e.g., `backend-engineer`)         |
+| `location`              | string    | No       | Azure region                                 |
+| `catalogs`              | Catalog[] | Yes      | Catalog references for images                |
+| `imageDefinitionName`   | string    | Yes      | Image definition name                        |
+| `networkConnectionName` | string    | Yes      | Network connection name                      |
+| `vmSku`                 | string    | Yes      | VM SKU (e.g., `general_i_32c128gb512ssd_v2`) |
+| `networkType`           | string    | Yes      | Managed or Unmanaged                         |
+| `projectName`           | string    | Yes      | Parent project                               |
 
 **Outputs**: None
 
@@ -429,6 +438,7 @@ src/
 **Dependents**: None (terminal module)
 
 **Resources Created**:
+
 - `Microsoft.DevCenter/projects/pools` - Dev Box pool
 
 ---
@@ -441,18 +451,18 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `devCenterName` | string | Yes | Parent DevCenter |
-| `catalogConfig` | Catalog | Yes | Catalog configuration |
-| `secretIdentifier` | securestring | Yes | Secret for private repos |
+| Parameter          | Type         | Required | Description              |
+| ------------------ | ------------ | -------- | ------------------------ |
+| `devCenterName`    | string       | Yes      | Parent DevCenter         |
+| `catalogConfig`    | Catalog      | Yes      | Catalog configuration    |
+| `secretIdentifier` | securestring | Yes      | Secret for private repos |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
-| `AZURE_DEV_CENTER_CATALOG_NAME` | string | Catalog name |
-| `AZURE_DEV_CENTER_CATALOG_ID` | string | Catalog resource ID |
+| Output                          | Type   | Description                  |
+| ------------------------------- | ------ | ---------------------------- |
+| `AZURE_DEV_CENTER_CATALOG_NAME` | string | Catalog name                 |
+| `AZURE_DEV_CENTER_CATALOG_ID`   | string | Catalog resource ID          |
 | `AZURE_DEV_CENTER_CATALOG_TYPE` | string | Catalog type (gitHub/adoGit) |
 
 **Dependencies**: `devCenter.bicep`, `secret.bicep`
@@ -469,19 +479,19 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `devCenterName` | string | Yes | DevCenter name |
-| `projectNetwork` | object | Yes | Network configuration |
-| `logAnalyticsId` | string | Yes | Log Analytics workspace ID |
-| `location` | string | Yes | Azure region |
+| Parameter        | Type   | Required | Description                |
+| ---------------- | ------ | -------- | -------------------------- |
+| `devCenterName`  | string | Yes      | DevCenter name             |
+| `projectNetwork` | object | Yes      | Network configuration      |
+| `logAnalyticsId` | string | Yes      | Log Analytics workspace ID |
+| `location`       | string | Yes      | Azure region               |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
+| Output                  | Type   | Description             |
+| ----------------------- | ------ | ----------------------- |
 | `networkConnectionName` | string | Network connection name |
-| `networkType` | string | Managed or Unmanaged |
+| `networkType`           | string | Managed or Unmanaged    |
 
 **Dependencies**: `devCenter.bicep`, `logAnalytics.bicep`
 
@@ -497,17 +507,17 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `logAnalyticsId` | string | Yes | Log Analytics workspace ID |
-| `location` | string | Yes | Azure region |
-| `tags` | object | No | Resource tags |
-| `settings` | object | Yes | Network settings (name, type, subnets) |
+| Parameter        | Type   | Required | Description                            |
+| ---------------- | ------ | -------- | -------------------------------------- |
+| `logAnalyticsId` | string | Yes      | Log Analytics workspace ID             |
+| `location`       | string | Yes      | Azure region                           |
+| `tags`           | object | No       | Resource tags                          |
+| `settings`       | object | Yes      | Network settings (name, type, subnets) |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
+| Output                  | Type   | Description                      |
+| ----------------------- | ------ | -------------------------------- |
 | `AZURE_VIRTUAL_NETWORK` | object | VNet details (name, RG, subnets) |
 
 **Dependencies**: Connectivity resource group
@@ -515,6 +525,7 @@ src/
 **Dependents**: `networkConnection.bicep`
 
 **Resources Created**:
+
 - `Microsoft.Network/virtualNetworks` - Virtual network (if create=true)
 - `Microsoft.Insights/diagnosticSettings` - VNet diagnostics
 
@@ -528,16 +539,16 @@ src/
 
 **Inputs**:
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `devCenterName` | string | Yes | DevCenter name |
-| `name` | string | Yes | Connection name |
-| `subnetId` | string | Yes | Target subnet resource ID |
+| Parameter       | Type   | Required | Description               |
+| --------------- | ------ | -------- | ------------------------- |
+| `devCenterName` | string | Yes      | DevCenter name            |
+| `name`          | string | Yes      | Connection name           |
+| `subnetId`      | string | Yes      | Target subnet resource ID |
 
 **Outputs**:
 
-| Output | Type | Description |
-|--------|------|-------------|
+| Output                  | Type   | Description             |
+| ----------------------- | ------ | ----------------------- |
 | `networkConnectionName` | string | Network connection name |
 
 **Dependencies**: `vnet.bicep`, `devCenter.bicep`
@@ -548,14 +559,14 @@ src/
 
 ### Identity Modules
 
-| Module | Path | Purpose |
-|--------|------|---------|
-| `devCenterRoleAssignment.bicep` | `src/identity/` | Subscription-scope role assignments for DevCenter managed identity |
-| `devCenterRoleAssignmentRG.bicep` | `src/identity/` | Resource group-scope role assignments for DevCenter managed identity |
-| `projectIdentityRoleAssignment.bicep` | `src/identity/` | Project-scope role assignments for project managed identity |
-| `projectIdentityRoleAssignmentRG.bicep` | `src/identity/` | Security RG role assignments for project managed identity |
-| `orgRoleAssignment.bicep` | `src/identity/` | Role assignments for organizational AD groups |
-| `keyVaultAccess.bicep` | `src/identity/` | Key Vault access configuration |
+| Module                                  | Path            | Purpose                                                              |
+| --------------------------------------- | --------------- | -------------------------------------------------------------------- |
+| `devCenterRoleAssignment.bicep`         | `src/identity/` | Subscription-scope role assignments for DevCenter managed identity   |
+| `devCenterRoleAssignmentRG.bicep`       | `src/identity/` | Resource group-scope role assignments for DevCenter managed identity |
+| `projectIdentityRoleAssignment.bicep`   | `src/identity/` | Project-scope role assignments for project managed identity          |
+| `projectIdentityRoleAssignmentRG.bicep` | `src/identity/` | Security RG role assignments for project managed identity            |
+| `orgRoleAssignment.bicep`               | `src/identity/` | Role assignments for organizational AD groups                        |
+| `keyVaultAccess.bicep`                  | `src/identity/` | Key Vault access configuration                                       |
 
 ---
 
@@ -568,17 +579,17 @@ flowchart TD
     subgraph Entry["Entry Point"]
         MAIN[main.bicep]
     end
-    
+
     subgraph Management["Management Layer"]
         LA[logAnalytics.bicep]
     end
-    
+
     subgraph Security["Security Layer"]
         SEC[security.bicep]
         KV[keyVault.bicep]
         SECRET[secret.bicep]
     end
-    
+
     subgraph Workload["Workload Layer"]
         WRK[workload.bicep]
         DC[devCenter.bicep]
@@ -589,14 +600,14 @@ flowchart TD
         PENV[projectEnvironmentType.bicep]
         POOL[projectPool.bicep]
     end
-    
+
     subgraph Connectivity["Connectivity Layer"]
         CONN[connectivity.bicep]
         VNET[vnet.bicep]
         NC[networkConnection.bicep]
         RG[resourceGroup.bicep]
     end
-    
+
     subgraph Identity["Identity Layer"]
         DCRA[devCenterRoleAssignment]
         DCRA_RG[devCenterRoleAssignmentRG]
@@ -604,55 +615,55 @@ flowchart TD
         PRA_RG[projectIdentityRoleAssignmentRG]
         ORA[orgRoleAssignment]
     end
-    
+
     MAIN --> LA
     MAIN --> SEC
     MAIN --> WRK
-    
+
     SEC --> KV
     SEC --> SECRET
     KV --> SECRET
     LA --> SECRET
-    
+
     WRK --> DC
     WRK --> PROJ
     LA --> DC
     SECRET --> DC
-    
+
     DC --> CAT
     DC --> ENV
     DC --> DCRA
     DC --> DCRA_RG
     DC --> ORA
-    
+
     PROJ --> PCAT
     PROJ --> PENV
     PROJ --> POOL
     PROJ --> CONN
     PROJ --> PRA
     PROJ --> PRA_RG
-    
+
     CONN --> RG
     CONN --> VNET
     CONN --> NC
     LA --> VNET
-    
+
     NC --> DC
 ```
 
 ### Dependency Matrix
 
-| Module | Depends On | Provides To |
-|--------|------------|-------------|
-| `main.bicep` | - | All modules |
-| `logAnalytics.bicep` | main | security, workload, connectivity |
-| `keyVault.bicep` | main | secret |
-| `secret.bicep` | keyVault, logAnalytics | devCenter, catalog |
-| `security.bicep` | logAnalytics | workload |
-| `devCenter.bicep` | logAnalytics, secret | project, catalog, envType |
-| `project.bicep` | devCenter | pool, projectCatalog, projectEnvType |
-| `connectivity.bicep` | devCenter, logAnalytics | projectPool |
-| `projectPool.bicep` | project, connectivity, projectCatalog | - |
+| Module               | Depends On                            | Provides To                          |
+| -------------------- | ------------------------------------- | ------------------------------------ |
+| `main.bicep`         | -                                     | All modules                          |
+| `logAnalytics.bicep` | main                                  | security, workload, connectivity     |
+| `keyVault.bicep`     | main                                  | secret                               |
+| `secret.bicep`       | keyVault, logAnalytics                | devCenter, catalog                   |
+| `security.bicep`     | logAnalytics                          | workload                             |
+| `devCenter.bicep`    | logAnalytics, secret                  | project, catalog, envType            |
+| `project.bicep`      | devCenter                             | pool, projectCatalog, projectEnvType |
+| `connectivity.bicep` | devCenter, logAnalytics               | projectPool                          |
+| `projectPool.bicep`  | project, connectivity, projectCatalog | -                                    |
 
 ---
 
@@ -669,29 +680,29 @@ sequenceDiagram
     participant MON as Monitoring Module
     participant SEC as Security Module
     participant WRK as Workload Module
-    
+
     User->>AZD: azd provision
     AZD->>ARM: Deploy main.bicep
-    
+
     par Create Resource Groups
         ARM->>RG: Create Security RG
         ARM->>RG: Create Monitoring RG
         ARM->>RG: Create Workload RG
     end
-    
+
     ARM->>MON: Deploy logAnalytics.bicep
     MON-->>ARM: AZURE_LOG_ANALYTICS_WORKSPACE_ID
-    
+
     ARM->>SEC: Deploy security.bicep
     Note over SEC: Uses logAnalyticsId
     SEC-->>ARM: AZURE_KEY_VAULT_SECRET_IDENTIFIER
-    
+
     ARM->>WRK: Deploy workload.bicep
     Note over WRK: Uses logAnalyticsId, secretIdentifier
-    
+
     WRK->>WRK: Deploy devCenter.bicep
     WRK->>WRK: Deploy project.bicep (loop)
-    
+
     WRK-->>ARM: AZURE_DEV_CENTER_NAME, AZURE_DEV_CENTER_PROJECTS
     ARM-->>AZD: Deployment outputs
     AZD-->>User: Deployment complete
@@ -699,13 +710,13 @@ sequenceDiagram
 
 ### Deployment Scopes
 
-| Scope | Modules | Purpose |
-|-------|---------|---------|
-| **Subscription** | `main.bicep`, `devCenterRoleAssignment.bicep` | Create RGs, subscription-level RBAC |
-| **Security RG** | `keyVault.bicep`, `secret.bicep` | Security resources |
-| **Monitoring RG** | `logAnalytics.bicep` | Monitoring resources |
-| **Workload RG** | `devCenter.bicep`, `project.bicep`, `projectPool.bicep` | DevCenter resources |
-| **Connectivity RG** | `vnet.bicep`, `networkConnection.bicep` | Network resources (conditional) |
+| Scope               | Modules                                                 | Purpose                             |
+| ------------------- | ------------------------------------------------------- | ----------------------------------- |
+| **Subscription**    | `main.bicep`, `devCenterRoleAssignment.bicep`           | Create RGs, subscription-level RBAC |
+| **Security RG**     | `keyVault.bicep`, `secret.bicep`                        | Security resources                  |
+| **Monitoring RG**   | `logAnalytics.bicep`                                    | Monitoring resources                |
+| **Workload RG**     | `devCenter.bicep`, `project.bicep`, `projectPool.bicep` | DevCenter resources                 |
+| **Connectivity RG** | `vnet.bicep`, `networkConnection.bicep`                 | Network resources (conditional)     |
 
 ### Deployment Commands
 
@@ -780,13 +791,13 @@ type NetworkSettings = {
 
 ### Output Contract Summary
 
-| Module | Key Output | Type | Consumer |
-|--------|------------|------|----------|
-| `logAnalytics` | `AZURE_LOG_ANALYTICS_WORKSPACE_ID` | string | security, workload, connectivity |
-| `security` | `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | string | workload (catalogs) |
-| `devCenter` | `AZURE_DEV_CENTER_NAME` | string | projects, network connections |
-| `connectivity` | `networkConnectionName` | string | projectPool |
-| `vnet` | `AZURE_VIRTUAL_NETWORK` | object | networkConnection |
+| Module         | Key Output                          | Type   | Consumer                         |
+| -------------- | ----------------------------------- | ------ | -------------------------------- |
+| `logAnalytics` | `AZURE_LOG_ANALYTICS_WORKSPACE_ID`  | string | security, workload, connectivity |
+| `security`     | `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | string | workload (catalogs)              |
+| `devCenter`    | `AZURE_DEV_CENTER_NAME`             | string | projects, network connections    |
+| `connectivity` | `networkConnectionName`             | string | projectPool                      |
+| `vnet`         | `AZURE_VIRTUAL_NETWORK`             | object | networkConnection                |
 
 ---
 
@@ -794,14 +805,14 @@ type NetworkSettings = {
 
 ### Patterns Implemented
 
-| Pattern | Description | Implementation |
-|---------|-------------|----------------|
-| **Modular Design** | Single responsibility per module | Each `.bicep` file handles one resource type |
-| **Declarative Configuration** | Configuration separate from logic | YAML files in `infra/settings/` |
-| **Factory Pattern** | Loop-based resource creation | `for` loops for projects, pools, catalogs |
-| **Dependency Injection** | Parameters passed between modules | Output-to-input parameter chaining |
-| **Conditional Deployment** | Resources created based on conditions | `if` statements for optional resources |
-| **Orchestrator Pattern** | Parent modules coordinate children | `workload.bicep` orchestrates DevCenter modules |
+| Pattern                       | Description                           | Implementation                                  |
+| ----------------------------- | ------------------------------------- | ----------------------------------------------- |
+| **Modular Design**            | Single responsibility per module      | Each `.bicep` file handles one resource type    |
+| **Declarative Configuration** | Configuration separate from logic     | YAML files in `infra/settings/`                 |
+| **Factory Pattern**           | Loop-based resource creation          | `for` loops for projects, pools, catalogs       |
+| **Dependency Injection**      | Parameters passed between modules     | Output-to-input parameter chaining              |
+| **Conditional Deployment**    | Resources created based on conditions | `if` statements for optional resources          |
+| **Orchestrator Pattern**      | Parent modules coordinate children    | `workload.bicep` orchestrates DevCenter modules |
 
 ### Conditional Deployment Examples
 
@@ -854,8 +865,8 @@ output AZURE_DEV_CENTER_PROJECTS array = [
 
 ```yaml
 projects:
-  - name: "new-project"
-    description: "New project description"
+  - name: 'new-project'
+    description: 'New project description'
     network:
       name: new-project
       create: true
@@ -863,15 +874,15 @@ projects:
     identity:
       type: SystemAssigned
       roleAssignments:
-        - azureADGroupId: "<group-id>"
-          azureADGroupName: "New Project Developers"
+        - azureADGroupId: '<group-id>'
+          azureADGroupName: 'New Project Developers'
           azureRBACRoles:
-            - name: "Dev Box User"
-              id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
+            - name: 'Dev Box User'
+              id: '45d50f46-0b78-4001-a660-4198cbe8cd05'
               scope: Project
     pools:
-      - name: "developer"
-        imageDefinitionName: "new-project-developer"
+      - name: 'developer'
+        imageDefinitionName: 'new-project-developer'
         vmSku: general_i_16c64gb256ssd_v2
     # ... rest of config
 ```
@@ -884,8 +895,8 @@ projects:
 
 ```yaml
 pools:
-  - name: "new-pool"
-    imageDefinitionName: "custom-image"
+  - name: 'new-pool'
+    imageDefinitionName: 'custom-image'
     vmSku: general_i_32c128gb512ssd_v2
 ```
 
@@ -899,34 +910,35 @@ pools:
 
 ```yaml
 catalogs:
-  - name: "new-catalog"
+  - name: 'new-catalog'
     type: gitHub
     visibility: private
-    uri: "https://github.com/org/repo.git"
-    branch: "main"
-    path: "./definitions"
+    uri: 'https://github.com/org/repo.git'
+    branch: 'main'
+    path: './definitions'
 ```
 
 2. **Project-Level Catalog** (in project section):
 
 ```yaml
 projects:
-  - name: "project"
+  - name: 'project'
     catalogs:
-      - name: "project-catalog"
+      - name: 'project-catalog'
         type: imageDefinition
         sourceControl: gitHub
         visibility: private
-        uri: "https://github.com/org/project-repo.git"
-        branch: "main"
-        path: "/.devcenter/imageDefinitions"
+        uri: 'https://github.com/org/project-repo.git'
+        branch: 'main'
+        path: '/.devcenter/imageDefinitions'
 ```
 
 ### Adding a New Landing Zone
 
 1. **Create New Module** (`src/newzone/newzone.bicep`)
 
-2. **Update Resource Organization** (`infra/settings/resourceOrganization/azureResources.yaml`):
+2. **Update Resource Organization**
+   (`infra/settings/resourceOrganization/azureResources.yaml`):
 
 ```yaml
 newzone:
@@ -962,27 +974,27 @@ flowchart TD
         YAML[YAML Files]
         SCHEMA[JSON Schemas]
     end
-    
+
     subgraph Extension["Extension Points"]
         NEW_PROJ[New Project]
         NEW_POOL[New Pool]
         NEW_CAT[New Catalog]
         NEW_LZ[New Landing Zone]
     end
-    
+
     subgraph Modules["Module Layer"]
         EXISTING[Existing Modules]
         NEW_MOD[New Modules]
     end
-    
+
     YAML --> Extension
     SCHEMA --> YAML
-    
+
     NEW_PROJ --> |Uses| EXISTING
     NEW_POOL --> |Uses| EXISTING
     NEW_CAT --> |Uses| EXISTING
     NEW_LZ --> |Requires| NEW_MOD
-    
+
     NEW_MOD --> |Follow patterns of| EXISTING
 ```
 
@@ -992,35 +1004,36 @@ flowchart TD
 
 ### External References
 
-| Reference | URL | Description |
-|-----------|-----|-------------|
-| Bicep Documentation | https://learn.microsoft.com/azure/azure-resource-manager/bicep/ | Bicep language reference |
-| Azure Landing Zones | https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/ | CAF guidance |
-| DevCenter API Reference | https://learn.microsoft.com/azure/templates/microsoft.devcenter/ | Bicep resource reference |
+| Reference               | URL                                                                            | Description              |
+| ----------------------- | ------------------------------------------------------------------------------ | ------------------------ |
+| Bicep Documentation     | https://learn.microsoft.com/azure/azure-resource-manager/bicep/                | Bicep language reference |
+| Azure Landing Zones     | https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/ | CAF guidance             |
+| DevCenter API Reference | https://learn.microsoft.com/azure/templates/microsoft.devcenter/               | Bicep resource reference |
 
 ### Related Architecture Documents
 
-| Document | Path | Description |
-|----------|------|-------------|
-| Business Architecture | [01-business-architecture.md](./01-business-architecture.md) | Business context |
-| Data Architecture | [02-data-architecture.md](./02-data-architecture.md) | Data models and flows |
-| Technology Architecture | [04-technology-architecture.md](./04-technology-architecture.md) | Azure services |
+| Document                | Path                                                             | Description           |
+| ----------------------- | ---------------------------------------------------------------- | --------------------- |
+| Business Architecture   | [01-business-architecture.md](./01-business-architecture.md)     | Business context      |
+| Data Architecture       | [02-data-architecture.md](./02-data-architecture.md)             | Data models and flows |
+| Technology Architecture | [04-technology-architecture.md](./04-technology-architecture.md) | Azure services        |
 
 ---
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| **Bicep** | Domain-specific language for Azure resource deployment |
-| **Module** | Reusable Bicep file that can be called from other templates |
-| **Scope** | Deployment level (tenant, management group, subscription, resource group) |
-| **Orchestrator** | Module that coordinates deployment of multiple child modules |
-| **Factory Pattern** | Design pattern using loops to create multiple similar resources |
-| **loadYamlContent()** | Bicep function to load YAML as typed configuration |
-| **targetScope** | Bicep declaration specifying deployment scope |
-| **dependsOn** | Explicit dependency declaration between resources/modules |
+| Term                  | Definition                                                                |
+| --------------------- | ------------------------------------------------------------------------- |
+| **Bicep**             | Domain-specific language for Azure resource deployment                    |
+| **Module**            | Reusable Bicep file that can be called from other templates               |
+| **Scope**             | Deployment level (tenant, management group, subscription, resource group) |
+| **Orchestrator**      | Module that coordinates deployment of multiple child modules              |
+| **Factory Pattern**   | Design pattern using loops to create multiple similar resources           |
+| **loadYamlContent()** | Bicep function to load YAML as typed configuration                        |
+| **targetScope**       | Bicep declaration specifying deployment scope                             |
+| **dependsOn**         | Explicit dependency declaration between resources/modules                 |
 
 ---
 
-*This document follows TOGAF Architecture Development Method (ADM) principles and aligns with the Application Architecture domain of the BDAT framework.*
+_This document follows TOGAF Architecture Development Method (ADM) principles
+and aligns with the Application Architecture domain of the BDAT framework._
