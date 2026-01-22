@@ -77,8 +77,22 @@ $Script:AdoToken = ""
 function Write-LogMessage {
     <#
     .SYNOPSIS
-        Logging function with different levels and colors
+        Logging function with different levels and colors.
+
+    .DESCRIPTION
+        Writes formatted log messages with timestamps and colored output
+        based on the message severity level.
+
+    .PARAMETER Message
+        The message text to log.
+
+    .PARAMETER Level
+        The severity level of the message. Valid values: Info, Warning, Error, Success.
+
+    .EXAMPLE
+        Write-LogMessage -Message "Operation completed" -Level "Success"
     #>
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
         [string]$Message,
@@ -113,8 +127,23 @@ function Write-LogMessage {
 function Test-CommandAvailability {
     <#
     .SYNOPSIS
-        Check if a command is available in PATH
+        Check if a command is available in PATH.
+
+    .DESCRIPTION
+        Verifies that the specified command or tool is available
+        for execution in the current environment.
+
+    .PARAMETER Command
+        The name of the command to check.
+
+    .OUTPUTS
+        System.Boolean - True if command exists, False otherwise.
+
+    .EXAMPLE
+        if (Test-CommandAvailability -Command "az") { Write-Host "Azure CLI is available" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
     param(
         [Parameter(Mandatory = $true)]
         [string]$Command
@@ -161,10 +190,25 @@ REQUIREMENTS:
 function Test-SourceControlValidation {
     <#
     .SYNOPSIS
-        Validate source control platform
+        Validates the source control platform parameter.
+
+    .DESCRIPTION
+        Checks if the specified platform is a valid source control option.
+
+    .PARAMETER Platform
+        The source control platform to validate (github, adogit, or empty).
+
+    .OUTPUTS
+        System.Boolean - True if valid, False otherwise.
+
+    .EXAMPLE
+        if (Test-SourceControlValidation -Platform "github") { Write-Host "Valid platform" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
     param(
         [Parameter(Mandatory = $true)]
+        [AllowEmptyString()]
         [string]$Platform
     )
     
