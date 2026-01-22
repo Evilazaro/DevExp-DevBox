@@ -263,7 +263,7 @@ function Update-MicrosoftStoreApps {
 
     # Pass 1: Accept msstore terms & upgrade what winget can detect
     Write-LogInfo "Pass 1: upgrading Microsoft Store apps (include-unknown)..."
-    $null = Invoke-WinGetCommand -Arguments @(
+    $null = Invoke-WinGetCommand -CommandArgs @(
         'upgrade', '--all',
         '--source', 'msstore',
         '--include-unknown',
@@ -274,7 +274,7 @@ function Update-MicrosoftStoreApps {
 
     # Pass 2: Force re-install latest for stragglers where version compare is unknown
     Write-LogInfo "Pass 2: forced upgrade (msstore) for remaining/unknown version apps..."
-    $null = Invoke-WinGetCommand -Arguments @(
+    $null = Invoke-WinGetCommand -CommandArgs @(
         'upgrade', '--all',
         '--source', 'msstore',
         '--include-unknown',
@@ -286,7 +286,7 @@ function Update-MicrosoftStoreApps {
 
     # Safety net pass: catch apps mapped under other sources
     Write-LogInfo "Safety net: unfiltered pass to catch any remaining packages..."
-    $null = Invoke-WinGetCommand -Arguments @(
+    $null = Invoke-WinGetCommand -CommandArgs @(
         'upgrade', '--all',
         '--include-unknown',
         '--silent',
@@ -296,7 +296,7 @@ function Update-MicrosoftStoreApps {
 
     # Summary: show any remaining Store upgrades
     Write-LogInfo "Summary check for remaining Microsoft Store upgrades..."
-    $null = Invoke-WinGetCommand -Arguments @('upgrade', '--source', 'msstore', '--disable-interactivity')
+    $null = Invoke-WinGetCommand -CommandArgs @('upgrade', '--source', 'msstore', '--disable-interactivity')
 }
 
 # Main script execution
