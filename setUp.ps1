@@ -586,8 +586,18 @@ function Start-AzureProvisioning {
 function Select-SourceControlPlatform {
     <#
     .SYNOPSIS
-        Interactive source control platform selection
+        Provides interactive source control platform selection.
+
+    .DESCRIPTION
+        Prompts the user to select their source control platform
+        when not specified via parameter.
+
+    .EXAMPLE
+        Select-SourceControlPlatform
     #>
+    [CmdletBinding()]
+    param()
+
     Write-LogMessage "Please select your source control platform:" "Info"
     Write-Host ""
     Write-Host "  " -NoNewline
@@ -625,8 +635,18 @@ function Select-SourceControlPlatform {
 function Test-Arguments {
     <#
     .SYNOPSIS
-        Validate and process command line arguments
+        Validates and processes command line arguments.
+
+    .DESCRIPTION
+        Checks for help flag, validates required parameters, and prompts
+        for source control selection if not provided.
+
+    .EXAMPLE
+        Test-Arguments
     #>
+    [CmdletBinding()]
+    param()
+
     # Show help if requested
     if ($Help) {
         Show-Help
