@@ -147,6 +147,9 @@ infra/settings/
 ### Data Entity Relationship Diagram
 
 ```mermaid
+---
+title: Data Entity Relationship Model
+---
 erDiagram
     LANDING_ZONES ||--o{ RESOURCE_GROUPS : contains
     RESOURCE_GROUPS ||--o{ RESOURCES : hosts
@@ -348,38 +351,61 @@ projects:
 ### Key Vault Architecture
 
 ```mermaid
+---
+title: Key Vault Security Architecture
+---
 graph TB
-    subgraph "Azure Key Vault"
-        KV[contoso-*****-kv]
-        SEC1[gha-token<br/>GitHub PAT]
+    %% ===== KEY VAULT =====
+    subgraph kvault["Azure Key Vault"]
+        KV["contoso-*****-kv"]
+        SEC1["gha-token<br/>GitHub PAT"]
     end
     
-    subgraph "Access Patterns"
-        DC[DevCenter<br/>Managed Identity]
-        PROJ[Project<br/>Managed Identity]
-        CICD[CI/CD Pipeline<br/>OIDC]
+    %% ===== ACCESS PATTERNS =====
+    subgraph access["Access Patterns"]
+        DC["DevCenter<br/>Managed Identity"]
+        PROJ["Project<br/>Managed Identity"]
+        CICD["CI/CD Pipeline<br/>OIDC"]
     end
     
-    subgraph "Consumers"
-        CAT1[DevCenter<br/>Catalogs]
-        CAT2[Project<br/>Catalogs]
+    %% ===== CONSUMERS =====
+    subgraph consumers["Consumers"]
+        CAT1["DevCenter<br/>Catalogs"]
+        CAT2["Project<br/>Catalogs"]
     end
     
+    %% ===== RELATIONSHIPS =====
     DC -->|Key Vault Secrets User| KV
     PROJ -->|Key Vault Secrets User| KV
     CICD -->|Key Vault Secrets Officer| KV
     
-    KV --> SEC1
+    KV -->|stores| SEC1
     SEC1 -->|secretIdentifier| CAT1
     SEC1 -->|secretIdentifier| CAT2
     
-    style KV fill:#0078D4,color:#fff
-    style SEC1 fill:#D32F2F,color:#fff
+    %% ===== CLASS DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef security fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    %% ===== CLASS ASSIGNMENTS =====
+    class KV primary
+    class SEC1 security
+    class DC,PROJ,CICD secondary
+    class CAT1,CAT2 primary
+    
+    %% ===== SUBGRAPH STYLES =====
+    style kvault fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style access fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style consumers fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 ### Secret Lifecycle
 
 ```mermaid
+---
+title: Secret Lifecycle Flow
+---
 sequenceDiagram
     participant Admin as Administrator
     participant GH as GitHub
