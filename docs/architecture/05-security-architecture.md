@@ -113,9 +113,11 @@ graph TB
 | **Monitoring** | ✅ Strong | Centralized logging, diagnostic settings |
 | **CI/CD** | ✅ Strong | OIDC federation, no stored secrets |
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Threat Model
+## ⚠️ Threat Model
 
 ### STRIDE Analysis
 
@@ -233,9 +235,11 @@ graph TB
 | Network Attacks | Low | Medium | Low | ✅ Mitigated |
 | CI/CD Compromise | Low | Critical | Medium | ✅ Mitigated |
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Identity & Access Management
+## 🔑 Identity & Access Management
 
 ### Identity Architecture
 
@@ -322,9 +326,11 @@ sequenceDiagram
     KV-->>DC: Secret Value
 ```
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Authorization & RBAC
+## ✅ Authorization & RBAC
 
 ### RBAC Hierarchy
 
@@ -381,9 +387,11 @@ graph TB
 | DevCenter | Platform management | DevCenter admins |
 | Project | Team isolation | Project-level roles |
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Secrets Management
+## 🔒 Secrets Management
 
 ### Key Vault Architecture
 
@@ -468,9 +476,11 @@ sequenceDiagram
 | `softDeleteRetentionInDays` | `7` | Minimum retention |
 | `enableRbacAuthorization` | `true` | RBAC instead of access policies |
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Network Security
+## 🌐 Network Security
 
 ### Network Security Topology
 
@@ -533,9 +543,11 @@ graph TB
 3. **Azure Firewall**: Add for egress control in enterprise scenarios
 4. **Azure Bastion**: Use for secure Dev Box access
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Data Protection
+## 📀 Data Protection
 
 ### Encryption Matrix
 
@@ -561,9 +573,11 @@ graph TB
 - **PAT Tokens**: Retrieved at runtime, not embedded in templates
 - **User Data**: Managed on Dev Box disks with encryption
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Security Monitoring & Logging
+## 📊 Security Monitoring & Logging
 
 ### Security Logging Architecture
 
@@ -646,9 +660,11 @@ AzureDiagnostics
 | Role Assignment Change | roleAssignments/write | High |
 | DevCenter Config Change | DevCenter update operations | Medium |
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Compliance & Governance
+## 📋 Compliance & Governance
 
 ### Compliance Mapping
 
@@ -680,9 +696,11 @@ tags:
 | Log Analytics | CanNotDelete | Preserve audit logs |
 | DevCenter | CanNotDelete | Protect platform |
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Security Controls Matrix
+## 🎯 Security Controls Matrix
 
 ### Control Inventory
 
@@ -755,9 +773,11 @@ tags:
 | High | Platform + Security | CISO |
 | Critical | All Teams | Incident Commander |
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Security Hardening
+## 🛠️ Security Hardening
 
 ### Key Vault Hardening
 
@@ -788,9 +808,11 @@ The accelerator implements secure defaults:
 - ✅ Diagnostic settings on all resources
 - ✅ OIDC federation for CI/CD (no secrets in pipelines)
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Supply Chain Security
+## 📦 Supply Chain Security
 
 ### Catalog Security
 
@@ -836,9 +858,11 @@ graph LR
 | YAML Configs | Git versioned | Schema validation |
 | CI/CD Actions | Pinned versions | Dependabot alerts |
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## CI/CD Security
+## 🔄 CI/CD Security
 
 ### Pipeline Security Architecture
 
@@ -906,9 +930,11 @@ graph TB
 3. **Pinned Action Versions**: Prevent supply chain attacks
 4. **Branch Protection**: Require PR reviews for main
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Security Recommendations
+## 💡 Security Recommendations
 
 ### Current Gaps
 
@@ -944,9 +970,11 @@ gantt
 4. **Microsoft Defender**: Enable Defender for Key Vault
 5. **Resource Locks**: Prevent accidental deletion
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## References
+## 📚 References
 
 ### Internal Documents
 
@@ -964,9 +992,11 @@ gantt
 - [NIST 800-53 Controls](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
 - [CIS Azure Benchmark](https://www.cisecurity.org/benchmark/azure)
 
+[↑ Back to Top](#-security-architecture)
+
 ---
 
-## Glossary
+## 📖 Glossary
 
 | Term | Definition |
 |------|------------|
@@ -978,6 +1008,8 @@ gantt
 | **Soft Delete** | Key Vault feature allowing secret recovery |
 | **STRIDE** | Threat modeling framework (Spoofing, Tampering, Repudiation, Information Disclosure, DoS, Elevation) |
 | **Defense in Depth** | Multiple layers of security controls |
+
+[↑ Back to Top](#-security-architecture)
 
 ---
 
