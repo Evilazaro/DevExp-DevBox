@@ -674,8 +674,18 @@ function Test-Arguments {
 function Invoke-Main {
     <#
     .SYNOPSIS
-        Main execution function
+        Main execution function for the setup script.
+
+    .DESCRIPTION
+        Orchestrates the complete setup process including argument validation,
+        tool verification, authentication checks, and environment initialization.
+
+    .EXAMPLE
+        Invoke-Main
     #>
+    [CmdletBinding()]
+    param()
+
     $requiredTools = @("az", "azd")
     
     # Process arguments
