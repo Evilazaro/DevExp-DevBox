@@ -704,6 +704,9 @@ AzureDiagnostics
 
 ### Compliance Mapping
 
+<details>
+<summary><strong>📋 Click to expand Compliance Mapping (NIST 800-53 + CIS Azure)</strong></summary>
+
 | Framework | Control | Implementation | Evidence |
 |-----------|---------|----------------|----------|
 | **NIST 800-53** | AC-2 (Account Management) | Azure AD groups + RBAC | Role assignment audit |
@@ -713,6 +716,8 @@ AzureDiagnostics
 | **CIS Azure** | 4.1.1 | RBAC authorization for Key Vault | enableRbacAuthorization: true |
 | **CIS Azure** | 4.1.3 | Key Vault soft delete | enableSoftDelete: true |
 | **CIS Azure** | 4.1.4 | Key Vault purge protection | enablePurgeProtection: true |
+
+</details>
 
 ### Tagging for Compliance
 
