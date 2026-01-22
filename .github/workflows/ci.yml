@@ -18,13 +18,20 @@ on:
       - main
     types: [opened, synchronize, reopened]
 
+# Least-privilege permissions - only request what's needed
 permissions:
-  contents: write
-  pull-requests: read # Added for PR triggers
+  contents: write # Required for creating tags
+  pull-requests: read # Required for PR triggers
 
 jobs:
+  # -----------------------------------------------------------------------------
+  # Job: generate-tag-version
+  # Purpose: Calculate semantic version based on branch and commit history
+  # -----------------------------------------------------------------------------
   generate-tag-version:
+    name: Generate Tag Version
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       new_version: ${{ steps.release.outputs.new_version }}
       release_type: ${{ steps.release.outputs.release_type }}
@@ -34,21 +41,32 @@ jobs:
       branch_name: ${{ steps.release.outputs.branch_name }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        # Pin to SHA for security - see https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+          fetch-depth: 0 # Full history needed for tag analysis
 
-      - name: Generate Release
+      - name: Generate Release Information
         id: release
-        uses: ./.github/actions/ci/generate-tag-version
+        uses: ./.github/actions/ci/generate-release
 
+  # -----------------------------------------------------------------------------
+  # Job: build
+  # Purpose: Compile Bicep templates and create artifacts
+  # -----------------------------------------------------------------------------
   build:
+    name: Build Bicep Templates
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: generate-tag-version
+    # Only build if version generation succeeded
+    if: needs.generate-tag-version.result == 'success'
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
 
