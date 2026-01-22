@@ -107,6 +107,9 @@ graph TB
 
 ### Azure Services Deployed
 
+<details>
+<summary><strong>📋 Click to expand Azure Services Inventory (10 services)</strong></summary>
+
 | Service | Resource Type | Landing Zone | Purpose |
 |:--------|:--------------|:------------:|:--------|
 | **Azure DevCenter** | Microsoft.DevCenter/devcenters | Workload | Central management for Dev Box environments |
@@ -119,6 +122,8 @@ graph TB
 | **Virtual Networks** | Microsoft.Network/virtualNetworks | Connectivity | Network infrastructure |
 | **Network Connections** | Microsoft.DevCenter/networkConnections | Connectivity | Dev Box network attachment |
 | **Role Assignments** | Microsoft.Authorization/roleAssignments | Cross-cutting | RBAC permissions |
+
+</details>
 
 ### Resource Naming Convention
 

@@ -654,6 +654,8 @@ type Catalog = {
 | `roles` | array | Yes | Role definitions to assign |
 | `principalType` | string | No | Default: `Group` |
 
+</details>
+
 ---
 
 ## Module Dependencies
