@@ -134,7 +134,7 @@ function Invoke-WinGetCommand {
         Executes winget directly by absolute path and logs output.
         Optionally retries if winget updated itself mid-run.
     
-    .PARAMETER Arguments
+    .PARAMETER CommandArgs
         The arguments to pass to winget.
     
     .PARAMETER RetryOnSelfUpdate
@@ -144,20 +144,21 @@ function Invoke-WinGetCommand {
         System.String - The output from winget.
     
     .EXAMPLE
-        Invoke-WinGetCommand -Arguments @('upgrade', '--all') -RetryOnSelfUpdate
+        Invoke-WinGetCommand -CommandArgs @('upgrade', '--all') -RetryOnSelfUpdate
     #>
     [CmdletBinding()]
     [OutputType([string])]
     param(
         [Parameter(Mandatory = $true)]
-        [string[]]$Arguments,
+        [Alias('Arguments')]
+        [string[]]$CommandArgs,
 
         [Parameter(Mandatory = $false)]
         [switch]$RetryOnSelfUpdate
     )
 
     # Execute the EXE directly
-    $output = & $Script:WinGetExe @Arguments 2>&1
+    $output = & $Script:WinGetExe @CommandArgs 2>&1
     $text = $output | Out-String
     $text | Tee-Object -FilePath $Script:LogFile -Append | Out-Null
 
@@ -165,7 +166,7 @@ function Invoke-WinGetCommand {
         Write-LogInfo "winget/App Installer updated itself; re-resolving path and retrying once..."
         Start-Sleep -Milliseconds 500
         $Script:WinGetExe = Resolve-WinGetExecutable
-        $output = & $Script:WinGetExe @Arguments 2>&1
+        $output = & $Script:WinGetExe @CommandArgs 2>&1
         $text = $output | Out-String
         $text | Tee-Object -FilePath $Script:LogFile -Append | Out-Null
     }
@@ -189,7 +190,7 @@ function Test-WinGetAvailability {
     param()
 
     try {
-        $null = Invoke-WinGetCommand -Arguments @('--version')
+        $null = Invoke-WinGetCommand -CommandArgs @('--version')
         return $true
     }
     catch {
