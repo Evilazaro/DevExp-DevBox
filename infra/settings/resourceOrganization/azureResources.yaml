@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./azureResources.shema.json
+# yaml-language-server: $schema=./azureResources.schema.json
 #
 # azureResources.yaml
 # -------------------------------------------------------
