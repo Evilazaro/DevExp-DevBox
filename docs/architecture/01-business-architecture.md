@@ -84,6 +84,9 @@ Azure Landing Zone best practices.
 ### Target Outcomes
 
 ```mermaid
+---
+title: DevExp-DevBox Value Proposition
+---
 mindmap
   root((DevExp-DevBox<br/>Value))
     Developer Productivity
@@ -134,33 +137,58 @@ The DevExp-DevBox accelerator serves organizations that:
 ### Business Drivers
 
 ```mermaid
+---
+title: Business Drivers for DevExp-DevBox
+---
 flowchart LR
+    %% ===== STYLE DEFINITIONS =====
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== EXTERNAL DRIVERS =====
     subgraph External["External Drivers"]
-        A[Security Compliance]
-        B[Talent Competition]
-        C[Remote Work]
+        A["Security Compliance"]
+        B["Talent Competition"]
+        C["Remote Work"]
     end
 
+    %% ===== INTERNAL DRIVERS =====
     subgraph Internal["Internal Drivers"]
-        D[Developer Productivity]
-        E[Cost Optimization]
-        F[Operational Efficiency]
+        D["Developer Productivity"]
+        E["Cost Optimization"]
+        F["Operational Efficiency"]
     end
 
+    %% ===== SOLUTION =====
     subgraph Solution["DevExp-DevBox"]
-        G[Landing Zone<br/>Accelerator]
+        G["Landing Zone<br/>Accelerator"]
     end
 
-    A --> G
-    B --> G
-    C --> G
-    D --> G
-    E --> G
-    F --> G
+    %% ===== CONNECTIONS =====
+    A -->|"drives"| G
+    B -->|"drives"| G
+    C -->|"drives"| G
+    D -->|"drives"| G
+    E -->|"drives"| G
+    F -->|"drives"| G
 
-    G --> H[Secure Dev<br/>Environments]
-    G --> I[Fast Onboarding]
-    G --> J[Centralized<br/>Management]
+    %% ===== OUTCOMES =====
+    G -->|"enables"| H["Secure Dev<br/>Environments"]
+    G -->|"enables"| I["Fast Onboarding"]
+    G -->|"enables"| J["Centralized<br/>Management"]
+
+    %% ===== APPLY STYLES =====
+    class A,B,C external
+    class D,E,F primary
+    class G secondary
+    class H,I,J datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style External fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style Internal fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Solution fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ---
@@ -170,6 +198,9 @@ flowchart LR
 ### Stakeholder Map
 
 ```mermaid
+---
+title: Stakeholder Influence vs Interest Matrix
+---
 quadrantChart
     title Stakeholder Influence vs Interest Matrix
     x-axis Low Interest --> High Interest
@@ -222,13 +253,18 @@ _R = Responsible, A = Accountable, C = Consulted, I = Informed_
 ### Business Capability Model
 
 ```mermaid
+---
+title: DevExp-DevBox Business Capabilities
+---
 block-beta
     columns 4
 
+    %% ===== HEADER =====
     block:header:4
         A["DevExp-DevBox Business Capabilities"]
     end
 
+    %% ===== SECURITY CAPABILITY =====
     block:security:1
         B["🔐 Security"]
         B1["Key Vault Management"]
@@ -237,6 +273,7 @@ block-beta
         B4["Compliance Reporting"]
     end
 
+    %% ===== MONITORING CAPABILITY =====
     block:monitoring:1
         C["📊 Monitoring"]
         C1["Log Analytics"]
@@ -245,6 +282,7 @@ block-beta
         C4["Alert Management"]
     end
 
+    %% ===== CONNECTIVITY CAPABILITY =====
     block:connectivity:1
         D["🌐 Connectivity"]
         D1["VNet Management"]
@@ -253,6 +291,7 @@ block-beta
         D4["NSG Rules"]
     end
 
+    %% ===== WORKLOAD CAPABILITY =====
     block:workload:1
         E["💻 Workload"]
         E1["DevCenter Management"]
@@ -260,6 +299,13 @@ block-beta
         E3["Pool Configuration"]
         E4["Catalog Management"]
     end
+
+    %% ===== SUBGRAPH STYLING =====
+    style header fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style security fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style monitoring fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style connectivity fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style workload fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Capability to Landing Zone Mapping
@@ -299,28 +345,53 @@ block-beta
 ### Developer Onboarding Value Stream
 
 ```mermaid
+---
+title: Developer Onboarding Value Stream
+---
 flowchart LR
+    %% ===== STYLE DEFINITIONS =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+
+    %% ===== TRIGGER STAGE =====
     subgraph Trigger["Trigger"]
-        A[New Developer<br/>Joins Team]
+        A["New Developer<br/>Joins Team"]
     end
 
+    %% ===== PROCESS STAGE =====
     subgraph Process["Onboarding Process"]
-        B[Add to<br/>Azure AD Group]
-        C[RBAC Auto-<br/>Assignment]
-        D[Access<br/>DevCenter Portal]
-        E[Select<br/>Dev Box Pool]
-        F[Provision<br/>Dev Box]
-        G[DSC Config<br/>Applied]
+        B["Add to<br/>Azure AD Group"]
+        C["RBAC Auto-<br/>Assignment"]
+        D["Access<br/>DevCenter Portal"]
+        E["Select<br/>Dev Box Pool"]
+        F["Provision<br/>Dev Box"]
+        G["DSC Config<br/>Applied"]
     end
 
+    %% ===== OUTCOME STAGE =====
     subgraph Outcome["Outcome"]
-        H[Developer<br/>Productive]
+        H["Developer<br/>Productive"]
     end
 
-    A --> B --> C --> D --> E --> F --> G --> H
+    %% ===== FLOW CONNECTIONS =====
+    A -->|"initiates"| B
+    B -->|"triggers"| C
+    C -->|"enables"| D
+    D -->|"leads to"| E
+    E -->|"triggers"| F
+    F -->|"applies"| G
+    G -->|"results in"| H
 
-    style A fill:#e1f5fe
-    style H fill:#c8e6c9
+    %% ===== APPLY STYLES =====
+    class A trigger
+    class B,C,D,E,F,G primary
+    class H secondary
+
+    %% ===== SUBGRAPH STYLING =====
+    style Trigger fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Process fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Outcome fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Value Stream Stages
@@ -337,7 +408,11 @@ flowchart LR
 ### Environment Provisioning Lifecycle
 
 ```mermaid
+---
+title: Environment Provisioning Lifecycle
+---
 sequenceDiagram
+    %% ===== PARTICIPANTS =====
     participant PM as Platform Manager
     participant GH as GitHub/ADO
     participant AZD as Azure Developer CLI
@@ -345,6 +420,7 @@ sequenceDiagram
     participant DC as DevCenter
     participant KV as Key Vault
 
+    %% ===== PROVISIONING FLOW =====
     PM->>GH: Push configuration changes
     GH->>GH: CI pipeline triggered
     GH->>AZD: azd provision
