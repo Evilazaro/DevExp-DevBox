@@ -1,10 +1,18 @@
+# =============================================================================
+# File: ci.yml
+# Purpose: Continuous Integration workflow for Dev Box Accelerator
+# Description: Builds and validates Bicep templates on feature/fix branches and PRs
+# Triggers: Push to feature/** and fix/** branches, PRs to main
+# =============================================================================
+
 name: Continuous Integration
 
+# Workflow triggers
 on:
   push:
     branches:
-      - 'feature/**'
-      - 'fix/**'
+      - "feature/**"
+      - "fix/**"
   pull_request:
     branches:
       - main
@@ -12,7 +20,7 @@ on:
 
 permissions:
   contents: write
-  pull-requests: read  # Added for PR triggers
+  pull-requests: read # Added for PR triggers
 
 jobs:
   generate-tag-version:

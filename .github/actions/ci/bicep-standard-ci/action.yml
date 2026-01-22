@@ -1,91 +1,97 @@
+# =============================================================================
+# File: action.yml (bicep-standard-ci)
+# Purpose: Composite action for building and uploading Bicep artifacts
+# Description: Compiles Bicep templates to ARM and uploads versioned artifacts
+# =============================================================================
+
 name: Bicep Standard CI
 description: |
   This action builds Bicep templates and uploads the artifacts.
 
 inputs:
   branch_name:
-    description: 'The name of the branch being built'
+    description: "The name of the branch being built"
     required: true
   new_version:
-    description: 'The version being built'
+    description: "The version being built"
     required: true
   should_publish:
-    description: 'Whether the build should be published'
+    description: "Whether the build should be published"
     required: true
 
 runs:
   using: composite
 
   steps:
-      - name: Update Packages
-        shell: bash
-        run: |
-          echo "✅ Updating packages..."
-          # Simulate package update
-          sudo apt-get update
-          echo "✅ Packages updated successfully"
+    - name: Update Packages
+      shell: bash
+      run: |
+        echo "✅ Updating packages..."
+        # Simulate package update
+        sudo apt-get update
+        echo "✅ Packages updated successfully"
 
-      - name: Build Accelerator Bicep
-        shell: bash
-        run: |
-          echo "✅ Building Bicep templates..."
-          mkdir -p ./artifacts
-          
-          # Check if Azure CLI is available
-          if command -v az &> /dev/null; then
-            az bicep build --file ./infra/main.bicep --outdir ./artifacts
-            echo "✅ Bicep build completed"
-          else
-            echo "⚠️ Azure CLI not available, creating placeholder artifacts"
-            echo "Bicep build would be executed here" > ./artifacts/placeholder.txt
-          fi
+    - name: Build Accelerator Bicep
+      shell: bash
+      run: |
+        echo "✅ Building Bicep templates..."
+        mkdir -p ./artifacts
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifacts-${{ inputs.new_version }}
-          path: ./artifacts
-          compression-level: 6
-          overwrite: true
-          if-no-files-found: warn
-          retention-days: 7
+        # Check if Azure CLI is available
+        if command -v az &> /dev/null; then
+          az bicep build --file ./infra/main.bicep --outdir ./artifacts
+          echo "✅ Bicep build completed"
+        else
+          echo "⚠️ Azure CLI not available, creating placeholder artifacts"
+          echo "Bicep build would be executed here" > ./artifacts/placeholder.txt
+        fi
 
-      - name: Artifact Summary
-        shell: bash
-        run: |
-          branch_name="${{ inputs.branch_name }}"
-          version="${{ inputs.new_version }}"
-          should_publish="${{ inputs.should_publish }}"
-          
-          echo "📦 Artifacts Summary:"
-          echo "  - Version: $version"
-          echo "  - Branch: $branch_name"
-          echo "  - Tag created: ✅"
-          echo "  - Artifacts uploaded: ✅"
-          echo "  - GitHub release will be published: $should_publish"
-          
-          if [[ "$should_publish" == "false" ]]; then
-            echo ""
-            echo "ℹ️  This is a development build from a non-main branch."
-            echo "   Tag and artifacts are created for tracking, but no GitHub release is published."
-          fi
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts-${{ inputs.new_version }}
+        path: ./artifacts
+        compression-level: 6
+        overwrite: true
+        if-no-files-found: warn
+        retention-days: 7
 
-      - name: Artifact Summary
-        shell: bash
-        run: |
-          branch_name="${{ inputs.branch_name }}"
-          version="${{ inputs.new_version }}"
-          should_publish="${{ inputs.should_publish }}"
-          
-          echo "📦 Artifacts Summary:"
-          echo "  - Version: $version"
-          echo "  - Branch: $branch_name"
-          echo "  - Tag created: ✅"
-          echo "  - Artifacts uploaded: ✅"
-          echo "  - GitHub release will be published: $should_publish"
-          
-          if [[ "$should_publish" == "false" ]]; then
-            echo ""
-            echo "ℹ️  This is a development build from a non-main branch."
-            echo "   Tag and artifacts are created for tracking, but no GitHub release is published."
-          fi
+    - name: Artifact Summary
+      shell: bash
+      run: |
+        branch_name="${{ inputs.branch_name }}"
+        version="${{ inputs.new_version }}"
+        should_publish="${{ inputs.should_publish }}"
+
+        echo "📦 Artifacts Summary:"
+        echo "  - Version: $version"
+        echo "  - Branch: $branch_name"
+        echo "  - Tag created: ✅"
+        echo "  - Artifacts uploaded: ✅"
+        echo "  - GitHub release will be published: $should_publish"
+
+        if [[ "$should_publish" == "false" ]]; then
+          echo ""
+          echo "ℹ️  This is a development build from a non-main branch."
+          echo "   Tag and artifacts are created for tracking, but no GitHub release is published."
+        fi
+
+    - name: Artifact Summary
+      shell: bash
+      run: |
+        branch_name="${{ inputs.branch_name }}"
+        version="${{ inputs.new_version }}"
+        should_publish="${{ inputs.should_publish }}"
+
+        echo "📦 Artifacts Summary:"
+        echo "  - Version: $version"
+        echo "  - Branch: $branch_name"
+        echo "  - Tag created: ✅"
+        echo "  - Artifacts uploaded: ✅"
+        echo "  - GitHub release will be published: $should_publish"
+
+        if [[ "$should_publish" == "false" ]]; then
+          echo ""
+          echo "ℹ️  This is a development build from a non-main branch."
+          echo "   Tag and artifacts are created for tracking, but no GitHub release is published."
+        fi

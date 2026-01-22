@@ -1,15 +1,23 @@
+# =============================================================================
+# File: release.yml
+# Purpose: Branch-based release strategy workflow for Dev Box Accelerator
+# Description: Generates semantic versions and publishes GitHub releases
+# Triggers: Manual workflow dispatch
+# =============================================================================
+
 name: Branch-Based Release Strategy
 
+# Workflow triggers
 on:
   # Manual workflow dispatch for all branches
   workflow_dispatch:
     inputs:
       force_release:
-        description: 'Force create a release (even for non-main branches)'
+        description: "Force create a release (even for non-main branches)"
         required: false
         default: false
         type: boolean
-          
+
 permissions:
   contents: write
   pull-requests: read
@@ -34,7 +42,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
-          fetch-depth: 0  # Full history for proper tag analysis
+          fetch-depth: 0 # Full history for proper tag analysis
 
       - name: Generate Release Information
         id: release
@@ -127,17 +135,17 @@ jobs:
           previous_tag="${{ needs.generate-release.outputs.previous_tag }}"
           new_version="${{ needs.generate-release.outputs.new_version }}"
           commit_sha="${{ needs.generate-release.outputs.commit_sha }}"
-          
+
           # Determine if this is a prerelease
           is_prerelease="false"
           if [[ "$branch_name" != "main" ]] || [[ "$new_version" == *"-"* ]]; then
             is_prerelease="true"
           fi
-          
+
           # Generate release body
           cat > release_notes.md << EOF
           ## 🌟 Branch-Based Release Strategy with Conditional Major Increment
-          
+
           ### 📊 Release Information
           - **🔀 Branch:** \`$branch_name\`
           - **🏷️ Version:** \`$new_version\`
@@ -145,30 +153,30 @@ jobs:
           - **🚀 Release Type:** \`$release_type\`
           - **🤖 Trigger:** ${{ github.event_name }}
           - **📝 Commit:** \`$commit_sha\`
-          
+
           ### 🎯 Release Strategy Applied
           **Main Branch:** Conditional major increment (only if minor=0 AND patch=0, otherwise increment patch with overflow logic)
-          
+
           #### Main Branch Logic (NEW RULE)
           - **If minor=0 AND patch=0:** Increment major → major+1.0.0
           - **If minor≠0 OR patch≠0:** Keep major, increment patch → major.minor.(patch+1)
           - **Overflow handling:** If patch > 99 → minor+1, patch=0; if minor > 99 → major+1, minor=0
-          
+
           #### Feature/Fix Branch Overflow Logic
           - **Feature branches:** If patch + commits > 99 → patch = 0, minor += 1
           - **Fix branches:** If minor + commits > 99 → minor = 0, major += 1
           - **Cascading overflow:** If minor overflows during patch overflow → minor = 0, major += 1
-          
+
           ### 📦 Artifacts
           - 📄 Bicep templates compiled to ARM templates
           - 🏗️ Infrastructure deployment files
           - 📋 Release metadata and documentation
-          
+
           ### 🔗 Links
           - [Commit History](https://github.com/${{ github.repository }}/commits/$branch_name)
           - [Compare Changes](https://github.com/${{ github.repository }}/compare/$previous_tag...$new_version)
           EOF
-          
+
           echo "is_prerelease=$is_prerelease" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
@@ -221,5 +229,3 @@ jobs:
           else
             echo "⚠️  Workflow completed with issues. Check individual job logs."
           fi
-
-  

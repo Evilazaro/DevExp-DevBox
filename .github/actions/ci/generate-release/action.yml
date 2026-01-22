@@ -1,24 +1,30 @@
+# =============================================================================
+# File: action.yml (generate-release)
+# Purpose: Composite action for generating release versions and tags
+# Description: Calculates semantic versions based on branch strategy and commits
+# =============================================================================
+
 name: Generate Release
 description: Generate a release based on the build outputs
 
 outputs:
   new_version:
-    description: 'The new version generated for the release'
+    description: "The new version generated for the release"
     value: ${{ steps.calculate_next_version.outputs.new_version }}
   release_type:
-    description: 'The type of release (major, minor, patch, etc.)'
+    description: "The type of release (major, minor, patch, etc.)"
     value: ${{ steps.determine_release_type.outputs.release_type }}
   previous_tag:
-    description: 'The last tag before this release'
+    description: "The last tag before this release"
     value: ${{ steps.get_tag.outputs.tag }}
   should_release:
-    description: 'Whether a release should be created'
+    description: "Whether a release should be created"
     value: ${{ steps.determine_release_type.outputs.should_release }}
   should_publish:
-    description: 'Whether the release should be published on GitHub'
+    description: "Whether the release should be published on GitHub"
     value: ${{ steps.determine_release_type.outputs.should_publish }}
   branch_name:
-    description: 'The name of the branch being built'
+    description: "The name of the branch being built"
     value: ${{ steps.branch_info.outputs.branch_name }}
 
 runs:
@@ -53,7 +59,7 @@ runs:
         else
           branch_name="${{ github.ref_name }}"
         fi
-        
+
         echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
         echo "✅ Current branch: $branch_name"
 
@@ -84,15 +90,15 @@ runs:
         branch_name="${{ steps.branch_info.outputs.branch_name }}"
         should_release="true"
         should_publish="true"
-        
+
         echo "🔍 Analyzing branch: $branch_name"
-        
+
         # For PR events, only create pre-releases
         if [ "${{ github.event_name }}" = "pull_request" ]; then
           echo "📋 Pull Request detected - Creating pre-release"
           should_publish="false"
         fi
-        
+
         if [[ "$branch_name" == "main" ]]; then
           # Main branch: conditional major increment with new rule
           release_type="main"
@@ -118,11 +124,11 @@ runs:
           should_publish="false"
           release_type="none"
         fi
-        
+
         echo "release_type=$release_type" >> $GITHUB_OUTPUT
         echo "should_release=$should_release" >> $GITHUB_OUTPUT
         echo "should_publish=$should_publish" >> $GITHUB_OUTPUT
-        
+
         echo "📋 Release Summary:"
         echo "  - Will create tag and version: $should_release"
         echo "  - Will publish GitHub release: $should_publish"
@@ -134,10 +140,10 @@ runs:
       run: |
         last_tag="${{ steps.get_tag.outputs.tag }}"
         branch_name="${{ steps.branch_info.outputs.branch_name }}"
-        
+
         echo "🔍 Counting commits for branch: $branch_name"
         echo "🏷️ Last tag: $last_tag"
-        
+
         if [ "$last_tag" = "v0.0.0" ]; then
           # No previous tags, count all commits
           if [[ "$branch_name" == "main" ]]; then
@@ -165,12 +171,12 @@ runs:
             fi
           fi
         fi
-        
+
         # Ensure minimum commit count of 1
         if [ "$commit_count" -eq 0 ]; then
           commit_count=1
         fi
-        
+
         echo "commit_count=$commit_count" >> $GITHUB_OUTPUT
         echo "✅ Commits to include: $commit_count"
 
@@ -183,18 +189,18 @@ runs:
         release_type="${{ steps.determine_release_type.outputs.release_type }}"
         commit_count="${{ steps.count_commits.outputs.commit_count }}"
         branch_name="${{ steps.branch_info.outputs.branch_name }}"
-        
+
         # Remove 'v' prefix if present
         current_version=${current_version#v}
         IFS='.' read -r major minor patch <<< "$current_version"
         # Fallback for missing minor/patch
         if [ -z "$minor" ]; then minor=0; fi
         if [ -z "$patch" ]; then patch=0; fi
-        
+
         echo "📊 Current version: v$major.$minor.$patch"
         echo "📊 Release type: $release_type"
         echo "📊 Commit count: $commit_count"
-        
+
         case "$release_type" in
           main)
             # NEW RULE: Main branch conditional major increment
@@ -295,12 +301,12 @@ runs:
             exit 1
             ;;
         esac
-        
+
         # Add PR suffix if this is a pull request
         if [ "${{ github.event_name }}" = "pull_request" ]; then
           version_suffix="${version_suffix}-pr${{ github.event.number }}"
         fi
-        
+
         new_version="v$major.$minor.$patch$version_suffix"
         echo "✅ Next version: $new_version"
         echo "📊 Final version breakdown: major=$major, minor=$minor, patch=$patch"
@@ -312,14 +318,14 @@ runs:
         tag_name="${{ steps.calculate_next_version.outputs.new_version }}"
         branch_name="${{ steps.branch_info.outputs.branch_name }}"
         should_publish="${{ steps.determine_release_type.outputs.should_publish }}"
-        
+
         echo "🏷️ Preparing to create tag: $tag_name"
         echo "🔀 For branch: $branch_name"
         echo "📋 Will publish release: $should_publish"
-        
+
         # Fetch latest tags first to check for existing tags
         git fetch --tags --force
-        
+
         # Check if tag already exists before creating it
         if git rev-parse "$tag_name" >/dev/null 2>&1; then
           echo "⚠️ Tag $tag_name already exists locally or remotely. Skipping tag creation and push."

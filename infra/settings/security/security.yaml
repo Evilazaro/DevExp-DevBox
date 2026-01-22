@@ -1,10 +1,12 @@
-
 # yaml-language-server: $schema=./security.schema.json
-# -------------------------------------------------------
-# Azure Key Vault Configuration
-# -------------------------------------------------------
-# Purpose: Centralized management of secrets, keys, and certificates for secure access by applications and services in the Contoso development environment.
-# This file defines the configuration for an Azure Key Vault resource used for storing sensitive credentials and secrets in the development environment.
+# =============================================================================
+# File: security.yaml
+# Purpose: Azure Key Vault Configuration for Dev Box Accelerator
+# Description: Centralized management of secrets, keys, and certificates
+# =============================================================================
+#
+# This file defines the configuration for an Azure Key Vault resource used for
+# storing sensitive credentials and secrets in the development environment.
 #
 # References:
 # - Microsoft Dev Box accelerator: https://evilazaro.github.io/DevExp-DevBox/docs/configureresources/security/
@@ -17,23 +19,23 @@ create: true
 # Key Vault configuration block
 keyVault:
   # Basic settings
-  name: contoso                                 # Globally unique Key Vault name
+  name: contoso # Globally unique Key Vault name
   description: Development Environment Key Vault # Purpose of this Key Vault
-  secretName: gha-token                         # Name of the GitHub Actions token secret
+  secretName: gha-token # Name of the GitHub Actions token secret
 
   # Security settings
-  enablePurgeProtection: true                   # Prevent permanent deletion of secrets
-  enableSoftDelete: true                        # Allow recovery of deleted secrets within retention period
-  softDeleteRetentionInDays: 7                  # Retention period for deleted secrets (7-90 days)
-  enableRbacAuthorization: true                 # Use Azure RBAC for access control
+  enablePurgeProtection: true # Prevent permanent deletion of secrets
+  enableSoftDelete: true # Allow recovery of deleted secrets within retention period
+  softDeleteRetentionInDays: 7 # Retention period for deleted secrets (7-90 days)
+  enableRbacAuthorization: true # Use Azure RBAC for access control
 
   # Resource organization tags
   tags:
-    environment: dev                            # Deployment environment (dev/test/staging/prod)
-    division: Platforms                         # Organizational division
-    team: DevExP                                # Owning team
-    project: Contoso-DevExp-DevBox              # Associated project
-    costCenter: IT                              # Cost center for billing
-    owner: Contoso                              # Resource owner
-    landingZone: security                       # Azure landing zone classification
-    resources: ResourceGroup                    # Resource grouping identifier
+    environment: dev # Deployment environment (dev/test/staging/prod)
+    division: Platforms # Organizational division
+    team: DevExP # Owning team
+    project: Contoso-DevExp-DevBox # Associated project
+    costCenter: IT # Cost center for billing
+    owner: Contoso # Resource owner
+    landingZone: security # Azure landing zone classification
+    resources: ResourceGroup # Resource grouping identifier

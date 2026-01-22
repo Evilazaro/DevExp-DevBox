@@ -1,16 +1,25 @@
+# =============================================================================
+# File: deploy.yml
+# Purpose: Azure deployment workflow for Dev Box Accelerator
+# Description: Provisions infrastructure to Azure using azd with OIDC authentication
+# Triggers: Manual workflow dispatch only
+# =============================================================================
+
 name: Deploy to Azure
+
+# Workflow triggers - manual dispatch with customizable inputs
 # Run when commits are pushed to feature/gitHubActions
 on:
   workflow_dispatch:
     inputs:
       AZURE_ENV_NAME:
-        description: 'Azure environment name'
+        description: "Azure environment name"
         required: true
-        default: 'demo'
+        default: "demo"
       AZURE_LOCATION:
-        description: 'Azure region (e.g., eastus, westus)'
+        description: "Azure region (e.g., eastus, westus)"
         required: true
-        default: 'eastus2'
+        default: "eastus2"
 
 # Set up permissions for deploying with secretless Azure federated credentials
 # https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux#set-up-azure-login-with-openid-connect-authentication
@@ -19,8 +28,7 @@ permissions:
   contents: read
 
 jobs:
-
-  build-and-deploy-to-azure:    
+  build-and-deploy-to-azure:
     runs-on: ubuntu-latest
     env:
       AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
@@ -28,15 +36,15 @@ jobs:
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
       AZURE_ENV_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.AZURE_ENV_NAME || 'devexp2' }}
       AZURE_LOCATION: ${{ github.event_name == 'workflow_dispatch' && inputs.AZURE_LOCATION || vars.AZURE_LOCATION }}
-    
+
     steps:
       - name: Update all Packages
         run: |
           sudo apt-get update
-      
+
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Install azd
         uses: Azure/setup-azd@v2
 
@@ -44,7 +52,7 @@ jobs:
         run: |
           echo "✅ Building Bicep templates..."
           mkdir -p ./artifacts
-          
+
           # Check if Azure CLI is available
           if command -v az &> /dev/null; then
             az bicep build --file ./infra/main.bicep --outdir ./artifacts
@@ -87,4 +95,4 @@ jobs:
           azd provision --no-prompt
         env:
           KEY_VAULT_SECRET: ${{ secrets.KEY_VAULT_SECRET }}
-          SOURCE_CONTROL_PLATFORM: 'github'
+          SOURCE_CONTROL_PLATFORM: "github"

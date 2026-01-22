@@ -1,5 +1,11 @@
+# =============================================================================
+# File: azure.yaml
+# Purpose: Azure Developer CLI (azd) configuration for Dev Box Accelerator
+# Description: Defines deployment hooks and environment setup for Linux/macOS
+# =============================================================================
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/refs/heads/main/schemas/v1.0/azure.yaml.json
 
+# Project name used by azd for environment naming and resource tagging
 name: ContosoDevExp
 
 hooks:
@@ -9,10 +15,10 @@ hooks:
     interactive: true
     run: |
       #!/bin/bash
-      
+
       set -e 
       defaultPlatform="github"
-      
+
       # Add a if statement to check if the environment variable is set
       if [ -z "${SOURCE_CONTROL_PLATFORM}" ]; then
           echo "SOURCE_CONTROL_PLATFORM is not set. Setting it to '${defaultPlatform}' by default."
