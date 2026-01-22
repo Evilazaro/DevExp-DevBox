@@ -20,7 +20,8 @@ tags:
 > **DevExp-DevBox Landing Zone Accelerator**
 
 > [!NOTE] **Target Audience:** Data Architects, Platform Engineers, Security
-> Engineers  
+> Engineers
+>
 > **Reading Time:** ~20 minutes
 
 <details>

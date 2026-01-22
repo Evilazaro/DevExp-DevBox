@@ -20,7 +20,8 @@ tags:
 > **DevExp-DevBox Landing Zone Accelerator**
 
 > [!NOTE] **Target Audience:** Business Decision Makers, Enterprise Architects,
-> Platform Engineers  
+> Platform Engineers
+>
 > **Reading Time:** ~15 minutes
 
 <details>

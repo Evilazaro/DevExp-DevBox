@@ -18,7 +18,8 @@ tags:
 
 > **TOGAF BDAT Architecture Framework**
 
-> [!NOTE] **Target Audience:** All Stakeholders  
+> [!NOTE] **Target Audience:** All Stakeholders
+>
 > **Purpose:** Central navigation hub for architecture documentation
 
 ## 📋 Overview
