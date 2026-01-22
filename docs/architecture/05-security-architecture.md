@@ -740,6 +740,9 @@ tags:
 
 ### Control Inventory
 
+<details>
+<summary><strong>📋 Click to expand Control Inventory (10 controls)</strong></summary>
+
 | Control ID | Control Name | Category | Framework | Status | Implementation |
 |------------|--------------|----------|-----------|--------|----------------|
 | SC-001 | Azure AD Authentication | Identity | NIST AC-14 | ✅ Implemented | All services use Azure AD |
@@ -752,6 +755,8 @@ tags:
 | SC-008 | Network Isolation | Network | NIST SC-7 | ⚠️ Partial | VNet available |
 | SC-009 | Encryption at Rest | Data Protection | NIST SC-28 | ✅ Implemented | Platform encryption |
 | SC-010 | Encryption in Transit | Data Protection | NIST SC-8 | ✅ Implemented | TLS 1.2+ |
+
+</details>
 
 ### Control: Azure AD Authentication
 
