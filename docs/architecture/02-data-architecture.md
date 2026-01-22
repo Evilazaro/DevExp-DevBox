@@ -55,43 +55,55 @@ The DevExp-DevBox Landing Zone Accelerator manages several categories of data th
 ### Data Categories
 
 ```mermaid
+---
+title: Data Categories Overview
+---
 graph TB
-    subgraph "Configuration Data"
-        CD1[Resource Organization<br/>azureResources.yaml]
-        CD2[Security Settings<br/>security.yaml]
-        CD3[Workload Config<br/>devcenter.yaml]
+    %% ===== CONFIGURATION DATA =====
+    subgraph configData["Configuration Data"]
+        CD1["Resource Organization<br/>azureResources.yaml"]
+        CD2["Security Settings<br/>security.yaml"]
+        CD3["Workload Config<br/>devcenter.yaml"]
     end
     
-    subgraph "Secrets & Credentials"
-        SC1[GitHub PAT<br/>Key Vault Secret]
-        SC2[Azure AD Tokens<br/>Managed Identity]
-        SC3[Service Principal<br/>OIDC Federation]
+    %% ===== SECRETS & CREDENTIALS =====
+    subgraph secretsData["Secrets & Credentials"]
+        SC1["GitHub PAT<br/>Key Vault Secret"]
+        SC2["Azure AD Tokens<br/>Managed Identity"]
+        SC3["Service Principal<br/>OIDC Federation"]
     end
     
-    subgraph "Telemetry Data"
-        TD1[Resource Logs<br/>Log Analytics]
-        TD2[Metrics<br/>Azure Monitor]
-        TD3[Diagnostic Data<br/>Azure Diagnostics]
+    %% ===== TELEMETRY DATA =====
+    subgraph telemetryData["Telemetry Data"]
+        TD1["Resource Logs<br/>Log Analytics"]
+        TD2["Metrics<br/>Azure Monitor"]
+        TD3["Diagnostic Data<br/>Azure Diagnostics"]
     end
     
-    subgraph "State Data"
-        ST1[Deployment State<br/>azd Environment]
-        ST2[Resource State<br/>Azure RM]
-        ST3[RBAC Assignments<br/>Azure AD]
+    %% ===== STATE DATA =====
+    subgraph stateData["State Data"]
+        ST1["Deployment State<br/>azd Environment"]
+        ST2["Resource State<br/>Azure RM"]
+        ST3["RBAC Assignments<br/>Azure AD"]
     end
     
-    style CD1 fill:#E3F2FD
-    style CD2 fill:#E3F2FD
-    style CD3 fill:#E3F2FD
-    style SC1 fill:#FFEBEE
-    style SC2 fill:#FFEBEE
-    style SC3 fill:#FFEBEE
-    style TD1 fill:#E8F5E9
-    style TD2 fill:#E8F5E9
-    style TD3 fill:#E8F5E9
-    style ST1 fill:#FFF3E0
-    style ST2 fill:#FFF3E0
-    style ST3 fill:#FFF3E0
+    %% ===== CLASS DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef security fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    %% ===== CLASS ASSIGNMENTS =====
+    class CD1,CD2,CD3 primary
+    class SC1,SC2,SC3 security
+    class TD1,TD2,TD3 secondary
+    class ST1,ST2,ST3 datastore
+    
+    %% ===== SUBGRAPH STYLES =====
+    style configData fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style secretsData fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style telemetryData fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style stateData fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Data Classification

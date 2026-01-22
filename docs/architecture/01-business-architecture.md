@@ -483,30 +483,55 @@ stateDiagram-v2
 ### Key Performance Indicators (KPIs)
 
 ```mermaid
+---
+title: Success Metrics KPI Dashboard
+---
 graph TB
-    subgraph "Developer Productivity KPIs"
-        KPI1[Time to<br/>First Commit]
-        KPI2[Environment<br/>Setup Time]
-        KPI3[Developer<br/>Satisfaction Score]
+    %% ===== DEVELOPER PRODUCTIVITY KPIs =====
+    subgraph devkpis["Developer Productivity KPIs"]
+        KPI1["Time to<br/>First Commit"]
+        KPI2["Environment<br/>Setup Time"]
+        KPI3["Developer<br/>Satisfaction Score"]
     end
     
-    subgraph "Operational KPIs"
-        KPI4[Deployment<br/>Success Rate]
-        KPI5[Mean Time<br/>to Recovery]
-        KPI6[Infrastructure<br/>Drift Score]
+    %% ===== OPERATIONAL KPIs =====
+    subgraph opskpis["Operational KPIs"]
+        KPI4["Deployment<br/>Success Rate"]
+        KPI5["Mean Time<br/>to Recovery"]
+        KPI6["Infrastructure<br/>Drift Score"]
     end
     
-    subgraph "Security KPIs"
-        KPI7[Compliance<br/>Score]
-        KPI8[Security<br/>Incidents]
-        KPI9[Access Review<br/>Completion]
+    %% ===== SECURITY KPIs =====
+    subgraph seckpis["Security KPIs"]
+        KPI7["Compliance<br/>Score"]
+        KPI8["Security<br/>Incidents"]
+        KPI9["Access Review<br/>Completion"]
     end
     
-    subgraph "Cost KPIs"
-        KPI10[Cost per<br/>Developer]
-        KPI11[Resource<br/>Utilization]
-        KPI12[Budget<br/>Variance]
+    %% ===== COST KPIs =====
+    subgraph costkpis["Cost KPIs"]
+        KPI10["Cost per<br/>Developer"]
+        KPI11["Resource<br/>Utilization"]
+        KPI12["Budget<br/>Variance"]
     end
+    
+    %% ===== CLASS DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef security fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    %% ===== CLASS ASSIGNMENTS =====
+    class KPI1,KPI2,KPI3 primary
+    class KPI4,KPI5,KPI6 secondary
+    class KPI7,KPI8,KPI9 security
+    class KPI10,KPI11,KPI12 datastore
+    
+    %% ===== SUBGRAPH STYLES =====
+    style devkpis fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style opskpis fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style seckpis fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style costkpis fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Success Metrics Dashboard
