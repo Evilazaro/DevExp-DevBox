@@ -1,8 +1,31 @@
+---
+title: Dev Box Landing Zone Accelerator
+description:
+  Enterprise-ready Infrastructure as Code (IaC) solution for deploying Microsoft
+  Dev Box environments following Azure Cloud Adoption Framework best practices.
+author: DevExp Team
+date: 2024-01-01
+version: 1.0.0
+tags: [azure, devbox, devcenter, bicep, infrastructure-as-code, landing-zone]
+---
+
 # 🚀 Dev Box Landing Zone Accelerator
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Azure](https://img.shields.io/badge/Azure-DevCenter-0078D4?logo=microsoft-azure)](https://azure.microsoft.com/services/dev-box/)
 [![Bicep](https://img.shields.io/badge/IaC-Bicep-blue)](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
+
+> [!NOTE] **Target Audience:** Platform Engineers, Cloud Architects, and DevOps
+> Teams<br> **Reading Time:** ~25 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous |   Index    |                                    Next |
+| :------- | :--------: | --------------------------------------: |
+| —        | **README** | [Release Strategy](RELEASE_STRATEGY.md) |
+
+</details>
 
 ---
 
@@ -31,9 +54,15 @@ management, network isolation, monitoring, and security controls out-of-the-box,
 enabling organizations to focus on building applications rather than managing
 infrastructure.
 
+> [!TIP] This accelerator is built on **Azure Bicep** and integrated with
+> **Azure Developer CLI (azd)**, providing a repeatable, testable deployment
+> pattern that scales from individual projects to enterprise-wide
+> implementations.
+
 ---
 
-## 📑 Table of Contents
+<details>
+<summary>📑 <strong>Table of Contents</strong></summary>
 
 - [📖 Overview](#-overview)
 - [🏗️ Architecture Overview](#️-architecture-overview)
@@ -54,6 +83,9 @@ infrastructure.
 - [📄 License](#-license)
 - [💬 Support](#-support)
 - [📚 Additional Resources](#-additional-resources)
+- [📎 Related Documents](#-related-documents)
+
+</details>
 
 ---
 
@@ -720,6 +752,9 @@ flowchart TB
 
 ## 📋 Prerequisites
 
+> [!IMPORTANT] Ensure all prerequisites are met before proceeding with
+> deployment to avoid configuration issues.
+
 ### 🛠️ Required Tools
 
 | Tool                | Minimum Version    | Purpose                                          | Installation Link                                                                                          |
@@ -801,6 +836,9 @@ principle of least privilege:
 ---
 
 ## 🚀 Deployment Instructions
+
+> [!TIP] For best results, follow each step in order and verify successful
+> completion before proceeding to the next step.
 
 ### 📌 Step 1: Clone the Repository
 
@@ -891,7 +929,7 @@ chmod +x setUp.sh
 
 \*If not provided, the script will prompt for selection interactively.
 
-> **📝 Note:** The setup script performs multiple validations and configurations
+> [!NOTE] The setup script performs multiple validations and configurations
 > automatically. Review the actions below to understand what happens during
 > execution.
 
@@ -1414,6 +1452,9 @@ strategy with intelligent version management. For complete details, see
 
 ## 🔧 Troubleshooting
 
+> [!TIP] Most deployment issues can be resolved by verifying authentication and
+> checking resource quotas. Review the common issues below for quick solutions.
+
 ### ⚠️ Common Issues
 
 #### 🔑 Authentication Failures
@@ -1580,13 +1621,13 @@ To remove all deployed resources:
 azd down -e prod --purge --force
 ```
 
-> **⚠️ Warning:** This operation is irreversible and will:
-
-- Delete all resource groups created by the deployment
-- Delete Key Vault secrets (with purge if purge protection is disabled)
-- Remove all RBAC role assignments
-- Delete diagnostic settings and monitoring data
-- Remove Azure Developer CLI environment configuration
+> [!CAUTION] This operation is **irreversible** and will:
+>
+> - Delete all resource groups created by the deployment
+> - Delete Key Vault secrets (with purge if purge protection is disabled)
+> - Remove all RBAC role assignments
+> - Delete diagnostic settings and monitoring data
+> - Remove Azure Developer CLI environment configuration
 
 ---
 
@@ -1608,15 +1649,15 @@ guidelines on:
 For reporting security vulnerabilities, please review
 [SECURITY.md](SECURITY.md).
 
-**Security Best Practices:**
-
-- Never commit Personal Access Tokens or secrets to source control
-- Use Azure Key Vault for all sensitive data
-- Enable purge protection and soft delete for Key Vault
-- Implement least privilege RBAC assignments
-- Regularly review and rotate access credentials
-- Enable diagnostic logging for all resources
-- Monitor Log Analytics for suspicious activity
+> [!WARNING] **Security Best Practices:**
+>
+> - Never commit Personal Access Tokens or secrets to source control
+> - Use Azure Key Vault for all sensitive data
+> - Enable purge protection and soft delete for Key Vault
+> - Implement least privilege RBAC assignments
+> - Regularly review and rotate access credentials
+> - Enable diagnostic logging for all resources
+> - Monitor Log Analytics for suspicious activity
 
 ---
 
@@ -1676,12 +1717,27 @@ For issues, questions, or feature requests:
 
 ---
 
-<p align="center">
-  <strong>Maintained by</strong>: DevExp Team<br>
-  <strong>Repository</strong>: <a href="https://github.com/Evilazaro/DevExp-DevBox">Evilazaro/DevExp-DevBox</a><br>
-  <strong>Last Updated</strong>: 2024
-</p>
+## 📎 Related Documents
 
-<p align="center">
-  <a href="#-dev-box-landing-zone-accelerator">⬆️ Back to Top</a>
-</p>
+| Document                                   | Description                                      |
+| :----------------------------------------- | :----------------------------------------------- |
+| [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) | Branch-based versioning and release workflow     |
+| [CONTRIBUTING.md](CONTRIBUTING.md)         | Contribution guidelines and development workflow |
+| [SECURITY.md](SECURITY.md)                 | Security policies and vulnerability reporting    |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)   | Community guidelines and standards               |
+| [LICENSE](LICENSE)                         | MIT License details                              |
+
+---
+
+<div align="center">
+
+**🚀 Dev Box Landing Zone Accelerator**
+
+Maintained by: **DevExp Team**<br> Repository:
+[Evilazaro/DevExp-DevBox](https://github.com/Evilazaro/DevExp-DevBox)<br> Last
+Updated: 2024
+
+[⬆️ Back to Top](#-dev-box-landing-zone-accelerator) ·
+[📦 Release Strategy](RELEASE_STRATEGY.md) · [🤝 Contributing](CONTRIBUTING.md)
+
+</div>
