@@ -212,6 +212,9 @@ graph TB
 
 ### Security Modules
 
+<details>
+<summary><strong>🔐 Click to expand Security Modules (3 modules: security.bicep, keyVault.bicep, secret.bicep)</strong></summary>
+
 #### Module: security.bicep
 
 - **Path**: `src/security/security.bicep`
@@ -293,9 +296,14 @@ graph TB
 
 **Dependents**: catalog.bicep, projectCatalog.bicep
 
+</details>
+
 ---
 
 ### Workload Modules
+
+<details>
+<summary><strong>⚙️ Click to expand Workload Modules (8 modules: workload.bicep, devCenter.bicep, catalog.bicep, environmentType.bicep, project.bicep, projectCatalog.bicep, projectEnvironmentType.bicep, projectPool.bicep)</strong></summary>
 
 #### Module: workload.bicep
 
@@ -482,9 +490,14 @@ type Catalog = {
 
 **Dependents**: None
 
+</details>
+
 ---
 
 ### Connectivity Modules
+
+<details>
+<summary><strong>🌐 Click to expand Connectivity Modules (4 modules: connectivity.bicep, resourceGroup.bicep, vnet.bicep, networkConnection.bicep)</strong></summary>
 
 #### Module: connectivity.bicep
 
@@ -570,9 +583,14 @@ type Catalog = {
 
 **Dependents**: projectPool.bicep
 
+</details>
+
 ---
 
 ### Identity Modules
+
+<details>
+<summary><strong>🔑 Click to expand Identity Modules (5 modules: devCenterRoleAssignment.bicep, devCenterRoleAssignmentRG.bicep, keyVaultAccess.bicep, orgRoleAssignment.bicep, projectIdentityRoleAssignment.bicep)</strong></summary>
 
 #### Module: devCenterRoleAssignment.bicep
 
