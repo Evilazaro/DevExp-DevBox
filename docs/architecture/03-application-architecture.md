@@ -1,4 +1,4 @@
-# Application Architecture
+# 🏛️ Application Architecture
 
 > **TOGAF Layer**: Application Architecture  
 > **Version**: 1.0.0  
@@ -7,21 +7,21 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Architecture Overview](#architecture-overview)
-- [Module Catalog](#module-catalog)
-- [Module Dependencies](#module-dependencies)
-- [Deployment Orchestration](#deployment-orchestration)
-- [Interface Contracts](#interface-contracts)
-- [Design Patterns](#design-patterns)
-- [Extension Points](#extension-points)
-- [References](#references)
-- [Glossary](#glossary)
+- [🔍 Architecture Overview](#-architecture-overview)
+- [📦 Module Catalog](#-module-catalog)
+- [🔗 Module Dependencies](#-module-dependencies)
+- [🚀 Deployment Orchestration](#-deployment-orchestration)
+- [📝 Interface Contracts](#-interface-contracts)
+- [🎨 Design Patterns](#-design-patterns)
+- [🔌 Extension Points](#-extension-points)
+- [📚 References](#-references)
+- [📖 Glossary](#-glossary)
 
 ---
 
-## Architecture Overview
+## 🔍 Architecture Overview
 
 The DevExp-DevBox Landing Zone Accelerator implements a **modular Infrastructure-as-Code (IaC)** architecture using Azure Bicep. The solution follows the **Landing Zone Accelerator** pattern with four distinct zones, each responsible for specific infrastructure concerns.
 
@@ -110,9 +110,11 @@ graph TB
 | **Workload** | `resourceGroup` | devexp-workload-* | DevCenter, projects, pools |
 | **Connectivity** | `resourceGroup` | *-connectivity-RG | Virtual networks, network connections |
 
+[↑ Back to Top](#️-application-architecture)
+
 ---
 
-## Module Catalog
+## 📦 Module Catalog
 
 ### Entry Point Module
 
@@ -713,9 +715,11 @@ graph TB
 | vnet.bicep | logAnalytics | networkConnection |
 | networkConnection.bicep | vnet, devCenter | connectivity |
 
+[↑ Back to Top](#️-application-architecture)
+
 ---
 
-## Deployment Orchestration
+## 🚀 Deployment Orchestration
 
 ### Deployment Sequence Diagram
 
@@ -804,9 +808,11 @@ hooks:
 | `SOURCE_CONTROL_PLATFORM` | `github` or `adogit` | User selection |
 | `AZURE_SUBSCRIPTION_ID` | Target subscription | Azure login |
 
+[↑ Back to Top](#️-application-architecture)
+
 ---
 
-## Interface Contracts
+## 📝 Interface Contracts
 
 ### Module Parameter Standards
 
@@ -880,9 +886,11 @@ type Catalog = {
 }
 ```
 
+[↑ Back to Top](#️-application-architecture)
+
 ---
 
-## Design Patterns
+## 🎨 Design Patterns
 
 ### Pattern 1: Modular Landing Zone Design
 
@@ -999,9 +1007,11 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@...' = {
 }
 ```
 
+[↑ Back to Top](#️-application-architecture)
+
 ---
 
-## Extension Points
+## 🔌 Extension Points
 
 ### Adding a New Project
 
@@ -1085,9 +1095,11 @@ module newzone '../src/newzone/newzone.bicep' = {
 }
 ```
 
+[↑ Back to Top](#️-application-architecture)
+
 ---
 
-## References
+## 📚 References
 
 ### Internal Documents
 
@@ -1103,9 +1115,11 @@ module newzone '../src/newzone/newzone.bicep' = {
 - [Azure Landing Zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
 - [DevCenter API Reference](https://learn.microsoft.com/en-us/rest/api/devcenter/)
 
+[↑ Back to Top](#️-application-architecture)
+
 ---
 
-## Glossary
+## 📖 Glossary
 
 | Term | Definition |
 |------|------------|
@@ -1116,6 +1130,8 @@ module newzone '../src/newzone/newzone.bicep' = {
 | **Orchestrator** | Main entry point module that coordinates other modules |
 | **loadYamlContent()** | Bicep function to load YAML configuration at compile time |
 | **azd** | Azure Developer CLI for streamlined Azure deployments |
+
+[↑ Back to Top](#️-application-architecture)
 
 ---
 

@@ -1,4 +1,4 @@
-# Data Architecture
+# 🗄️ Data Architecture
 
 > **TOGAF Layer**: Data Architecture  
 > **Version**: 1.0.0  
@@ -7,21 +7,21 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Data Overview](#data-overview)
-- [Configuration Data Model](#configuration-data-model)
-- [Secrets Management](#secrets-management)
-- [Telemetry & Diagnostics](#telemetry--diagnostics)
-- [Data Flow Diagrams](#data-flow-diagrams)
-- [Data Governance](#data-governance)
-- [Schema Documentation](#schema-documentation)
-- [References](#references)
-- [Glossary](#glossary)
+- [📊 Data Overview](#-data-overview)
+- [⚙️ Configuration Data Model](#️-configuration-data-model)
+- [🔐 Secrets Management](#-secrets-management)
+- [📡 Telemetry & Diagnostics](#-telemetry--diagnostics)
+- [🔀 Data Flow Diagrams](#-data-flow-diagrams)
+- [🏛️ Data Governance](#️-data-governance)
+- [📋 Schema Documentation](#-schema-documentation)
+- [📚 References](#-references)
+- [📖 Glossary](#-glossary)
 
 ---
 
-## Data Overview
+## 📊 Data Overview
 
 The DevExp-DevBox Landing Zone Accelerator manages several categories of data that flow through the system during deployment and runtime operations. Understanding these data types is essential for security, compliance, and operational management.
 
@@ -80,9 +80,11 @@ graph TB
 | Resource Metrics | Internal | Low | Azure Monitor | 93 days |
 | Deployment State | Internal | Medium | azd Environment | Until deleted |
 
+[↑ Back to Top](#️-data-architecture)
+
 ---
 
-## Configuration Data Model
+## ⚙️ Configuration Data Model
 
 ### Overview
 
@@ -287,9 +289,11 @@ projects:
         path: "/.devcenter/environments"
 ```
 
+[↑ Back to Top](#️-data-architecture)
+
 ---
 
-## Secrets Management
+## 🔐 Secrets Management
 
 ### Secret Types
 
@@ -366,9 +370,11 @@ sequenceDiagram
 | DevCenter Managed Identity | Key Vault Secrets Officer | Security RG | Manage secrets if needed |
 | CI/CD Service Principal | Deployer (custom) | Key Vault | Initial secret provisioning |
 
+[↑ Back to Top](#️-data-architecture)
+
 ---
 
-## Telemetry & Diagnostics
+## 📡 Telemetry & Diagnostics
 
 ### Log Analytics Data Collection
 
@@ -437,9 +443,11 @@ AzureDiagnostics
 | project TimeGenerated, OperationName, ResultType, identity_claim_upn_s
 ```
 
+[↑ Back to Top](#️-data-architecture)
+
 ---
 
-## Data Flow Diagrams
+## 🔀 Data Flow Diagrams
 
 ### Configuration Loading Flow
 
@@ -580,9 +588,11 @@ sequenceDiagram
 | **Data Residency** | Region-specific deployment | Bicep location parameter |
 | **Right to Erasure** | Key Vault purge, resource deletion | Deletion scripts |
 
+[↑ Back to Top](#️-data-architecture)
+
 ---
 
-## Schema Documentation
+## 📋 Schema Documentation
 
 ### JSON Schema References
 
@@ -666,9 +676,11 @@ Schemas are validated at authoring time using the `yaml-language-server` directi
 # yaml-language-server: $schema=./security.schema.json
 ```
 
+[↑ Back to Top](#️-data-architecture)
+
 ---
 
-## References
+## 📚 References
 
 ### Internal Documents
 
@@ -684,9 +696,11 @@ Schemas are validated at authoring time using the `yaml-language-server` directi
 - [Bicep loadYamlContent Function](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/bicep-functions-files#loadyamlcontent)
 - [JSON Schema Specification](https://json-schema.org/specification.html)
 
+[↑ Back to Top](#️-data-architecture)
+
 ---
 
-## Glossary
+## 📖 Glossary
 
 | Term | Definition |
 |------|------------|
@@ -696,6 +710,8 @@ Schemas are validated at authoring time using the `yaml-language-server` directi
 | **Soft Delete** | Key Vault feature allowing recovery of deleted secrets within retention period |
 | **Purge Protection** | Key Vault feature preventing permanent deletion during soft delete period |
 | **RBAC Authorization** | Key Vault access control using Azure Role-Based Access Control instead of access policies |
+
+[↑ Back to Top](#️-data-architecture)
 
 ---
 

@@ -1,4 +1,4 @@
-# Business Architecture
+# 📊 Business Architecture
 
 > **TOGAF Layer**: Business Architecture  
 > **Version**: 1.0.0  
@@ -7,21 +7,21 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Executive Summary](#executive-summary)
-- [Business Context](#business-context)
-- [Stakeholder Analysis](#stakeholder-analysis)
-- [Business Capabilities](#business-capabilities)
-- [Value Streams](#value-streams)
-- [Business Requirements](#business-requirements)
-- [Success Metrics](#success-metrics)
-- [References](#references)
-- [Glossary](#glossary)
+- [📋 Executive Summary](#-executive-summary)
+- [🎯 Business Context](#-business-context)
+- [👥 Stakeholder Analysis](#-stakeholder-analysis)
+- [🏗️ Business Capabilities](#️-business-capabilities)
+- [🔄 Value Streams](#-value-streams)
+- [📝 Business Requirements](#-business-requirements)
+- [📈 Success Metrics](#-success-metrics)
+- [📚 References](#-references)
+- [📖 Glossary](#-glossary)
 
 ---
 
-## Executive Summary
+## 📋 Executive Summary
 
 The **DevExp-DevBox Landing Zone Accelerator** is an enterprise-grade infrastructure-as-code solution that streamlines the deployment and management of Microsoft Dev Box environments on Azure. This accelerator enables organizations to rapidly provision secure, compliant, and scalable developer workstations while maintaining governance controls and operational excellence.
 
@@ -35,9 +35,11 @@ The **DevExp-DevBox Landing Zone Accelerator** is an enterprise-grade infrastruc
 | **Cost Optimization** | Right-sized VM SKUs per role and centralized resource management |
 | **Operational Efficiency** | Automated provisioning via Azure Developer CLI (azd) with CI/CD integration |
 
+[↑ Back to Top](#-business-architecture)
+
 ---
 
-## Business Context
+## 🎯 Business Context
 
 ### Problem Statement
 
@@ -83,9 +85,11 @@ mindmap
 | **Talent Retention** | Modern developer experience | Medium |
 | **Compliance** | Meet regulatory requirements | High |
 
+[↑ Back to Top](#-business-architecture)
+
 ---
 
-## Stakeholder Analysis
+## 👥 Stakeholder Analysis
 
 ### Stakeholder Map
 
@@ -152,11 +156,13 @@ graph TB
 | Cost Management | R | I | I | C | **A** |
 | Incident Response | C | I | C | **R/A** | I |
 
-*R = Responsible, A = Accountable, C = Consulted, I = Informed*
+> **Legend**: R = Responsible, A = Accountable, C = Consulted, I = Informed
+
+[↑ Back to Top](#-business-architecture)
 
 ---
 
-## Business Capabilities
+## 🏗️ Business Capabilities
 
 ### Business Capability Model
 
@@ -243,9 +249,11 @@ graph TB
 | **Pool Management** | Workload | Dev Box Pools | Role-specific workstation configurations |
 | **Catalog Management** | Workload | Git Catalogs | Configuration-as-code for Dev Box definitions |
 
+[↑ Back to Top](#-business-architecture)
+
 ---
 
-## Value Streams
+## 🔄 Value Streams
 
 ### Developer Onboarding Value Stream
 
@@ -317,9 +325,11 @@ stateDiagram-v2
     Suspended --> InUse: Developer Resume
 ```
 
+[↑ Back to Top](#-business-architecture)
+
 ---
 
-## Business Requirements
+## 📝 Business Requirements
 
 ### Functional Requirements
 
@@ -349,9 +359,11 @@ stateDiagram-v2
 | **NFR-007** | Disaster recovery | Reliability | RPO < 24 hours | Bicep redeployment |
 | **NFR-008** | Cost visibility | Manageability | Per-project breakdown | Azure Cost Management |
 
+[↑ Back to Top](#-business-architecture)
+
 ---
 
-## Success Metrics
+## 📈 Success Metrics
 
 ### Key Performance Indicators (KPIs)
 
@@ -404,9 +416,11 @@ graph TB
 | **Cost** | Infrastructure cost predictability | ±10% budget variance |
 | **Speed** | Time to market for new projects | 2 weeks faster |
 
+[↑ Back to Top](#-business-architecture)
+
 ---
 
-## References
+## 📚 References
 
 ### Internal Documents
 
@@ -422,9 +436,11 @@ graph TB
 - [Azure DevCenter Documentation](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-concepts)
 - [TOGAF Architecture Framework](https://www.opengroup.org/togaf)
 
+[↑ Back to Top](#-business-architecture)
+
 ---
 
-## Glossary
+## 📖 Glossary
 
 | Term | Definition |
 |------|------------|
@@ -437,6 +453,8 @@ graph TB
 | **RBAC** | Role-Based Access Control - Azure's authorization system |
 | **Managed Identity** | Azure AD identity automatically managed for Azure resources |
 | **azd** | Azure Developer CLI - Command-line tool for Azure development workflows |
+
+[↑ Back to Top](#-business-architecture)
 
 ---
 
