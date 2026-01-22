@@ -1095,25 +1095,42 @@ hooks:
 ### Setup Script Flow
 
 ```mermaid
+---
+title: Setup Script Flow
+---
 flowchart TD
-    START[Start Setup]
-    CHECK_CLI[Check CLI Tools<br/>az, azd, gh]
-    AUTH_AZ[Authenticate Azure]
-    AUTH_GH[Authenticate GitHub/ADO]
-    GET_TOKEN[Get PAT Token]
-    INIT_ENV[Initialize azd Environment]
-    SET_VARS[Set Environment Variables]
-    PROVISION[azd provision]
-    END[Setup Complete]
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
 
-    START --> CHECK_CLI
-    CHECK_CLI --> AUTH_AZ
-    AUTH_AZ --> AUTH_GH
-    AUTH_GH --> GET_TOKEN
-    GET_TOKEN --> INIT_ENV
-    INIT_ENV --> SET_VARS
-    SET_VARS --> PROVISION
-    PROVISION --> END
+    %% ===== FLOW =====
+    START["Start Setup"]
+    CHECK_CLI["Check CLI Tools<br/>az, azd, gh"]
+    AUTH_AZ["Authenticate Azure"]
+    AUTH_GH["Authenticate GitHub/ADO"]
+    GET_TOKEN["Get PAT Token"]
+    INIT_ENV["Initialize azd Environment"]
+    SET_VARS["Set Environment Variables"]
+    PROVISION["azd provision"]
+    END_NODE["Setup Complete"]
+
+    %% ===== CONNECTIONS =====
+    START -->|"begins"| CHECK_CLI
+    CHECK_CLI -->|"validates"| AUTH_AZ
+    AUTH_AZ -->|"authenticates"| AUTH_GH
+    AUTH_GH -->|"retrieves"| GET_TOKEN
+    GET_TOKEN -->|"initializes"| INIT_ENV
+    INIT_ENV -->|"configures"| SET_VARS
+    SET_VARS -->|"deploys"| PROVISION
+    PROVISION -->|"completes"| END_NODE
+
+    %% ===== APPLY STYLES =====
+    class START,END_NODE datastore
+    class CHECK_CLI,AUTH_AZ,AUTH_GH decision
+    class GET_TOKEN,INIT_ENV,SET_VARS primary
+    class PROVISION secondary
 ```
 
 ### Environment Variables
@@ -1135,6 +1152,9 @@ flowchart TD
 ### Branching Strategy
 
 ```mermaid
+---
+title: Git Branching Strategy
+---
 gitGraph
     commit id: "Initial"
     branch feature/new-feature
@@ -1174,36 +1194,62 @@ The accelerator follows semantic versioning (`MAJOR.MINOR.PATCH`):
 ### Release Process
 
 ```mermaid
+---
+title: Release Process
+---
 flowchart LR
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+
+    %% ===== TRIGGER =====
     subgraph Trigger["Release Trigger"]
-        MANUAL[Manual Dispatch]
+        MANUAL["Manual Dispatch"]
     end
 
+    %% ===== GENERATE =====
     subgraph Generate["Generate Metadata"]
-        VERSION[Calculate Version]
-        NOTES[Generate Notes]
+        VERSION["Calculate Version"]
+        NOTES["Generate Notes"]
     end
 
+    %% ===== BUILD =====
     subgraph Build["Build Phase"]
-        BICEP[Compile Bicep]
-        ARM[Generate ARM]
-        ZIP[Package Artifacts]
+        BICEP["Compile Bicep"]
+        ARM["Generate ARM"]
+        ZIP["Package Artifacts"]
     end
 
+    %% ===== PUBLISH =====
     subgraph Publish["Publish Phase"]
-        TAG[Create Git Tag]
-        RELEASE[GitHub Release]
-        UPLOAD[Upload Assets]
+        TAG["Create Git Tag"]
+        RELEASE["GitHub Release"]
+        UPLOAD["Upload Assets"]
     end
 
-    MANUAL --> VERSION
-    VERSION --> NOTES
-    NOTES --> BICEP
-    BICEP --> ARM
-    ARM --> ZIP
-    ZIP --> TAG
-    TAG --> RELEASE
-    RELEASE --> UPLOAD
+    %% ===== CONNECTIONS =====
+    MANUAL -->|"triggers"| VERSION
+    VERSION -->|"generates"| NOTES
+    NOTES -->|"starts"| BICEP
+    BICEP -->|"produces"| ARM
+    ARM -->|"packages"| ZIP
+    ZIP -->|"creates"| TAG
+    TAG -->|"creates"| RELEASE
+    RELEASE -->|"attaches"| UPLOAD
+
+    %% ===== APPLY STYLES =====
+    class MANUAL trigger
+    class VERSION,NOTES primary
+    class BICEP,ARM,ZIP secondary
+    class TAG,RELEASE,UPLOAD datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Trigger fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Generate fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Build fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Publish fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Infrastructure as Code Practices
