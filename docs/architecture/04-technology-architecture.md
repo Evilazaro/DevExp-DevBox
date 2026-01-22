@@ -465,50 +465,74 @@ sequenceDiagram
 ### Identity Model
 
 ```mermaid
+---
+title: Identity Model
+---
 flowchart TB
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+
+    %% ===== IDENTITIES =====
     subgraph Identities["Identity Types"]
-        SI_DC[DevCenter<br/>System-Assigned MI]
-        SI_PROJ[Project<br/>System-Assigned MI]
-        ADG[Azure AD Groups]
+        SI_DC["DevCenter<br/>System-Assigned MI"]
+        SI_PROJ["Project<br/>System-Assigned MI"]
+        ADG["Azure AD Groups"]
     end
 
+    %% ===== ROLES =====
     subgraph Roles["RBAC Roles"]
-        R1[Contributor]
-        R2[User Access Administrator]
-        R3[Key Vault Secrets User]
-        R4[Key Vault Secrets Officer]
-        R5[DevCenter Project Admin]
-        R6[Dev Box User]
-        R7[Deployment Environment User]
+        R1["Contributor"]
+        R2["User Access Administrator"]
+        R3["Key Vault Secrets User"]
+        R4["Key Vault Secrets Officer"]
+        R5["DevCenter Project Admin"]
+        R6["Dev Box User"]
+        R7["Deployment Environment User"]
     end
 
+    %% ===== SCOPES =====
     subgraph Scopes["Assignment Scopes"]
-        SUB[Subscription]
-        RG_SEC[Security RG]
-        RG_WRK[Workload RG]
-        DC[DevCenter]
-        PROJ[Project]
+        SUB["Subscription"]
+        RG_SEC["Security RG"]
+        RG_WRK["Workload RG"]
+        DC["DevCenter"]
+        PROJ["Project"]
     end
 
-    SI_DC --> R1
-    SI_DC --> R2
-    SI_DC --> R3
-    SI_DC --> R4
+    %% ===== CONNECTIONS =====
+    SI_DC -->|"assigned"| R1
+    SI_DC -->|"assigned"| R2
+    SI_DC -->|"assigned"| R3
+    SI_DC -->|"assigned"| R4
 
-    SI_PROJ --> R3
-    SI_PROJ --> R4
+    SI_PROJ -->|"assigned"| R3
+    SI_PROJ -->|"assigned"| R4
 
-    ADG --> R5
-    ADG --> R6
-    ADG --> R7
+    ADG -->|"assigned"| R5
+    ADG -->|"assigned"| R6
+    ADG -->|"assigned"| R7
 
-    R1 --> SUB
-    R2 --> SUB
-    R3 --> RG_SEC
-    R4 --> RG_SEC
-    R5 --> RG_WRK
-    R6 --> PROJ
-    R7 --> PROJ
+    R1 -->|"scoped to"| SUB
+    R2 -->|"scoped to"| SUB
+    R3 -->|"scoped to"| RG_SEC
+    R4 -->|"scoped to"| RG_SEC
+    R5 -->|"scoped to"| RG_WRK
+    R6 -->|"scoped to"| PROJ
+    R7 -->|"scoped to"| PROJ
+
+    %% ===== APPLY STYLES =====
+    class SI_DC,SI_PROJ primary
+    class ADG external
+    class R1,R2,R3,R4,R5,R6,R7 secondary
+    class SUB,RG_SEC,RG_WRK,DC,PROJ datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Identities fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Roles fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Scopes fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Role Assignment Matrix
@@ -557,27 +581,49 @@ projects:
 ### Role Hierarchy
 
 ```mermaid
+---
+title: Role Hierarchy
+---
 flowchart TD
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== SUBSCRIPTION LEVEL =====
     subgraph Subscription["Subscription Level"]
-        CONTRIB[Contributor]
-        UAA[User Access Administrator]
+        CONTRIB["Contributor"]
+        UAA["User Access Administrator"]
     end
 
+    %% ===== RESOURCE GROUP LEVEL =====
     subgraph ResourceGroup["Resource Group Level"]
-        KV_USER[Key Vault Secrets User]
-        KV_OFFICER[Key Vault Secrets Officer]
-        PROJ_ADMIN[DevCenter Project Admin]
+        KV_USER["Key Vault Secrets User"]
+        KV_OFFICER["Key Vault Secrets Officer"]
+        PROJ_ADMIN["DevCenter Project Admin"]
     end
 
+    %% ===== RESOURCE LEVEL =====
     subgraph Resource["Resource Level"]
-        DB_USER[Dev Box User]
-        ENV_USER[Deployment Environment User]
+        DB_USER["Dev Box User"]
+        ENV_USER["Deployment Environment User"]
     end
 
-    CONTRIB --> KV_USER
-    UAA --> PROJ_ADMIN
-    PROJ_ADMIN --> DB_USER
-    PROJ_ADMIN --> ENV_USER
+    %% ===== CONNECTIONS =====
+    CONTRIB -->|"enables"| KV_USER
+    UAA -->|"enables"| PROJ_ADMIN
+    PROJ_ADMIN -->|"enables"| DB_USER
+    PROJ_ADMIN -->|"enables"| ENV_USER
+
+    %% ===== APPLY STYLES =====
+    class CONTRIB,UAA primary
+    class KV_USER,KV_OFFICER,PROJ_ADMIN secondary
+    class DB_USER,ENV_USER datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Subscription fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style ResourceGroup fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Resource fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---
@@ -587,37 +633,62 @@ flowchart TD
 ### Key Vault Configuration
 
 ```mermaid
+---
+title: Key Vault Security Configuration
+---
 flowchart LR
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== KEY VAULT =====
     subgraph KeyVault["Azure Key Vault"]
-        PROPS[Properties]
-        SECRET[Secrets]
-        ACCESS[Access Control]
+        PROPS["Properties"]
+        SECRET["Secrets"]
+        ACCESS["Access Control"]
     end
 
+    %% ===== PROPERTIES =====
     subgraph Properties["Security Properties"]
-        P1[RBAC Authorization: true]
-        P2[Soft Delete: true]
-        P3[Purge Protection: true]
-        P4[Retention: 7 days]
+        P1["RBAC Authorization: true"]
+        P2["Soft Delete: true"]
+        P3["Purge Protection: true"]
+        P4["Retention: 7 days"]
     end
 
+    %% ===== SECRETS =====
     subgraph Secrets["Stored Secrets"]
-        S1[gha-token<br/>GitHub PAT]
+        S1["gha-token<br/>GitHub PAT"]
     end
 
+    %% ===== ACCESS =====
     subgraph Access["RBAC Access"]
-        A1[DevCenter MI]
-        A2[Project MI]
-        A3[Deployer]
+        A1["DevCenter MI"]
+        A2["Project MI"]
+        A3["Deployer"]
     end
 
-    PROPS --> Properties
-    SECRET --> Secrets
-    ACCESS --> Access
+    %% ===== CONNECTIONS =====
+    PROPS -->|"defines"| Properties
+    SECRET -->|"contains"| Secrets
+    ACCESS -->|"controls"| Access
 
-    A1 -->|Secrets User| S1
-    A2 -->|Secrets User| S1
-    A3 -->|Secrets Officer| S1
+    A1 -->|"Secrets User"| S1
+    A2 -->|"Secrets User"| S1
+    A3 -->|"Secrets Officer"| S1
+
+    %% ===== APPLY STYLES =====
+    class PROPS,SECRET,ACCESS primary
+    class P1,P2,P3,P4 secondary
+    class S1 datastore
+    class A1,A2,A3 secondary
+
+    %% ===== SUBGRAPH STYLING =====
+    style KeyVault fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Properties fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Secrets fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Access fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 > [!WARNING]
@@ -639,7 +710,11 @@ flowchart LR
 ### Security Data Flow
 
 ```mermaid
+---
+title: Security Data Flow
+---
 sequenceDiagram
+    %% ===== PARTICIPANTS =====
     participant DC as DevCenter
     participant MI as Managed Identity
     participant AAD as Entra ID
@@ -647,16 +722,19 @@ sequenceDiagram
     participant KV as Key Vault
     participant GH as GitHub
 
+    %% ===== AUTHENTICATION FLOW =====
     DC->>MI: Request token
     MI->>AAD: Authenticate
     AAD-->>MI: Access token
     MI-->>DC: Token
 
+    %% ===== SECRET ACCESS FLOW =====
     DC->>KV: Get secret (with token)
     KV->>RBAC: Check permissions
     RBAC-->>KV: Authorized
     KV-->>DC: Secret value
 
+    %% ===== CATALOG ACCESS FLOW =====
     DC->>GH: Clone catalog (with PAT)
     GH-->>DC: Repository content
 ```
@@ -678,55 +756,80 @@ sequenceDiagram
 ### Monitoring Architecture
 
 ```mermaid
+---
+title: Monitoring Architecture
+---
 flowchart TB
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== DATA SOURCES =====
     subgraph Sources["Data Sources"]
-        DC[DevCenter]
-        KV[Key Vault]
-        VNET[Virtual Network]
-        LA_SELF[Log Analytics]
+        DC["DevCenter"]
+        KV["Key Vault"]
+        VNET["Virtual Network"]
+        LA_SELF["Log Analytics"]
     end
 
+    %% ===== DATA COLLECTION =====
     subgraph Collection["Data Collection"]
-        DIAG1[Diagnostic Settings]
-        DIAG2[Diagnostic Settings]
-        DIAG3[Diagnostic Settings]
-        DIAG4[Self-Diagnostics]
+        DIAG1["Diagnostic Settings"]
+        DIAG2["Diagnostic Settings"]
+        DIAG3["Diagnostic Settings"]
+        DIAG4["Self-Diagnostics"]
     end
 
+    %% ===== LOG ANALYTICS =====
     subgraph Analytics["Log Analytics Workspace"]
-        LOGS[Logs<br/>AzureDiagnostics]
-        METRICS[Metrics<br/>AzureMetrics]
-        ACTIVITY[Activity Logs<br/>AzureActivity]
+        LOGS["Logs<br/>AzureDiagnostics"]
+        METRICS["Metrics<br/>AzureMetrics"]
+        ACTIVITY["Activity Logs<br/>AzureActivity"]
     end
 
+    %% ===== OUTPUTS =====
     subgraph Outputs["Analysis & Action"]
-        QUERIES[KQL Queries]
-        ALERTS[Alerts]
-        WORKBOOKS[Workbooks]
-        DASHBOARD[Dashboards]
+        QUERIES["KQL Queries"]
+        ALERTS["Alerts"]
+        WORKBOOKS["Workbooks"]
+        DASHBOARD["Dashboards"]
     end
 
-    DC --> DIAG1
-    KV --> DIAG2
-    VNET --> DIAG3
-    LA_SELF --> DIAG4
+    %% ===== CONNECTIONS =====
+    DC -->|"sends"| DIAG1
+    KV -->|"sends"| DIAG2
+    VNET -->|"sends"| DIAG3
+    LA_SELF -->|"sends"| DIAG4
 
-    DIAG1 --> LOGS
-    DIAG1 --> METRICS
-    DIAG2 --> LOGS
-    DIAG2 --> METRICS
-    DIAG3 --> LOGS
-    DIAG3 --> METRICS
-    DIAG4 --> LOGS
-    DIAG4 --> METRICS
+    DIAG1 -->|"logs"| LOGS
+    DIAG1 -->|"metrics"| METRICS
+    DIAG2 -->|"logs"| LOGS
+    DIAG2 -->|"metrics"| METRICS
+    DIAG3 -->|"logs"| LOGS
+    DIAG3 -->|"metrics"| METRICS
+    DIAG4 -->|"logs"| LOGS
+    DIAG4 -->|"metrics"| METRICS
 
-    LOGS --> QUERIES
-    METRICS --> QUERIES
-    ACTIVITY --> QUERIES
+    LOGS -->|"analyzed by"| QUERIES
+    METRICS -->|"analyzed by"| QUERIES
+    ACTIVITY -->|"analyzed by"| QUERIES
 
-    QUERIES --> ALERTS
-    QUERIES --> WORKBOOKS
-    QUERIES --> DASHBOARD
+    QUERIES -->|"triggers"| ALERTS
+    QUERIES -->|"visualizes"| WORKBOOKS
+    QUERIES -->|"displays"| DASHBOARD
+
+    %% ===== APPLY STYLES =====
+    class DC,KV,VNET,LA_SELF primary
+    class DIAG1,DIAG2,DIAG3,DIAG4 secondary
+    class LOGS,METRICS,ACTIVITY datastore
+    class QUERIES,ALERTS,WORKBOOKS,DASHBOARD secondary
+
+    %% ===== SUBGRAPH STYLING =====
+    style Sources fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Collection fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Analytics fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Outputs fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ### Log Analytics Configuration
@@ -783,45 +886,71 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
 ### CI/CD Pipeline Flow
 
 ```mermaid
+---
+title: CI/CD Pipeline Flow
+---
 flowchart LR
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+
+    %% ===== TRIGGERS =====
     subgraph Trigger["Triggers"]
-        PUSH[Push to feature/*]
-        PR[Pull Request to main]
-        MANUAL[Manual Dispatch]
+        PUSH["Push to feature/*"]
+        PR["Pull Request to main"]
+        MANUAL["Manual Dispatch"]
     end
 
+    %% ===== CI =====
     subgraph CI["Continuous Integration"]
-        VERSION[Generate Version]
-        BUILD[Build Bicep]
-        ARTIFACT[Upload Artifacts]
+        VERSION["Generate Version"]
+        BUILD["Build Bicep"]
+        ARTIFACT["Upload Artifacts"]
     end
 
+    %% ===== CD =====
     subgraph CD["Continuous Deployment"]
-        AUTH[Azure Auth<br/>Federated Credentials]
-        PROVISION[azd provision]
-        DEPLOY[Deploy to Azure]
+        AUTH["Azure Auth<br/>Federated Credentials"]
+        PROVISION["azd provision"]
+        DEPLOY["Deploy to Azure"]
     end
 
+    %% ===== RELEASE =====
     subgraph Release["Release"]
-        TAG[Create Git Tag]
-        RELEASE[GitHub Release]
-        NOTES[Release Notes]
+        TAG["Create Git Tag"]
+        RELEASE["GitHub Release"]
+        NOTES["Release Notes"]
     end
 
-    PUSH --> VERSION
-    PR --> VERSION
-    MANUAL --> VERSION
+    %% ===== CONNECTIONS =====
+    PUSH -->|"triggers"| VERSION
+    PR -->|"triggers"| VERSION
+    MANUAL -->|"triggers"| VERSION
 
-    VERSION --> BUILD
-    BUILD --> ARTIFACT
+    VERSION -->|"generates"| BUILD
+    BUILD -->|"produces"| ARTIFACT
 
-    ARTIFACT --> AUTH
-    AUTH --> PROVISION
-    PROVISION --> DEPLOY
+    ARTIFACT -->|"starts"| AUTH
+    AUTH -->|"authenticates"| PROVISION
+    PROVISION -->|"executes"| DEPLOY
 
-    DEPLOY --> TAG
-    TAG --> RELEASE
-    RELEASE --> NOTES
+    DEPLOY -->|"completes"| TAG
+    TAG -->|"creates"| RELEASE
+    RELEASE -->|"generates"| NOTES
+
+    %% ===== APPLY STYLES =====
+    class PUSH,PR,MANUAL trigger
+    class VERSION,BUILD,ARTIFACT primary
+    class AUTH,PROVISION,DEPLOY secondary
+    class TAG,RELEASE,NOTES datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Trigger fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style CI fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style CD fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Release fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### GitHub Actions Workflows
@@ -835,24 +964,44 @@ flowchart LR
 ### CI Workflow Details (`ci.yml`)
 
 ```mermaid
+---
+title: CI Workflow Details
+---
 flowchart TD
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== JOB 1 =====
     subgraph Job1["generate-tag-version"]
-        CHECKOUT1[Checkout Code]
-        GENERATE[Generate Release Info]
-        OUTPUT1[/new_version, release_type,<br/>previous_tag, should_release/]
+        CHECKOUT1["Checkout Code"]
+        GENERATE["Generate Release Info"]
+        OUTPUT1[/"new_version, release_type,<br/>previous_tag, should_release"/]
     end
 
+    %% ===== JOB 2 =====
     subgraph Job2["build"]
-        CHECKOUT2[Checkout Code]
-        BUILD[Build Bicep Code]
-        UPLOAD[Upload Artifacts]
+        CHECKOUT2["Checkout Code"]
+        BUILD["Build Bicep Code"]
+        UPLOAD["Upload Artifacts"]
     end
 
-    CHECKOUT1 --> GENERATE
-    GENERATE --> OUTPUT1
-    OUTPUT1 --> CHECKOUT2
-    CHECKOUT2 --> BUILD
-    BUILD --> UPLOAD
+    %% ===== CONNECTIONS =====
+    CHECKOUT1 -->|"runs"| GENERATE
+    GENERATE -->|"outputs"| OUTPUT1
+    OUTPUT1 -->|"triggers"| CHECKOUT2
+    CHECKOUT2 -->|"runs"| BUILD
+    BUILD -->|"produces"| UPLOAD
+
+    %% ===== APPLY STYLES =====
+    class CHECKOUT1,CHECKOUT2 primary
+    class GENERATE,BUILD secondary
+    class OUTPUT1,UPLOAD datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Job1 fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Job2 fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Deploy Workflow Details (`deploy.yml`)
