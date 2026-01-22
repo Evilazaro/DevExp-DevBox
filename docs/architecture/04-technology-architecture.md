@@ -111,7 +111,7 @@ graph TB
 ### API Versions
 
 | Resource | API Version | Notes |
-|----------|-------------|-------|
+|:---------|:-----------:|:------|
 | Resource Groups | 2025-04-01 | Latest stable |
 | DevCenter | 2025-10-01-preview | Preview for latest features |
 | Key Vault | 2025-05-01 | Latest stable |
@@ -251,7 +251,7 @@ graph TB
 ### Network Configuration Options
 
 | Option | Type | Use Case | Configuration |
-|--------|------|----------|---------------|
+|:-------|:----:|:---------|:--------------|
 | **Microsoft Hosted** | Managed | Simple deployments, no custom networking | `virtualNetworkType: Managed` |
 | **Customer Managed** | Unmanaged | Hybrid connectivity, custom DNS, firewall | `virtualNetworkType: Unmanaged` |
 
@@ -629,6 +629,8 @@ graph LR
 ## 🛠️ Deployment Tools
 
 ### Azure Developer CLI (azd)
+
+> 🛠️ **Prerequisite**: Ensure Azure Developer CLI (`azd`) is installed. See [installation guide](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd).
 
 The primary deployment tool is Azure Developer CLI (`azd`), configured via `azure.yaml`:
 

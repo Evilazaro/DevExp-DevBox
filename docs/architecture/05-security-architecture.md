@@ -176,6 +176,8 @@ graph TB
 
 #### Threat: Catalog Tampering
 
+> ⚠️ **Warning**: This threat depends on external source control security. Ensure proper branch protection rules are configured.
+
 - **STRIDE Category**: Tampering
 - **Attack Vector**: Attacker modifies Dev Box image definitions in catalog repository
 - **Affected Assets**: Dev Box images, developer workstations

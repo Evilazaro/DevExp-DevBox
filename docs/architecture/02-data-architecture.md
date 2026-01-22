@@ -206,7 +206,7 @@ tags:
 **File**: `infra/settings/security/security.yaml`
 
 | Property | Type | Description | Constraints |
-|----------|------|-------------|-------------|
+|:---------|:-----|:------------|:------------|
 | `create` | boolean | Create Key Vault | Required |
 | `keyVault.name` | string | Key Vault name prefix | 3-24 chars, alphanumeric |
 | `keyVault.description` | string | Purpose description | Optional |

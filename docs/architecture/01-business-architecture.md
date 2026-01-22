@@ -336,7 +336,7 @@ stateDiagram-v2
 ### Functional Requirements
 
 | ID | Requirement | Priority | Landing Zone |
-|----|-------------|----------|--------------|
+|:---|:------------|:--------:|:-------------|
 | **FR-001** | Deploy Azure DevCenter with project organization | Must Have | Workload |
 | **FR-002** | Provision Dev Box pools with role-specific configurations | Must Have | Workload |
 | **FR-003** | Integrate Git catalogs for image definitions | Must Have | Workload |
@@ -351,7 +351,7 @@ stateDiagram-v2
 ### Non-Functional Requirements
 
 | ID | Requirement | Category | Target | Measurement |
-|----|-------------|----------|--------|-------------|
+|:---|:------------|:---------|:-------|:------------|
 | **NFR-001** | Infrastructure deployment time | Performance | < 30 minutes | azd provision duration |
 | **NFR-002** | Dev Box startup time | Performance | < 15 minutes | DevCenter metrics |
 | **NFR-003** | System availability | Reliability | 99.9% | Azure Monitor |
