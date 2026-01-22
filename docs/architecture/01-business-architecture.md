@@ -164,6 +164,9 @@ graph TB
 
 ### Stakeholder Registry
 
+<details>
+<summary><strong>Click to expand Stakeholder Registry table</strong></summary>
+
 | Stakeholder | Role | Concerns | Interests | Engagement Level |
 |-------------|------|----------|-----------|------------------|
 | **Platform Engineers** | Build & maintain landing zones | Automation, scalability, maintainability | Infrastructure as Code, self-service capabilities | High - Primary implementers |
@@ -175,7 +178,12 @@ graph TB
 | **CISO** | Security governance | Risk mitigation, compliance adherence | Security posture, audit readiness | Medium - Policy approval |
 | **CFO** | Financial oversight | Cost control, budget planning | Infrastructure cost visibility, optimization | Low - Budget approval |
 
+</details>
+
 ### RACI Matrix
+
+<details>
+<summary><strong>Click to expand RACI Matrix</strong></summary>
 
 | Activity | Platform Engineers | Dev Teams | Security | Operations | Project Managers |
 |----------|-------------------|-----------|----------|------------|------------------|
@@ -186,7 +194,10 @@ graph TB
 | Cost Management | R | I | I | C | **A** |
 | Incident Response | C | I | C | **R/A** | I |
 
+> [!NOTE]
 > **Legend**: R = Responsible, A = Accountable, C = Consulted, I = Informed
+
+</details>
 
 [↑ Back to Top](#-business-architecture)
 

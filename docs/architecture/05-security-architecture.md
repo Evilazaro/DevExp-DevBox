@@ -132,7 +132,8 @@ graph TB
 
 ### Security Posture Summary
 
-> 🛡️ **Security Status Overview**: The accelerator implements strong security controls across identity, secrets, and monitoring. Network security is moderate with optional enhancements available.
+> [!NOTE]
+> **Security Status Overview**: The accelerator implements strong security controls across identity, secrets, and monitoring. Network security is moderate with optional enhancements available.
 
 | Area | Status | Key Controls |
 |:-----|:------:|:-------------|
@@ -203,7 +204,8 @@ graph TB
 
 #### Threat: Catalog Tampering
 
-> ⚠️ **Warning**: This threat depends on external source control security. Ensure proper branch protection rules are configured.
+> [!WARNING]
+> This threat depends on external source control security. Ensure proper branch protection rules are configured.
 
 - **STRIDE Category**: Tampering
 - **Attack Vector**: Attacker modifies Dev Box image definitions in catalog repository
@@ -258,7 +260,8 @@ graph TB
 
 ### Risk Assessment Matrix
 
-> ⚠️ **Note**: Catalog tampering risk depends on external source control security configuration.
+> [!CAUTION]
+> Catalog tampering risk depends on external source control security configuration.
 
 | Threat | Likelihood | Impact | Risk Score | Mitigation Status |
 |:-------|:----------:|:------:|:----------:|:-----------------:|
@@ -1046,4 +1049,29 @@ gantt
 
 ---
 
+## 📎 Related Documents
+
+<details>
+<summary><strong>TOGAF Architecture Series</strong></summary>
+
+| Document | Description |
+|:---------|:------------|
+| [📊 Business Architecture](01-business-architecture.md) | Stakeholder analysis, capabilities, value streams |
+| [🗄️ Data Architecture](02-data-architecture.md) | Configuration schemas, secrets management, data flows |
+| [🏛️ Application Architecture](03-application-architecture.md) | Bicep module design, dependencies, patterns |
+| [⚙️ Technology Architecture](04-technology-architecture.md) | Azure services, CI/CD, deployment tools |
+| 🔐 **Security Architecture** | *You are here* |
+
+</details>
+
+---
+
+<div align="center">
+
+**[← Previous: Technology Architecture](04-technology-architecture.md)** | **[Back to Index](README.md)**
+
+---
+
 *Document generated as part of TOGAF Architecture Documentation for DevExp-DevBox Landing Zone Accelerator*
+
+</div>
