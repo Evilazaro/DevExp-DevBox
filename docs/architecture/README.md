@@ -18,7 +18,9 @@ tags:
 
 > **TOGAF BDAT Architecture Framework**
 
-> [!NOTE] **Target Audience:** All Stakeholders
+> [!NOTE]
+>
+> **Target Audience:** All Stakeholders
 >
 > **Purpose:** Central navigation hub for architecture documentation
 
@@ -62,7 +64,9 @@ flowchart TB
 
 ## 🎯 Quick Start Guide
 
-> [!TIP] **Recommended Reading Order:**
+> [!TIP]
+>
+> **Recommended Reading Order:**
 >
 > 1. Start with **Business Architecture** to understand the context and
 >    requirements

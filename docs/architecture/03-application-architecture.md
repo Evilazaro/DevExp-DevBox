@@ -19,8 +19,9 @@ tags:
 
 > **DevExp-DevBox Landing Zone Accelerator**
 
-> [!NOTE] **Target Audience:** Platform Engineers, DevOps Engineers, Cloud
-> Architects
+> [!NOTE]
+>
+> **Target Audience:** Platform Engineers, DevOps Engineers, Cloud Architects
 >
 > **Reading Time:** ~25 minutes
 
@@ -130,9 +131,11 @@ flowchart TB
     SECRET -.->|Auth| CAT
 ```
 
-> [!IMPORTANT] **Key Design Decision:** The accelerator follows a strict modular
-> architecture where each Bicep module handles a single resource type, enabling
-> independent testing and reusability.
+> [!IMPORTANT]
+>
+> **Key Design Decision:** The accelerator follows a strict modular architecture
+> where each Bicep module handles a single resource type, enabling independent
+> testing and reusability.
 
 ### Architecture Principles
 

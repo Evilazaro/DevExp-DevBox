@@ -20,7 +20,9 @@ tags:
 
 > **DevExp-DevBox Landing Zone Accelerator**
 
-> [!NOTE] **Target Audience:** Cloud Architects, DevOps Engineers, IT Operations
+> [!NOTE]
+>
+> **Target Audience:** Cloud Architects, DevOps Engineers, IT Operations
 >
 > **Reading Time:** ~25 minutes
 
@@ -521,9 +523,10 @@ flowchart LR
     A3 -->|Secrets Officer| S1
 ```
 
-> [!WARNING] **Security Requirement:** All Key Vault secrets must use RBAC
-> authorization. Access policies are not supported in this accelerator for
-> compliance reasons.
+> [!WARNING]
+>
+> **Security Requirement:** All Key Vault secrets must use RBAC authorization.
+> Access policies are not supported in this accelerator for compliance reasons.
 
 ### Security Controls
 

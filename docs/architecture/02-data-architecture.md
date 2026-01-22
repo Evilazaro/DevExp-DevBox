@@ -19,8 +19,9 @@ tags:
 
 > **DevExp-DevBox Landing Zone Accelerator**
 
-> [!NOTE] **Target Audience:** Data Architects, Platform Engineers, Security
-> Engineers
+> [!NOTE]
+>
+> **Target Audience:** Data Architects, Platform Engineers, Security Engineers
 >
 > **Reading Time:** ~20 minutes
 
@@ -303,8 +304,10 @@ classDiagram
 
 ## 🔐 Secrets Management
 
-> [!CAUTION] **Secret Rotation:** PAT tokens should be rotated every 90 days.
-> Federated credentials are automatically managed by Azure AD.
+> [!CAUTION]
+>
+> **Secret Rotation:** PAT tokens should be rotated every 90 days. Federated
+> credentials are automatically managed by Azure AD.
 
 ### Secret Types
 

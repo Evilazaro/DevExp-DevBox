@@ -19,8 +19,10 @@ tags:
 
 > **DevExp-DevBox Landing Zone Accelerator**
 
-> [!NOTE] **Target Audience:** Business Decision Makers, Enterprise Architects,
-> Platform Engineers
+> [!NOTE]
+>
+> **Target Audience:** Business Decision Makers, Enterprise Architects, Platform
+> Engineers
 >
 > **Reading Time:** ~15 minutes
 
@@ -64,8 +66,10 @@ Microsoft Dev Box environments on Azure. This accelerator enables organizations
 to provision secure, compliant, and scalable developer workstations following
 Azure Landing Zone best practices.
 
-> [!TIP] **Quick Value Summary:** This accelerator reduces developer onboarding
-> from days to hours while ensuring security compliance and cost visibility.
+> [!TIP]
+>
+> **Quick Value Summary:** This accelerator reduces developer onboarding from
+> days to hours while ensuring security compliance and cost visibility.
 
 ### Key Business Value
 
