@@ -161,7 +161,7 @@ graph TB
 - **STRIDE Category**: Information Disclosure
 - **Attack Vector**: Compromised identity attempts to read GitHub PAT from Key Vault
 - **Affected Assets**: Key Vault secrets, Git repositories
-- **Mitigations**: 
+- **Mitigations**:
   - RBAC-based Key Vault authorization
   - Managed identities (no stored credentials)
   - Key Vault audit logging
@@ -290,6 +290,7 @@ identity:
 ```
 
 **Benefits**:
+
 - No credential storage required
 - Automatic credential rotation
 - Azure-managed lifecycle
@@ -609,6 +610,7 @@ graph LR
 ### Security Queries
 
 **Unauthorized Secret Access Attempts**:
+
 ```kusto
 AzureDiagnostics
 | where ResourceProvider == "MICROSOFT.KEYVAULT"
@@ -618,6 +620,7 @@ AzureDiagnostics
 ```
 
 **Privilege Escalation Detection**:
+
 ```kusto
 AzureActivity
 | where OperationNameValue contains "roleAssignments/write"
@@ -625,6 +628,7 @@ AzureActivity
 ```
 
 **Suspicious DevCenter Operations**:
+
 ```kusto
 AzureDiagnostics
 | where ResourceProvider == "MICROSOFT.DEVCENTER"
@@ -880,6 +884,7 @@ graph TB
 ```
 
 **Benefits**:
+
 - No long-lived secrets in repository
 - Automatic token rotation
 - Auditable via Azure AD logs
