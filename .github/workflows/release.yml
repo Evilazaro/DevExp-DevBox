@@ -9,18 +9,6 @@ on:
         required: false
         default: false
         type: boolean
-  
-  # Automatic triggers
-  push:
-    branches:
-      - main           # Auto-release from main branch
-      - 'feature/**'   # Build and tag feature branches (no release)
-      - 'fix/**'       # Build and tag fix branches (no release)
-  
-  pull_request:
-    branches:
-      - main
-    types: [opened, synchronize, reopened]
           
 permissions:
   contents: write
