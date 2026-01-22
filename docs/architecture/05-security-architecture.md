@@ -1,4 +1,31 @@
+---
+title: "Security Architecture"
+description: "TOGAF Security Architecture documentation for the DevExp-DevBox Landing Zone Accelerator, covering threat modeling, identity management, RBAC, secrets management, and compliance controls."
+author: "DevExp Team"
+date: "2026-01-22"
+version: "1.0.0"
+tags:
+  - TOGAF
+  - Security Architecture
+  - DevExp
+  - Zero Trust
+  - Azure Security
+---
+
 # 🔐 Security Architecture
+
+> [!NOTE]
+> **Target Audience**: Security Architects, Compliance Teams, Platform Engineers  
+> **Reading Time**: ~25 minutes
+
+<details>
+<summary>📍 <strong>Document Navigation</strong></summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← Technology Architecture](04-technology-architecture.md) | [Architecture Index](README.md) | — |
+
+</details>
 
 > **TOGAF Layer**: Security Architecture  
 > **Version**: 1.0.0  
