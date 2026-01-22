@@ -447,25 +447,32 @@ sequenceDiagram
 ### Log Analytics Data Collection
 
 ```mermaid
+---
+title: Log Analytics Data Collection Flow
+---
 graph LR
-    subgraph "Data Sources"
-        DC[DevCenter]
-        KV[Key Vault]
-        VNET[Virtual Network]
-        LA[Log Analytics<br/>Workspace]
+    %% ===== DATA SOURCES =====
+    subgraph dataSources["Data Sources"]
+        DC["DevCenter"]
+        KV["Key Vault"]
+        VNET["Virtual Network"]
+        LA["Log Analytics<br/>Workspace"]
     end
     
-    subgraph "Log Categories"
-        LOGS[All Logs<br/>categoryGroup: allLogs]
-        MET[All Metrics<br/>category: AllMetrics]
+    %% ===== LOG CATEGORIES =====
+    subgraph logCategories["Log Categories"]
+        LOGS["All Logs<br/>categoryGroup: allLogs"]
+        MET["All Metrics<br/>category: AllMetrics"]
     end
     
-    subgraph "Analytics"
-        QRY[KQL Queries]
-        WBK[Workbooks]
-        ALR[Alerts]
+    %% ===== ANALYTICS =====
+    subgraph analytics["Analytics"]
+        QRY["KQL Queries"]
+        WBK["Workbooks"]
+        ALR["Alerts"]
     end
     
+    %% ===== RELATIONSHIPS =====
     DC -->|Diagnostic Settings| LOGS
     KV -->|Diagnostic Settings| LOGS
     VNET -->|Diagnostic Settings| LOGS
@@ -474,14 +481,29 @@ graph LR
     KV -->|Diagnostic Settings| MET
     VNET -->|Diagnostic Settings| MET
     
-    LOGS --> LA
-    MET --> LA
+    LOGS -->|ingests| LA
+    MET -->|ingests| LA
     
-    LA --> QRY
-    LA --> WBK
-    LA --> ALR
+    LA -->|enables| QRY
+    LA -->|enables| WBK
+    LA -->|enables| ALR
     
-    style LA fill:#68217A,color:#fff
+    %% ===== CLASS DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF
+    
+    %% ===== CLASS ASSIGNMENTS =====
+    class LA primary
+    class DC,KV,VNET secondary
+    class LOGS,MET datastore
+    class QRY,WBK,ALR external
+    
+    %% ===== SUBGRAPH STYLES =====
+    style dataSources fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style logCategories fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style analytics fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 ### Diagnostic Settings Configuration
