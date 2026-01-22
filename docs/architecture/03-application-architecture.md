@@ -1,4 +1,31 @@
+---
+title: "Application Architecture"
+description: "TOGAF Application Architecture documentation for the DevExp-DevBox Landing Zone Accelerator, covering Bicep module catalog, dependencies, deployment orchestration, and design patterns."
+author: "DevExp Team"
+date: "2026-01-22"
+version: "1.0.0"
+tags:
+  - TOGAF
+  - Application Architecture
+  - DevExp
+  - Bicep
+  - Infrastructure as Code
+---
+
 # 🏛️ Application Architecture
+
+> [!NOTE]
+> **Target Audience**: Platform Engineers, DevOps Engineers, Infrastructure Architects  
+> **Reading Time**: ~25 minutes
+
+<details>
+<summary>📍 <strong>Document Navigation</strong></summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← Data Architecture](02-data-architecture.md) | [Architecture Index](README.md) | [Technology Architecture →](04-technology-architecture.md) |
+
+</details>
 
 > **TOGAF Layer**: Application Architecture  
 > **Version**: 1.0.0  
@@ -1135,4 +1162,29 @@ module newzone '../src/newzone/newzone.bicep' = {
 
 ---
 
+## 📎 Related Documents
+
+<details>
+<summary><strong>TOGAF Architecture Series</strong></summary>
+
+| Document | Description |
+|:---------|:------------|
+| [📊 Business Architecture](01-business-architecture.md) | Stakeholder analysis, capabilities, value streams |
+| [🗄️ Data Architecture](02-data-architecture.md) | Configuration schemas, secrets management, data flows |
+| 🏛️ **Application Architecture** | *You are here* |
+| [⚙️ Technology Architecture](04-technology-architecture.md) | Azure services, CI/CD, deployment tools |
+| [🔐 Security Architecture](05-security-architecture.md) | Threat model, RBAC, compliance controls |
+
+</details>
+
+---
+
+<div align="center">
+
+**[← Previous: Data Architecture](02-data-architecture.md)** | **[Next: Technology Architecture →](04-technology-architecture.md)**
+
+---
+
 *Document generated as part of TOGAF Architecture Documentation for DevExp-DevBox Landing Zone Accelerator*
+
+</div>

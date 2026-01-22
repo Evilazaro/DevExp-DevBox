@@ -1,4 +1,31 @@
+---
+title: "Data Architecture"
+description: "TOGAF Data Architecture documentation for the DevExp-DevBox Landing Zone Accelerator, covering configuration data models, secrets management, telemetry, and data governance."
+author: "DevExp Team"
+date: "2026-01-22"
+version: "1.0.0"
+tags:
+  - TOGAF
+  - Data Architecture
+  - DevExp
+  - Key Vault
+  - Azure
+---
+
 # 🗄️ Data Architecture
+
+> [!NOTE]
+> **Target Audience**: Data Architects, Platform Engineers, Security Teams  
+> **Reading Time**: ~20 minutes
+
+<details>
+<summary>📍 <strong>Document Navigation</strong></summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← Business Architecture](01-business-architecture.md) | [Architecture Index](README.md) | [Application Architecture →](03-application-architecture.md) |
+
+</details>
 
 > **TOGAF Layer**: Data Architecture  
 > **Version**: 1.0.0  
@@ -295,7 +322,8 @@ projects:
 
 ## 🔐 Secrets Management
 
-> 🔒 **Important**: All secrets are stored in Azure Key Vault with RBAC authorization. Never commit secrets to source control.
+> [!IMPORTANT]
+> All secrets are stored in Azure Key Vault with RBAC authorization. Never commit secrets to source control.
 
 ### Secret Types
 
@@ -717,4 +745,29 @@ Schemas are validated at authoring time using the `yaml-language-server` directi
 
 ---
 
+## 📎 Related Documents
+
+<details>
+<summary><strong>TOGAF Architecture Series</strong></summary>
+
+| Document | Description |
+|:---------|:------------|
+| [📊 Business Architecture](01-business-architecture.md) | Stakeholder analysis, capabilities, value streams |
+| 🗄️ **Data Architecture** | *You are here* |
+| [🏛️ Application Architecture](03-application-architecture.md) | Bicep module design, dependencies, patterns |
+| [⚙️ Technology Architecture](04-technology-architecture.md) | Azure services, CI/CD, deployment tools |
+| [🔐 Security Architecture](05-security-architecture.md) | Threat model, RBAC, compliance controls |
+
+</details>
+
+---
+
+<div align="center">
+
+**[← Previous: Business Architecture](01-business-architecture.md)** | **[Next: Application Architecture →](03-application-architecture.md)**
+
+---
+
 *Document generated as part of TOGAF Architecture Documentation for DevExp-DevBox Landing Zone Accelerator*
+
+</div>

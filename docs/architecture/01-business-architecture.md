@@ -1,4 +1,31 @@
+---
+title: "Business Architecture"
+description: "TOGAF Business Architecture documentation for the DevExp-DevBox Landing Zone Accelerator, covering stakeholder analysis, business capabilities, value streams, and success metrics."
+author: "DevExp Team"
+date: "2026-01-22"
+version: "1.0.0"
+tags:
+  - TOGAF
+  - Business Architecture
+  - DevExp
+  - Dev Box
+  - Azure
+---
+
 # 📊 Business Architecture
+
+> [!NOTE]
+> **Target Audience**: Business Decision Makers, Enterprise Architects, Project Managers  
+> **Reading Time**: ~15 minutes
+
+<details>
+<summary>📍 <strong>Document Navigation</strong></summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| — | [Architecture Index](README.md) | [Data Architecture →](02-data-architecture.md) |
+
+</details>
 
 > **TOGAF Layer**: Business Architecture  
 > **Version**: 1.0.0  
@@ -25,7 +52,8 @@
 
 The **DevExp-DevBox Landing Zone Accelerator** is an enterprise-grade infrastructure-as-code solution that streamlines the deployment and management of Microsoft Dev Box environments on Azure. This accelerator enables organizations to rapidly provision secure, compliant, and scalable developer workstations while maintaining governance controls and operational excellence.
 
-> 💡 **Key Benefit**: Reduce developer onboarding time from days to minutes with pre-configured, secure environments.
+> [!TIP]
+> **Key Benefit**: Reduce developer onboarding time from days to minutes with pre-configured, secure environments.
 
 ### Key Business Value Propositions
 
@@ -460,4 +488,29 @@ graph TB
 
 ---
 
+## 📎 Related Documents
+
+<details>
+<summary><strong>TOGAF Architecture Series</strong></summary>
+
+| Document | Description |
+|:---------|:------------|
+| 📊 **Business Architecture** | *You are here* |
+| [🗄️ Data Architecture](02-data-architecture.md) | Configuration schemas, secrets management, data flows |
+| [🏛️ Application Architecture](03-application-architecture.md) | Bicep module design, dependencies, patterns |
+| [⚙️ Technology Architecture](04-technology-architecture.md) | Azure services, CI/CD, deployment tools |
+| [🔐 Security Architecture](05-security-architecture.md) | Threat model, RBAC, compliance controls |
+
+</details>
+
+---
+
+<div align="center">
+
+**[← Previous: Index](README.md)** | **[Next: Data Architecture →](02-data-architecture.md)**
+
+---
+
 *Document generated as part of TOGAF Architecture Documentation for DevExp-DevBox Landing Zone Accelerator*
+
+</div>

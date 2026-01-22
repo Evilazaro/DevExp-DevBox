@@ -1,4 +1,31 @@
+---
+title: "Technology Architecture"
+description: "TOGAF Technology Architecture documentation for the DevExp-DevBox Landing Zone Accelerator, covering Azure infrastructure, landing zones, networking, CI/CD, and deployment tools."
+author: "DevExp Team"
+date: "2026-01-22"
+version: "1.0.0"
+tags:
+  - TOGAF
+  - Technology Architecture
+  - DevExp
+  - Azure
+  - DevOps
+---
+
 # ⚙️ Technology Architecture
+
+> [!NOTE]
+> **Target Audience**: Cloud Architects, DevOps Engineers, Infrastructure Teams  
+> **Reading Time**: ~20 minutes
+
+<details>
+<summary>📍 <strong>Document Navigation</strong></summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← Application Architecture](03-application-architecture.md) | [Architecture Index](README.md) | [Security Architecture →](05-security-architecture.md) |
+
+</details>
 
 > **TOGAF Layer**: Technology Architecture  
 > **Version**: 1.0.0  
@@ -630,7 +657,8 @@ graph LR
 
 ### Azure Developer CLI (azd)
 
-> 🛠️ **Prerequisite**: Ensure Azure Developer CLI (`azd`) is installed. See [installation guide](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd).
+> [!TIP]
+> **Prerequisite**: Ensure Azure Developer CLI (`azd`) is installed. See [installation guide](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd).
 
 The primary deployment tool is Azure Developer CLI (`azd`), configured via `azure.yaml`:
 
@@ -793,4 +821,29 @@ The CI pipeline generates semantic versions based on commit messages:
 
 ---
 
+## 📎 Related Documents
+
+<details>
+<summary><strong>TOGAF Architecture Series</strong></summary>
+
+| Document | Description |
+|:---------|:------------|
+| [📊 Business Architecture](01-business-architecture.md) | Stakeholder analysis, capabilities, value streams |
+| [🗄️ Data Architecture](02-data-architecture.md) | Configuration schemas, secrets management, data flows |
+| [🏛️ Application Architecture](03-application-architecture.md) | Bicep module design, dependencies, patterns |
+| ⚙️ **Technology Architecture** | *You are here* |
+| [🔐 Security Architecture](05-security-architecture.md) | Threat model, RBAC, compliance controls |
+
+</details>
+
+---
+
+<div align="center">
+
+**[← Previous: Application Architecture](03-application-architecture.md)** | **[Next: Security Architecture →](05-security-architecture.md)**
+
+---
+
 *Document generated as part of TOGAF Architecture Documentation for DevExp-DevBox Landing Zone Accelerator*
+
+</div>
