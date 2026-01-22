@@ -67,68 +67,99 @@ specialized Bicep modules.
 ### Landing Zone Architecture
 
 ```mermaid
+---
+title: Landing Zone Architecture
+---
 flowchart TB
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+
+    %% ===== SUBSCRIPTION =====
     subgraph Subscription["Azure Subscription"]
+        %% ===== MAIN ORCHESTRATOR =====
         subgraph Main["main.bicep (Orchestrator)"]
             PARAMS[/"Parameters:<br/>location, secretValue,<br/>environmentName"/]
         end
 
+        %% ===== SECURITY LANDING ZONE =====
         subgraph Security["Security Landing Zone"]
-            SEC_RG[Security Resource Group]
-            KV[Key Vault]
-            SECRET[Secrets]
+            SEC_RG["Security Resource Group"]
+            KV["Key Vault"]
+            SECRET["Secrets"]
         end
 
+        %% ===== MONITORING LANDING ZONE =====
         subgraph Monitoring["Monitoring Landing Zone"]
-            MON_RG[Monitoring Resource Group]
-            LA[Log Analytics Workspace]
-            SOL[Solutions]
+            MON_RG["Monitoring Resource Group"]
+            LA["Log Analytics Workspace"]
+            SOL["Solutions"]
         end
 
+        %% ===== CONNECTIVITY LANDING ZONE =====
         subgraph Connectivity["Connectivity Landing Zone"]
-            CON_RG[Connectivity Resource Group]
-            VNET[Virtual Network]
-            SUBNET[Subnets]
-            NC[Network Connection]
+            CON_RG["Connectivity Resource Group"]
+            VNET["Virtual Network"]
+            SUBNET["Subnets"]
+            NC["Network Connection"]
         end
 
+        %% ===== WORKLOAD LANDING ZONE =====
         subgraph Workload["Workload Landing Zone"]
-            WRK_RG[Workload Resource Group]
-            DC[DevCenter]
-            CAT[Catalogs]
-            ENV[Environment Types]
-            PROJ[Projects]
-            POOL[Pools]
+            WRK_RG["Workload Resource Group"]
+            DC["DevCenter"]
+            CAT["Catalogs"]
+            ENV["Environment Types"]
+            PROJ["Projects"]
+            POOL["Pools"]
         end
     end
 
-    PARAMS --> SEC_RG
-    PARAMS --> MON_RG
-    PARAMS --> WRK_RG
+    %% ===== CONNECTIONS =====
+    PARAMS -->|"creates"| SEC_RG
+    PARAMS -->|"creates"| MON_RG
+    PARAMS -->|"creates"| WRK_RG
 
-    MON_RG --> LA
-    LA --> SOL
+    MON_RG -->|"hosts"| LA
+    LA -->|"installs"| SOL
 
-    SEC_RG --> KV
-    KV --> SECRET
+    SEC_RG -->|"hosts"| KV
+    KV -->|"stores"| SECRET
 
-    WRK_RG --> DC
-    DC --> CAT
-    DC --> ENV
-    DC --> PROJ
-    PROJ --> POOL
+    WRK_RG -->|"hosts"| DC
+    DC -->|"configures"| CAT
+    DC -->|"defines"| ENV
+    DC -->|"manages"| PROJ
+    PROJ -->|"contains"| POOL
 
-    PROJ -.->|Optional| CON_RG
-    CON_RG --> VNET
-    VNET --> SUBNET
-    SUBNET --> NC
-    NC --> DC
+    PROJ -.->|"optional"| CON_RG
+    CON_RG -->|"hosts"| VNET
+    VNET -->|"contains"| SUBNET
+    SUBNET -->|"attaches"| NC
+    NC -->|"connects to"| DC
 
-    LA -.->|Diagnostics| KV
-    LA -.->|Diagnostics| DC
-    LA -.->|Diagnostics| VNET
+    LA -.->|"diagnostics"| KV
+    LA -.->|"diagnostics"| DC
+    LA -.->|"diagnostics"| VNET
 
-    SECRET -.->|Auth| CAT
+    SECRET -.->|"authenticates"| CAT
+
+    %% ===== APPLY STYLES =====
+    class PARAMS input
+    class SEC_RG,MON_RG,CON_RG,WRK_RG primary
+    class LA,KV,DC secondary
+    class SECRET,CAT,ENV,PROJ,POOL,VNET,SUBNET,NC,SOL datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Subscription fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style Main fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Security fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Monitoring fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Connectivity fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Workload fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 > [!IMPORTANT]
@@ -613,80 +644,112 @@ src/
 ### Dependency Graph
 
 ```mermaid
+---
+title: Module Dependency Graph
+---
 flowchart TD
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+
+    %% ===== ENTRY POINT =====
     subgraph Entry["Entry Point"]
-        MAIN[main.bicep]
+        MAIN["main.bicep"]
     end
 
+    %% ===== MANAGEMENT LAYER =====
     subgraph Management["Management Layer"]
-        LA[logAnalytics.bicep]
+        LA["logAnalytics.bicep"]
     end
 
+    %% ===== SECURITY LAYER =====
     subgraph Security["Security Layer"]
-        SEC[security.bicep]
-        KV[keyVault.bicep]
-        SECRET[secret.bicep]
+        SEC["security.bicep"]
+        KV["keyVault.bicep"]
+        SECRET["secret.bicep"]
     end
 
+    %% ===== WORKLOAD LAYER =====
     subgraph Workload["Workload Layer"]
-        WRK[workload.bicep]
-        DC[devCenter.bicep]
-        CAT[catalog.bicep]
-        ENV[environmentType.bicep]
-        PROJ[project.bicep]
-        PCAT[projectCatalog.bicep]
-        PENV[projectEnvironmentType.bicep]
-        POOL[projectPool.bicep]
+        WRK["workload.bicep"]
+        DC["devCenter.bicep"]
+        CAT["catalog.bicep"]
+        ENV["environmentType.bicep"]
+        PROJ["project.bicep"]
+        PCAT["projectCatalog.bicep"]
+        PENV["projectEnvironmentType.bicep"]
+        POOL["projectPool.bicep"]
     end
 
+    %% ===== CONNECTIVITY LAYER =====
     subgraph Connectivity["Connectivity Layer"]
-        CONN[connectivity.bicep]
-        VNET[vnet.bicep]
-        NC[networkConnection.bicep]
-        RG[resourceGroup.bicep]
+        CONN["connectivity.bicep"]
+        VNET["vnet.bicep"]
+        NC["networkConnection.bicep"]
+        RG["resourceGroup.bicep"]
     end
 
+    %% ===== IDENTITY LAYER =====
     subgraph Identity["Identity Layer"]
-        DCRA[devCenterRoleAssignment]
-        DCRA_RG[devCenterRoleAssignmentRG]
-        PRA[projectIdentityRoleAssignment]
-        PRA_RG[projectIdentityRoleAssignmentRG]
-        ORA[orgRoleAssignment]
+        DCRA["devCenterRoleAssignment"]
+        DCRA_RG["devCenterRoleAssignmentRG"]
+        PRA["projectIdentityRoleAssignment"]
+        PRA_RG["projectIdentityRoleAssignmentRG"]
+        ORA["orgRoleAssignment"]
     end
 
-    MAIN --> LA
-    MAIN --> SEC
-    MAIN --> WRK
+    %% ===== CONNECTIONS =====
+    MAIN -->|"deploys"| LA
+    MAIN -->|"deploys"| SEC
+    MAIN -->|"deploys"| WRK
 
-    SEC --> KV
-    SEC --> SECRET
-    KV --> SECRET
-    LA --> SECRET
+    SEC -->|"creates"| KV
+    SEC -->|"creates"| SECRET
+    KV -->|"provides to"| SECRET
+    LA -->|"provides to"| SECRET
 
-    WRK --> DC
-    WRK --> PROJ
-    LA --> DC
-    SECRET --> DC
+    WRK -->|"creates"| DC
+    WRK -->|"creates"| PROJ
+    LA -->|"provides to"| DC
+    SECRET -->|"provides to"| DC
 
-    DC --> CAT
-    DC --> ENV
-    DC --> DCRA
-    DC --> DCRA_RG
-    DC --> ORA
+    DC -->|"creates"| CAT
+    DC -->|"creates"| ENV
+    DC -->|"assigns"| DCRA
+    DC -->|"assigns"| DCRA_RG
+    DC -->|"assigns"| ORA
 
-    PROJ --> PCAT
-    PROJ --> PENV
-    PROJ --> POOL
-    PROJ --> CONN
-    PROJ --> PRA
-    PROJ --> PRA_RG
+    PROJ -->|"creates"| PCAT
+    PROJ -->|"creates"| PENV
+    PROJ -->|"creates"| POOL
+    PROJ -->|"creates"| CONN
+    PROJ -->|"assigns"| PRA
+    PROJ -->|"assigns"| PRA_RG
 
-    CONN --> RG
-    CONN --> VNET
-    CONN --> NC
-    LA --> VNET
+    CONN -->|"creates"| RG
+    CONN -->|"creates"| VNET
+    CONN -->|"creates"| NC
+    LA -->|"provides to"| VNET
 
-    NC --> DC
+    NC -->|"connects to"| DC
+
+    %% ===== APPLY STYLES =====
+    class MAIN primary
+    class LA secondary
+    class SEC,KV,SECRET primary
+    class WRK,DC,CAT,ENV,PROJ,PCAT,PENV,POOL datastore
+    class CONN,VNET,NC,RG secondary
+    class DCRA,DCRA_RG,PRA,PRA_RG,ORA external
+
+    %% ===== SUBGRAPH STYLING =====
+    style Entry fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Management fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Security fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Workload fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Connectivity fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Identity fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 ### Dependency Matrix
@@ -710,7 +773,11 @@ flowchart TD
 ### Deployment Sequence
 
 ```mermaid
+---
+title: Deployment Sequence
+---
 sequenceDiagram
+    %% ===== PARTICIPANTS =====
     participant User as Platform Engineer
     participant AZD as Azure Developer CLI
     participant ARM as Azure Resource Manager
@@ -719,15 +786,18 @@ sequenceDiagram
     participant SEC as Security Module
     participant WRK as Workload Module
 
+    %% ===== INITIATE DEPLOYMENT =====
     User->>AZD: azd provision
     AZD->>ARM: Deploy main.bicep
 
+    %% ===== PARALLEL RESOURCE GROUP CREATION =====
     par Create Resource Groups
         ARM->>RG: Create Security RG
         ARM->>RG: Create Monitoring RG
         ARM->>RG: Create Workload RG
     end
 
+    %% ===== SEQUENTIAL MODULE DEPLOYMENT =====
     ARM->>MON: Deploy logAnalytics.bicep
     MON-->>ARM: AZURE_LOG_ANALYTICS_WORKSPACE_ID
 
@@ -738,9 +808,11 @@ sequenceDiagram
     ARM->>WRK: Deploy workload.bicep
     Note over WRK: Uses logAnalyticsId, secretIdentifier
 
+    %% ===== NESTED WORKLOAD DEPLOYMENT =====
     WRK->>WRK: Deploy devCenter.bicep
     WRK->>WRK: Deploy project.bicep (loop)
 
+    %% ===== RETURN OUTPUTS =====
     WRK-->>ARM: AZURE_DEV_CENTER_NAME, AZURE_DEV_CENTER_PROJECTS
     ARM-->>AZD: Deployment outputs
     AZD-->>User: Deployment complete
@@ -1007,33 +1079,57 @@ module newzone '../src/newzone/newzone.bicep' = {
 ### Extension Architecture
 
 ```mermaid
+---
+title: Extension Architecture
+---
 flowchart TD
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000
+
+    %% ===== CONFIGURATION LAYER =====
     subgraph Config["Configuration Layer"]
-        YAML[YAML Files]
-        SCHEMA[JSON Schemas]
+        YAML["YAML Files"]
+        SCHEMA["JSON Schemas"]
     end
 
+    %% ===== EXTENSION POINTS =====
     subgraph Extension["Extension Points"]
-        NEW_PROJ[New Project]
-        NEW_POOL[New Pool]
-        NEW_CAT[New Catalog]
-        NEW_LZ[New Landing Zone]
+        NEW_PROJ["New Project"]
+        NEW_POOL["New Pool"]
+        NEW_CAT["New Catalog"]
+        NEW_LZ["New Landing Zone"]
     end
 
+    %% ===== MODULE LAYER =====
     subgraph Modules["Module Layer"]
-        EXISTING[Existing Modules]
-        NEW_MOD[New Modules]
+        EXISTING["Existing Modules"]
+        NEW_MOD["New Modules"]
     end
 
-    YAML --> Extension
-    SCHEMA --> YAML
+    %% ===== CONNECTIONS =====
+    YAML -->|"configures"| Extension
+    SCHEMA -->|"validates"| YAML
 
-    NEW_PROJ --> |Uses| EXISTING
-    NEW_POOL --> |Uses| EXISTING
-    NEW_CAT --> |Uses| EXISTING
-    NEW_LZ --> |Requires| NEW_MOD
+    NEW_PROJ -->|"uses"| EXISTING
+    NEW_POOL -->|"uses"| EXISTING
+    NEW_CAT -->|"uses"| EXISTING
+    NEW_LZ -->|"requires"| NEW_MOD
 
-    NEW_MOD --> |Follow patterns of| EXISTING
+    NEW_MOD -->|"follow patterns of"| EXISTING
+
+    %% ===== APPLY STYLES =====
+    class YAML,SCHEMA input
+    class NEW_PROJ,NEW_POOL,NEW_CAT,NEW_LZ primary
+    class EXISTING secondary
+    class NEW_MOD datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Config fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style Extension fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Modules fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ---
