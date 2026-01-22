@@ -140,79 +140,100 @@ security compliance, cost optimization, and operational efficiency.
 #### 🗺️ Business Capability Map
 
 ```mermaid
+---
+title: Business Capability Map
+---
 flowchart TB
-    subgraph DevEnv[Developer Environment Management]
-        DE1[Environment Provisioning]
-        DE2[Catalog Management]
-        DE3[Image Definition Management]
-        DE4[Pool Management]
+    %% ===== DEVELOPER ENVIRONMENT MANAGEMENT =====
+    subgraph DevEnv["Developer Environment Management"]
+        DE1["Environment Provisioning"]
+        DE2["Catalog Management"]
+        DE3["Image Definition Management"]
+        DE4["Pool Management"]
     end
 
-    subgraph SecComp[Security & Compliance]
-        SC1[Identity Management]
-        SC2[Secret Management]
-        SC3[Network Isolation]
-        SC4[RBAC Enforcement]
+    %% ===== SECURITY & COMPLIANCE =====
+    subgraph SecComp["Security & Compliance"]
+        SC1["Identity Management"]
+        SC2["Secret Management"]
+        SC3["Network Isolation"]
+        SC4["RBAC Enforcement"]
     end
 
-    subgraph ResGov[Resource Governance]
-        RG1[Resource Group Management]
-        RG2[Policy Enforcement]
-        RG3[Cost Management]
-        RG4[Tag Management]
+    %% ===== RESOURCE GOVERNANCE =====
+    subgraph ResGov["Resource Governance"]
+        RG1["Resource Group Management"]
+        RG2["Policy Enforcement"]
+        RG3["Cost Management"]
+        RG4["Tag Management"]
     end
 
-    subgraph MonObs[Monitoring & Observability]
-        MO1[Centralized Logging]
-        MO2[Metrics Collection]
-        MO3[Diagnostic Settings]
-        MO4[Activity Tracking]
+    %% ===== MONITORING & OBSERVABILITY =====
+    subgraph MonObs["Monitoring & Observability"]
+        MO1["Centralized Logging"]
+        MO2["Metrics Collection"]
+        MO3["Diagnostic Settings"]
+        MO4["Activity Tracking"]
     end
 
-    style DevEnv fill:#E6E6FA
-    style SecComp fill:#E6E6FA
-    style ResGov fill:#E6E6FA
-    style MonObs fill:#E6E6FA
-    style DE1 fill:#E6E6FA
-    style DE2 fill:#E6E6FA
-    style DE3 fill:#E6E6FA
-    style DE4 fill:#E6E6FA
-    style SC1 fill:#E6E6FA
-    style SC2 fill:#E6E6FA
-    style SC3 fill:#E6E6FA
-    style SC4 fill:#E6E6FA
-    style RG1 fill:#E6E6FA
-    style RG2 fill:#E6E6FA
-    style RG3 fill:#E6E6FA
-    style RG4 fill:#E6E6FA
-    style MO1 fill:#E6E6FA
-    style MO2 fill:#E6E6FA
-    style MO3 fill:#E6E6FA
-    style MO4 fill:#E6E6FA
+    %% ===== CROSS-CAPABILITY DEPENDENCIES =====
+    DevEnv -->|requires| SecComp
+    DevEnv -->|governed by| ResGov
+    DevEnv -->|observed by| MonObs
+    SecComp -->|audited by| MonObs
+    ResGov -->|monitored by| MonObs
+
+    %% ===== CLASS DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+
+    %% ===== NODE STYLING =====
+    class DE1,DE2,DE3,DE4 primary
+    class SC1,SC2,SC3,SC4 secondary
+    class RG1,RG2,RG3,RG4 datastore
+    class MO1,MO2,MO3,MO4 external
+
+    %% ===== SUBGRAPH STYLING =====
+    style DevEnv fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style SecComp fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style ResGov fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style MonObs fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 #### 📊 Value Stream Map
 
 ```mermaid
+---
+title: Value Stream Map
+---
 flowchart LR
-    A[Developer Request] --> B[Identity Verification]
-    B --> C[Authorization Check]
-    C --> D[Resource Allocation]
-    D --> E[Network Configuration]
-    E --> F[Security Policy Application]
-    F --> G[Monitoring Integration]
-    G --> H[Environment Ready]
-    H --> I[Developer Access]
+    %% ===== VALUE STREAM STAGES =====
+    A["Developer Request"] -->|initiates| B["Identity Verification"]
+    B -->|validates| C["Authorization Check"]
+    C -->|approves| D["Resource Allocation"]
+    D -->|configures| E["Network Configuration"]
+    E -->|applies| F["Security Policy Application"]
+    F -->|integrates| G["Monitoring Integration"]
+    G -->|completes| H["Environment Ready"]
+    H -->|grants| I["Developer Access"]
 
-    style A fill:#E6E6FA
-    style B fill:#E6E6FA
-    style C fill:#E6E6FA
-    style D fill:#E6E6FA
-    style E fill:#E6E6FA
-    style F fill:#E6E6FA
-    style G fill:#E6E6FA
-    style H fill:#E6E6FA
-    style I fill:#E6E6FA
+    %% ===== CLASS DEFINITIONS =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef matrix fill:#D1FAE5,stroke:#10B981,color:#000000
+
+    %% ===== NODE STYLING =====
+    class A trigger
+    class B,C primary
+    class D,E secondary
+    class F,G datastore
+    class H matrix
+    class I external
 ```
 
 ### 💾 Data Architecture
@@ -248,85 +269,93 @@ enterprise data governance policies.
 #### 📊 Master Data Management
 
 ```mermaid
+---
+title: Master Data Management
+---
 flowchart LR
-    subgraph Sources[Data Sources]
-        S1[YAML Configuration Files]
-        S2[Environment Variables]
-        S3[Source Control Tokens]
-        S4[Azure Subscription Data]
+    %% ===== DATA SOURCES =====
+    subgraph Sources["Data Sources"]
+        S1["YAML Configuration Files"]
+        S2["Environment Variables"]
+        S3["Source Control Tokens"]
+        S4["Azure Subscription Data"]
     end
 
-    subgraph Ingestion[Ingestion Layer]
-        I1[Setup Scripts]
-        I2[Azure CLI]
-        I3[AZD CLI]
+    %% ===== INGESTION LAYER =====
+    subgraph Ingestion["Ingestion Layer"]
+        I1["Setup Scripts"]
+        I2["Azure CLI"]
+        I3["AZD CLI"]
     end
 
-    subgraph Processing[Processing Layer]
-        P1[Bicep Compilation]
-        P2[Parameter Validation]
-        P3[Secret Encryption]
-        P4[Resource Naming]
+    %% ===== PROCESSING LAYER =====
+    subgraph Processing["Processing Layer"]
+        P1["Bicep Compilation"]
+        P2["Parameter Validation"]
+        P3["Secret Encryption"]
+        P4["Resource Naming"]
     end
 
-    subgraph Storage[Storage Layer]
-        ST1[Key Vault Secrets]
-        ST2[Log Analytics Workspace]
-        ST3[Resource Metadata]
-        ST4[Environment State]
+    %% ===== STORAGE LAYER =====
+    subgraph Storage["Storage Layer"]
+        ST1[("Key Vault Secrets")]
+        ST2[("Log Analytics Workspace")]
+        ST3[("Resource Metadata")]
+        ST4[("Environment State")]
     end
 
-    subgraph Governance[Governance Layer]
-        G1[RBAC Policies]
-        G2[Diagnostic Settings]
-        G3[Access Policies]
-        G4[Tag Policies]
+    %% ===== GOVERNANCE LAYER =====
+    subgraph Governance["Governance Layer"]
+        G1["RBAC Policies"]
+        G2["Diagnostic Settings"]
+        G3["Access Policies"]
+        G4["Tag Policies"]
     end
 
-    S1 --> I1
-    S2 --> I2
-    S3 --> I3
-    S4 --> I2
+    %% ===== SOURCE TO INGESTION =====
+    S1 -->|reads| I1
+    S2 -->|loads| I2
+    S3 -->|authenticates| I3
+    S4 -->|queries| I2
 
-    I1 --> P1
-    I2 --> P2
-    I3 --> P3
-    I2 --> P4
+    %% ===== INGESTION TO PROCESSING =====
+    I1 -->|compiles| P1
+    I2 -->|validates| P2
+    I3 -->|encrypts| P3
+    I2 -->|names| P4
 
-    P1 --> ST3
-    P2 --> ST3
-    P3 --> ST1
-    P4 --> ST4
+    %% ===== PROCESSING TO STORAGE =====
+    P1 -->|stores| ST3
+    P2 -->|stores| ST3
+    P3 -->|stores| ST1
+    P4 -->|stores| ST4
 
-    ST1 --> G3
-    ST2 --> G2
-    ST3 --> G1
-    ST4 --> G4
+    %% ===== STORAGE TO GOVERNANCE =====
+    ST1 -->|enforces| G3
+    ST2 -->|configures| G2
+    ST3 -->|applies| G1
+    ST4 -->|tags| G4
 
-    style Sources fill:#ADD8E6
-    style Ingestion fill:#ADD8E6
-    style Processing fill:#90EE90
-    style Storage fill:#FFFACD
-    style Governance fill:#D3D3D3
-    style S1 fill:#ADD8E6
-    style S2 fill:#ADD8E6
-    style S3 fill:#ADD8E6
-    style S4 fill:#ADD8E6
-    style I1 fill:#ADD8E6
-    style I2 fill:#ADD8E6
-    style I3 fill:#ADD8E6
-    style P1 fill:#90EE90
-    style P2 fill:#90EE90
-    style P3 fill:#90EE90
-    style P4 fill:#90EE90
-    style ST1 fill:#FFFACD
-    style ST2 fill:#FFFACD
-    style ST3 fill:#FFFACD
-    style ST4 fill:#FFFACD
-    style G1 fill:#D3D3D3
-    style G2 fill:#D3D3D3
-    style G3 fill:#D3D3D3
-    style G4 fill:#D3D3D3
+    %% ===== CLASS DEFINITIONS =====
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+
+    %% ===== NODE STYLING =====
+    class S1,S2,S3,S4 input
+    class I1,I2,I3 primary
+    class P1,P2,P3,P4 secondary
+    class ST1,ST2,ST3,ST4 datastore
+    class G1,G2,G3,G4 external
+
+    %% ===== SUBGRAPH STYLING =====
+    style Sources fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style Ingestion fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Processing fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Storage fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Governance fill:#F9FAFB,stroke:#6B7280,stroke-width:2px
 ```
 
 ### 📐 Application Architecture
@@ -373,95 +402,108 @@ while maintaining separation of concerns through landing zone isolation.
 #### 🏛️ Solution Architecture
 
 ```mermaid
+---
+title: Solution Architecture
+---
 flowchart TB
-    subgraph Clients[Client Layer]
-        C1[Azure Portal]
-        C2[Azure CLI]
-        C3[Azure Developer CLI]
-        C4[PowerShell/Bash Scripts]
+    %% ===== CLIENT LAYER =====
+    subgraph Clients["Client Layer"]
+        C1["Azure Portal"]
+        C2["Azure CLI"]
+        C3["Azure Developer CLI"]
+        C4["PowerShell/Bash Scripts"]
     end
 
-    subgraph Gateway[Management Layer]
-        G1[Azure Resource Manager]
+    %% ===== MANAGEMENT LAYER =====
+    subgraph Gateway["Management Layer"]
+        G1["Azure Resource Manager"]
     end
 
-    subgraph Services[Service Layer]
-        SV1[DevCenter Core]
-        SV2[DevCenter Projects]
-        SV3[DevCenter Catalogs]
-        SV4[Environment Types]
-        SV5[DevBox Pools]
+    %% ===== SERVICE LAYER =====
+    subgraph Services["Service Layer"]
+        SV1["DevCenter Core"]
+        SV2["DevCenter Projects"]
+        SV3["DevCenter Catalogs"]
+        SV4["Environment Types"]
+        SV5["DevBox Pools"]
     end
 
-    subgraph Security[Security Layer]
-        SE1[Key Vault]
-        SE2[Managed Identities]
-        SE3[RBAC Assignments]
+    %% ===== SECURITY LAYER =====
+    subgraph Security["Security Layer"]
+        SE1[("Key Vault")]
+        SE2["Managed Identities"]
+        SE3["RBAC Assignments"]
     end
 
-    subgraph Monitoring[Monitoring Layer]
-        M1[Log Analytics Workspace]
-        M2[Diagnostic Settings]
-        M3[Azure Monitor]
+    %% ===== MONITORING LAYER =====
+    subgraph Monitoring["Monitoring Layer"]
+        M1[("Log Analytics Workspace")]
+        M2["Diagnostic Settings"]
+        M3["Azure Monitor"]
     end
 
-    subgraph Connectivity[Connectivity Layer]
-        CN1[Virtual Network]
-        CN2[Network Connection]
-        CN3[Subnets]
+    %% ===== CONNECTIVITY LAYER =====
+    subgraph Connectivity["Connectivity Layer"]
+        CN1["Virtual Network"]
+        CN2["Network Connection"]
+        CN3["Subnets"]
     end
 
-    C1 --> G1
-    C2 --> G1
-    C3 --> G1
-    C4 --> G1
+    %% ===== CLIENT TO GATEWAY =====
+    C1 -->|requests| G1
+    C2 -->|invokes| G1
+    C3 -->|deploys| G1
+    C4 -->|executes| G1
 
-    G1 --> SV1
+    %% ===== GATEWAY TO SERVICES =====
+    G1 ==>|manages| SV1
 
-    SV1 --> SV2
-    SV1 --> SV3
-    SV1 --> SV4
-    SV2 --> SV5
+    %% ===== SERVICE RELATIONSHIPS =====
+    SV1 -->|creates| SV2
+    SV1 -->|configures| SV3
+    SV1 -->|defines| SV4
+    SV2 -->|provisions| SV5
 
-    SV1 --> SE2
-    SV2 --> SE2
-    SV3 --> SE1
-    SE2 --> SE3
+    %% ===== SERVICE TO SECURITY =====
+    SV1 -.->|authenticates via| SE2
+    SV2 -.->|uses| SE2
+    SV3 -->|retrieves secrets| SE1
+    SE2 -->|enforces| SE3
 
-    SV1 --> M2
-    SV2 --> M2
-    M2 --> M1
-    M1 --> M3
+    %% ===== SERVICE TO MONITORING =====
+    SV1 -.->|logs| M2
+    SV2 -.->|logs| M2
+    M2 -->|streams to| M1
+    M1 -->|visualizes in| M3
 
-    SV5 --> CN2
-    CN2 --> CN1
-    CN1 --> CN3
+    %% ===== POOLS TO CONNECTIVITY =====
+    SV5 -->|connects via| CN2
+    CN2 -->|uses| CN1
+    CN1 -->|contains| CN3
 
-    style Clients fill:#ADD8E6
-    style Gateway fill:#E6E6FA
-    style Services fill:#90EE90
-    style Security fill:#D3D3D3
-    style Monitoring fill:#D3D3D3
-    style Connectivity fill:#FFFACD
-    style C1 fill:#ADD8E6
-    style C2 fill:#ADD8E6
-    style C3 fill:#ADD8E6
-    style C4 fill:#ADD8E6
-    style G1 fill:#E6E6FA
-    style SV1 fill:#90EE90
-    style SV2 fill:#90EE90
-    style SV3 fill:#90EE90
-    style SV4 fill:#90EE90
-    style SV5 fill:#90EE90
-    style SE1 fill:#D3D3D3
-    style SE2 fill:#D3D3D3
-    style SE3 fill:#D3D3D3
-    style M1 fill:#D3D3D3
-    style M2 fill:#D3D3D3
-    style M3 fill:#D3D3D3
-    style CN1 fill:#FFFACD
-    style CN2 fill:#FFFACD
-    style CN3 fill:#FFFACD
+    %% ===== CLASS DEFINITIONS =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000
+
+    %% ===== NODE STYLING =====
+    class C1,C2,C3,C4 trigger
+    class G1 primary
+    class SV1,SV2,SV3,SV4,SV5 secondary
+    class SE1,M1 datastore
+    class SE2,SE3,M2,M3 external
+    class CN1,CN2,CN3 input
+
+    %% ===== SUBGRAPH STYLING =====
+    style Clients fill:#E0E7FF,stroke:#818CF8,stroke-width:2px
+    style Gateway fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Services fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Security fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Monitoring fill:#F9FAFB,stroke:#6B7280,stroke-width:2px
+    style Connectivity fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 ### ☁️ Technology Architecture
@@ -506,181 +548,218 @@ infrastructure as code best practices, and platform engineering principles.
 #### ☁️ Cloud-Native Architecture
 
 ```mermaid
+---
+title: Cloud-Native Architecture
+---
 flowchart LR
-    subgraph Clients[Client Interfaces]
-        CL1[Azure Portal]
-        CL2[Azure CLI]
-        CL3[PowerShell/Bash]
-        CL4[Azure Developer CLI]
+    %% ===== CLIENT INTERFACES =====
+    subgraph Clients["Client Interfaces"]
+        CL1["Azure Portal"]
+        CL2["Azure CLI"]
+        CL3["PowerShell/Bash"]
+        CL4["Azure Developer CLI"]
     end
 
-    subgraph Gateway[API Gateway]
-        GW1[Azure Resource Manager]
+    %% ===== API GATEWAY =====
+    subgraph Gateway["API Gateway"]
+        GW1["Azure Resource Manager"]
     end
 
-    subgraph Services[Azure Services]
-        SR1[Microsoft DevCenter]
-        SR2[DevCenter Projects]
-        SR3[Azure Key Vault]
-        SR4[Virtual Network]
+    %% ===== AZURE SERVICES =====
+    subgraph Services["Azure Services"]
+        SR1["Microsoft DevCenter"]
+        SR2["DevCenter Projects"]
+        SR3[("Azure Key Vault")]
+        SR4["Virtual Network"]
     end
 
-    subgraph EventBus[Event Integration]
-        EB1[Diagnostic Settings]
+    %% ===== EVENT INTEGRATION =====
+    subgraph EventBus["Event Integration"]
+        EB1["Diagnostic Settings"]
     end
 
-    subgraph DataStorage[Data & Storage]
-        DS1[Log Analytics Workspace]
-        DS2[Key Vault Secrets]
+    %% ===== DATA & STORAGE =====
+    subgraph DataStorage["Data & Storage"]
+        DS1[("Log Analytics Workspace")]
+        DS2[("Key Vault Secrets")]
     end
 
-    subgraph Observability[Observability & Security]
-        OB1[Azure Monitor]
-        OB2[RBAC Policies]
-        OB3[Managed Identities]
+    %% ===== OBSERVABILITY & SECURITY =====
+    subgraph Observability["Observability & Security"]
+        OB1["Azure Monitor"]
+        OB2["RBAC Policies"]
+        OB3["Managed Identities"]
     end
 
-    CL1 --> GW1
-    CL2 --> GW1
-    CL3 --> GW1
-    CL4 --> GW1
+    %% ===== CLIENT TO GATEWAY =====
+    CL1 -->|requests| GW1
+    CL2 -->|invokes| GW1
+    CL3 -->|executes| GW1
+    CL4 -->|deploys| GW1
 
-    GW1 --> SR1
-    GW1 --> SR2
-    GW1 --> SR3
-    GW1 --> SR4
+    %% ===== GATEWAY TO SERVICES =====
+    GW1 ==>|manages| SR1
+    GW1 -->|provisions| SR2
+    GW1 -->|configures| SR3
+    GW1 -->|creates| SR4
 
-    SR1 --> EB1
-    SR2 --> EB1
-    SR3 --> EB1
+    %% ===== SERVICES TO EVENT BUS =====
+    SR1 -.->|emits events| EB1
+    SR2 -.->|logs| EB1
+    SR3 -.->|audits| EB1
 
-    EB1 --> DS1
-    SR3 --> DS2
+    %% ===== EVENT BUS TO STORAGE =====
+    EB1 -->|streams| DS1
+    SR3 -->|stores secrets| DS2
 
-    DS1 --> OB1
-    SR1 --> OB3
-    SR2 --> OB3
-    OB3 --> OB2
+    %% ===== STORAGE TO OBSERVABILITY =====
+    DS1 -->|monitors| OB1
+    SR1 -.->|authenticates via| OB3
+    SR2 -.->|uses| OB3
+    OB3 -->|enforces| OB2
 
-    style Clients fill:#ADD8E6
-    style Gateway fill:#E6E6FA
-    style Services fill:#90EE90
-    style EventBus fill:#FFB347
-    style DataStorage fill:#FFFACD
-    style Observability fill:#D3D3D3
-    style CL1 fill:#ADD8E6
-    style CL2 fill:#ADD8E6
-    style CL3 fill:#ADD8E6
-    style CL4 fill:#ADD8E6
-    style GW1 fill:#E6E6FA
-    style SR1 fill:#90EE90
-    style SR2 fill:#90EE90
-    style SR3 fill:#90EE90
-    style SR4 fill:#90EE90
-    style EB1 fill:#FFB347
-    style DS1 fill:#FFFACD
-    style DS2 fill:#FFFACD
-    style OB1 fill:#D3D3D3
-    style OB2 fill:#D3D3D3
-    style OB3 fill:#D3D3D3
+    %% ===== CLASS DEFINITIONS =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef matrix fill:#D1FAE5,stroke:#10B981,color:#000000
+
+    %% ===== NODE STYLING =====
+    class CL1,CL2,CL3,CL4 trigger
+    class GW1 primary
+    class SR1,SR2,SR4 secondary
+    class SR3,DS1,DS2 datastore
+    class EB1 matrix
+    class OB1,OB2,OB3 external
+
+    %% ===== SUBGRAPH STYLING =====
+    style Clients fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Gateway fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Services fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style EventBus fill:#D1FAE5,stroke:#10B981,stroke-width:2px
+    style DataStorage fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Observability fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 #### 🔧 Platform Engineering Architecture
 
 ```mermaid
+---
+title: Platform Engineering Architecture
+---
 flowchart TB
-    subgraph Developers[Developer Experience]
-        D1[Setup Scripts - setUp.ps1]
-        D2[Setup Scripts - setUp.sh]
-        D3[Configuration Files - YAML]
-        D4[Azure Developer CLI]
+    %% ===== EXTERNAL TRIGGERS =====
+    subgraph Triggers["Platform Triggers"]
+        TR1["Infrastructure Deploy"]
+        TR2["Policy Changes"]
+        TR3["Security Updates"]
+        TR4["Template Updates"]
     end
 
-    subgraph IDP[Internal Developer Platform]
-        IDP1[Bicep Modules]
-        IDP2[YAML Configuration]
-        IDP3[Resource Templates]
-        IDP4[Landing Zone Patterns]
+    %% ===== PLATFORM LAYER =====
+    subgraph Platform["Platform Layer"]
+        PL1["Azure Developer CLI"]
+        PL2["Bicep Templates"]
+        PL3["Parameter Files"]
     end
 
-    subgraph CICD[CI/CD & Policies]
-        CI1[GitHub Actions]
-        CI2[Azure Pipelines]
-        CI3[Deployment Workflows]
+    %% ===== COMPUTE LAYER =====
+    subgraph Compute["Compute Layer"]
+        CO1["Microsoft DevCenter"]
+        CO2["DevCenter Projects"]
+        CO3["Dev Box Definitions"]
+        CO4["Dev Box Pools"]
     end
 
-    subgraph Runtime[Runtime Platforms]
-        RT1[Microsoft DevCenter]
-        RT2[DevBox Pools]
-        RT3[Environment Types]
-        RT4[Project Catalogs]
+    %% ===== NETWORK LAYER =====
+    subgraph Network["Network Layer"]
+        NW1["Virtual Networks"]
+        NW2["Network Connections"]
+        NW3["NSG Rules"]
     end
 
-    subgraph Shared[Shared Services]
-        SH1[Azure Key Vault]
-        SH2[Log Analytics Workspace]
-        SH3[Virtual Networks]
+    %% ===== DATA & SECRETS =====
+    subgraph DataSecrets["Data & Secrets"]
+        DS1[("Azure Key Vault")]
+        DS2[("Log Analytics")]
     end
 
-    subgraph Data[Data Services]
-        DT1[Configuration Store]
-        DT2[Secret Store]
-        DT3[Metrics Store]
+    %% ===== IDENTITY LAYER =====
+    subgraph Identity["Identity Layer"]
+        ID1["Managed Identity"]
+        ID2["RBAC Assignments"]
+        ID3["Entra ID Groups"]
     end
 
-    D1 --> IDP1
-    D2 --> IDP1
-    D3 --> IDP2
-    D4 --> IDP1
+    %% ===== GOVERNANCE LAYER =====
+    subgraph Governance["Governance Layer"]
+        GV1["Catalogs"]
+        GV2["Environment Types"]
+        GV3["Pool Schedules"]
+    end
 
-    IDP1 --> CI1
-    IDP2 --> CI2
-    IDP3 --> CI3
-    IDP4 --> CI1
+    %% ===== TRIGGER TO PLATFORM =====
+    TR1 -->|initiates| PL1
+    TR2 -.->|configures| PL2
+    TR3 -.->|updates| PL2
+    TR4 -.->|modifies| PL3
 
-    CI1 --> RT1
-    CI2 --> RT1
-    CI3 --> RT1
+    %% ===== PLATFORM TO COMPUTE =====
+    PL1 ==>|deploys| CO1
+    PL2 -->|defines| CO1
+    PL3 -->|configures| CO1
+    CO1 ==>|creates| CO2
+    CO2 -->|provisions| CO3
+    CO3 -->|populates| CO4
 
-    RT1 --> RT2
-    RT1 --> RT3
-    RT1 --> RT4
+    %% ===== COMPUTE TO NETWORK =====
+    CO1 -->|connects to| NW1
+    CO4 -.->|uses| NW2
+    NW1 -->|secured by| NW3
 
-    RT1 --> SH1
-    RT2 --> SH2
-    RT3 --> SH3
+    %% ===== DATA INTEGRATION =====
+    CO1 -.->|logs to| DS2
+    CO1 -->|retrieves secrets| DS1
+    CO2 -.->|logs to| DS2
 
-    SH1 --> DT2
-    SH2 --> DT3
-    IDP2 --> DT1
+    %% ===== IDENTITY INTEGRATION =====
+    CO1 -->|authenticates via| ID1
+    CO2 -->|authorized by| ID2
+    ID2 -->|syncs with| ID3
 
-    style Developers fill:#ADD8E6
-    style IDP fill:#90EE90
-    style CICD fill:#90EE90
-    style Runtime fill:#E6E6FA
-    style Shared fill:#D3D3D3
-    style Data fill:#FFFACD
-    style D1 fill:#ADD8E6
-    style D2 fill:#ADD8E6
-    style D3 fill:#ADD8E6
-    style D4 fill:#ADD8E6
-    style IDP1 fill:#90EE90
-    style IDP2 fill:#90EE90
-    style IDP3 fill:#90EE90
-    style IDP4 fill:#90EE90
-    style CI1 fill:#90EE90
-    style CI2 fill:#90EE90
-    style CI3 fill:#90EE90
-    style RT1 fill:#E6E6FA
-    style RT2 fill:#E6E6FA
-    style RT3 fill:#E6E6FA
-    style RT4 fill:#E6E6FA
-    style SH1 fill:#D3D3D3
-    style SH2 fill:#D3D3D3
-    style SH3 fill:#D3D3D3
-    style DT1 fill:#FFFACD
-    style DT2 fill:#FFFACD
-    style DT3 fill:#FFFACD
+    %% ===== GOVERNANCE INTEGRATION =====
+    CO1 -->|uses| GV1
+    CO2 -->|inherits| GV2
+    CO4 -->|follows| GV3
+
+    %% ===== CLASS DEFINITIONS =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000
+    classDef matrix fill:#D1FAE5,stroke:#10B981,color:#000000
+
+    %% ===== NODE STYLING =====
+    class TR1,TR2,TR3,TR4 trigger
+    class PL1,PL2,PL3 primary
+    class CO1,CO2,CO3,CO4 secondary
+    class NW1,NW2,NW3 input
+    class DS1,DS2 datastore
+    class ID1,ID2,ID3 external
+    class GV1,GV2,GV3 matrix
+
+    %% ===== SUBGRAPH STYLING =====
+    style Triggers fill:#E0E7FF,stroke:#818CF8,stroke-width:2px
+    style Platform fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Compute fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Network fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style DataSecrets fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Identity fill:#F9FAFB,stroke:#6B7280,stroke-width:2px
+    style Governance fill:#D1FAE5,stroke:#10B981,stroke-width:2px
 ```
 
 ---
