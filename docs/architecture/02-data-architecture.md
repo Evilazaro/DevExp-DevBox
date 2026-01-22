@@ -674,37 +674,63 @@ flowchart LR
 ### Cross-Module Data Dependencies
 
 ```mermaid
+---
+title: Cross-Module Data Dependencies
+---
 flowchart TD
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000
+
+    %% ===== MAIN BICEP =====
     subgraph main["main.bicep (Subscription Scope)"]
         M_IN[/"Parameters:<br/>location, secretValue,<br/>environmentName"/]
     end
 
+    %% ===== MONITORING MODULE =====
     subgraph monitoring["monitoring module"]
-        LA[Log Analytics]
+        LA["Log Analytics"]
         LA_OUT[/"Output:<br/>AZURE_LOG_ANALYTICS_WORKSPACE_ID"/]
     end
 
+    %% ===== SECURITY MODULE =====
     subgraph security["security module"]
-        KV[Key Vault + Secret]
+        KV["Key Vault + Secret"]
         SEC_OUT[/"Output:<br/>AZURE_KEY_VAULT_SECRET_IDENTIFIER"/]
     end
 
+    %% ===== WORKLOAD MODULE =====
     subgraph workload["workload module"]
-        DC[DevCenter]
-        PROJ[Projects]
+        DC["DevCenter"]
+        PROJ["Projects"]
     end
 
-    M_IN --> LA
-    LA --> LA_OUT
+    %% ===== CONNECTIONS =====
+    M_IN -->|"provides parameters"| LA
+    LA -->|"outputs"| LA_OUT
 
-    LA_OUT -->|logAnalyticsId| KV
-    M_IN -->|secretValue| KV
-    KV --> SEC_OUT
+    LA_OUT -->|"logAnalyticsId"| KV
+    M_IN -->|"secretValue"| KV
+    KV -->|"outputs"| SEC_OUT
 
-    LA_OUT -->|logAnalyticsId| DC
-    SEC_OUT -->|secretIdentifier| DC
+    LA_OUT -->|"logAnalyticsId"| DC
+    SEC_OUT -->|"secretIdentifier"| DC
 
-    DC --> PROJ
+    DC -->|"configures"| PROJ
+
+    %% ===== APPLY STYLES =====
+    class M_IN input
+    class LA,LA_OUT secondary
+    class KV,SEC_OUT primary
+    class DC,PROJ datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style main fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style monitoring fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style security fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style workload fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---
@@ -732,38 +758,67 @@ flowchart TD
 ### Data Lineage
 
 ```mermaid
+---
+title: Data Lineage
+---
 flowchart LR
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+
+    %% ===== SOURCE OF TRUTH =====
     subgraph Source["Source of Truth"]
-        GIT[Git Repository]
+        GIT["Git Repository"]
     end
 
+    %% ===== CI/CD =====
     subgraph CI["CI/CD"]
-        GHA[GitHub Actions]
-        ADO[Azure DevOps]
+        GHA["GitHub Actions"]
+        ADO["Azure DevOps"]
     end
 
+    %% ===== DEPLOYMENT =====
     subgraph Deploy["Deployment"]
-        AZD[azd CLI]
-        ARM[ARM/Bicep]
+        AZD["azd CLI"]
+        ARM["ARM/Bicep"]
     end
 
+    %% ===== RUNTIME =====
     subgraph Runtime["Runtime"]
-        AZ[Azure Resources]
+        AZ["Azure Resources"]
     end
 
+    %% ===== AUDIT TRAIL =====
     subgraph Audit["Audit Trail"]
-        LA[Log Analytics]
-        ACT[Activity Log]
+        LA["Log Analytics"]
+        ACT["Activity Log"]
     end
 
-    GIT -->|Push| GHA
-    GIT -->|Push| ADO
-    GHA -->|azd provision| AZD
-    ADO -->|azd provision| AZD
-    AZD -->|Deploy| ARM
-    ARM -->|Create/Update| AZ
-    AZ -->|Diagnostics| LA
-    AZ -->|Operations| ACT
+    %% ===== CONNECTIONS =====
+    GIT -->|"push"| GHA
+    GIT -->|"push"| ADO
+    GHA -->|"azd provision"| AZD
+    ADO -->|"azd provision"| AZD
+    AZD -->|"deploy"| ARM
+    ARM -->|"create/update"| AZ
+    AZ -->|"diagnostics"| LA
+    AZ -->|"operations"| ACT
+
+    %% ===== APPLY STYLES =====
+    class GIT external
+    class GHA,ADO primary
+    class AZD,ARM secondary
+    class AZ datastore
+    class LA,ACT datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Source fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style CI fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Deploy fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Runtime fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Audit fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Data Quality Rules
@@ -824,19 +879,42 @@ Validates DevCenter workload configuration.
 ### Schema Validation Flow
 
 ```mermaid
+---
+title: Schema Validation Flow
+---
 flowchart TD
-    YAML[YAML Configuration File]
-    SCHEMA[JSON Schema]
-    VALIDATOR[YAML Language Server]
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000
 
-    YAML --> VALIDATOR
-    SCHEMA --> VALIDATOR
+    %% ===== INPUTS =====
+    YAML["YAML Configuration File"]
+    SCHEMA["JSON Schema"]
+    VALIDATOR["YAML Language Server"]
 
-    VALIDATOR -->|Valid| SUCCESS[✅ Proceed to Deployment]
-    VALIDATOR -->|Invalid| ERROR[❌ Validation Errors]
+    %% ===== OUTPUTS =====
+    SUCCESS["✅ Proceed to Deployment"]
+    ERROR["❌ Validation Errors"]
+    FIX["Fix Configuration"]
 
-    ERROR --> FIX[Fix Configuration]
-    FIX --> YAML
+    %% ===== CONNECTIONS =====
+    YAML -->|"validates against"| VALIDATOR
+    SCHEMA -->|"defines rules"| VALIDATOR
+
+    VALIDATOR -->|"valid"| SUCCESS
+    VALIDATOR -->|"invalid"| ERROR
+
+    ERROR -->|"requires"| FIX
+    FIX -->|"updates"| YAML
+
+    %% ===== APPLY STYLES =====
+    class YAML,SCHEMA input
+    class VALIDATOR primary
+    class SUCCESS secondary
+    class ERROR failed
+    class FIX primary
 ```
 
 ---
