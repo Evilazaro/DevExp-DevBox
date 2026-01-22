@@ -43,23 +43,40 @@ Landing Zone Accelerator.
 ## 🔄 Document Relationships
 
 ```mermaid
+---
+title: TOGAF BDAT Framework Document Relationships
+---
 flowchart TB
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== FRAMEWORK DOCUMENTS =====
     subgraph TOGAF["TOGAF BDAT Framework"]
-        BA[🏢 Business Architecture]
-        DA[📊 Data Architecture]
-        AA[🏛️ Application Architecture]
-        TA[🏗️ Technology Architecture]
+        BA["🏢 Business Architecture"]
+        DA["📊 Data Architecture"]
+        AA["🏛️ Application Architecture"]
+        TA["🏗️ Technology Architecture"]
     end
 
-    BA --> DA
-    BA --> AA
-    DA --> AA
-    AA --> TA
-    DA --> TA
+    %% ===== DOCUMENT RELATIONSHIPS =====
+    BA -->|"defines requirements"| DA
+    BA -->|"defines requirements"| AA
+    DA -->|"defines data flows"| AA
+    AA -->|"implements"| TA
+    DA -->|"defines data flows"| TA
 
-    BA -.->|Defines Requirements| AA
-    DA -.->|Defines Data Flows| TA
-    AA -.->|Implements| TA
+    %% ===== CROSS-DOMAIN RELATIONSHIPS =====
+    BA -.->|"Defines Requirements"| AA
+    DA -.->|"Defines Data Flows"| TA
+    AA -.->|"Implements"| TA
+
+    %% ===== APPLY STYLES =====
+    class BA,DA,AA,TA primary
+
+    %% ===== SUBGRAPH STYLING =====
+    style TOGAF fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ## 🎯 Quick Start Guide
