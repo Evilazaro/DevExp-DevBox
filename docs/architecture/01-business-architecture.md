@@ -11,21 +11,21 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Executive Summary](#executive-summary)
-- [Business Context](#business-context)
-- [Stakeholder Analysis](#stakeholder-analysis)
-- [Business Capabilities](#business-capabilities)
-- [Value Streams](#value-streams)
-- [Business Requirements](#business-requirements)
-- [Success Metrics](#success-metrics)
-- [References](#references)
-- [Glossary](#glossary)
+- [📋 Executive Summary](#-executive-summary)
+- [🏢 Business Context](#-business-context)
+- [👥 Stakeholder Analysis](#-stakeholder-analysis)
+- [💼 Business Capabilities](#-business-capabilities)
+- [🔄 Value Streams](#-value-streams)
+- [📝 Business Requirements](#-business-requirements)
+- [📊 Success Metrics](#-success-metrics)
+- [📚 References](#-references)
+- [📖 Glossary](#-glossary)
 
 ---
 
-## Executive Summary
+## 📋 Executive Summary
 
 The **DevExp-DevBox Landing Zone Accelerator** is a comprehensive
 infrastructure-as-code solution that automates the deployment and management of
@@ -68,7 +68,7 @@ mindmap
 
 ---
 
-## Business Context
+## 🏢 Business Context
 
 ### Problem Statement
 
@@ -127,7 +127,7 @@ flowchart LR
 
 ---
 
-## Stakeholder Analysis
+## 👥 Stakeholder Analysis
 
 ### Stakeholder Map
 
@@ -179,7 +179,7 @@ _R = Responsible, A = Accountable, C = Consulted, I = Informed_
 
 ---
 
-## Business Capabilities
+## 💼 Business Capabilities
 
 ### Business Capability Model
 
@@ -256,7 +256,7 @@ block-beta
 
 ---
 
-## Value Streams
+## 🔄 Value Streams
 
 ### Developer Onboarding Value Stream
 
@@ -324,7 +324,7 @@ sequenceDiagram
 
 ---
 
-## Business Requirements
+## 📝 Business Requirements
 
 ### Functional Requirements
 
@@ -389,7 +389,7 @@ flowchart TD
 
 ---
 
-## Success Metrics
+## 📊 Success Metrics
 
 ### Key Performance Indicators (KPIs)
 
@@ -426,7 +426,7 @@ pie showData
 
 ---
 
-## References
+## 📚 References
 
 ### External References
 
@@ -447,7 +447,7 @@ pie showData
 
 ---
 
-## Glossary
+## 📖 Glossary
 
 | Term             | Definition                                                                       |
 | ---------------- | -------------------------------------------------------------------------------- |
