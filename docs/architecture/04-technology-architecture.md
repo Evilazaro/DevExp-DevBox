@@ -1,6 +1,37 @@
-# Technology Architecture
+---
+title: Technology Architecture
+description:
+  TOGAF Technology Architecture documentation for DevExp-DevBox covering Azure
+  services, networking, identity, security, monitoring, and CI/CD infrastructure
+author: Platform Engineering Team
+date: 2026-01-22
+version: 1.0.0
+tags:
+  - TOGAF
+  - Technology Architecture
+  - BDAT
+  - DevExp-DevBox
+  - Azure
+  - DevCenter
+  - CI/CD
+---
+
+# 🏗️ Technology Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
+
+> [!NOTE] **Target Audience:** Cloud Architects, DevOps Engineers, IT
+> Operations  
+> **Reading Time:** ~25 minutes
+
+<details>
+<summary><strong>📍 Navigation</strong></summary>
+
+| Previous                                                       |                Index                 | Next |
+| :------------------------------------------------------------- | :----------------------------------: | ---: |
+| [← Application Architecture](./03-application-architecture.md) | [🏠 Architecture Index](./README.md) |    - |
+
+</details>
 
 | Metadata         | Value                     |
 | ---------------- | ------------------------- |
@@ -979,3 +1010,12 @@ flowchart LR
 
 _This document follows TOGAF Architecture Development Method (ADM) principles
 and aligns with the Technology Architecture domain of the BDAT framework._
+
+---
+
+<div align="center">
+
+**[← Application Architecture](./03-application-architecture.md)** |
+**[⬆️ Back to Top](#-technology-architecture)**
+
+</div>

@@ -1,6 +1,36 @@
-# Business Architecture
+---
+title: Business Architecture
+description:
+  TOGAF Business Architecture documentation for DevExp-DevBox Landing Zone
+  Accelerator covering stakeholders, capabilities, value streams, and business
+  requirements
+author: Platform Engineering Team
+date: 2026-01-22
+version: 1.0.0
+tags:
+  - TOGAF
+  - Business Architecture
+  - BDAT
+  - DevExp-DevBox
+  - Landing Zone
+---
+
+# 🏢 Business Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
+
+> [!NOTE] **Target Audience:** Business Decision Makers, Enterprise Architects,
+> Platform Engineers  
+> **Reading Time:** ~15 minutes
+
+<details>
+<summary><strong>📍 Navigation</strong></summary>
+
+| Previous |                Index                 |                                                Next |
+| :------- | :----------------------------------: | --------------------------------------------------: |
+| -        | [🏠 Architecture Index](./README.md) | [📊 Data Architecture →](./02-data-architecture.md) |
+
+</details>
 
 | Metadata         | Value                     |
 | ---------------- | ------------------------- |
@@ -466,3 +496,12 @@ pie showData
 
 _This document follows TOGAF Architecture Development Method (ADM) principles
 and aligns with the Business Architecture domain of the BDAT framework._
+
+---
+
+<div align="center">
+
+**[⬆️ Back to Top](#-business-architecture)** |
+**[📊 Data Architecture →](./02-data-architecture.md)**
+
+</div>

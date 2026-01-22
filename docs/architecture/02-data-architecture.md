@@ -1,6 +1,36 @@
-# Data Architecture
+---
+title: Data Architecture
+description:
+  TOGAF Data Architecture documentation for DevExp-DevBox covering configuration
+  data models, secrets management, telemetry, and data governance
+author: Platform Engineering Team
+date: 2026-01-22
+version: 1.0.0
+tags:
+  - TOGAF
+  - Data Architecture
+  - BDAT
+  - DevExp-DevBox
+  - Configuration
+  - Key Vault
+---
+
+# 📊 Data Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
+
+> [!NOTE] **Target Audience:** Data Architects, Platform Engineers, Security
+> Engineers  
+> **Reading Time:** ~20 minutes
+
+<details>
+<summary><strong>📍 Navigation</strong></summary>
+
+| Previous                                                 |                Index                 |                                                              Next |
+| :------------------------------------------------------- | :----------------------------------: | ----------------------------------------------------------------: |
+| [← Business Architecture](./01-business-architecture.md) | [🏠 Architecture Index](./README.md) | [🏛️ Application Architecture →](./03-application-architecture.md) |
+
+</details>
 
 | Metadata         | Value                     |
 | ---------------- | ------------------------- |
@@ -727,3 +757,13 @@ flowchart TD
 
 _This document follows TOGAF Architecture Development Method (ADM) principles
 and aligns with the Data Architecture domain of the BDAT framework._
+
+---
+
+<div align="center">
+
+**[← Business Architecture](./01-business-architecture.md)** |
+**[⬆️ Back to Top](#-data-architecture)** |
+**[🏛️ Application Architecture →](./03-application-architecture.md)**
+
+</div>

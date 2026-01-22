@@ -1,6 +1,36 @@
-# Application Architecture
+---
+title: Application Architecture
+description:
+  TOGAF Application Architecture documentation for DevExp-DevBox covering Bicep
+  module catalog, dependencies, deployment orchestration, and design patterns
+author: Platform Engineering Team
+date: 2026-01-22
+version: 1.0.0
+tags:
+  - TOGAF
+  - Application Architecture
+  - BDAT
+  - DevExp-DevBox
+  - Bicep
+  - IaC
+---
+
+# 🏛️ Application Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
+
+> [!NOTE] **Target Audience:** Platform Engineers, DevOps Engineers, Cloud
+> Architects  
+> **Reading Time:** ~25 minutes
+
+<details>
+<summary><strong>📍 Navigation</strong></summary>
+
+| Previous                                         |                Index                 |                                                            Next |
+| :----------------------------------------------- | :----------------------------------: | --------------------------------------------------------------: |
+| [← Data Architecture](./02-data-architecture.md) | [🏠 Architecture Index](./README.md) | [🏗️ Technology Architecture →](./04-technology-architecture.md) |
+
+</details>
 
 | Metadata         | Value                     |
 | ---------------- | ------------------------- |
@@ -1037,3 +1067,13 @@ flowchart TD
 
 _This document follows TOGAF Architecture Development Method (ADM) principles
 and aligns with the Application Architecture domain of the BDAT framework._
+
+---
+
+<div align="center">
+
+**[← Data Architecture](./02-data-architecture.md)** |
+**[⬆️ Back to Top](#-application-architecture)** |
+**[🏗️ Technology Architecture →](./04-technology-architecture.md)**
+
+</div>
