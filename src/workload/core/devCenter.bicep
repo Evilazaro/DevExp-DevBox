@@ -1,16 +1,19 @@
 // Common variables for reuse
+@description('Name of the DevCenter instance from configuration')
 var devCenterName = config.name
+
+@description('Principal ID of the DevCenter managed identity')
 var devCenterPrincipalId = devcenter.identity.principalId
 
 // Parameters with improved metadata and validation
 @description('DevCenter configuration including identity and settings')
 param config DevCenterConfig
 
-@description('Dev Center Catalogs')
-param catalogs array
+@description('Array of catalog configurations for the DevCenter')
+param catalogs Catalog[]
 
-@description('Environment Types')
-param environmentTypes array
+@description('Array of environment type configurations for the DevCenter')
+param environmentTypes EnvironmentTypeConfig[]
 
 @description('Log Analytics Workspace Id')
 @minLength(1)
@@ -20,6 +23,7 @@ param logAnalyticsId string
 @secure()
 param secretIdentifier string
 
+@description('Name of the resource group containing security resources')
 param securityResourceGroupName string
 
 @description('Azure region for resource deployment')
@@ -71,6 +75,33 @@ type OrgRoleType = {
   azureADGroupId: string
   azureADGroupName: string
   azureRBACRoles: AzureRBACRole[]
+}
+
+@description('Catalog configuration for DevCenter')
+type Catalog = {
+  @description('Name of the catalog')
+  name: string
+
+  @description('Type of repository (GitHub or Azure DevOps Git)')
+  type: 'gitHub' | 'adoGit'
+
+  @description('Visibility of the catalog')
+  visibility: 'public' | 'private'
+
+  @description('URI of the repository')
+  uri: string
+
+  @description('Branch to sync from')
+  branch: string
+
+  @description('Path within the repository to sync')
+  path: string
+}
+
+@description('Environment type configuration')
+type EnvironmentTypeConfig = {
+  @description('Name of the environment type')
+  name: string
 }
 
 // Main DevCenter resource

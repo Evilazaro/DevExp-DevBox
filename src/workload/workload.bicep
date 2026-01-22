@@ -23,8 +23,13 @@ param location string = resourceGroup().location
 // Resource types with documentation
 @description('Landing Zone configuration type')
 type LandingZone = {
+  @description('Name of the landing zone')
   name: string
+
+  @description('Flag indicating whether to create the landing zone')
   create: bool
+
+  @description('Tags to apply to the landing zone resources')
   tags: object
 }
 

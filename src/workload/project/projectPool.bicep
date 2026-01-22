@@ -46,12 +46,12 @@ type Catalog = {
   path: string
 }
 
-@description('Project')
+@description('Reference to the existing DevCenter project')
 resource project 'Microsoft.DevCenter/projects@2025-10-01-preview' existing = {
   name: projectName
 }
 
-@description('Dev Box Pool resource')
+@description('DevBox Pool resources - creates pools for image definition catalogs')
 resource pool 'Microsoft.DevCenter/projects/pools@2025-10-01-preview' = [
   for (catalog, i) in catalogs: if (catalog.type == 'imageDefinition') {
     name: '${name}-${i}-pool'
@@ -78,3 +78,6 @@ resource pool 'Microsoft.DevCenter/projects/pools@2025-10-01-preview' = [
     }
   }
 ]
+
+@description('Array of created pool names')
+output poolNames array = [for (catalog, i) in catalogs: catalog.type == 'imageDefinition' ? pool[i].name : null]

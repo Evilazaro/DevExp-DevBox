@@ -12,13 +12,13 @@ param logAnalyticsId string
 param projectDescription string
 
 @description('Catalog configuration for the project')
-param catalogs object[]
+param catalogs ProjectCatalog[]
 
 @description('Environment types to be associated with the project')
-param projectEnvironmentTypes array
+param projectEnvironmentTypes ProjectEnvironmentTypeConfig[]
 
 @description('DevBox pool configurations for the project')
-param projectPools array
+param projectPools PoolConfig[]
 
 @description('Network connection name for the project')
 param projectNetwork object
@@ -67,6 +67,51 @@ type RoleAssignment = {
 
   @description('Azure RBAC roles to assign')
   azureRBACRoles: AzureRBACRole[]
+}
+
+@description('Project catalog configuration')
+type ProjectCatalog = {
+  @description('Name of the catalog')
+  name: string
+
+  @description('Type of catalog (environment or image)')
+  type: 'environmentDefinition' | 'imageDefinition'
+
+  @description('Source control type')
+  sourceControl: 'gitHub' | 'adoGit'
+
+  @description('Visibility of the catalog')
+  visibility: 'public' | 'private'
+
+  @description('URI of the repository')
+  uri: string
+
+  @description('Branch to sync from')
+  branch: string
+
+  @description('Path within the repository to sync')
+  path: string
+}
+
+@description('Project environment type configuration')
+type ProjectEnvironmentTypeConfig = {
+  @description('Name of the environment type')
+  name: string
+
+  @description('Resource ID of the deployment target subscription')
+  deploymentTargetId: string
+}
+
+@description('Pool configuration for DevBox pools')
+type PoolConfig = {
+  @description('Name of the pool')
+  name: string
+
+  @description('Name of the image definition to use')
+  imageDefinitionName: string
+
+  @description('VM SKU for the pool')
+  vmSku: string
 }
 
 @description('Reference to existing DevCenter')
