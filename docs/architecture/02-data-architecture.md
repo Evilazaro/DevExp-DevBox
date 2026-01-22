@@ -302,6 +302,9 @@ classDiagram
 
 ## 🔐 Secrets Management
 
+> [!CAUTION] **Secret Rotation:** PAT tokens should be rotated every 90 days.
+> Federated credentials are automatically managed by Azure AD.
+
 ### Secret Types
 
 | Secret                    | Storage                 | Purpose                        | Consumers                       | Rotation                      |

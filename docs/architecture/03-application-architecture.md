@@ -129,6 +129,10 @@ flowchart TB
     SECRET -.->|Auth| CAT
 ```
 
+> [!IMPORTANT] **Key Design Decision:** The accelerator follows a strict modular
+> architecture where each Bicep module handles a single resource type, enabling
+> independent testing and reusability.
+
 ### Architecture Principles
 
 | Principle                     | Description                               | Implementation                                    |

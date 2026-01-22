@@ -521,6 +521,10 @@ flowchart LR
     A3 -->|Secrets Officer| S1
 ```
 
+> [!WARNING] **Security Requirement:** All Key Vault secrets must use RBAC
+> authorization. Access policies are not supported in this accelerator for
+> compliance reasons.
+
 ### Security Controls
 
 | Control                | Configuration               | Value            | Purpose                                   |
