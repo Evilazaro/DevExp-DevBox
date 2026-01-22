@@ -5,7 +5,7 @@ param projectName string
 param principalId string
 
 @description('Array of role definitions to assign to the principal')
-param roles array
+param roles AzureRBACRole[]
 
 @description('The principal type for the role assignments')
 @allowed([
@@ -16,6 +16,18 @@ param roles array
   'Device'
 ])
 param principalType string
+
+@description('Azure RBAC role definition')
+type AzureRBACRole = {
+  @description('The GUID of the role definition')
+  id: string
+
+  @description('Display name of the role')
+  name: string?
+
+  @description('Scope at which the role should be assigned')
+  scope: string
+}
 
 @description('Reference to the existing DevCenter project')
 resource project 'Microsoft.DevCenter/projects@2025-10-01-preview' existing = {
@@ -31,7 +43,7 @@ resource roleAssignmentRG 'Microsoft.Authorization/roleAssignments@2022-04-01' =
       principalId: principalId
       roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', role.id)
       principalType: principalType
-      description: contains(role, 'name')
+      description: role.?name != null
         ? 'Role: ${role.name!} for project ${projectName}'
         : 'Role assignment for ${principalId}'
     }
@@ -42,7 +54,7 @@ resource roleAssignmentRG 'Microsoft.Authorization/roleAssignments@2022-04-01' =
 output roleAssignmentIds array = [
   for (role, i) in roles: {
     roleId: role.id
-    roleName: contains(role, 'name') ? role.name! : role.id
+    roleName: role.?name ?? role.id
     assignmentId: roleAssignmentRG[i].id
   }
 ]

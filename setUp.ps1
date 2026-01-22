@@ -77,8 +77,22 @@ $Script:AdoToken = ""
 function Write-LogMessage {
     <#
     .SYNOPSIS
-        Logging function with different levels and colors
+        Logging function with different levels and colors.
+
+    .DESCRIPTION
+        Writes formatted log messages with timestamps and colored output
+        based on the message severity level.
+
+    .PARAMETER Message
+        The message text to log.
+
+    .PARAMETER Level
+        The severity level of the message. Valid values: Info, Warning, Error, Success.
+
+    .EXAMPLE
+        Write-LogMessage -Message "Operation completed" -Level "Success"
     #>
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
         [string]$Message,
@@ -113,8 +127,23 @@ function Write-LogMessage {
 function Test-CommandAvailability {
     <#
     .SYNOPSIS
-        Check if a command is available in PATH
+        Check if a command is available in PATH.
+
+    .DESCRIPTION
+        Verifies that the specified command or tool is available
+        for execution in the current environment.
+
+    .PARAMETER Command
+        The name of the command to check.
+
+    .OUTPUTS
+        System.Boolean - True if command exists, False otherwise.
+
+    .EXAMPLE
+        if (Test-CommandAvailability -Command "az") { Write-Host "Azure CLI is available" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
     param(
         [Parameter(Mandatory = $true)]
         [string]$Command
@@ -161,10 +190,25 @@ REQUIREMENTS:
 function Test-SourceControlValidation {
     <#
     .SYNOPSIS
-        Validate source control platform
+        Validates the source control platform parameter.
+
+    .DESCRIPTION
+        Checks if the specified platform is a valid source control option.
+
+    .PARAMETER Platform
+        The source control platform to validate (github, adogit, or empty).
+
+    .OUTPUTS
+        System.Boolean - True if valid, False otherwise.
+
+    .EXAMPLE
+        if (Test-SourceControlValidation -Platform "github") { Write-Host "Valid platform" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
     param(
         [Parameter(Mandatory = $true)]
+        [AllowEmptyString()]
         [string]$Platform
     )
     
@@ -185,8 +229,22 @@ function Test-SourceControlValidation {
 function Test-AzureAuthentication {
     <#
     .SYNOPSIS
-        Test Azure CLI authentication
+        Tests Azure CLI authentication status.
+
+    .DESCRIPTION
+        Verifies that the user is logged into Azure CLI and the current
+        subscription is in an enabled state.
+
+    .OUTPUTS
+        System.Boolean - True if authenticated with valid subscription, False otherwise.
+
+    .EXAMPLE
+        if (Test-AzureAuthentication) { Write-Host "Ready to use Azure" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Verifying Azure authentication..." "Info"
     
     try {
@@ -215,8 +273,22 @@ function Test-AzureAuthentication {
 function Test-AdoAuthentication {
     <#
     .SYNOPSIS
-        Test Azure DevOps authentication
+        Tests Azure DevOps authentication status.
+
+    .DESCRIPTION
+        Verifies that the Azure DevOps CLI extension is configured
+        and the user is authenticated.
+
+    .OUTPUTS
+        System.Boolean - True if authenticated, False otherwise.
+
+    .EXAMPLE
+        if (Test-AdoAuthentication) { Write-Host "Ready to use Azure DevOps" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Verifying Azure DevOps authentication..." "Info"
     
     try {
@@ -238,8 +310,21 @@ function Test-AdoAuthentication {
 function Test-GitHubAuthentication {
     <#
     .SYNOPSIS
-        Test GitHub CLI authentication
+        Tests GitHub CLI authentication status.
+
+    .DESCRIPTION
+        Verifies that the user is authenticated with GitHub CLI.
+
+    .OUTPUTS
+        System.Boolean - True if authenticated, False otherwise.
+
+    .EXAMPLE
+        if (Test-GitHubAuthentication) { Write-Host "Ready to use GitHub" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Verifying GitHub authentication..." "Info"
     
     try {
@@ -261,8 +346,22 @@ function Test-GitHubAuthentication {
 function Get-SecureGitHubToken {
     <#
     .SYNOPSIS
-        Get GitHub token securely
+        Retrieves the GitHub token securely.
+
+    .DESCRIPTION
+        Gets the GitHub authentication token either from an environment
+        variable or by using the GitHub CLI.
+
+    .OUTPUTS
+        System.Boolean - True if token retrieved successfully, False otherwise.
+
+    .EXAMPLE
+        if (Get-SecureGitHubToken) { Write-Host "Token available" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Retrieving GitHub token..." "Info"
 
     # Check if KEY_VAULT_SECRET environment variable is already set
@@ -299,8 +398,22 @@ function Get-SecureGitHubToken {
 function Get-SecureAdoGitToken {
     <#
     .SYNOPSIS
-        Get Azure DevOps token securely
+        Retrieves the Azure DevOps PAT securely.
+
+    .DESCRIPTION
+        Gets the Azure DevOps Personal Access Token either from an
+        environment variable or by prompting the user securely.
+
+    .OUTPUTS
+        System.Boolean - True if token retrieved successfully, False otherwise.
+
+    .EXAMPLE
+        if (Get-SecureAdoGitToken) { Write-Host "Token available" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Retrieving Azure DevOps token..." "Info"
     
     # Try to get PAT from environment variable first
@@ -349,8 +462,22 @@ function Get-SecureAdoGitToken {
 function Initialize-AzdEnvironment {
     <#
     .SYNOPSIS
-        Initialize Azure Developer CLI environment
+        Initializes the Azure Developer CLI environment.
+
+    .DESCRIPTION
+        Sets up the azd environment with appropriate tokens based on the
+        selected source control platform.
+
+    .OUTPUTS
+        System.Boolean - True if initialization succeeded, False otherwise.
+
+    .EXAMPLE
+        if (Initialize-AzdEnvironment) { Write-Host "Environment ready" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Initializing Azure Developer CLI environment..." "Info"
     
     $pat = ""
@@ -421,8 +548,22 @@ function Initialize-AzdEnvironment {
 function Start-AzureProvisioning {
     <#
     .SYNOPSIS
-        Start Azure resource provisioning
+        Starts Azure resource provisioning.
+
+    .DESCRIPTION
+        Initiates the Azure Developer CLI provisioning process for
+        the configured environment.
+
+    .OUTPUTS
+        System.Boolean - True if provisioning succeeded, False otherwise.
+
+    .EXAMPLE
+        if (Start-AzureProvisioning) { Write-Host "Resources provisioned" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Starting Azure resource provisioning with azd..." "Info"
     
     try {
@@ -445,8 +586,18 @@ function Start-AzureProvisioning {
 function Select-SourceControlPlatform {
     <#
     .SYNOPSIS
-        Interactive source control platform selection
+        Provides interactive source control platform selection.
+
+    .DESCRIPTION
+        Prompts the user to select their source control platform
+        when not specified via parameter.
+
+    .EXAMPLE
+        Select-SourceControlPlatform
     #>
+    [CmdletBinding()]
+    param()
+
     Write-LogMessage "Please select your source control platform:" "Info"
     Write-Host ""
     Write-Host "  " -NoNewline
@@ -484,8 +635,18 @@ function Select-SourceControlPlatform {
 function Test-Arguments {
     <#
     .SYNOPSIS
-        Validate and process command line arguments
+        Validates and processes command line arguments.
+
+    .DESCRIPTION
+        Checks for help flag, validates required parameters, and prompts
+        for source control selection if not provided.
+
+    .EXAMPLE
+        Test-Arguments
     #>
+    [CmdletBinding()]
+    param()
+
     # Show help if requested
     if ($Help) {
         Show-Help
@@ -513,8 +674,18 @@ function Test-Arguments {
 function Invoke-Main {
     <#
     .SYNOPSIS
-        Main execution function
+        Main execution function for the setup script.
+
+    .DESCRIPTION
+        Orchestrates the complete setup process including argument validation,
+        tool verification, authentication checks, and environment initialization.
+
+    .EXAMPLE
+        Invoke-Main
     #>
+    [CmdletBinding()]
+    param()
+
     $requiredTools = @("az", "azd")
     
     # Process arguments

@@ -23,9 +23,20 @@ param location string = resourceGroup().location
 // Resource types with documentation
 @description('Landing Zone configuration type')
 type LandingZone = {
+  @description('Name of the landing zone')
   name: string
+
+  @description('Flag indicating whether to create the landing zone')
   create: bool
-  tags: object
+
+  @description('Tags to apply to the landing zone resources')
+  tags: Tags
+}
+
+@description('Tags type for resource tagging')
+type Tags = {
+  @description('Wildcard property for any tag key-value pairs')
+  *: string
 }
 
 // Variables with clear naming

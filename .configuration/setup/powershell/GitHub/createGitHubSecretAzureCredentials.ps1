@@ -1,92 +1,153 @@
-# PowerShell script to create GitHub secret for Azure credentials
+#Requires -Version 5.1
 
-param (
-    [Parameter(Mandatory = $true)]
-    [string]$ghSecretBody
+<#
+.SYNOPSIS
+    Creates a GitHub secret for Azure credentials.
+
+.DESCRIPTION
+    Authenticates to GitHub using the GitHub CLI and creates a repository secret
+    named AZURE_CREDENTIALS containing the Azure service principal credentials
+    for use in GitHub Actions workflows.
+
+.PARAMETER GhSecretBody
+    The JSON body containing Azure service principal credentials.
+    This should be the output from 'az ad sp create-for-rbac --json-auth'.
+
+.EXAMPLE
+    .\createGitHubSecretAzureCredentials.ps1 -GhSecretBody '{"clientId":"...","clientSecret":"..."}'
+    Creates the AZURE_CREDENTIALS secret in the current repository.
+
+.NOTES
+    Author: DevExp Team
+    Requires: GitHub CLI (gh) installed and accessible
+#>
+
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory = $true, HelpMessage = "The JSON credentials body to store as a secret.")]
+    [ValidateNotNullOrEmpty()]
+    [Alias('ghSecretBody')]
+    [string]$GhSecretBody
 )
 
-# Exit immediately if a command exits with a non-zero status, treat unset variables as an error, and propagate errors in pipelines.
-$ErrorActionPreference = "Stop"
-$WarningPreference = "Stop"
+# Script Configuration
+$ErrorActionPreference = 'Stop'
+$WarningPreference = 'Stop'
 
-# Function to log in to GitHub using the GitHub CLI
-function Connect-ToGitHub {
-    Write-Output "Connecting to GitHub using GitHub CLI..."
+# Secret name constant
+$Script:SecretName = "AZURE_CREDENTIALS"
+
+function Connect-GitHubCli {
+    <#
+    .SYNOPSIS
+        Authenticates to GitHub using the GitHub CLI.
+
+    .DESCRIPTION
+        Checks if already authenticated and prompts for login if needed.
+        Uses the interactive gh auth login flow.
+
+    .OUTPUTS
+        System.Boolean - True if authentication succeeded, False otherwise.
+
+    .EXAMPLE
+        Connect-GitHubCli
+    #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
 
     try {
-        # Attempt to log in to GitHub
+        Write-Output "Checking GitHub authentication status..."
+
+        # Check if already authenticated
+        $null = gh auth status 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            Write-Output "Already authenticated to GitHub."
+            return $true
+        }
+
+        Write-Output "Not authenticated. Starting GitHub login..."
         gh auth login
         if ($LASTEXITCODE -ne 0) {
-            throw "Failed to log in to GitHub."
+            throw "Failed to authenticate to GitHub."
         }
 
-        Write-Output "Successfully logged in to GitHub."
+        Write-Output "Successfully authenticated to GitHub."
+        return $true
     }
     catch {
-        Write-Error "Error: $_"
-        return 1
+        Write-Error "Error during GitHub authentication: $_"
+        return $false
     }
 }
 
-# Function to set up GitHub secret authentication
-function Set-GitHubSecretAuthentication {
-    param (
+function Set-GitHubRepositorySecret {
+    <#
+    .SYNOPSIS
+        Creates or updates a GitHub repository secret.
+
+    .DESCRIPTION
+        Sets a secret in the current GitHub repository using the GitHub CLI.
+
+    .PARAMETER SecretName
+        The name of the secret to create.
+
+    .PARAMETER SecretValue
+        The value to store in the secret.
+
+    .OUTPUTS
+        System.Boolean - True if secret was set successfully, False otherwise.
+
+    .EXAMPLE
+        Set-GitHubRepositorySecret -SecretName "MY_SECRET" -SecretValue "secret-value"
+    #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param(
         [Parameter(Mandatory = $true)]
-        [string]$ghSecretBody
-    )
+        [ValidateNotNullOrEmpty()]
+        [string]$SecretName,
 
-    $ghSecretName = "AZURE_CREDENTIALS"
-    
-    try {
-        Write-Output "Setting up GitHub secret authentication..."
-
-        # Log in to GitHub
-        Connect-ToGitHub
-        if ($LASTEXITCODE -ne 0) {
-            throw "Failed to log in to GitHub."
-        }
-
-        # Set the GitHub secret
-        gh secret set $ghSecretName --body $ghSecretBody
-        if ($LASTEXITCODE -ne 0) {
-            throw "Failed to set GitHub secret: $ghSecretName"
-        }
-
-        Write-Output "GitHub secret: $ghSecretName set successfully."
-        Write-Output "GitHub secret body: $ghSecretBody"
-    }
-    catch {
-        Write-Error "Error: $_"
-        return 1
-    }
-}
-
-# Function to validate input parameters
-function Test-Input {
-    param (
         [Parameter(Mandatory = $true)]
-        [string]$ghSecretBody
+        [ValidateNotNullOrEmpty()]
+        [string]$SecretValue
     )
 
     try {
-        # Check if required parameters are provided
-        if ([string]::IsNullOrEmpty($ghSecretBody)) {
-            throw "Missing required parameters."
+        Write-Output "Setting GitHub secret: $SecretName"
+
+        # Set the secret using gh CLI
+        $null = gh secret set $SecretName --body $SecretValue
+        if ($LASTEXITCODE -ne 0) {
+            throw "Failed to set GitHub secret: $SecretName"
         }
+
+        Write-Output "GitHub secret '$SecretName' set successfully."
+        return $true
     }
     catch {
-        Write-Error "Error: $_"
-        Write-Output "Usage: .\createGitHubSecretAzureCredentials.ps1 -ghSecretBody <ghSecretBody>"
-        return 1
+        Write-Error "Error setting GitHub secret: $_"
+        return $false
     }
 }
 
 # Main script execution
 try {
-    Test-Input -ghSecretBody $ghSecretBody
-    if ($LASTEXITCODE -eq 0) {
-        Set-GitHubSecretAuthentication -ghSecretBody $ghSecretBody
+    Write-Output "Creating GitHub secret for Azure credentials..."
+
+    # Authenticate to GitHub
+    if (-not (Connect-GitHubCli)) {
+        throw "GitHub authentication failed."
     }
+
+    # Set the secret
+    if (-not (Set-GitHubRepositorySecret -SecretName $Script:SecretName -SecretValue $GhSecretBody)) {
+        throw "Failed to create GitHub secret."
+    }
+
+    Write-Output ""
+    Write-Output "GitHub secret '$Script:SecretName' created successfully."
+    Write-Output "You can now use this secret in your GitHub Actions workflows."
 }
 catch {
     Write-Error "Script execution failed: $_"

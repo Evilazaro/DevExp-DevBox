@@ -61,3 +61,9 @@ resource catalog 'Microsoft.DevCenter/projects/catalogs@2025-10-01-preview' = {
       : null
   }
 }
+
+@description('The name of the created project catalog')
+output catalogName string = catalog.name
+
+@description('The resource ID of the created project catalog')
+output catalogId string = catalog.id

@@ -1,0 +1,141 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/Evilazaro/DevExp-DevBox/infra/settings/resourceOrganization/azureResources.schema.json",
+    "title": "Azure Resources Configuration",
+    "description": "Schema for defining Azure resource group organization and configuration for the DevExp-DevBox accelerator. This schema validates the structure of resource groups used for workload, security, and monitoring purposes.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "workload",
+        "security",
+        "monitoring"
+    ],
+    "$defs": {
+        "resourceGroup": {
+            "type": "object",
+            "description": "Configuration for an Azure resource group",
+            "additionalProperties": false,
+            "required": [
+                "create",
+                "name",
+                "description",
+                "tags"
+            ],
+            "properties": {
+                "create": {
+                    "type": "boolean",
+                    "description": "Flag indicating whether the resource group should be created. Set to true to create a new resource group, or false to use an existing one.",
+                    "default": true,
+                    "examples": [
+                        true,
+                        false
+                    ]
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the resource group. Must be unique within the subscription and follow Azure naming conventions.",
+                    "minLength": 1,
+                    "maxLength": 90,
+                    "pattern": "^[a-zA-Z0-9._-]+$",
+                    "examples": [
+                        "devexp-workload-rg",
+                        "devexp-security-rg"
+                    ]
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Human-readable description of the resource group's purpose and contents.",
+                    "minLength": 1,
+                    "examples": [
+                        "Resource group for DevCenter workload resources"
+                    ]
+                },
+                "tags": {
+                    "$ref": "#/$defs/tags"
+                }
+            }
+        },
+        "tags": {
+            "type": "object",
+            "description": "Azure resource tags for organization, cost management, and governance. Tags are key-value pairs that help categorize and manage resources.",
+            "additionalProperties": {
+                "type": "string",
+                "description": "Tag value - must be a string",
+                "maxLength": 256
+            },
+            "properties": {
+                "environment": {
+                    "type": "string",
+                    "description": "Deployment environment identifier",
+                    "enum": [
+                        "dev",
+                        "test",
+                        "staging",
+                        "prod"
+                    ],
+                    "examples": [
+                        "dev"
+                    ]
+                },
+                "division": {
+                    "type": "string",
+                    "description": "Organizational division responsible for the resource",
+                    "examples": [
+                        "Platforms"
+                    ]
+                },
+                "team": {
+                    "type": "string",
+                    "description": "Team responsible for the resource",
+                    "examples": [
+                        "DevExP"
+                    ]
+                },
+                "project": {
+                    "type": "string",
+                    "description": "Project name for cost allocation and tracking",
+                    "examples": [
+                        "DevExP-DevBox"
+                    ]
+                },
+                "costCenter": {
+                    "type": "string",
+                    "description": "Cost center for financial tracking",
+                    "examples": [
+                        "IT"
+                    ]
+                },
+                "owner": {
+                    "type": "string",
+                    "description": "Resource owner or responsible party",
+                    "examples": [
+                        "Contoso"
+                    ]
+                },
+                "resources": {
+                    "type": "string",
+                    "description": "Type of resources contained in the group",
+                    "examples": [
+                        "DevCenter",
+                        "KeyVault",
+                        "LogAnalytics"
+                    ]
+                }
+            }
+        }
+    },
+    "properties": {
+        "workload": {
+            "$ref": "#/$defs/resourceGroup",
+            "description": "Configuration for the workload resource group containing DevCenter and project resources"
+        },
+        "security": {
+            "$ref": "#/$defs/resourceGroup",
+            "description": "Configuration for the security resource group containing Key Vault and security-related resources"
+        },
+        "monitoring": {
+            "$ref": "#/$defs/resourceGroup",
+            "description": "Configuration for the monitoring resource group containing Log Analytics and diagnostic resources"
+        }
+    }
+}

@@ -1,5 +1,5 @@
 @description('Key Vault Tags')
-param tags object
+param tags Tags
 
 @description('Secret Value')
 @secure()
@@ -7,6 +7,12 @@ param secretValue string
 
 @description('Log Analytics Workspace ID')
 param logAnalyticsId string
+
+@description('Tags type for resource tagging')
+type Tags = {
+  @description('Wildcard property for any tag key-value pairs')
+  *: string
+}
 
 @description('Azure Key Vault Configuration')
 var securitySettings = loadYamlContent('../../infra/settings/security/security.yaml')
@@ -36,10 +42,14 @@ module secret 'secret.bicep' = {
 }
 
 @description('The name of the Key Vault')
-output AZURE_KEY_VAULT_NAME string = (securitySettings.create ? keyVault.?outputs.?AZURE_KEY_VAULT_NAME : existingKeyVault.?name) ?? ''
+output AZURE_KEY_VAULT_NAME string = (securitySettings.create
+  ? keyVault.?outputs.?AZURE_KEY_VAULT_NAME
+  : existingKeyVault.?name) ?? ''
 
 @description('The identifier of the secret')
 output AZURE_KEY_VAULT_SECRET_IDENTIFIER string = secret.outputs.AZURE_KEY_VAULT_SECRET_IDENTIFIER
 
 @description('The endpoint URI of the Key Vault')
-output AZURE_KEY_VAULT_ENDPOINT string = (securitySettings.create ? keyVault.?outputs.?AZURE_KEY_VAULT_ENDPOINT : existingKeyVault.?properties.?vaultUri) ?? ''
+output AZURE_KEY_VAULT_ENDPOINT string = (securitySettings.create
+  ? keyVault.?outputs.?AZURE_KEY_VAULT_ENDPOINT
+  : existingKeyVault.?properties.?vaultUri) ?? ''

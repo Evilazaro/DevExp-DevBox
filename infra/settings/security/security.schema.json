@@ -1,88 +1,180 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Evilazaro/DevExp-DevBox/infra/settings/security/security.schema.json",
   "title": "Azure Key Vault Security Configuration",
-  "description": "Schema for validating Azure Key Vault security configuration",
+  "description": "Schema for validating Azure Key Vault security configuration for the DevExp-DevBox accelerator. Defines settings for Key Vault creation, access policies, and security features.",
   "type": "object",
-  "required": ["create", "keyVault"],
+  "additionalProperties": false,
+  "required": [
+    "create",
+    "keyVault"
+  ],
+  "$defs": {
+    "tags": {
+      "type": "object",
+      "description": "Azure resource tags for organization, cost management, and governance",
+      "required": [
+        "environment"
+      ],
+      "additionalProperties": {
+        "type": "string",
+        "description": "Additional custom tag value",
+        "maxLength": 256
+      },
+      "properties": {
+        "environment": {
+          "type": "string",
+          "description": "Deployment environment identifier - required for all resources",
+          "enum": [
+            "dev",
+            "test",
+            "staging",
+            "prod"
+          ],
+          "examples": [
+            "dev"
+          ]
+        },
+        "division": {
+          "type": "string",
+          "description": "Organizational division responsible for the resource",
+          "examples": [
+            "Platforms"
+          ]
+        },
+        "team": {
+          "type": "string",
+          "description": "Team responsible for managing the resource",
+          "examples": [
+            "DevExP"
+          ]
+        },
+        "project": {
+          "type": "string",
+          "description": "Project name for cost allocation and tracking",
+          "examples": [
+            "DevExP-DevBox"
+          ]
+        },
+        "costCenter": {
+          "type": "string",
+          "description": "Cost center for financial tracking and billing",
+          "examples": [
+            "IT"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "description": "Resource owner or responsible party contact",
+          "examples": [
+            "Contoso"
+          ]
+        },
+        "landingZone": {
+          "type": "string",
+          "description": "Landing zone identifier for enterprise-scale deployments",
+          "examples": [
+            "corp"
+          ]
+        },
+        "resources": {
+          "type": "string",
+          "description": "Type of resources contained or purpose",
+          "examples": [
+            "KeyVault"
+          ]
+        }
+      }
+    }
+  },
   "properties": {
     "create": {
       "type": "boolean",
-      "description": "Flag indicating whether to create the resource"
+      "description": "Flag indicating whether to create a new Key Vault. Set to true to create, or false to use an existing Key Vault.",
+      "default": true,
+      "examples": [
+        true,
+        false
+      ]
     },
     "keyVault": {
       "type": "object",
-      "required": ["name", "tags"],
+      "description": "Azure Key Vault instance configuration including security settings and access controls",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "tags"
+      ],
       "properties": {
         "name": {
           "type": "string",
-          "description": "The name of the Azure Key Vault",
+          "description": "Name of the Azure Key Vault. Must be globally unique, 3-24 characters, alphanumeric and hyphens only.",
           "pattern": "^[a-zA-Z0-9-]{3,24}$",
           "minLength": 3,
-          "maxLength": 24
+          "maxLength": 24,
+          "examples": [
+            "devexp-keyvault",
+            "my-app-kv"
+          ]
         },
         "description": {
           "type": "string",
-          "description": "Description of the Key Vault's purpose"
+          "description": "Human-readable description of the Key Vault's purpose and contents",
+          "examples": [
+            "Key Vault for storing DevCenter secrets and credentials"
+          ]
         },
         "secretName": {
           "type": "string",
-          "description": "Name of the secret to be managed"
+          "description": "Name of the primary secret to be managed in this Key Vault",
+          "pattern": "^[a-zA-Z0-9-]{1,127}$",
+          "minLength": 1,
+          "maxLength": 127,
+          "examples": [
+            "github-pat",
+            "ado-token"
+          ]
         },
         "enablePurgeProtection": {
           "type": "boolean",
-          "description": "Prevents purge of deleted key vault"
+          "description": "Enables purge protection to prevent permanent deletion of the Key Vault and its contents. Once enabled, cannot be disabled.",
+          "default": true,
+          "examples": [
+            true
+          ]
         },
         "enableSoftDelete": {
           "type": "boolean",
-          "description": "Enables temporary retention of deleted objects"
+          "description": "Enables soft delete to allow recovery of deleted Key Vault objects within the retention period",
+          "default": true,
+          "examples": [
+            true
+          ]
         },
         "softDeleteRetentionInDays": {
           "type": "integer",
-          "description": "Retention period for soft-deleted resources",
+          "description": "Number of days to retain soft-deleted Key Vault objects before permanent deletion",
           "minimum": 7,
-          "maximum": 90
+          "maximum": 90,
+          "default": 90,
+          "examples": [
+            7,
+            30,
+            90
+          ]
         },
         "enableRbacAuthorization": {
           "type": "boolean",
-          "description": "Enables RBAC for authorization"
+          "description": "Enables Azure RBAC for Key Vault data plane authorization instead of access policies. Recommended for enterprise scenarios.",
+          "default": true,
+          "examples": [
+            true
+          ]
         },
         "tags": {
-          "type": "object",
-          "description": "Azure resource tags for organization and management",
-          "required": ["environment"],
-          "properties": {
-            "environment": {
-              "type": "string",
-              "description": "Deployment environment",
-              "enum": ["dev", "test", "staging", "prod"]
-            },
-            "division": {
-              "type": "string"
-            },
-            "team": {
-              "type": "string"
-            },
-            "project": {
-              "type": "string"
-            },
-            "costCenter": {
-              "type": "string"
-            },
-            "owner": {
-              "type": "string"
-            },
-            "landingZone": {
-              "type": "string" 
-            },
-            "resources": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": true
+          "$ref": "#/$defs/tags"
         }
-      },
-      "additionalProperties": false
+      }
     }
-  },
-  "additionalProperties": false
+  }
 }

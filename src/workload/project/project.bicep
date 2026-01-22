@@ -12,16 +12,16 @@ param logAnalyticsId string
 param projectDescription string
 
 @description('Catalog configuration for the project')
-param catalogs object[]
+param catalogs ProjectCatalog[]
 
 @description('Environment types to be associated with the project')
-param projectEnvironmentTypes array
+param projectEnvironmentTypes ProjectEnvironmentTypeConfig[]
 
 @description('DevBox pool configurations for the project')
-param projectPools array
+param projectPools PoolConfig[]
 
 @description('Network connection name for the project')
-param projectNetwork object
+param projectNetwork ProjectNetwork
 
 @description('Secret identifier for Git repository authentication')
 @secure()
@@ -34,10 +34,52 @@ param securityResourceGroupName string
 param identity Identity
 
 @description('Tags to be applied to all resources')
-param tags object = {}
+param tags Tags = {}
 
 @description('Azure region for resource deployment')
 param location string = resourceGroup().location
+
+@description('Tags type for resource tagging')
+type Tags = {
+  @description('Wildcard property for any tag key-value pairs')
+  *: string
+}
+
+@description('Network configuration for the project')
+type ProjectNetwork = {
+  @description('Name of the virtual network')
+  name: string?
+
+  @description('Flag indicating whether to create the network')
+  create: bool?
+
+  @description('Name of the resource group containing the network')
+  resourceGroupName: string?
+
+  @description('Type of virtual network (Managed or Unmanaged)')
+  virtualNetworkType: string
+
+  @description('Address prefixes for the virtual network')
+  addressPrefixes: string[]?
+
+  @description('Subnet configurations')
+  subnets: Subnet[]?
+}
+
+@description('Subnet configuration')
+type Subnet = {
+  @description('Name of the subnet')
+  name: string
+
+  @description('Subnet properties')
+  properties: SubnetProperties?
+}
+
+@description('Subnet properties configuration')
+type SubnetProperties = {
+  @description('Address prefix for the subnet')
+  addressPrefix: string
+}
 
 @description('Identity configuration for the project')
 type Identity = {
@@ -67,6 +109,51 @@ type RoleAssignment = {
 
   @description('Azure RBAC roles to assign')
   azureRBACRoles: AzureRBACRole[]
+}
+
+@description('Project catalog configuration')
+type ProjectCatalog = {
+  @description('Name of the catalog')
+  name: string
+
+  @description('Type of catalog (environment or image)')
+  type: 'environmentDefinition' | 'imageDefinition'
+
+  @description('Source control type')
+  sourceControl: 'gitHub' | 'adoGit'
+
+  @description('Visibility of the catalog')
+  visibility: 'public' | 'private'
+
+  @description('URI of the repository')
+  uri: string
+
+  @description('Branch to sync from')
+  branch: string
+
+  @description('Path within the repository to sync')
+  path: string
+}
+
+@description('Project environment type configuration')
+type ProjectEnvironmentTypeConfig = {
+  @description('Name of the environment type')
+  name: string
+
+  @description('Resource ID of the deployment target subscription')
+  deploymentTargetId: string
+}
+
+@description('Pool configuration for DevBox pools')
+type PoolConfig = {
+  @description('Name of the pool')
+  name: string
+
+  @description('Name of the image definition to use')
+  imageDefinitionName: string
+
+  @description('VM SKU for the pool')
+  vmSku: string
 }
 
 @description('Reference to existing DevCenter')

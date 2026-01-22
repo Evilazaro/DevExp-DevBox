@@ -1,25 +1,42 @@
+# =============================================================================
+# File: release.yml
+# Purpose: Branch-based release strategy workflow for Dev Box Accelerator
+# Description: Generates semantic versions and publishes GitHub releases
+# Triggers: Manual workflow dispatch
+# =============================================================================
+
 name: Branch-Based Release Strategy
 
+# Workflow triggers
 on:
-  # Manual workflow dispatch for all branches
   workflow_dispatch:
     inputs:
       force_release:
-        description: 'Force create a release (even for non-main branches)'
+        description: "Force create a release (even for non-main branches)"
         required: false
         default: false
         type: boolean
-          
+
+# Least-privilege permissions
 permissions:
-  contents: write
-  pull-requests: read
-  actions: read
+  contents: write # Required for creating tags and releases
+  pull-requests: read # Required for PR information
+  actions: read # Required for workflow introspection
+
+# Prevent concurrent releases
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  # 🔍 Generate release metadata and version information
+  # -----------------------------------------------------------------------------
+  # Job: generate-release
+  # Purpose: Calculate semantic version and prepare release metadata
+  # -----------------------------------------------------------------------------
   generate-release:
     name: Generate Release Metadata
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     outputs:
       new_version: ${{ steps.release.outputs.new_version }}
       release_type: ${{ steps.release.outputs.release_type }}
@@ -31,10 +48,10 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
-          fetch-depth: 0  # Full history for proper tag analysis
+          fetch-depth: 0 # Full history for proper tag analysis
 
       - name: Generate Release Information
         id: release
@@ -43,42 +60,36 @@ jobs:
       - name: Release Strategy Summary
         shell: bash
         run: |
-          echo "🌟 Branch-Based Release Strategy with Conditional Major Increment"
-          echo ""
-          echo "🔀 Branch: ${{ steps.release.outputs.branch_name }}"
-          echo "🏷️ Version: ${{ steps.release.outputs.new_version }}"
-          echo "📦 Previous Version: ${{ steps.release.outputs.previous_tag }}"
-          echo "🚀 Release Type: ${{ steps.release.outputs.release_type }}"
-          echo "🤖 Trigger: ${{ github.event_name }}"
-          echo "📝 Commit: ${{ github.sha }}"
-          echo ""
-          echo "Release Strategy Applied:"
-          echo "🎯 Main Branch: Conditional major increment (only if minor=0 AND patch=0, otherwise increment patch with overflow logic)"
-          echo ""
-          echo "Main Branch Logic (NEW RULE):"
-          echo "• If minor=0 AND patch=0: Increment major → major+1.0.0"
-          echo "• If minor≠0 OR patch≠0: Keep major, increment patch → major.minor.(patch+1)"
-          echo "• Overflow handling: If patch > 99 → minor+1, patch=0; if minor > 99 → major+1, minor=0"
-          echo ""
-          echo "Feature/Fix Branch Overflow Logic:"
-          echo "• Feature branches: If patch + commits > 99 → patch = 0, minor += 1"
-          echo "• Fix branches: If minor + commits > 99 → minor = 0, major += 1"
-          echo "• Cascading overflow: If minor overflows during patch overflow → minor = 0, major += 1"
+          echo "## 🌟 Release Strategy Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Property | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔀 Branch | \`${{ steps.release.outputs.branch_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🏷️ Version | \`${{ steps.release.outputs.new_version }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📦 Previous | \`${{ steps.release.outputs.previous_tag }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🚀 Type | \`${{ steps.release.outputs.release_type }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🤖 Trigger | \`${{ github.event_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📝 Commit | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
 
-  # 🏗️ Build artifacts and compile Bicep templates
+  # -----------------------------------------------------------------------------
+  # Job: build
+  # Purpose: Compile Bicep templates and create versioned artifacts
+  # -----------------------------------------------------------------------------
   build:
     name: Build Artifacts
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     needs: generate-release
     if: needs.generate-release.outputs.should_release == 'true'
+
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
           fetch-depth: 0
 
-      - name: Build Bicep Templates and Create Artifacts
+      - name: Build Bicep Templates
         id: build
         uses: ./.github/actions/ci/bicep-standard-ci
         with:
@@ -89,31 +100,39 @@ jobs:
       - name: Build Summary
         shell: bash
         run: |
-          echo "📦 Build Artifacts Created:"
-          echo "  - 📄 Bicep templates compiled to ARM templates"
-          echo "  - 🏗️ Infrastructure deployment files"
-          echo "  - 📋 Release metadata and documentation"
-          echo "  - 🏷️ Version: ${{ needs.generate-release.outputs.new_version }}"
-          echo "  - 🔀 Branch: ${{ needs.generate-release.outputs.branch_name }}"
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📦 Build Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- 📄 Bicep templates compiled to ARM templates" >> $GITHUB_STEP_SUMMARY
+          echo "- 🏗️ Infrastructure deployment files" >> $GITHUB_STEP_SUMMARY
+          echo "- 📋 Version: \`${{ needs.generate-release.outputs.new_version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔀 Branch: \`${{ needs.generate-release.outputs.branch_name }}\`" >> $GITHUB_STEP_SUMMARY
 
-  # 📢 Publish GitHub Release (only for main branch or forced releases)
+  # -----------------------------------------------------------------------------
+  # Job: publish-release
+  # Purpose: Create and publish GitHub Release with artifacts
+  # -----------------------------------------------------------------------------
   publish-release:
     name: Publish GitHub Release
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: [generate-release, build]
     if: |
+      always() &&
       needs.generate-release.outputs.should_release == 'true' && 
+      needs.build.result == 'success' &&
       (needs.generate-release.outputs.should_publish == 'true' || 
        github.event.inputs.force_release == 'true')
+
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
           fetch-depth: 0
 
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
           name: artifacts-${{ needs.generate-release.outputs.new_version }}
           path: ./artifacts
@@ -127,52 +146,41 @@ jobs:
           previous_tag="${{ needs.generate-release.outputs.previous_tag }}"
           new_version="${{ needs.generate-release.outputs.new_version }}"
           commit_sha="${{ needs.generate-release.outputs.commit_sha }}"
-          
+
           # Determine if this is a prerelease
           is_prerelease="false"
           if [[ "$branch_name" != "main" ]] || [[ "$new_version" == *"-"* ]]; then
             is_prerelease="true"
           fi
-          
+
           # Generate release body
           cat > release_notes.md << EOF
-          ## 🌟 Branch-Based Release Strategy with Conditional Major Increment
-          
+          ## 🌟 Branch-Based Release Strategy
+
           ### 📊 Release Information
-          - **🔀 Branch:** \`$branch_name\`
-          - **🏷️ Version:** \`$new_version\`
-          - **📦 Previous Version:** \`$previous_tag\`
-          - **🚀 Release Type:** \`$release_type\`
-          - **🤖 Trigger:** ${{ github.event_name }}
-          - **📝 Commit:** \`$commit_sha\`
-          
-          ### 🎯 Release Strategy Applied
-          **Main Branch:** Conditional major increment (only if minor=0 AND patch=0, otherwise increment patch with overflow logic)
-          
-          #### Main Branch Logic (NEW RULE)
-          - **If minor=0 AND patch=0:** Increment major → major+1.0.0
-          - **If minor≠0 OR patch≠0:** Keep major, increment patch → major.minor.(patch+1)
-          - **Overflow handling:** If patch > 99 → minor+1, patch=0; if minor > 99 → major+1, minor=0
-          
-          #### Feature/Fix Branch Overflow Logic
-          - **Feature branches:** If patch + commits > 99 → patch = 0, minor += 1
-          - **Fix branches:** If minor + commits > 99 → minor = 0, major += 1
-          - **Cascading overflow:** If minor overflows during patch overflow → minor = 0, major += 1
-          
-          ### 📦 Artifacts
+          | Property | Value |
+          |----------|-------|
+          | 🔀 Branch | \`$branch_name\` |
+          | 🏷️ Version | \`$new_version\` |
+          | 📦 Previous | \`$previous_tag\` |
+          | 🚀 Type | \`$release_type\` |
+          | 🤖 Trigger | ${{ github.event_name }} |
+          | 📝 Commit | \`$commit_sha\` |
+
+          ### 📦 Artifacts Included
           - 📄 Bicep templates compiled to ARM templates
           - 🏗️ Infrastructure deployment files
           - 📋 Release metadata and documentation
-          
+
           ### 🔗 Links
           - [Commit History](https://github.com/${{ github.repository }}/commits/$branch_name)
           - [Compare Changes](https://github.com/${{ github.repository }}/compare/$previous_tag...$new_version)
           EOF
-          
+
           echo "is_prerelease=$is_prerelease" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
         with:
           tag_name: ${{ needs.generate-release.outputs.new_version }}
           name: Release ${{ needs.generate-release.outputs.new_version }}
@@ -185,11 +193,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Release Published
+      - name: Release Summary
         shell: bash
         run: |
-          echo "🎉 Release ${{ needs.generate-release.outputs.new_version }} has been published!"
-          echo "🔗 Release URL: https://github.com/${{ github.repository }}/releases/tag/${{ needs.generate-release.outputs.new_version }}"
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🎉 Release Published" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** \`${{ needs.generate-release.outputs.new_version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[View Release](https://github.com/${{ github.repository }}/releases/tag/${{ needs.generate-release.outputs.new_version }})" >> $GITHUB_STEP_SUMMARY
 
   # 📊 Summary job for workflow status
   summary:
@@ -221,5 +233,3 @@ jobs:
           else
             echo "⚠️  Workflow completed with issues. Check individual job logs."
           fi
-
-  

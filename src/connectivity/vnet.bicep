@@ -81,6 +81,7 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
   }
 }
 
+@description('Virtual network configuration object containing name, resource group, network type, and subnet information')
 output AZURE_VIRTUAL_NETWORK object = (settings.create && settings.virtualNetworkType == 'Unmanaged')
   ? {
       name: virtualNetwork.?name ?? ''

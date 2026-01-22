@@ -1,9 +1,10 @@
 # yaml-language-server: $schema=./devcenter.schema.json
+# =============================================================================
+# File: devcenter.yaml
+# Purpose: Dev Center Configuration for Microsoft Dev Box Accelerator
+# Description: Defines the Dev Center resource, projects, catalogs, and environment types
+# =============================================================================
 #
-# Microsoft Dev Box accelerator: Dev Center Configuration
-# ======================================
-#
-# Purpose: Defines the Dev Center resource and associated projects for Microsoft Dev Box accelerator.
 # This configuration establishes a centralized developer workstation platform with
 # role-specific configurations and appropriate access controls.
 #
@@ -12,6 +13,9 @@
 # - Dev Center documentation: https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box
 # - Azure RBAC roles: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
 
+# =============================================================================
+# Dev Center Core Settings
+# =============================================================================
 name: "devexp-devcenter"
 catalogItemSyncEnableStatus: "Enabled"
 microsoftHostedNetworkEnableStatus: "Enabled"
@@ -87,35 +91,35 @@ projects:
 
     # Network configuration for eShop project
     network:
-      name: eShop                                 # Name of the virtual network
-      create: true                                # Should the network be created?
-      resourceGroupName: "eShop-connectivity-RG"  # Resource group for network
-      virtualNetworkType: Managed                 # Type of virtual network
+      name: eShop # Name of the virtual network
+      create: true # Should the network be created?
+      resourceGroupName: "eShop-connectivity-RG" # Resource group for network
+      virtualNetworkType: Managed # Type of virtual network
       addressPrefixes:
-        - 10.0.0.0/16                             # Address space for VNet
+        - 10.0.0.0/16 # Address space for VNet
       subnets:
-        - name: eShop-subnet           # Subnet name
+        - name: eShop-subnet # Subnet name
           properties:
-            addressPrefix: 10.0.1.0/24            # Subnet address range
+            addressPrefix: 10.0.1.0/24 # Subnet address range
       tags:
-        environment: dev                          # Deployment environment
-        division: Platforms                       # Organizational division
-        team: DevExP                              # Team responsible
-        project: DevExP-DevBox                    # Project name
-        costCenter: IT                            # Cost center for billing
-        owner: Contoso                            # Resource owner
-        resources: Network                        # Resource type identifier
+        environment: dev # Deployment environment
+        division: Platforms # Organizational division
+        team: DevExP # Team responsible
+        project: DevExP-DevBox # Project name
+        costCenter: IT # Cost center for billing
+        owner: Contoso # Resource owner
+        resources: Network # Resource type identifier
 
     # Project identity configuration - controls project-level security
     identity:
-      type: SystemAssigned                        # Managed identity type
+      type: SystemAssigned # Managed identity type
       roleAssignments:
         - azureADGroupId: "9d42a792-2d74-441d-8bcb-71009371725f" # Azure AD group ID
-          azureADGroupName: "eShop Developers"                    # Azure AD group name
+          azureADGroupName: "eShop Developers" # Azure AD group name
           azureRBACRoles:
-            - name: "Contributor"                 # RBAC role name
+            - name: "Contributor" # RBAC role name
               id: "b24988ac-6180-42a0-ab88-20f7382dd24c" # RBAC role ID
-              scope: Project                      # Role scope
+              scope: Project # Role scope
             - name: "Dev Box User"
               id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
               scope: Project
@@ -132,21 +136,21 @@ projects:
     # Dev Box pools - collections of Dev Boxes with specific configurations
     # Best practice: Create role-specific pools with appropriate tools and settings
     pools:
-      - name: "backend-engineer"                  # Pool for backend engineers
+      - name: "backend-engineer" # Pool for backend engineers
         imageDefinitionName: "eShop-backend-engineer" # Image definition for backend
-        vmSku: general_i_32c128gb512ssd_v2         # VM SKU for backend pool
-      - name: "frontend-engineer"                 # Pool for frontend engineers
+        vmSku: general_i_32c128gb512ssd_v2 # VM SKU for backend pool
+      - name: "frontend-engineer" # Pool for frontend engineers
         imageDefinitionName: "eShop-frontend-engineer" # Image definition for frontend
-        vmSku: general_i_16c64gb256ssd_v2          # VM SKU for frontend pool
+        vmSku: general_i_16c64gb256ssd_v2 # VM SKU for frontend pool
 
     # Project-specific environment types
     # Defines which deployment environments are available to the project
     environmentTypes:
-      - name: "dev"                               # Development environment
+      - name: "dev" # Development environment
         deploymentTargetId: ""
-      - name: "staging"                           # Staging environment
+      - name: "staging" # Staging environment
         deploymentTargetId: ""
-      - name: "UAT"                               # User Acceptance Testing environment
+      - name: "UAT" # User Acceptance Testing environment
         deploymentTargetId: ""
 
     # Project-specific catalogs - repositories containing project configurations
