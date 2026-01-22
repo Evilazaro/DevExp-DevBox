@@ -103,7 +103,7 @@ graph TB
 ### Deployment Scopes
 
 | Zone | Bicep Scope | Resource Group | Purpose |
-|------|-------------|----------------|---------|
+|:-----|:-----------:|:---------------|:--------|
 | **Orchestrator** | `subscription` | Creates RGs | Entry point, resource group creation |
 | **Security** | `resourceGroup` | devexp-security-* | Key Vault, secrets management |
 | **Monitoring** | `resourceGroup` | devexp-monitoring-* | Log Analytics, diagnostics |

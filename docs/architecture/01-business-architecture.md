@@ -25,10 +25,12 @@
 
 The **DevExp-DevBox Landing Zone Accelerator** is an enterprise-grade infrastructure-as-code solution that streamlines the deployment and management of Microsoft Dev Box environments on Azure. This accelerator enables organizations to rapidly provision secure, compliant, and scalable developer workstations while maintaining governance controls and operational excellence.
 
+> 💡 **Key Benefit**: Reduce developer onboarding time from days to minutes with pre-configured, secure environments.
+
 ### Key Business Value Propositions
 
 | Value Area | Description |
-|------------|-------------|
+|:-----------|:------------|
 | **Accelerated Developer Onboarding** | Reduce new developer setup time from days to minutes through pre-configured Dev Box environments |
 | **Standardized Development Environments** | Ensure consistency across teams with role-specific configurations (backend, frontend engineers) |
 | **Security & Compliance** | Built-in security controls with Key Vault integration, RBAC, and Azure AD authentication |
@@ -77,7 +79,7 @@ mindmap
 ### Business Drivers
 
 | Driver | Description | Priority |
-|--------|-------------|----------|
+|:-------|:------------|:--------:|
 | **Developer Productivity** | Eliminate environment setup overhead | High |
 | **Security Posture** | Centralized security controls and monitoring | High |
 | **Operational Excellence** | Automated, repeatable deployments | High |

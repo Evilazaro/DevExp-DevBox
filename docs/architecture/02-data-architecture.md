@@ -70,7 +70,7 @@ graph TB
 ### Data Classification
 
 | Data Type | Classification | Sensitivity | Storage Location | Retention |
-|-----------|---------------|-------------|------------------|-----------|
+|:----------|:--------------:|:-----------:|:-----------------|:----------|
 | Resource Organization Config | Internal | Low | Git Repository | Version controlled |
 | Security Configuration | Confidential | Medium | Git Repository | Version controlled |
 | DevCenter Configuration | Internal | Low | Git Repository | Version controlled |
@@ -294,6 +294,8 @@ projects:
 ---
 
 ## 🔐 Secrets Management
+
+> 🔒 **Important**: All secrets are stored in Azure Key Vault with RBAC authorization. Never commit secrets to source control.
 
 ### Secret Types
 

@@ -81,7 +81,7 @@ graph TB
 ### Azure Services Deployed
 
 | Service | Resource Type | Landing Zone | Purpose |
-|---------|--------------|--------------|---------|
+|:--------|:--------------|:------------:|:--------|
 | **Azure DevCenter** | Microsoft.DevCenter/devcenters | Workload | Central management for Dev Box environments |
 | **DevCenter Projects** | Microsoft.DevCenter/projects | Workload | Team-level Dev Box organization |
 | **Dev Box Pools** | Microsoft.DevCenter/projects/pools | Workload | VM configuration templates |

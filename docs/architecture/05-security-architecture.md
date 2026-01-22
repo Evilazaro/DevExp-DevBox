@@ -105,8 +105,10 @@ graph TB
 
 ### Security Posture Summary
 
+> 🛡️ **Security Status Overview**: The accelerator implements strong security controls across identity, secrets, and monitoring. Network security is moderate with optional enhancements available.
+
 | Area | Status | Key Controls |
-|------|--------|--------------|
+|:-----|:------:|:-------------|
 | **Identity** | ✅ Strong | Managed identities, Azure AD integration, RBAC |
 | **Secrets** | ✅ Strong | Key Vault with purge protection, RBAC authorization |
 | **Network** | ⚠️ Moderate | VNet isolation available, private endpoints optional |
@@ -227,8 +229,10 @@ graph TB
 
 ### Risk Assessment Matrix
 
+> ⚠️ **Note**: Catalog tampering risk depends on external source control security configuration.
+
 | Threat | Likelihood | Impact | Risk Score | Mitigation Status |
-|--------|------------|--------|------------|-------------------|
+|:-------|:----------:|:------:|:----------:|:-----------------:|
 | Unauthorized Secret Access | Low | High | Medium | ✅ Mitigated |
 | Catalog Tampering | Medium | High | High | ⚠️ Partial |
 | Privilege Escalation | Low | Critical | Medium | ✅ Mitigated |
