@@ -11,21 +11,21 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Architecture Overview](#architecture-overview)
-- [Module Catalog](#module-catalog)
-- [Module Dependencies](#module-dependencies)
-- [Deployment Orchestration](#deployment-orchestration)
-- [Interface Contracts](#interface-contracts)
-- [Design Patterns](#design-patterns)
-- [Extension Points](#extension-points)
-- [References](#references)
-- [Glossary](#glossary)
+- [🏛️ Architecture Overview](#️-architecture-overview)
+- [📦 Module Catalog](#-module-catalog)
+- [🔗 Module Dependencies](#-module-dependencies)
+- [🚀 Deployment Orchestration](#-deployment-orchestration)
+- [📝 Interface Contracts](#-interface-contracts)
+- [🎯 Design Patterns](#-design-patterns)
+- [🔌 Extension Points](#-extension-points)
+- [📚 References](#-references)
+- [📖 Glossary](#-glossary)
 
 ---
 
-## Architecture Overview
+## 🏛️ Architecture Overview
 
 The DevExp-DevBox Landing Zone Accelerator implements a **modular Bicep
 architecture** following Azure Landing Zone patterns. The solution is organized
@@ -112,7 +112,7 @@ flowchart TB
 
 ---
 
-## Module Catalog
+## 📦 Module Catalog
 
 ### Module Hierarchy
 
@@ -570,7 +570,7 @@ src/
 
 ---
 
-## Module Dependencies
+## 🔗 Module Dependencies
 
 ### Dependency Graph
 
@@ -667,7 +667,7 @@ flowchart TD
 
 ---
 
-## Deployment Orchestration
+## 🚀 Deployment Orchestration
 
 ### Deployment Sequence
 
@@ -733,7 +733,7 @@ azd provision -e dev --no-prompt
 
 ---
 
-## Interface Contracts
+## 📝 Interface Contracts
 
 ### Module Parameter Types
 
@@ -801,7 +801,7 @@ type NetworkSettings = {
 
 ---
 
-## Design Patterns
+## 🎯 Design Patterns
 
 ### Patterns Implemented
 
@@ -857,7 +857,7 @@ output AZURE_DEV_CENTER_PROJECTS array = [
 
 ---
 
-## Extension Points
+## 🔌 Extension Points
 
 ### Adding a New Project
 
@@ -1000,7 +1000,7 @@ flowchart TD
 
 ---
 
-## References
+## 📚 References
 
 ### External References
 
@@ -1020,7 +1020,7 @@ flowchart TD
 
 ---
 
-## Glossary
+## 📖 Glossary
 
 | Term                  | Definition                                                                |
 | --------------------- | ------------------------------------------------------------------------- |

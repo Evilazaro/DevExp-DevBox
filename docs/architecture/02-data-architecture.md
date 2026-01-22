@@ -11,21 +11,21 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Data Overview](#data-overview)
-- [Configuration Data Model](#configuration-data-model)
-- [Secrets Management](#secrets-management)
-- [Telemetry & Diagnostics](#telemetry--diagnostics)
-- [Data Flow Diagrams](#data-flow-diagrams)
-- [Data Governance](#data-governance)
-- [Schema Documentation](#schema-documentation)
-- [References](#references)
-- [Glossary](#glossary)
+- [📊 Data Overview](#-data-overview)
+- [⚙️ Configuration Data Model](#️-configuration-data-model)
+- [🔐 Secrets Management](#-secrets-management)
+- [📱 Telemetry & Diagnostics](#-telemetry--diagnostics)
+- [🔀 Data Flow Diagrams](#-data-flow-diagrams)
+- [🛡️ Data Governance](#️-data-governance)
+- [📄 Schema Documentation](#-schema-documentation)
+- [📚 References](#-references)
+- [📖 Glossary](#-glossary)
 
 ---
 
-## Data Overview
+## 📊 Data Overview
 
 The DevExp-DevBox Landing Zone Accelerator manages several categories of data
 that flow through the system during deployment and operation.
@@ -70,7 +70,7 @@ erDiagram
 
 ---
 
-## Configuration Data Model
+## ⚙️ Configuration Data Model
 
 ### Configuration File Hierarchy
 
@@ -270,7 +270,7 @@ classDiagram
 
 ---
 
-## Secrets Management
+## 🔐 Secrets Management
 
 ### Secret Types
 
@@ -351,7 +351,7 @@ flowchart TD
 
 ---
 
-## Telemetry & Diagnostics
+## 📱 Telemetry & Diagnostics
 
 ### Log Analytics Data Collection
 
@@ -437,7 +437,7 @@ erDiagram
 
 ---
 
-## Data Flow Diagrams
+## 🔀 Data Flow Diagrams
 
 ### Configuration Loading Flow
 
@@ -558,7 +558,7 @@ flowchart TD
 
 ---
 
-## Data Governance
+## 🛡️ Data Governance
 
 ### Data Classification
 
@@ -627,7 +627,7 @@ flowchart LR
 
 ---
 
-## Schema Documentation
+## 📄 Schema Documentation
 
 ### JSON Schema Files
 
@@ -690,7 +690,7 @@ flowchart TD
 
 ---
 
-## References
+## 📚 References
 
 ### External References
 
@@ -710,7 +710,7 @@ flowchart TD
 
 ---
 
-## Glossary
+## 📖 Glossary
 
 | Term                    | Definition                                                                     |
 | ----------------------- | ------------------------------------------------------------------------------ |

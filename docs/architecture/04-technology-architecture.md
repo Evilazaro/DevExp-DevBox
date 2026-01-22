@@ -11,23 +11,23 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Infrastructure Overview](#infrastructure-overview)
-- [Landing Zone Design](#landing-zone-design)
-- [Network Architecture](#network-architecture)
-- [Identity & Access](#identity--access)
-- [Security Architecture](#security-architecture)
-- [Monitoring & Observability](#monitoring--observability)
-- [CI/CD Infrastructure](#cicd-infrastructure)
-- [Deployment Tools](#deployment-tools)
-- [DevOps Practices](#devops-practices)
-- [References](#references)
-- [Glossary](#glossary)
+- [🏗️ Infrastructure Overview](#️-infrastructure-overview)
+- [🏛️ Landing Zone Design](#️-landing-zone-design)
+- [🌐 Network Architecture](#-network-architecture)
+- [👤 Identity & Access](#-identity--access)
+- [🔒 Security Architecture](#-security-architecture)
+- [📊 Monitoring & Observability](#-monitoring--observability)
+- [⚙️ CI/CD Infrastructure](#️-cicd-infrastructure)
+- [🛠️ Deployment Tools](#️-deployment-tools)
+- [💻 DevOps Practices](#-devops-practices)
+- [📚 References](#-references)
+- [📖 Glossary](#-glossary)
 
 ---
 
-## Infrastructure Overview
+## 🏗️ Infrastructure Overview
 
 The DevExp-DevBox Landing Zone Accelerator deploys a comprehensive set of Azure
 services organized into functional landing zones.
@@ -132,7 +132,7 @@ The accelerator supports deployment to the following regions:
 
 ---
 
-## Landing Zone Design
+## 🏛️ Landing Zone Design
 
 ### Four-Zone Architecture
 
@@ -227,7 +227,7 @@ All resources are tagged with consistent metadata:
 
 ---
 
-## Network Architecture
+## 🌐 Network Architecture
 
 ### Network Topology
 
@@ -330,7 +330,7 @@ sequenceDiagram
 
 ---
 
-## Identity & Access
+## 👤 Identity & Access
 
 ### Identity Model
 
@@ -452,7 +452,7 @@ flowchart TD
 
 ---
 
-## Security Architecture
+## 🔒 Security Architecture
 
 ### Key Vault Configuration
 
@@ -538,7 +538,7 @@ sequenceDiagram
 
 ---
 
-## Monitoring & Observability
+## 📊 Monitoring & Observability
 
 ### Monitoring Architecture
 
@@ -643,7 +643,7 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
 
 ---
 
-## CI/CD Infrastructure
+## ⚙️ CI/CD Infrastructure
 
 ### CI/CD Pipeline Flow
 
@@ -773,7 +773,7 @@ flowchart TD
 
 ---
 
-## Deployment Tools
+## 🛠️ Deployment Tools
 
 ### Azure Developer CLI (azd)
 
@@ -846,7 +846,7 @@ flowchart TD
 
 ---
 
-## DevOps Practices
+## 💻 DevOps Practices
 
 ### Branching Strategy
 
@@ -935,7 +935,7 @@ flowchart LR
 
 ---
 
-## References
+## 📚 References
 
 ### External References
 
@@ -958,7 +958,7 @@ flowchart LR
 
 ---
 
-## Glossary
+## 📖 Glossary
 
 | Term                      | Definition                                                   |
 | ------------------------- | ------------------------------------------------------------ |
