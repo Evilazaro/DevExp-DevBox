@@ -68,59 +68,93 @@ services organized into functional landing zones.
 ### Azure Services Deployed
 
 ```mermaid
+---
+title: Azure Services Overview
+---
 flowchart TB
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+
+    %% ===== AZURE CLOUD =====
     subgraph Azure["Azure Cloud"]
+        %% ===== MANAGEMENT PLANE =====
         subgraph Management["Management Plane"]
-            ARM[Azure Resource Manager]
-            AAD[Microsoft Entra ID]
-            RBAC[Azure RBAC]
+            ARM["Azure Resource Manager"]
+            AAD["Microsoft Entra ID"]
+            RBAC["Azure RBAC"]
         end
 
+        %% ===== COMPUTE SERVICES =====
         subgraph Compute["Compute Services"]
-            DC[Microsoft DevCenter]
-            DEVBOX[Dev Box VMs]
+            DC["Microsoft DevCenter"]
+            DEVBOX["Dev Box VMs"]
         end
 
+        %% ===== SECURITY SERVICES =====
         subgraph Security["Security Services"]
-            KV[Azure Key Vault]
+            KV["Azure Key Vault"]
         end
 
+        %% ===== NETWORKING SERVICES =====
         subgraph Networking["Networking Services"]
-            VNET[Virtual Network]
-            SUBNET[Subnets]
-            NSG[Network Security Groups]
+            VNET["Virtual Network"]
+            SUBNET["Subnets"]
+            NSG["Network Security Groups"]
         end
 
+        %% ===== MONITORING SERVICES =====
         subgraph Monitoring["Monitoring Services"]
-            LA[Log Analytics Workspace]
-            DIAG[Diagnostic Settings]
-            SOL[Solutions]
+            LA["Log Analytics Workspace"]
+            DIAG["Diagnostic Settings"]
+            SOL["Solutions"]
         end
 
+        %% ===== STORAGE SERVICES =====
         subgraph Storage["Storage Services"]
-            BLOB[Blob Storage<br/>Dev Box Images]
+            BLOB["Blob Storage<br/>Dev Box Images"]
         end
     end
 
-    ARM --> DC
-    ARM --> KV
-    ARM --> VNET
-    ARM --> LA
+    %% ===== CONNECTIONS =====
+    ARM -->|"deploys"| DC
+    ARM -->|"deploys"| KV
+    ARM -->|"deploys"| VNET
+    ARM -->|"deploys"| LA
 
-    AAD --> RBAC
-    RBAC --> DC
-    RBAC --> KV
+    AAD -->|"authenticates"| RBAC
+    RBAC -->|"authorizes"| DC
+    RBAC -->|"authorizes"| KV
 
-    DC --> DEVBOX
-    DEVBOX --> VNET
-    VNET --> SUBNET
-    SUBNET --> NSG
+    DC -->|"provisions"| DEVBOX
+    DEVBOX -->|"connects to"| VNET
+    VNET -->|"contains"| SUBNET
+    SUBNET -->|"secured by"| NSG
 
-    DC --> DIAG
-    KV --> DIAG
-    VNET --> DIAG
-    DIAG --> LA
-    LA --> SOL
+    DC -->|"sends logs"| DIAG
+    KV -->|"sends logs"| DIAG
+    VNET -->|"sends logs"| DIAG
+    DIAG -->|"routes to"| LA
+    LA -->|"analyzes"| SOL
+
+    %% ===== APPLY STYLES =====
+    class ARM,AAD,RBAC external
+    class DC,DEVBOX primary
+    class KV primary
+    class VNET,SUBNET,NSG secondary
+    class LA,DIAG,SOL datastore
+    class BLOB datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Azure fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style Management fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style Compute fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Security fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Networking fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Monitoring fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Storage fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Service Catalog
@@ -170,20 +204,32 @@ The accelerator supports deployment to the following regions:
 ### Four-Zone Architecture
 
 ```mermaid
+---
+title: Four-Zone Landing Zone Architecture
+---
 flowchart TB
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== SUBSCRIPTION =====
     subgraph Subscription["Azure Subscription"]
+        %% ===== SECURITY ZONE =====
         subgraph SecurityZone["🔐 Security Landing Zone"]
             SEC_RG["devexp-security-{env}-{region}-RG"]
             KV["Key Vault<br/>contoso-{unique}-kv"]
             SECRET["Secret: gha-token"]
         end
 
+        %% ===== MONITORING ZONE =====
         subgraph MonitoringZone["📊 Monitoring Landing Zone"]
             MON_RG["devexp-monitoring-{env}-{region}-RG"]
             LA["Log Analytics<br/>logAnalytics-{unique}"]
             SOL["Azure Activity Solution"]
         end
 
+        %% ===== CONNECTIVITY ZONE =====
         subgraph ConnectivityZone["🌐 Connectivity Landing Zone"]
             CON_RG["eShop-connectivity-RG"]
             VNET["Virtual Network<br/>eShop"]
@@ -191,6 +237,7 @@ flowchart TB
             NC["Network Connection<br/>netconn-eShop"]
         end
 
+        %% ===== WORKLOAD ZONE =====
         subgraph WorkloadZone["💻 Workload Landing Zone"]
             WRK_RG["devexp-workload-{env}-{region}-RG"]
             DC["DevCenter<br/>devexp-devcenter"]
@@ -200,26 +247,39 @@ flowchart TB
         end
     end
 
-    SEC_RG --> KV
-    KV --> SECRET
+    %% ===== CONNECTIONS =====
+    SEC_RG -->|"hosts"| KV
+    KV -->|"stores"| SECRET
 
-    MON_RG --> LA
-    LA --> SOL
+    MON_RG -->|"hosts"| LA
+    LA -->|"installs"| SOL
 
-    CON_RG --> VNET
-    VNET --> SUBNET
-    SUBNET --> NC
+    CON_RG -->|"hosts"| VNET
+    VNET -->|"contains"| SUBNET
+    SUBNET -->|"attaches to"| NC
 
-    WRK_RG --> DC
-    DC --> PROJ
-    PROJ --> POOL1
-    PROJ --> POOL2
+    WRK_RG -->|"hosts"| DC
+    DC -->|"manages"| PROJ
+    PROJ -->|"contains"| POOL1
+    PROJ -->|"contains"| POOL2
 
-    NC -.->|Attach| DC
-    SECRET -.->|Auth| DC
-    LA -.->|Diagnostics| KV
-    LA -.->|Diagnostics| DC
-    LA -.->|Diagnostics| VNET
+    NC -.->|"attaches to"| DC
+    SECRET -.->|"authenticates"| DC
+    LA -.->|"diagnostics"| KV
+    LA -.->|"diagnostics"| DC
+    LA -.->|"diagnostics"| VNET
+
+    %% ===== APPLY STYLES =====
+    class SEC_RG,MON_RG,CON_RG,WRK_RG primary
+    class KV,LA secondary
+    class SECRET,SOL,VNET,SUBNET,NC,DC,PROJ,POOL1,POOL2 datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Subscription fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style SecurityZone fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style MonitoringZone fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style ConnectivityZone fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style WorkloadZone fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Resource Group Naming Convention
@@ -265,44 +325,75 @@ All resources are tagged with consistent metadata:
 ### Network Topology
 
 ```mermaid
+---
+title: Network Topology
+---
 flowchart TB
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+
+    %% ===== INTERNET =====
     subgraph Internet["Internet"]
-        DEV[Developer]
+        DEV["Developer"]
     end
 
+    %% ===== AZURE =====
     subgraph Azure["Azure"]
+        %% ===== DEVCENTER =====
         subgraph DevCenter["DevCenter"]
-            DC_CTRL[Control Plane]
+            DC_CTRL["Control Plane"]
         end
 
+        %% ===== MANAGED NETWORK =====
         subgraph ManagedNet["Microsoft-Hosted Network"]
-            MN[Managed Network<br/>Microsoft-provided]
+            MN["Managed Network<br/>Microsoft-provided"]
         end
 
+        %% ===== CUSTOMER NETWORK =====
         subgraph CustomerNet["Customer-Managed Network"]
             subgraph VNet["eShop VNet (10.0.0.0/16)"]
                 SUBNET1["eShop-subnet<br/>10.0.1.0/24"]
             end
 
-            NC[Network Connection]
+            NC["Network Connection"]
         end
 
+        %% ===== DEV BOXES =====
         subgraph DevBoxes["Dev Box VMs"]
-            DB1[Backend Dev Box]
-            DB2[Frontend Dev Box]
+            DB1["Backend Dev Box"]
+            DB2["Frontend Dev Box"]
         end
     end
 
-    DEV -->|RDP/HTTPS| DC_CTRL
-    DC_CTRL --> MN
-    DC_CTRL --> NC
+    %% ===== CONNECTIONS =====
+    DEV -->|"RDP/HTTPS"| DC_CTRL
+    DC_CTRL -->|"manages"| MN
+    DC_CTRL -->|"connects via"| NC
 
-    NC --> SUBNET1
+    NC -->|"attaches to"| SUBNET1
 
-    MN --> DB1
-    MN --> DB2
-    SUBNET1 --> DB1
-    SUBNET1 --> DB2
+    MN -->|"provides network"| DB1
+    MN -->|"provides network"| DB2
+    SUBNET1 -->|"provides network"| DB1
+    SUBNET1 -->|"provides network"| DB2
+
+    %% ===== APPLY STYLES =====
+    class DEV external
+    class DC_CTRL,NC primary
+    class MN,SUBNET1 secondary
+    class DB1,DB2 datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Internet fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style Azure fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style DevCenter fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style ManagedNet fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style CustomerNet fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style VNet fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style DevBoxes fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Network Options
@@ -333,18 +424,24 @@ network:
 ### Network Connection Flow
 
 ```mermaid
+---
+title: Network Connection Flow
+---
 sequenceDiagram
+    %% ===== PARTICIPANTS =====
     participant DC as DevCenter
     participant NC as Network Connection
     participant VNet as Virtual Network
     participant Subnet as Subnet
     participant DB as Dev Box
 
+    %% ===== CONNECTION SETUP =====
     DC->>NC: Create Network Connection
     NC->>VNet: Reference VNet
     VNet->>Subnet: Validate Subnet
     NC-->>DC: Connection Ready
 
+    %% ===== DEV BOX PROVISIONING =====
     DC->>DB: Provision Dev Box
     DB->>NC: Request Network Config
     NC->>Subnet: Allocate IP
