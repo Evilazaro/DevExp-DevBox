@@ -1,4 +1,4 @@
-# Security Architecture
+# 🔐 Security Architecture
 
 > **TOGAF Layer**: Security Architecture  
 > **Version**: 1.0.0  
@@ -7,29 +7,29 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Security Overview](#security-overview)
-- [Threat Model](#threat-model)
-- [Identity & Access Management](#identity--access-management)
-- [Authorization & RBAC](#authorization--rbac)
-- [Secrets Management](#secrets-management)
-- [Network Security](#network-security)
-- [Data Protection](#data-protection)
-- [Security Monitoring & Logging](#security-monitoring--logging)
-- [Compliance & Governance](#compliance--governance)
-- [Security Controls Matrix](#security-controls-matrix)
-- [Incident Response](#incident-response)
-- [Security Hardening](#security-hardening)
-- [Supply Chain Security](#supply-chain-security)
-- [CI/CD Security](#cicd-security)
-- [Security Recommendations](#security-recommendations)
-- [References](#references)
-- [Glossary](#glossary)
+- [🛡️ Security Overview](#️-security-overview)
+- [⚠️ Threat Model](#️-threat-model)
+- [🔑 Identity & Access Management](#-identity--access-management)
+- [✅ Authorization & RBAC](#-authorization--rbac)
+- [🔒 Secrets Management](#-secrets-management)
+- [🌐 Network Security](#-network-security)
+- [📀 Data Protection](#-data-protection)
+- [📊 Security Monitoring & Logging](#-security-monitoring--logging)
+- [📋 Compliance & Governance](#-compliance--governance)
+- [🎯 Security Controls Matrix](#-security-controls-matrix)
+- [🚨 Incident Response](#-incident-response)
+- [🛠️ Security Hardening](#️-security-hardening)
+- [📦 Supply Chain Security](#-supply-chain-security)
+- [🔄 CI/CD Security](#-cicd-security)
+- [💡 Security Recommendations](#-security-recommendations)
+- [📚 References](#-references)
+- [📖 Glossary](#-glossary)
 
 ---
 
-## Security Overview
+## 🛡️ Security Overview
 
 The DevExp-DevBox Landing Zone Accelerator implements a **defense-in-depth** security strategy aligned with **Zero Trust** principles. Security controls are embedded at every layer: identity, network, data, and application.
 

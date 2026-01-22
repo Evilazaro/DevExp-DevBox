@@ -1,4 +1,4 @@
-# Technology Architecture
+# ⚙️ Technology Architecture
 
 > **TOGAF Layer**: Technology Architecture  
 > **Version**: 1.0.0  
@@ -7,23 +7,23 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Infrastructure Overview](#infrastructure-overview)
-- [Landing Zone Design](#landing-zone-design)
-- [Network Architecture](#network-architecture)
-- [Identity & Access](#identity--access)
-- [Security Architecture](#security-architecture)
-- [Monitoring & Observability](#monitoring--observability)
-- [CI/CD Infrastructure](#cicd-infrastructure)
-- [Deployment Tools](#deployment-tools)
-- [DevOps Practices](#devops-practices)
-- [References](#references)
-- [Glossary](#glossary)
+- [🏗️ Infrastructure Overview](#️-infrastructure-overview)
+- [🏛️ Landing Zone Design](#️-landing-zone-design)
+- [🌐 Network Architecture](#-network-architecture)
+- [🔑 Identity & Access](#-identity--access)
+- [🔒 Security Architecture](#-security-architecture)
+- [📊 Monitoring & Observability](#-monitoring--observability)
+- [🔄 CI/CD Infrastructure](#-cicd-infrastructure)
+- [🛠️ Deployment Tools](#️-deployment-tools)
+- [📋 DevOps Practices](#-devops-practices)
+- [📚 References](#-references)
+- [📖 Glossary](#-glossary)
 
 ---
 
-## Infrastructure Overview
+## 🏗️ Infrastructure Overview
 
 The DevExp-DevBox Landing Zone Accelerator deploys a comprehensive Azure infrastructure to support Microsoft Dev Box environments at enterprise scale. The solution leverages Platform-as-a-Service (PaaS) offerings for reduced operational overhead and built-in security.
 
@@ -121,9 +121,11 @@ graph TB
 | Role Assignments | 2022-04-01 | Stable RBAC API |
 | Diagnostic Settings | 2021-05-01-preview | Stable diagnostics API |
 
+[↑ Back to Top](#️-technology-architecture)
+
 ---
 
-## Landing Zone Design
+## 🏛️ Landing Zone Design
 
 ### Four-Zone Architecture
 
@@ -198,9 +200,11 @@ tags:
   resources: ResourceType
 ```
 
+[↑ Back to Top](#️-technology-architecture)
+
 ---
 
-## Network Architecture
+## 🌐 Network Architecture
 
 ### Network Architecture Diagram
 
@@ -282,9 +286,11 @@ network:
 - **DNS**: Azure-provided or custom (for hybrid scenarios)
 - **Firewall**: Optional Azure Firewall integration for egress control
 
+[↑ Back to Top](#️-technology-architecture)
+
 ---
 
-## Identity & Access
+## 🔑 Identity & Access
 
 ### Identity & RBAC Model
 
@@ -367,9 +373,11 @@ graph TB
 | {Project} Developers | Deployment Environment User | Project | Deploy environments |
 | {Project} Developers | Key Vault Secrets User | Security RG | Access secrets |
 
+[↑ Back to Top](#️-technology-architecture)
+
 ---
 
-## Security Architecture
+## 🔒 Security Architecture
 
 ### Key Vault Configuration
 
@@ -425,9 +433,11 @@ graph TB
 - **Private Link**: Optional for Key Vault and storage
 - **Azure AD Join**: No on-premises domain dependency
 
+[↑ Back to Top](#️-technology-architecture)
+
 ---
 
-## Monitoring & Observability
+## 📊 Monitoring & Observability
 
 ### Log Analytics Integration
 
@@ -521,9 +531,11 @@ AzureDiagnostics
 | summarize count() by OperationName, ResultType
 ```
 
+[↑ Back to Top](#️-technology-architecture)
+
 ---
 
-## CI/CD Infrastructure
+## 🔄 CI/CD Infrastructure
 
 ### CI/CD Pipeline Flow
 
@@ -610,9 +622,11 @@ graph LR
 | `KEY_VAULT_SECRET` | GitHub Secret | PAT token value |
 | `SOURCE_CONTROL_PLATFORM` | Environment | `github` or `adogit` |
 
+[↑ Back to Top](#️-technology-architecture)
+
 ---
 
-## Deployment Tools
+## 🛠️ Deployment Tools
 
 ### Azure Developer CLI (azd)
 
@@ -681,9 +695,11 @@ sequenceDiagram
     AZ-->>Script: Deployment complete
 ```
 
+[↑ Back to Top](#️-technology-architecture)
+
 ---
 
-## DevOps Practices
+## 📋 DevOps Practices
 
 ### Release Strategy
 
@@ -732,9 +748,11 @@ The CI pipeline generates semantic versions based on commit messages:
 | Artifact Upload | Build Success | Non-empty artifacts |
 | Deploy Approval | Manual | Environment owner approval |
 
+[↑ Back to Top](#️-technology-architecture)
+
 ---
 
-## References
+## 📚 References
 
 ### Internal Documents
 
@@ -752,9 +770,11 @@ The CI pipeline generates semantic versions based on commit messages:
 - [GitHub Actions for Azure](https://learn.microsoft.com/en-us/azure/developer/github/github-actions)
 - [Azure DevOps Pipelines](https://learn.microsoft.com/en-us/azure/devops/pipelines/)
 
+[↑ Back to Top](#️-technology-architecture)
+
 ---
 
-## Glossary
+## 📖 Glossary
 
 | Term | Definition |
 |------|------------|
@@ -766,6 +786,8 @@ The CI pipeline generates semantic versions based on commit messages:
 | **azd** | Azure Developer CLI - streamlined Azure development tool |
 | **ARM** | Azure Resource Manager - Azure's deployment engine |
 | **Diagnostic Settings** | Azure configuration for log/metric routing |
+
+[↑ Back to Top](#️-technology-architecture)
 
 ---
 
