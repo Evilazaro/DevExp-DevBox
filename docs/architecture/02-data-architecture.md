@@ -75,6 +75,9 @@ that flow through the system during deployment and operation.
 ### Data Entity Overview
 
 ```mermaid
+---
+title: Data Entity Relationships
+---
 erDiagram
     AZURE_RESOURCES ||--o{ RESOURCE_GROUP : contains
     RESOURCE_GROUP ||--o{ DEVCENTER : hosts
@@ -125,6 +128,9 @@ Defines the landing zone resource group structure following Azure Landing Zone
 principles.
 
 ```mermaid
+---
+title: Azure Resources Configuration Model
+---
 classDiagram
     class AzureResources {
         +workload: LandingZone
@@ -174,6 +180,9 @@ classDiagram
 Defines Azure Key Vault settings for secrets management.
 
 ```mermaid
+---
+title: Security Configuration Model
+---
 classDiagram
     class SecurityConfig {
         +create: boolean
@@ -211,6 +220,9 @@ classDiagram
 The most complex configuration defining the entire workload structure.
 
 ```mermaid
+---
+title: DevCenter Configuration Model
+---
 classDiagram
     class DevCenterConfig {
         +name: string
@@ -320,7 +332,11 @@ classDiagram
 ### Secrets Flow Diagram
 
 ```mermaid
+---
+title: Secrets Provisioning and Consumption
+---
 sequenceDiagram
+    %% ===== PARTICIPANTS =====
     participant User as Platform Engineer
     participant GH as GitHub/ADO
     participant CLI as Azure CLI/azd
@@ -328,6 +344,7 @@ sequenceDiagram
     participant DC as DevCenter
     participant Cat as Catalog
 
+    %% ===== PROVISIONING FLOW =====
     Note over User,Cat: Secret Provisioning Flow
 
     User->>GH: Generate PAT token
@@ -337,6 +354,7 @@ sequenceDiagram
     CLI->>DC: Configure DevCenter
     DC->>Cat: Create catalog with secret reference
 
+    %% ===== CONSUMPTION FLOW =====
     Note over User,Cat: Secret Consumption Flow
 
     Cat->>KV: Request secret (via managed identity)
@@ -349,30 +367,52 @@ sequenceDiagram
 ### Key Vault Access Model
 
 ```mermaid
+---
+title: Key Vault RBAC Access Model
+---
 flowchart TD
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== IDENTITY SOURCES =====
     subgraph Identity["Identity Sources"]
-        DC_MI[DevCenter<br/>Managed Identity]
-        PROJ_MI[Project<br/>Managed Identity]
-        ADMIN[Platform Engineers<br/>Azure AD Group]
+        DC_MI["DevCenter<br/>Managed Identity"]
+        PROJ_MI["Project<br/>Managed Identity"]
+        ADMIN["Platform Engineers<br/>Azure AD Group"]
     end
 
+    %% ===== KEY VAULT =====
     subgraph KV["Key Vault"]
-        SECRET[gha-token<br/>Secret]
+        SECRET["gha-token<br/>Secret"]
     end
 
+    %% ===== RBAC ROLES =====
     subgraph Roles["RBAC Roles"]
-        R1[Key Vault<br/>Secrets User]
-        R2[Key Vault<br/>Secrets Officer]
+        R1["Key Vault<br/>Secrets User"]
+        R2["Key Vault<br/>Secrets Officer"]
     end
 
-    DC_MI --> R1
-    DC_MI --> R2
-    PROJ_MI --> R1
-    PROJ_MI --> R2
-    ADMIN --> R2
+    %% ===== CONNECTIONS =====
+    DC_MI -->|"assigned"| R1
+    DC_MI -->|"assigned"| R2
+    PROJ_MI -->|"assigned"| R1
+    PROJ_MI -->|"assigned"| R2
+    ADMIN -->|"assigned"| R2
 
-    R1 --> |Get, List| SECRET
-    R2 --> |Get, List, Set, Delete| SECRET
+    R1 -->|"Get, List"| SECRET
+    R2 -->|"Get, List, Set, Delete"| SECRET
+
+    %% ===== APPLY STYLES =====
+    class DC_MI,PROJ_MI primary
+    class ADMIN secondary
+    class SECRET datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Identity fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style KV fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Roles fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Secret Security Controls
@@ -393,35 +433,57 @@ flowchart TD
 ### Log Analytics Data Collection
 
 ```mermaid
+---
+title: Log Analytics Data Collection
+---
 flowchart LR
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== SOURCES =====
     subgraph Sources["Data Sources"]
-        DC[DevCenter]
-        KV[Key Vault]
-        VNET[Virtual Network]
-        LA_SELF[Log Analytics]
+        DC["DevCenter"]
+        KV["Key Vault"]
+        VNET["Virtual Network"]
+        LA_SELF["Log Analytics"]
     end
 
+    %% ===== LOG ANALYTICS WORKSPACE =====
     subgraph LA["Log Analytics Workspace"]
-        LOGS[Logs]
-        METRICS[Metrics]
-        SOLUTIONS[Solutions]
+        LOGS["Logs"]
+        METRICS["Metrics"]
+        SOLUTIONS["Solutions"]
     end
 
+    %% ===== OUTPUTS =====
     subgraph Outputs["Outputs"]
-        ALERTS[Alerts]
-        DASHBOARDS[Dashboards]
-        QUERIES[KQL Queries]
+        ALERTS["Alerts"]
+        DASHBOARDS["Dashboards"]
+        QUERIES["KQL Queries"]
     end
 
-    DC -->|allLogs, AllMetrics| LOGS
-    KV -->|allLogs, AllMetrics| LOGS
-    VNET -->|allLogs, AllMetrics| LOGS
-    LA_SELF -->|allLogs, AllMetrics| LOGS
+    %% ===== CONNECTIONS =====
+    DC -->|"allLogs, AllMetrics"| LOGS
+    KV -->|"allLogs, AllMetrics"| LOGS
+    VNET -->|"allLogs, AllMetrics"| LOGS
+    LA_SELF -->|"allLogs, AllMetrics"| LOGS
 
-    LOGS --> ALERTS
-    LOGS --> DASHBOARDS
-    METRICS --> DASHBOARDS
-    LOGS --> QUERIES
+    LOGS -->|"triggers"| ALERTS
+    LOGS -->|"visualizes"| DASHBOARDS
+    METRICS -->|"visualizes"| DASHBOARDS
+    LOGS -->|"queries"| QUERIES
+
+    %% ===== APPLY STYLES =====
+    class DC,KV,VNET,LA_SELF primary
+    class LOGS,METRICS,SOLUTIONS datastore
+    class ALERTS,DASHBOARDS,QUERIES secondary
+
+    %% ===== SUBGRAPH STYLING =====
+    style Sources fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style LA fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Outputs fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Diagnostic Settings Configuration
@@ -438,6 +500,9 @@ All resources deploy with standardized diagnostic settings:
 ### Telemetry Data Model
 
 ```mermaid
+---
+title: Telemetry Data Model
+---
 erDiagram
     LOG_ANALYTICS_WORKSPACE ||--o{ AZURE_DIAGNOSTICS : receives
     LOG_ANALYTICS_WORKSPACE ||--o{ AZURE_METRICS : receives
@@ -479,82 +544,131 @@ erDiagram
 ### Configuration Loading Flow
 
 ```mermaid
+---
+title: Configuration Loading Flow
+---
 flowchart TD
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000
+
+    %% ===== GIT REPOSITORY =====
     subgraph Git["Git Repository"]
-        YAML1[azureResources.yaml]
-        YAML2[security.yaml]
-        YAML3[devcenter.yaml]
+        YAML1["azureResources.yaml"]
+        YAML2["security.yaml"]
+        YAML3["devcenter.yaml"]
     end
 
+    %% ===== BICEP PROCESSING =====
     subgraph Bicep["Bicep Processing"]
-        MAIN[main.bicep]
+        MAIN["main.bicep"]
         LOAD1["loadYamlContent()<br/>resourceOrganization"]
         LOAD2["loadYamlContent()<br/>security"]
         LOAD3["loadYamlContent()<br/>workload"]
     end
 
+    %% ===== MODULE DEPLOYMENT =====
     subgraph Modules["Module Deployment"]
-        MOD1[logAnalytics.bicep]
-        MOD2[security.bicep]
-        MOD3[workload.bicep]
+        MOD1["logAnalytics.bicep"]
+        MOD2["security.bicep"]
+        MOD3["workload.bicep"]
     end
 
+    %% ===== AZURE RESOURCES =====
     subgraph Azure["Azure Resources"]
-        RG[Resource Groups]
-        LA[Log Analytics]
-        KV[Key Vault]
-        DC[DevCenter]
+        RG["Resource Groups"]
+        LA["Log Analytics"]
+        KV["Key Vault"]
+        DC["DevCenter"]
     end
 
-    YAML1 --> LOAD1
-    YAML2 --> LOAD2
-    YAML3 --> LOAD3
+    %% ===== CONNECTIONS =====
+    YAML1 -->|"loads"| LOAD1
+    YAML2 -->|"loads"| LOAD2
+    YAML3 -->|"loads"| LOAD3
 
-    MAIN --> LOAD1
-    MAIN --> LOAD2
-    MAIN --> LOAD3
+    MAIN -->|"invokes"| LOAD1
+    MAIN -->|"invokes"| LOAD2
+    MAIN -->|"invokes"| LOAD3
 
-    LOAD1 --> MOD1
-    LOAD1 --> MOD2
-    LOAD1 --> MOD3
+    LOAD1 -->|"passes config"| MOD1
+    LOAD1 -->|"passes config"| MOD2
+    LOAD1 -->|"passes config"| MOD3
 
-    LOAD2 --> MOD2
-    LOAD3 --> MOD3
+    LOAD2 -->|"passes config"| MOD2
+    LOAD3 -->|"passes config"| MOD3
 
-    MOD1 --> LA
-    MOD2 --> KV
-    MOD3 --> DC
+    MOD1 -->|"creates"| LA
+    MOD2 -->|"creates"| KV
+    MOD3 -->|"creates"| DC
 
-    MAIN --> RG
+    MAIN -->|"creates"| RG
+
+    %% ===== APPLY STYLES =====
+    class YAML1,YAML2,YAML3 input
+    class MAIN,LOAD1,LOAD2,LOAD3 primary
+    class MOD1,MOD2,MOD3 secondary
+    class RG,LA,KV,DC datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Git fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style Bicep fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Modules fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Azure fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Deployment Data Flow
 
 ```mermaid
+---
+title: Deployment Data Flow
+---
 flowchart LR
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000
+
+    %% ===== INPUT DATA =====
     subgraph Input["Input Data"]
-        ENV[Environment Name]
-        LOC[Location]
-        SECRET[Secret Value]
+        ENV["Environment Name"]
+        LOC["Location"]
+        SECRET["Secret Value"]
     end
 
+    %% ===== PARAMETER TRANSFORMATION =====
     subgraph Transform["Parameter Transformation"]
         SUFFIX["resourceNameSuffix =<br/>{env}-{location}-RG"]
         RGNAMES["createResourceGroupName =<br/>{zone.name}-{suffix}"]
     end
 
+    %% ===== OUTPUT RESOURCES =====
     subgraph Output["Output Resources"]
-        SEC_RG[Security RG]
-        MON_RG[Monitoring RG]
-        WRK_RG[Workload RG]
+        SEC_RG["Security RG"]
+        MON_RG["Monitoring RG"]
+        WRK_RG["Workload RG"]
     end
 
-    ENV --> SUFFIX
-    LOC --> SUFFIX
-    SUFFIX --> RGNAMES
-    RGNAMES --> SEC_RG
-    RGNAMES --> MON_RG
-    RGNAMES --> WRK_RG
+    %% ===== CONNECTIONS =====
+    ENV -->|"concatenates"| SUFFIX
+    LOC -->|"concatenates"| SUFFIX
+    SUFFIX -->|"generates"| RGNAMES
+    RGNAMES -->|"creates"| SEC_RG
+    RGNAMES -->|"creates"| MON_RG
+    RGNAMES -->|"creates"| WRK_RG
+
+    %% ===== APPLY STYLES =====
+    class ENV,LOC,SECRET input
+    class SUFFIX,RGNAMES primary
+    class SEC_RG,MON_RG,WRK_RG datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Input fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style Transform fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Output fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Cross-Module Data Dependencies
