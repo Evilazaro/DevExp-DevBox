@@ -229,8 +229,22 @@ function Test-SourceControlValidation {
 function Test-AzureAuthentication {
     <#
     .SYNOPSIS
-        Test Azure CLI authentication
+        Tests Azure CLI authentication status.
+
+    .DESCRIPTION
+        Verifies that the user is logged into Azure CLI and the current
+        subscription is in an enabled state.
+
+    .OUTPUTS
+        System.Boolean - True if authenticated with valid subscription, False otherwise.
+
+    .EXAMPLE
+        if (Test-AzureAuthentication) { Write-Host "Ready to use Azure" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Verifying Azure authentication..." "Info"
     
     try {
@@ -259,8 +273,22 @@ function Test-AzureAuthentication {
 function Test-AdoAuthentication {
     <#
     .SYNOPSIS
-        Test Azure DevOps authentication
+        Tests Azure DevOps authentication status.
+
+    .DESCRIPTION
+        Verifies that the Azure DevOps CLI extension is configured
+        and the user is authenticated.
+
+    .OUTPUTS
+        System.Boolean - True if authenticated, False otherwise.
+
+    .EXAMPLE
+        if (Test-AdoAuthentication) { Write-Host "Ready to use Azure DevOps" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Verifying Azure DevOps authentication..." "Info"
     
     try {
@@ -282,8 +310,21 @@ function Test-AdoAuthentication {
 function Test-GitHubAuthentication {
     <#
     .SYNOPSIS
-        Test GitHub CLI authentication
+        Tests GitHub CLI authentication status.
+
+    .DESCRIPTION
+        Verifies that the user is authenticated with GitHub CLI.
+
+    .OUTPUTS
+        System.Boolean - True if authenticated, False otherwise.
+
+    .EXAMPLE
+        if (Test-GitHubAuthentication) { Write-Host "Ready to use GitHub" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Verifying GitHub authentication..." "Info"
     
     try {
@@ -305,8 +346,22 @@ function Test-GitHubAuthentication {
 function Get-SecureGitHubToken {
     <#
     .SYNOPSIS
-        Get GitHub token securely
+        Retrieves the GitHub token securely.
+
+    .DESCRIPTION
+        Gets the GitHub authentication token either from an environment
+        variable or by using the GitHub CLI.
+
+    .OUTPUTS
+        System.Boolean - True if token retrieved successfully, False otherwise.
+
+    .EXAMPLE
+        if (Get-SecureGitHubToken) { Write-Host "Token available" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Retrieving GitHub token..." "Info"
 
     # Check if KEY_VAULT_SECRET environment variable is already set
@@ -343,8 +398,22 @@ function Get-SecureGitHubToken {
 function Get-SecureAdoGitToken {
     <#
     .SYNOPSIS
-        Get Azure DevOps token securely
+        Retrieves the Azure DevOps PAT securely.
+
+    .DESCRIPTION
+        Gets the Azure DevOps Personal Access Token either from an
+        environment variable or by prompting the user securely.
+
+    .OUTPUTS
+        System.Boolean - True if token retrieved successfully, False otherwise.
+
+    .EXAMPLE
+        if (Get-SecureAdoGitToken) { Write-Host "Token available" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Retrieving Azure DevOps token..." "Info"
     
     # Try to get PAT from environment variable first
@@ -393,8 +462,22 @@ function Get-SecureAdoGitToken {
 function Initialize-AzdEnvironment {
     <#
     .SYNOPSIS
-        Initialize Azure Developer CLI environment
+        Initializes the Azure Developer CLI environment.
+
+    .DESCRIPTION
+        Sets up the azd environment with appropriate tokens based on the
+        selected source control platform.
+
+    .OUTPUTS
+        System.Boolean - True if initialization succeeded, False otherwise.
+
+    .EXAMPLE
+        if (Initialize-AzdEnvironment) { Write-Host "Environment ready" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Initializing Azure Developer CLI environment..." "Info"
     
     $pat = ""
@@ -465,8 +548,22 @@ function Initialize-AzdEnvironment {
 function Start-AzureProvisioning {
     <#
     .SYNOPSIS
-        Start Azure resource provisioning
+        Starts Azure resource provisioning.
+
+    .DESCRIPTION
+        Initiates the Azure Developer CLI provisioning process for
+        the configured environment.
+
+    .OUTPUTS
+        System.Boolean - True if provisioning succeeded, False otherwise.
+
+    .EXAMPLE
+        if (Start-AzureProvisioning) { Write-Host "Resources provisioned" }
     #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param()
+
     Write-LogMessage "Starting Azure resource provisioning with azd..." "Info"
     
     try {
