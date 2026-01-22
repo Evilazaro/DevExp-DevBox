@@ -84,6 +84,9 @@ Modern enterprises face significant challenges in managing developer environment
 ### Target Audience
 
 ```mermaid
+---
+title: DevExp-DevBox Target Audience
+---
 mindmap
   root((DevExp-DevBox<br/>Accelerator))
     Enterprise Organizations
@@ -124,42 +127,61 @@ mindmap
 ### Stakeholder Map
 
 ```mermaid
+---
+title: Stakeholder Relationship Map
+---
 graph TB
-    subgraph "Executive Stakeholders"
-        CTO[CTO/CIO]
-        CISO[CISO]
-        CFO[CFO]
+    %% ===== EXECUTIVE STAKEHOLDERS =====
+    subgraph executives["Executive Stakeholders"]
+        CTO["CTO/CIO"]
+        CISO["CISO"]
+        CFO["CFO"]
     end
     
-    subgraph "Technical Stakeholders"
-        PE[Platform Engineers]
-        DE[Development Teams]
-        SEC[Security Team]
-        OPS[Operations Team]
+    %% ===== TECHNICAL STAKEHOLDERS =====
+    subgraph technical["Technical Stakeholders"]
+        PE["Platform Engineers"]
+        DE["Development Teams"]
+        SEC["Security Team"]
+        OPS["Operations Team"]
     end
     
-    subgraph "Business Stakeholders"
-        PM[Project Managers]
-        BU[Business Units]
+    %% ===== BUSINESS STAKEHOLDERS =====
+    subgraph business["Business Stakeholders"]
+        PM["Project Managers"]
+        BU["Business Units"]
     end
     
-    CTO -->|Strategic Direction| PE
-    CISO -->|Security Requirements| SEC
-    CFO -->|Budget Approval| PE
+    %% ===== RELATIONSHIPS =====
+    CTO -->|strategic direction| PE
+    CISO -->|security requirements| SEC
+    CFO -->|budget approval| PE
     
-    PE -->|Platform Services| DE
-    SEC -->|Security Controls| PE
-    OPS -->|Operational Support| PE
+    PE -->|platform services| DE
+    SEC -->|security controls| PE
+    OPS -->|operational support| PE
     
-    PM -->|Project Requirements| DE
-    BU -->|Business Needs| PM
+    PM -->|project requirements| DE
+    BU -->|business needs| PM
     
-    DE -->|Feedback| PE
+    DE -->|feedback| PE
     
-    style PE fill:#4CAF50,color:#fff
-    style DE fill:#2196F3,color:#fff
-    style SEC fill:#FF9800,color:#fff
-    style OPS fill:#9C27B0,color:#fff
+    %% ===== CLASS DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF
+    
+    %% ===== CLASS ASSIGNMENTS =====
+    class PE,DE primary
+    class SEC,OPS secondary
+    class CTO,CISO,CFO external
+    class PM,BU datastore
+    
+    %% ===== SUBGRAPH STYLES =====
+    style executives fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style technical fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style business fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Stakeholder Registry
@@ -208,70 +230,96 @@ graph TB
 ### Business Capability Model
 
 ```mermaid
+---
+title: Business Capability Model
+---
 graph TB
-    subgraph "Level 0: Developer Experience Platform"
-        L0[DevExp-DevBox<br/>Landing Zone Accelerator]
+    %% ===== LEVEL 0: ROOT =====
+    subgraph level0["Level 0: Developer Experience Platform"]
+        L0["DevExp-DevBox<br/>Landing Zone Accelerator"]
     end
     
-    subgraph "Level 1: Core Capability Domains"
-        SEC[Security<br/>Management]
-        MON[Monitoring &<br/>Observability]
-        CON[Connectivity<br/>Management]
-        WRK[Workload<br/>Management]
+    %% ===== LEVEL 1: CORE DOMAINS =====
+    subgraph level1["Level 1: Core Capability Domains"]
+        SEC["Security<br/>Management"]
+        MON["Monitoring &<br/>Observability"]
+        CON["Connectivity<br/>Management"]
+        WRK["Workload<br/>Management"]
     end
     
-    subgraph "Level 2: Security Capabilities"
-        SEC1[Secrets Management]
-        SEC2[Identity & Access]
-        SEC3[Compliance Controls]
+    %% ===== LEVEL 2: SECURITY =====
+    subgraph level2sec["Level 2: Security Capabilities"]
+        SEC1["Secrets Management"]
+        SEC2["Identity & Access"]
+        SEC3["Compliance Controls"]
     end
     
-    subgraph "Level 2: Monitoring Capabilities"
-        MON1[Log Analytics]
-        MON2[Diagnostics]
-        MON3[Alerting]
+    %% ===== LEVEL 2: MONITORING =====
+    subgraph level2mon["Level 2: Monitoring Capabilities"]
+        MON1["Log Analytics"]
+        MON2["Diagnostics"]
+        MON3["Alerting"]
     end
     
-    subgraph "Level 2: Connectivity Capabilities"
-        CON1[Network Provisioning]
-        CON2[Network Isolation]
-        CON3[Hybrid Connectivity]
+    %% ===== LEVEL 2: CONNECTIVITY =====
+    subgraph level2con["Level 2: Connectivity Capabilities"]
+        CON1["Network Provisioning"]
+        CON2["Network Isolation"]
+        CON3["Hybrid Connectivity"]
     end
     
-    subgraph "Level 2: Workload Capabilities"
-        WRK1[DevCenter Management]
-        WRK2[Project Management]
-        WRK3[Pool Management]
-        WRK4[Catalog Management]
+    %% ===== LEVEL 2: WORKLOAD =====
+    subgraph level2wrk["Level 2: Workload Capabilities"]
+        WRK1["DevCenter Management"]
+        WRK2["Project Management"]
+        WRK3["Pool Management"]
+        WRK4["Catalog Management"]
     end
     
-    L0 --> SEC
-    L0 --> MON
-    L0 --> CON
-    L0 --> WRK
+    %% ===== RELATIONSHIPS =====
+    L0 -->|manages| SEC
+    L0 -->|monitors| MON
+    L0 -->|connects| CON
+    L0 -->|orchestrates| WRK
     
-    SEC --> SEC1
-    SEC --> SEC2
-    SEC --> SEC3
+    SEC -->|includes| SEC1
+    SEC -->|includes| SEC2
+    SEC -->|includes| SEC3
     
-    MON --> MON1
-    MON --> MON2
-    MON --> MON3
+    MON -->|includes| MON1
+    MON -->|includes| MON2
+    MON -->|includes| MON3
     
-    CON --> CON1
-    CON --> CON2
-    CON --> CON3
+    CON -->|includes| CON1
+    CON -->|includes| CON2
+    CON -->|includes| CON3
     
-    WRK --> WRK1
-    WRK --> WRK2
-    WRK --> WRK3
-    WRK --> WRK4
+    WRK -->|includes| WRK1
+    WRK -->|includes| WRK2
+    WRK -->|includes| WRK3
+    WRK -->|includes| WRK4
     
-    style L0 fill:#1976D2,color:#fff
-    style SEC fill:#D32F2F,color:#fff
-    style MON fill:#388E3C,color:#fff
-    style CON fill:#7B1FA2,color:#fff
-    style WRK fill:#F57C00,color:#fff
+    %% ===== CLASS DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef security fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef monitoring fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef connectivity fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef workload fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    %% ===== CLASS ASSIGNMENTS =====
+    class L0 primary
+    class SEC,SEC1,SEC2,SEC3 security
+    class MON,MON1,MON2,MON3 monitoring
+    class CON,CON1,CON2,CON3 connectivity
+    class WRK,WRK1,WRK2,WRK3,WRK4 workload
+    
+    %% ===== SUBGRAPH STYLES =====
+    style level0 fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style level1 fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style level2sec fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style level2mon fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style level2con fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style level2wrk fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Capability to Landing Zone Mapping
@@ -299,42 +347,65 @@ graph TB
 ### Developer Onboarding Value Stream
 
 ```mermaid
+---
+title: Developer Onboarding Value Stream
+---
 graph LR
-    subgraph "Stage 1: Request"
-        A1[Developer<br/>Joins Team]
-        A2[Access<br/>Request]
+    %% ===== STAGE 1: REQUEST =====
+    subgraph stage1["Stage 1: Request"]
+        A1["Developer<br/>Joins Team"]
+        A2["Access<br/>Request"]
     end
     
-    subgraph "Stage 2: Provisioning"
-        B1[Azure AD<br/>Group Assignment]
-        B2[Project<br/>Access Granted]
-        B3[Dev Box<br/>Provisioned]
+    %% ===== STAGE 2: PROVISIONING =====
+    subgraph stage2["Stage 2: Provisioning"]
+        B1["Azure AD<br/>Group Assignment"]
+        B2["Project<br/>Access Granted"]
+        B3["Dev Box<br/>Provisioned"]
     end
     
-    subgraph "Stage 3: Configuration"
-        C1[Image<br/>Downloaded]
-        C2[Tools<br/>Installed]
-        C3[Secrets<br/>Configured]
+    %% ===== STAGE 3: CONFIGURATION =====
+    subgraph stage3["Stage 3: Configuration"]
+        C1["Image<br/>Downloaded"]
+        C2["Tools<br/>Installed"]
+        C3["Secrets<br/>Configured"]
     end
     
-    subgraph "Stage 4: Productive"
-        D1[Developer<br/>Coding]
-        D2[Feedback<br/>Loop]
+    %% ===== STAGE 4: PRODUCTIVE =====
+    subgraph stage4["Stage 4: Productive"]
+        D1["Developer<br/>Coding"]
+        D2["Feedback<br/>Loop"]
     end
     
-    A1 --> A2
-    A2 --> B1
-    B1 --> B2
-    B2 --> B3
-    B3 --> C1
-    C1 --> C2
-    C2 --> C3
-    C3 --> D1
-    D1 --> D2
-    D2 -.->|Improvements| B3
+    %% ===== FLOW CONNECTIONS =====
+    A1 -->|initiates| A2
+    A2 -->|triggers| B1
+    B1 -->|enables| B2
+    B2 -->|creates| B3
+    B3 -->|starts| C1
+    C1 -->|installs| C2
+    C2 -->|configures| C3
+    C3 -->|enables| D1
+    D1 -->|generates| D2
+    D2 -.->|improvements| B3
     
-    style A1 fill:#E3F2FD
-    style D1 fill:#E8F5E9
+    %% ===== CLASS DEFINITIONS =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000
+    
+    %% ===== CLASS ASSIGNMENTS =====
+    class A1,A2 input
+    class B1,B2,B3 primary
+    class C1,C2,C3 secondary
+    class D1,D2 trigger
+    
+    %% ===== SUBGRAPH STYLES =====
+    style stage1 fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style stage2 fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style stage3 fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style stage4 fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ### Value Stream Metrics
@@ -350,6 +421,9 @@ graph LR
 ### Environment Provisioning Lifecycle
 
 ```mermaid
+---
+title: Environment Provisioning Lifecycle
+---
 stateDiagram-v2
     [*] --> Requested: Developer Request
     Requested --> Approved: Manager Approval
