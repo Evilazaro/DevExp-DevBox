@@ -80,7 +80,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Install Azure Developer CLI
-        uses: Azure/setup-azd@c495e71ba59e44bfaaac10a32c8ee90d191ca4a3 # v2.2.1
+        uses: Azure/setup-azd@v2.2.1
 
       - name: Build Bicep Templates
         id: build
