@@ -44,14 +44,14 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🏗️ Infrastructure Overview](#️-infrastructure-overview)
-- [🏛️ Landing Zone Design](#️-landing-zone-design)
+- [🏗️ Infrastructure Overview](#%EF%B8%8F-infrastructure-overview)
+- [🏛️ Landing Zone Design](#%EF%B8%8F-landing-zone-design)
 - [🌐 Network Architecture](#-network-architecture)
 - [👤 Identity & Access](#-identity--access)
 - [🔒 Security Architecture](#-security-architecture)
 - [📊 Monitoring & Observability](#-monitoring--observability)
-- [⚙️ CI/CD Infrastructure](#️-cicd-infrastructure)
-- [🛠️ Deployment Tools](#️-deployment-tools)
+- [⚙️ CI/CD Infrastructure](#%EF%B8%8F-cicd-infrastructure)
+- [🛠️ Deployment Tools](#%EF%B8%8F-deployment-tools)
 - [💻 DevOps Practices](#-devops-practices)
 - [📚 References](#-references)
 - [📖 Glossary](#-glossary)
@@ -1020,6 +1020,6 @@ and aligns with the Technology Architecture domain of the BDAT framework._
 <div align="center">
 
 **[← Application Architecture](./03-application-architecture.md)** |
-**[⬆️ Back to Top](#-technology-architecture)**
+**[⬆️ Back to Top](#%EF%B8%8F-technology-architecture)**
 
 </div>

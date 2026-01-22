@@ -44,11 +44,11 @@ tags:
 ## 📑 Table of Contents
 
 - [📊 Data Overview](#-data-overview)
-- [⚙️ Configuration Data Model](#️-configuration-data-model)
+- [⚙️ Configuration Data Model](#%EF%B8%8F-configuration-data-model)
 - [🔐 Secrets Management](#-secrets-management)
 - [📱 Telemetry & Diagnostics](#-telemetry--diagnostics)
 - [🔀 Data Flow Diagrams](#-data-flow-diagrams)
-- [🛡️ Data Governance](#️-data-governance)
+- [🛡️ Data Governance](#%EF%B8%8F-data-governance)
 - [📄 Schema Documentation](#-schema-documentation)
 - [📚 References](#-references)
 - [📖 Glossary](#-glossary)

@@ -43,7 +43,7 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🏛️ Architecture Overview](#️-architecture-overview)
+- [🏛️ Architecture Overview](#%EF%B8%8F-architecture-overview)
 - [📦 Module Catalog](#-module-catalog)
 - [🔗 Module Dependencies](#-module-dependencies)
 - [🚀 Deployment Orchestration](#-deployment-orchestration)
@@ -1077,7 +1077,7 @@ and aligns with the Application Architecture domain of the BDAT framework._
 <div align="center">
 
 **[← Data Architecture](./02-data-architecture.md)** |
-**[⬆️ Back to Top](#-application-architecture)** |
+**[⬆️ Back to Top](#%EF%B8%8F-application-architecture)** |
 **[🏗️ Technology Architecture →](./04-technology-architecture.md)**
 
 </div>
