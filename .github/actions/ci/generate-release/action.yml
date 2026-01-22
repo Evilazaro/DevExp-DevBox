@@ -5,23 +5,25 @@
 # =============================================================================
 
 name: Generate Release
-description: Generate a release based on the build outputs
+description: |
+  Generates semantic version numbers based on branch-based release strategy.
+  Supports main, feature/*, and fix/* branches with overflow handling.
 
 outputs:
   new_version:
-    description: "The new version generated for the release"
+    description: "The new semantic version generated for the release (e.g., v1.2.3)"
     value: ${{ steps.calculate_next_version.outputs.new_version }}
   release_type:
-    description: "The type of release (major, minor, patch, etc.)"
+    description: "The type of release based on branch (main, feature, fix, or none)"
     value: ${{ steps.determine_release_type.outputs.release_type }}
   previous_tag:
-    description: "The last tag before this release"
+    description: "The last tag before this release (e.g., v1.2.2)"
     value: ${{ steps.get_tag.outputs.tag }}
   should_release:
-    description: "Whether a release should be created"
+    description: "Whether a release tag should be created (true/false)"
     value: ${{ steps.determine_release_type.outputs.should_release }}
   should_publish:
-    description: "Whether the release should be published on GitHub"
+    description: "Whether the release should be published on GitHub (true/false)"
     value: ${{ steps.determine_release_type.outputs.should_publish }}
   branch_name:
     description: "The name of the branch being built"
@@ -30,25 +32,13 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: Setup Git identity
+    - name: Setup Git Identity
       shell: bash
       run: |
-        git config user.name "github-actions"
-        git config user.email "github-actions@github.com"
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
 
-    - name: Debug trigger information
-      shell: bash
-      run: |
-        echo "🐛 Debug Information:"
-        echo "Event name: ${{ github.event_name }}"
-        echo "Ref: ${{ github.ref }}"
-        echo "Head ref: ${{ github.head_ref }}"
-        echo "Base ref: ${{ github.base_ref }}"
-        echo "Repository: ${{ github.repository }}"
-        echo "Actor: ${{ github.actor }}"
-        echo "SHA: ${{ github.sha }}"
-
-    - name: Get branch information
+    - name: Get Branch Information
       shell: bash
       id: branch_info
       run: |
@@ -61,29 +51,29 @@ runs:
         fi
 
         echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
-        echo "✅ Current branch: $branch_name"
+        echo "::notice title=Branch::Current branch: $branch_name"
 
-    - name: Get latest tag
+    - name: Get Latest Tag
       shell: bash
       id: get_tag
       run: |
         # Fetch all tags
         git fetch --tags --force
+
         # Get the latest tag matching v<major>.<minor>.<patch> optionally with a suffix
         tag=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*'* | sort -V | tail -n 1)
         if [ -z "$tag" ]; then
           tag="v0.0.0"
         fi
 
-        # If tag matches v<major>.<minor>.<patch>-<suffix>, extract only v<major>.<minor>.<patch>
+        # Extract base version without suffix
         base_tag=$(echo "$tag" | sed -E 's/^(v[0-9]+\.[0-9]+\.[0-9]+).*$/\1/')
 
         echo "tag=$tag" >> $GITHUB_OUTPUT
         echo "base_tag=$base_tag" >> $GITHUB_OUTPUT
-        echo "Previous tag: $base_tag"
-        echo "✅ Latest tag: $tag"
+        echo "::notice title=Previous Tag::Latest tag: $tag (base: $base_tag)"
 
-    - name: Determine release type and strategy
+    - name: Determine Release Type
       shell: bash
       id: determine_release_type
       run: |
@@ -95,31 +85,27 @@ runs:
 
         # For PR events, only create pre-releases
         if [ "${{ github.event_name }}" = "pull_request" ]; then
-          echo "📋 Pull Request detected - Creating pre-release"
+          echo "::notice title=PR Build::Pull Request detected - Creating pre-release"
           should_publish="false"
         fi
 
         if [[ "$branch_name" == "main" ]]; then
-          # Main branch: conditional major increment with new rule
           release_type="main"
           should_publish="true"
-          echo "✅ Main branch detected - Conditional major release strategy with new rule"
+          echo "::notice title=Release Type::Main branch - Conditional major release strategy"
           
         elif [[ "$branch_name" == feature/* ]]; then
-          # Feature branch: patch increment with overflow logic
           release_type="feature"
           should_publish="false"
-          echo "✅ Feature branch detected - Patch increment with overflow strategy (no release publication)"
+          echo "::notice title=Release Type::Feature branch - Patch increment with overflow"
           
         elif [[ "$branch_name" == fix/* ]]; then
-          # Fix branch: minor increment with overflow logic
           release_type="fix"
           should_publish="false"
-          echo "✅ Fix branch detected - Minor increment with overflow strategy (no release publication)"
+          echo "::notice title=Release Type::Fix branch - Minor increment with overflow"
           
         else
-          echo "⚠️ Unsupported branch pattern: $branch_name"
-          echo "Only main, feature/*, and fix/* branches are supported for releases"
+          echo "::warning title=Unsupported Branch::Branch pattern '$branch_name' not supported for releases"
           should_release="false"
           should_publish="false"
           release_type="none"
@@ -129,11 +115,7 @@ runs:
         echo "should_release=$should_release" >> $GITHUB_OUTPUT
         echo "should_publish=$should_publish" >> $GITHUB_OUTPUT
 
-        echo "📋 Release Summary:"
-        echo "  - Will create tag and version: $should_release"
-        echo "  - Will publish GitHub release: $should_publish"
-
-    - name: Count commits since last tag
+    - name: Count Commits Since Last Tag
       shell: bash
       id: count_commits
       if: steps.determine_release_type.outputs.should_release == 'true'
