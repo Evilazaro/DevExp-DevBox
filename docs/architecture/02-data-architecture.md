@@ -626,7 +626,8 @@ sequenceDiagram
 
 ### JSON Schema References
 
-#### Security Schema (`security.schema.json`)
+<details>
+<summary><strong>📜 Security Schema (<code>security.schema.json</code>)</strong></summary>
 
 ```json
 {
@@ -660,7 +661,10 @@ sequenceDiagram
 }
 ```
 
-#### DevCenter Schema (`devcenter.schema.json`) - Key Definitions
+</details>
+
+<details>
+<summary><strong>📜 DevCenter Schema (<code>devcenter.schema.json</code>) - Key Definitions</strong></summary>
 
 ```json
 {
@@ -697,6 +701,8 @@ sequenceDiagram
   }
 }
 ```
+
+</details>
 
 ### Schema Validation
 
