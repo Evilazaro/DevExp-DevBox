@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # setUp.sh - Sets up Azure Dev Box environment with GitHub integration
 #
@@ -25,10 +25,16 @@
 #     - Azure CLI (az)
 #     - Azure Developer CLI (azd)
 #     - GitHub CLI (gh) [if using GitHub]
+#     - jq (JSON processor)
 #     - Valid authentication for chosen platform
+#
+# EXIT CODES
+#     0   - Success
+#     1   - General error (missing dependencies, validation failure)
+#     130 - Script interrupted by user (SIGINT/SIGTERM)
 #     
 # Author: DevExp Team
-# Last Updated: 2023-05-15
+# Last Updated: 2026-01-22
 
 # Script Configuration
 set -euo pipefail  # Exit on error, undefined vars, pipe failures
@@ -61,7 +67,20 @@ ADO_TOKEN=""
 # Helper Functions
 #######################################
 
-# Logging function with different levels and colors
+#######################################
+# Outputs a formatted log message with timestamp and color coding.
+#
+# Arguments:
+#   $1 - message: The message to display
+#   $2 - level: Log level (Info, Warning, Error, Success). Default: Info
+#
+# Outputs:
+#   Writes formatted message to stdout (or stderr for Error level)
+#
+# Example:
+#   write_log_message "Starting process" "Info"
+#   write_log_message "Something went wrong" "Error"
+#######################################
 write_log_message() {
     local message="$1"
     local level="${2:-Info}"
@@ -84,7 +103,21 @@ write_log_message() {
     esac
 }
 
-# Check if a command is available in PATH
+#######################################
+# Checks if a command is available in the system PATH.
+#
+# Arguments:
+#   $1 - command: The command name to check
+#
+# Returns:
+#   0 - Command is available
+#   1 - Command not found
+#
+# Example:
+#   if test_command_availability "az"; then
+#     echo "Azure CLI is installed"
+#   fi
+#######################################
 test_command_availability() {
     local command="$1"
     
@@ -95,7 +128,15 @@ test_command_availability() {
     return 0
 }
 
-# Show help message
+#######################################
+# Displays the help message with usage instructions.
+#
+# Arguments:
+#   None
+#
+# Outputs:
+#   Writes usage information to stdout
+#######################################
 show_help() {
     cat << EOF
 setUp.sh - Sets up Azure Dev Box environment with source control integration
@@ -120,7 +161,21 @@ REQUIREMENTS:
 EOF
 }
 
-# Validate source control platform
+#######################################
+# Validates the source control platform parameter.
+#
+# Arguments:
+#   $1 - platform: The source control platform to validate
+#
+# Returns:
+#   0 - Valid platform (github, adogit, or empty)
+#   1 - Invalid platform
+#
+# Example:
+#   if validate_source_control "github"; then
+#     echo "Valid platform"
+#   fi
+#######################################
 validate_source_control() {
     local platform="$1"
     
@@ -137,7 +192,22 @@ validate_source_control() {
 # Authentication Functions
 #######################################
 
-# Test Azure CLI authentication
+#######################################
+# Verifies Azure CLI authentication status and subscription state.
+#
+# Globals:
+#   None
+#
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Successfully authenticated with enabled subscription
+#   1 - Not authenticated or subscription not enabled
+#
+# Outputs:
+#   Writes subscription details to stdout on success
+#######################################
 test_azure_authentication() {
     local az_context
     
@@ -166,7 +236,19 @@ test_azure_authentication() {
     return 0
 }
 
-# Test Azure DevOps authentication
+#######################################
+# Verifies Azure DevOps CLI authentication status.
+#
+# Globals:
+#   None
+#
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Successfully authenticated
+#   1 - Not authenticated
+#######################################
 test_ado_authentication() {
     write_log_message "Verifying Azure DevOps authentication..." "Info"
     
@@ -180,7 +262,19 @@ test_ado_authentication() {
     return 0
 }
 
-# Test GitHub CLI authentication
+#######################################
+# Verifies GitHub CLI authentication status.
+#
+# Globals:
+#   None
+#
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Successfully authenticated
+#   1 - Not authenticated
+#######################################
 test_github_authentication() {
     write_log_message "Verifying GitHub authentication..." "Info"
     
@@ -194,7 +288,20 @@ test_github_authentication() {
     return 0
 }
 
-# Get GitHub token securely
+#######################################
+# Retrieves GitHub token securely from environment or gh CLI.
+#
+# Globals:
+#   GITHUB_TOKEN - Set with the retrieved token
+#   KEY_VAULT_SECRET - Checked first, set if retrieved from gh CLI
+#
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Token retrieved successfully
+#   1 - Failed to retrieve token
+#######################################
 get_secure_github_token() {
     write_log_message "Retrieving GitHub token..." "Info"
 
@@ -221,7 +328,21 @@ get_secure_github_token() {
     return 0
 }
 
-# Get Azure DevOps token securely
+#######################################
+# Retrieves Azure DevOps PAT securely from environment or user input.
+#
+# Globals:
+#   ADO_TOKEN - Set with the retrieved token
+#   KEY_VAULT_SECRET - Checked first for existing token
+#   AZURE_DEVOPS_EXT_PAT - Exported with the token value
+#
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Token retrieved successfully
+#   1 - Failed to retrieve token
+#######################################
 get_secure_ado_git_token() {
     write_log_message "Retrieving Azure DevOps token..." "Info"
     
@@ -261,7 +382,25 @@ get_secure_ado_git_token() {
 # Azure Configuration Functions
 #######################################
 
-# Initialize Azure Developer CLI environment
+#######################################
+# Initializes the Azure Developer CLI environment with source control token.
+#
+# Creates the environment directory structure and stores the appropriate
+# token based on the selected source control platform.
+#
+# Globals:
+#   ENV_NAME - Name of the environment to initialize
+#   SOURCE_CONTROL_PLATFORM - Selected platform (github or adogit)
+#   GITHUB_TOKEN - GitHub token (if using GitHub)
+#   ADO_TOKEN - Azure DevOps token (if using adogit)
+#
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Environment initialized successfully
+#   1 - Failed to initialize environment
+#######################################
 initialize_azd_environment() {
     local pat token_type masked_token
     local env_dir env_file
@@ -329,7 +468,19 @@ initialize_azd_environment() {
     return 0
 }
 
-# Start Azure resource provisioning
+#######################################
+# Starts Azure resource provisioning using Azure Developer CLI.
+#
+# Globals:
+#   ENV_NAME - Name of the environment to provision
+#
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Provisioning completed successfully
+#   1 - Provisioning failed
+#######################################
 start_azure_provisioning() {
     write_log_message "Starting Azure resource provisioning with azd..." "Info"
     
@@ -348,7 +499,18 @@ start_azure_provisioning() {
     return 0
 }
 
-# Interactive source control platform selection
+#######################################
+# Interactively prompts user to select source control platform.
+#
+# Globals:
+#   SOURCE_CONTROL_PLATFORM - Set with user's selection
+#
+# Arguments:
+#   None
+#
+# Returns:
+#   Always returns 0 (loops until valid selection)
+#######################################
 select_source_control_platform() {
     local selection valid_selection=false
     
@@ -384,7 +546,20 @@ select_source_control_platform() {
 # Main Script Logic
 #######################################
 
-# Parse command line arguments
+#######################################
+# Parses command line arguments and validates required parameters.
+#
+# Globals:
+#   ENV_NAME - Set from -e/--env-name argument
+#   SOURCE_CONTROL_PLATFORM - Set from -s/--source-control argument
+#
+# Arguments:
+#   $@ - Command line arguments passed to the script
+#
+# Returns:
+#   0 - Arguments parsed successfully
+#   Exits with 1 on validation failure
+#######################################
 parse_arguments() {
     while [[ $# -gt 0 ]]; do
         case $1 in
@@ -426,7 +601,27 @@ parse_arguments() {
     fi
 }
 
-# Main execution function
+#######################################
+# Main execution function - orchestrates the setup workflow.
+#
+# Performs the following steps:
+#   1. Parse command line arguments
+#   2. Verify required tools are installed
+#   3. Verify Azure authentication
+#   4. Verify source control authentication
+#   5. Initialize azd environment
+#
+# Globals:
+#   ENV_NAME - Environment name from arguments
+#   SOURCE_CONTROL_PLATFORM - Platform from arguments
+#
+# Arguments:
+#   $@ - Command line arguments passed to the script
+#
+# Returns:
+#   0 - Setup completed successfully
+#   1 - Setup failed
+#######################################
 main() {
     local required_tools=("az" "azd" "jq")
     local tool
