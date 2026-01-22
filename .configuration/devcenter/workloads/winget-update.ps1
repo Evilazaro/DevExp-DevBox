@@ -235,12 +235,12 @@ function Initialize-WinGetSources {
     param()
 
     try {
-        $sources = Invoke-WinGetCommand -Arguments @('source', 'list', '--disable-interactivity')
+        $sources = Invoke-WinGetCommand -CommandArgs @('source', 'list', '--disable-interactivity')
         if ($sources -notmatch '(?im)^\s*msstore\b') {
             Write-LogInfo "msstore source not found; resetting..."
-            $null = Invoke-WinGetCommand -Arguments @('source', 'reset', '--force', 'msstore', '--disable-interactivity')
+            $null = Invoke-WinGetCommand -CommandArgs @('source', 'reset', '--force', 'msstore', '--disable-interactivity')
         }
-        $null = Invoke-WinGetCommand -Arguments @('source', 'update', '--disable-interactivity')
+        $null = Invoke-WinGetCommand -CommandArgs @('source', 'update', '--disable-interactivity')
     }
     catch {
         Write-LogWarning "Winget source operations reported issues; continuing..."
