@@ -1,14 +1,44 @@
-@description('Key Vault Settings')
-param keyvaultSettings object
+@description('Key Vault configuration settings')
+param keyvaultSettings KeyVaultSettings
 
 @description('Key Vault Location')
 param location string = resourceGroup().location
 
 @description('Key Vault Tags')
-param tags object
+param tags Tags
 
 @description('Unique string for resource naming')
 param unique string = uniqueString(resourceGroup().id, location, subscription().subscriptionId, deployer().tenantId)
+
+@description('Key Vault configuration type')
+type KeyVaultSettings = {
+  @description('Key Vault instance configuration')
+  keyVault: KeyVaultConfig
+}
+
+@description('Key Vault instance configuration type')
+type KeyVaultConfig = {
+  @description('Name of the Key Vault')
+  name: string
+
+  @description('Flag to enable purge protection')
+  enablePurgeProtection: bool
+
+  @description('Flag to enable soft delete')
+  enableSoftDelete: bool
+
+  @description('Number of days to retain deleted vaults')
+  softDeleteRetentionInDays: int
+
+  @description('Flag to enable RBAC authorization')
+  enableRbacAuthorization: bool
+}
+
+@description('Tags to apply to resources')
+type Tags = {
+  @description('Wildcard property for any tag key-value pairs')
+  *: string
+}
 
 @description('Azure Key Vault')
 resource keyVault 'Microsoft.KeyVault/vaults@2025-05-01' = {

@@ -30,7 +30,13 @@ type LandingZone = {
   create: bool
 
   @description('Tags to apply to the landing zone resources')
-  tags: object
+  tags: Tags
+}
+
+@description('Tags type for resource tagging')
+type Tags = {
+  @description('Wildcard property for any tag key-value pairs')
+  *: string
 }
 
 // Variables with clear naming

@@ -21,7 +21,7 @@ param projectEnvironmentTypes ProjectEnvironmentTypeConfig[]
 param projectPools PoolConfig[]
 
 @description('Network connection name for the project')
-param projectNetwork object
+param projectNetwork ProjectNetwork
 
 @description('Secret identifier for Git repository authentication')
 @secure()
@@ -34,10 +34,52 @@ param securityResourceGroupName string
 param identity Identity
 
 @description('Tags to be applied to all resources')
-param tags object = {}
+param tags Tags = {}
 
 @description('Azure region for resource deployment')
 param location string = resourceGroup().location
+
+@description('Tags type for resource tagging')
+type Tags = {
+  @description('Wildcard property for any tag key-value pairs')
+  *: string
+}
+
+@description('Network configuration for the project')
+type ProjectNetwork = {
+  @description('Name of the virtual network')
+  name: string?
+
+  @description('Flag indicating whether to create the network')
+  create: bool?
+
+  @description('Name of the resource group containing the network')
+  resourceGroupName: string?
+
+  @description('Type of virtual network (Managed or Unmanaged)')
+  virtualNetworkType: string
+
+  @description('Address prefixes for the virtual network')
+  addressPrefixes: string[]?
+
+  @description('Subnet configurations')
+  subnets: Subnet[]?
+}
+
+@description('Subnet configuration')
+type Subnet = {
+  @description('Name of the subnet')
+  name: string
+
+  @description('Subnet properties')
+  properties: SubnetProperties?
+}
+
+@description('Subnet properties configuration')
+type SubnetProperties = {
+  @description('Address prefix for the subnet')
+  addressPrefix: string
+}
 
 @description('Identity configuration for the project')
 type Identity = {

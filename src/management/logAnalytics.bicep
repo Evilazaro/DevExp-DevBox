@@ -7,7 +7,13 @@ param name string
 param location string = resourceGroup().location
 
 @description('Tags to apply to the Log Analytics Workspace')
-param tags object = {}
+param tags Tags = {}
+
+@description('Tags type for resource tagging')
+type Tags = {
+  @description('Wildcard property for any tag key-value pairs')
+  *: string
+}
 
 @description('The SKU of the Log Analytics Workspace')
 @allowed([

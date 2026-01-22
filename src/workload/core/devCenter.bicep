@@ -32,19 +32,53 @@ param location string = resourceGroup().location
 // Type definitions with proper naming conventions
 @description('DevCenter configuration type')
 type DevCenterConfig = {
+  @description('Name of the DevCenter instance')
   name: string
+
+  @description('Managed identity configuration for the DevCenter')
   identity: Identity
+
+  @description('Status for catalog item sync feature')
   catalogItemSyncEnableStatus: Status
+
+  @description('Status for Microsoft hosted network feature')
   microsoftHostedNetworkEnableStatus: Status
+
+  @description('Status for Azure Monitor agent installation feature')
   installAzureMonitorAgentEnableStatus: Status
-  tags: object
+
+  @description('Tags to apply to the DevCenter')
+  tags: Tags
 }
 
+@description('Tags type for resource tagging')
+type Tags = {
+  @description('Wildcard property for any tag key-value pairs')
+  *: string
+}
+
+@description('Virtual network configuration type')
 type VirtualNetwork = {
+  @description('Name of the virtual network')
   name: string
+
+  @description('Name of the resource group containing the virtual network')
   resourceGroupName: string
+
+  @description('Type of virtual network')
   virtualNetworkType: string
-  subnets: object[]
+
+  @description('Subnet configurations for the virtual network')
+  subnets: VirtualNetworkSubnet[]
+}
+
+@description('Subnet configuration for virtual networks')
+type VirtualNetworkSubnet = {
+  @description('Name of the subnet')
+  name: string
+
+  @description('Address prefix for the subnet')
+  addressPrefix: string
 }
 
 @description('Status type for feature toggles')
@@ -52,28 +86,46 @@ type Status = 'Enabled' | 'Disabled'
 
 @description('Identity configuration type')
 type Identity = {
+  @description('Type of managed identity (SystemAssigned, UserAssigned, or SystemAssigned,UserAssigned)')
   type: string
+
+  @description('Role assignment configuration for the identity')
   roleAssignments: RoleAssignment
 }
 
 @description('Role assignment configuration')
 type RoleAssignment = {
+  @description('Role assignments scoped to the DevCenter')
   devCenter: AzureRBACRole[]
+
+  @description('Organization-level role type configurations')
   orgRoleTypes: OrgRoleType[]
 }
 
 @description('Azure RBAC role definition')
 type AzureRBACRole = {
+  @description('The GUID of the role definition')
   id: string
+
+  @description('Display name of the role')
   name: string
+
+  @description('Scope at which the role should be assigned')
   scope: string
 }
 
 @description('Organization role type configuration')
 type OrgRoleType = {
+  @description('Type of organization role')
   type: string
+
+  @description('Azure AD group object ID')
   azureADGroupId: string
+
+  @description('Azure AD group display name')
   azureADGroupName: string
+
+  @description('Array of Azure RBAC roles to assign')
   azureRBACRoles: AzureRBACRole[]
 }
 
