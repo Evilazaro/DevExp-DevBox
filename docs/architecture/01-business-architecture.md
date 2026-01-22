@@ -468,37 +468,59 @@ sequenceDiagram
 ### Requirements Traceability
 
 ```mermaid
+---
+title: Requirements Traceability Matrix
+---
 flowchart TD
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== BUSINESS GOALS =====
     subgraph Business["Business Goals"]
-        BG1[Fast Onboarding]
-        BG2[Security Compliance]
-        BG3[Cost Management]
+        BG1["Fast Onboarding"]
+        BG2["Security Compliance"]
+        BG3["Cost Management"]
     end
 
+    %% ===== FUNCTIONAL REQUIREMENTS =====
     subgraph Functional["Functional Requirements"]
-        FR1[FR-001: DevCenter]
-        FR2[FR-002: Pools]
-        FR3[FR-003: Key Vault]
-        FR4[FR-004: RBAC]
+        FR1["FR-001: DevCenter"]
+        FR2["FR-002: Pools"]
+        FR3["FR-003: Key Vault"]
+        FR4["FR-004: RBAC"]
     end
 
+    %% ===== TECHNICAL COMPONENTS =====
     subgraph Technical["Technical Components"]
-        TC1[devCenter.bicep]
-        TC2[projectPool.bicep]
-        TC3[keyVault.bicep]
-        TC4[roleAssignment.bicep]
+        TC1["devCenter.bicep"]
+        TC2["projectPool.bicep"]
+        TC3["keyVault.bicep"]
+        TC4["roleAssignment.bicep"]
     end
 
-    BG1 --> FR1
-    BG1 --> FR2
-    BG2 --> FR3
-    BG2 --> FR4
-    BG3 --> FR2
+    %% ===== TRACEABILITY LINKS =====
+    BG1 -->|"requires"| FR1
+    BG1 -->|"requires"| FR2
+    BG2 -->|"requires"| FR3
+    BG2 -->|"requires"| FR4
+    BG3 -->|"requires"| FR2
 
-    FR1 --> TC1
-    FR2 --> TC2
-    FR3 --> TC3
-    FR4 --> TC4
+    FR1 -->|"implemented by"| TC1
+    FR2 -->|"implemented by"| TC2
+    FR3 -->|"implemented by"| TC3
+    FR4 -->|"implemented by"| TC4
+
+    %% ===== APPLY STYLES =====
+    class BG1,BG2,BG3 primary
+    class FR1,FR2,FR3,FR4 secondary
+    class TC1,TC2,TC3,TC4 datastore
+
+    %% ===== SUBGRAPH STYLING =====
+    style Business fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Functional fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Technical fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---
@@ -520,6 +542,9 @@ flowchart TD
 ### Success Metrics Dashboard
 
 ```mermaid
+---
+title: Resource Distribution by Landing Zone
+---
 pie showData
     title Resource Distribution by Landing Zone
     "Security" : 15
