@@ -40,17 +40,29 @@ This documentation series provides comprehensive **TOGAF Architecture Developmen
 ## 🗺️ Reading Path
 
 ```mermaid
+---
+title: TOGAF Architecture Reading Path
+---
 flowchart LR
-    A[📊 Business] --> B[🗄️ Data]
-    B --> C[🏛️ Application]
-    C --> D[⚙️ Technology]
-    D --> E[🔐 Security]
+    %% ===== DOCUMENT NODES =====
+    A["📊 Business"] -->|defines context| B["🗄️ Data"]
+    B -->|informs design| C["🏛️ Application"]
+    C -->|drives implementation| D["⚙️ Technology"]
+    D -->|requires| E["🔐 Security"]
     
-    style A fill:#E3F2FD
-    style B fill:#FFF3E0
-    style C fill:#F3E5F5
-    style D fill:#E8F5E9
-    style E fill:#FFEBEE
+    %% ===== CLASS DEFINITIONS =====
+    classDef business fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef data fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef application fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef technology fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef security fill:#6B7280,stroke:#4B5563,color:#FFFFFF
+    
+    %% ===== CLASS ASSIGNMENTS =====
+    class A business
+    class B data
+    class C application
+    class D technology
+    class E security
 ```
 
 > [!TIP]
