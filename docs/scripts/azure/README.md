@@ -25,7 +25,7 @@ tags:
 
 | Previous | Index | Next |
 |:---------|:-----:|-----:|
-| [← Scripts Index](../README.md) | [Docs Index](../../README.md) | [GitHub Scripts →](../github/README.md) |
+| [← Scripts Index](../README.md) | [Scripts Index](../README.md) | [GitHub Scripts →](../github/README.md) |
 
 </details>
 

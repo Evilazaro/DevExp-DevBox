@@ -308,7 +308,7 @@ gh secret list | findstr "AZURE_CREDENTIALS"
 
 ---
 
-[⬆️ Back to Top](#️-deletegithubsecretazurecredentialsps1)
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 
@@ -333,7 +333,7 @@ gh secret list | findstr "AZURE_CREDENTIALS"
 
 ---
 
-[⬆️ Back to Top](#️-deletegithubsecretazurecredentialsps1)
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 
@@ -349,7 +349,7 @@ gh secret list | findstr "AZURE_CREDENTIALS"
 
 <div align="center">
 
-[← createGitHubSecretAzureCredentials.ps1](create-github-secret-azure-credentials.md) | [⬆️ Back to Top](#️-deletegithubsecretazurecredentialsps1)
+[← createGitHubSecretAzureCredentials.ps1](create-github-secret-azure-credentials.md) | [⬆️ Back to Top](#-table-of-contents)
 
 *DevExp-DevBox • deleteGitHubSecretAzureCredentials.ps1 Documentation*
 
