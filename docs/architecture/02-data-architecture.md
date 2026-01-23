@@ -59,37 +59,56 @@ The DevExp-DevBox accelerator manages four primary categories of data, each with
 ### Data Categories
 
 ```mermaid
+---
+title: Data Categories Overview
+---
 flowchart TB
-    subgraph DataCategories["Data Categories"]
-        subgraph Config["Configuration Data"]
-            C1["Resource Organization"]
-            C2["Security Settings"]
-            C3["Workload Definitions"]
+    %% ===== DATA CATEGORIES =====
+    subgraph DataCategories["📊 Data Categories"]
+        %% ===== CONFIGURATION DATA =====
+        subgraph Config["⚙️ Configuration Data"]
+            C1["📁 Resource Organization"]
+            C2["🔒 Security Settings"]
+            C3["📦 Workload Definitions"]
         end
         
-        subgraph Secrets["Secrets & Credentials"]
-            S1["GitHub PAT Tokens"]
-            S2["Azure DevOps PATs"]
-            S3["Service Principal Credentials"]
+        %% ===== SECRETS & CREDENTIALS =====
+        subgraph Secrets["🔐 Secrets & Credentials"]
+            S1["🔑 GitHub PAT Tokens"]
+            S2["🎫 Azure DevOps PATs"]
+            S3["👤 Service Principal Credentials"]
         end
         
-        subgraph Telemetry["Telemetry & Diagnostics"]
-            T1["Resource Logs"]
-            T2["Metrics"]
-            T3["Activity Logs"]
+        %% ===== TELEMETRY & DIAGNOSTICS =====
+        subgraph Telemetry["📶 Telemetry & Diagnostics"]
+            T1["📝 Resource Logs"]
+            T2["📊 Metrics"]
+            T3["📋 Activity Logs"]
         end
         
-        subgraph State["Deployment State"]
-            ST1["azd Environment"]
-            ST2["Bicep Outputs"]
-            ST3["Resource IDs"]
+        %% ===== DEPLOYMENT STATE =====
+        subgraph State["💾 Deployment State"]
+            ST1["🌐 azd Environment"]
+            ST2["📄 Bicep Outputs"]
+            ST3["🆔 Resource IDs"]
         end
     end
     
-    style Config fill:#2196F3,color:#fff
-    style Secrets fill:#F44336,color:#fff
-    style Telemetry fill:#4CAF50,color:#fff
-    style State fill:#FF9800,color:#fff
+    %% ===== STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class C1,C2,C3 primary
+    class S1,S2,S3 failed
+    class T1,T2,T3 secondary
+    class ST1,ST2,ST3 datastore
+    
+    style Config fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Secrets fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Telemetry fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style State fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Data Classification Matrix
@@ -121,6 +140,9 @@ The accelerator uses YAML-based configuration files with JSON Schema validation.
 ### Entity Relationship Diagram
 
 ```mermaid
+---
+title: Configuration Data Entity Relationships
+---
 erDiagram
     LANDING_ZONES ||--o{ RESOURCE_GROUP : contains
     LANDING_ZONES {
@@ -368,36 +390,53 @@ projects:
 ### Secret Types and Lifecycle
 
 ```mermaid
+---
+title: Secret Types and Lifecycle
+---
 flowchart TB
-    subgraph Sources["Secret Sources"]
-        GH["GitHub CLI\n(gh auth token)"]
-        ADO["Azure DevOps CLI\nManual Entry"]
-        SP["Service Principal\n(az ad sp create-for-rbac)"]
+    %% ===== SECRET SOURCES =====
+    subgraph Sources["🔑 Secret Sources"]
+        GH["🐙 GitHub CLI<br/>(gh auth token)"]
+        ADO["🔷 Azure DevOps CLI<br/>Manual Entry"]
+        SP["👤 Service Principal<br/>(az ad sp create-for-rbac)"]
     end
     
-    subgraph Storage["Secret Storage"]
-        KV["Azure Key Vault\n(gha-token secret)"]
-        GHS["GitHub Secrets\n(AZURE_CREDENTIALS)"]
-        ENV["azd Environment\n(.azure/.env)"]
+    %% ===== SECRET STORAGE =====
+    subgraph Storage["🔐 Secret Storage"]
+        KV["🏛️ Azure Key Vault<br/>(gha-token secret)"]
+        GHS["📦 GitHub Secrets<br/>(AZURE_CREDENTIALS)"]
+        ENV["📄 azd Environment<br/>(.azure/.env)"]
     end
     
-    subgraph Consumers["Secret Consumers"]
-        CAT["DevCenter Catalogs\n(Private Repos)"]
-        WF["GitHub Actions\n(OIDC Auth)"]
-        DEP["azd Provision\n(Key Vault)"]
+    %% ===== SECRET CONSUMERS =====
+    subgraph Consumers["⚡ Secret Consumers"]
+        CAT["📚 DevCenter Catalogs<br/>(Private Repos)"]
+        WF["🔄 GitHub Actions<br/>(OIDC Auth)"]
+        DEP["🚀 azd Provision<br/>(Key Vault)"]
     end
     
-    GH --> ENV --> KV
-    ADO --> ENV --> KV
-    SP --> GHS
+    %% ===== CONNECTIONS =====
+    GH -->|extracts| ENV
+    ENV -->|stores| KV
+    ADO -->|provides| ENV
+    SP -->|configures| GHS
     
-    KV --> CAT
-    GHS --> WF
-    KV --> DEP
+    KV -->|authenticates| CAT
+    GHS -->|authorizes| WF
+    KV -->|provisions| DEP
     
-    style Sources fill:#FF9800,color:#fff
-    style Storage fill:#F44336,color:#fff
-    style Consumers fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class GH,ADO,SP datastore
+    class KV,GHS,ENV failed
+    class CAT,WF,DEP secondary
+    
+    style Sources fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Storage fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Consumers fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Secret Inventory
@@ -414,11 +453,14 @@ flowchart TB
 ### Key Vault Access Pattern
 
 ```mermaid
+---
+title: Key Vault Access Pattern
+---
 sequenceDiagram
-    participant DC as DevCenter
-    participant MI as Managed Identity
-    participant KV as Key Vault
-    participant CAT as Catalog (GitHub)
+    participant DC as 🏢 DevCenter
+    participant MI as 🔐 Managed Identity
+    participant KV as 🏛️ Key Vault
+    participant CAT as 📚 Catalog (GitHub)
     
     DC->>MI: Request token (SystemAssigned)
     MI-->>DC: Access token
@@ -442,39 +484,55 @@ sequenceDiagram
 All resources send diagnostic data to a centralized Log Analytics workspace for unified monitoring and analysis.
 
 ```mermaid
+---
+title: Log Analytics Data Collection
+---
 flowchart LR
-    subgraph Resources["Azure Resources"]
-        DC["DevCenter"]
-        KV["Key Vault"]
-        VN["Virtual Network"]
-        LA["Log Analytics"]
+    %% ===== AZURE RESOURCES =====
+    subgraph Resources["🏢 Azure Resources"]
+        DC["🖥️ DevCenter"]
+        KV["🔐 Key Vault"]
+        VN["🌐 Virtual Network"]
+        LA["📊 Log Analytics"]
     end
     
-    subgraph LAW["Log Analytics Workspace"]
-        LOGS["Diagnostic Logs"]
-        MET["Metrics"]
-        ACT["Activity Logs"]
+    %% ===== LOG ANALYTICS WORKSPACE =====
+    subgraph LAW["📈 Log Analytics Workspace"]
+        LOGS["📝 Diagnostic Logs"]
+        MET["📊 Metrics"]
+        ACT["📋 Activity Logs"]
     end
     
-    subgraph Solutions["Solutions"]
-        AA["AzureActivity"]
+    %% ===== SOLUTIONS =====
+    subgraph Solutions["🔧 Solutions"]
+        AA["☁️ AzureActivity"]
     end
     
-    DC -->|DiagnosticSettings| LOGS
-    KV -->|DiagnosticSettings| LOGS
-    VN -->|DiagnosticSettings| LOGS
-    LA -->|DiagnosticSettings| LOGS
+    %% ===== CONNECTIONS =====
+    DC -->|sends logs| LOGS
+    KV -->|sends logs| LOGS
+    VN -->|sends logs| LOGS
+    LA -->|sends logs| LOGS
     
-    DC -->|AllMetrics| MET
-    KV -->|AllMetrics| MET
-    VN -->|AllMetrics| MET
+    DC -->|exports metrics| MET
+    KV -->|exports metrics| MET
+    VN -->|exports metrics| MET
     
-    LOGS --> AA
-    ACT --> AA
+    LOGS -->|feeds| AA
+    ACT -->|feeds| AA
     
-    style Resources fill:#2196F3,color:#fff
-    style LAW fill:#4CAF50,color:#fff
-    style Solutions fill:#FF9800,color:#fff
+    %% ===== STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class DC,KV,VN,LA primary
+    class LOGS,MET,ACT secondary
+    class AA datastore
+    
+    style Resources fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style LAW fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Solutions fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Diagnostic Settings Configuration
@@ -573,41 +631,65 @@ flowchart TB
 ### Secrets Flow Diagram
 
 ```mermaid
+---
+title: Secrets Flow Diagram
+---
 flowchart TB
-    subgraph Setup["Setup Phase"]
-        CLI["gh auth token\nOR\nManual PAT Entry"]
-        PS["setUp.ps1 / setUp.sh"]
+    %% ===== SETUP PHASE =====
+    subgraph Setup["🔧 Setup Phase"]
+        CLI["🔑 gh auth token<br/>OR<br/>Manual PAT Entry"]
+        PS["📜 setUp.ps1 / setUp.sh"]
     end
     
-    subgraph AZD["azd Environment"]
-        ENV[".azure/{env}/.env\nKEY_VAULT_SECRET='...'"]
+    %% ===== AZD ENVIRONMENT =====
+    subgraph AZD["🌐 azd Environment"]
+        ENV["📄 .azure/{env}/.env<br/>KEY_VAULT_SECRET='...'"]
     end
     
-    subgraph Deploy["Deployment"]
-        PARAMS["main.parameters.json\n${KEY_VAULT_SECRET}"]
-        BICEP["security.bicep"]
+    %% ===== DEPLOYMENT =====
+    subgraph Deploy["🚀 Deployment"]
+        PARAMS["📋 main.parameters.json<br/>${KEY_VAULT_SECRET}"]
+        BICEP["⚙️ security.bicep"]
     end
     
-    subgraph Azure["Azure Resources"]
-        KV["Key Vault\ngha-token secret"]
-        DC["DevCenter\nsecretIdentifier reference"]
+    %% ===== AZURE RESOURCES =====
+    subgraph Azure["☁️ Azure Resources"]
+        KV["🏛️ Key Vault<br/>gha-token secret"]
+        DC["🖥️ DevCenter<br/>secretIdentifier reference"]
     end
     
-    subgraph Access["Runtime Access"]
-        CAT["Private Catalog\n(GitHub/ADO)"]
+    %% ===== RUNTIME ACCESS =====
+    subgraph Access["🔓 Runtime Access"]
+        CAT["📚 Private Catalog<br/>(GitHub/ADO)"]
     end
     
-    CLI --> PS --> ENV
-    ENV --> PARAMS --> BICEP
-    BICEP --> KV
-    KV --> DC
-    DC --> CAT
+    %% ===== CONNECTIONS =====
+    CLI -->|executes| PS
+    PS -->|configures| ENV
+    ENV -->|injects| PARAMS
+    PARAMS -->|deploys| BICEP
+    BICEP -->|creates| KV
+    KV -->|references| DC
+    DC -->|authenticates| CAT
     
-    style Setup fill:#FF9800,color:#fff
-    style AZD fill:#9C27B0,color:#fff
-    style Deploy fill:#2196F3,color:#fff
-    style Azure fill:#4CAF50,color:#fff
-    style Access fill:#F44336,color:#fff
+    %% ===== STYLES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    
+    class CLI,PS datastore
+    class ENV trigger
+    class PARAMS,BICEP primary
+    class KV,DC secondary
+    class CAT failed
+    
+    style Setup fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style AZD fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Deploy fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Azure fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Access fill:#FEE2E2,stroke:#F44336,stroke-width:2px
 ```
 
 ---

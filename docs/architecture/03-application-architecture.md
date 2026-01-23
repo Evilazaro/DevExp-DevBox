@@ -59,64 +59,85 @@ The DevExp-DevBox accelerator is an Infrastructure as Code (IaC) application bui
 ### Solution Architecture
 
 ```mermaid
+---
+title: Solution Architecture Overview
+---
 flowchart TB
-    subgraph Orchestration["Orchestration Layer"]
-        MAIN["main.bicep\n(Subscription Scope)"]
+    %% ===== ORCHESTRATION LAYER =====
+    subgraph Orchestration["🎯 Orchestration Layer"]
+        MAIN["📄 main.bicep<br/>(Subscription Scope)"]
     end
     
-    subgraph LandingZones["Landing Zone Modules"]
-        SEC["security.bicep"]
-        MON["logAnalytics.bicep"]
-        WL["workload.bicep"]
-        CONN["connectivity.bicep"]
+    %% ===== LANDING ZONE MODULES =====
+    subgraph LandingZones["🏗️ Landing Zone Modules"]
+        SEC["🔐 security.bicep"]
+        MON["📊 logAnalytics.bicep"]
+        WL["📦 workload.bicep"]
+        CONN["🌐 connectivity.bicep"]
     end
     
-    subgraph CoreResources["Core Resource Modules"]
-        KV["keyVault.bicep"]
-        LA["logAnalytics.bicep"]
-        DC["devCenter.bicep"]
-        VN["vnet.bicep"]
+    %% ===== CORE RESOURCE MODULES =====
+    subgraph CoreResources["⚙️ Core Resource Modules"]
+        KV["🔑 keyVault.bicep"]
+        LA["📈 logAnalytics.bicep"]
+        DC["🖥️ devCenter.bicep"]
+        VN["🔗 vnet.bicep"]
     end
     
-    subgraph ProjectResources["Project Modules"]
-        PROJ["project.bicep"]
-        POOL["projectPool.bicep"]
-        PCAT["projectCatalog.bicep"]
-        PENV["projectEnvironmentType.bicep"]
+    %% ===== PROJECT MODULES =====
+    subgraph ProjectResources["📁 Project Modules"]
+        PROJ["📋 project.bicep"]
+        POOL["🏊 projectPool.bicep"]
+        PCAT["📚 projectCatalog.bicep"]
+        PENV["🌍 projectEnvironmentType.bicep"]
     end
     
-    subgraph Identity["Identity Modules"]
-        DCRA["devCenterRoleAssignment.bicep"]
-        ORA["orgRoleAssignment.bicep"]
-        PIRA["projectIdentityRoleAssignment.bicep"]
-        KVA["keyVaultAccess.bicep"]
+    %% ===== IDENTITY MODULES =====
+    subgraph Identity["👤 Identity Modules"]
+        DCRA["🔐 devCenterRoleAssignment.bicep"]
+        ORA["🏢 orgRoleAssignment.bicep"]
+        PIRA["👥 projectIdentityRoleAssignment.bicep"]
+        KVA["🔑 keyVaultAccess.bicep"]
     end
     
-    MAIN --> SEC
-    MAIN --> MON
-    MAIN --> WL
+    %% ===== CONNECTIONS =====
+    MAIN -->|deploys| SEC
+    MAIN -->|deploys| MON
+    MAIN -->|deploys| WL
     
-    SEC --> KV
-    MON --> LA
-    WL --> DC
-    WL --> CONN
+    SEC -->|creates| KV
+    MON -->|creates| LA
+    WL -->|creates| DC
+    WL -->|includes| CONN
     
-    CONN --> VN
-    DC --> PROJ
-    PROJ --> POOL
-    PROJ --> PCAT
-    PROJ --> PENV
+    CONN -->|provisions| VN
+    DC -->|creates| PROJ
+    PROJ -->|deploys| POOL
+    PROJ -->|syncs| PCAT
+    PROJ -->|enables| PENV
     
-    DC --> DCRA
-    DC --> ORA
-    PROJ --> PIRA
-    SEC --> KVA
+    DC -->|assigns| DCRA
+    DC -->|assigns| ORA
+    PROJ -->|assigns| PIRA
+    SEC -->|grants| KVA
     
-    style Orchestration fill:#E91E63,color:#fff
-    style LandingZones fill:#9C27B0,color:#fff
-    style CoreResources fill:#2196F3,color:#fff
-    style ProjectResources fill:#4CAF50,color:#fff
-    style Identity fill:#FF9800,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class MAIN trigger
+    class SEC,MON,WL,CONN primary
+    class KV,LA,DC,VN secondary
+    class PROJ,POOL,PCAT,PENV secondary
+    class DCRA,ORA,PIRA,KVA datastore
+    
+    style Orchestration fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style LandingZones fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style CoreResources fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style ProjectResources fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Identity fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Module Statistics
@@ -156,32 +177,35 @@ flowchart TB
 ### Module Classification
 
 ```mermaid
+---
+title: Bicep Module Classification
+---
 mindmap
-    root((Bicep Modules))
-        Orchestration
+    root((📦 Bicep Modules))
+        🎯 Orchestration
             main.bicep
-        Landing Zones
+        🏗️ Landing Zones
             security.bicep
             workload.bicep
-        Infrastructure
+        🌐 Infrastructure
             connectivity.bicep
             vnet.bicep
             networkConnection.bicep
             resourceGroup.bicep
-        Resources
+        ⚙️ Resources
             keyVault.bicep
             secret.bicep
             logAnalytics.bicep
-        Workload
+        📦 Workload
             devCenter.bicep
             catalog.bicep
             environmentType.bicep
-        Projects
+        📁 Projects
             project.bicep
             projectPool.bicep
             projectCatalog.bicep
             projectEnvironmentType.bicep
-        Identity
+        👤 Identity
             devCenterRoleAssignment.bicep
             devCenterRoleAssignmentRG.bicep
             orgRoleAssignment.bicep

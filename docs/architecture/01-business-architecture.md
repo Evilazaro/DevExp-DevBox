@@ -86,6 +86,9 @@ The **DevExp-DevBox Landing Zone Accelerator** is an enterprise-grade infrastruc
 Modern software development organizations face significant challenges in providing consistent, secure, and rapidly deployable development environments:
 
 ```mermaid
+---
+title: Development Environment Challenges
+---
 mindmap
   root((Development Environment Challenges))
     Onboarding Delays
@@ -137,13 +140,18 @@ The DevExp-DevBox accelerator serves organizations that:
 ### Stakeholder Map
 
 ```mermaid
+---
+title: Stakeholder Map
+---
 flowchart TB
+    %% ===== EXECUTIVE STAKEHOLDERS =====
     subgraph Executive["Executive Stakeholders"]
         CTO["CTO/VP Engineering"]
         CISO["CISO/Security Director"]
         CFO["CFO/Finance Director"]
     end
     
+    %% ===== TECHNICAL STAKEHOLDERS =====
     subgraph Technical["Technical Stakeholders"]
         PE["Platform Engineers"]
         SA["Solution Architects"]
@@ -151,32 +159,47 @@ flowchart TB
         OPS["Operations Team"]
     end
     
+    %% ===== END USERS =====
     subgraph Users["End Users"]
         DEV["Developers"]
         LEAD["Tech Leads"]
         PM["Project Managers"]
     end
     
+    %% ===== EXTERNAL PARTIES =====
     subgraph External["External"]
         MS["Microsoft Support"]
         AUD["Auditors"]
     end
     
-    CTO --> PE
-    CISO --> SEC
-    CFO --> OPS
+    %% ===== RELATIONSHIPS =====
+    CTO -->|"oversees"| PE
+    CISO -->|"directs"| SEC
+    CFO -->|"manages"| OPS
     
-    PE --> DEV
-    SA --> LEAD
-    SEC --> DEV
+    PE -->|"supports"| DEV
+    SA -->|"guides"| LEAD
+    SEC -->|"enables"| DEV
     
-    AUD -.-> SEC
-    MS -.-> PE
+    AUD -.->|"audits"| SEC
+    MS -.->|"assists"| PE
     
-    style Executive fill:#2196F3,color:#fff
-    style Technical fill:#FF9800,color:#fff
-    style Users fill:#4CAF50,color:#fff
-    style External fill:#9C27B0,color:#fff
+    %% ===== NODE STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    
+    class CTO,CISO,CFO primary
+    class PE,SA,SEC,OPS secondary
+    class DEV,LEAD,PM trigger
+    class MS,AUD external
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Executive fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Technical fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Users fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style External fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 ### Stakeholder Register
@@ -207,40 +230,58 @@ flowchart TB
 ### Capability Model
 
 ```mermaid
+---
+title: Developer Platform Capabilities
+---
 flowchart TB
+    %% ===== ENVIRONMENT MANAGEMENT =====
     subgraph L1["Developer Platform Capabilities"]
         subgraph L2A["Environment Management"]
-            C1["Dev Box Provisioning"]
-            C2["Environment Configuration"]
-            C3["Image Management"]
-            C4["Pool Management"]
+            C1["🖥️ Dev Box Provisioning"]
+            C2["⚙️ Environment Configuration"]
+            C3["📦 Image Management"]
+            C4["🏊 Pool Management"]
         end
         
+        %% ===== SECURITY & GOVERNANCE =====
         subgraph L2B["Security & Governance"]
-            C5["Identity Management"]
-            C6["Access Control"]
-            C7["Secrets Management"]
-            C8["Compliance Enforcement"]
+            C5["🔐 Identity Management"]
+            C6["🛡️ Access Control"]
+            C7["🔑 Secrets Management"]
+            C8["📋 Compliance Enforcement"]
         end
         
+        %% ===== OPERATIONS & MONITORING =====
         subgraph L2C["Operations & Monitoring"]
-            C9["Resource Monitoring"]
-            C10["Cost Management"]
-            C11["Diagnostics & Logging"]
-            C12["Alerting"]
+            C9["📊 Resource Monitoring"]
+            C10["💰 Cost Management"]
+            C11["📝 Diagnostics & Logging"]
+            C12["🔔 Alerting"]
         end
         
+        %% ===== NETWORK & CONNECTIVITY =====
         subgraph L2D["Network & Connectivity"]
-            C13["Network Provisioning"]
-            C14["Network Security"]
-            C15["Hybrid Connectivity"]
+            C13["🌐 Network Provisioning"]
+            C14["🔒 Network Security"]
+            C15["🔗 Hybrid Connectivity"]
         end
     end
     
-    style L2A fill:#FF9800,color:#fff
-    style L2B fill:#F44336,color:#fff
-    style L2C fill:#4CAF50,color:#fff
-    style L2D fill:#2196F3,color:#fff
+    %% ===== STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class C1,C2,C3,C4 datastore
+    class C5,C6,C7,C8 failed
+    class C9,C10,C11,C12 secondary
+    class C13,C14,C15 primary
+    
+    style L2A fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style L2B fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style L2C fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style L2D fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ### Capability to Landing Zone Mapping
@@ -283,43 +324,69 @@ flowchart TB
 ### Primary Value Stream: Developer Onboarding
 
 ```mermaid
+---
+title: Developer Onboarding Value Stream
+---
 flowchart LR
-    subgraph Trigger["Trigger"]
-        T1["New Developer Joins"]
+    %% ===== TRIGGER =====
+    subgraph Trigger["🎯 Trigger"]
+        T1["👤 New Developer Joins"]
     end
     
-    subgraph Request["Request Phase"]
-        R1["Request Dev Box Access"]
-        R2["Assign to Project"]
-        R3["Select Dev Box Pool"]
+    %% ===== REQUEST PHASE =====
+    subgraph Request["📝 Request Phase"]
+        R1["📋 Request Dev Box Access"]
+        R2["📁 Assign to Project"]
+        R3["🏊 Select Dev Box Pool"]
     end
     
-    subgraph Provision["Provisioning Phase"]
-        P1["Create Dev Box Instance"]
-        P2["Apply DSC Configuration"]
-        P3["Clone Repositories"]
+    %% ===== PROVISIONING PHASE =====
+    subgraph Provision["⚙️ Provisioning Phase"]
+        P1["🖥️ Create Dev Box Instance"]
+        P2["🔧 Apply DSC Configuration"]
+        P3["📂 Clone Repositories"]
     end
     
-    subgraph Validate["Validation Phase"]
-        V1["Verify Tools Installed"]
-        V2["Test Connectivity"]
-        V3["Confirm Access"]
+    %% ===== VALIDATION PHASE =====
+    subgraph Validate["✅ Validation Phase"]
+        V1["🔍 Verify Tools Installed"]
+        V2["🌐 Test Connectivity"]
+        V3["🔐 Confirm Access"]
     end
     
-    subgraph Outcome["Outcome"]
-        O1["Developer Productive"]
+    %% ===== OUTCOME =====
+    subgraph Outcome["🏆 Outcome"]
+        O1["🚀 Developer Productive"]
     end
     
-    T1 --> R1 --> R2 --> R3
-    R3 --> P1 --> P2 --> P3
-    P3 --> V1 --> V2 --> V3
-    V3 --> O1
+    %% ===== CONNECTIONS =====
+    T1 -->|initiates| R1
+    R1 -->|approves| R2
+    R2 -->|selects| R3
+    R3 -->|triggers| P1
+    P1 -->|configures| P2
+    P2 -->|clones| P3
+    P3 -->|verifies| V1
+    V1 -->|tests| V2
+    V2 -->|confirms| V3
+    V3 -->|enables| O1
     
-    style Trigger fill:#9C27B0,color:#fff
-    style Request fill:#2196F3,color:#fff
-    style Provision fill:#FF9800,color:#fff
-    style Validate fill:#4CAF50,color:#fff
-    style Outcome fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class T1 trigger
+    class R1,R2,R3 primary
+    class P1,P2,P3 datastore
+    class V1,V2,V3,O1 secondary
+    
+    style Trigger fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Request fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Provision fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Validate fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Outcome fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Value Stream Metrics
@@ -334,6 +401,9 @@ flowchart LR
 ### Secondary Value Stream: Environment Lifecycle
 
 ```mermaid
+---
+title: Environment Lifecycle States
+---
 stateDiagram-v2
     [*] --> Requested: Developer Request
     Requested --> Provisioning: Auto-Approved
