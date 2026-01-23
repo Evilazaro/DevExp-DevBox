@@ -46,6 +46,9 @@ tags:
 
 The **Continuous Integration (CI)** workflow validates and builds Bicep templates for the Dev Box Accelerator project. It runs automatically on feature and fix branches, as well as pull requests to the main branch, ensuring code quality before merging.
 
+> [!TIP]
+> This workflow is the first line of defense for code quality. It automatically validates your infrastructure code before it can be merged to main.
+
 ---
 
 [⬆️ Back to Top](#-table-of-contents)
@@ -247,6 +250,9 @@ The CI workflow implements a **branch-based versioning strategy**:
 ---
 
 ## 🔧 Troubleshooting
+
+> [!WARNING]
+> Build failures can block PR merges. Review these common issues to quickly resolve problems.
 
 ### Common Issues
 

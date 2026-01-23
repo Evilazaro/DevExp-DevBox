@@ -13,7 +13,8 @@ tags:
 
 # 🔄 DevOps Documentation
 
-> 📖 Comprehensive documentation for GitHub Actions workflows in the Dev Box Accelerator project.
+> [!TIP]
+> 📖 **Comprehensive documentation** for GitHub Actions workflows in the Dev Box Accelerator project. This guide covers CI/CD pipelines, deployment automation, and release management.
 
 > [!NOTE]
 > **Target Audience:** DevOps Engineers, Platform Engineers, CI/CD Administrators  
@@ -298,6 +299,9 @@ The project uses a **branch-based semantic versioning** strategy:
 ## ✅ Best Practices
 
 ### Security
+
+> [!IMPORTANT]
+> Security is a top priority. All workflows follow GitHub's security hardening guidelines.
 
 - ✅ All actions pinned to SHA commits for supply chain security
 - ✅ OIDC authentication used for Azure (no long-lived secrets)

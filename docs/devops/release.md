@@ -49,6 +49,9 @@ tags:
 
 The **Branch-Based Release Strategy** workflow generates semantic versions and publishes GitHub releases for the Dev Box Accelerator project. It implements a sophisticated versioning strategy that supports multiple branch types with overflow handling and automated release notes generation.
 
+> [!TIP]
+> This workflow automates the entire release process. Simply trigger it manually, and it will calculate versions, build artifacts, and publish GitHub releases.
+
 ---
 
 [⬆️ Back to Top](#-table-of-contents)
@@ -300,6 +303,9 @@ permissions:
 
 ## 🏷️ Versioning Strategy
 
+> [!IMPORTANT]
+> Understanding the versioning strategy is crucial for release planning. Version numbers are calculated automatically based on branch type and commit history.
+
 ### Branch-Based Version Calculation
 
 ```mermaid
@@ -426,6 +432,9 @@ Each published release includes:
 
 ### Force Release from Feature Branch
 
+> [!CAUTION]
+> Force releases from non-main branches create pre-release versions. Use with care in production environments.
+
 1. Navigate to **Actions** tab
 2. Select **Branch-Based Release Strategy**
 3. Click **Run workflow**
@@ -450,6 +459,9 @@ gh workflow run release.yml -r feature/my-feature -f force_release=true
 ---
 
 ## 🔧 Troubleshooting
+
+> [!WARNING]
+> Release failures may leave orphaned tags in the repository. Use `git tag -d` to clean up failed release tags before retrying.
 
 ### Common Issues
 

@@ -50,6 +50,9 @@ tags:
 
 The **Deploy to Azure** workflow provisions infrastructure to Azure using the Azure Developer CLI (azd) with OIDC authentication. This is a **manual workflow** that deploys the Dev Box Accelerator infrastructure to a specified Azure environment.
 
+> [!TIP]
+> Use this workflow when you're ready to provision Azure resources. It handles authentication, validation, and deployment automatically.
+
 ---
 
 [⬆️ Back to Top](#-table-of-contents)
@@ -210,6 +213,9 @@ These variables must be configured in the repository settings under **Settings >
 
 ### Azure OIDC Configuration
 
+> [!IMPORTANT]
+> OIDC authentication is required for secure, secretless deployment. Complete these steps before running the workflow.
+
 This workflow uses **OpenID Connect (OIDC)** for secure, secretless authentication. You must configure federated credentials in Azure AD:
 
 1. Create an App Registration in Azure AD
@@ -220,7 +226,8 @@ This workflow uses **OpenID Connect (OIDC)** for secure, secretless authenticati
    - Entity type: `Environment`
    - Environment name: `{AZURE_ENV_NAME}`
 
-> 📖 See [Azure OIDC Authentication Documentation](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure)
+> [!TIP]
+> 📖 See [Azure OIDC Authentication Documentation](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure) for detailed setup instructions.
 
 ---
 
@@ -304,6 +311,9 @@ gh workflow run deploy.yml \
 
 ## 🔧 Troubleshooting
 
+> [!WARNING]
+> Deployment failures can leave resources in an inconsistent state. Always check Azure portal for orphaned resources after failures.
+
 ### Common Issues
 
 | Issue                                    | Cause                                      | Solution                                               |
@@ -343,6 +353,9 @@ gh workflow run deploy.yml \
 ---
 
 ## 🛡️ Security Considerations
+
+> [!CAUTION]
+> Never commit sensitive values like secrets or credentials. Use GitHub Secrets and Azure Key Vault for all sensitive configuration.
 
 - ✅ Uses **OIDC authentication** - no long-lived secrets stored
 - ✅ **Least-privilege permissions** - only requests necessary scopes
