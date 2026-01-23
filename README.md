@@ -15,24 +15,27 @@ Whether you're setting up a development environment for a small team or deployin
 
 ## 📑 Table of Contents
 
-- [✨ Features](#-features)
-- [🏗️ Architecture](#️-architecture)
-- [📋 Prerequisites](#-prerequisites)
-- [🚀 Quick Start](#-quick-start)
-- [📁 Project Structure](#-project-structure)
-- [⚙️ Configuration](#️-configuration)
-- [🔄 CI/CD Pipelines](#-cicd-pipelines)
-- [📦 Module Reference](#-module-reference)
-- [🧹 Cleanup](#-cleanup)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+| Section | Description |
+| :------- | :----------- |
+| [✨ Features](#-features) | Key capabilities and highlights |
+| [🏗️ Architecture](#️-architecture) | Landing zone design and service overview |
+| [📋 Prerequisites](#-prerequisites) | Required tools and Azure permissions |
+| [🚀 Quick Start](#-quick-start) | Step-by-step deployment guide |
+| [📁 Project Structure](#-project-structure) | Repository directory layout |
+| [⚙️ Configuration](#️-configuration) | YAML settings and customization options |
+| [🔄 CI/CD Pipelines](#-cicd-pipelines) | GitHub Actions workflows |
+| [📦 Module Reference](#-module-reference) | Bicep module catalog |
+| [🧹 Cleanup](#-cleanup) | Resource removal options |
+| [🤝 Contributing](#-contributing) | Development guidelines |
+| [📄 License](#-license) | MIT License information |
+| [📚 Additional Resources](#-additional-resources) | Documentation and external links |
 
 ---
 
 ## ✨ Features
 
 | Feature | Description |
-|---------|-------------|
+| :------- | :----------- |
 | **🏢 Landing Zone Architecture** | Implements Azure best practices with segregated resource groups for Security, Monitoring, and Workload layers |
 | **📄 Configuration-as-Code** | YAML-based configuration with JSON Schema validation for type safety and IDE IntelliSense |
 | **🧩 Modular Bicep Design** | Reusable, composable modules with clear input/output contracts and typed parameters |
@@ -43,6 +46,10 @@ Whether you're setting up a development environment for a small team or deployin
 | **🚀 Automated Provisioning** | Azure Developer CLI (azd) integration for streamlined setup and deployment |
 | **📈 Centralized Monitoring** | Log Analytics workspace integration for unified observability |
 | **🌐 Network Flexibility** | Support for both Microsoft-managed and custom VNet configurations |
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -123,7 +130,7 @@ flowchart TB
 ### Azure Services Deployed
 
 | Service | Purpose |
-|---------|---------|
+| :------- | :------- |
 | **Azure DevCenter** | Central hub for developer workstation management |
 | **Dev Box Projects** | Project-level organization with team-specific configurations |
 | **Dev Box Pools** | VM allocation with role-specific SKUs and images |
@@ -180,6 +187,10 @@ flowchart LR
     class PROJ,POOL,PCAT proj
 ```
 
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
+
 ---
 
 ## 📋 Prerequisites
@@ -187,7 +198,7 @@ flowchart LR
 Ensure you have the following tools installed before proceeding:
 
 | Tool | Version | Purpose | Installation |
-|------|---------|---------|--------------|
+| :---- | :-----: | :------- | :------------ |
 | **Azure CLI** | 2.50+ | Azure resource management | [Install Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) |
 | **Azure Developer CLI (azd)** | Latest | Deployment orchestration | [Install azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) |
 | **GitHub CLI** | 2.0+ | Repository and secret management | [Install gh](https://cli.github.com/) |
@@ -272,7 +283,8 @@ chmod +x setUp.sh
 .\setUp.ps1 -EnvName <environment-name> -SourceControl github
 ```
 
-> 📝 **Parameters:**
+> [!NOTE]
+> **Parameters:**
 >
 > - `-e` / `-EnvName`: Environment identifier (e.g., `dev`, `staging`, `prod`)
 > - `-s` / `-SourceControl`: Source control platform (`github` or `adogit`)
@@ -286,7 +298,12 @@ azd provision
 
 The deployment takes approximately **15-30 minutes** depending on the number of projects and pools configured.
 
-> 💡 **Tip:** For automated CI/CD deployments, use the GitHub Actions workflow. See [CI/CD Pipelines](#-cicd-pipelines).
+> [!TIP]
+> For automated CI/CD deployments, use the GitHub Actions workflow. See [CI/CD Pipelines](#-cicd-pipelines).
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -295,7 +312,7 @@ The deployment takes approximately **15-30 minutes** depending on the number of 
 <details>
 <summary>Click to expand full directory tree</summary>
 
-```
+```text
 DevExp-DevBox/
 ├── 📄 azure.yaml                    # azd configuration (Linux/macOS)
 ├── 📄 azure-pwh.yaml                # azd configuration (Windows PowerShell)
@@ -365,6 +382,10 @@ DevExp-DevBox/
 
 </details>
 
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
+
 ---
 
 ## ⚙️ Configuration
@@ -374,7 +395,7 @@ DevExp-DevBox uses **YAML configuration files** with JSON Schema validation for 
 ### Configuration Files
 
 | File | Purpose | Schema |
-|------|---------|--------|
+| :---- | :------- | :------ |
 | [azureResources.yaml](./infra/settings/resourceOrganization/azureResources.yaml) | Resource group naming, tagging, and landing zone organization | [azureResources.schema.json](./infra/settings/resourceOrganization/azureResources.schema.json) |
 | [security.yaml](./infra/settings/security/security.yaml) | Key Vault configuration and access policies | [security.schema.json](./infra/settings/security/security.schema.json) |
 | [devcenter.yaml](./infra/settings/workload/devcenter.yaml) | DevCenter, projects, pools, catalogs, and RBAC | [devcenter.schema.json](./infra/settings/workload/devcenter.schema.json) |
@@ -457,7 +478,7 @@ projects:
 ### VM SKU Options
 
 | SKU | vCPUs | RAM | Storage | Use Case |
-|-----|-------|-----|---------|----------|
+| :--- | :----: | :--: | :------: | :-------- |
 | `general_i_8c32gb256ssd_v2` | 8 | 32 GB | 256 GB | Light development |
 | `general_i_16c64gb256ssd_v2` | 16 | 64 GB | 256 GB | Standard development |
 | `general_i_32c128gb512ssd_v2` | 32 | 128 GB | 512 GB | Heavy workloads, builds |
@@ -467,13 +488,13 @@ projects:
 Dev Box images can be customized using PowerShell Desired State Configuration (DSC). Sample configurations are provided in `.configuration/devcenter/workloads/`:
 
 | Configuration | Purpose |
-|---------------|---------|
+| :------------- | :------- |
 | `common-config.dsc.yaml` | Base configuration for all Dev Boxes |
 | `common-backend-config.dsc.yaml` | Backend developer tools (Azure CLI, .NET SDK, Docker) |
 | `common-frontend-usertasks-config.dsc.yaml` | Frontend developer tools (Node.js, npm) |
 | `winget-upgrade-packages.dsc.yaml` | Automated package updates |
 
-**Example: Backend Developer DSC**
+#### Example: Backend Developer DSC
 
 ```yaml
 # .configuration/devcenter/workloads/common-backend-config.dsc.yaml
@@ -498,6 +519,10 @@ properties:
       settings:
         id: Microsoft.VisualStudioCode
 ```
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -560,7 +585,7 @@ flowchart TB
 ### Workflows Overview
 
 | Workflow | File | Trigger | Purpose |
-|----------|------|---------|---------|
+| :-------- | :---- | :------- | :------- |
 | **Continuous Integration** | `.github/workflows/ci.yml` | Push to `feature/**`, `fix/**`; PRs to `main` | Build and validate Bicep templates |
 | **Deploy to Azure** | `.github/workflows/deploy.yml` | Manual dispatch | Provision infrastructure to Azure |
 | **Release** | `.github/workflows/release.yml` | Manual dispatch | Generate semantic versions and GitHub releases |
@@ -570,7 +595,7 @@ flowchart TB
 #### Repository Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| :-------- | :----------- | :------- |
 | `AZURE_CLIENT_ID` | App Registration client ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
 | `AZURE_TENANT_ID` | Azure AD tenant ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
 | `AZURE_SUBSCRIPTION_ID` | Target subscription ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
@@ -579,7 +604,7 @@ flowchart TB
 #### Repository Secrets
 
 | Secret | Description |
-|--------|-------------|
+| :------ | :----------- |
 | `KEY_VAULT_SECRET` | GitHub Personal Access Token for private catalog access |
 
 ### Deploying via GitHub Actions
@@ -600,7 +625,12 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 .\.configuration\setup\powershell\Azure\generateDeploymentCredentials.ps1
 ```
 
-> 📖 **More Details:** For comprehensive CI/CD pipeline documentation including reusable actions, versioning strategy, and best practices, see the [DevOps Documentation](./docs/devops/README.md).
+> [!NOTE]
+> For comprehensive CI/CD pipeline documentation including reusable actions, versioning strategy, and best practices, see the [DevOps Documentation](./docs/devops/README.md).
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -612,13 +642,13 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 ### Core Modules
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `main.bicep` | `infra/main.bicep` | Orchestration entry point (subscription scope) |
 
 ### Security Layer
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `security.bicep` | `src/security/security.bicep` | Security landing zone orchestrator |
 | `keyVault.bicep` | `src/security/keyVault.bicep` | Azure Key Vault with RBAC |
 | `secret.bicep` | `src/security/secret.bicep` | Key Vault secret management |
@@ -626,13 +656,13 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 ### Management Layer
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `logAnalytics.bicep` | `src/management/logAnalytics.bicep` | Log Analytics workspace |
 
 ### Connectivity Layer
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `connectivity.bicep` | `src/connectivity/connectivity.bicep` | Connectivity orchestrator |
 | `vnet.bicep` | `src/connectivity/vnet.bicep` | Virtual network with subnets |
 | `networkConnection.bicep` | `src/connectivity/networkConnection.bicep` | DevCenter network connection |
@@ -641,7 +671,7 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 ### Workload Layer
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `workload.bicep` | `src/workload/workload.bicep` | Workload orchestrator |
 | `devCenter.bicep` | `src/workload/core/devCenter.bicep` | DevCenter resource |
 | `catalog.bicep` | `src/workload/core/catalog.bicep` | DevCenter catalog |
@@ -654,13 +684,17 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 ### Identity Layer
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `devCenterRoleAssignment.bicep` | `src/identity/devCenterRoleAssignment.bicep` | DevCenter RBAC |
 | `projectIdentityRoleAssignment.bicep` | `src/identity/projectIdentityRoleAssignment.bicep` | Project RBAC |
 | `keyVaultAccess.bicep` | `src/identity/keyVaultAccess.bicep` | Key Vault access policies |
 | `orgRoleAssignment.bicep` | `src/identity/orgRoleAssignment.bicep` | Organization-level RBAC |
 
 </details>
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -686,7 +720,7 @@ The cleanup script performs a comprehensive teardown:
 **What the cleanup script removes:**
 
 | Resource Type | Action |
-|---------------|--------|
+| :------------- | :------ |
 | Subscription Deployments | Deletes all ARM deployments |
 | Role Assignments | Removes user and managed identity RBAC |
 | Service Principals | Deletes OIDC app registrations |
@@ -705,7 +739,12 @@ az group delete --name devexp-security-<env>-<region>-RG --yes --no-wait
 az group delete --name devexp-monitoring-<env>-<region>-RG --yes --no-wait
 ```
 
-> ⚠️ **Warning:** Key Vault soft-delete is enabled by default. Use `--purge` flag or manually purge deleted vaults to fully remove secrets.
+> [!WARNING]
+> Key Vault soft-delete is enabled by default. Use `--purge` flag or manually purge deleted vaults to fully remove secrets.
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -746,7 +785,7 @@ Contributions are welcome! We follow a standard GitHub workflow.
 ### Development Guidelines
 
 | Area | Guideline |
-|------|-----------|
+| :---- | :--------- |
 | **Bicep** | Follow [Bicep best practices](https://learn.microsoft.com/azure/azure-resource-manager/bicep/best-practices) |
 | **Parameters** | Include `@description()` decorators for all parameters |
 | **Resources** | Add appropriate tags to all resources |
@@ -758,12 +797,16 @@ Contributions are welcome! We follow a standard GitHub workflow.
 
 We use [Conventional Commits](https://www.conventionalcommits.org/):
 
-```
+```text
 feat: add new Dev Box pool configuration
 fix: correct Key Vault access policy
 docs: update README with DSC examples
 refactor: simplify network module
 ```
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -778,7 +821,7 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ### Documentation
 
 | Resource | Description |
-|----------|-------------|
+| :-------- | :----------- |
 | [Architecture Documentation](./docs/architecture/) | TOGAF-aligned architecture decision records |
 | [DevOps Documentation](./docs/devops/README.md) | Comprehensive CI/CD pipeline documentation |
 | [Script Documentation](./docs/scripts/README.md) | Setup and configuration script guides |
@@ -786,7 +829,7 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ### External References
 
 | Resource | Link |
-|----------|------|
+| :-------- | :---- |
 | Microsoft Dev Box | [Documentation](https://learn.microsoft.com/azure/dev-box/overview-what-is-microsoft-dev-box) |
 | Azure DevCenter | [Documentation](https://learn.microsoft.com/azure/deployment-environments/overview-what-is-azure-deployment-environments) |
 | Azure Bicep | [Documentation](https://learn.microsoft.com/azure/azure-resource-manager/bicep/) |
@@ -797,6 +840,10 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 - 🐛 **Issues:** [GitHub Issues](https://github.com/Evilazaro/DevExp-DevBox/issues)
 - 💬 **Discussions:** [GitHub Discussions](https://github.com/Evilazaro/DevExp-DevBox/discussions)
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
