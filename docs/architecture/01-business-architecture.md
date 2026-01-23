@@ -470,35 +470,54 @@ stateDiagram-v2
 ### Key Performance Indicators (KPIs)
 
 ```mermaid
+---
+title: Key Performance Indicators Dashboard
+---
 flowchart TB
+    %% ===== DEVELOPER PRODUCTIVITY KPIs =====
     subgraph Developer["Developer Productivity"]
-        KPI1["Time to First Commit"]
-        KPI2["Environment Setup Time"]
-        KPI3["Self-Service Success Rate"]
+        KPI1["⏱️ Time to First Commit"]
+        KPI2["🚀 Environment Setup Time"]
+        KPI3["✅ Self-Service Success Rate"]
     end
     
+    %% ===== OPERATIONAL EFFICIENCY KPIs =====
     subgraph Operations["Operational Efficiency"]
-        KPI4["Deployment Success Rate"]
-        KPI5["Mean Time to Provision"]
-        KPI6["Configuration Drift %"]
+        KPI4["📈 Deployment Success Rate"]
+        KPI5["⚡ Mean Time to Provision"]
+        KPI6["📊 Configuration Drift %"]
     end
     
+    %% ===== SECURITY POSTURE KPIs =====
     subgraph Security["Security Posture"]
-        KPI7["Compliance Score"]
-        KPI8["Secret Rotation Rate"]
-        KPI9["Access Review Completion"]
+        KPI7["🛡️ Compliance Score"]
+        KPI8["🔑 Secret Rotation Rate"]
+        KPI9["👁️ Access Review Completion"]
     end
     
+    %% ===== COST MANAGEMENT KPIs =====
     subgraph Cost["Cost Management"]
-        KPI10["Cost per Developer"]
-        KPI11["Resource Utilization"]
-        KPI12["Budget Variance"]
+        KPI10["💰 Cost per Developer"]
+        KPI11["📊 Resource Utilization"]
+        KPI12["📋 Budget Variance"]
     end
     
-    style Developer fill:#4CAF50,color:#fff
-    style Operations fill:#FF9800,color:#fff
-    style Security fill:#F44336,color:#fff
-    style Cost fill:#2196F3,color:#fff
+    %% ===== STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class KPI1,KPI2,KPI3 secondary
+    class KPI4,KPI5,KPI6 datastore
+    class KPI7,KPI8,KPI9 failed
+    class KPI10,KPI11,KPI12 primary
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Developer fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Operations fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Security fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Cost fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ### KPI Targets

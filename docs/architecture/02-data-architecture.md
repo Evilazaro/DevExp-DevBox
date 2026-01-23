@@ -581,51 +581,71 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
 ### Configuration Loading Flow
 
 ```mermaid
+---
+title: Configuration Loading Flow
+---
 flowchart TB
-    subgraph Source["Git Repository"]
-        Y1["azureResources.yaml"]
-        Y2["security.yaml"]
-        Y3["devcenter.yaml"]
+    %% ===== SOURCE LAYER =====
+    subgraph Source["📁 Git Repository"]
+        Y1["📄 azureResources.yaml"]
+        Y2["🔐 security.yaml"]
+        Y3["🖥️ devcenter.yaml"]
     end
     
-    subgraph Bicep["Bicep Compilation"]
-        LOAD["loadYamlContent()"]
-        MAIN["main.bicep"]
-        SEC["security.bicep"]
-        WL["workload.bicep"]
+    %% ===== BICEP COMPILATION LAYER =====
+    subgraph Bicep["⚙️ Bicep Compilation"]
+        LOAD["🔄 loadYamlContent()"]
+        MAIN["📄 main.bicep"]
+        SEC["🔐 security.bicep"]
+        WL["📦 workload.bicep"]
     end
     
-    subgraph Deploy["Deployment"]
-        ARM["ARM Template"]
-        AZ["Azure Resource Manager"]
+    %% ===== DEPLOYMENT LAYER =====
+    subgraph Deploy["🚀 Deployment"]
+        ARM["📋 ARM Template"]
+        AZ["☁️ Azure Resource Manager"]
     end
     
-    subgraph Resources["Azure Resources"]
-        RG["Resource Groups"]
-        KVRES["Key Vault"]
-        DCRES["DevCenter"]
+    %% ===== RESOURCES LAYER =====
+    subgraph Resources["🏢 Azure Resources"]
+        RG["📁 Resource Groups"]
+        KVRES["🔑 Key Vault"]
+        DCRES["🖥️ DevCenter"]
     end
     
-    Y1 --> LOAD
-    Y2 --> LOAD
-    Y3 --> LOAD
+    %% ===== CONNECTIONS =====
+    Y1 -->|loads| LOAD
+    Y2 -->|loads| LOAD
+    Y3 -->|loads| LOAD
     
-    LOAD --> MAIN
-    MAIN --> SEC
-    MAIN --> WL
+    LOAD -->|configures| MAIN
+    MAIN -->|invokes| SEC
+    MAIN -->|invokes| WL
     
-    SEC --> ARM
-    WL --> ARM
+    SEC -->|compiles| ARM
+    WL -->|compiles| ARM
     
-    ARM --> AZ
-    AZ --> RG
-    AZ --> KVRES
-    AZ --> DCRES
+    ARM -->|deploys| AZ
+    AZ -->|creates| RG
+    AZ -->|creates| KVRES
+    AZ -->|creates| DCRES
     
-    style Source fill:#9C27B0,color:#fff
-    style Bicep fill:#FF9800,color:#fff
-    style Deploy fill:#2196F3,color:#fff
-    style Resources fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    
+    class Y1,Y2,Y3 datastore
+    class LOAD,MAIN,SEC,WL primary
+    class ARM,AZ trigger
+    class RG,KVRES,DCRES secondary
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Source fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Bicep fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Deploy fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Resources fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Secrets Flow Diagram
