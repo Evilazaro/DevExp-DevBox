@@ -32,14 +32,17 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Flow Visualization](#flow-visualization)
-- [📝 Parameters](#parameters)
-- [⚙️ Prerequisites](#prerequisites)
-- [🔑 Removed Roles](#removed-roles)
-- [🔧 Functions Reference](#functions-reference)
-- [📝 Usage Examples](#usage-examples)
-- [⚠️ Error Handling](#error-handling)
+- [🎯 Overview](#-overview)
+- [📊 Flow Visualization](#-flow-visualization)
+- [📝 Parameters](#-parameters)
+- [⚙️ Prerequisites](#%EF%B8%8F-prerequisites)
+- [🔑 Removed Roles](#-removed-roles)
+- [🔧 Functions Reference](#-functions-reference)
+- [📝 Usage Examples](#-usage-examples)
+- [⚠️ Error Handling](#%EF%B8%8F-error-handling)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🔐 Security Considerations](#-security-considerations)
+- [🔗 Related Scripts](#-related-scripts)
 
 ---
 
@@ -316,7 +319,13 @@ The script is **idempotent** - running it multiple times will:
 - Not cause errors for missing assignments
 - Only attempt to remove existing assignments
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Troubleshooting
 
 ### Common Issues
 
@@ -335,7 +344,13 @@ $userId = az ad signed-in-user show --query id --output tsv
 az role assignment list --assignee $userId --query "[].roleDefinitionName" --output table
 ```
 
-## Security Considerations
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔐 Security Considerations
 
 - Removing roles **immediately revokes** DevCenter access
 - User will lose ability to create Dev Boxes or access Deployment Environments
@@ -348,13 +363,23 @@ az role assignment list --assignee $userId --query "[].roleDefinitionName" --out
 - [ ] Confirm role removal aligns with access policy
 - [ ] Document reason for access revocation
 
-## Related Scripts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Scripts
 
 | Script | Purpose | Link |
 |--------|---------|------|
 | `createUsersAndAssignRole.ps1` | Create these role assignments | [create-users-and-assign-role.md](create-users-and-assign-role.md) |
 | `deleteDeploymentCredentials.ps1` | Remove service principal | [delete-deployment-credentials.md](delete-deployment-credentials.md) |
 | `cleanSetUp.ps1` | Full environment cleanup | [../clean-setup.md](../clean-setup.md) |
+
+---
+
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 

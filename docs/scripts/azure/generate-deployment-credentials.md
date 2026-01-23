@@ -36,18 +36,18 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Flow Visualization](#flow-visualization)
-- [🔄 Service Principal Creation Flow](#service-principal-creation-flow)
-- [📝 Parameters](#parameters)
-- [⚙️ Prerequisites](#prerequisites)
-- [👥 Assigned Roles](#assigned-roles)
-- [🔧 Functions Reference](#functions-reference)
-- [📝 Usage Examples](#usage-examples)
-- [⚠️ Error Handling](#error-handling)
-- [🔒 Security Considerations](#security-considerations)
-- [🛠️ Troubleshooting](#troubleshooting)
-- [🔗 Related Scripts](#related-scripts)
+- [🎯 Overview](#-overview)
+- [📊 Flow Visualization](#-flow-visualization)
+- [🔄 Service Principal Creation Flow](#-service-principal-creation-flow)
+- [📝 Parameters](#-parameters)
+- [⚙️ Prerequisites](#%EF%B8%8F-prerequisites)
+- [👥 Assigned Roles](#-assigned-roles)
+- [🔧 Functions Reference](#-functions-reference)
+- [📝 Usage Examples](#-usage-examples)
+- [⚠️ Error Handling](#%EF%B8%8F-error-handling)
+- [🔒 Security Considerations](#-security-considerations)
+- [🛠️ Troubleshooting](#%EF%B8%8F-troubleshooting)
+- [🔗 Related Scripts](#-related-scripts)
 
 ---
 
@@ -443,6 +443,10 @@ gh secret list
 | `createUsersAndAssignRole.ps1` | Assign user roles | [create-users-and-assign-role.md](create-users-and-assign-role.md) |
 | `createGitHubSecretAzureCredentials.ps1` | Create GitHub secret | [../github/create-github-secret-azure-credentials.md](../github/create-github-secret-azure-credentials.md) |
 | `cleanSetUp.ps1` | Full environment cleanup | [../clean-setup.md](../clean-setup.md) |
+
+---
+
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 

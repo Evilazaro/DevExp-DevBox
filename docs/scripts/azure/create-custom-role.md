@@ -35,14 +35,17 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Flow Visualization](#flow-visualization)
-- [📝 Parameters](#parameters)
-- [⚙️ Prerequisites](#prerequisites)
-- [📜 Role Definition](#role-definition)
-- [🔧 Functions Reference](#functions-reference)
-- [📝 Usage Examples](#usage-examples)
-- [⚠️ Error Handling](#error-handling)
+- [🎯 Overview](#-overview)
+- [📊 Flow Visualization](#-flow-visualization)
+- [📝 Parameters](#-parameters)
+- [⚙️ Prerequisites](#%EF%B8%8F-prerequisites)
+- [📜 Role Definition](#-role-definition)
+- [🔧 Functions Reference](#-functions-reference)
+- [📝 Usage Examples](#-usage-examples)
+- [⚠️ Error Handling](#%EF%B8%8F-error-handling)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🔐 Security Considerations](#-security-considerations)
+- [🔗 Related Scripts](#-related-scripts)
 
 ---
 
@@ -312,7 +315,7 @@ $ProgressPreference = 'SilentlyContinue'
 
 The temporary JSON file is always cleaned up via `finally` block, even if creation fails.
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
 ### Common Issues
 
@@ -323,6 +326,8 @@ The temporary JSON file is always cleaned up via `finally` block, even if creati
 | Role already exists error | Role with same name exists | Use `-Force` parameter |
 | Invalid subscription ID format | GUID validation failed | Check subscription ID format |
 
+---
+
 ### Verify Role Creation
 
 ```powershell
@@ -330,20 +335,36 @@ The temporary JSON file is always cleaned up via `finally` block, even if creati
 az role definition list --custom-role-only true --query "[?roleName=='Contoso DevBox - Role Assignment Writer']"
 ```
 
-## Security Considerations
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔐 Security Considerations
 
 - Custom roles should follow **least privilege** principle
 - The created role only grants role assignment permissions, not resource management
 - Consider scope carefully - subscription-wide vs resource group specific
 - Temporary JSON file is written to `$env:TEMP` and immediately deleted
 
-## Related Scripts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Scripts
 
 | Script | Purpose | Link |
 |--------|---------|------|
 | `createUsersAndAssignRole.ps1` | Assign DevCenter roles to users | [create-users-and-assign-role.md](create-users-and-assign-role.md) |
 | `deleteUsersAndAssignedRoles.ps1` | Remove role assignments | [delete-users-and-assigned-roles.md](delete-users-and-assigned-roles.md) |
 | `generateDeploymentCredentials.ps1` | Create CI/CD service principal | [generate-deployment-credentials.md](generate-deployment-credentials.md) |
+
+---
+
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 

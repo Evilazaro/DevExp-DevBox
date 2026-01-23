@@ -35,16 +35,16 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Flow Visualization](#flow-visualization)
-- [📝 Parameters](#parameters)
-- [⚙️ Prerequisites](#prerequisites)
-- [🔧 Functions Reference](#functions-reference)
-- [📝 Usage Examples](#usage-examples)
-- [⚠️ Error Handling](#error-handling)
-- [🔧 Troubleshooting](#troubleshooting)
-- [🔐 Security Considerations](#security-considerations)
-- [🔗 Related Scripts](#related-scripts)
+- [🎯 Overview](#-overview)
+- [📊 Flow Visualization](#-flow-visualization)
+- [📝 Parameters](#-parameters)
+- [⚙️ Prerequisites](#%EF%B8%8F-prerequisites)
+- [🔧 Functions Reference](#-functions-reference)
+- [📝 Usage Examples](#-usage-examples)
+- [⚠️ Error Handling](#%EF%B8%8F-error-handling)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🔐 Security Considerations](#-security-considerations)
+- [🔗 Related Scripts](#-related-scripts)
 
 ---
 
@@ -325,6 +325,10 @@ az ad app list --display-name "ContosoDevEx GitHub Actions Enterprise App" --que
 | `generateDeploymentCredentials.ps1` | Create new deployment credentials | [generate-deployment-credentials.md](generate-deployment-credentials.md) |
 | `deleteGitHubSecretAzureCredentials.ps1` | Remove GitHub secret | [../github/delete-github-secret-azure-credentials.md](../github/delete-github-secret-azure-credentials.md) |
 | `cleanSetUp.ps1` | Full environment cleanup | [../clean-setup.md](../clean-setup.md) |
+
+---
+
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 

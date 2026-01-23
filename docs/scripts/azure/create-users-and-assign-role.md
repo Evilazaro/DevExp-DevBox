@@ -32,15 +32,17 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Flow Visualization](#flow-visualization)
-- [📝 Parameters](#parameters)
-- [⚙️ Prerequisites](#prerequisites)
-- [🔑 Assigned Roles](#assigned-roles)
-- [🔧 Functions Reference](#functions-reference)
-- [📝 Usage Examples](#usage-examples)
-- [⚠️ Error Handling](#error-handling)
-- [🔧 Troubleshooting](#troubleshooting)
+- [🎯 Overview](#-overview)
+- [📊 Flow Visualization](#-flow-visualization)
+- [📝 Parameters](#-parameters)
+- [⚙️ Prerequisites](#%EF%B8%8F-prerequisites)
+- [🔑 Assigned Roles](#-assigned-roles)
+- [🔧 Functions Reference](#-functions-reference)
+- [📝 Usage Examples](#-usage-examples)
+- [⚠️ Error Handling](#%EF%B8%8F-error-handling)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🔐 Security Considerations](#-security-considerations)
+- [🔗 Related Scripts](#-related-scripts)
 
 ---
 
@@ -327,20 +329,36 @@ $userId = az ad signed-in-user show --query id --output tsv
 az role assignment list --assignee $userId --query "[].roleDefinitionName" --output table
 ```
 
-## Security Considerations
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔐 Security Considerations
 
 - Script requires elevated Azure permissions to create role assignments
 - Roles are assigned at **subscription scope** - consider if more restrictive scope is needed
 - DevCenter roles grant access to Dev Box and Environment resources
 - Review role capabilities before assignment
 
-## Related Scripts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Scripts
 
 | Script | Purpose | Link |
 |--------|---------|------|
 | `deleteUsersAndAssignedRoles.ps1` | Remove these role assignments | [delete-users-and-assigned-roles.md](delete-users-and-assigned-roles.md) |
 | `createCustomRole.ps1` | Create custom role definitions | [create-custom-role.md](create-custom-role.md) |
 | `generateDeploymentCredentials.ps1` | Create CI/CD service principal | [generate-deployment-credentials.md](generate-deployment-credentials.md) |
+
+---
+
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 
