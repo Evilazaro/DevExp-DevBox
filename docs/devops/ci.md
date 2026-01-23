@@ -1,4 +1,30 @@
+---
+title: "Continuous Integration Workflow"
+description: "CI workflow documentation for validating and building Bicep templates"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - devops
+  - ci
+  - github-actions
+  - bicep
+---
+
 # 🔄 Continuous Integration Workflow
+
+> [!NOTE]
+> **Target Audience:** DevOps Engineers, Platform Engineers  
+> **Reading Time:** ~8 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← DevOps Overview](README.md) | [DevOps Index](README.md) | [Deploy Workflow →](deploy.md) |
+
+</details>
 
 ---
 
@@ -232,3 +258,13 @@ The CI workflow implements a **branch-based versioning strategy**:
 
 - [Release Workflow](release.md) - Full release process with GitHub Releases
 - [Deploy Workflow](deploy.md) - Azure deployment process
+
+---
+
+<div align="center">
+
+[← DevOps Overview](README.md) | [⬆️ Back to Top](#-table-of-contents) | [Deploy Workflow →](deploy.md)
+
+*DevExp-DevBox • CI Workflow Documentation*
+
+</div>

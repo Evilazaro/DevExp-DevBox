@@ -1,6 +1,35 @@
+---
+title: "cleanUp.ps1 Script"
+description: "Removes Azure resource groups for DevExp-DevBox environment"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - azure
+  - cleanup
+  - resource-groups
+---
+
 # 🧹 cleanUp.ps1
 
 > **Removes Azure resource groups for DevExp-DevBox environment**
+
+> [!CAUTION]
+> This script **permanently deletes** Azure resource groups and all their contents. This action cannot be undone.
+
+> [!NOTE]
+> **Target Audience:** Azure Administrators, Platform Engineers  
+> **Reading Time:** ~10 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← generateDeploymentCredentials.ps1](../azure/generate-deployment-credentials.md) | [Scripts Index](../README.md) | [winget-update.ps1 →](winget-update.md) |
+
+</details>
 
 ---
 
@@ -367,3 +396,13 @@ Azure resource locks can prevent accidental deletion:
 |--------|---------|------|
 | `cleanSetUp.ps1` | Full environment cleanup orchestrator | [../clean-setup.md](../clean-setup.md) |
 | `setUp.ps1` | Environment setup (opposite operation) | [../setup.md](../setup.md) |
+
+---
+
+<div align="center">
+
+[← generateDeploymentCredentials.ps1](../azure/generate-deployment-credentials.md) | [⬆️ Back to Top](#-table-of-contents) | [winget-update.ps1 →](winget-update.md)
+
+*DevExp-DevBox • cleanUp.ps1 Documentation*
+
+</div>

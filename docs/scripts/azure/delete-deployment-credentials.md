@@ -1,6 +1,35 @@
+---
+title: "deleteDeploymentCredentials.ps1 Script"
+description: "Removes Azure AD service principal and application registration for CI/CD cleanup"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - azure
+  - service-principal
+  - cleanup
+---
+
 # 🗑️ deleteDeploymentCredentials.ps1
 
 > **Removes Azure AD service principal and application registration for CI/CD cleanup**
+
+> [!WARNING]
+> This script permanently deletes service principals. Ensure CI/CD pipelines are updated before execution.
+
+> [!NOTE]
+> **Target Audience:** Azure Administrators, DevOps Engineers  
+> **Reading Time:** ~8 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← createUsersAndAssignRole.ps1](create-users-and-assign-role.md) | [Scripts Index](../README.md) | [deleteUsersAndAssignedRoles.ps1 →](delete-users-and-assigned-roles.md) |
+
+</details>
 
 ---
 
@@ -273,3 +302,13 @@ az ad app list --display-name "ContosoDevEx GitHub Actions Enterprise App" --que
 | `generateDeploymentCredentials.ps1` | Create new deployment credentials | [generate-deployment-credentials.md](generate-deployment-credentials.md) |
 | `deleteGitHubSecretAzureCredentials.ps1` | Remove GitHub secret | [../github/delete-github-secret-azure-credentials.md](../github/delete-github-secret-azure-credentials.md) |
 | `cleanSetUp.ps1` | Full environment cleanup | [../clean-setup.md](../clean-setup.md) |
+
+---
+
+<div align="center">
+
+[← createUsersAndAssignRole.ps1](create-users-and-assign-role.md) | [⬆️ Back to Top](#-table-of-contents) | [deleteUsersAndAssignedRoles.ps1 →](delete-users-and-assigned-roles.md)
+
+*DevExp-DevBox • deleteDeploymentCredentials.ps1 Documentation*
+
+</div>

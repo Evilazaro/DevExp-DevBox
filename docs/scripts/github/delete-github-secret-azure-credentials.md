@@ -1,6 +1,35 @@
+---
+title: "deleteGitHubSecretAzureCredentials.ps1 Script"
+description: "Removes a GitHub repository secret"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - github
+  - secrets
+  - cleanup
+---
+
 # 🗑️ deleteGitHubSecretAzureCredentials.ps1
 
 > **Removes a GitHub repository secret**
+
+> [!WARNING]
+> Deleting the secret will **immediately** affect any workflows using it.
+
+> [!NOTE]
+> **Target Audience:** DevOps Engineers, Platform Engineers  
+> **Reading Time:** ~8 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← createGitHubSecretAzureCredentials.ps1](create-github-secret-azure-credentials.md) | [Scripts Index](../README.md) | — |
+
+</details>
 
 ---
 
@@ -292,3 +321,13 @@ gh secret list | findstr "AZURE_CREDENTIALS"
 | `createGitHubSecretAzureCredentials.ps1` | Create GitHub secret | [create-github-secret-azure-credentials.md](create-github-secret-azure-credentials.md) |
 | `deleteDeploymentCredentials.ps1` | Remove service principal | [../azure/delete-deployment-credentials.md](../azure/delete-deployment-credentials.md) |
 | `cleanSetUp.ps1` | Full environment cleanup | [../clean-setup.md](../clean-setup.md) |
+
+---
+
+<div align="center">
+
+[← createGitHubSecretAzureCredentials.ps1](create-github-secret-azure-credentials.md) | [⬆️ Back to Top](#-table-of-contents)
+
+*DevExp-DevBox • deleteGitHubSecretAzureCredentials.ps1 Documentation*
+
+</div>

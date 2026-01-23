@@ -1,6 +1,35 @@
+---
+title: "cleanSetUp.ps1 Script"
+description: "Complete DevExp-DevBox infrastructure cleanup orchestrator script"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - cleanup
+  - azure
+  - orchestration
+---
+
 # 🧹 cleanSetUp.ps1
 
 > **Complete DevExp-DevBox infrastructure cleanup orchestrator**
+
+> [!WARNING]
+> This script performs **destructive operations**. Ensure you have backups and have verified the target environment before execution.
+
+> [!NOTE]
+> **Target Audience:** DevOps Engineers, Platform Engineers, System Administrators  
+> **Reading Time:** ~10 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← setUp.ps1](setup.md) | [Scripts Index](README.md) | [Azure Scripts →](azure/create-custom-role.md) |
+
+</details>
 
 ---
 
@@ -330,3 +359,13 @@ Enable verbose output:
 | `deleteDeploymentCredentials.ps1` | Remove service principals | [azure/delete-deployment-credentials.md](azure/delete-deployment-credentials.md) |
 | `deleteGitHubSecretAzureCredentials.ps1` | Remove GitHub secrets | [github/delete-github-secret-azure-credentials.md](github/delete-github-secret-azure-credentials.md) |
 | `cleanUp.ps1` | Remove Azure resource groups | [configuration/clean-up.md](configuration/clean-up.md) |
+
+---
+
+<div align="center">
+
+[← setUp.ps1](setup.md) | [⬆️ Back to Top](#-table-of-contents) | [Azure Scripts →](azure/create-custom-role.md)
+
+*DevExp-DevBox • cleanSetUp.ps1 Documentation*
+
+</div>

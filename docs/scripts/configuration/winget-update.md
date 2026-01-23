@@ -1,6 +1,36 @@
+---
+title: "winget-update.ps1 Script"
+description: "Silently updates all Microsoft Store applications using Windows Package Manager"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - windows
+  - winget
+  - updates
+  - dsc
+---
+
 # 📦 winget-update.ps1
 
 > **Silently updates all Microsoft Store applications using Windows Package Manager**
+
+> [!TIP]
+> Run this script with Administrator privileges for machine-wide app updates.
+
+> [!NOTE]
+> **Target Audience:** System Administrators, DevOps Engineers  
+> **Reading Time:** ~12 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← cleanUp.ps1](clean-up.md) | [Scripts Index](../README.md) | [GitHub Scripts →](../github/create-github-secret-azure-credentials.md) |
+
+</details>
 
 ---
 
@@ -470,3 +500,13 @@ Review these agreements at [Microsoft Store Terms](https://www.microsoft.com/sto
 | `winget-upgrade-packages.dsc.yaml` | DSC configuration | Same directory |
 | `common-config.dsc.yaml` | Common workload config | Same directory |
 | `common-backend-config.dsc.yaml` | Backend workload config | Same directory |
+
+---
+
+<div align="center">
+
+[← cleanUp.ps1](clean-up.md) | [⬆️ Back to Top](#-table-of-contents) | [GitHub Scripts →](../github/create-github-secret-azure-credentials.md)
+
+*DevExp-DevBox • winget-update.ps1 Documentation*
+
+</div>

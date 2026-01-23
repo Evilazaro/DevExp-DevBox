@@ -1,6 +1,33 @@
+---
+title: "setUp.ps1 Script"
+description: "Azure Dev Box environment setup script with GitHub/Azure DevOps integration"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - setup
+  - azure
+  - azd
+  - authentication
+---
+
 # ⚙️ setUp.ps1
 
 > **Azure Dev Box environment setup with GitHub/Azure DevOps integration**
+
+> [!NOTE]
+> **Target Audience:** DevOps Engineers, Platform Engineers  
+> **Reading Time:** ~15 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← Scripts Overview](README.md) | [Scripts Index](README.md) | [cleanSetUp.ps1 →](clean-setup.md) |
+
+</details>
 
 ---
 
@@ -518,3 +545,13 @@ $VerbosePreference = 'Continue'
 | `cleanSetUp.ps1` | Complete environment cleanup (opposite of setup) | [clean-setup.md](clean-setup.md) |
 | `generateDeploymentCredentials.ps1` | Create service principal for CI/CD | [azure/generate-deployment-credentials.md](azure/generate-deployment-credentials.md) |
 | `createUsersAndAssignRole.ps1` | Assign DevCenter roles | [azure/create-users-and-assign-role.md](azure/create-users-and-assign-role.md) |
+
+---
+
+<div align="center">
+
+[← Scripts Overview](README.md) | [⬆️ Back to Top](#-table-of-contents) | [cleanSetUp.ps1 →](clean-setup.md)
+
+*DevExp-DevBox • setUp.ps1 Documentation*
+
+</div>

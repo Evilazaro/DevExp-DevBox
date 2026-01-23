@@ -1,6 +1,33 @@
+---
+title: "createGitHubSecretAzureCredentials.ps1 Script"
+description: "Creates a GitHub repository secret for Azure service principal credentials"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - github
+  - secrets
+  - azure
+  - cicd
+---
+
 # 🔐 createGitHubSecretAzureCredentials.ps1
 
 > **Creates a GitHub repository secret for Azure service principal credentials**
+
+> [!NOTE]
+> **Target Audience:** DevOps Engineers, Platform Engineers  
+> **Reading Time:** ~10 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← winget-update.ps1](../configuration/winget-update.md) | [Scripts Index](../README.md) | [deleteGitHubSecretAzureCredentials.ps1 →](delete-github-secret-azure-credentials.md) |
+
+</details>
 
 ---
 
@@ -343,3 +370,13 @@ When rotating credentials:
 | `deleteGitHubSecretAzureCredentials.ps1` | Remove GitHub secret | [delete-github-secret-azure-credentials.md](delete-github-secret-azure-credentials.md) |
 | `generateDeploymentCredentials.ps1` | Create SP and call this script | [../azure/generate-deployment-credentials.md](../azure/generate-deployment-credentials.md) |
 | `cleanSetUp.ps1` | Full environment cleanup | [../clean-setup.md](../clean-setup.md) |
+
+---
+
+<div align="center">
+
+[← winget-update.ps1](../configuration/winget-update.md) | [⬆️ Back to Top](#-table-of-contents) | [deleteGitHubSecretAzureCredentials.ps1 →](delete-github-secret-azure-credentials.md)
+
+*DevExp-DevBox • createGitHubSecretAzureCredentials.ps1 Documentation*
+
+</div>

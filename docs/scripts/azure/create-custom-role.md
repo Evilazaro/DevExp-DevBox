@@ -1,6 +1,35 @@
+---
+title: "createCustomRole.ps1 Script"
+description: "Creates a custom Azure RBAC role for role assignment management"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - azure
+  - rbac
+  - security
+---
+
 # 🔑 createCustomRole.ps1
 
 > **Creates a custom Azure RBAC role for role assignment management**
+
+> [!IMPORTANT]
+> This script requires **Owner** or **User Access Administrator** permissions on the target subscription.
+
+> [!NOTE]
+> **Target Audience:** Azure Administrators, Security Engineers  
+> **Reading Time:** ~8 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← cleanSetUp.ps1](../clean-setup.md) | [Scripts Index](../README.md) | [createUsersAndAssignRole.ps1 →](create-users-and-assign-role.md) |
+
+</details>
 
 ---
 
@@ -290,3 +319,13 @@ az role definition list --custom-role-only true --query "[?roleName=='Contoso De
 | `createUsersAndAssignRole.ps1` | Assign DevCenter roles to users | [create-users-and-assign-role.md](create-users-and-assign-role.md) |
 | `deleteUsersAndAssignedRoles.ps1` | Remove role assignments | [delete-users-and-assigned-roles.md](delete-users-and-assigned-roles.md) |
 | `generateDeploymentCredentials.ps1` | Create CI/CD service principal | [generate-deployment-credentials.md](generate-deployment-credentials.md) |
+
+---
+
+<div align="center">
+
+[← cleanSetUp.ps1](../clean-setup.md) | [⬆️ Back to Top](#-table-of-contents) | [createUsersAndAssignRole.ps1 →](create-users-and-assign-role.md)
+
+*DevExp-DevBox • createCustomRole.ps1 Documentation*
+
+</div>

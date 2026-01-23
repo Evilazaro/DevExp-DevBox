@@ -1,4 +1,30 @@
+---
+title: "Branch-Based Release Strategy Workflow"
+description: "Release workflow documentation for semantic versioning and GitHub releases"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - devops
+  - release
+  - versioning
+  - github-actions
+---
+
 # 🏷️ Branch-Based Release Strategy Workflow
+
+> [!NOTE]
+> **Target Audience:** Release Managers, DevOps Engineers, Platform Engineers  
+> **Reading Time:** ~15 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← Deploy Workflow](deploy.md) | [DevOps Index](README.md) | — |
+
+</details>
 
 ---
 
@@ -439,3 +465,13 @@ gh workflow run release.yml -r feature/my-feature -f force_release=true
 
 - [CI Workflow](ci.md) - Continuous integration process
 - [Deploy Workflow](deploy.md) - Azure deployment process
+
+---
+
+<div align="center">
+
+[← Deploy Workflow](deploy.md) | [⬆️ Back to Top](#-table-of-contents)
+
+*DevExp-DevBox • Release Workflow Documentation*
+
+</div>

@@ -1,6 +1,32 @@
+---
+title: "createUsersAndAssignRole.ps1 Script"
+description: "Assigns Azure DevCenter roles to the current signed-in user"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - azure
+  - rbac
+  - devcenter
+---
+
 # 👥 createUsersAndAssignRole.ps1
 
 > **Assigns Azure DevCenter roles to the current signed-in user**
+
+> [!NOTE]
+> **Target Audience:** Azure Administrators, Platform Engineers  
+> **Reading Time:** ~8 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← createCustomRole.ps1](create-custom-role.md) | [Scripts Index](../README.md) | [deleteDeploymentCredentials.ps1 →](delete-deployment-credentials.md) |
+
+</details>
 
 ---
 
@@ -290,3 +316,13 @@ az role assignment list --assignee $userId --query "[].roleDefinitionName" --out
 | `deleteUsersAndAssignedRoles.ps1` | Remove these role assignments | [delete-users-and-assigned-roles.md](delete-users-and-assigned-roles.md) |
 | `createCustomRole.ps1` | Create custom role definitions | [create-custom-role.md](create-custom-role.md) |
 | `generateDeploymentCredentials.ps1` | Create CI/CD service principal | [generate-deployment-credentials.md](generate-deployment-credentials.md) |
+
+---
+
+<div align="center">
+
+[← createCustomRole.ps1](create-custom-role.md) | [⬆️ Back to Top](#-table-of-contents) | [deleteDeploymentCredentials.ps1 →](delete-deployment-credentials.md)
+
+*DevExp-DevBox • createUsersAndAssignRole.ps1 Documentation*
+
+</div>

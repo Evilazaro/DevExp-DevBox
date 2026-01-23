@@ -1,4 +1,31 @@
+---
+title: "Deploy to Azure Workflow"
+description: "Deployment workflow documentation for provisioning Azure infrastructure with azd"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - devops
+  - deployment
+  - azure
+  - github-actions
+  - azd
+---
+
 # 🚀 Deploy to Azure Workflow
+
+> [!NOTE]
+> **Target Audience:** DevOps Engineers, Platform Engineers, Release Managers  
+> **Reading Time:** ~12 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← CI Workflow](ci.md) | [DevOps Index](README.md) | [Release Workflow →](release.md) |
+
+</details>
 
 ---
 
@@ -318,3 +345,13 @@ gh workflow run deploy.yml \
 - [CI Workflow](ci.md) - Continuous integration process
 - [Release Workflow](release.md) - GitHub release creation
 - [Azure Developer CLI](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/)
+
+---
+
+<div align="center">
+
+[← CI Workflow](ci.md) | [⬆️ Back to Top](#-table-of-contents) | [Release Workflow →](release.md)
+
+*DevExp-DevBox • Deploy Workflow Documentation*
+
+</div>

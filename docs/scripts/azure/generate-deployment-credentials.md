@@ -1,6 +1,36 @@
+---
+title: "generateDeploymentCredentials.ps1 Script"
+description: "Creates Azure service principal and GitHub secret for CI/CD pipelines"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - azure
+  - service-principal
+  - github
+  - cicd
+---
+
 # 🔑 generateDeploymentCredentials.ps1
 
 > **Creates Azure service principal and GitHub secret for CI/CD pipelines**
+
+> [!IMPORTANT]
+> This script creates credentials with elevated permissions. Review the [Security Considerations](#security-considerations) section before use.
+
+> [!NOTE]
+> **Target Audience:** DevOps Engineers, Platform Engineers  
+> **Reading Time:** ~12 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← deleteUsersAndAssignedRoles.ps1](delete-users-and-assigned-roles.md) | [Scripts Index](../README.md) | [Configuration Scripts →](../configuration/clean-up.md) |
+
+</details>
 
 ---
 
@@ -388,3 +418,13 @@ gh secret list
 | `createUsersAndAssignRole.ps1` | Assign user roles | [create-users-and-assign-role.md](create-users-and-assign-role.md) |
 | `createGitHubSecretAzureCredentials.ps1` | Create GitHub secret | [../github/create-github-secret-azure-credentials.md](../github/create-github-secret-azure-credentials.md) |
 | `cleanSetUp.ps1` | Full environment cleanup | [../clean-setup.md](../clean-setup.md) |
+
+---
+
+<div align="center">
+
+[← deleteUsersAndAssignedRoles.ps1](delete-users-and-assigned-roles.md) | [⬆️ Back to Top](#-table-of-contents) | [Configuration Scripts →](../configuration/clean-up.md)
+
+*DevExp-DevBox • generateDeploymentCredentials.ps1 Documentation*
+
+</div>

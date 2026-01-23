@@ -1,6 +1,32 @@
+---
+title: "deleteUsersAndAssignedRoles.ps1 Script"
+description: "Removes DevCenter role assignments from the current signed-in user"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - azure
+  - rbac
+  - cleanup
+---
+
 # 👥 deleteUsersAndAssignedRoles.ps1
 
 > **Removes DevCenter role assignments from the current signed-in user**
+
+> [!NOTE]
+> **Target Audience:** Azure Administrators, Platform Engineers  
+> **Reading Time:** ~8 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← deleteDeploymentCredentials.ps1](delete-deployment-credentials.md) | [Scripts Index](../README.md) | [generateDeploymentCredentials.ps1 →](generate-deployment-credentials.md) |
+
+</details>
 
 ---
 
@@ -304,3 +330,13 @@ az role assignment list --assignee $userId --query "[].roleDefinitionName" --out
 | `createUsersAndAssignRole.ps1` | Create these role assignments | [create-users-and-assign-role.md](create-users-and-assign-role.md) |
 | `deleteDeploymentCredentials.ps1` | Remove service principal | [delete-deployment-credentials.md](delete-deployment-credentials.md) |
 | `cleanSetUp.ps1` | Full environment cleanup | [../clean-setup.md](../clean-setup.md) |
+
+---
+
+<div align="center">
+
+[← deleteDeploymentCredentials.ps1](delete-deployment-credentials.md) | [⬆️ Back to Top](#-table-of-contents) | [generateDeploymentCredentials.ps1 →](generate-deployment-credentials.md)
+
+*DevExp-DevBox • deleteUsersAndAssignedRoles.ps1 Documentation*
+
+</div>

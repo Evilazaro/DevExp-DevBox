@@ -1,6 +1,33 @@
+---
+title: "PowerShell Scripts Documentation"
+description: "Comprehensive documentation for all PowerShell automation scripts in the DevExp-DevBox project"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - scripts
+  - powershell
+  - automation
+  - azure
+  - github
+---
+
 # 📜 DevExp-DevBox PowerShell Scripts Documentation
 
 > 📖 Comprehensive documentation for all PowerShell automation scripts in the DevExp-DevBox project.
+
+> [!NOTE]
+> **Target Audience:** DevOps Engineers, Platform Engineers, System Administrators  
+> **Reading Time:** ~10 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| — | [Docs Index](../README.md) | [setUp.ps1 →](setup.md) |
+
+</details>
 
 ---
 
@@ -340,3 +367,13 @@ When adding new PowerShell scripts:
 3. Create corresponding documentation in this folder
 4. Update this README with the new script reference
 5. Use consistent parameter validation (`ValidateNotNullOrEmpty`, `ValidateSet`, etc.)
+
+---
+
+<div align="center">
+
+[⬆️ Back to Top](#-table-of-contents) | [setUp.ps1 →](setup.md)
+
+*DevExp-DevBox • PowerShell Scripts Documentation*
+
+</div>

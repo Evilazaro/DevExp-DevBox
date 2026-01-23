@@ -1,6 +1,32 @@
+---
+title: "DevOps Documentation"
+description: "Comprehensive documentation for GitHub Actions workflows in the Dev Box Accelerator project"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - devops
+  - github-actions
+  - cicd
+  - workflows
+---
+
 # 🔄 DevOps Documentation
 
 > 📖 Comprehensive documentation for GitHub Actions workflows in the Dev Box Accelerator project.
+
+> [!NOTE]
+> **Target Audience:** DevOps Engineers, Platform Engineers, CI/CD Administrators  
+> **Reading Time:** ~10 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| — | [Docs Index](../README.md) | [CI Workflow →](ci.md) |
+
+</details>
 
 ---
 
@@ -256,3 +282,13 @@ The project uses a **branch-based semantic versioning** strategy:
 - [Deployment Architecture](../architecture/07-deployment-architecture.md) - Infrastructure deployment patterns
 - [Azure Developer CLI](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/) - Tool used for deployments
 - [GitHub Actions Security](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions) - Security best practices
+
+---
+
+<div align="center">
+
+[⬆️ Back to Top](#-table-of-contents) | [CI Workflow →](ci.md)
+
+*DevExp-DevBox • DevOps Documentation*
+
+</div>
