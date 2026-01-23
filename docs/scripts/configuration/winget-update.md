@@ -65,49 +65,72 @@ This script performs a comprehensive, non-interactive update of all Microsoft St
 ## 📊 Flow Visualization
 
 ```mermaid
+---
+title: WinGet Update Flow
+---
 flowchart TD
-    subgraph Entry["Script Entry"]
-        A([winget-update.ps1 Start]):::entry
-        B["Configure logging"]:::core
-        C["Set ExecutionPolicy Bypass"]:::core
+    %% ===== SCRIPT ENTRY =====
+    subgraph Entry["📥 Script Entry"]
+        A(["🚀 winget-update.ps1 Start"])
+        B["📝 Configure logging"]
+        C["🔐 Set ExecutionPolicy Bypass"]
     end
     
-    subgraph Preflight["Preflight Checks"]
-        D["Resolve-WinGetExecutable"]:::core
-        E["Test-WinGetAvailability"]:::validation
-        F{WinGet available?}:::decision
+    %% ===== PREFLIGHT CHECKS =====
+    subgraph Preflight["✅ Preflight Checks"]
+        D["🔍 Resolve-WinGetExecutable"]
+        E["🧪 Test-WinGetAvailability"]
+        F{"📋 WinGet available?"}
     end
     
-    subgraph Services["Service Preparation"]
-        G["Start-StoreInstallService"]:::core
-        H["Initialize-WinGetSources"]:::core
+    %% ===== SERVICE PREPARATION =====
+    subgraph Services["⚙️ Service Preparation"]
+        G["🚀 Start-StoreInstallService"]
+        H["🔄 Initialize-WinGetSources"]
     end
     
-    subgraph Updates["Update Passes"]
-        I["Update-MicrosoftStoreApps"]:::core
-        I1["Pass 1: Standard upgrade"]:::core
-        I2["Pass 2: Forced upgrade"]:::core
-        I3["Pass 3: Safety net pass"]:::core
-        I4["Summary check"]:::core
+    %% ===== UPDATE PASSES =====
+    subgraph Updates["📦 Update Passes"]
+        I["⬆️ Update-MicrosoftStoreApps"]
+        I1["📋 Pass 1: Standard upgrade"]
+        I2["🔧 Pass 2: Forced upgrade"]
+        I3["🛡️ Pass 3: Safety net pass"]
+        I4["📊 Summary check"]
     end
     
-    subgraph Exit["Script Exit"]
-        J[\Updates Complete\]:::output
-        K{{Error Exit}}:::error
+    %% ===== SCRIPT EXIT =====
+    subgraph Exit["📤 Script Exit"]
+        J[\"🎉 Updates Complete"\]
+        K{{"❌ Error Exit"}}
     end
     
-    A --> B --> C --> D --> E --> F
+    %% ===== CONNECTIONS =====
+    A -->|configures| B -->|sets| C -->|resolves| D -->|tests| E -->|evaluates| F
     F -->|No| K
-    F -->|Yes| G --> H --> I
-    I --> I1 --> I2 --> I3 --> I4 --> J
+    F -->|Yes| G -->|initializes| H -->|updates| I
+    I -->|runs| I1 -->|forces| I2 -->|safety| I3 -->|summarizes| I4 -->|completes| J
 
-    classDef entry fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef core fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef validation fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef external fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef decision fill:#FFC107,stroke:#FFA000,color:#000
-    classDef output fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef error fill:#F44336,stroke:#C62828,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    
+    class A trigger
+    class B,C,D,E,G,H primary
+    class F decision
+    class I,I1,I2,I3,I4 secondary
+    class J secondary
+    class K failed
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Entry fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Preflight fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Services fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Updates fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Exit fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---

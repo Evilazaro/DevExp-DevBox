@@ -62,48 +62,71 @@ This script deletes Azure resource groups and their associated deployments for t
 ## 📊 Flow Visualization
 
 ```mermaid
+---
+title: Resource Group Cleanup Flow
+---
 flowchart TD
-    subgraph Entry["Script Entry"]
-        A([cleanUp.ps1 Start]):::entry
-        B[/"Parse Parameters"/]:::input
+    %% ===== SCRIPT ENTRY =====
+    subgraph Entry["📥 Script Entry"]
+        A(["🚀 cleanUp.ps1 Start"])
+        B[/"📝 Parse Parameters"/]
     end
     
-    subgraph Main["Main Orchestration"]
-        C["Remove-AllResourceGroups"]:::core
-        D["Build resource group names"]:::core
+    %% ===== MAIN ORCHESTRATION =====
+    subgraph Main["🎯 Main Orchestration"]
+        C["⚙️ Remove-AllResourceGroups"]
+        D["📋 Build resource group names"]
     end
     
-    subgraph RGLoop["Resource Group Deletion Loop"]
-        E["For each resource group"]:::core
-        F["Remove-AzureResourceGroup"]:::core
-        F1[(az group exists)]:::external
-        F2{RG exists?}:::decision
-        F3[(az deployment group list)]:::external
-        F4["Delete deployments"]:::core
-        F5[(az group delete --no-wait)]:::external
+    %% ===== RESOURCE GROUP DELETION LOOP =====
+    subgraph RGLoop["🔄 Resource Group Deletion Loop"]
+        E["📋 For each resource group"]
+        F["🗑️ Remove-AzureResourceGroup"]
+        F1[("☁️ az group exists")]
+        F2{"📋 RG exists?"}
+        F3[("📋 az deployment group list")]
+        F4["🗑️ Delete deployments"]
+        F5[("🗑️ az group delete --no-wait")]
     end
     
-    subgraph Exit["Script Exit"]
-        G{All succeeded?}:::decision
-        H[\Deletions Initiated\]:::output
-        I{{Partial Failure}}:::error
+    %% ===== SCRIPT EXIT =====
+    subgraph Exit["📤 Script Exit"]
+        G{"✅ All succeeded?"}
+        H[\"🎉 Deletions Initiated"\]
+        I{{"⚠️ Partial Failure"}}
     end
     
-    A --> B --> C --> D --> E
-    E --> F --> F1 --> F2
+    %% ===== CONNECTIONS =====
+    A -->|parses| B -->|invokes| C -->|builds| D -->|iterates| E
+    E -->|processes| F -->|checks| F1 -->|evaluates| F2
     F2 -->|No| E
-    F2 -->|Yes| F3 --> F4 --> F5 --> E
+    F2 -->|Yes| F3 -->|clears| F4 -->|deletes| F5 -->|next| E
     E -->|All processed| G
     G -->|Yes| H
     G -->|No| I
 
-    classDef entry fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef input fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef core fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef external fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef decision fill:#FFC107,stroke:#FFA000,color:#000
-    classDef output fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef error fill:#F44336,stroke:#C62828,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef input fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    
+    class A trigger
+    class B input
+    class C,D,E,F,F4 primary
+    class F1,F3,F5 external
+    class F2,G decision
+    class H secondary
+    class I failed
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Entry fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Main fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style RGLoop fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Exit fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---
