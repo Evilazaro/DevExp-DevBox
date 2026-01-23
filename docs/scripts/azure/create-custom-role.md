@@ -1,12 +1,33 @@
-# createCustomRole.ps1
+# 🔑 createCustomRole.ps1
 
 > **Creates a custom Azure RBAC role for role assignment management**
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Flow Visualization](#flow-visualization)
+- [📝 Parameters](#parameters)
+- [⚙️ Prerequisites](#prerequisites)
+- [📜 Role Definition](#role-definition)
+- [🔧 Functions Reference](#functions-reference)
+- [📝 Usage Examples](#usage-examples)
+- [⚠️ Error Handling](#error-handling)
+
+---
+
+## 🎯 Overview
 
 This script creates a custom Azure RBAC role definition that grants permissions to manage role assignments. The role includes permissions to read, write, and delete role assignments within a specified subscription scope. Use this script when you need to delegate role assignment capabilities without granting full User Access Administrator permissions.
 
-## Flow Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Flow Visualization
 
 ```mermaid
 flowchart TD
@@ -60,7 +81,13 @@ flowchart TD
     classDef error fill:#F44336,stroke:#C62828,color:#fff
 ```
 
-## Parameters
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Parameters
 
 | Parameter | Type | Required | Default | Validation | Description |
 |-----------|------|----------|---------|------------|-------------|
@@ -69,7 +96,13 @@ flowchart TD
 | `-Description` | `string` | No | `"Allows creating role assignments."` | - | Description for the custom role |
 | `-Force` | `switch` | No | `$false` | - | Delete existing role before creating |
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites
 
 ### Required Tools
 
@@ -83,7 +116,13 @@ flowchart TD
 - **Azure**: `Microsoft.Authorization/roleDefinitions/write` at subscription scope
 - Typically requires **Owner** or **User Access Administrator** role
 
-## Role Definition
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📜 Role Definition
 
 The created role includes these permissions:
 
@@ -106,7 +145,13 @@ The created role includes these permissions:
 }
 ```
 
-## Functions Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Functions Reference
 
 ### Function: `Get-CurrentSubscriptionId`
 
@@ -143,7 +188,13 @@ The created role includes these permissions:
 4. Creates role via `az role definition create`
 5. Cleans up temp file (in finally block)
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Basic Usage (Current Subscription)
 
@@ -181,7 +232,13 @@ Deletes any existing role with the same name before creating.
 
 Shows what would be created without making changes.
 
-## Error Handling
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling
 
 ### Error Action Preference
 

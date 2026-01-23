@@ -1,12 +1,34 @@
-# cleanSetUp.ps1
+# 🧹 cleanSetUp.ps1
 
 > **Complete DevExp-DevBox infrastructure cleanup orchestrator**
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Flow Visualization](#flow-visualization)
+- [📝 Parameters](#parameters)
+- [⚙️ Prerequisites](#prerequisites)
+- [🔧 Functions Reference](#functions-reference)
+- [📝 Usage Examples](#usage-examples)
+- [⚠️ Error Handling](#error-handling)
+- [🔧 Troubleshooting](#troubleshooting)
+- [🔗 Related Scripts](#related-scripts)
+
+---
+
+## 🎯 Overview
 
 This script orchestrates the complete cleanup of DevExp-DevBox infrastructure, including Azure deployments, user role assignments, service principals, GitHub secrets, and resource groups. Use this script when you need to tear down an entire DevExp-DevBox environment.
 
-## Flow Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Flow Visualization
 
 ```mermaid
 flowchart TD
@@ -74,7 +96,13 @@ flowchart TD
     classDef error fill:#F44336,stroke:#C62828,color:#fff
 ```
 
-## Parameters
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Parameters
 
 | Parameter | Type | Required | Default | Validation | Description |
 |-----------|------|----------|---------|------------|-------------|
@@ -83,7 +111,13 @@ flowchart TD
 | `-AppDisplayName` | `string` | No | `"ContosoDevEx GitHub Actions Enterprise App"` | `ValidateNotNullOrEmpty` | Display name of the Azure AD application to delete |
 | `-GhSecretName` | `string` | No | `"AZURE_CREDENTIALS"` | `ValidateNotNullOrEmpty` | Name of the GitHub secret to delete |
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites
 
 ### Required Tools
 
@@ -103,7 +137,13 @@ flowchart TD
 
 None required - all configuration via parameters.
 
-## Functions Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Functions Reference
 
 ### Function: `Remove-SubscriptionDeployments`
 
@@ -114,6 +154,7 @@ None required - all configuration via parameters.
 **Returns:** `[bool]` - `$true` if successful, `$false` otherwise
 
 **Behavior:**
+
 1. Lists all subscription-level deployments using `az deployment sub list`
 2. Iterates through each deployment and deletes it
 3. Supports `-WhatIf` via `SupportsShouldProcess`
@@ -147,6 +188,7 @@ Deployment 'main-deployment-20240115' deleted.
 **Returns:** `[bool]` - `$true` if successful or script not found (non-fatal), `$false` on execution failure
 
 **Behavior:**
+
 1. Resolves full path using `$Script:ScriptDirectory`
 2. Validates script exists (returns `$true` with warning if missing)
 3. Executes script with splatted parameters
@@ -170,13 +212,20 @@ Deployment 'main-deployment-20240115' deleted.
 **Returns:** `[bool]` - `$true` if all operations succeeded, `$false` otherwise
 
 **Cleanup Sequence:**
+
 1. Delete subscription deployments
 2. Delete users and assigned roles
 3. Delete deployment credentials (service principal)
 4. Delete GitHub secret
 5. Clean up resource groups
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Basic Cleanup (Default Parameters)
 
@@ -185,6 +234,7 @@ Deployment 'main-deployment-20240115' deleted.
 ```
 
 Cleans up the environment using:
+
 - Environment: `gitHub`
 - Location: `eastus2`
 - App: `ContosoDevEx GitHub Actions Enterprise App`
@@ -210,7 +260,13 @@ Cleans up the environment using:
 
 Shows what would be deleted without making changes.
 
-## Error Handling
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling
 
 ### Error Action Preference
 
@@ -234,7 +290,13 @@ The script uses strict error handling - any unhandled error terminates execution
 - The script tracks success/failure of each operation
 - Final status reflects whether all operations succeeded
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Troubleshooting
 
 ### Common Issues
 
@@ -253,7 +315,13 @@ Enable verbose output:
 .\cleanSetUp.ps1 -Verbose
 ```
 
-## Related Scripts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Scripts
 
 | Script | Purpose | Link |
 |--------|---------|------|

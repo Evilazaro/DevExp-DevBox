@@ -1,12 +1,35 @@
-# DevExp-DevBox PowerShell Scripts Documentation
+# 📜 DevExp-DevBox PowerShell Scripts Documentation
 
-> Comprehensive documentation for all PowerShell automation scripts in the DevExp-DevBox project
+> 📖 Comprehensive documentation for all PowerShell automation scripts in the DevExp-DevBox project.
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [🏗️ Scripts Architecture](#scripts-architecture)
+- [⚡ Quick Reference](#quick-reference)
+- [📂 Scripts by Category](#scripts-by-category)
+- [⚙️ Prerequisites Summary](#prerequisites-summary)
+- [🔄 Common Workflows](#common-workflows)
+- [⚠️ Error Handling Patterns](#error-handling-patterns)
+- [📁 File Structure](#file-structure)
+- [🔗 Related Documentation](#related-documentation)
+- [🤝 Contributing](#contributing)
+
+---
+
+## 🎯 Overview
 
 This documentation covers the PowerShell scripts used to set up, manage, and clean up Azure Dev Box environments with GitHub or Azure DevOps integration. The scripts follow Azure best practices for security, error handling, and resource management.
 
-## Scripts Architecture
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🏗️ Scripts Architecture
 
 ```mermaid
 flowchart TB
@@ -48,7 +71,13 @@ flowchart TB
     classDef utility fill:#9C27B0,stroke:#6A1B9A,color:#fff
 ```
 
-## Quick Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚡ Quick Reference
 
 ### Setup Scripts (Execute in Order)
 
@@ -75,7 +104,13 @@ flowchart TB
 |--------|---------|
 | [winget-update.ps1](configuration/winget-update.md) | Update Microsoft Store apps (Dev Box workloads) |
 
-## Scripts by Category
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📂 Scripts by Category
 
 ### Root Scripts
 
@@ -116,7 +151,13 @@ Scripts for resource management and Dev Box configuration.
 | `cleanUp.ps1` | Deletes Azure resource groups | [configuration/clean-up.md](configuration/clean-up.md) |
 | `winget-update.ps1` | Updates Microsoft Store applications | [configuration/winget-update.md](configuration/winget-update.md) |
 
-## Prerequisites Summary
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites Summary
 
 ### Required Tools
 
@@ -136,7 +177,13 @@ Scripts for resource management and Dev Box configuration.
 | Azure AD | Application Administrator | Credential scripts |
 | GitHub Repository | Admin | Secret scripts |
 
-## Common Workflows
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔄 Common Workflows
 
 ### New Environment Setup
 
@@ -193,7 +240,13 @@ Or step-by-step:
 .\.configuration\powershell\cleanUp.ps1 -EnvName "prod" -Location "eastus2"
 ```
 
-## Error Handling Patterns
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling Patterns
 
 All scripts follow consistent error handling:
 
@@ -210,7 +263,13 @@ $WarningPreference = 'Stop'
 [CmdletBinding(SupportsShouldProcess)]
 ```
 
-## File Structure
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📁 File Structure
 
 ```
 DevExp-DevBox/
@@ -252,7 +311,13 @@ DevExp-DevBox/
             └── winget-update.md
 ```
 
-## Related Documentation
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Documentation
 
 | Document | Description |
 |----------|-------------|
@@ -260,7 +325,13 @@ DevExp-DevBox/
 | [CI/CD Overview](../devops/README.md) | DevOps pipeline documentation |
 | [Deployment Guide](../devops/deploy.md) | Deployment instructions |
 
-## Contributing
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🤝 Contributing
 
 When adding new PowerShell scripts:
 

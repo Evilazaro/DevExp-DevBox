@@ -1,10 +1,34 @@
-# Branch-Based Release Strategy Workflow
+# 🏷️ Branch-Based Release Strategy Workflow
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Pipeline Visualization](#pipeline-visualization)
+- [🎯 Triggers](#triggers)
+- [⚙️ Jobs & Steps](#jobs--steps)
+- [🔐 Prerequisites](#prerequisites)
+- [🏷️ Versioning Strategy](#versioning-strategy)
+- [🔒 Concurrency Control](#concurrency-control)
+- [📦 Artifacts](#artifacts)
+- [📝 Usage Examples](#usage-examples)
+- [🔧 Troubleshooting](#troubleshooting)
+- [🔗 Related Documentation](#related-documentation)
+
+---
+
+## 🎯 Overview
 
 The **Branch-Based Release Strategy** workflow generates semantic versions and publishes GitHub releases for the Dev Box Accelerator project. It implements a sophisticated versioning strategy that supports multiple branch types with overflow handling and automated release notes generation.
 
-## Pipeline Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Pipeline Visualization
 
 ```mermaid
 flowchart TD
@@ -71,7 +95,13 @@ flowchart TD
     class SKIP1,SKIP2 skip
 ```
 
-## Triggers
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🎯 Triggers
 
 | Trigger Type        | Description                                           |
 | ------------------- | ----------------------------------------------------- |
@@ -83,7 +113,13 @@ flowchart TD
 | --------------- | --------- | -------- | ------- | ------------------------------------------------ |
 | `force_release` | `boolean` | No       | `false` | Force create a release even for non-main branches |
 
-## Jobs & Steps
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Jobs & Steps
 
 ### Job: `generate-release`
 
@@ -188,7 +224,13 @@ This job runs when:
 | **Dependencies** | `generate-release`, `build`, `publish-release`           |
 | **Condition**    | `always()` - runs regardless of previous job results     |
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔐 Prerequisites
 
 ### Permissions
 
@@ -207,7 +249,13 @@ permissions:
 | `.github/actions/ci/bicep-standard-ci` | Builds Bicep templates and uploads artifacts      |
 | `softprops/action-gh-release@v2.3.2`   | Creates GitHub Releases                           |
 
-## Versioning Strategy
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🏷️ Versioning Strategy
 
 ### Branch-Based Version Calculation
 
@@ -268,7 +316,13 @@ For the `main` branch, the version increment follows this rule:
 | Fix branch       | `-fix.{branch-name}`            |
 | Pull Request     | Additional `-pr{number}` suffix |
 
-## Concurrency Control
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔒 Concurrency Control
 
 ```yaml
 concurrency:
@@ -280,13 +334,25 @@ concurrency:
 - **Behavior:** Only one release workflow can run per branch at a time
 - **Cancellation:** Running releases are NOT cancelled if a new one is triggered
 
-## Artifacts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📦 Artifacts
 
 | Artifact Name              | Contents                        | Retention |
 | -------------------------- | ------------------------------- | --------- |
 | `artifacts-{version}`      | Compiled ARM templates          | 30 days   |
 
-## GitHub Release Contents
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🎉 GitHub Release Contents
 
 Each published release includes:
 
@@ -298,7 +364,13 @@ Each published release includes:
 | **Artifacts**            | Compiled ARM templates from `./artifacts/`       |
 | **Pre-release Flag**     | Set for non-main branches                        |
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Trigger Release from Main Branch
 
@@ -328,7 +400,13 @@ gh workflow run release.yml -r main
 gh workflow run release.yml -r feature/my-feature -f force_release=true
 ```
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Troubleshooting
 
 ### Common Issues
 
@@ -351,7 +429,13 @@ gh workflow run release.yml -r feature/my-feature -f force_release=true
    git tag --list 'v*' | sort -V | tail -10
    ```
 
-## Related Documentation
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Documentation
 
 - [CI Workflow](ci.md) - Continuous integration process
 - [Deploy Workflow](deploy.md) - Azure deployment process

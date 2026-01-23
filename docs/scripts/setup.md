@@ -1,12 +1,36 @@
-# setUp.ps1
+# ⚙️ setUp.ps1
 
 > **Azure Dev Box environment setup with GitHub/Azure DevOps integration**
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Flow Visualization](#flow-visualization)
+- [🔒 Authentication Flow](#authentication-flow)
+- [📝 Parameters](#parameters)
+- [⚙️ Prerequisites](#prerequisites)
+- [🔧 Functions Reference](#functions-reference)
+- [📝 Usage Examples](#usage-examples)
+- [⚠️ Error Handling](#error-handling)
+- [🔐 Security Considerations](#security-considerations)
+- [🔧 Troubleshooting](#troubleshooting)
+- [🔗 Related Scripts](#related-scripts)
+
+---
+
+## 🎯 Overview
 
 This script automates the setup of an Azure Developer CLI (azd) environment for Dev Box, handles source control authentication (GitHub or Azure DevOps), and prepares the environment for Azure resource provisioning. Use this script when initializing a new DevExp-DevBox environment.
 
-## Flow Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Flow Visualization
 
 ```mermaid
 flowchart TD
@@ -89,7 +113,13 @@ flowchart TD
     classDef error fill:#F44336,stroke:#C62828,color:#fff
 ```
 
-## Authentication Flow
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔒 Authentication Flow
 
 ```mermaid
 sequenceDiagram
@@ -122,7 +152,13 @@ sequenceDiagram
     Script-->>User: Setup complete
 ```
 
-## Parameters
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Parameters
 
 | Parameter | Type | Required | Default | Validation | Description |
 |-----------|------|----------|---------|------------|-------------|
@@ -132,7 +168,13 @@ sequenceDiagram
 
 *Required unless `-Help` is specified.
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites
 
 ### Required Tools
 
@@ -156,7 +198,13 @@ sequenceDiagram
 | `SOURCE_CONTROL_PLATFORM` | Tracks selected platform | Script (in `.env` file) |
 | `AZURE_DEVOPS_EXT_PAT` | Azure DevOps authentication | Script (for ADO platform) |
 
-## Functions Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Functions Reference
 
 ### Function: `Write-LogMessage`
 
@@ -313,7 +361,13 @@ sequenceDiagram
 6. Initialize azd environment
 7. Display success message
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### GitHub Setup
 
@@ -367,7 +421,13 @@ REQUIREMENTS:
 
 </details>
 
-## Error Handling
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling
 
 ### Error Action Preference
 
@@ -393,7 +453,13 @@ trap {
 }
 ```
 
-## Security Considerations
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔐 Security Considerations
 
 ### Token Handling
 
@@ -413,7 +479,13 @@ SOURCE_CONTROL_PLATFORM='github'
 
 > ⚠️ **Warning:** Ensure `.azure/` is in `.gitignore` to prevent token exposure.
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Troubleshooting
 
 ### Common Issues
 
@@ -433,7 +505,13 @@ $VerbosePreference = 'Continue'
 .\setUp.ps1 -EnvName "debug-env" -SourceControl "github"
 ```
 
-## Related Scripts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Scripts
 
 | Script | Purpose | Link |
 |--------|---------|------|
