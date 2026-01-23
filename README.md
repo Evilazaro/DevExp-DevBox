@@ -1,4 +1,20 @@
-# DevExp-DevBox
+---
+title: DevExp-DevBox
+description: Enterprise-grade Infrastructure-as-Code (IaC) solution built with Azure Bicep for deploying and managing Microsoft Dev Box environments at scale
+author: DevExp Team
+date: 2026-01-23
+version: 1.0.0
+tags:
+  - azure
+  - dev-box
+  - infrastructure-as-code
+  - bicep
+  - devops
+  - platform-engineering
+  - landing-zone
+---
+
+# 🖥️ DevExp-DevBox
 
 [![Continuous Integration](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/ci.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/ci.yml)
 [![Deploy to Azure](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/deploy.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/deploy.yml)
@@ -7,9 +23,25 @@
 ![Azure](https://img.shields.io/badge/Azure-0078D4?logo=microsoftazure&logoColor=white)
 ![Bicep](https://img.shields.io/badge/Bicep-IaC-blue)
 
+> [!NOTE]
+> **📖 Target Audience:** Platform Engineers, DevOps Engineers, Cloud Architects, and IT Administrators
+> **⏱️ Estimated Reading Time:** 20-25 minutes
+
 An enterprise-grade **Infrastructure-as-Code (IaC)** solution built with **Azure Bicep** for deploying and managing **Microsoft Dev Box** environments at scale. This accelerator implements **Azure Landing Zone** principles with a modular architecture that separates concerns across security, monitoring, connectivity, and workload layers—enabling platform engineering teams to provision consistent, secure developer workstations in minutes.
 
 Whether you're setting up a development environment for a small team or deploying Dev Boxes across an enterprise, DevExp-DevBox provides the automation, governance, and flexibility you need. The solution integrates seamlessly with **GitHub Actions** for CI/CD, uses **OIDC federation** for passwordless Azure authentication, and supports **PowerShell DSC** for customizing Dev Box images with role-specific tooling.
+
+---
+
+<details>
+<summary><strong>🧭 Quick Navigation</strong></summary>
+<br>
+
+| ⬅️ Previous | 📚 Index | ➡️ Next |
+|:------------|:--------:|--------:|
+| — | [Documentation](./docs/README.md) | [Architecture](./docs/architecture/01-business-architecture.md) |
+
+</details>
 
 ---
 
@@ -29,6 +61,9 @@ Whether you're setting up a development environment for a small team or deployin
 | [🤝 Contributing](#-contributing) | Development guidelines |
 | [📄 License](#-license) | MIT License information |
 | [📚 Additional Resources](#-additional-resources) | Documentation and external links |
+
+> [!TIP]
+> Use the links above to jump directly to any section. Each major section includes a "Back to Top" link for easy navigation.
 
 ---
 
@@ -67,6 +102,7 @@ The solution deploys a centralized **Azure DevCenter** that serves as the manage
 
 This separation ensures that security-sensitive resources are isolated, monitoring is centralized, and workload components can scale independently. The modular Bicep architecture enables teams to customize configurations through YAML files while maintaining infrastructure consistency across environments.
 
+> [!TIP]
 > 📖 For detailed architecture documentation including TOGAF-aligned decision records, see the [Architecture Documentation](./docs/architecture/).
 
 ### High-Level Architecture
@@ -195,6 +231,9 @@ flowchart LR
 
 ## 📋 Prerequisites
 
+> [!IMPORTANT]
+> Ensure you have the following tools installed and properly configured before proceeding with deployment.
+
 Ensure you have the following tools installed before proceeding:
 
 | Tool | Version | Purpose | Installation |
@@ -206,6 +245,9 @@ Ensure you have the following tools installed before proceeding:
 | **PowerShell** | 7.0+ | Script execution | [Install PowerShell](https://docs.microsoft.com/powershell/scripting/install/installing-powershell) |
 
 ### Azure Requirements
+
+> [!IMPORTANT]
+> The following Azure permissions and configurations are required for successful deployment.
 
 - ✅ An active Azure subscription with **Owner** or **Contributor + User Access Administrator** permissions
 - ✅ Azure AD permissions to create App Registrations (for OIDC setup)
@@ -234,6 +276,10 @@ gh --version
 # Check PowerShell
 pwsh --version
 ```
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -300,6 +346,18 @@ The deployment takes approximately **15-30 minutes** depending on the number of 
 
 > [!TIP]
 > For automated CI/CD deployments, use the GitHub Actions workflow. See [CI/CD Pipelines](#-cicd-pipelines).
+
+<details>
+<summary><strong>🔧 Troubleshooting Common Issues</strong></summary>
+
+| Issue | Solution |
+| :---- | :------- |
+| **OIDC Authentication Failed** | Verify federated credentials are configured correctly in Azure AD |
+| **Resource Provider Not Registered** | Run `az provider register --namespace <provider>` for missing providers |
+| **Insufficient Permissions** | Ensure you have Owner or Contributor + User Access Administrator roles |
+| **azd Provision Timeout** | Check network connectivity and retry with `azd provision --debug` |
+
+</details>
 
 <div align="right">
   <a href="#-table-of-contents">⬆️ Back to Top</a>
@@ -390,7 +448,8 @@ DevExp-DevBox/
 
 ## ⚙️ Configuration
 
-DevExp-DevBox uses **YAML configuration files** with JSON Schema validation for a type-safe, IDE-friendly experience. Each configuration file has a corresponding JSON Schema that provides IntelliSense and validation in VS Code.
+> [!NOTE]
+> DevExp-DevBox uses **YAML configuration files** with JSON Schema validation for a type-safe, IDE-friendly experience. Each configuration file has a corresponding JSON Schema that provides IntelliSense and validation in VS Code.
 
 ### Configuration Files
 
@@ -432,6 +491,9 @@ monitoring:
 ```
 
 ### Example: Adding a New Project
+
+> [!TIP]
+> Edit `infra/settings/workload/devcenter.yaml` to add a new project. The JSON Schema provides IntelliSense for available options.
 
 Edit `infra/settings/workload/devcenter.yaml` to add a project:
 
@@ -528,7 +590,8 @@ properties:
 
 ## 🔄 CI/CD Pipelines
 
-DevExp-DevBox includes a complete CI/CD pipeline architecture using GitHub Actions with **OIDC-based authentication** for secure, passwordless Azure deployments. The pipeline follows DevOps best practices with semantic versioning, artifact management, and environment-specific deployment gates.
+> [!NOTE]
+> DevExp-DevBox includes a complete CI/CD pipeline architecture using GitHub Actions with **OIDC-based authentication** for secure, passwordless Azure deployments. The pipeline follows DevOps best practices with semantic versioning, artifact management, and environment-specific deployment gates.
 
 ### Pipeline Architecture
 
@@ -609,6 +672,9 @@ flowchart TB
 
 ### Deploying via GitHub Actions
 
+> [!IMPORTANT]
+> Ensure all required repository variables and secrets are configured before triggering a deployment.
+
 1. Navigate to **Actions** → **Deploy to Azure**
 2. Click **Run workflow**
 3. Configure deployment parameters:
@@ -625,7 +691,7 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 .\.configuration\setup\powershell\Azure\generateDeploymentCredentials.ps1
 ```
 
-> [!NOTE]
+> [!TIP]
 > For comprehensive CI/CD pipeline documentation including reusable actions, versioning strategy, and best practices, see the [DevOps Documentation](./docs/devops/README.md).
 
 <div align="right">
@@ -700,6 +766,9 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 
 ## 🧹 Cleanup
 
+> [!WARNING]
+> The cleanup operations below will permanently delete Azure resources and associated data. Ensure you have backed up any important configurations before proceeding.
+
 Remove all deployed resources when no longer needed.
 
 ### Option 1: Azure Developer CLI (Recommended)
@@ -739,8 +808,8 @@ az group delete --name devexp-security-<env>-<region>-RG --yes --no-wait
 az group delete --name devexp-monitoring-<env>-<region>-RG --yes --no-wait
 ```
 
-> [!WARNING]
-> Key Vault soft-delete is enabled by default. Use `--purge` flag or manually purge deleted vaults to fully remove secrets.
+> [!CAUTION]
+> Key Vault soft-delete is enabled by default. Use `--purge` flag or manually purge deleted vaults to fully remove secrets. Soft-deleted Key Vaults consume quota and may block re-deployment with the same name.
 
 <div align="right">
   <a href="#-table-of-contents">⬆️ Back to Top</a>
@@ -750,7 +819,8 @@ az group delete --name devexp-monitoring-<env>-<region>-RG --yes --no-wait
 
 ## 🤝 Contributing
 
-Contributions are welcome! We follow a standard GitHub workflow.
+> [!NOTE]
+> Contributions are welcome! We follow a standard GitHub workflow with conventional commits.
 
 ### How to Contribute
 
@@ -843,6 +913,31 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 <div align="right">
   <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
+
+---
+
+## 📚 Related Documents
+
+| Document | Description |
+| :------- | :---------- |
+| [Business Architecture](./docs/architecture/01-business-architecture.md) | Business context and drivers |
+| [Data Architecture](./docs/architecture/02-data-architecture.md) | Data models and flows |
+| [Application Architecture](./docs/architecture/03-application-architecture.md) | Application components and interactions |
+| [Technology Architecture](./docs/architecture/04-technology-architecture.md) | Technology stack and infrastructure |
+| [Security Architecture](./docs/architecture/05-security-architecture.md) | Security controls and compliance |
+| [Deployment Architecture](./docs/architecture/07-deployment-architecture.md) | Deployment patterns and strategies |
+| [DevOps Documentation](./docs/devops/README.md) | CI/CD and operational guides |
+| [Scripts Documentation](./docs/scripts/README.md) | Setup and configuration scripts |
+
+---
+
+<div align="center">
+
+**🧭 Navigation**
+
+[⬆️ Back to Top](#️-devexp-devbox) · [📚 Documentation](./docs/README.md) · [🏗️ Architecture](./docs/architecture/01-business-architecture.md) · [🔧 DevOps](./docs/devops/README.md)
+
 </div>
 
 ---
