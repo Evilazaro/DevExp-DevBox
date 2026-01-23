@@ -59,53 +59,68 @@ The **Deploy to Azure** workflow provisions infrastructure to Azure using the Az
 ## 📊 Pipeline Visualization
 
 ```mermaid
+---
+title: Deploy to Azure Pipeline Visualization
+---
 flowchart TD
-    subgraph "🎯 Trigger"
-        T1([Manual Dispatch])
+    %% ===== TRIGGER =====
+    subgraph Trigger["🎯 Trigger"]
+        T1(["🖱️ Manual Dispatch"])
     end
 
-    subgraph "📝 Inputs"
+    %% ===== INPUTS =====
+    subgraph Inputs["📝 Inputs"]
         direction LR
-        I1[/"AZURE_ENV_NAME"/]
-        I2[/"AZURE_LOCATION"/]
+        I1[/"🌍 AZURE_ENV_NAME"/]
+        I2[/"📍 AZURE_LOCATION"/]
     end
 
-    subgraph "🚀 build-and-deploy-to-azure"
+    %% ===== BUILD AND DEPLOY JOB =====
+    subgraph BuildDeploy["🚀 build-and-deploy-to-azure"]
         direction TB
         V1["✅ Validate Required Variables"]
-        V1 --> C1["🔄 Checkout Repository"]
-        C1 --> AZD["📥 Install Azure Developer CLI"]
-        AZD --> B1["🔨 Build Bicep Templates"]
-        B1 --> U1["📤 Upload Build Artifacts"]
-        U1 --> S1["📊 Generate Build Summary"]
-        S1 --> AUTH["🔐 Authenticate with Azure (OIDC)"]
-        AUTH --> D1["🚀 Deploy Infrastructure to Azure"]
-        D1 --> DS["📋 Generate Deployment Summary"]
+        V1 -->|validates| C1["🔄 Checkout Repository"]
+        C1 -->|installs| AZD["📥 Install Azure Developer CLI"]
+        AZD -->|compiles| B1["🔨 Build Bicep Templates"]
+        B1 -->|uploads| U1["📤 Upload Build Artifacts"]
+        U1 -->|generates| S1["📊 Generate Build Summary"]
+        S1 -->|authenticates| AUTH["🔐 Authenticate with Azure OIDC"]
+        AUTH -->|provisions| D1["🚀 Deploy Infrastructure to Azure"]
+        D1 -->|summarizes| DS["📋 Generate Deployment Summary"]
     end
 
-    subgraph "☁️ Azure Resources"
-        AZ1[(Azure Subscription)]
-        AZ2[Dev Center]
-        AZ3[Key Vault]
-        AZ4[Virtual Network]
+    %% ===== AZURE RESOURCES =====
+    subgraph AzureResources["☁️ Azure Resources"]
+        AZ1[("🔑 Azure Subscription")]
+        AZ2["🖥️ Dev Center"]
+        AZ3["🔐 Key Vault"]
+        AZ4["🌐 Virtual Network"]
     end
 
-    T1 --> I1 & I2
-    I1 & I2 --> V1
-    D1 --> AZ1
-    AZ1 --> AZ2 & AZ3 & AZ4
+    %% ===== CONNECTIONS =====
+    T1 -->|provides| I1 & I2
+    I1 & I2 -->|configures| V1
+    D1 -->|creates| AZ1
+    AZ1 -->|provisions| AZ2 & AZ3 & AZ4
 
-    classDef trigger fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef input fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef build fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef deploy fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef azure fill:#0078D4,stroke:#005A9E,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef input fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
 
     class T1 trigger
     class I1,I2 input
-    class V1,C1,AZD,B1,U1,S1 build
-    class AUTH,D1,DS deploy
-    class AZ1,AZ2,AZ3,AZ4 azure
+    class V1,C1,AZD,B1,U1,S1 primary
+    class AUTH,D1,DS secondary
+    class AZ1,AZ2,AZ3,AZ4 datastore
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Trigger fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Inputs fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style BuildDeploy fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style AzureResources fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ---

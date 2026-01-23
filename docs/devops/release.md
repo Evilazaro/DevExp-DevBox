@@ -57,68 +57,84 @@ The **Branch-Based Release Strategy** workflow generates semantic versions and p
 ## 📊 Pipeline Visualization
 
 ```mermaid
+---
+title: Release Pipeline Visualization
+---
 flowchart TD
-    subgraph "🎯 Trigger"
-        T1([Manual Dispatch])
-        I1[/"force_release: boolean"/]
-        T1 --> I1
+    %% ===== TRIGGER =====
+    subgraph Trigger["🎯 Trigger"]
+        T1(["🖱️ Manual Dispatch"])
+        I1[/"🔄 force_release: boolean"/]
+        T1 -->|configures| I1
     end
 
-    subgraph "📊 generate-release"
+    %% ===== GENERATE RELEASE JOB =====
+    subgraph GenerateRelease["📊 generate-release"]
         direction TB
         GR1["🔄 Checkout Repository"]
         GR2["🏷️ Generate Release Information"]
         GR3["📋 Release Strategy Summary"]
-        GR4[/"new_version, release_type, should_release"/]
-        GR1 --> GR2 --> GR3 --> GR4
+        GR4[/"📦 new_version, release_type, should_release"/]
+        GR1 -->|clones| GR2 -->|summarizes| GR3 -->|outputs| GR4
     end
 
-    subgraph "🔨 build"
+    %% ===== BUILD JOB =====
+    subgraph Build["🔨 build"]
         direction TB
         B1["🔄 Checkout Repository"]
         B2["📦 Build Bicep Templates"]
         B3["📊 Build Summary"]
-        B1 --> B2 --> B3
+        B1 -->|compiles| B2 -->|reports| B3
     end
 
-    subgraph "🚀 publish-release"
+    %% ===== PUBLISH RELEASE JOB =====
+    subgraph PublishRelease["🚀 publish-release"]
         direction TB
         PR1["🔄 Checkout Repository"]
         PR2["📥 Download Build Artifacts"]
         PR3["📝 Generate Release Notes"]
         PR4["🎉 Create GitHub Release"]
         PR5["📋 Release Summary"]
-        PR1 --> PR2 --> PR3 --> PR4 --> PR5
+        PR1 -->|downloads| PR2 -->|generates| PR3 -->|publishes| PR4 -->|summarizes| PR5
     end
 
-    subgraph "📊 summary"
+    %% ===== SUMMARY JOB =====
+    subgraph Summary["📊 summary"]
         direction TB
         S1["📈 Workflow Summary"]
     end
 
-    I1 --> GR1
-    GR4 --> |"should_release == true"| B1
-    GR4 -.-> |"should_release == false"| SKIP1((Skip Build))
-    B3 --> |"build.result == success"| PR1
-    B3 -.-> |"build failed"| SKIP2((Skip Release))
-    GR4 -.-> |"should_publish == false"| SKIP2
-    PR5 --> S1
-    SKIP1 --> S1
-    SKIP2 --> S1
+    %% ===== CONNECTIONS =====
+    I1 -->|triggers| GR1
+    GR4 -->|should_release == true| B1
+    GR4 -.->|should_release == false| SKIP1((⏭️ Skip Build))
+    B3 -->|build.result == success| PR1
+    B3 -.->|build failed| SKIP2((⏭️ Skip Release))
+    GR4 -.->|should_publish == false| SKIP2
+    PR5 -->|completes| S1
+    SKIP1 -->|reports| S1
+    SKIP2 -->|reports| S1
 
-    classDef trigger fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef generate fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef build fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef publish fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef summary fill:#607D8B,stroke:#455A64,color:#fff
-    classDef skip fill:#9E9E9E,stroke:#616161,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
 
     class T1,I1 trigger
-    class GR1,GR2,GR3,GR4 generate
-    class B1,B2,B3 build
-    class PR1,PR2,PR3,PR4,PR5 publish
-    class S1 summary
-    class SKIP1,SKIP2 skip
+    class GR1,GR2,GR3,GR4 primary
+    class B1,B2,B3 datastore
+    class PR1,PR2,PR3,PR4,PR5 secondary
+    class S1 primary
+    class SKIP1,SKIP2 external
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Trigger fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style GenerateRelease fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Build fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style PublishRelease fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Summary fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ---

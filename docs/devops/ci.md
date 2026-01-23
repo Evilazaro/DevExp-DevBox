@@ -55,42 +55,56 @@ The **Continuous Integration (CI)** workflow validates and builds Bicep template
 ## 📊 Pipeline Visualization
 
 ```mermaid
+---
+title: CI Pipeline Visualization
+---
 flowchart TD
-    subgraph "🎯 Triggers"
-        T1([Push to feature/**])
-        T2([Push to fix/**])
-        T3([PR to main])
+    %% ===== TRIGGERS =====
+    subgraph Triggers["🎯 Triggers"]
+        T1(["🌿 Push to feature/**"])
+        T2(["🔧 Push to fix/**"])
+        T3(["📝 PR to main"])
     end
 
-    subgraph "📊 generate-tag-version"
+    %% ===== GENERATE TAG VERSION JOB =====
+    subgraph GenerateTag["📊 generate-tag-version"]
         direction TB
         GTV1["🔄 Checkout Repository"]
         GTV2["🏷️ Generate Release Information"]
-        GTV3[/"new_version, release_type, previous_tag"/]
-        GTV1 --> GTV2 --> GTV3
+        GTV3[/"📦 new_version, release_type, previous_tag"/]
+        GTV1 -->|clones| GTV2 -->|outputs| GTV3
     end
 
-    subgraph "🔨 build"
+    %% ===== BUILD JOB =====
+    subgraph Build["🔨 build"]
         direction TB
         B1["🔄 Checkout Repository"]
         B2["📦 Build Bicep Code"]
-        B3[/"Versioned Artifacts"/]
-        B1 --> B2 --> B3
+        B3[/"✅ Versioned Artifacts"/]
+        B1 -->|clones| B2 -->|produces| B3
     end
 
-    T1 & T2 & T3 --> GTV1
-    GTV3 --> |"success"| B1
-    GTV3 -.-> |"failure"| SKIP((Skipped))
+    %% ===== CONNECTIONS =====
+    T1 & T2 & T3 -->|triggers| GTV1
+    GTV3 -->|success| B1
+    GTV3 -.->|failure| SKIP((⏭️ Skipped))
 
-    classDef trigger fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef build fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef artifact fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef skip fill:#9E9E9E,stroke:#616161,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
 
     class T1,T2,T3 trigger
-    class GTV1,GTV2,B1,B2 build
-    class GTV3,B3 artifact
-    class SKIP skip
+    class GTV1,GTV2,B1,B2 primary
+    class GTV3,B3 secondary
+    class SKIP external
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Triggers fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style GenerateTag fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Build fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---
