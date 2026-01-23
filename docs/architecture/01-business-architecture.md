@@ -40,15 +40,15 @@ tags:
 
 ## 📑 Table of Contents
 
-- [📋 Executive Summary](#executive-summary)
-- [🎯 Business Context](#business-context)
-- [👥 Stakeholder Analysis](#stakeholder-analysis)
-- [⚙️ Business Capabilities](#business-capabilities)
-- [🔄 Value Streams](#value-streams)
-- [📝 Business Requirements](#business-requirements)
-- [📊 Success Metrics](#success-metrics)
-- [📖 Glossary](#glossary)
-- [🔗 References](#references)
+- [📋 Executive Summary](#-executive-summary)
+- [🎯 Business Context](#-business-context)
+- [👥 Stakeholder Analysis](#-stakeholder-analysis)
+- [⚙️ Business Capabilities](#%EF%B8%8F-business-capabilities)
+- [🔄 Value Streams](#-value-streams)
+- [📝 Business Requirements](#-business-requirements)
+- [📊 Success Metrics](#-success-metrics)
+- [📖 Glossary](#-glossary)
+- [🔗 References](#-references)
 
 ---
 

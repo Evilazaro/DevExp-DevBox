@@ -40,13 +40,13 @@ tags:
 - [📊 Flow Visualization](#-flow-visualization)
 - [🔄 Service Principal Creation Flow](#-service-principal-creation-flow)
 - [📝 Parameters](#-parameters)
-- [⚙️ Prerequisites](#-prerequisites)
+- [⚙️ Prerequisites](#%EF%B8%8F-prerequisites)
 - [👥 Assigned Roles](#-assigned-roles)
 - [🔧 Functions Reference](#-functions-reference)
 - [📝 Usage Examples](#-usage-examples)
-- [⚠️ Error Handling](#-error-handling)
+- [⚠️ Error Handling](#%EF%B8%8F-error-handling)
 - [🔒 Security Considerations](#-security-considerations)
-- [🛠️ Troubleshooting](#-troubleshooting)
+- [🛠️ Troubleshooting](#%EF%B8%8F-troubleshooting)
 - [🔗 Related Scripts](#-related-scripts)
 
 ---

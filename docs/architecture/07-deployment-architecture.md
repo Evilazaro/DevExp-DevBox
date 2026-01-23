@@ -40,16 +40,16 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [🏗️ High-Level Architecture](#high-level-architecture)
-- [🔄 Pipeline Architecture](#pipeline-architecture)
-- [🌍 Deployment Environments](#deployment-environments)
-- [🔒 Security Architecture](#security-architecture)
-- [📦 Infrastructure Components](#infrastructure-components)
-- [💾 Artifact Management](#artifact-management)
-- [🛠️ Deployment Process](#deployment-process)
-- [📶 Monitoring & Observability](#monitoring--observability)
-- [🔗 Related Documentation](#related-documentation)
+- [🎯 Overview](#-overview)
+- [🏗️ High-Level Architecture](#%EF%B8%8F-high-level-architecture)
+- [🔄 Pipeline Architecture](#-pipeline-architecture)
+- [🌍 Deployment Environments](#-deployment-environments)
+- [🔒 Security Architecture](#-security-architecture)
+- [📦 Infrastructure Components](#-infrastructure-components)
+- [💾 Artifact Management](#-artifact-management)
+- [🛠️ Deployment Process](#%EF%B8%8F-deployment-process)
+- [📶 Monitoring & Observability](#-monitoring--observability)
+- [🔗 Related Documentation](#-related-documentation)
 
 ---
 

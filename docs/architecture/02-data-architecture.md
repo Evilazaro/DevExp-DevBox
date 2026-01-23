@@ -40,15 +40,15 @@ tags:
 
 ## 📑 Table of Contents
 
-- [📊 Data Overview](#data-overview)
-- [📁 Configuration Data Model](#configuration-data-model)
-- [🔐 Secrets Management](#secrets-management)
-- [📶 Telemetry & Diagnostics](#telemetry--diagnostics)
-- [🔄 Data Flow Diagrams](#data-flow-diagrams)
-- [🛡️ Data Governance](#data-governance)
-- [📝 Schema Documentation](#schema-documentation)
-- [📖 Glossary](#glossary)
-- [🔗 References](#references)
+- [📊 Data Overview](#-data-overview)
+- [📁 Configuration Data Model](#-configuration-data-model)
+- [🔐 Secrets Management](#-secrets-management)
+- [📶 Telemetry & Diagnostics](#-telemetry--diagnostics)
+- [🔄 Data Flow Diagrams](#-data-flow-diagrams)
+- [🛡️ Data Governance](#%EF%B8%8F-data-governance)
+- [📝 Schema Documentation](#-schema-documentation)
+- [📖 Glossary](#-glossary)
+- [🔗 References](#-references)
 
 ---
 

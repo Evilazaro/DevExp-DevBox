@@ -40,17 +40,17 @@ tags:
 
 ## 📑 Table of Contents
 
-- [📊 Security Overview](#security-overview)
-- [⚠️ Threat Model](#threat-model)
-- [🔑 Identity & Access Management](#identity--access-management)
-- [👥 RBAC Hierarchy](#rbac-hierarchy)
-- [🔐 Secrets Management](#secrets-management)
-- [🌐 Network Security](#network-security)
-- [🛡️ Data Protection](#data-protection)
-- [✅ Compliance & Governance](#compliance--governance)
-- [📶 Security Operations](#security-operations)
-- [📋 Security Controls Matrix](#security-controls-matrix)
-- [🔗 References](#references)
+- [📊 Security Overview](#-security-overview)
+- [⚠️ Threat Model](#%EF%B8%8F-threat-model)
+- [🔑 Identity & Access Management](#-identity--access-management)
+- [👥 RBAC Hierarchy](#-rbac-hierarchy)
+- [🔐 Secrets Management](#-secrets-management)
+- [🌐 Network Security](#-network-security)
+- [🛡️ Data Protection](#%EF%B8%8F-data-protection)
+- [✅ Compliance & Governance](#-compliance--governance)
+- [📶 Security Operations](#-security-operations)
+- [📋 Security Controls Matrix](#-security-controls-matrix)
+- [🔗 References](#-references)
 
 ---
 

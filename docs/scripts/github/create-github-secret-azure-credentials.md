@@ -36,13 +36,13 @@ tags:
 - [🎯 Overview](#-overview)
 - [📊 Flow Visualization](#-flow-visualization)
 - [📝 Parameters](#-parameters)
-- [⚙️ Prerequisites](#-prerequisites)
+- [⚙️ Prerequisites](#%EF%B8%8F-prerequisites)
 - [📥 Expected Input Format](#-expected-input-format)
 - [🔧 Functions Reference](#-functions-reference)
 - [📝 Usage Examples](#-usage-examples)
-- [⚙️ Using the Secret in GitHub Actions](#-using-the-secret-in-github-actions)
-- [⚠️ Error Handling](#-error-handling)
-- [🛠️ Troubleshooting](#-troubleshooting)
+- [⚙️ Using the Secret in GitHub Actions](#%EF%B8%8F-using-the-secret-in-github-actions)
+- [⚠️ Error Handling](#%EF%B8%8F-error-handling)
+- [🛠️ Troubleshooting](#%EF%B8%8F-troubleshooting)
 - [🔒 Security Considerations](#-security-considerations)
 - [🔗 Related Scripts](#-related-scripts)
 
@@ -54,7 +54,7 @@ This script authenticates to GitHub using the GitHub CLI and creates a repositor
 
 ---
 
-[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 

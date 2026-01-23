@@ -40,16 +40,16 @@ tags:
 
 ## 📑 Table of Contents
 
-- [📊 Technology Overview](#technology-overview)
-- [📦 Azure Service Catalog](#azure-service-catalog)
-- [🏗️ Landing Zone Design](#landing-zone-design)
-- [🌐 Network Architecture](#network-architecture)
-- [💻 Compute Architecture](#compute-architecture)
-- [🔄 CI/CD Infrastructure](#cicd-infrastructure)
-- [📶 Monitoring Infrastructure](#monitoring-infrastructure)
-- [📏 Infrastructure Sizing](#infrastructure-sizing)
-- [📜 Technology Standards](#technology-standards)
-- [🔗 References](#references)
+- [📊 Technology Overview](#-technology-overview)
+- [📦 Azure Service Catalog](#-azure-service-catalog)
+- [🏗️ Landing Zone Design](#%EF%B8%8F-landing-zone-design)
+- [🌐 Network Architecture](#-network-architecture)
+- [💻 Compute Architecture](#-compute-architecture)
+- [🔄 CI/CD Infrastructure](#-cicd-infrastructure)
+- [📶 Monitoring Infrastructure](#-monitoring-infrastructure)
+- [📏 Infrastructure Sizing](#-infrastructure-sizing)
+- [📜 Technology Standards](#-technology-standards)
+- [🔗 References](#-references)
 
 ---
 

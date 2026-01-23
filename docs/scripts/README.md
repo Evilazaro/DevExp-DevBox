@@ -33,16 +33,16 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [🏗️ Scripts Architecture](#scripts-architecture)
-- [⚡ Quick Reference](#quick-reference)
-- [📂 Scripts by Category](#scripts-by-category)
-- [⚙️ Prerequisites Summary](#prerequisites-summary)
-- [🔄 Common Workflows](#common-workflows)
-- [⚠️ Error Handling Patterns](#error-handling-patterns)
-- [📁 File Structure](#file-structure)
-- [🔗 Related Documentation](#related-documentation)
-- [🤝 Contributing](#contributing)
+- [🎯 Overview](#-overview)
+- [🏗️ Scripts Architecture](#%EF%B8%8F-scripts-architecture)
+- [⚡ Quick Reference](#-quick-reference)
+- [📂 Scripts by Category](#-scripts-by-category)
+- [⚙️ Prerequisites Summary](#%EF%B8%8F-prerequisites-summary)
+- [🔄 Common Workflows](#-common-workflows)
+- [⚠️ Error Handling Patterns](#%EF%B8%8F-error-handling-patterns)
+- [📁 File Structure](#-file-structure)
+- [🔗 Related Documentation](#-related-documentation)
+- [🤝 Contributing](#-contributing)
 
 ---
 
