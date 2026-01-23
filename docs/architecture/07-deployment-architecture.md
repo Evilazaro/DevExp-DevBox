@@ -66,55 +66,72 @@ The Dev Box Accelerator uses a modern GitOps-style deployment approach with GitH
 ## 🏗️ High-Level Architecture
 
 ```mermaid
+---
+title: High-Level Architecture
+---
 flowchart TB
-    subgraph "👨‍💻 Development"
+    %% ===== DEVELOPMENT =====
+    subgraph Development["👨‍💻 Development"]
         DEV1["Developer Workstation"]
         DEV2["VS Code + Bicep Extension"]
-        DEV1 --> DEV2
+        DEV1 -->|uses| DEV2
     end
 
-    subgraph "📦 Source Control"
+    %% ===== SOURCE CONTROL =====
+    subgraph SourceControl["📦 Source Control"]
         GH1["GitHub Repository"]
         GH2["Branch Strategy"]
         GH3["Pull Requests"]
-        GH1 --> GH2
-        GH2 --> GH3
+        GH1 -->|implements| GH2
+        GH2 -->|enables| GH3
     end
 
-    subgraph "🔄 CI/CD Pipeline"
+    %% ===== CI/CD PIPELINE =====
+    subgraph CICD["🔄 CI/CD Pipeline"]
         direction TB
         CI["🔨 CI Workflow"]
         RELEASE["🏷️ Release Workflow"]
         DEPLOY["🚀 Deploy Workflow"]
     end
 
-    subgraph "☁️ Azure"
+    %% ===== AZURE =====
+    subgraph Azure["☁️ Azure"]
         direction TB
         SUB["Azure Subscription"]
         RG["Resource Groups"]
         DC["Dev Center"]
         KV["Key Vault"]
         VNET["Virtual Network"]
-        SUB --> RG
-        RG --> DC & KV & VNET
+        SUB -->|contains| RG
+        RG -->|hosts| DC
+        RG -->|hosts| KV
+        RG -->|hosts| VNET
     end
 
-    DEV2 --> |"git push"| GH1
-    GH2 --> |"feature/fix branches"| CI
-    GH3 --> |"PR to main"| CI
-    GH1 --> |"manual trigger"| RELEASE
-    GH1 --> |"manual trigger"| DEPLOY
-    DEPLOY --> |"azd provision"| SUB
+    %% ===== CONNECTIONS =====
+    DEV2 -->|git push| GH1
+    GH2 -->|triggers| CI
+    GH3 -->|triggers| CI
+    GH1 -->|manual trigger| RELEASE
+    GH1 -->|manual trigger| DEPLOY
+    DEPLOY -->|azd provision| SUB
 
-    classDef dev fill:#E3F2FD,stroke:#1565C0,color:#000
-    classDef gh fill:#F3E5F5,stroke:#6A1B9A,color:#000
-    classDef cicd fill:#FFF3E0,stroke:#EF6C00,color:#000
-    classDef azure fill:#E8F5E9,stroke:#2E7D32,color:#000
+    %% ===== NODE STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
 
-    class DEV1,DEV2 dev
-    class GH1,GH2,GH3 gh
-    class CI,RELEASE,DEPLOY cicd
-    class SUB,RG,DC,KV,VNET azure
+    class DEV1,DEV2 primary
+    class GH1,GH2,GH3 trigger
+    class CI,RELEASE,DEPLOY datastore
+    class SUB,RG,DC,KV,VNET secondary
+
+    %% ===== SUBGRAPH STYLES =====
+    style Development fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style SourceControl fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style CICD fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Azure fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ---
@@ -128,44 +145,58 @@ flowchart TB
 ### Workflow Relationships
 
 ```mermaid
+---
+title: Workflow Relationships
+---
 flowchart LR
-    subgraph "Trigger Events"
-        T1([Push to feature/**])
-        T2([Push to fix/**])
-        T3([PR to main])
-        T4([Manual Dispatch])
+    %% ===== TRIGGER EVENTS =====
+    subgraph Triggers["🎯 Trigger Events"]
+        T1(["Push to feature/**"])
+        T2(["Push to fix/**"])
+        T3(["PR to main"])
+        T4(["Manual Dispatch"])
     end
 
-    subgraph "Workflows"
+    %% ===== WORKFLOWS =====
+    subgraph Workflows["🔄 Workflows"]
         direction TB
-        W1["ci.yml<br>Continuous Integration"]
-        W2["release.yml<br>Branch-Based Release"]
-        W3["deploy.yml<br>Deploy to Azure"]
+        W1["ci.yml<br/>Continuous Integration"]
+        W2["release.yml<br/>Branch-Based Release"]
+        W3["deploy.yml<br/>Deploy to Azure"]
     end
 
-    subgraph "Artifacts & Outputs"
+    %% ===== ARTIFACTS & OUTPUTS =====
+    subgraph Outputs["📦 Artifacts & Outputs"]
         A1[/"Versioned Artifacts"/]
         A2[/"GitHub Release"/]
-        A3[(Azure Resources)]
+        A3[("Azure Resources")]
     end
 
-    T1 & T2 --> W1
-    T3 --> W1
-    T4 --> W2
-    T4 --> W3
+    %% ===== CONNECTIONS =====
+    T1 -->|triggers| W1
+    T2 -->|triggers| W1
+    T3 -->|triggers| W1
+    T4 -->|triggers| W2
+    T4 -->|triggers| W3
 
-    W1 --> A1
-    W2 --> A1
-    W2 --> A2
-    W3 --> A3
+    W1 -->|produces| A1
+    W2 -->|produces| A1
+    W2 -->|creates| A2
+    W3 -->|provisions| A3
 
-    classDef trigger fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef workflow fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef artifact fill:#4CAF50,stroke:#2E7D32,color:#fff
+    %% ===== NODE STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
 
     class T1,T2,T3,T4 trigger
-    class W1,W2,W3 workflow
-    class A1,A2,A3 artifact
+    class W1,W2,W3 datastore
+    class A1,A2,A3 secondary
+
+    %% ===== SUBGRAPH STYLES =====
+    style Triggers fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Workflows fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Outputs fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Detailed CI/CD Flow
@@ -233,30 +264,41 @@ sequenceDiagram
 ### Environment Configuration
 
 ```mermaid
+---
+title: Environment Configuration
+---
 flowchart TB
-    subgraph "GitHub Environments"
+    %% ===== GITHUB ENVIRONMENTS =====
+    subgraph GitHubEnv["🐙 GitHub Environments"]
         direction LR
         ENV1["dev"]
         ENV2["staging"]
         ENV3["prod"]
     end
 
-    subgraph "Azure Subscriptions"
+    %% ===== AZURE SUBSCRIPTIONS =====
+    subgraph AzureSub["☁️ Azure Subscriptions"]
         direction LR
         SUB1["Dev Subscription"]
         SUB2["Staging Subscription"]
         SUB3["Prod Subscription"]
     end
 
-    ENV1 --> |OIDC| SUB1
-    ENV2 --> |OIDC| SUB2
-    ENV3 --> |OIDC| SUB3
+    %% ===== CONNECTIONS =====
+    ENV1 -->|OIDC| SUB1
+    ENV2 -->|OIDC| SUB2
+    ENV3 -->|OIDC| SUB3
 
-    classDef env fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef azure fill:#4CAF50,stroke:#2E7D32,color:#fff
+    %% ===== NODE STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
 
-    class ENV1,ENV2,ENV3 env
-    class SUB1,SUB2,SUB3 azure
+    class ENV1,ENV2,ENV3 trigger
+    class SUB1,SUB2,SUB3 secondary
+
+    %% ===== SUBGRAPH STYLES =====
+    style GitHubEnv fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style AzureSub fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ---
@@ -270,35 +312,50 @@ flowchart TB
 ### Authentication Flow
 
 ```mermaid
+---
+title: Authentication Flow
+---
 flowchart LR
-    subgraph "GitHub Actions"
+    %% ===== GITHUB ACTIONS =====
+    subgraph GitHub["🐙 GitHub Actions"]
         GH1["Workflow Run"]
         GH2["Request OIDC Token"]
+        GH1 -->|initiates| GH2
     end
 
-    subgraph "Azure AD"
+    %% ===== AZURE AD =====
+    subgraph AzureAD["🏢 Azure AD"]
         AD1["Validate Token"]
         AD2["Issue Access Token"]
         AD3["Federated Credential"]
+        AD1 -->|checks| AD3
+        AD3 -->|authorizes| AD2
     end
 
-    subgraph "Azure Resources"
+    %% ===== AZURE RESOURCES =====
+    subgraph AzureRes["☁️ Azure Resources"]
         AZ1["Subscription"]
         AZ2["Resource Group"]
+        AZ1 -->|contains| AZ2
     end
 
-    GH1 --> GH2
-    GH2 --> |"JWT"| AD1
-    AD1 --> AD3
-    AD3 --> AD2
-    AD2 --> |"Bearer Token"| AZ1
-    AZ1 --> AZ2
+    %% ===== CONNECTIONS =====
+    GH2 -->|JWT| AD1
+    AD2 -->|Bearer Token| AZ1
 
-    classDef github fill:#24292E,stroke:#1B1F23,color:#fff
-    classDef azure fill:#0078D4,stroke:#005A9E,color:#fff
+    %% ===== NODE STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
 
-    class GH1,GH2 github
-    class AD1,AD2,AD3,AZ1,AZ2 azure
+    class GH1,GH2 trigger
+    class AD1,AD2,AD3 primary
+    class AZ1,AZ2 secondary
+
+    %% ===== SUBGRAPH STYLES =====
+    style GitHub fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style AzureAD fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style AzureRes fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Security Controls
@@ -322,12 +379,17 @@ flowchart LR
 ### Bicep Module Structure
 
 ```mermaid
+---
+title: Bicep Module Structure
+---
 flowchart TB
-    subgraph "Entry Point"
+    %% ===== ENTRY POINT =====
+    subgraph EntryPoint["🎯 Entry Point"]
         MAIN["main.bicep"]
     end
 
-    subgraph "src/workload"
+    %% ===== WORKLOAD MODULES =====
+    subgraph Workload["📦 src/workload"]
         W1["workload.bicep"]
         W2["core/devCenter.bicep"]
         W3["core/catalog.bicep"]
@@ -336,39 +398,60 @@ flowchart TB
         W6["project/projectPool.bicep"]
     end
 
-    subgraph "src/connectivity"
+    %% ===== CONNECTIVITY MODULES =====
+    subgraph Connectivity["🌐 src/connectivity"]
         C1["connectivity.bicep"]
         C2["vnet.bicep"]
         C3["networkConnection.bicep"]
     end
 
-    subgraph "src/security"
+    %% ===== SECURITY MODULES =====
+    subgraph Security["🔐 src/security"]
         S1["security.bicep"]
         S2["keyVault.bicep"]
         S3["secret.bicep"]
     end
 
-    subgraph "src/identity"
+    %% ===== IDENTITY MODULES =====
+    subgraph Identity["👤 src/identity"]
         I1["devCenterRoleAssignment.bicep"]
         I2["projectIdentityRoleAssignment.bicep"]
     end
 
-    MAIN --> W1 & C1 & S1 & I1
-    W1 --> W2 & W3 & W4 & W5 & W6
-    C1 --> C2 & C3
-    S1 --> S2 & S3
+    %% ===== CONNECTIONS =====
+    MAIN -->|deploys| W1
+    MAIN -->|deploys| C1
+    MAIN -->|deploys| S1
+    MAIN -->|deploys| I1
+    W1 -->|includes| W2
+    W1 -->|includes| W3
+    W1 -->|includes| W4
+    W1 -->|includes| W5
+    W1 -->|includes| W6
+    C1 -->|includes| C2
+    C1 -->|includes| C3
+    S1 -->|includes| S2
+    S1 -->|includes| S3
 
-    classDef main fill:#F44336,stroke:#C62828,color:#fff
-    classDef workload fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef connectivity fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef security fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef identity fill:#9C27B0,stroke:#6A1B9A,color:#fff
+    %% ===== NODE STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
 
-    class MAIN main
-    class W1,W2,W3,W4,W5,W6 workload
-    class C1,C2,C3 connectivity
-    class S1,S2,S3 security
-    class I1,I2 identity
+    class MAIN trigger
+    class W1,W2,W3,W4,W5,W6 primary
+    class C1,C2,C3 secondary
+    class S1,S2,S3 datastore
+    class I1,I2 failed
+
+    %% ===== SUBGRAPH STYLES =====
+    style EntryPoint fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Workload fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Connectivity fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Security fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Identity fill:#FEE2E2,stroke:#F44336,stroke-width:2px
 ```
 
 ---
@@ -382,37 +465,51 @@ flowchart TB
 ### Artifact Flow
 
 ```mermaid
+---
+title: Artifact Flow
+---
 flowchart LR
-    subgraph "Build Stage"
+    %% ===== BUILD STAGE =====
+    subgraph Build["🔨 Build Stage"]
         B1["Bicep Source"]
         B2["az bicep build"]
         B3["ARM Templates"]
-        B1 --> B2 --> B3
+        B1 -->|compiles| B2
+        B2 -->|generates| B3
     end
 
-    subgraph "Storage"
-        S1["GitHub Artifacts<br>30-day retention"]
-        S2["GitHub Releases<br>Permanent"]
+    %% ===== STORAGE =====
+    subgraph Storage["💾 Storage"]
+        S1["GitHub Artifacts<br/>30-day retention"]
+        S2["GitHub Releases<br/>Permanent"]
     end
 
-    subgraph "Deployment"
+    %% ===== DEPLOYMENT =====
+    subgraph Deployment["🚀 Deployment"]
         D1["azd provision"]
         D2["Azure Resources"]
-        D1 --> D2
+        D1 -->|creates| D2
     end
 
-    B3 --> S1
-    B3 --> S2
-    S1 --> D1
-    S2 --> D1
+    %% ===== CONNECTIONS =====
+    B3 -->|uploads| S1
+    B3 -->|uploads| S2
+    S1 -->|downloads| D1
+    S2 -->|downloads| D1
 
-    classDef build fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef storage fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef deploy fill:#4CAF50,stroke:#2E7D32,color:#fff
+    %% ===== NODE STYLES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
 
-    class B1,B2,B3 build
-    class S1,S2 storage
-    class D1,D2 deploy
+    class B1,B2,B3 datastore
+    class S1,S2 primary
+    class D1,D2 secondary
+
+    %% ===== SUBGRAPH STYLES =====
+    style Build fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Storage fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Deployment fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Versioning Scheme
