@@ -128,6 +128,10 @@ flowchart TB
     style IaC fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
     style CI_CD fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
     style Azure fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Compute fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style Security fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style Network fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style Monitor fill:#D1FAE5,stroke:#059669,stroke-width:1px
 ```
 
 ### Technology Decision Matrix
@@ -517,6 +521,9 @@ flowchart TB
     
     style DevCenter fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
     style Runtime fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Images fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style Projects fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style Pools fill:#D1FAE5,stroke:#059669,stroke-width:1px
 ```
 
 ### Dev Box SKU Options
@@ -639,6 +646,8 @@ flowchart TB
     
     style GitHub fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
     style Azure fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Actions fill:#E0E7FF,stroke:#4F46E5,stroke-width:1px
+    style Secrets fill:#E0E7FF,stroke:#4F46E5,stroke-width:1px
 ```
 
 ### Workflow Pipeline Structure
@@ -791,6 +800,8 @@ flowchart TB
     style Collection fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
     style LAW fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
     style Consumers fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Tables fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style Solutions fill:#D1FAE5,stroke:#059669,stroke-width:1px
 ```
 
 ### Diagnostic Settings Configuration

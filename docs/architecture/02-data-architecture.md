@@ -105,6 +105,7 @@ flowchart TB
     class T1,T2,T3 secondary
     class ST1,ST2,ST3 datastore
     
+    style DataCategories fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
     style Config fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
     style Secrets fill:#FEE2E2,stroke:#F44336,stroke-width:2px
     style Telemetry fill:#ECFDF5,stroke:#10B981,stroke-width:2px

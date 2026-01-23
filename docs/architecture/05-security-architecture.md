@@ -542,6 +542,8 @@ flowchart TB
     style Sources fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
     style KeyVault fill:#FEE2E2,stroke:#F44336,stroke-width:2px
     style Access fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Settings fill:#FECACA,stroke:#C62828,stroke-width:1px
+    style Secrets fill:#FECACA,stroke:#C62828,stroke-width:1px
 ```
 
 ### Key Vault Configuration
@@ -661,6 +663,9 @@ flowchart TB
     style Internet fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
     style AzureNetwork fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
     style Resources fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style NSG fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style VNet fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style PE fill:#D1FAE5,stroke:#059669,stroke-width:1px
 ```
 
 ### Network Configuration Options
