@@ -36,19 +36,19 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Flow Visualization](#flow-visualization)
-- [🔄 Update Process Flow](#update-process-flow)
-- [📝 Parameters](#parameters)
-- [⚙️ Prerequisites](#prerequisites)
-- [🛠️ Configuration](#configuration)
-- [🔧 Functions Reference](#functions-reference)
-- [📝 Usage Examples](#usage-examples)
-- [⚠️ Error Handling](#error-handling)
-- [🔍 Troubleshooting](#troubleshooting)
-- [🔄 DSC Integration](#dsc-integration)
-- [🔒 Security Considerations](#security-considerations)
-- [🔗 Related Files](#related-files)
+- [🎯 Overview](#-overview)
+- [📊 Flow Visualization](#-flow-visualization)
+- [🔄 Update Process Flow](#-update-process-flow)
+- [📝 Parameters](#-parameters)
+- [⚙️ Prerequisites](#️-prerequisites)
+- [🛠️ Configuration](#️-configuration)
+- [🔧 Functions Reference](#-functions-reference)
+- [📝 Usage Examples](#-usage-examples)
+- [⚠️ Error Handling](#️-error-handling)
+- [🔍 Troubleshooting](#-troubleshooting)
+- [🔄 DSC Integration](#-dsc-integration)
+- [🔒 Security Considerations](#-security-considerations)
+- [🔗 Related Files](#-related-files)
 
 ---
 
@@ -196,7 +196,7 @@ This script has no parameters. All configuration is handled internally.
 ### Required Tools
 
 | Tool | Purpose | Installation |
-|------|---------|--------------|
+|:-----|:--------|:-------------|
 | Windows Package Manager (`winget`) | Package management | Pre-installed or via [App Installer](https://apps.microsoft.com/store/detail/app-installer/9NBLGGH4NNS1) |
 | PowerShell 5.1+ | Script execution | Pre-installed on Windows |
 
@@ -216,13 +216,13 @@ This script has no parameters. All configuration is handled internally.
 ### Environment Variables Set
 
 | Variable | Value | Purpose |
-|----------|-------|---------|
+|:---------|:------|:--------|
 | `WINGET_DISABLE_INTERACTIVITY` | `1` | Prevents all prompts |
 
 ### Script Preferences
 
 | Preference | Value | Purpose |
-|------------|-------|---------|
+|:-----------|:------|:--------|
 | `$ErrorActionPreference` | `Stop` | Terminate on errors |
 | `$ProgressPreference` | `SilentlyContinue` | Suppress progress bars |
 | `ExecutionPolicy` | `Bypass` (Process) | Allow script execution |
@@ -248,7 +248,7 @@ This script has no parameters. All configuration is handled internally.
 **Parameters:**
 
 | Name | Type | Description |
-|------|------|-------------|
+|:-----|:-----|:------------|
 | `Message` | `string` | Message to write |
 
 ---
@@ -285,7 +285,7 @@ This script has no parameters. All configuration is handled internally.
 **Parameters:**
 
 | Name | Type | Required | Description |
-|------|------|----------|-------------|
+|:-----|:-----|:--------:|:------------|
 | `CommandArgs` | `string[]` | Yes | Arguments to pass to winget |
 | `RetryOnSelfUpdate` | `switch` | No | Retry if winget updated itself |
 
@@ -333,7 +333,7 @@ This script has no parameters. All configuration is handled internally.
 **Update Passes:**
 
 | Pass | Purpose | Flags |
-|------|---------|-------|
+|:----:|:--------|:------|
 | 1 | Standard upgrade | `--include-unknown --silent` |
 | 2 | Forced upgrade | `--force --silent` |
 | 3 | Safety net | Unfiltered (all sources) |
@@ -413,7 +413,7 @@ No applicable upgrade found.
 ### Exit Codes
 
 | Code | Meaning |
-|------|---------|
+|:----:|:--------|
 | `0` | Updates completed (may include skipped apps) |
 | `1` | Critical failure (winget not found, etc.) |
 
@@ -434,7 +434,7 @@ No applicable upgrade found.
 ### Common Issues
 
 | Issue | Cause | Solution |
-|-------|-------|----------|
+|:------|:------|:---------|
 | "winget not found" | App Installer not installed | Install from Microsoft Store |
 | No updates applied | All apps current | Check log for details |
 | Permission errors | Not running elevated | Run as Administrator |
@@ -471,7 +471,7 @@ winget source update
 This script is designed to work with Windows Desired State Configuration (DSC). Related DSC files:
 
 | File | Purpose |
-|------|---------|
+|:-----|:--------|
 | `winget-upgrade-packages.dsc.yaml` | DSC configuration for package updates |
 | `common-config.dsc.yaml` | Common DSC configuration |
 
@@ -519,7 +519,7 @@ Review these agreements at [Microsoft Store Terms](https://www.microsoft.com/sto
 ## 🔗 Related Files
 
 | File | Purpose | Location |
-|------|---------|----------|
+|:-----|:--------|:---------|
 | `winget-upgrade-packages.dsc.yaml` | DSC configuration | Same directory |
 | `common-config.dsc.yaml` | Common workload config | Same directory |
 | `common-backend-config.dsc.yaml` | Backend workload config | Same directory |

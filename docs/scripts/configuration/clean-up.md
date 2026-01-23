@@ -35,17 +35,17 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Flow Visualization](#flow-visualization)
-- [📝 Parameters](#parameters)
-- [⚙️ Prerequisites](#prerequisites)
-- [🗂️ Resource Groups Deleted](#resource-groups-deleted)
-- [🔧 Functions Reference](#functions-reference)
-- [📝 Usage Examples](#usage-examples)
-- [⚠️ Error Handling](#error-handling)
-- [🛠️ Troubleshooting](#troubleshooting)
-- [🔒 Security Considerations](#security-considerations)
-- [🔗 Related Scripts](#related-scripts)
+- [🎯 Overview](#-overview)
+- [📊 Flow Visualization](#-flow-visualization)
+- [📝 Parameters](#-parameters)
+- [⚙️ Prerequisites](#️-prerequisites)
+- [🗂️ Resource Groups Deleted](#️-resource-groups-deleted)
+- [🔧 Functions Reference](#-functions-reference)
+- [📝 Usage Examples](#-usage-examples)
+- [⚠️ Error Handling](#️-error-handling)
+- [🛠️ Troubleshooting](#️-troubleshooting)
+- [🔒 Security Considerations](#-security-considerations)
+- [🔗 Related Scripts](#-related-scripts)
 
 ---
 
@@ -138,7 +138,7 @@ flowchart TD
 ## 📝 Parameters
 
 | Parameter | Type | Required | Default | Validation | Description |
-|-----------|------|----------|---------|------------|-------------|
+|:----------|:-----|:--------:|:--------|:-----------|:------------|
 | `-EnvName` | `string` | No | `"demo"` | `ValidateNotNullOrEmpty` | Environment name for resource group naming |
 | `-Location` | `string` | No | `"eastus2"` | `ValidateSet` | Azure region (eastus, eastus2, westus, westus2, westus3, northeurope, westeurope) |
 | `-WorkloadName` | `string` | No | `"devexp"` | `ValidateNotNullOrEmpty` | Workload name prefix for resource groups |
@@ -154,7 +154,7 @@ flowchart TD
 ### Required Tools
 
 | Tool | Purpose | Installation |
-|------|---------|--------------|
+|:-----|:--------|:-------------|
 | Azure CLI (`az`) | Delete Azure resources | [Install Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) |
 | PowerShell 5.1+ | Script execution | Pre-installed on Windows |
 
@@ -174,7 +174,7 @@ flowchart TD
 Based on the naming convention `{WorkloadName}-{type}-{EnvName}-{Location}-rg`:
 
 | Resource Group Pattern | Purpose |
-|------------------------|---------|
+|:-----------------------|:--------|
 | `{workload}-workload-{env}-{location}-rg` | DevCenter and related resources |
 | `{workload}-connectivity-{env}-{location}-rg` | VNets and network connections |
 | `{workload}-monitoring-{env}-{location}-rg` | Log Analytics and monitoring |
@@ -207,7 +207,7 @@ devexp-security-demo-eastus2-rg
 **Parameters:**
 
 | Name | Type | Required | Description |
-|------|------|----------|-------------|
+|:-----|:-----|:--------:|:------------|
 | `ResourceGroupName` | `string` | Yes | Name of the resource group to delete |
 
 **Returns:** `[bool]` - `$true` if deletion initiated successfully, `$false` on error
@@ -230,7 +230,7 @@ devexp-security-demo-eastus2-rg
 **Parameters:**
 
 | Name | Type | Required | Description |
-|------|------|----------|-------------|
+|:-----|:-----|:--------:|:------------|
 | `WorkloadName` | `string` | Yes | Workload name prefix |
 | `Environment` | `string` | Yes | Environment name |
 | `Location` | `string` | Yes | Azure region |
@@ -325,7 +325,7 @@ $WarningPreference = 'Stop'
 ### Exit Codes
 
 | Code | Meaning |
-|------|---------|
+|:----:|:--------|
 | `0` | All deletions initiated successfully |
 | `1` | One or more deletions failed |
 
@@ -356,7 +356,7 @@ The script is **idempotent**:
 ### Common Issues
 
 | Issue | Cause | Solution |
-|-------|-------|----------|
+|:------|:------|:---------|
 | "Failed to check if resource group exists" | Not logged into Azure | Run `az login` |
 | "Failed to initiate resource group deletion" | Resource locks present | Remove locks first |
 | Deployment deletion fails | Deployment in progress | Wait and retry |
@@ -416,7 +416,7 @@ Azure resource locks can prevent accidental deletion:
 ## 🔗 Related Scripts
 
 | Script | Purpose | Link |
-|--------|---------|------|
+|:-------|:--------|:-----|
 | `cleanSetUp.ps1` | Full environment cleanup orchestrator | [../clean-setup.md](../clean-setup.md) |
 | `setUp.ps1` | Environment setup (opposite operation) | [../setup.md](../setup.md) |
 
