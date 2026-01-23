@@ -1,4 +1,20 @@
-# DevExp-DevBox
+---
+title: DevExp-DevBox
+description: Enterprise-grade Infrastructure-as-Code (IaC) solution built with Azure Bicep for deploying and managing Microsoft Dev Box environments at scale
+author: DevExp Team
+date: 2026-01-23
+version: 1.0.0
+tags:
+  - azure
+  - dev-box
+  - infrastructure-as-code
+  - bicep
+  - devops
+  - platform-engineering
+  - landing-zone
+---
+
+# 🖥️ DevExp-DevBox
 
 [![Continuous Integration](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/ci.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/ci.yml)
 [![Deploy to Azure](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/deploy.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/deploy.yml)
@@ -7,32 +23,54 @@
 ![Azure](https://img.shields.io/badge/Azure-0078D4?logo=microsoftazure&logoColor=white)
 ![Bicep](https://img.shields.io/badge/Bicep-IaC-blue)
 
+> [!NOTE]
+> **📖 Target Audience:** Platform Engineers, DevOps Engineers, Cloud Architects, and IT Administrators
+> **⏱️ Estimated Reading Time:** 20-25 minutes
+
 An enterprise-grade **Infrastructure-as-Code (IaC)** solution built with **Azure Bicep** for deploying and managing **Microsoft Dev Box** environments at scale. This accelerator implements **Azure Landing Zone** principles with a modular architecture that separates concerns across security, monitoring, connectivity, and workload layers—enabling platform engineering teams to provision consistent, secure developer workstations in minutes.
 
 Whether you're setting up a development environment for a small team or deploying Dev Boxes across an enterprise, DevExp-DevBox provides the automation, governance, and flexibility you need. The solution integrates seamlessly with **GitHub Actions** for CI/CD, uses **OIDC federation** for passwordless Azure authentication, and supports **PowerShell DSC** for customizing Dev Box images with role-specific tooling.
 
 ---
 
+<details>
+<summary><strong>🧭 Quick Navigation</strong></summary>
+<br>
+
+| ⬅️ Previous | 📚 Index | ➡️ Next |
+|:------------|:--------:|--------:|
+| — | [Documentation](./docs/README.md) | [Architecture](./docs/architecture/01-business-architecture.md) |
+
+</details>
+
+---
+
 ## 📑 Table of Contents
 
-- [✨ Features](#-features)
-- [🏗️ Architecture](#️-architecture)
-- [📋 Prerequisites](#-prerequisites)
-- [🚀 Quick Start](#-quick-start)
-- [📁 Project Structure](#-project-structure)
-- [⚙️ Configuration](#️-configuration)
-- [🔄 CI/CD Pipelines](#-cicd-pipelines)
-- [📦 Module Reference](#-module-reference)
-- [🧹 Cleanup](#-cleanup)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+| Section | Description |
+| :------- | :----------- |
+| [✨ Features](#-features) | Key capabilities and highlights |
+| [🏗️ Architecture](#️-architecture) | Landing zone design and service overview |
+| [📋 Prerequisites](#-prerequisites) | Required tools and Azure permissions |
+| [🚀 Quick Start](#-quick-start) | Step-by-step deployment guide |
+| [📁 Project Structure](#-project-structure) | Repository directory layout |
+| [⚙️ Configuration](#️-configuration) | YAML settings and customization options |
+| [🔄 CI/CD Pipelines](#-cicd-pipelines) | GitHub Actions workflows |
+| [📦 Module Reference](#-module-reference) | Bicep module catalog |
+| [🧹 Cleanup](#-cleanup) | Resource removal options |
+| [🤝 Contributing](#-contributing) | Development guidelines |
+| [📄 License](#-license) | MIT License information |
+| [📚 Additional Resources](#-additional-resources) | Documentation and external links |
+
+> [!TIP]
+> Use the links above to jump directly to any section. Each major section includes a "Back to Top" link for easy navigation.
 
 ---
 
 ## ✨ Features
 
 | Feature | Description |
-|---------|-------------|
+| :------- | :----------- |
 | **🏢 Landing Zone Architecture** | Implements Azure best practices with segregated resource groups for Security, Monitoring, and Workload layers |
 | **📄 Configuration-as-Code** | YAML-based configuration with JSON Schema validation for type safety and IDE IntelliSense |
 | **🧩 Modular Bicep Design** | Reusable, composable modules with clear input/output contracts and typed parameters |
@@ -43,6 +81,10 @@ Whether you're setting up a development environment for a small team or deployin
 | **🚀 Automated Provisioning** | Azure Developer CLI (azd) integration for streamlined setup and deployment |
 | **📈 Centralized Monitoring** | Log Analytics workspace integration for unified observability |
 | **🌐 Network Flexibility** | Support for both Microsoft-managed and custom VNet configurations |
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -60,21 +102,34 @@ The solution deploys a centralized **Azure DevCenter** that serves as the manage
 
 This separation ensures that security-sensitive resources are isolated, monitoring is centralized, and workload components can scale independently. The modular Bicep architecture enables teams to customize configurations through YAML files while maintaining infrastructure consistency across environments.
 
+> [!TIP]
 > 📖 For detailed architecture documentation including TOGAF-aligned decision records, see the [Architecture Documentation](./docs/architecture/).
 
 ### High-Level Architecture
 
 ```mermaid
+---
+title: DevExp-DevBox High-Level Architecture
+---
 flowchart TB
+    %% ===== EXTERNAL RESOURCES =====
+    subgraph External["🌍 External Resources"]
+        GH["📚 GitHub Catalog<br/>DSC Configurations"]
+    end
+
+    %% ===== AZURE SUBSCRIPTION =====
     subgraph SUB["☁️ Azure Subscription"]
+        %% ===== SECURITY LANDING ZONE =====
         subgraph Security["🔐 Security Landing Zone"]
-            KV["🔑 Key Vault<br/>Secrets & Credentials"]
+            KV[("🔑 Key Vault<br/>Secrets & Credentials")]
         end
         
+        %% ===== MONITORING LANDING ZONE =====
         subgraph Monitoring["📊 Monitoring Landing Zone"]
-            LA["📈 Log Analytics<br/>Centralized Logging"]
+            LA[("📈 Log Analytics<br/>Centralized Logging")]
         end
         
+        %% ===== WORKLOAD LANDING ZONE =====
         subgraph Workload["📦 Workload Landing Zone"]
             DC["🖥️ DevCenter<br/>Management Hub"]
             
@@ -89,41 +144,50 @@ flowchart TB
             end
         end
         
+        %% ===== CONNECTIVITY =====
         subgraph Connectivity["🌐 Connectivity"]
             VNET["🔗 Virtual Network"]
             NC["🔌 Network Connection"]
         end
     end
     
-    subgraph External["🌍 External Resources"]
-        GH["📚 GitHub Catalog<br/>DSC Configurations"]
-    end
-    
-    DC --> P1 & P2
-    P1 & P2 --> POOL1 & POOL2
-    POOL1 & POOL2 --> NC
-    NC --> VNET
-    DC -.->|"Sync"| GH
-    DC -.->|"Read Secrets"| KV
-    KV & DC & VNET -->|"Diagnostics"| LA
-    
-    classDef security fill:#FEE2E2,stroke:#DC2626,stroke-width:2px
-    classDef monitoring fill:#DBEAFE,stroke:#2563EB,stroke-width:2px
-    classDef workload fill:#D1FAE5,stroke:#059669,stroke-width:2px
-    classDef connectivity fill:#FEF3C7,stroke:#D97706,stroke-width:2px
-    classDef external fill:#F3E8FF,stroke:#7C3AED,stroke-width:2px
-    
-    class Security,KV security
-    class Monitoring,LA monitoring
-    class Workload,DC,Projects,P1,P2,Pools,POOL1,POOL2 workload
-    class Connectivity,VNET,NC connectivity
-    class External,GH external
+    %% ===== CONNECTIONS =====
+    DC -->|"manages"| P1 & P2
+    P1 & P2 -->|"provisions"| POOL1 & POOL2
+    POOL1 & POOL2 -->|"connects via"| NC
+    NC -->|"uses"| VNET
+    DC -.->|"syncs catalogs"| GH
+    DC -.->|"reads secrets"| KV
+    KV & DC & VNET -->|"sends diagnostics"| LA
+
+    %% ===== NODE STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+
+    %% ===== APPLY NODE CLASSES =====
+    class DC,P1,P2 primary
+    class POOL1,POOL2,VNET,NC secondary
+    class KV,LA datastore
+    class GH external
+
+    %% ===== SUBGRAPH STYLES =====
+    style SUB fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style Security fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Monitoring fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Workload fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Projects fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style Pools fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style Connectivity fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style External fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 ### Azure Services Deployed
 
 | Service | Purpose |
-|---------|---------|
+| :------- | :------- |
 | **Azure DevCenter** | Central hub for developer workstation management |
 | **Dev Box Projects** | Project-level organization with team-specific configurations |
 | **Dev Box Pools** | VM allocation with role-specific SKUs and images |
@@ -134,60 +198,84 @@ flowchart TB
 ### Module Dependency Flow
 
 ```mermaid
+---
+title: Module Dependency Flow
+---
 flowchart LR
+    %% ===== ORCHESTRATION LAYER =====
     subgraph Orchestration["🎯 Orchestration"]
         MAIN["main.bicep<br/>(Subscription Scope)"]
     end
     
+    %% ===== LANDING ZONE MODULES =====
     subgraph LandingZones["🏗️ Landing Zone Modules"]
         SEC["security.bicep"]
         MON["logAnalytics.bicep"]
         WL["workload.bicep"]
     end
     
+    %% ===== CORE RESOURCES =====
     subgraph CoreResources["⚙️ Core Resources"]
-        KV["keyVault.bicep"]
-        LA["logAnalytics.bicep"]
+        KV[("keyVault.bicep")]
+        LA[("logAnalytics.bicep")]
         DC["devCenter.bicep"]
         VNET["vnet.bicep"]
     end
     
+    %% ===== PROJECT RESOURCES =====
     subgraph ProjectResources["📁 Project Resources"]
         PROJ["project.bicep"]
         POOL["projectPool.bicep"]
         PCAT["projectCatalog.bicep"]
     end
     
-    MAIN --> SEC & MON & WL
-    SEC --> KV
-    MON --> LA
-    WL --> DC & VNET
-    DC --> PROJ
-    PROJ --> POOL & PCAT
+    %% ===== PRIMARY FLOW CONNECTIONS =====
+    MAIN ==>|"deploys"| SEC & MON & WL
+    SEC -->|"creates"| KV
+    MON -->|"creates"| LA
+    WL -->|"creates"| DC & VNET
+    DC -->|"creates"| PROJ
+    PROJ -->|"creates"| POOL & PCAT
     
-    KV -.->|"secrets"| DC
-    LA -.->|"diagnostics"| DC
-    VNET -.->|"network"| POOL
-    
-    classDef orch fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
-    classDef lz fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
-    classDef core fill:#10B981,stroke:#059669,color:#FFFFFF
-    classDef proj fill:#F59E0B,stroke:#D97706,color:#000000
-    
-    class MAIN orch
-    class SEC,MON,WL lz
-    class KV,LA,DC,VNET core
-    class PROJ,POOL,PCAT proj
+    %% ===== DEPENDENCY CONNECTIONS =====
+    KV -.->|"provides secrets"| DC
+    LA -.->|"receives diagnostics"| DC
+    VNET -.->|"provides network"| POOL
+
+    %% ===== NODE STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== APPLY NODE CLASSES =====
+    class MAIN trigger
+    class SEC,MON,WL primary
+    class KV,LA,DC,VNET secondary
+    class PROJ,POOL,PCAT datastore
+
+    %% ===== SUBGRAPH STYLES =====
+    style Orchestration fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style LandingZones fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style CoreResources fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style ProjectResources fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
 ## 📋 Prerequisites
 
+> [!IMPORTANT]
+> Ensure you have the following tools installed and properly configured before proceeding with deployment.
+
 Ensure you have the following tools installed before proceeding:
 
 | Tool | Version | Purpose | Installation |
-|------|---------|---------|--------------|
+| :---- | :-----: | :------- | :------------ |
 | **Azure CLI** | 2.50+ | Azure resource management | [Install Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) |
 | **Azure Developer CLI (azd)** | Latest | Deployment orchestration | [Install azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) |
 | **GitHub CLI** | 2.0+ | Repository and secret management | [Install gh](https://cli.github.com/) |
@@ -195,6 +283,9 @@ Ensure you have the following tools installed before proceeding:
 | **PowerShell** | 7.0+ | Script execution | [Install PowerShell](https://docs.microsoft.com/powershell/scripting/install/installing-powershell) |
 
 ### Azure Requirements
+
+> [!IMPORTANT]
+> The following Azure permissions and configurations are required for successful deployment.
 
 - ✅ An active Azure subscription with **Owner** or **Contributor + User Access Administrator** permissions
 - ✅ Azure AD permissions to create App Registrations (for OIDC setup)
@@ -223,6 +314,10 @@ gh --version
 # Check PowerShell
 pwsh --version
 ```
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -272,7 +367,8 @@ chmod +x setUp.sh
 .\setUp.ps1 -EnvName <environment-name> -SourceControl github
 ```
 
-> 📝 **Parameters:**
+> [!NOTE]
+> **Parameters:**
 >
 > - `-e` / `-EnvName`: Environment identifier (e.g., `dev`, `staging`, `prod`)
 > - `-s` / `-SourceControl`: Source control platform (`github` or `adogit`)
@@ -286,7 +382,24 @@ azd provision
 
 The deployment takes approximately **15-30 minutes** depending on the number of projects and pools configured.
 
-> 💡 **Tip:** For automated CI/CD deployments, use the GitHub Actions workflow. See [CI/CD Pipelines](#-cicd-pipelines).
+> [!TIP]
+> For automated CI/CD deployments, use the GitHub Actions workflow. See [CI/CD Pipelines](#-cicd-pipelines).
+
+<details>
+<summary><strong>🔧 Troubleshooting Common Issues</strong></summary>
+
+| Issue | Solution |
+| :---- | :------- |
+| **OIDC Authentication Failed** | Verify federated credentials are configured correctly in Azure AD |
+| **Resource Provider Not Registered** | Run `az provider register --namespace <provider>` for missing providers |
+| **Insufficient Permissions** | Ensure you have Owner or Contributor + User Access Administrator roles |
+| **azd Provision Timeout** | Check network connectivity and retry with `azd provision --debug` |
+
+</details>
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -295,7 +408,7 @@ The deployment takes approximately **15-30 minutes** depending on the number of 
 <details>
 <summary>Click to expand full directory tree</summary>
 
-```
+```text
 DevExp-DevBox/
 ├── 📄 azure.yaml                    # azd configuration (Linux/macOS)
 ├── 📄 azure-pwh.yaml                # azd configuration (Windows PowerShell)
@@ -365,16 +478,21 @@ DevExp-DevBox/
 
 </details>
 
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
+
 ---
 
 ## ⚙️ Configuration
 
-DevExp-DevBox uses **YAML configuration files** with JSON Schema validation for a type-safe, IDE-friendly experience. Each configuration file has a corresponding JSON Schema that provides IntelliSense and validation in VS Code.
+> [!NOTE]
+> DevExp-DevBox uses **YAML configuration files** with JSON Schema validation for a type-safe, IDE-friendly experience. Each configuration file has a corresponding JSON Schema that provides IntelliSense and validation in VS Code.
 
 ### Configuration Files
 
 | File | Purpose | Schema |
-|------|---------|--------|
+| :---- | :------- | :------ |
 | [azureResources.yaml](./infra/settings/resourceOrganization/azureResources.yaml) | Resource group naming, tagging, and landing zone organization | [azureResources.schema.json](./infra/settings/resourceOrganization/azureResources.schema.json) |
 | [security.yaml](./infra/settings/security/security.yaml) | Key Vault configuration and access policies | [security.schema.json](./infra/settings/security/security.schema.json) |
 | [devcenter.yaml](./infra/settings/workload/devcenter.yaml) | DevCenter, projects, pools, catalogs, and RBAC | [devcenter.schema.json](./infra/settings/workload/devcenter.schema.json) |
@@ -411,6 +529,9 @@ monitoring:
 ```
 
 ### Example: Adding a New Project
+
+> [!TIP]
+> Edit `infra/settings/workload/devcenter.yaml` to add a new project. The JSON Schema provides IntelliSense for available options.
 
 Edit `infra/settings/workload/devcenter.yaml` to add a project:
 
@@ -457,7 +578,7 @@ projects:
 ### VM SKU Options
 
 | SKU | vCPUs | RAM | Storage | Use Case |
-|-----|-------|-----|---------|----------|
+| :--- | :----: | :--: | :------: | :-------- |
 | `general_i_8c32gb256ssd_v2` | 8 | 32 GB | 256 GB | Light development |
 | `general_i_16c64gb256ssd_v2` | 16 | 64 GB | 256 GB | Standard development |
 | `general_i_32c128gb512ssd_v2` | 32 | 128 GB | 512 GB | Heavy workloads, builds |
@@ -467,13 +588,13 @@ projects:
 Dev Box images can be customized using PowerShell Desired State Configuration (DSC). Sample configurations are provided in `.configuration/devcenter/workloads/`:
 
 | Configuration | Purpose |
-|---------------|---------|
+| :------------- | :------- |
 | `common-config.dsc.yaml` | Base configuration for all Dev Boxes |
 | `common-backend-config.dsc.yaml` | Backend developer tools (Azure CLI, .NET SDK, Docker) |
 | `common-frontend-usertasks-config.dsc.yaml` | Frontend developer tools (Node.js, npm) |
 | `winget-upgrade-packages.dsc.yaml` | Automated package updates |
 
-**Example: Backend Developer DSC**
+#### Example: Backend Developer DSC
 
 ```yaml
 # .configuration/devcenter/workloads/common-backend-config.dsc.yaml
@@ -499,68 +620,92 @@ properties:
         id: Microsoft.VisualStudioCode
 ```
 
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
+
 ---
 
 ## 🔄 CI/CD Pipelines
 
-DevExp-DevBox includes a complete CI/CD pipeline architecture using GitHub Actions with **OIDC-based authentication** for secure, passwordless Azure deployments. The pipeline follows DevOps best practices with semantic versioning, artifact management, and environment-specific deployment gates.
+> [!NOTE]
+> DevExp-DevBox includes a complete CI/CD pipeline architecture using GitHub Actions with **OIDC-based authentication** for secure, passwordless Azure deployments. The pipeline follows DevOps best practices with semantic versioning, artifact management, and environment-specific deployment gates.
 
 ### Pipeline Architecture
 
 ```mermaid
+---
+title: CI/CD Pipeline Architecture
+---
 flowchart TB
+    %% ===== TRIGGERS =====
     subgraph Triggers["🎯 Triggers"]
         direction LR
-        T1["🌿 Push: feature/**"]
-        T2["🔧 Push: fix/**"]
-        T3["📝 PR to main"]
-        T4["🖱️ Manual: Deploy"]
-        T5["🖱️ Manual: Release"]
+        T1(["🌿 Push: feature/**"])
+        T2(["🔧 Push: fix/**"])
+        T3(["📝 PR to main"])
+        T4(["🖱️ Manual: Deploy"])
+        T5(["🖱️ Manual: Release"])
     end
     
+    %% ===== CONTINUOUS INTEGRATION =====
     subgraph CI["🔄 Continuous Integration (ci.yml)"]
         direction TB
         CI1["📊 generate-tag-version<br/>Semantic Version Calculation"]
         CI2["🔨 build<br/>Bicep Compilation & Validation"]
-        CI1 --> CI2
+        CI1 -->|"passes version"| CI2
     end
     
+    %% ===== DEPLOYMENT =====
     subgraph Deploy["🚀 Deployment (deploy.yml)"]
         direction TB
         D1["✅ Validate Variables<br/>Check Required Secrets"]
         D2["🔨 Build Bicep<br/>Compile Templates"]
         D3["🔐 OIDC Auth<br/>Federated Credentials"]
         D4["☁️ azd provision<br/>Deploy to Azure"]
-        D1 --> D2 --> D3 --> D4
+        D1 -->|"validates"| D2
+        D2 -->|"authenticates"| D3
+        D3 -->|"deploys"| D4
     end
     
+    %% ===== RELEASE =====
     subgraph Release["🏷️ Release (release.yml)"]
         direction TB
         R1["📊 generate-release<br/>Tag & Changelog"]
         R2["🔨 build<br/>Final Artifacts"]
-        R3["🎉 publish-release<br/>GitHub Release"]
-        R1 --> R2 --> R3
+        R3[/"🎉 publish-release<br/>GitHub Release"/]
+        R1 -->|"generates"| R2
+        R2 -->|"publishes"| R3
     end
     
-    T1 & T2 & T3 --> CI
-    T4 --> Deploy
-    T5 --> Release
-    
-    classDef trigger fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
-    classDef ci fill:#DBEAFE,stroke:#2563EB,stroke-width:2px
-    classDef deploy fill:#D1FAE5,stroke:#059669,stroke-width:2px
-    classDef release fill:#FEF3C7,stroke:#D97706,stroke-width:2px
-    
-    class Triggers,T1,T2,T3,T4,T5 trigger
-    class CI,CI1,CI2 ci
-    class Deploy,D1,D2,D3,D4 deploy
-    class Release,R1,R2,R3 release
+    %% ===== WORKFLOW CONNECTIONS =====
+    T1 & T2 & T3 -->|"triggers"| CI
+    T4 -->|"triggers"| Deploy
+    T5 -->|"triggers"| Release
+
+    %% ===== NODE STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== APPLY NODE CLASSES =====
+    class T1,T2,T3,T4,T5 trigger
+    class CI1,CI2 primary
+    class D1,D2,D3,D4 secondary
+    class R1,R2,R3 datastore
+
+    %% ===== SUBGRAPH STYLES =====
+    style Triggers fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style CI fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Deploy fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Release fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Workflows Overview
 
 | Workflow | File | Trigger | Purpose |
-|----------|------|---------|---------|
+| :-------- | :---- | :------- | :------- |
 | **Continuous Integration** | `.github/workflows/ci.yml` | Push to `feature/**`, `fix/**`; PRs to `main` | Build and validate Bicep templates |
 | **Deploy to Azure** | `.github/workflows/deploy.yml` | Manual dispatch | Provision infrastructure to Azure |
 | **Release** | `.github/workflows/release.yml` | Manual dispatch | Generate semantic versions and GitHub releases |
@@ -570,7 +715,7 @@ flowchart TB
 #### Repository Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| :-------- | :----------- | :------- |
 | `AZURE_CLIENT_ID` | App Registration client ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
 | `AZURE_TENANT_ID` | Azure AD tenant ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
 | `AZURE_SUBSCRIPTION_ID` | Target subscription ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
@@ -579,10 +724,13 @@ flowchart TB
 #### Repository Secrets
 
 | Secret | Description |
-|--------|-------------|
+| :------ | :----------- |
 | `KEY_VAULT_SECRET` | GitHub Personal Access Token for private catalog access |
 
 ### Deploying via GitHub Actions
+
+> [!IMPORTANT]
+> Ensure all required repository variables and secrets are configured before triggering a deployment.
 
 1. Navigate to **Actions** → **Deploy to Azure**
 2. Click **Run workflow**
@@ -600,7 +748,12 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 .\.configuration\setup\powershell\Azure\generateDeploymentCredentials.ps1
 ```
 
-> 📖 **More Details:** For comprehensive CI/CD pipeline documentation including reusable actions, versioning strategy, and best practices, see the [DevOps Documentation](./docs/devops/README.md).
+> [!TIP]
+> For comprehensive CI/CD pipeline documentation including reusable actions, versioning strategy, and best practices, see the [DevOps Documentation](./docs/devops/README.md).
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -612,13 +765,13 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 ### Core Modules
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `main.bicep` | `infra/main.bicep` | Orchestration entry point (subscription scope) |
 
 ### Security Layer
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `security.bicep` | `src/security/security.bicep` | Security landing zone orchestrator |
 | `keyVault.bicep` | `src/security/keyVault.bicep` | Azure Key Vault with RBAC |
 | `secret.bicep` | `src/security/secret.bicep` | Key Vault secret management |
@@ -626,13 +779,13 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 ### Management Layer
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `logAnalytics.bicep` | `src/management/logAnalytics.bicep` | Log Analytics workspace |
 
 ### Connectivity Layer
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `connectivity.bicep` | `src/connectivity/connectivity.bicep` | Connectivity orchestrator |
 | `vnet.bicep` | `src/connectivity/vnet.bicep` | Virtual network with subnets |
 | `networkConnection.bicep` | `src/connectivity/networkConnection.bicep` | DevCenter network connection |
@@ -641,7 +794,7 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 ### Workload Layer
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `workload.bicep` | `src/workload/workload.bicep` | Workload orchestrator |
 | `devCenter.bicep` | `src/workload/core/devCenter.bicep` | DevCenter resource |
 | `catalog.bicep` | `src/workload/core/catalog.bicep` | DevCenter catalog |
@@ -654,7 +807,7 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 ### Identity Layer
 
 | Module | Path | Description |
-|--------|------|-------------|
+| :------ | :---- | :----------- |
 | `devCenterRoleAssignment.bicep` | `src/identity/devCenterRoleAssignment.bicep` | DevCenter RBAC |
 | `projectIdentityRoleAssignment.bicep` | `src/identity/projectIdentityRoleAssignment.bicep` | Project RBAC |
 | `keyVaultAccess.bicep` | `src/identity/keyVaultAccess.bicep` | Key Vault access policies |
@@ -662,9 +815,16 @@ The setup scripts automatically configure OIDC, but you can also set it up manua
 
 </details>
 
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
+
 ---
 
 ## 🧹 Cleanup
+
+> [!WARNING]
+> The cleanup operations below will permanently delete Azure resources and associated data. Ensure you have backed up any important configurations before proceeding.
 
 Remove all deployed resources when no longer needed.
 
@@ -686,7 +846,7 @@ The cleanup script performs a comprehensive teardown:
 **What the cleanup script removes:**
 
 | Resource Type | Action |
-|---------------|--------|
+| :------------- | :------ |
 | Subscription Deployments | Deletes all ARM deployments |
 | Role Assignments | Removes user and managed identity RBAC |
 | Service Principals | Deletes OIDC app registrations |
@@ -705,13 +865,19 @@ az group delete --name devexp-security-<env>-<region>-RG --yes --no-wait
 az group delete --name devexp-monitoring-<env>-<region>-RG --yes --no-wait
 ```
 
-> ⚠️ **Warning:** Key Vault soft-delete is enabled by default. Use `--purge` flag or manually purge deleted vaults to fully remove secrets.
+> [!CAUTION]
+> Key Vault soft-delete is enabled by default. Use `--purge` flag or manually purge deleted vaults to fully remove secrets. Soft-deleted Key Vaults consume quota and may block re-deployment with the same name.
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! We follow a standard GitHub workflow.
+> [!NOTE]
+> Contributions are welcome! We follow a standard GitHub workflow with conventional commits.
 
 ### How to Contribute
 
@@ -746,7 +912,7 @@ Contributions are welcome! We follow a standard GitHub workflow.
 ### Development Guidelines
 
 | Area | Guideline |
-|------|-----------|
+| :---- | :--------- |
 | **Bicep** | Follow [Bicep best practices](https://learn.microsoft.com/azure/azure-resource-manager/bicep/best-practices) |
 | **Parameters** | Include `@description()` decorators for all parameters |
 | **Resources** | Add appropriate tags to all resources |
@@ -758,12 +924,16 @@ Contributions are welcome! We follow a standard GitHub workflow.
 
 We use [Conventional Commits](https://www.conventionalcommits.org/):
 
-```
+```text
 feat: add new Dev Box pool configuration
 fix: correct Key Vault access policy
 docs: update README with DSC examples
 refactor: simplify network module
 ```
+
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
 
 ---
 
@@ -778,7 +948,7 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ### Documentation
 
 | Resource | Description |
-|----------|-------------|
+| :-------- | :----------- |
 | [Architecture Documentation](./docs/architecture/) | TOGAF-aligned architecture decision records |
 | [DevOps Documentation](./docs/devops/README.md) | Comprehensive CI/CD pipeline documentation |
 | [Script Documentation](./docs/scripts/README.md) | Setup and configuration script guides |
@@ -786,7 +956,7 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ### External References
 
 | Resource | Link |
-|----------|------|
+| :-------- | :---- |
 | Microsoft Dev Box | [Documentation](https://learn.microsoft.com/azure/dev-box/overview-what-is-microsoft-dev-box) |
 | Azure DevCenter | [Documentation](https://learn.microsoft.com/azure/deployment-environments/overview-what-is-azure-deployment-environments) |
 | Azure Bicep | [Documentation](https://learn.microsoft.com/azure/azure-resource-manager/bicep/) |
@@ -798,8 +968,37 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 - 🐛 **Issues:** [GitHub Issues](https://github.com/Evilazaro/DevExp-DevBox/issues)
 - 💬 **Discussions:** [GitHub Discussions](https://github.com/Evilazaro/DevExp-DevBox/discussions)
 
+<div align="right">
+  <a href="#-table-of-contents">⬆️ Back to Top</a>
+</div>
+
+---
+
+## 📚 Related Documents
+
+| Document | Description |
+| :------- | :---------- |
+| [Business Architecture](./docs/architecture/01-business-architecture.md) | Business context and drivers |
+| [Data Architecture](./docs/architecture/02-data-architecture.md) | Data models and flows |
+| [Application Architecture](./docs/architecture/03-application-architecture.md) | Application components and interactions |
+| [Technology Architecture](./docs/architecture/04-technology-architecture.md) | Technology stack and infrastructure |
+| [Security Architecture](./docs/architecture/05-security-architecture.md) | Security controls and compliance |
+| [Deployment Architecture](./docs/architecture/07-deployment-architecture.md) | Deployment patterns and strategies |
+| [DevOps Documentation](./docs/devops/README.md) | CI/CD and operational guides |
+| [Scripts Documentation](./docs/scripts/README.md) | Setup and configuration scripts |
+
+---
+
+<div align="center">
+
+**🧭 Navigation**
+
+[⬆️ Back to Top](#️-devexp-devbox) · [📚 Documentation](./docs/README.md) · [🏗️ Architecture](./docs/architecture/01-business-architecture.md) · [🔧 DevOps](./docs/devops/README.md)
+
+</div>
+
 ---
 
 <p align="center">
-  Built with ❤️ by the <a href="https://github.com/Evilazaro">DevExp Team</a>
+  Built with ❤️ by the <a href="https://github.com/Evilazaro">Evilazaro Alves</a>
 </p>
