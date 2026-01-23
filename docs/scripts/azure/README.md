@@ -75,29 +75,39 @@ This folder contains PowerShell scripts for managing Azure Role-Based Access Con
 title: Azure Scripts Workflow
 ---
 flowchart LR
+    %% ===== SETUP PHASE =====
     subgraph Setup["🚀 Setup Phase"]
+        direction TB
         A["🔑 createCustomRole.ps1"]
         B["🔑 generateDeploymentCredentials.ps1"]
         C["👥 createUsersAndAssignRole.ps1"]
     end
     
+    %% ===== CLEANUP PHASE =====
     subgraph Cleanup["🗑️ Cleanup Phase"]
+        direction TB
         D["👥 deleteUsersAndAssignedRoles.ps1"]
         E["🗑️ deleteDeploymentCredentials.ps1"]
     end
     
-    A --> B
-    B --> C
-    D --> E
+    %% ===== CONNECTIONS =====
+    A -->|"creates RBAC role"| B
+    B -->|"configures credentials"| C
+    D -->|"removes roles"| E
     
-    Setup -.->|"Reverse"| Cleanup
+    Setup -.->|"Reverse Operations"| Cleanup
 
-    %% Styles
-    classDef setup fill:#10B981,stroke:#059669,color:#FFFFFF
-    classDef cleanup fill:#F44336,stroke:#C62828,color:#FFFFFF
+    %% ===== NODE STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
     
-    class A,B,C setup
-    class D,E cleanup
+    class A,B,C secondary
+    class D,E failed
+
+    %% ===== SUBGRAPH STYLES =====
+    style Setup fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Cleanup fill:#FEE2E2,stroke:#F44336,stroke-width:2px
 ```
 
 ---
