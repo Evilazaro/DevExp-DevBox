@@ -14,7 +14,7 @@ tags:
 
 # 🚀 Deployment Architecture
 
-> 📖 This document describes the deployment architecture and CI/CD pipeline design for the Dev Box Accelerator project.
+> **DevExp-DevBox Landing Zone Accelerator**
 
 > [!NOTE]
 > **Target Audience:** DevOps Engineers, Platform Engineers, Release Managers  
@@ -28,6 +28,13 @@ tags:
 | [← Security Architecture](05-security-architecture.md) | [Architecture Index](../README.md) | — |
 
 </details>
+
+| Property | Value |
+|:---------|:------|
+| **Version** | 1.0.0 |
+| **Last Updated** | 2026-01-23 |
+| **Author** | DevExp Team |
+| **Status** | Published |
 
 ---
 
