@@ -225,96 +225,123 @@ mindmap
 ### Complete Dependency Tree
 
 ```mermaid
+---
+title: Complete Module Dependency Tree
+---
 flowchart TB
-    subgraph L0["Layer 0: Orchestration"]
-        MAIN["main.bicep\n(targetScope: subscription)"]
+    %% ===== LAYER 0: ORCHESTRATION =====
+    subgraph L0["🎯 Layer 0: Orchestration"]
+        MAIN["📄 main.bicep<br/>(targetScope: subscription)"]
     end
     
-    subgraph L1["Layer 1: Resource Groups"]
-        RG_SEC["Resource Group\n(Security)"]
-        RG_MON["Resource Group\n(Monitoring)"]
-        RG_WL["Resource Group\n(Workload)"]
+    %% ===== LAYER 1: RESOURCE GROUPS =====
+    subgraph L1["📁 Layer 1: Resource Groups"]
+        RG_SEC["🔐 Resource Group<br/>(Security)"]
+        RG_MON["📊 Resource Group<br/>(Monitoring)"]
+        RG_WL["📦 Resource Group<br/>(Workload)"]
     end
     
-    subgraph L2["Layer 2: Landing Zone Modules"]
-        SEC["security.bicep"]
-        LA["logAnalytics.bicep"]
-        WL["workload.bicep"]
+    %% ===== LAYER 2: LANDING ZONE MODULES =====
+    subgraph L2["🏗️ Layer 2: Landing Zone Modules"]
+        SEC["🔒 security.bicep"]
+        LA["📈 logAnalytics.bicep"]
+        WL["📦 workload.bicep"]
     end
     
-    subgraph L3["Layer 3: Core Resources"]
-        KV["keyVault.bicep"]
-        LOG["Log Analytics\nWorkspace"]
-        DC["devCenter.bicep"]
-        CONN["connectivity.bicep"]
+    %% ===== LAYER 3: CORE RESOURCES =====
+    subgraph L3["⚙️ Layer 3: Core Resources"]
+        KV["🔑 keyVault.bicep"]
+        LOG["📊 Log Analytics<br/>Workspace"]
+        DC["🖥️ devCenter.bicep"]
+        CONN["🌐 connectivity.bicep"]
     end
     
-    subgraph L4["Layer 4: Child Resources"]
-        SECRET["secret.bicep"]
-        CAT["catalog.bicep"]
-        ENV["environmentType.bicep"]
-        VN["vnet.bicep"]
-        NC["networkConnection.bicep"]
+    %% ===== LAYER 4: CHILD RESOURCES =====
+    subgraph L4["📦 Layer 4: Child Resources"]
+        SECRET["🔐 secret.bicep"]
+        CAT["📚 catalog.bicep"]
+        ENV["🌍 environmentType.bicep"]
+        VN["🔗 vnet.bicep"]
+        NC["📶 networkConnection.bicep"]
     end
     
-    subgraph L5["Layer 5: Project Resources"]
-        PROJ["project.bicep"]
+    %% ===== LAYER 5: PROJECT RESOURCES =====
+    subgraph L5["📁 Layer 5: Project Resources"]
+        PROJ["📋 project.bicep"]
     end
     
-    subgraph L6["Layer 6: Project Child Resources"]
-        POOL["projectPool.bicep"]
-        PCAT["projectCatalog.bicep"]
-        PENV["projectEnvironmentType.bicep"]
+    %% ===== LAYER 6: PROJECT CHILD RESOURCES =====
+    subgraph L6["📦 Layer 6: Project Child Resources"]
+        POOL["🏊 projectPool.bicep"]
+        PCAT["📚 projectCatalog.bicep"]
+        PENV["🌍 projectEnvironmentType.bicep"]
     end
     
-    subgraph L7["Layer 7: Identity"]
-        DCRA["devCenterRoleAssignment"]
-        ORA["orgRoleAssignment"]
-        PIRA["projectIdentityRoleAssignment"]
-        KVA["keyVaultAccess"]
+    %% ===== LAYER 7: IDENTITY =====
+    subgraph L7["👤 Layer 7: Identity"]
+        DCRA["🔐 devCenterRoleAssignment"]
+        ORA["🏢 orgRoleAssignment"]
+        PIRA["👥 projectIdentityRoleAssignment"]
+        KVA["🔑 keyVaultAccess"]
     end
     
-    MAIN --> RG_SEC
-    MAIN --> RG_MON
-    MAIN --> RG_WL
+    %% ===== CONNECTIONS =====
+    MAIN -->|creates| RG_SEC
+    MAIN -->|creates| RG_MON
+    MAIN -->|creates| RG_WL
     
-    RG_SEC --> SEC
-    RG_MON --> LA
-    RG_WL --> WL
+    RG_SEC -->|scopes| SEC
+    RG_MON -->|scopes| LA
+    RG_WL -->|scopes| WL
     
-    SEC --> KV
-    LA --> LOG
-    WL --> DC
-    WL --> CONN
+    SEC -->|deploys| KV
+    LA -->|deploys| LOG
+    WL -->|deploys| DC
+    WL -->|deploys| CONN
     
-    KV --> SECRET
-    KV --> KVA
-    DC --> CAT
-    DC --> ENV
-    DC --> DCRA
-    DC --> ORA
-    CONN --> VN
-    CONN --> NC
+    KV -->|creates| SECRET
+    KV -->|assigns| KVA
+    DC -->|syncs| CAT
+    DC -->|defines| ENV
+    DC -->|assigns| DCRA
+    DC -->|assigns| ORA
+    CONN -->|provisions| VN
+    CONN -->|connects| NC
     
-    DC --> PROJ
-    PROJ --> POOL
-    PROJ --> PCAT
-    PROJ --> PENV
-    PROJ --> PIRA
+    DC -->|spawns| PROJ
+    PROJ -->|deploys| POOL
+    PROJ -->|syncs| PCAT
+    PROJ -->|enables| PENV
+    PROJ -->|assigns| PIRA
     
     LOG -.->|logAnalyticsId| KV
     LOG -.->|logAnalyticsId| DC
     LOG -.->|logAnalyticsId| VN
     KV -.->|secretIdentifier| CAT
     
-    style L0 fill:#E91E63,color:#fff
-    style L1 fill:#9C27B0,color:#fff
-    style L2 fill:#673AB7,color:#fff
-    style L3 fill:#3F51B5,color:#fff
-    style L4 fill:#2196F3,color:#fff
-    style L5 fill:#4CAF50,color:#fff
-    style L6 fill:#8BC34A,color:#fff
-    style L7 fill:#FF9800,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class MAIN trigger
+    class RG_SEC,RG_MON,RG_WL trigger
+    class SEC,LA,WL primary
+    class KV,LOG,DC,CONN primary
+    class SECRET,CAT,ENV,VN,NC secondary
+    class PROJ secondary
+    class POOL,PCAT,PENV secondary
+    class DCRA,ORA,PIRA,KVA datastore
+    
+    style L0 fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style L1 fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style L2 fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style L3 fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style L4 fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style L5 fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style L6 fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style L7 fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Dependency Matrix
@@ -441,14 +468,17 @@ output devCenterProjects array = devCenter.outputs.devCenterProjects
 ### Deployment Sequence Diagram
 
 ```mermaid
+---
+title: Deployment Sequence
+---
 sequenceDiagram
-    participant U as User/Pipeline
-    participant AZD as azd CLI
-    participant ARM as Azure Resource Manager
-    participant RG as Resource Groups
-    participant SEC as Security Module
-    participant MON as Monitoring Module
-    participant WL as Workload Module
+    participant U as 👤 User/Pipeline
+    participant AZD as 🚀 azd CLI
+    participant ARM as ☁️ Azure Resource Manager
+    participant RG as 📁 Resource Groups
+    participant SEC as 🔐 Security Module
+    participant MON as 📊 Monitoring Module
+    participant WL as 📦 Workload Module
     
     U->>AZD: azd provision
     AZD->>ARM: Deploy main.bicep (subscription scope)
@@ -483,51 +513,74 @@ sequenceDiagram
 ### Deployment Dependencies
 
 ```mermaid
+---
+title: Deployment Dependencies
+---
 flowchart LR
-    subgraph Phase1["Phase 1: Foundation"]
-        RG["Resource Groups"]
-        LA["Log Analytics"]
+    %% ===== PHASE 1: FOUNDATION =====
+    subgraph Phase1["🏗️ Phase 1: Foundation"]
+        RG["📁 Resource Groups"]
+        LA["📊 Log Analytics"]
     end
     
-    subgraph Phase2["Phase 2: Security"]
-        KV["Key Vault"]
-        SEC["Secrets"]
+    %% ===== PHASE 2: SECURITY =====
+    subgraph Phase2["🔐 Phase 2: Security"]
+        KV["🔑 Key Vault"]
+        SEC["🔒 Secrets"]
     end
     
-    subgraph Phase3["Phase 3: Network"]
-        VN["Virtual Network"]
-        NC["Network Connection"]
+    %% ===== PHASE 3: NETWORK =====
+    subgraph Phase3["🌐 Phase 3: Network"]
+        VN["🔗 Virtual Network"]
+        NC["📶 Network Connection"]
     end
     
-    subgraph Phase4["Phase 4: Workload"]
-        DC["DevCenter"]
-        CAT["Catalogs"]
-        ENV["Environment Types"]
+    %% ===== PHASE 4: WORKLOAD =====
+    subgraph Phase4["📦 Phase 4: Workload"]
+        DC["🖥️ DevCenter"]
+        CAT["📚 Catalogs"]
+        ENV["🌍 Environment Types"]
     end
     
-    subgraph Phase5["Phase 5: Projects"]
-        PROJ["Projects"]
-        POOL["Pools"]
-        PCAT["Project Catalogs"]
+    %% ===== PHASE 5: PROJECTS =====
+    subgraph Phase5["📁 Phase 5: Projects"]
+        PROJ["📋 Projects"]
+        POOL["🏊 Pools"]
+        PCAT["📖 Project Catalogs"]
     end
     
-    subgraph Phase6["Phase 6: Identity"]
-        RBAC["RBAC Assignments"]
+    %% ===== PHASE 6: IDENTITY =====
+    subgraph Phase6["👤 Phase 6: Identity"]
+        RBAC["🔐 RBAC Assignments"]
     end
     
-    Phase1 --> Phase2
-    Phase1 --> Phase3
-    Phase2 --> Phase4
-    Phase3 --> Phase4
-    Phase4 --> Phase5
-    Phase5 --> Phase6
+    %% ===== CONNECTIONS =====
+    Phase1 -->|enables| Phase2
+    Phase1 -->|enables| Phase3
+    Phase2 -->|unlocks| Phase4
+    Phase3 -->|connects| Phase4
+    Phase4 -->|spawns| Phase5
+    Phase5 -->|secures| Phase6
     
-    style Phase1 fill:#E91E63,color:#fff
-    style Phase2 fill:#9C27B0,color:#fff
-    style Phase3 fill:#3F51B5,color:#fff
-    style Phase4 fill:#2196F3,color:#fff
-    style Phase5 fill:#4CAF50,color:#fff
-    style Phase6 fill:#FF9800,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class RG,LA trigger
+    class KV,SEC primary
+    class VN,NC primary
+    class DC,CAT,ENV secondary
+    class PROJ,POOL,PCAT secondary
+    class RBAC datastore
+    
+    style Phase1 fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Phase2 fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Phase3 fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Phase4 fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Phase5 fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Phase6 fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---
@@ -632,37 +685,56 @@ resource devCenter 'Microsoft.DevCenter/devcenters@2024-08-01-preview' = {
 **Configuration Flow:**
 
 ```mermaid
+---
+title: Project Configuration Flow
+---
 flowchart TB
-    subgraph Input["Input Configuration"]
-        PC["project config object"]
-        NCI["networkConnectionId"]
-        SID["secretIdentifier"]
+    %% ===== INPUT CONFIGURATION =====
+    subgraph Input["📥 Input Configuration"]
+        PC["⚙️ project config object"]
+        NCI["🔗 networkConnectionId"]
+        SID["🔑 secretIdentifier"]
     end
     
-    subgraph Project["Project Resource"]
-        PR["Microsoft.DevCenter/devcenters/projects"]
+    %% ===== PROJECT RESOURCE =====
+    subgraph Project["📋 Project Resource"]
+        PR["🏢 Microsoft.DevCenter/devcenters/projects"]
     end
     
-    subgraph Children["Child Resources"]
-        PO["Pools\n(projectPool.bicep)"]
-        CA["Catalogs\n(projectCatalog.bicep)"]
-        ET["Environment Types\n(projectEnvironmentType.bicep)"]
+    %% ===== CHILD RESOURCES =====
+    subgraph Children["📦 Child Resources"]
+        PO["🏊 Pools<br/>(projectPool.bicep)"]
+        CA["📚 Catalogs<br/>(projectCatalog.bicep)"]
+        ET["🌍 Environment Types<br/>(projectEnvironmentType.bicep)"]
     end
     
-    subgraph Identity["Identity"]
-        MI["SystemAssigned Identity"]
-        RA["Role Assignments"]
+    %% ===== IDENTITY =====
+    subgraph Identity["👤 Identity"]
+        MI["🔐 SystemAssigned Identity"]
+        RA["🛡️ Role Assignments"]
     end
     
-    Input --> Project
-    Project --> Children
-    Project --> MI
-    MI --> RA
+    %% ===== CONNECTIONS =====
+    Input -->|configures| Project
+    Project -->|creates| Children
+    Project -->|provisions| MI
+    MI -->|enables| RA
     
-    style Input fill:#FF9800,color:#fff
-    style Project fill:#2196F3,color:#fff
-    style Children fill:#4CAF50,color:#fff
-    style Identity fill:#9C27B0,color:#fff
+    %% ===== STYLES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    
+    class PC,NCI,SID datastore
+    class PR primary
+    class PO,CA,ET secondary
+    class MI,RA trigger
+    
+    style Input fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Project fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Children fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Identity fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ---
@@ -678,33 +750,49 @@ flowchart TB
 The accelerator uses the **Configuration as Data** pattern where all deployment parameters are externalized to YAML files.
 
 ```mermaid
+---
+title: Configuration Integration Pattern
+---
 flowchart LR
-    subgraph Config["Configuration Layer"]
-        YAML["YAML Files\n(infra/settings/)"]
-        SCHEMA["JSON Schemas\n(validation)"]
+    %% ===== CONFIGURATION LAYER =====
+    subgraph Config["📁 Configuration Layer"]
+        YAML["📄 YAML Files<br/>(infra/settings/)"]
+        SCHEMA["📋 JSON Schemas<br/>(validation)"]
     end
     
-    subgraph Bicep["Bicep Layer"]
-        LOAD["loadYamlContent()"]
-        PARAM["Parameters"]
-        MOD["Modules"]
+    %% ===== BICEP LAYER =====
+    subgraph Bicep["⚙️ Bicep Layer"]
+        LOAD["🔄 loadYamlContent()"]
+        PARAM["📥 Parameters"]
+        MOD["📦 Modules"]
     end
     
-    subgraph ARM["ARM Layer"]
-        TEMPLATE["ARM Template"]
-        DEPLOY["Deployment"]
+    %% ===== ARM LAYER =====
+    subgraph ARM["☁️ ARM Layer"]
+        TEMPLATE["📋 ARM Template"]
+        DEPLOY["🚀 Deployment"]
     end
     
+    %% ===== CONNECTIONS =====
     SCHEMA -->|validates| YAML
-    YAML --> LOAD
-    LOAD --> PARAM
-    PARAM --> MOD
-    MOD --> TEMPLATE
-    TEMPLATE --> DEPLOY
+    YAML -->|loads| LOAD
+    LOAD -->|injects| PARAM
+    PARAM -->|configures| MOD
+    MOD -->|compiles| TEMPLATE
+    TEMPLATE -->|executes| DEPLOY
     
-    style Config fill:#FF9800,color:#fff
-    style Bicep fill:#2196F3,color:#fff
-    style ARM fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class YAML,SCHEMA datastore
+    class LOAD,PARAM,MOD primary
+    class TEMPLATE,DEPLOY secondary
+    
+    style Config fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Bicep fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style ARM fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Hierarchical Module Pattern
@@ -712,28 +800,43 @@ flowchart LR
 Modules follow a parent-child pattern where parent modules orchestrate child resources:
 
 ```mermaid
+---
+title: Hierarchical Module Pattern
+---
 flowchart TB
-    subgraph Pattern["Hierarchical Module Pattern"]
-        P["Parent Module"]
-        C1["Child Module 1"]
-        C2["Child Module 2"]
-        C3["Child Module 3"]
+    %% ===== PATTERN =====
+    subgraph Pattern["🏗️ Hierarchical Module Pattern"]
+        P["📄 Parent Module"]
+        C1["📦 Child Module 1"]
+        C2["📦 Child Module 2"]
+        C3["📦 Child Module 3"]
     end
     
-    P -->|"for loop"| C1
-    P -->|"for loop"| C2
-    P -->|"for loop"| C3
+    P -->|for loop| C1
+    P -->|for loop| C2
+    P -->|for loop| C3
     
-    subgraph Example["Example: devCenter.bicep"]
-        DC["devCenter.bicep"]
-        CAT["catalog.bicep\n(for each catalog)"]
-        ENV["environmentType.bicep\n(for each type)"]
-        PROJ["project.bicep\n(for each project)"]
+    %% ===== EXAMPLE =====
+    subgraph Example["📝 Example: devCenter.bicep"]
+        DC["🖥️ devCenter.bicep"]
+        CAT["📚 catalog.bicep<br/>(for each catalog)"]
+        ENV["🌍 environmentType.bicep<br/>(for each type)"]
+        PROJ["📋 project.bicep<br/>(for each project)"]
     end
     
-    DC -->|"module catalogs"| CAT
-    DC -->|"module envTypes"| ENV
-    DC -->|"module projects"| PROJ
+    DC -->|module catalogs| CAT
+    DC -->|module envTypes| ENV
+    DC -->|module projects| PROJ
+    
+    %% ===== STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class P,DC primary
+    class C1,C2,C3,CAT,ENV,PROJ secondary
+    
+    style Pattern fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Example fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Dependency Injection Pattern
