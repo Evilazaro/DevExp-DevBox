@@ -202,15 +202,18 @@ flowchart LR
 ### Detailed CI/CD Flow
 
 ```mermaid
+---
+title: Detailed CI/CD Flow
+---
 sequenceDiagram
-    participant Dev as Developer
-    participant GH as GitHub
-    participant CI as CI Workflow
-    participant Release as Release Workflow
-    participant Deploy as Deploy Workflow
-    participant Azure as Azure
+    participant Dev as 👤 Developer
+    participant GH as 🐙 GitHub
+    participant CI as 🔨 CI Workflow
+    participant Release as 🏷️ Release Workflow
+    participant Deploy as 🚀 Deploy Workflow
+    participant Azure as ☁️ Azure
 
-    rect rgb(227, 242, 253)
+    rect rgb(224, 231, 255)
         Note over Dev,GH: Feature Development
         Dev->>GH: Push to feature/** branch
         GH->>CI: Trigger CI workflow
@@ -219,7 +222,7 @@ sequenceDiagram
         CI->>GH: Upload artifacts
     end
 
-    rect rgb(243, 229, 245)
+    rect rgb(238, 242, 255)
         Note over Dev,GH: Pull Request
         Dev->>GH: Create PR to main
         GH->>CI: Trigger CI workflow
@@ -227,7 +230,7 @@ sequenceDiagram
         CI-->>GH: PR check status
     end
 
-    rect rgb(255, 243, 224)
+    rect rgb(254, 243, 199)
         Note over GH,Release: Release Creation
         Dev->>Release: Manual trigger
         Release->>Release: Calculate version
@@ -235,7 +238,7 @@ sequenceDiagram
         Release->>GH: Create GitHub Release
     end
 
-    rect rgb(232, 245, 233)
+    rect rgb(236, 253, 245)
         Note over Deploy,Azure: Deployment
         Dev->>Deploy: Manual trigger
         Deploy->>Deploy: Build Bicep
