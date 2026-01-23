@@ -61,47 +61,69 @@ The DevExp-DevBox accelerator implements defense-in-depth security principles ac
 ### Security Architecture Overview
 
 ```mermaid
+---
+title: Security Architecture Overview
+---
 flowchart TB
-    subgraph External["External Boundary"]
-        DEV["Developers"]
-        GH["GitHub"]
-        ADO["Azure DevOps"]
+    %% ===== EXTERNAL BOUNDARY =====
+    subgraph External["🌍 External Boundary"]
+        DEV["👨‍💻 Developers"]
+        GH["🐙 GitHub"]
+        ADO["🔷 Azure DevOps"]
     end
     
-    subgraph Identity["Identity Layer"]
-        AAD["Microsoft Entra ID"]
-        MI["Managed Identities"]
-        OIDC["OIDC Federation"]
+    %% ===== IDENTITY LAYER =====
+    subgraph Identity["🔐 Identity Layer"]
+        AAD["🏢 Microsoft Entra ID"]
+        MI["👤 Managed Identities"]
+        OIDC["🔗 OIDC Federation"]
     end
     
-    subgraph Access["Access Control Layer"]
-        RBAC["Azure RBAC"]
-        KVA["Key Vault Access"]
-        DCA["DevCenter Access"]
+    %% ===== ACCESS CONTROL LAYER =====
+    subgraph Access["🛡️ Access Control Layer"]
+        RBAC["📋 Azure RBAC"]
+        KVA["🔑 Key Vault Access"]
+        DCA["🖥️ DevCenter Access"]
     end
     
-    subgraph Network["Network Layer"]
-        NSG["Network Security Groups"]
-        VNET["Virtual Network"]
-        PE["Private Endpoints"]
+    %% ===== NETWORK LAYER =====
+    subgraph Network["🌐 Network Layer"]
+        NSG["🛡️ Network Security Groups"]
+        VNET["🔗 Virtual Network"]
+        PE["🔒 Private Endpoints"]
     end
     
-    subgraph Data["Data Layer"]
-        KV["Key Vault\n(Secrets)"]
-        LA["Log Analytics\n(Telemetry)"]
-        DC["DevCenter\n(Workloads)"]
+    %% ===== DATA LAYER =====
+    subgraph Data["💾 Data Layer"]
+        KV["🔑 Key Vault<br/>(Secrets)"]
+        LA["📊 Log Analytics<br/>(Telemetry)"]
+        DC["🖥️ DevCenter<br/>(Workloads)"]
     end
     
-    External --> Identity
-    Identity --> Access
-    Access --> Network
-    Network --> Data
+    %% ===== CONNECTIONS =====
+    External -->|authenticates| Identity
+    Identity -->|authorizes| Access
+    Access -->|filters| Network
+    Network -->|protects| Data
     
-    style External fill:#F44336,color:#fff
-    style Identity fill:#9C27B0,color:#fff
-    style Access fill:#FF9800,color:#fff
-    style Network fill:#2196F3,color:#fff
-    style Data fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class DEV,GH,ADO failed
+    class AAD,MI,OIDC trigger
+    class RBAC,KVA,DCA datastore
+    class NSG,VNET,PE primary
+    class KV,LA,DC secondary
+    
+    style External fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Identity fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Access fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Network fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Data fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Security Principles Applied
@@ -126,43 +148,59 @@ flowchart TB
 ### STRIDE Analysis
 
 ```mermaid
+---
+title: STRIDE Threat Analysis
+---
 flowchart TB
-    subgraph Assets["Protected Assets"]
-        A1["GitHub PAT Tokens"]
-        A2["Azure Credentials"]
-        A3["Dev Box VMs"]
-        A4["Source Code"]
-        A5["Configuration Data"]
+    %% ===== PROTECTED ASSETS =====
+    subgraph Assets["🎯 Protected Assets"]
+        A1["🔑 GitHub PAT Tokens"]
+        A2["🔐 Azure Credentials"]
+        A3["🖥️ Dev Box VMs"]
+        A4["📂 Source Code"]
+        A5["⚙️ Configuration Data"]
     end
     
-    subgraph Threats["STRIDE Threats"]
-        T1["Spoofing"]
-        T2["Tampering"]
-        T3["Repudiation"]
-        T4["Information Disclosure"]
-        T5["Denial of Service"]
-        T6["Elevation of Privilege"]
+    %% ===== STRIDE THREATS =====
+    subgraph Threats["⚠️ STRIDE Threats"]
+        T1["👤 Spoofing"]
+        T2["✏️ Tampering"]
+        T3["❌ Repudiation"]
+        T4["👁️ Information Disclosure"]
+        T5["🚫 Denial of Service"]
+        T6["⬆️ Elevation of Privilege"]
     end
     
-    subgraph Mitigations["Security Controls"]
-        M1["OIDC / Managed Identity"]
-        M2["RBAC / Immutable Logs"]
-        M3["Activity Logs"]
-        M4["Key Vault / Encryption"]
-        M5["Throttling / Quotas"]
-        M6["PIM / JIT Access"]
+    %% ===== SECURITY CONTROLS =====
+    subgraph Mitigations["🛡️ Security Controls"]
+        M1["🔐 OIDC / Managed Identity"]
+        M2["📋 RBAC / Immutable Logs"]
+        M3["📝 Activity Logs"]
+        M4["🔑 Key Vault / Encryption"]
+        M5["⚡ Throttling / Quotas"]
+        M6["👑 PIM / JIT Access"]
     end
     
-    T1 --> M1
-    T2 --> M2
-    T3 --> M3
-    T4 --> M4
-    T5 --> M5
-    T6 --> M6
+    %% ===== CONNECTIONS =====
+    T1 -->|mitigated by| M1
+    T2 -->|mitigated by| M2
+    T3 -->|mitigated by| M3
+    T4 -->|mitigated by| M4
+    T5 -->|mitigated by| M5
+    T6 -->|mitigated by| M6
     
-    style Assets fill:#F44336,color:#fff
-    style Threats fill:#FF9800,color:#fff
-    style Mitigations fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class A1,A2,A3,A4,A5 failed
+    class T1,T2,T3,T4,T5,T6 datastore
+    class M1,M2,M3,M4,M5,M6 secondary
+    
+    style Assets fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Threats fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Mitigations fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Threat Categories and Mitigations
@@ -184,38 +222,54 @@ flowchart TB
 ### Attack Surface Diagram
 
 ```mermaid
+---
+title: Attack Surface Diagram
+---
 flowchart LR
-    subgraph External["External Attack Surface"]
-        A1["GitHub Repository"]
-        A2["GitHub Actions"]
-        A3["Developer Endpoints"]
+    %% ===== EXTERNAL ATTACK SURFACE =====
+    subgraph External["🌍 External Attack Surface"]
+        A1["🐙 GitHub Repository"]
+        A2["🔄 GitHub Actions"]
+        A3["👨‍💻 Developer Endpoints"]
     end
     
-    subgraph Internal["Internal Attack Surface"]
-        B1["Azure Portal"]
-        B2["Key Vault API"]
-        B3["DevCenter API"]
-        B4["Dev Box RDP"]
+    %% ===== INTERNAL ATTACK SURFACE =====
+    subgraph Internal["🏢 Internal Attack Surface"]
+        B1["🌐 Azure Portal"]
+        B2["🔑 Key Vault API"]
+        B3["🖥️ DevCenter API"]
+        B4["🖥️ Dev Box RDP"]
     end
     
-    subgraph Data["Data at Risk"]
-        C1["PAT Tokens"]
-        C2["Source Code"]
-        C3["Dev Box Data"]
+    %% ===== DATA AT RISK =====
+    subgraph Data["🎯 Data at Risk"]
+        C1["🔑 PAT Tokens"]
+        C2["📂 Source Code"]
+        C3["💾 Dev Box Data"]
     end
     
-    A1 --> B1
-    A2 --> B2
-    A3 --> B4
+    %% ===== CONNECTIONS =====
+    A1 -->|targets| B1
+    A2 -->|targets| B2
+    A3 -->|targets| B4
     
-    B1 --> C1
-    B2 --> C1
-    B3 --> C2
-    B4 --> C3
+    B1 -->|accesses| C1
+    B2 -->|accesses| C1
+    B3 -->|accesses| C2
+    B4 -->|accesses| C3
     
-    style External fill:#F44336,color:#fff
-    style Internal fill:#FF9800,color:#fff
-    style Data fill:#9C27B0,color:#fff
+    %% ===== STYLES =====
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    
+    class A1,A2,A3 failed
+    class B1,B2,B3,B4 datastore
+    class C1,C2,C3 trigger
+    
+    style External fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Internal fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Data fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ---
@@ -229,37 +283,53 @@ flowchart LR
 ### Identity Types
 
 ```mermaid
+---
+title: Identity Types
+---
 flowchart TB
-    subgraph UserIdentities["User Identities"]
-        AAD_USER["Azure AD Users"]
-        AAD_GROUP["Azure AD Groups"]
+    %% ===== USER IDENTITIES =====
+    subgraph UserIdentities["👥 User Identities"]
+        AAD_USER["👤 Azure AD Users"]
+        AAD_GROUP["👥 Azure AD Groups"]
     end
     
-    subgraph ServiceIdentities["Service Identities"]
-        MI_SYS["SystemAssigned\nManaged Identity"]
-        MI_USER["UserAssigned\nManaged Identity"]
-        SP["Service Principal\n(OIDC Federation)"]
+    %% ===== SERVICE IDENTITIES =====
+    subgraph ServiceIdentities["⚙️ Service Identities"]
+        MI_SYS["🔐 SystemAssigned<br/>Managed Identity"]
+        MI_USER["👤 UserAssigned<br/>Managed Identity"]
+        SP["🔗 Service Principal<br/>(OIDC Federation)"]
     end
     
-    subgraph Resources["Resources"]
-        DC["DevCenter"]
-        PROJ["Projects"]
-        KV["Key Vault"]
+    %% ===== RESOURCES =====
+    subgraph Resources["🏢 Resources"]
+        DC["🖥️ DevCenter"]
+        PROJ["📁 Projects"]
+        KV["🔑 Key Vault"]
     end
     
-    AAD_USER --> AAD_GROUP
-    AAD_GROUP -->|"RBAC"| DC
-    AAD_GROUP -->|"RBAC"| PROJ
+    %% ===== CONNECTIONS =====
+    AAD_USER -->|member of| AAD_GROUP
+    AAD_GROUP -->|RBAC| DC
+    AAD_GROUP -->|RBAC| PROJ
     
-    MI_SYS --> DC
-    MI_SYS --> PROJ
+    MI_SYS -->|assigned to| DC
+    MI_SYS -->|assigned to| PROJ
     
-    SP -->|"GitHub Actions"| Resources
-    MI_SYS -->|"DevCenter → Key Vault"| KV
+    SP -->|GitHub Actions| Resources
+    MI_SYS -->|DevCenter → Key Vault| KV
     
-    style UserIdentities fill:#2196F3,color:#fff
-    style ServiceIdentities fill:#4CAF50,color:#fff
-    style Resources fill:#FF9800,color:#fff
+    %% ===== STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class AAD_USER,AAD_GROUP primary
+    class MI_SYS,MI_USER,SP secondary
+    class DC,PROJ,KV datastore
+    
+    style UserIdentities fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style ServiceIdentities fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Resources fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Identity Configuration (from devcenter.yaml)
@@ -300,43 +370,61 @@ identity:
 ### Role Assignment Model
 
 ```mermaid
+---
+title: RBAC Role Assignment Model
+---
 flowchart TB
-    subgraph Subscription["Subscription Scope"]
-        R1["Contributor"]
-        R2["Key Vault Administrator"]
-        R3["Key Vault Secrets User"]
+    %% ===== SUBSCRIPTION SCOPE =====
+    subgraph Subscription["📋 Subscription Scope"]
+        R1["🔧 Contributor"]
+        R2["🔑 Key Vault Administrator"]
+        R3["🔐 Key Vault Secrets User"]
     end
     
-    subgraph ResourceGroup["Resource Group Scope"]
-        R4["DevCenter Project Admin"]
-        R5["Log Analytics Contributor"]
+    %% ===== RESOURCE GROUP SCOPE =====
+    subgraph ResourceGroup["📁 Resource Group Scope"]
+        R4["🖥️ DevCenter Project Admin"]
+        R5["📊 Log Analytics Contributor"]
     end
     
-    subgraph Resource["Resource Scope"]
-        R6["Dev Box User"]
-        R7["Deployment Environments User"]
+    %% ===== RESOURCE SCOPE =====
+    subgraph Resource["🎯 Resource Scope"]
+        R6["💻 Dev Box User"]
+        R7["🌍 Deployment Environments User"]
     end
     
-    subgraph Principals["Principals"]
-        P1["DevCenter MI"]
-        P2["Platform Engineering Team"]
-        P3["Project Developers"]
+    %% ===== PRINCIPALS =====
+    subgraph Principals["👥 Principals"]
+        P1["🔐 DevCenter MI"]
+        P2["👷 Platform Engineering Team"]
+        P3["👨‍💻 Project Developers"]
     end
     
-    P1 --> R1
-    P1 --> R2
-    P1 --> R3
+    %% ===== CONNECTIONS =====
+    P1 -->|assigned| R1
+    P1 -->|assigned| R2
+    P1 -->|assigned| R3
     
-    P2 --> R4
-    P2 --> R5
+    P2 -->|assigned| R4
+    P2 -->|assigned| R5
     
-    P3 --> R6
-    P3 --> R7
+    P3 -->|assigned| R6
+    P3 -->|assigned| R7
     
-    style Subscription fill:#E91E63,color:#fff
-    style ResourceGroup fill:#9C27B0,color:#fff
-    style Resource fill:#2196F3,color:#fff
-    style Principals fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class R1,R2,R3 trigger
+    class R4,R5 primary
+    class R6,R7 secondary
+    class P1,P2,P3 secondary
+    
+    style Subscription fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style ResourceGroup fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Resource fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Principals fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Built-in Roles Used
@@ -368,13 +456,16 @@ orgRoleTypes:
 ### Role Assignment Flow
 
 ```mermaid
+---
+title: Role Assignment Flow
+---
 sequenceDiagram
-    participant YAML as devcenter.yaml
-    participant MAIN as main.bicep
-    participant DC as devCenter.bicep
-    participant RA as roleAssignment.bicep
-    participant ARM as Azure Resource Manager
-    participant AAD as Microsoft Entra ID
+    participant YAML as 📄 devcenter.yaml
+    participant MAIN as 📄 main.bicep
+    participant DC as 🖥️ devCenter.bicep
+    participant RA as 🔐 roleAssignment.bicep
+    participant ARM as ☁️ Azure Resource Manager
+    participant AAD as 🏢 Microsoft Entra ID
     
     YAML->>MAIN: Load role configuration
     MAIN->>DC: Pass roleAssignments
