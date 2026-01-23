@@ -35,7 +35,7 @@ tags:
 - [🎯 Overview](#-overview)
 - [📜 Scripts Inventory](#-scripts-inventory)
 - [🔄 Workflow Diagram](#-workflow-diagram)
-- [⚙️ Prerequisites](#-prerequisites)
+- [⚙️ Prerequisites](#%EF%B8%8F-prerequisites)
 - [🚀 Quick Start](#-quick-start)
 - [🔗 Related Documentation](#-related-documentation)
 

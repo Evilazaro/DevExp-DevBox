@@ -40,15 +40,15 @@ tags:
 
 ## 📑 Table of Contents
 
-- [📋 Executive Summary](#executive-summary)
-- [🎯 Business Context](#business-context)
-- [👥 Stakeholder Analysis](#stakeholder-analysis)
-- [⚙️ Business Capabilities](#business-capabilities)
-- [🔄 Value Streams](#value-streams)
-- [📝 Business Requirements](#business-requirements)
-- [📊 Success Metrics](#success-metrics)
-- [📖 Glossary](#glossary)
-- [🔗 References](#references)
+- [📋 Executive Summary](#-executive-summary)
+- [🎯 Business Context](#-business-context)
+- [👥 Stakeholder Analysis](#-stakeholder-analysis)
+- [⚙️ Business Capabilities](#%EF%B8%8F-business-capabilities)
+- [🔄 Value Streams](#-value-streams)
+- [📝 Business Requirements](#-business-requirements)
+- [📊 Success Metrics](#-success-metrics)
+- [📖 Glossary](#-glossary)
+- [🔗 References](#-references)
 
 ---
 
@@ -278,6 +278,7 @@ flowchart TB
     class C9,C10,C11,C12 secondary
     class C13,C14,C15 primary
     
+    style L1 fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
     style L2A fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
     style L2B fill:#FEE2E2,stroke:#F44336,stroke-width:2px
     style L2C fill:#ECFDF5,stroke:#10B981,stroke-width:2px

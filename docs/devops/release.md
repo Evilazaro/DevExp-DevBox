@@ -309,37 +309,74 @@ permissions:
 ### Branch-Based Version Calculation
 
 ```mermaid
+---
+title: Version Calculation Flow
+---
 flowchart LR
-    subgraph "📊 Version Calculation"
+    %% ===== VERSION CALCULATION =====
+    subgraph VersionCalc["📊 Version Calculation"]
         direction TB
-        START((Start)) --> CHECK{Branch Type?}
-        CHECK --> |main| MAIN["Conditional Major<br>if minor=0 AND patch=0"]
-        CHECK --> |feature/**| FEAT["Patch + commits<br>Suffix: -feature.name"]
-        CHECK --> |fix/**| FIX["Minor + commits<br>Suffix: -fix.name"]
+        START(("▶️ Start"))
+        CHECK{"🔀 Branch Type?"}
+        MAIN["📌 Conditional Major\nif minor=0 AND patch=0"]
+        FEAT["🌿 Patch + commits\nSuffix: -feature.name"]
+        FIX["🔧 Minor + commits\nSuffix: -fix.name"]
         
-        MAIN --> OVERFLOW1{Overflow?}
-        FEAT --> OVERFLOW2{patch > 99?}
-        FIX --> OVERFLOW3{minor > 99?}
+        START -->|analyzes| CHECK
+        CHECK -->|main| MAIN
+        CHECK -->|feature/**| FEAT
+        CHECK -->|fix/**| FIX
+    end
+    
+    %% ===== OVERFLOW HANDLING =====
+    subgraph OverflowHandling["⚠️ Overflow Handling"]
+        direction TB
+        OVERFLOW1{"patch > 99?"}
+        OVERFLOW2{"patch > 99?"}
+        OVERFLOW3{"minor > 99?"}
         
-        OVERFLOW1 --> |"patch > 99"| INCMIN["minor++, patch=0"]
-        OVERFLOW2 --> |Yes| INCMIN2["minor++, patch=0"]
-        OVERFLOW3 --> |Yes| INCMAJ["major++, minor=0"]
-        
-        INCMIN --> FINALV[/"Final Version"/]
-        INCMIN2 --> FINALV
-        INCMAJ --> FINALV
-        OVERFLOW1 --> |No| FINALV
-        OVERFLOW2 --> |No| FINALV
-        OVERFLOW3 --> |No| FINALV
+        INCMIN["🔄 minor++, patch=0"]
+        INCMIN2["🔄 minor++, patch=0"]
+        INCMAJ["🔄 major++, minor=0"]
     end
 
-    classDef decision fill:#FFC107,stroke:#FFA000,color:#000
-    classDef process fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef output fill:#4CAF50,stroke:#2E7D32,color:#fff
+    %% ===== OUTPUT =====
+    subgraph Output["📦 Output"]
+        FINALV[/"🏷️ Final Version"/]
+    end
 
+    %% ===== CONNECTIONS =====
+    MAIN -->|checks| OVERFLOW1
+    FEAT -->|checks| OVERFLOW2
+    FIX -->|checks| OVERFLOW3
+    
+    OVERFLOW1 -->|Yes| INCMIN
+    OVERFLOW2 -->|Yes| INCMIN2
+    OVERFLOW3 -->|Yes| INCMAJ
+    
+    INCMIN -->|outputs| FINALV
+    INCMIN2 -->|outputs| FINALV
+    INCMAJ -->|outputs| FINALV
+    OVERFLOW1 -.->|No| FINALV
+    OVERFLOW2 -.->|No| FINALV
+    OVERFLOW3 -.->|No| FINALV
+
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
+
+    class START trigger
+    class MAIN,FEAT,FIX,INCMIN,INCMIN2,INCMAJ primary
     class CHECK,OVERFLOW1,OVERFLOW2,OVERFLOW3 decision
-    class MAIN,FEAT,FIX,INCMIN,INCMIN2,INCMAJ process
-    class FINALV output
+    class FINALV datastore
+    
+    %% ===== SUBGRAPH STYLES =====
+    style VersionCalc fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style OverflowHandling fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Output fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Version Rules by Branch

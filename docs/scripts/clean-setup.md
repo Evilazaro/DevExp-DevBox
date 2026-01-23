@@ -35,15 +35,15 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Flow Visualization](#flow-visualization)
-- [📝 Parameters](#parameters)
-- [⚙️ Prerequisites](#prerequisites)
-- [🔧 Functions Reference](#functions-reference)
-- [📝 Usage Examples](#usage-examples)
-- [⚠️ Error Handling](#error-handling)
-- [🔧 Troubleshooting](#troubleshooting)
-- [🔗 Related Scripts](#related-scripts)
+- [🎯 Overview](#-overview)
+- [📊 Flow Visualization](#-flow-visualization)
+- [📝 Parameters](#-parameters)
+- [⚙️ Prerequisites](#%EF%B8%8F-prerequisites)
+- [🔧 Functions Reference](#-functions-reference)
+- [📝 Usage Examples](#-usage-examples)
+- [⚠️ Error Handling](#%EF%B8%8F-error-handling)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🔗 Related Scripts](#-related-scripts)
 
 ---
 

@@ -40,15 +40,15 @@ tags:
 
 ## 📑 Table of Contents
 
-- [📊 Application Overview](#application-overview)
-- [📋 Bicep Module Catalog](#bicep-module-catalog)
-- [🔗 Module Dependency Graph](#module-dependency-graph)
-- [📜 Interface Contracts](#interface-contracts)
-- [🚀 Deployment Orchestration](#deployment-orchestration)
-- [🔧 Component Details](#component-details)
-- [🔄 Integration Patterns](#integration-patterns)
-- [🔌 Extension Points](#extension-points)
-- [📚 References](#references)
+- [📊 Application Overview](#-application-overview)
+- [📋 Bicep Module Catalog](#-bicep-module-catalog)
+- [🔗 Module Dependency Graph](#-module-dependency-graph)
+- [📜 Interface Contracts](#-interface-contracts)
+- [🚀 Deployment Orchestration](#-deployment-orchestration)
+- [🔧 Component Details](#-component-details)
+- [🔄 Integration Patterns](#-integration-patterns)
+- [🔌 Extension Points](#-extension-points)
+- [📚 References](#-references)
 
 ---
 

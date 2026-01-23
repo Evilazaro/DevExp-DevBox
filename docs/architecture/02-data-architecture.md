@@ -40,15 +40,15 @@ tags:
 
 ## 📑 Table of Contents
 
-- [📊 Data Overview](#data-overview)
-- [📁 Configuration Data Model](#configuration-data-model)
-- [🔐 Secrets Management](#secrets-management)
-- [📶 Telemetry & Diagnostics](#telemetry--diagnostics)
-- [🔄 Data Flow Diagrams](#data-flow-diagrams)
-- [🛡️ Data Governance](#data-governance)
-- [📝 Schema Documentation](#schema-documentation)
-- [📖 Glossary](#glossary)
-- [🔗 References](#references)
+- [📊 Data Overview](#-data-overview)
+- [📁 Configuration Data Model](#-configuration-data-model)
+- [🔐 Secrets Management](#-secrets-management)
+- [📶 Telemetry & Diagnostics](#-telemetry--diagnostics)
+- [🔄 Data Flow Diagrams](#-data-flow-diagrams)
+- [🛡️ Data Governance](#%EF%B8%8F-data-governance)
+- [📝 Schema Documentation](#-schema-documentation)
+- [📖 Glossary](#-glossary)
+- [🔗 References](#-references)
 
 ---
 
@@ -105,6 +105,7 @@ flowchart TB
     class T1,T2,T3 secondary
     class ST1,ST2,ST3 datastore
     
+    style DataCategories fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
     style Config fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
     style Secrets fill:#FEE2E2,stroke:#F44336,stroke-width:2px
     style Telemetry fill:#ECFDF5,stroke:#10B981,stroke-width:2px
