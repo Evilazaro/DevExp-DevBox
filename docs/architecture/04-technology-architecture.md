@@ -1,9 +1,9 @@
-# Technology Architecture
+# ☁️ Technology Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
 
 | Property | Value |
-|----------|-------|
+|:---------|:------|
 | **Version** | 1.0.0 |
 | **Last Updated** | 2026-01-23 |
 | **Author** | DevExp Team |
@@ -11,22 +11,22 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Technology Overview](#technology-overview)
-- [Azure Service Catalog](#azure-service-catalog)
-- [Landing Zone Design](#landing-zone-design)
-- [Network Architecture](#network-architecture)
-- [Compute Architecture](#compute-architecture)
-- [CI/CD Infrastructure](#cicd-infrastructure)
-- [Monitoring Infrastructure](#monitoring-infrastructure)
-- [Infrastructure Sizing](#infrastructure-sizing)
-- [Technology Standards](#technology-standards)
-- [References](#references)
+- [📊 Technology Overview](#technology-overview)
+- [📦 Azure Service Catalog](#azure-service-catalog)
+- [🏗️ Landing Zone Design](#landing-zone-design)
+- [🌐 Network Architecture](#network-architecture)
+- [💻 Compute Architecture](#compute-architecture)
+- [🔄 CI/CD Infrastructure](#cicd-infrastructure)
+- [📶 Monitoring Infrastructure](#monitoring-infrastructure)
+- [📏 Infrastructure Sizing](#infrastructure-sizing)
+- [📜 Technology Standards](#technology-standards)
+- [🔗 References](#references)
 
 ---
 
-## Technology Overview
+## 📊 Technology Overview
 
 The DevExp-DevBox accelerator leverages Azure's Platform as a Service (PaaS) offerings with a strong emphasis on managed services, security by default, and enterprise governance patterns.
 
@@ -98,7 +98,11 @@ flowchart TB
 
 ---
 
-## Azure Service Catalog
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📦 Azure Service Catalog
 
 ### Primary Azure Services
 
@@ -192,7 +196,11 @@ flowchart TB
 
 ---
 
-## Landing Zone Design
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🏗️ Landing Zone Design
 
 ### Azure Landing Zone Alignment
 
@@ -260,7 +268,11 @@ flowchart TB
 
 ---
 
-## Network Architecture
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🌐 Network Architecture
 
 ### Network Topology
 
@@ -339,7 +351,11 @@ network:
 
 ---
 
-## Compute Architecture
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 💻 Compute Architecture
 
 ### Dev Box Architecture
 
@@ -425,7 +441,11 @@ flowchart LR
 
 ---
 
-## CI/CD Infrastructure
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔄 CI/CD Infrastructure
 
 ### GitHub Actions Architecture
 
@@ -524,7 +544,11 @@ steps:
 
 ---
 
-## Monitoring Infrastructure
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📶 Monitoring Infrastructure
 
 ### Log Analytics Architecture
 
@@ -596,7 +620,11 @@ flowchart TB
 
 ---
 
-## Infrastructure Sizing
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📏 Infrastructure Sizing
 
 ### Resource Sizing Guidelines
 
@@ -620,7 +648,11 @@ flowchart TB
 
 ---
 
-## Technology Standards
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📜 Technology Standards
 
 ### Bicep Coding Standards
 
@@ -653,16 +685,20 @@ flowchart TB
 
 ---
 
-## References
+[⬆️ Back to Top](#-table-of-contents)
 
-### Internal References
+---
+
+## 🔗 References
+
+### 📚 Internal References
 
 - [Business Architecture](01-business-architecture.md)
 - [Data Architecture](02-data-architecture.md)
 - [Application Architecture](03-application-architecture.md)
 - [Security Architecture](05-security-architecture.md)
 
-### External References
+### 🌐 External References
 
 - [Azure DevCenter Documentation](https://learn.microsoft.com/en-us/azure/dev-box/)
 - [Azure Landing Zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)

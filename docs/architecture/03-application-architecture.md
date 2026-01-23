@@ -1,9 +1,9 @@
-# Application Architecture
+# 📦 Application Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
 
 | Property | Value |
-|----------|-------|
+|:---------|:------|
 | **Version** | 1.0.0 |
 | **Last Updated** | 2026-01-23 |
 | **Author** | DevExp Team |
@@ -11,21 +11,21 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Application Overview](#application-overview)
-- [Bicep Module Catalog](#bicep-module-catalog)
-- [Module Dependency Graph](#module-dependency-graph)
-- [Interface Contracts](#interface-contracts)
-- [Deployment Orchestration](#deployment-orchestration)
-- [Component Details](#component-details)
-- [Integration Patterns](#integration-patterns)
-- [Extension Points](#extension-points)
-- [References](#references)
+- [📊 Application Overview](#application-overview)
+- [📋 Bicep Module Catalog](#bicep-module-catalog)
+- [🔗 Module Dependency Graph](#module-dependency-graph)
+- [📜 Interface Contracts](#interface-contracts)
+- [🚀 Deployment Orchestration](#deployment-orchestration)
+- [🔧 Component Details](#component-details)
+- [🔄 Integration Patterns](#integration-patterns)
+- [🔌 Extension Points](#extension-points)
+- [📚 References](#references)
 
 ---
 
-## Application Overview
+## 📊 Application Overview
 
 The DevExp-DevBox accelerator is an Infrastructure as Code (IaC) application built using Azure Bicep. It follows a modular, hierarchical architecture with clear separation of concerns across landing zones.
 
@@ -106,7 +106,11 @@ flowchart TB
 
 ---
 
-## Bicep Module Catalog
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📋 Bicep Module Catalog
 
 ### Module Inventory
 
@@ -161,7 +165,11 @@ mindmap
 
 ---
 
-## Module Dependency Graph
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Module Dependency Graph
 
 ### Complete Dependency Tree
 
@@ -273,7 +281,11 @@ flowchart TB
 
 ---
 
-## Interface Contracts
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📜 Interface Contracts
 
 ### main.bicep Parameters
 
@@ -369,7 +381,11 @@ output devCenterProjects array = devCenter.outputs.devCenterProjects
 
 ---
 
-## Deployment Orchestration
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🚀 Deployment Orchestration
 
 ### Deployment Sequence Diagram
 
@@ -465,7 +481,11 @@ flowchart LR
 
 ---
 
-## Component Details
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Component Details
 
 ### main.bicep - Subscription Orchestrator
 
@@ -596,7 +616,11 @@ flowchart TB
 
 ---
 
-## Integration Patterns
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔄 Integration Patterns
 
 ### Configuration Integration Pattern
 
@@ -677,7 +701,11 @@ module workload 'src/workload/workload.bicep' = {
 
 ---
 
-## Extension Points
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔌 Extension Points
 
 ### Adding a New Landing Zone
 
@@ -728,16 +756,20 @@ output resourceName string = childResource.name
 
 ---
 
-## References
+[⬆️ Back to Top](#-table-of-contents)
 
-### Internal References
+---
+
+## 📚 References
+
+### 📚 Internal References
 
 - [Business Architecture](01-business-architecture.md)
 - [Data Architecture](02-data-architecture.md)
 - [Technology Architecture](04-technology-architecture.md)
 - [Security Architecture](05-security-architecture.md)
 
-### External References
+### 🌐 External References
 
 - [Azure Bicep Documentation](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/)
 - [Azure DevCenter API Reference](https://learn.microsoft.com/en-us/rest/api/devcenter/)

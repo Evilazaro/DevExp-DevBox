@@ -1,9 +1,9 @@
-# Security Architecture
+# 🔒 Security Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
 
 | Property | Value |
-|----------|-------|
+|:---------|:------|
 | **Version** | 1.0.0 |
 | **Last Updated** | 2026-01-23 |
 | **Author** | DevExp Team |
@@ -11,23 +11,23 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Security Overview](#security-overview)
-- [Threat Model](#threat-model)
-- [Identity & Access Management](#identity--access-management)
-- [RBAC Hierarchy](#rbac-hierarchy)
-- [Secrets Management](#secrets-management)
-- [Network Security](#network-security)
-- [Data Protection](#data-protection)
-- [Compliance & Governance](#compliance--governance)
-- [Security Operations](#security-operations)
-- [Security Controls Matrix](#security-controls-matrix)
-- [References](#references)
+- [📊 Security Overview](#security-overview)
+- [⚠️ Threat Model](#threat-model)
+- [🔑 Identity & Access Management](#identity--access-management)
+- [👥 RBAC Hierarchy](#rbac-hierarchy)
+- [🔐 Secrets Management](#secrets-management)
+- [🌐 Network Security](#network-security)
+- [🛡️ Data Protection](#data-protection)
+- [✅ Compliance & Governance](#compliance--governance)
+- [📶 Security Operations](#security-operations)
+- [📋 Security Controls Matrix](#security-controls-matrix)
+- [🔗 References](#references)
 
 ---
 
-## Security Overview
+## 📊 Security Overview
 
 The DevExp-DevBox accelerator implements defense-in-depth security principles across all layers: identity, network, data, and application. The security architecture aligns with Azure Security Benchmark and Zero Trust principles.
 
@@ -90,7 +90,11 @@ flowchart TB
 
 ---
 
-## Threat Model
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Threat Model
 
 ### STRIDE Analysis
 
@@ -189,7 +193,11 @@ flowchart LR
 
 ---
 
-## Identity & Access Management
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔑 Identity & Access Management
 
 ### Identity Types
 
@@ -256,7 +264,11 @@ identity:
 
 ---
 
-## RBAC Hierarchy
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 👥 RBAC Hierarchy
 
 ### Role Assignment Model
 
@@ -348,7 +360,11 @@ sequenceDiagram
 
 ---
 
-## Secrets Management
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔐 Secrets Management
 
 ### Secrets Architecture
 
@@ -442,7 +458,11 @@ sequenceDiagram
 
 ---
 
-## Network Security
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🌐 Network Security
 
 ### Network Security Architecture
 
@@ -515,7 +535,11 @@ network:
 
 ---
 
-## Data Protection
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🛡️ Data Protection
 
 ### Encryption Model
 
@@ -539,7 +563,11 @@ network:
 
 ---
 
-## Compliance & Governance
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ✅ Compliance & Governance
 
 ### Tagging for Governance
 
@@ -577,7 +605,11 @@ tags:
 
 ---
 
-## Security Operations
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📶 Security Operations
 
 ### Security Monitoring
 
@@ -639,7 +671,11 @@ flowchart TB
 
 ---
 
-## Security Controls Matrix
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📋 Security Controls Matrix
 
 ### Control Implementation Summary
 
@@ -677,16 +713,20 @@ flowchart TB
 
 ---
 
-## References
+[⬆️ Back to Top](#-table-of-contents)
 
-### Internal References
+---
+
+## 🔗 References
+
+### 📚 Internal References
 
 - [Business Architecture](01-business-architecture.md)
 - [Data Architecture](02-data-architecture.md)
 - [Application Architecture](03-application-architecture.md)
 - [Technology Architecture](04-technology-architecture.md)
 
-### External References
+### 🌐 External References
 
 - [Azure Security Benchmark](https://learn.microsoft.com/en-us/security/benchmark/azure/overview)
 - [Azure Key Vault Security](https://learn.microsoft.com/en-us/azure/key-vault/general/security-features)

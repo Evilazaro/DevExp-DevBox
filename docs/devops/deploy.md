@@ -1,10 +1,35 @@
-# Deploy to Azure Workflow
+# 🚀 Deploy to Azure Workflow
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Pipeline Visualization](#pipeline-visualization)
+- [🎯 Triggers](#triggers)
+- [⚙️ Jobs & Steps](#jobs--steps)
+- [🔐 Prerequisites](#prerequisites)
+- [🌐 Environment Variables](#environment-variables)
+- [🔒 Concurrency Control](#concurrency-control)
+- [📦 Artifacts](#artifacts)
+- [📝 Usage Examples](#usage-examples)
+- [🔧 Troubleshooting](#troubleshooting)
+- [🛡️ Security Considerations](#security-considerations)
+- [🔗 Related Documentation](#related-documentation)
+
+---
+
+## 🎯 Overview
 
 The **Deploy to Azure** workflow provisions infrastructure to Azure using the Azure Developer CLI (azd) with OIDC authentication. This is a **manual workflow** that deploys the Dev Box Accelerator infrastructure to a specified Azure environment.
 
-## Pipeline Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Pipeline Visualization
 
 ```mermaid
 flowchart TD
@@ -56,7 +81,13 @@ flowchart TD
     class AZ1,AZ2,AZ3,AZ4 azure
 ```
 
-## Triggers
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🎯 Triggers
 
 | Trigger Type        | Description                                           |
 | ------------------- | ----------------------------------------------------- |
@@ -69,7 +100,13 @@ flowchart TD
 | `AZURE_ENV_NAME`  | `string` | Yes      | `demo`      | Azure environment name (e.g., dev, staging, prod) |
 | `AZURE_LOCATION`  | `string` | Yes      | `eastus2`   | Azure region for deployment                    |
 
-## Jobs & Steps
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Jobs & Steps
 
 ### Job: `build-and-deploy-to-azure`
 
@@ -96,7 +133,13 @@ flowchart TD
 | 8    | Deploy Infrastructure to Azure     | Runs `azd provision` to deploy resources                 |
 | 9    | Generate Deployment Summary        | Creates a summary of the deployment result               |
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔐 Prerequisites
 
 ### Permissions
 
@@ -137,7 +180,13 @@ This workflow uses **OpenID Connect (OIDC)** for secure, secretless authenticati
 
 > 📖 See [Azure OIDC Authentication Documentation](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure)
 
-## Environment Variables
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🌐 Environment Variables
 
 | Variable                | Source                              | Description                           |
 | ----------------------- | ----------------------------------- | ------------------------------------- |
@@ -149,7 +198,13 @@ This workflow uses **OpenID Connect (OIDC)** for secure, secretless authenticati
 | `KEY_VAULT_SECRET`      | Repository secret                   | Key Vault secret value                |
 | `SOURCE_CONTROL_PLATFORM`| Hardcoded                          | Set to `github`                       |
 
-## Concurrency Control
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔒 Concurrency Control
 
 ```yaml
 concurrency:
@@ -161,13 +216,25 @@ concurrency:
 - **Behavior:** Only one deployment can run per environment at a time
 - **Cancellation:** Running deployments are NOT cancelled if a new one is triggered
 
-## Artifacts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📦 Artifacts
 
 | Artifact Name                           | Contents                | Retention |
 | --------------------------------------- | ----------------------- | --------- |
 | `bicep-artifacts-{run_number}`          | Compiled ARM templates  | 7 days    |
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Manual Trigger via GitHub UI
 
@@ -187,7 +254,13 @@ gh workflow run deploy.yml \
   -f AZURE_LOCATION=eastus2
 ```
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Troubleshooting
 
 ### Common Issues
 
@@ -221,14 +294,26 @@ gh workflow run deploy.yml \
    az bicep build --file ./infra/main.bicep --outdir ./test-output
    ```
 
-## Security Considerations
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🛡️ Security Considerations
 
 - ✅ Uses **OIDC authentication** - no long-lived secrets stored
 - ✅ **Least-privilege permissions** - only requests necessary scopes
 - ✅ **Environment protection** - can be combined with environment approval rules
 - ✅ **Concurrency control** - prevents conflicting deployments
 
-## Related Documentation
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Documentation
 
 - [CI Workflow](ci.md) - Continuous integration process
 - [Release Workflow](release.md) - GitHub release creation

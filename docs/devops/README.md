@@ -1,12 +1,33 @@
-# DevOps Documentation
+# 🔄 DevOps Documentation
 
 > 📖 Comprehensive documentation for GitHub Actions workflows in the Dev Box Accelerator project.
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [🏗️ Master Pipeline Architecture](#master-pipeline-architecture)
+- [📚 Workflow Documentation](#workflow-documentation)
+- [⚡ Quick Reference](#quick-reference)
+- [🔄 Reusable Components](#reusable-components)
+- [🏷️ Versioning Strategy](#versioning-strategy)
+- [✅ Best Practices](#best-practices)
+- [🔗 Related Documentation](#related-documentation)
+
+---
+
+## 🎯 Overview
 
 This folder contains detailed documentation for all CI/CD workflows that automate the build, test, and deployment processes for the Dev Box Accelerator infrastructure-as-code project.
 
-## Master Pipeline Architecture
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🏗️ Master Pipeline Architecture
 
 The following diagram shows the complete CI/CD pipeline architecture and how all workflows relate to each other:
 
@@ -75,7 +96,13 @@ flowchart TB
     class O1,O2,O3 output
 ```
 
-## Workflow Documentation
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📚 Workflow Documentation
 
 | Workflow | File | Purpose | Trigger |
 |----------|------|---------|---------|
@@ -83,7 +110,13 @@ flowchart TB
 | [Deploy to Azure](deploy.md) | `deploy.yml` | Provisions infrastructure to Azure | Manual (`workflow_dispatch`) |
 | [Branch-Based Release](release.md) | `release.yml` | Creates GitHub releases with versioned artifacts | Manual (`workflow_dispatch`) |
 
-## Quick Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚡ Quick Reference
 
 ### Trigger Summary
 
@@ -129,7 +162,13 @@ flowchart LR
 | `id-token: write` | ❌ | ✅ | ❌ | OIDC authentication |
 | `actions: read` | ❌ | ❌ | ✅ | Workflow introspection |
 
-## Reusable Components
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔄 Reusable Components
 
 ### Composite Actions
 
@@ -163,7 +202,13 @@ flowchart LR
     class GR1,GR2,GR3,GR4,GR5,GR6,BC1,BC2,BC3 action
 ```
 
-## Versioning Strategy
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🏷️ Versioning Strategy
 
 The project uses a **branch-based semantic versioning** strategy:
 
@@ -178,7 +223,13 @@ The project uses a **branch-based semantic versioning** strategy:
 - **Patch > 99**: Resets to 0, increments minor
 - **Minor > 99**: Resets to 0, increments major
 
-## Best Practices
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ✅ Best Practices
 
 ### Security
 
@@ -194,7 +245,13 @@ The project uses a **branch-based semantic versioning** strategy:
 - ✅ Step summaries for visibility into workflow execution
 - ✅ Artifact retention policies configured
 
-## Related Documentation
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Documentation
 
 - [Deployment Architecture](../architecture/07-deployment-architecture.md) - Infrastructure deployment patterns
 - [Azure Developer CLI](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/) - Tool used for deployments

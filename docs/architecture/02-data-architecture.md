@@ -1,9 +1,9 @@
-# Data Architecture
+# 🗄️ Data Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
 
 | Property | Value |
-|----------|-------|
+|:---------|:------|
 | **Version** | 1.0.0 |
 | **Last Updated** | 2026-01-23 |
 | **Author** | DevExp Team |
@@ -11,21 +11,21 @@
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Data Overview](#data-overview)
-- [Configuration Data Model](#configuration-data-model)
-- [Secrets Management](#secrets-management)
-- [Telemetry & Diagnostics](#telemetry--diagnostics)
-- [Data Flow Diagrams](#data-flow-diagrams)
-- [Data Governance](#data-governance)
-- [Schema Documentation](#schema-documentation)
-- [Glossary](#glossary)
-- [References](#references)
+- [📊 Data Overview](#data-overview)
+- [📁 Configuration Data Model](#configuration-data-model)
+- [🔐 Secrets Management](#secrets-management)
+- [📶 Telemetry & Diagnostics](#telemetry--diagnostics)
+- [🔄 Data Flow Diagrams](#data-flow-diagrams)
+- [🛡️ Data Governance](#data-governance)
+- [📝 Schema Documentation](#schema-documentation)
+- [📖 Glossary](#glossary)
+- [🔗 References](#references)
 
 ---
 
-## Data Overview
+## 📊 Data Overview
 
 The DevExp-DevBox accelerator manages four primary categories of data, each with distinct lifecycle, sensitivity, and storage requirements.
 
@@ -83,7 +83,11 @@ flowchart TB
 
 ---
 
-## Configuration Data Model
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📁 Configuration Data Model
 
 The accelerator uses YAML-based configuration files with JSON Schema validation. All configuration is loaded at deployment time using Bicep's `loadYamlContent()` function.
 
@@ -328,7 +332,11 @@ projects:
 
 ---
 
-## Secrets Management
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔐 Secrets Management
 
 ### Secret Types and Lifecycle
 
@@ -396,7 +404,11 @@ sequenceDiagram
 
 ---
 
-## Telemetry & Diagnostics
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📶 Telemetry & Diagnostics
 
 ### Log Analytics Data Collection
 
@@ -475,7 +487,11 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
 
 ---
 
-## Data Flow Diagrams
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔄 Data Flow Diagrams
 
 ### Configuration Loading Flow
 
@@ -569,7 +585,11 @@ flowchart TB
 
 ---
 
-## Data Governance
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🛡️ Data Governance
 
 ### Data Ownership
 
@@ -606,7 +626,11 @@ All resources must include the following tags for governance:
 
 ---
 
-## Schema Documentation
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Schema Documentation
 
 ### JSON Schema Files
 
@@ -662,7 +686,11 @@ Configure VS Code to validate YAML files:
 
 ---
 
-## Glossary
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📖 Glossary
 
 | Term | Definition |
 |------|------------|
@@ -678,16 +706,20 @@ Configure VS Code to validate YAML files:
 
 ---
 
-## References
+[⬆️ Back to Top](#-table-of-contents)
 
-### Internal References
+---
+
+## 🔗 References
+
+### 📚 Internal References
 
 - [Business Architecture](01-business-architecture.md)
 - [Application Architecture](03-application-architecture.md)
 - [Technology Architecture](04-technology-architecture.md)
 - [Security Architecture](05-security-architecture.md)
 
-### External References
+### 🌐 External References
 
 - [Azure Key Vault Documentation](https://learn.microsoft.com/en-us/azure/key-vault/)
 - [Log Analytics Documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview)

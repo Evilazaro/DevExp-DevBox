@@ -1,10 +1,32 @@
-# Continuous Integration Workflow
+# 🔄 Continuous Integration Workflow
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Pipeline Visualization](#pipeline-visualization)
+- [🎯 Triggers](#triggers)
+- [⚙️ Jobs & Steps](#jobs--steps)
+- [🔐 Prerequisites](#prerequisites)
+- [🏷️ Versioning Strategy](#versioning-strategy)
+- [📦 Artifacts](#artifacts)
+- [🔧 Troubleshooting](#troubleshooting)
+- [🔗 Related Documentation](#related-documentation)
+
+---
+
+## 🎯 Overview
 
 The **Continuous Integration (CI)** workflow validates and builds Bicep templates for the Dev Box Accelerator project. It runs automatically on feature and fix branches, as well as pull requests to the main branch, ensuring code quality before merging.
 
-## Pipeline Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Pipeline Visualization
 
 ```mermaid
 flowchart TD
@@ -45,14 +67,26 @@ flowchart TD
     class SKIP skip
 ```
 
-## Triggers
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🎯 Triggers
 
 | Trigger Type   | Condition                                    | Description                                      |
 | -------------- | -------------------------------------------- | ------------------------------------------------ |
 | `push`         | Branches: `feature/**`, `fix/**`             | Runs on every push to feature or fix branches    |
 | `pull_request` | Target: `main`, Types: opened, synchronize, reopened | Runs on PRs targeting the main branch |
 
-## Jobs & Steps
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Jobs & Steps
 
 ### Job: `generate-tag-version`
 
@@ -102,7 +136,13 @@ flowchart TD
 | 1    | Checkout Repository  | Clones the repository for the current branch                          |
 | 2    | Build Bicep Code     | Uses composite action `.github/actions/ci/bicep-standard-ci` to build |
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔐 Prerequisites
 
 ### Permissions
 
@@ -121,11 +161,23 @@ This workflow depends on the following composite actions:
 | `.github/actions/ci/generate-release`     | Generates semantic version and release metadata |
 | `.github/actions/ci/bicep-standard-ci`    | Builds Bicep templates and uploads artifacts |
 
-## Environment Variables
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🌐 Environment Variables
 
 This workflow does not use environment-specific variables. All configuration is derived from the branch name and commit history.
 
-## Versioning Strategy
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🏷️ Versioning Strategy
 
 The CI workflow implements a **branch-based versioning strategy**:
 
@@ -136,13 +188,25 @@ The CI workflow implements a **branch-based versioning strategy**:
 | `fix/**`       | Minor increment with fix suffix            | `v1.3.0-fix.bugfix-name`      |
 | Pull Request   | Adds `-pr<number>` suffix to version       | `v1.2.4-feature.test-pr123`   |
 
-## Artifacts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📦 Artifacts
 
 | Artifact Name              | Contents                        | Retention |
 | -------------------------- | ------------------------------- | --------- |
 | `artifacts-{version}`      | Compiled ARM templates          | 30 days   |
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Troubleshooting
 
 ### Common Issues
 
@@ -158,7 +222,13 @@ The CI workflow implements a **branch-based versioning strategy**:
 2. Review the `generate-tag-version` job outputs for version information
 3. Verify branch name follows supported patterns (`feature/**`, `fix/**`, or `main`)
 
-## Related Documentation
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Documentation
 
 - [Release Workflow](release.md) - Full release process with GitHub Releases
 - [Deploy Workflow](deploy.md) - Azure deployment process

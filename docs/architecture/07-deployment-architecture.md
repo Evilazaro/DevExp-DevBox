@@ -1,12 +1,35 @@
-# Deployment Architecture
+# 🚀 Deployment Architecture
 
 > 📖 This document describes the deployment architecture and CI/CD pipeline design for the Dev Box Accelerator project.
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [🏗️ High-Level Architecture](#high-level-architecture)
+- [🔄 Pipeline Architecture](#pipeline-architecture)
+- [🌍 Deployment Environments](#deployment-environments)
+- [🔒 Security Architecture](#security-architecture)
+- [📦 Infrastructure Components](#infrastructure-components)
+- [💾 Artifact Management](#artifact-management)
+- [🛠️ Deployment Process](#deployment-process)
+- [📶 Monitoring & Observability](#monitoring--observability)
+- [🔗 Related Documentation](#related-documentation)
+
+---
+
+## 🎯 Overview
 
 The Dev Box Accelerator uses a modern GitOps-style deployment approach with GitHub Actions for continuous integration and continuous deployment (CI/CD). The infrastructure is defined as code using Bicep templates and deployed to Azure using the Azure Developer CLI (azd).
 
-## High-Level Architecture
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🏗️ High-Level Architecture
 
 ```mermaid
 flowchart TB
@@ -60,7 +83,13 @@ flowchart TB
     class SUB,RG,DC,KV,VNET azure
 ```
 
-## Pipeline Architecture
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔄 Pipeline Architecture
 
 ### Workflow Relationships
 
@@ -151,7 +180,13 @@ sequenceDiagram
     end
 ```
 
-## Deployment Environments
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🌍 Deployment Environments
 
 ### Environment Strategy
 
@@ -190,7 +225,13 @@ flowchart TB
     class SUB1,SUB2,SUB3 azure
 ```
 
-## Security Architecture
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔒 Security Architecture
 
 ### Authentication Flow
 
@@ -236,7 +277,13 @@ flowchart LR
 | Concurrency Control | Job grouping | Prevent race conditions |
 | Environment Protection | GitHub Environments | Approval gates |
 
-## Infrastructure Components
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📦 Infrastructure Components
 
 ### Bicep Module Structure
 
@@ -290,7 +337,13 @@ flowchart TB
     class I1,I2 identity
 ```
 
-## Artifact Management
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 💾 Artifact Management
 
 ### Artifact Flow
 
@@ -337,7 +390,13 @@ flowchart LR
 | Fix builds | `v{major}.{minor}.{patch}-fix.{name}` | `v1.3.0-fix.security` |
 | PR builds | `v{major}.{minor}.{patch}-{type}-pr{number}` | `v1.2.4-feature.auth-pr123` |
 
-## Deployment Process
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🛠️ Deployment Process
 
 ### Pre-Deployment Checklist
 
@@ -369,7 +428,13 @@ flowchart LR
    - Creates/updates Azure resources
    - Generates deployment summary
 
-## Monitoring & Observability
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📶 Monitoring & Observability
 
 ### Workflow Monitoring
 
@@ -386,7 +451,13 @@ flowchart LR
 - Long-running deployment alerts
 - Azure resource health monitoring
 
-## Related Documentation
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Documentation
 
 - [DevOps Workflows](../devops/README.md) - Detailed workflow documentation
 - [CI Workflow](../devops/ci.md) - Continuous integration details
