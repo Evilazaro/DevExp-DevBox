@@ -60,55 +60,74 @@ The DevExp-DevBox accelerator leverages Azure's Platform as a Service (PaaS) off
 ### Technology Stack Overview
 
 ```mermaid
+---
+title: Technology Stack Overview
+---
 flowchart TB
-    subgraph Developer["Developer Tooling"]
-        VSC["VS Code"]
-        GH["GitHub"]
-        AZD["Azure Developer CLI"]
+    %% ===== DEVELOPER TOOLING =====
+    subgraph Developer["👨‍💻 Developer Tooling"]
+        VSC["💻 VS Code"]
+        GH["🐙 GitHub"]
+        AZD["🚀 Azure Developer CLI"]
     end
     
-    subgraph IaC["Infrastructure as Code"]
-        BICEP["Azure Bicep"]
-        YAML["YAML Configuration"]
-        PS["PowerShell/Bash"]
+    %% ===== INFRASTRUCTURE AS CODE =====
+    subgraph IaC["📜 Infrastructure as Code"]
+        BICEP["⚙️ Azure Bicep"]
+        YAML["📄 YAML Configuration"]
+        PS["📝 PowerShell/Bash"]
     end
     
-    subgraph CI/CD["CI/CD Platform"]
-        GHA["GitHub Actions"]
-        OIDC["OIDC Federation"]
+    %% ===== CI/CD PLATFORM =====
+    subgraph CI_CD["🔄 CI/CD Platform"]
+        GHA["🔄 GitHub Actions"]
+        OIDC["🔐 OIDC Federation"]
     end
     
-    subgraph Azure["Azure Platform"]
-        subgraph Compute["Compute Services"]
-            DC["Azure DevCenter"]
-            DB["Dev Boxes"]
+    %% ===== AZURE PLATFORM =====
+    subgraph Azure["☁️ Azure Platform"]
+        subgraph Compute["💻 Compute Services"]
+            DC["🖥️ Azure DevCenter"]
+            DB["🖥️ Dev Boxes"]
         end
         
-        subgraph Security["Security Services"]
-            KV["Key Vault"]
-            RBAC["Azure RBAC"]
-            MI["Managed Identities"]
+        subgraph Security["🔐 Security Services"]
+            KV["🔑 Key Vault"]
+            RBAC["🛡️ Azure RBAC"]
+            MI["👤 Managed Identities"]
         end
         
-        subgraph Network["Network Services"]
-            VNET["Virtual Network"]
-            NC["Network Connections"]
+        subgraph Network["🌐 Network Services"]
+            VNET["🔗 Virtual Network"]
+            NC["📶 Network Connections"]
         end
         
-        subgraph Monitor["Monitoring Services"]
-            LA["Log Analytics"]
-            MON["Azure Monitor"]
+        subgraph Monitor["📊 Monitoring Services"]
+            LA["📈 Log Analytics"]
+            MON["📊 Azure Monitor"]
         end
     end
     
-    Developer --> IaC
-    IaC --> CI/CD
-    CI/CD --> Azure
+    %% ===== CONNECTIONS =====
+    Developer -->|develops| IaC
+    IaC -->|deploys via| CI_CD
+    CI_CD -->|provisions| Azure
     
-    style Developer fill:#2196F3,color:#fff
-    style IaC fill:#FF9800,color:#fff
-    style CI/CD fill:#9C27B0,color:#fff
-    style Azure fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class VSC,GH,AZD primary
+    class BICEP,YAML,PS datastore
+    class GHA,OIDC trigger
+    class DC,DB,KV,RBAC,MI,VNET,NC,LA,MON secondary
+    
+    style Developer fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style IaC fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style CI_CD fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Azure fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Technology Decision Matrix
@@ -146,64 +165,88 @@ flowchart TB
 ### Service Relationships
 
 ```mermaid
+---
+title: Azure Service Relationships
+---
 flowchart TB
-    subgraph Management["Management Plane"]
-        ARM["Azure Resource Manager"]
-        SUB["Subscription"]
+    %% ===== MANAGEMENT PLANE =====
+    subgraph Management["🎯 Management Plane"]
+        ARM["☁️ Azure Resource Manager"]
+        SUB["📋 Subscription"]
     end
     
-    subgraph ResourceGroups["Resource Groups"]
-        RG_SEC["rg-security"]
-        RG_MON["rg-monitoring"]
-        RG_WL["rg-workload"]
+    %% ===== RESOURCE GROUPS =====
+    subgraph ResourceGroups["📁 Resource Groups"]
+        RG_SEC["🔐 rg-security"]
+        RG_MON["📊 rg-monitoring"]
+        RG_WL["📦 rg-workload"]
     end
     
-    subgraph SecurityZone["Security Landing Zone"]
-        KV["Key Vault"]
-        SEC["Secrets"]
+    %% ===== SECURITY ZONE =====
+    subgraph SecurityZone["🔐 Security Landing Zone"]
+        KV["🔑 Key Vault"]
+        SEC["🔒 Secrets"]
     end
     
-    subgraph MonitoringZone["Monitoring Landing Zone"]
-        LA["Log Analytics\nWorkspace"]
-        SOL["Solutions"]
+    %% ===== MONITORING ZONE =====
+    subgraph MonitoringZone["📊 Monitoring Landing Zone"]
+        LA["📈 Log Analytics<br/>Workspace"]
+        SOL["🔧 Solutions"]
     end
     
-    subgraph WorkloadZone["Workload Landing Zone"]
-        DC["DevCenter"]
-        PROJ["Projects"]
-        POOL["Pools"]
-        CAT["Catalogs"]
+    %% ===== WORKLOAD ZONE =====
+    subgraph WorkloadZone["📦 Workload Landing Zone"]
+        DC["🖥️ DevCenter"]
+        PROJ["📁 Projects"]
+        POOL["🏊 Pools"]
+        CAT["📚 Catalogs"]
     end
     
-    subgraph NetworkZone["Network"]
-        VNET["Virtual Network"]
-        SUBNET["Subnets"]
-        NC["Network Connection"]
+    %% ===== NETWORK ZONE =====
+    subgraph NetworkZone["🌐 Network"]
+        VNET["🔗 Virtual Network"]
+        SUBNET["📶 Subnets"]
+        NC["🔌 Network Connection"]
     end
     
-    ARM --> SUB
-    SUB --> ResourceGroups
+    %% ===== CONNECTIONS =====
+    ARM -->|manages| SUB
+    SUB -->|contains| ResourceGroups
     
-    RG_SEC --> SecurityZone
-    RG_MON --> MonitoringZone
-    RG_WL --> WorkloadZone
-    RG_WL --> NetworkZone
+    RG_SEC -->|hosts| SecurityZone
+    RG_MON -->|hosts| MonitoringZone
+    RG_WL -->|hosts| WorkloadZone
+    RG_WL -->|hosts| NetworkZone
     
     KV -.->|secretIdentifier| CAT
     LA -.->|diagnostics| KV
     LA -.->|diagnostics| DC
     LA -.->|diagnostics| VNET
     
-    NC --> VNET
-    DC --> PROJ
-    PROJ --> POOL
+    NC -->|connects| VNET
+    DC -->|creates| PROJ
+    PROJ -->|deploys| POOL
     
-    style Management fill:#E91E63,color:#fff
-    style ResourceGroups fill:#9C27B0,color:#fff
-    style SecurityZone fill:#F44336,color:#fff
-    style MonitoringZone fill:#4CAF50,color:#fff
-    style WorkloadZone fill:#2196F3,color:#fff
-    style NetworkZone fill:#FF9800,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class ARM,SUB trigger
+    class RG_SEC,RG_MON,RG_WL trigger
+    class KV,SEC failed
+    class LA,SOL secondary
+    class DC,PROJ,POOL,CAT primary
+    class VNET,SUBNET,NC datastore
+    
+    style Management fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style ResourceGroups fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style SecurityZone fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style MonitoringZone fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style WorkloadZone fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style NetworkZone fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### API Versions Used
@@ -234,45 +277,65 @@ flowchart TB
 The accelerator implements a simplified Azure Landing Zone pattern with three primary zones plus networking.
 
 ```mermaid
+---
+title: Azure Landing Zone Design
+---
 flowchart TB
-    subgraph Subscription["Azure Subscription"]
-        subgraph Security["Security Landing Zone"]
+    %% ===== SUBSCRIPTION =====
+    subgraph Subscription["☁️ Azure Subscription"]
+        %% ===== SECURITY =====
+        subgraph Security["🔐 Security Landing Zone"]
             direction TB
-            RG_S["Resource Group:\ndevexp-security-{env}"]
-            KV_R["Key Vault"]
-            SEC_R["Secrets"]
+            RG_S["📁 Resource Group:<br/>devexp-security-{env}"]
+            KV_R["🔑 Key Vault"]
+            SEC_R["🔒 Secrets"]
         end
         
-        subgraph Monitoring["Monitoring Landing Zone"]
+        %% ===== MONITORING =====
+        subgraph Monitoring["📊 Monitoring Landing Zone"]
             direction TB
-            RG_M["Resource Group:\ndevexp-monitoring-{env}"]
-            LA_R["Log Analytics"]
-            SOL_R["Solutions"]
+            RG_M["📁 Resource Group:<br/>devexp-monitoring-{env}"]
+            LA_R["📈 Log Analytics"]
+            SOL_R["🔧 Solutions"]
         end
         
-        subgraph Workload["Workload Landing Zone"]
+        %% ===== WORKLOAD =====
+        subgraph Workload["📦 Workload Landing Zone"]
             direction TB
-            RG_W["Resource Group:\ndevexp-workload-{env}"]
-            DC_R["DevCenter"]
-            PROJ_R["Projects"]
-            POOL_R["Pools"]
+            RG_W["📁 Resource Group:<br/>devexp-workload-{env}"]
+            DC_R["🖥️ DevCenter"]
+            PROJ_R["📋 Projects"]
+            POOL_R["🏊 Pools"]
         end
         
-        subgraph Network["Connectivity"]
+        %% ===== CONNECTIVITY =====
+        subgraph Network["🌐 Connectivity"]
             direction TB
-            VNET_R["Virtual Network"]
-            NC_R["Network Connection"]
+            VNET_R["🔗 Virtual Network"]
+            NC_R["📶 Network Connection"]
         end
     end
     
-    Security --> Monitoring
-    Monitoring --> Workload
-    Network --> Workload
+    %% ===== CONNECTIONS =====
+    Security -->|feeds| Monitoring
+    Monitoring -->|enables| Workload
+    Network -->|connects| Workload
     
-    style Security fill:#F44336,color:#fff
-    style Monitoring fill:#4CAF50,color:#fff
-    style Workload fill:#2196F3,color:#fff
-    style Network fill:#FF9800,color:#fff
+    %% ===== STYLES =====
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class RG_S,KV_R,SEC_R failed
+    class RG_M,LA_R,SOL_R secondary
+    class RG_W,DC_R,PROJ_R,POOL_R primary
+    class VNET_R,NC_R datastore
+    
+    style Security fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Monitoring fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Workload fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Network fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Resource Group Naming Convention
