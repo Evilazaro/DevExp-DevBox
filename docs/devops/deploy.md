@@ -31,18 +31,18 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Pipeline Visualization](#pipeline-visualization)
-- [🎯 Triggers](#triggers)
-- [⚙️ Jobs & Steps](#jobs--steps)
-- [🔐 Prerequisites](#prerequisites)
-- [🌐 Environment Variables](#environment-variables)
-- [🔒 Concurrency Control](#concurrency-control)
-- [📦 Artifacts](#artifacts)
-- [📝 Usage Examples](#usage-examples)
-- [🔧 Troubleshooting](#troubleshooting)
-- [🛡️ Security Considerations](#security-considerations)
-- [🔗 Related Documentation](#related-documentation)
+- [🎯 Overview](#-overview)
+- [📊 Pipeline Visualization](#-pipeline-visualization)
+- [🎯 Triggers](#-triggers)
+- [⚙️ Jobs & Steps](#%EF%B8%8F-jobs--steps)
+- [🔐 Prerequisites](#-prerequisites)
+- [🌐 Environment Variables](#-environment-variables)
+- [🔒 Concurrency Control](#-concurrency-control)
+- [📦 Artifacts](#-artifacts)
+- [📝 Usage Examples](#-usage-examples)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🛡️ Security Considerations](#%EF%B8%8F-security-considerations)
+- [🔗 Related Documentation](#-related-documentation)
 
 ---
 
@@ -365,7 +365,7 @@ gh workflow run deploy.yml \
 
 <div align="center">
 
-[← CI Workflow](ci.md) | [⬆️ Back to Top](#-table-of-contents) | [Release Workflow →](release.md)
+[← CI Workflow](ci.md) | [⬆️ Back to Top](#-deploy-to-azure-workflow) | [Release Workflow →](release.md)
 
 *DevExp-DevBox • Deploy Workflow Documentation*
 

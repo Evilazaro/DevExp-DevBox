@@ -30,15 +30,15 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Pipeline Visualization](#pipeline-visualization)
-- [🎯 Triggers](#triggers)
-- [⚙️ Jobs & Steps](#jobs--steps)
-- [🔐 Prerequisites](#prerequisites)
-- [🏷️ Versioning Strategy](#versioning-strategy)
-- [📦 Artifacts](#artifacts)
-- [🔧 Troubleshooting](#troubleshooting)
-- [🔗 Related Documentation](#related-documentation)
+- [🎯 Overview](#-overview)
+- [📊 Pipeline Visualization](#-pipeline-visualization)
+- [🎯 Triggers](#-triggers)
+- [⚙️ Jobs & Steps](#%EF%B8%8F-jobs--steps)
+- [🔐 Prerequisites](#-prerequisites)
+- [🏷️ Versioning Strategy](#%EF%B8%8F-versioning-strategy)
+- [📦 Artifacts](#-artifacts)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🔗 Related Documentation](#-related-documentation)
 
 ---
 
@@ -277,7 +277,7 @@ The CI workflow implements a **branch-based versioning strategy**:
 
 <div align="center">
 
-[← DevOps Overview](README.md) | [⬆️ Back to Top](#-table-of-contents) | [Deploy Workflow →](deploy.md)
+[← DevOps Overview](README.md) | [⬆️ Back to Top](#-continuous-integration-workflow) | [Deploy Workflow →](deploy.md)
 
 *DevExp-DevBox • CI Workflow Documentation*
 

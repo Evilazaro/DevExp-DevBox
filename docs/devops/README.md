@@ -32,14 +32,14 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [🏗️ Master Pipeline Architecture](#master-pipeline-architecture)
-- [📚 Workflow Documentation](#workflow-documentation)
-- [⚡ Quick Reference](#quick-reference)
-- [🔄 Reusable Components](#reusable-components)
-- [🏷️ Versioning Strategy](#versioning-strategy)
-- [✅ Best Practices](#best-practices)
-- [🔗 Related Documentation](#related-documentation)
+- [🎯 Overview](#-overview)
+- [🏗️ Master Pipeline Architecture](#%EF%B8%8F-master-pipeline-architecture)
+- [📚 Workflow Documentation](#-workflow-documentation)
+- [⚡ Quick Reference](#-quick-reference)
+- [🔄 Reusable Components](#-reusable-components)
+- [🏷️ Versioning Strategy](#%EF%B8%8F-versioning-strategy)
+- [✅ Best Practices](#-best-practices)
+- [🔗 Related Documentation](#-related-documentation)
 
 ---
 
@@ -327,7 +327,7 @@ The project uses a **branch-based semantic versioning** strategy:
 
 <div align="center">
 
-[⬆️ Back to Top](#-table-of-contents) | [CI Workflow →](ci.md)
+[⬆️ Back to Top](#-devops-documentation) | [CI Workflow →](ci.md)
 
 *DevExp-DevBox • DevOps Documentation*
 

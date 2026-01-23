@@ -30,17 +30,18 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Pipeline Visualization](#pipeline-visualization)
-- [🎯 Triggers](#triggers)
-- [⚙️ Jobs & Steps](#jobs--steps)
-- [🔐 Prerequisites](#prerequisites)
-- [🏷️ Versioning Strategy](#versioning-strategy)
-- [🔒 Concurrency Control](#concurrency-control)
-- [📦 Artifacts](#artifacts)
-- [📝 Usage Examples](#usage-examples)
-- [🔧 Troubleshooting](#troubleshooting)
-- [🔗 Related Documentation](#related-documentation)
+- [🎯 Overview](#-overview)
+- [📊 Pipeline Visualization](#-pipeline-visualization)
+- [🎯 Triggers](#-triggers)
+- [⚙️ Jobs & Steps](#%EF%B8%8F-jobs--steps)
+- [🔐 Prerequisites](#-prerequisites)
+- [🏷️ Versioning Strategy](#%EF%B8%8F-versioning-strategy)
+- [🔒 Concurrency Control](#-concurrency-control)
+- [📦 Artifacts](#-artifacts)
+- [🎉 GitHub Release Contents](#-github-release-contents)
+- [📝 Usage Examples](#-usage-examples)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🔗 Related Documentation](#-related-documentation)
 
 ---
 
@@ -486,7 +487,7 @@ gh workflow run release.yml -r feature/my-feature -f force_release=true
 
 <div align="center">
 
-[← Deploy Workflow](deploy.md) | [⬆️ Back to Top](#-table-of-contents)
+[← Deploy Workflow](deploy.md) | [⬆️ Back to Top](#%EF%B8%8F-branch-based-release-strategy-workflow)
 
 *DevExp-DevBox • Release Workflow Documentation*
 
