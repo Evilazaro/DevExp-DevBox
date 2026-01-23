@@ -1,12 +1,34 @@
-# createUsersAndAssignRole.ps1
+# 👥 createUsersAndAssignRole.ps1
 
 > **Assigns Azure DevCenter roles to the current signed-in user**
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Flow Visualization](#flow-visualization)
+- [📝 Parameters](#parameters)
+- [⚙️ Prerequisites](#prerequisites)
+- [🔑 Assigned Roles](#assigned-roles)
+- [🔧 Functions Reference](#functions-reference)
+- [📝 Usage Examples](#usage-examples)
+- [⚠️ Error Handling](#error-handling)
+- [🔧 Troubleshooting](#troubleshooting)
+
+---
+
+## 🎯 Overview
 
 This script retrieves the current Azure AD signed-in user and assigns DevCenter-related RBAC roles at the subscription scope. Use this script when setting up a new user for DevCenter access or as part of environment initialization.
 
-## Flow Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Flow Visualization
 
 ```mermaid
 flowchart TD
@@ -60,13 +82,25 @@ flowchart TD
     classDef error fill:#F44336,stroke:#C62828,color:#fff
 ```
 
-## Parameters
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Parameters
 
 | Parameter | Type | Required | Default | Validation | Description |
 |-----------|------|----------|---------|------------|-------------|
 | `-SubscriptionId` | `string` | No | Current subscription | `ValidatePattern` (GUID format) | Azure subscription ID for role scope |
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites
 
 ### Required Tools
 
@@ -80,7 +114,13 @@ flowchart TD
 - **Azure**: `Microsoft.Authorization/roleAssignments/write` at subscription scope
 - Typically requires **Owner** or **User Access Administrator** role
 
-## Assigned Roles
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔑 Assigned Roles
 
 The script assigns these DevCenter-specific roles:
 
@@ -91,7 +131,13 @@ The script assigns these DevCenter-specific roles:
 | `Deployment Environments Reader` | View deployment environments |
 | `Deployment Environments User` | Use deployment environments |
 
-## Functions Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Functions Reference
 
 ### Function: `Set-AzureRole`
 
@@ -135,7 +181,13 @@ The script assigns these DevCenter-specific roles:
 3. Calls `Set-AzureRole` for each role
 4. Tracks success/failure of each assignment
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Basic Usage (Current Subscription)
 
@@ -169,7 +221,13 @@ All role assignments completed successfully for user: a1b2c3d4-e5f6-7890-abcd-ef
 
 </details>
 
-## Error Handling
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling
 
 ### Error Action Preference
 
@@ -193,7 +251,13 @@ The script is **idempotent** - running it multiple times will:
 - Only attempt to assign missing roles
 - Not cause errors for existing assignments
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Troubleshooting
 
 ### Common Issues
 

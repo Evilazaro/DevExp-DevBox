@@ -1,12 +1,33 @@
-# deleteUsersAndAssignedRoles.ps1
+# 👥 deleteUsersAndAssignedRoles.ps1
 
 > **Removes DevCenter role assignments from the current signed-in user**
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Flow Visualization](#flow-visualization)
+- [📝 Parameters](#parameters)
+- [⚙️ Prerequisites](#prerequisites)
+- [🔑 Removed Roles](#removed-roles)
+- [🔧 Functions Reference](#functions-reference)
+- [📝 Usage Examples](#usage-examples)
+- [⚠️ Error Handling](#error-handling)
+
+---
+
+## 🎯 Overview
 
 This script removes Azure RBAC role assignments that were created for DevCenter operations from the current signed-in user. Use this script during environment cleanup or when revoking DevCenter access.
 
-## Flow Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Flow Visualization
 
 ```mermaid
 flowchart TD
@@ -60,14 +81,26 @@ flowchart TD
     classDef error fill:#F44336,stroke:#C62828,color:#fff
 ```
 
-## Parameters
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Parameters
 
 | Parameter | Type | Required | Default | Validation | Description |
 |-----------|------|----------|---------|------------|-------------|
 | `-AppDisplayName` | `string` | No | - | - | Associated application name (for logging) |
 | `-SubscriptionId` | `string` | No | Current subscription | `ValidatePattern` (GUID format) | Azure subscription ID for role scope |
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites
 
 ### Required Tools
 
@@ -81,7 +114,13 @@ flowchart TD
 - **Azure**: `Microsoft.Authorization/roleAssignments/delete` at subscription scope
 - Typically requires **Owner** or **User Access Administrator** role
 
-## Removed Roles
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔑 Removed Roles
 
 The script removes these DevCenter-specific roles:
 
@@ -92,7 +131,13 @@ The script removes these DevCenter-specific roles:
 | `Deployment Environments Reader` | View deployment environments |
 | `Deployment Environments User` | Use deployment environments |
 
-## Functions Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Functions Reference
 
 ### Function: `Remove-UserRoleAssignment`
 
@@ -136,7 +181,13 @@ The script removes these DevCenter-specific roles:
 3. Calls `Remove-UserRoleAssignment` for each role
 4. Tracks success/failure of each removal
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Basic Usage (Current Subscription)
 
@@ -184,7 +235,13 @@ User role assignments cleanup completed successfully.
 
 </details>
 
-## Error Handling
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling
 
 ### Error Action Preference
 

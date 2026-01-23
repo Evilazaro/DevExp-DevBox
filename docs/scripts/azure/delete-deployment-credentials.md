@@ -1,12 +1,35 @@
-# deleteDeploymentCredentials.ps1
+# 🗑️ deleteDeploymentCredentials.ps1
 
 > **Removes Azure AD service principal and application registration for CI/CD cleanup**
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Flow Visualization](#flow-visualization)
+- [📝 Parameters](#parameters)
+- [⚙️ Prerequisites](#prerequisites)
+- [🔧 Functions Reference](#functions-reference)
+- [📝 Usage Examples](#usage-examples)
+- [⚠️ Error Handling](#error-handling)
+- [🔧 Troubleshooting](#troubleshooting)
+- [🔐 Security Considerations](#security-considerations)
+- [🔗 Related Scripts](#related-scripts)
+
+---
+
+## 🎯 Overview
 
 This script removes an Azure AD service principal and its associated application registration by looking up the display name. Use this script to clean up deployment credentials created for CI/CD pipelines, such as those used by GitHub Actions.
 
-## Flow Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Flow Visualization
 
 ```mermaid
 flowchart TD
@@ -51,13 +74,25 @@ flowchart TD
     classDef error fill:#F44336,stroke:#C62828,color:#fff
 ```
 
-## Parameters
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Parameters
 
 | Parameter | Type | Required | Default | Validation | Description |
 |-----------|------|----------|---------|------------|-------------|
 | `-AppDisplayName` | `string` | Yes | - | `ValidateNotNullOrEmpty` | Display name of the application registration to delete |
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites
 
 ### Required Tools
 
@@ -71,7 +106,13 @@ flowchart TD
 - **Azure AD**: `Application.ReadWrite.All` or **Application Administrator** role
 - Permission to delete service principals in the tenant
 
-## Functions Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Functions Reference
 
 ### Function: `Remove-AzureDeploymentCredentials`
 
@@ -94,7 +135,13 @@ flowchart TD
 
 **Important:** Service principal must be deleted before the application registration.
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Delete Default CI/CD Credentials
 
@@ -141,7 +188,13 @@ Cleanup completed successfully.
 
 </details>
 
-## Error Handling
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling
 
 ### Error Action Preference
 
@@ -164,7 +217,13 @@ The script is **idempotent**:
 - If application doesn't exist, returns success with warning
 - Safe to run multiple times
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Troubleshooting
 
 ### Common Issues
 
@@ -182,7 +241,13 @@ The script is **idempotent**:
 az ad app list --display-name "ContosoDevEx GitHub Actions Enterprise App" --query "[].appId" --output tsv
 ```
 
-## Security Considerations
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔐 Security Considerations
 
 - Deleting service principals **immediately revokes** all associated credentials
 - Any CI/CD pipelines using these credentials will **fail** after deletion
@@ -195,7 +260,13 @@ az ad app list --display-name "ContosoDevEx GitHub Actions Enterprise App" --que
 - [ ] Update or disable CI/CD workflows that use `AZURE_CREDENTIALS`
 - [ ] Confirm you have permission to recreate if needed
 
-## Related Scripts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Scripts
 
 | Script | Purpose | Link |
 |--------|---------|------|
