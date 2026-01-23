@@ -487,45 +487,61 @@ sequenceDiagram
 ### Secrets Architecture
 
 ```mermaid
+---
+title: Secrets Architecture
+---
 flowchart TB
-    subgraph Sources["Secret Sources"]
-        GH_CLI["gh auth token"]
-        MANUAL["Manual Entry"]
-        AZD_ENV[".azure/.env"]
+    %% ===== SECRET SOURCES =====
+    subgraph Sources["🔑 Secret Sources"]
+        GH_CLI["🐙 gh auth token"]
+        MANUAL["✏️ Manual Entry"]
+        AZD_ENV["📄 .azure/.env"]
     end
     
-    subgraph KeyVault["Azure Key Vault"]
-        KV["Key Vault Resource"]
+    %% ===== KEY VAULT =====
+    subgraph KeyVault["🏛️ Azure Key Vault"]
+        KV["🔐 Key Vault Resource"]
         
-        subgraph Settings["Security Settings"]
-            PP["Purge Protection: Enabled"]
-            SD["Soft Delete: Enabled"]
-            RET["Retention: 7-90 days"]
-            RBAC["RBAC Authorization: Enabled"]
+        subgraph Settings["⚙️ Security Settings"]
+            PP["✅ Purge Protection: Enabled"]
+            SD["✅ Soft Delete: Enabled"]
+            RET["📅 Retention: 7-90 days"]
+            RBAC["🛡️ RBAC Authorization: Enabled"]
         end
         
-        subgraph Secrets["Secrets"]
-            PAT["gha-token\n(GitHub PAT)"]
+        subgraph Secrets["🔒 Secrets"]
+            PAT["🔑 gha-token<br/>(GitHub PAT)"]
         end
     end
     
-    subgraph Access["Secret Access"]
-        MI["DevCenter\nManaged Identity"]
-        CAT["Catalog\n(Private Repo)"]
+    %% ===== SECRET ACCESS =====
+    subgraph Access["🔓 Secret Access"]
+        MI["🔐 DevCenter<br/>Managed Identity"]
+        CAT["📚 Catalog<br/>(Private Repo)"]
     end
     
-    GH_CLI --> AZD_ENV
-    MANUAL --> AZD_ENV
-    AZD_ENV -->|"provision"| KV
+    %% ===== CONNECTIONS =====
+    GH_CLI -->|extracts| AZD_ENV
+    MANUAL -->|inputs| AZD_ENV
+    AZD_ENV -->|provision| KV
     
-    KV --> Secrets
+    KV -->|stores| Secrets
     
-    MI -->|"Key Vault Secrets User"| PAT
-    PAT -->|"secretIdentifier"| CAT
+    MI -->|Key Vault Secrets User| PAT
+    PAT -->|secretIdentifier| CAT
     
-    style Sources fill:#FF9800,color:#fff
-    style KeyVault fill:#F44336,color:#fff
-    style Access fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class GH_CLI,MANUAL,AZD_ENV datastore
+    class KV,PP,SD,RET,RBAC,PAT failed
+    class MI,CAT secondary
+    
+    style Sources fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style KeyVault fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Access fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Key Vault Configuration
@@ -553,12 +569,15 @@ keyVault:
 ### Secret Access Flow
 
 ```mermaid
+---
+title: Secret Access Flow
+---
 sequenceDiagram
-    participant DC as DevCenter
-    participant MI as Managed Identity
-    participant AAD as Microsoft Entra ID
-    participant KV as Key Vault
-    participant GH as GitHub (Private)
+    participant DC as 🖥️ DevCenter
+    participant MI as 🔐 Managed Identity
+    participant AAD as 🏢 Microsoft Entra ID
+    participant KV as 🔑 Key Vault
+    participant GH as 🐙 GitHub (Private)
     
     DC->>MI: Request access token
     MI->>AAD: Authenticate (SystemAssigned)
@@ -585,47 +604,63 @@ sequenceDiagram
 ### Network Security Architecture
 
 ```mermaid
+---
+title: Network Security Architecture
+---
 flowchart TB
-    subgraph Internet["Internet"]
-        DEV["Developer"]
-        GH["GitHub.com"]
+    %% ===== INTERNET =====
+    subgraph Internet["🌍 Internet"]
+        DEV["👨‍💻 Developer"]
+        GH["🐙 GitHub.com"]
     end
     
-    subgraph AzureNetwork["Azure Network Security"]
-        subgraph NSG["Network Security Group"]
-            RULE1["Allow RDP (3389)\nfrom Corporate"]
-            RULE2["Allow HTTPS (443)\nOutbound"]
-            RULE3["Deny All\nDefault"]
+    %% ===== AZURE NETWORK SECURITY =====
+    subgraph AzureNetwork["🛡️ Azure Network Security"]
+        subgraph NSG["🔒 Network Security Group"]
+            RULE1["✅ Allow RDP (3389)<br/>from Corporate"]
+            RULE2["✅ Allow HTTPS (443)<br/>Outbound"]
+            RULE3["❌ Deny All<br/>Default"]
         end
         
-        subgraph VNet["Virtual Network"]
-            SUBNET["Dev Box Subnet\n10.0.1.0/24"]
+        subgraph VNet["🔗 Virtual Network"]
+            SUBNET["📶 Dev Box Subnet<br/>10.0.1.0/24"]
         end
         
-        subgraph PE["Private Endpoints"]
-            KV_PE["Key Vault PE\n(Optional)"]
-            LA_PE["Log Analytics PE\n(Optional)"]
+        subgraph PE["🔒 Private Endpoints"]
+            KV_PE["🔑 Key Vault PE<br/>(Optional)"]
+            LA_PE["📊 Log Analytics PE<br/>(Optional)"]
         end
     end
     
-    subgraph Resources["Azure Resources"]
-        DB["Dev Box"]
-        KV["Key Vault"]
-        LA["Log Analytics"]
+    %% ===== RESOURCES =====
+    subgraph Resources["🏢 Azure Resources"]
+        DB["🖥️ Dev Box"]
+        KV["🔑 Key Vault"]
+        LA["📊 Log Analytics"]
     end
     
-    DEV -->|"RDP"| NSG
-    NSG --> SUBNET
-    SUBNET --> DB
+    %% ===== CONNECTIONS =====
+    DEV -->|RDP| NSG
+    NSG -->|allows| SUBNET
+    SUBNET -->|hosts| DB
     
-    DB -->|"HTTPS"| GH
-    DB --> PE
-    PE --> KV
-    PE --> LA
+    DB -->|HTTPS| GH
+    DB -->|accesses| PE
+    PE -->|connects| KV
+    PE -->|connects| LA
     
-    style Internet fill:#F44336,color:#fff
-    style AzureNetwork fill:#2196F3,color:#fff
-    style Resources fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class DEV,GH external
+    class RULE1,RULE2,RULE3,SUBNET,KV_PE,LA_PE primary
+    class DB,KV,LA secondary
+    
+    style Internet fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style AzureNetwork fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Resources fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Network Configuration Options
@@ -732,38 +767,57 @@ tags:
 ### Security Monitoring
 
 ```mermaid
+---
+title: Security Monitoring Architecture
+---
 flowchart TB
-    subgraph Sources["Audit Sources"]
-        KV_AUDIT["Key Vault\nAuditEvent"]
-        AAD_AUDIT["Azure AD\nSign-in Logs"]
-        ACT_LOG["Activity Log"]
-        DC_LOG["DevCenter\nDiagnostics"]
+    %% ===== AUDIT SOURCES =====
+    subgraph Sources["📡 Audit Sources"]
+        KV_AUDIT["🔑 Key Vault<br/>AuditEvent"]
+        AAD_AUDIT["🏢 Azure AD<br/>Sign-in Logs"]
+        ACT_LOG["📋 Activity Log"]
+        DC_LOG["🖥️ DevCenter<br/>Diagnostics"]
     end
     
-    subgraph Collection["Log Analytics"]
-        LA["Workspace"]
-        TABLES["Security Tables"]
+    %% ===== LOG ANALYTICS =====
+    subgraph Collection["📊 Log Analytics"]
+        LA["📈 Workspace"]
+        TABLES["📋 Security Tables"]
     end
     
-    subgraph Detection["Detection"]
-        RULES["Alert Rules"]
-        SENT["Microsoft Sentinel\n(Optional)"]
+    %% ===== DETECTION =====
+    subgraph Detection["🔍 Detection"]
+        RULES["🔔 Alert Rules"]
+        SENT["🛡️ Microsoft Sentinel<br/>(Optional)"]
     end
     
-    subgraph Response["Response"]
-        EMAIL["Email Notifications"]
-        TICKET["Service Tickets"]
-        AUTO["Automation"]
+    %% ===== RESPONSE =====
+    subgraph Response["🚨 Response"]
+        EMAIL["📧 Email Notifications"]
+        TICKET["🎫 Service Tickets"]
+        AUTO["⚡ Automation"]
     end
     
-    Sources --> Collection
-    Collection --> Detection
-    Detection --> Response
+    %% ===== CONNECTIONS =====
+    Sources -->|ingests| Collection
+    Collection -->|analyzes| Detection
+    Detection -->|triggers| Response
     
-    style Sources fill:#FF9800,color:#fff
-    style Collection fill:#2196F3,color:#fff
-    style Detection fill:#9C27B0,color:#fff
-    style Response fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class KV_AUDIT,AAD_AUDIT,ACT_LOG,DC_LOG datastore
+    class LA,TABLES primary
+    class RULES,SENT trigger
+    class EMAIL,TICKET,AUTO secondary
+    
+    style Sources fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Collection fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Detection fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Response fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Recommended Alerts
