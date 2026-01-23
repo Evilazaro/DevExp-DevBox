@@ -35,16 +35,16 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Flow Visualization](#flow-visualization)
-- [📝 Parameters](#parameters)
-- [⚙️ Prerequisites](#prerequisites)
-- [🔧 Functions Reference](#functions-reference)
-- [📝 Usage Examples](#usage-examples)
-- [⚠️ Error Handling](#error-handling)
-- [🛠️ Troubleshooting](#troubleshooting)
-- [🔒 Security Considerations](#security-considerations)
-- [🔗 Related Scripts](#related-scripts)
+- [🎯 Overview](#-overview)
+- [📊 Flow Visualization](#-flow-visualization)
+- [📝 Parameters](#-parameters)
+- [⚙️ Prerequisites](#️-prerequisites)
+- [🔧 Functions Reference](#-functions-reference)
+- [📝 Usage Examples](#-usage-examples)
+- [⚠️ Error Handling](#️-error-handling)
+- [🛠️ Troubleshooting](#️-troubleshooting)
+- [🔒 Security Considerations](#-security-considerations)
+- [🔗 Related Scripts](#-related-scripts)
 
 ---
 
@@ -54,7 +54,7 @@ This script authenticates to GitHub using the GitHub CLI and removes a specified
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#️-deleteGitHubSecretAzureCredentialsps1)
 
 ---
 
@@ -127,7 +127,7 @@ flowchart TD
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#️-deleteGitHubSecretAzureCredentialsps1)
 
 ---
 
@@ -141,7 +141,7 @@ flowchart TD
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#️-deleteGitHubSecretAzureCredentialsps1)
 
 ---
 
@@ -161,7 +161,7 @@ flowchart TD
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#️-deleteGitHubSecretAzureCredentialsps1)
 
 ---
 
@@ -206,7 +206,7 @@ flowchart TD
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#️-deleteGitHubSecretAzureCredentialsps1)
 
 ---
 
@@ -247,7 +247,7 @@ GitHub secret deletion completed.
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#️-deleteGitHubSecretAzureCredentialsps1)
 
 ---
 
@@ -277,7 +277,7 @@ The script is **idempotent**:
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#️-deleteGitHubSecretAzureCredentialsps1)
 
 ---
 
@@ -308,7 +308,7 @@ gh secret list | findstr "AZURE_CREDENTIALS"
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#️-deleteGitHubSecretAzureCredentialsps1)
 
 ---
 
@@ -333,7 +333,7 @@ gh secret list | findstr "AZURE_CREDENTIALS"
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#️-deleteGitHubSecretAzureCredentialsps1)
 
 ---
 
@@ -349,7 +349,7 @@ gh secret list | findstr "AZURE_CREDENTIALS"
 
 <div align="center">
 
-[← createGitHubSecretAzureCredentials.ps1](create-github-secret-azure-credentials.md) | [⬆️ Back to Top](#-table-of-contents)
+[← createGitHubSecretAzureCredentials.ps1](create-github-secret-azure-credentials.md) | [⬆️ Back to Top](#️-deleteGitHubSecretAzureCredentialsps1)
 
 *DevExp-DevBox • deleteGitHubSecretAzureCredentials.ps1 Documentation*
 

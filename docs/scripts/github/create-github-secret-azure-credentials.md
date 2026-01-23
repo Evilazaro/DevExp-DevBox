@@ -33,18 +33,18 @@ tags:
 
 ## 📑 Table of Contents
 
-- [🎯 Overview](#overview)
-- [📊 Flow Visualization](#flow-visualization)
-- [📝 Parameters](#parameters)
-- [⚙️ Prerequisites](#prerequisites)
-- [📥 Expected Input Format](#expected-input-format)
-- [🔧 Functions Reference](#functions-reference)
-- [📝 Usage Examples](#usage-examples)
-- [⚙️ Using the Secret in GitHub Actions](#using-the-secret-in-github-actions)
-- [⚠️ Error Handling](#error-handling)
-- [🛠️ Troubleshooting](#troubleshooting)
-- [🔒 Security Considerations](#security-considerations)
-- [🔗 Related Scripts](#related-scripts)
+- [🎯 Overview](#-overview)
+- [📊 Flow Visualization](#-flow-visualization)
+- [📝 Parameters](#-parameters)
+- [⚙️ Prerequisites](#️-prerequisites)
+- [📥 Expected Input Format](#-expected-input-format)
+- [🔧 Functions Reference](#-functions-reference)
+- [📝 Usage Examples](#-usage-examples)
+- [⚙️ Using the Secret in GitHub Actions](#️-using-the-secret-in-github-actions)
+- [⚠️ Error Handling](#️-error-handling)
+- [🛠️ Troubleshooting](#️-troubleshooting)
+- [🔒 Security Considerations](#-security-considerations)
+- [🔗 Related Scripts](#-related-scripts)
 
 ---
 
@@ -54,7 +54,7 @@ This script authenticates to GitHub using the GitHub CLI and creates a repositor
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
 
 ---
 
@@ -126,7 +126,7 @@ flowchart TD
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
 
 ---
 
@@ -140,7 +140,7 @@ flowchart TD
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
 
 ---
 
@@ -160,7 +160,7 @@ flowchart TD
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
 
 ---
 
@@ -181,7 +181,7 @@ This format is output by `az ad sp create-for-rbac --json-auth`.
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
 
 ---
 
@@ -220,7 +220,7 @@ This format is output by `az ad sp create-for-rbac --json-auth`.
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
 
 ---
 
@@ -269,7 +269,7 @@ You can now use this secret in your GitHub Actions workflows.
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
 
 ---
 
@@ -299,7 +299,7 @@ jobs:
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
 
 ---
 
@@ -321,7 +321,7 @@ $WarningPreference = 'Stop'
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
 
 ---
 
@@ -355,7 +355,7 @@ gh auth token
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
 
 ---
 
@@ -382,7 +382,7 @@ When rotating credentials:
 
 ---
 
-[⬆️ Back to Top](#-table-of-contents)
+[⬆️ Back to Top](#-creategithubsecretazurecredentialsps1)
 
 ---
 
@@ -398,7 +398,7 @@ When rotating credentials:
 
 <div align="center">
 
-[← winget-update.ps1](../configuration/winget-update.md) | [⬆️ Back to Top](#-table-of-contents) | [deleteGitHubSecretAzureCredentials.ps1 →](delete-github-secret-azure-credentials.md)
+[← winget-update.ps1](../configuration/winget-update.md) | [⬆️ Back to Top](#-creategithubsecretazurecredentialsps1) | [deleteGitHubSecretAzureCredentials.ps1 →](delete-github-secret-azure-credentials.md)
 
 *DevExp-DevBox • createGitHubSecretAzureCredentials.ps1 Documentation*
 
