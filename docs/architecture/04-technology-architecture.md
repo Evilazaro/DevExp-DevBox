@@ -588,72 +588,107 @@ flowchart LR
 ### GitHub Actions Architecture
 
 ```mermaid
+---
+title: GitHub Actions Architecture
+---
 flowchart TB
-    subgraph GitHub["GitHub"]
-        REPO["Repository"]
+    %% ===== GITHUB =====
+    subgraph GitHub["🐙 GitHub"]
+        REPO["📁 Repository"]
         
-        subgraph Actions["GitHub Actions"]
-            WF_BUILD["build.yml"]
-            WF_DEPLOY["deploy.yml"]
-            WF_RELEASE["release.yml"]
+        %% ===== ACTIONS =====
+        subgraph Actions["🔄 GitHub Actions"]
+            WF_BUILD["🔨 build.yml"]
+            WF_DEPLOY["🚀 deploy.yml"]
+            WF_RELEASE["📦 release.yml"]
         end
         
-        subgraph Secrets["GitHub Configuration"]
-            VARS["Variables:\n- AZURE_CLIENT_ID\n- AZURE_TENANT_ID\n- AZURE_SUBSCRIPTION_ID"]
-            SECS["Secrets:\n- AZURE_CREDENTIALS"]
+        %% ===== SECRETS =====
+        subgraph Secrets["🔐 GitHub Configuration"]
+            VARS["📋 Variables:<br/>- AZURE_CLIENT_ID<br/>- AZURE_TENANT_ID<br/>- AZURE_SUBSCRIPTION_ID"]
+            SECS["🔑 Secrets:<br/>- AZURE_CREDENTIALS"]
         end
     end
     
-    subgraph Azure["Azure"]
-        OIDC["OIDC Provider\n(Microsoft Entra ID)"]
-        ARM["Azure Resource Manager"]
-        SUB["Subscription"]
+    %% ===== AZURE =====
+    subgraph Azure["☁️ Azure"]
+        OIDC["🔐 OIDC Provider<br/>(Microsoft Entra ID)"]
+        ARM["☁️ Azure Resource Manager"]
+        SUB["📋 Subscription"]
     end
     
-    REPO --> Actions
-    Actions --> OIDC
-    OIDC -->|"Token Exchange"| ARM
-    ARM --> SUB
+    %% ===== CONNECTIONS =====
+    REPO -->|triggers| Actions
+    Actions -->|authenticates| OIDC
+    OIDC -->|Token Exchange| ARM
+    ARM -->|deploys| SUB
     
-    VARS --> Actions
-    SECS --> Actions
+    VARS -->|configures| Actions
+    SECS -->|configures| Actions
     
-    style GitHub fill:#9C27B0,color:#fff
-    style Azure fill:#2196F3,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class REPO trigger
+    class WF_BUILD,WF_DEPLOY,WF_RELEASE datastore
+    class VARS,SECS datastore
+    class OIDC,ARM,SUB secondary
+    
+    style GitHub fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Azure fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Workflow Pipeline Structure
 
 ```mermaid
+---
+title: Workflow Pipeline Structure
+---
 flowchart LR
-    subgraph Build["build.yml"]
-        B1["Checkout"]
-        B2["Setup azd"]
-        B3["Login (OIDC)"]
-        B4["azd provision"]
+    %% ===== BUILD =====
+    subgraph Build["🔨 build.yml"]
+        B1["📥 Checkout"]
+        B2["⚙️ Setup azd"]
+        B3["🔐 Login (OIDC)"]
+        B4["🚀 azd provision"]
     end
     
-    subgraph Deploy["deploy.yml"]
-        D1["Checkout"]
-        D2["Setup azd"]
-        D3["Login (OIDC)"]
-        D4["Download Artifacts"]
-        D5["azd deploy"]
+    %% ===== DEPLOY =====
+    subgraph Deploy["🚀 deploy.yml"]
+        D1["📥 Checkout"]
+        D2["⚙️ Setup azd"]
+        D3["🔐 Login (OIDC)"]
+        D4["📦 Download Artifacts"]
+        D5["🚀 azd deploy"]
     end
     
-    subgraph Release["release.yml"]
-        R1["Get Version"]
-        R2["Create Tag"]
-        R3["Create Release"]
-        R4["Generate Notes"]
+    %% ===== RELEASE =====
+    subgraph Release["📦 release.yml"]
+        R1["🏷️ Get Version"]
+        R2["🔖 Create Tag"]
+        R3["📦 Create Release"]
+        R4["📝 Generate Notes"]
     end
     
-    Build -->|"artifacts"| Deploy
-    Deploy -->|"on success"| Release
+    %% ===== CONNECTIONS =====
+    Build -->|artifacts| Deploy
+    Deploy -->|on success| Release
     
-    style Build fill:#FF9800,color:#fff
-    style Deploy fill:#4CAF50,color:#fff
-    style Release fill:#2196F3,color:#fff
+    %% ===== STYLES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    
+    class B1,B2,B3,B4 datastore
+    class D1,D2,D3,D4,D5 secondary
+    class R1,R2,R3,R4 primary
+    
+    style Build fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Deploy fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Release fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ### Pipeline Components
@@ -691,52 +726,71 @@ steps:
 ### Log Analytics Architecture
 
 ```mermaid
+---
+title: Log Analytics Architecture
+---
 flowchart TB
-    subgraph Sources["Telemetry Sources"]
-        DC["DevCenter\nLogs & Metrics"]
-        KV["Key Vault\nLogs & Metrics"]
-        VN["Virtual Network\nLogs & Metrics"]
-        DB["Dev Box\nAgent Metrics"]
+    %% ===== TELEMETRY SOURCES =====
+    subgraph Sources["📶 Telemetry Sources"]
+        DC["🖥️ DevCenter<br/>Logs & Metrics"]
+        KV["🔑 Key Vault<br/>Logs & Metrics"]
+        VN["🌐 Virtual Network<br/>Logs & Metrics"]
+        DB["🖥️ Dev Box<br/>Agent Metrics"]
     end
     
-    subgraph Collection["Collection Layer"]
-        DS["Diagnostic Settings"]
-        AMA["Azure Monitor Agent"]
+    %% ===== COLLECTION LAYER =====
+    subgraph Collection["🔄 Collection Layer"]
+        DS["⚙️ Diagnostic Settings"]
+        AMA["📊 Azure Monitor Agent"]
     end
     
-    subgraph LAW["Log Analytics Workspace"]
-        subgraph Tables["Tables"]
-            DIAG["AzureDiagnostics"]
-            MET["AzureMetrics"]
-            ACT["AzureActivity"]
+    %% ===== LOG ANALYTICS WORKSPACE =====
+    subgraph LAW["📈 Log Analytics Workspace"]
+        subgraph Tables["📋 Tables"]
+            DIAG["📝 AzureDiagnostics"]
+            MET["📊 AzureMetrics"]
+            ACT["📋 AzureActivity"]
         end
         
-        subgraph Solutions["Solutions"]
-            AA["AzureActivity Solution"]
+        subgraph Solutions["🔧 Solutions"]
+            AA["☁️ AzureActivity Solution"]
         end
     end
     
-    subgraph Consumers["Consumers"]
-        DASH["Dashboards"]
-        ALERT["Alerts"]
-        WB["Workbooks"]
+    %% ===== CONSUMERS =====
+    subgraph Consumers["👥 Consumers"]
+        DASH["📊 Dashboards"]
+        ALERT["🔔 Alerts"]
+        WB["📖 Workbooks"]
     end
     
-    DC --> DS
-    KV --> DS
-    VN --> DS
-    DB --> AMA
+    %% ===== CONNECTIONS =====
+    DC -->|sends| DS
+    KV -->|sends| DS
+    VN -->|sends| DS
+    DB -->|sends| AMA
     
-    DS --> Tables
-    AMA --> Tables
+    DS -->|ingests| Tables
+    AMA -->|ingests| Tables
     
-    Tables --> Solutions
-    Tables --> Consumers
+    Tables -->|feeds| Solutions
+    Tables -->|powers| Consumers
     
-    style Sources fill:#FF9800,color:#fff
-    style Collection fill:#9C27B0,color:#fff
-    style LAW fill:#2196F3,color:#fff
-    style Consumers fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class DC,KV,VN,DB datastore
+    class DS,AMA trigger
+    class DIAG,MET,ACT,AA primary
+    class DASH,ALERT,WB secondary
+    
+    style Sources fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Collection fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style LAW fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Consumers fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Diagnostic Settings Configuration
