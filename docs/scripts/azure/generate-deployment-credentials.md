@@ -112,7 +112,7 @@ flowchart TD
 
     %% ===== STYLES =====
     classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
-    classDef input fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000
     classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
     classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
     classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
