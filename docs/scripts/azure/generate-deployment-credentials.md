@@ -1,12 +1,37 @@
-# generateDeploymentCredentials.ps1
+# 🔑 generateDeploymentCredentials.ps1
 
 > **Creates Azure service principal and GitHub secret for CI/CD pipelines**
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Flow Visualization](#flow-visualization)
+- [🔄 Service Principal Creation Flow](#service-principal-creation-flow)
+- [📝 Parameters](#parameters)
+- [⚙️ Prerequisites](#prerequisites)
+- [👥 Assigned Roles](#assigned-roles)
+- [🔧 Functions Reference](#functions-reference)
+- [📝 Usage Examples](#usage-examples)
+- [⚠️ Error Handling](#error-handling)
+- [🔒 Security Considerations](#security-considerations)
+- [🛠️ Troubleshooting](#troubleshooting)
+- [🔗 Related Scripts](#related-scripts)
+
+---
+
+## 🎯 Overview
 
 This script creates an Azure AD service principal with required roles for CI/CD pipelines and configures the credentials as a GitHub repository secret. Use this script when setting up GitHub Actions workflows that need to deploy Azure resources.
 
-## Flow Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Flow Visualization
 
 ```mermaid
 flowchart TD
@@ -55,7 +80,13 @@ flowchart TD
     classDef error fill:#F44336,stroke:#C62828,color:#fff
 ```
 
-## Service Principal Creation Flow
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔄 Service Principal Creation Flow
 
 ```mermaid
 sequenceDiagram
@@ -84,14 +115,26 @@ sequenceDiagram
     GhRepo-->>Script: Secret created
 ```
 
-## Parameters
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Parameters
 
 | Parameter | Type | Required | Default | Validation | Description |
 |-----------|------|----------|---------|------------|-------------|
 | `-AppName` | `string` | Yes | - | `ValidateNotNullOrEmpty` | Name for the Azure AD application registration |
 | `-DisplayName` | `string` | Yes | - | `ValidateNotNullOrEmpty` | Display name for the service principal |
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites
 
 ### Required Tools
 
@@ -107,7 +150,13 @@ sequenceDiagram
 - **Azure AD**: `Application.ReadWrite.All` or Application Administrator
 - **GitHub**: Repository admin access to create secrets
 
-## Assigned Roles
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 👥 Assigned Roles
 
 The created service principal receives these roles at subscription scope:
 
@@ -117,7 +166,13 @@ The created service principal receives these roles at subscription scope:
 | `User Access Administrator` | Create role assignments for deployed resources |
 | `Managed Identity Contributor` | Create and manage managed identities |
 
-## Functions Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Functions Reference
 
 ### Function: `New-AzureDeploymentCredentials`
 
@@ -169,7 +224,13 @@ The created service principal receives these roles at subscription scope:
 
 **Called Script:** `..\GitHub\createGitHubSecretAzureCredentials.ps1`
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Create Deployment Credentials
 
@@ -215,7 +276,13 @@ Deployment credentials generation completed.
 
 </details>
 
-## Error Handling
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling
 
 ### Error Action Preference
 
@@ -240,7 +307,13 @@ The script continues with warnings if:
 
 Credentials are displayed on console if GitHub secret creation fails.
 
-## Security Considerations
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔒 Security Considerations
 
 ### Credential Exposure
 
@@ -270,7 +343,13 @@ Consider if these are necessary for your workflow.
 - Secret value cannot be read after creation
 - Audit logs track secret usage
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🛠️ Troubleshooting
 
 ### Common Issues
 
@@ -295,7 +374,13 @@ az ad sp list --display-name "Contoso DevBox CI/CD" --query "[].{appId:appId, di
 gh secret list
 ```
 
-## Related Scripts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Scripts
 
 | Script | Purpose | Link |
 |--------|---------|------|
