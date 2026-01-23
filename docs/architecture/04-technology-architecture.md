@@ -367,44 +367,60 @@ flowchart TB
 ### Network Topology
 
 ```mermaid
+---
+title: Network Topology
+---
 flowchart TB
-    subgraph Internet["Internet"]
-        DEV["Developer\n(Remote)"]
-        GH["GitHub.com"]
-        ADO["Azure DevOps"]
+    %% ===== INTERNET =====
+    subgraph Internet["🌍 Internet"]
+        DEV["👨‍💻 Developer<br/>(Remote)"]
+        GH["🐙 GitHub.com"]
+        ADO["🔷 Azure DevOps"]
     end
     
-    subgraph Azure["Azure"]
-        subgraph VNet["Virtual Network (10.0.0.0/16)"]
-            subgraph Subnet["DevBox Subnet (10.0.1.0/24)"]
-                DB1["Dev Box 1"]
-                DB2["Dev Box 2"]
-                DB3["Dev Box N"]
+    %% ===== AZURE =====
+    subgraph Azure["☁️ Azure"]
+        subgraph VNet["🔗 Virtual Network (10.0.0.0/16)"]
+            subgraph Subnet["📶 DevBox Subnet (10.0.1.0/24)"]
+                DB1["🖥️ Dev Box 1"]
+                DB2["🖥️ Dev Box 2"]
+                DB3["🖥️ Dev Box N"]
             end
         end
         
-        NC["Network Connection\n(Managed/Unmanaged)"]
-        DC["DevCenter"]
+        NC["📶 Network Connection<br/>(Managed/Unmanaged)"]
+        DC["🖥️ DevCenter"]
     end
     
-    subgraph MSHosted["Microsoft-Hosted Network"]
-        MHN["Microsoft Managed\nNetwork"]
+    %% ===== MS HOSTED =====
+    subgraph MSHosted["🏢 Microsoft-Hosted Network"]
+        MHN["☁️ Microsoft Managed<br/>Network"]
     end
     
-    DEV -->|"RDP/HTTPS"| DB1
-    DEV -->|"RDP/HTTPS"| DB2
+    %% ===== CONNECTIONS =====
+    DEV -->|RDP/HTTPS| DB1
+    DEV -->|RDP/HTTPS| DB2
     
-    DB1 -->|"HTTPS"| GH
-    DB1 -->|"HTTPS"| ADO
+    DB1 -->|HTTPS| GH
+    DB1 -->|HTTPS| ADO
     
-    DC -->|"networkConnectionId"| NC
-    NC -->|"subnetId"| Subnet
+    DC -->|networkConnectionId| NC
+    NC -->|subnetId| Subnet
     
-    DC -.->|"Alternative"| MHN
+    DC -.->|Alternative| MHN
     
-    style Internet fill:#E91E63,color:#fff
-    style VNet fill:#2196F3,color:#fff
-    style MSHosted fill:#9C27B0,color:#fff
+    %% ===== STYLES =====
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    
+    class DEV,GH,ADO external
+    class DB1,DB2,DB3,NC,DC primary
+    class MHN trigger
+    
+    style Internet fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style VNet fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style MSHosted fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ### Network Configuration Options
@@ -450,41 +466,57 @@ network:
 ### Dev Box Architecture
 
 ```mermaid
+---
+title: Dev Box Architecture
+---
 flowchart TB
-    subgraph DevCenter["Azure DevCenter"]
-        DC["DevCenter Resource"]
+    %% ===== DEVCENTER =====
+    subgraph DevCenter["🏢 Azure DevCenter"]
+        DC["🖥️ DevCenter Resource"]
         
-        subgraph Images["Image Definitions"]
-            IMG1["eShop-backend-engineer"]
-            IMG2["eShop-frontend-engineer"]
+        %% ===== IMAGES =====
+        subgraph Images["📦 Image Definitions"]
+            IMG1["💻 eShop-backend-engineer"]
+            IMG2["🎨 eShop-frontend-engineer"]
         end
         
-        subgraph Projects["Projects"]
-            PROJ["eShop Project"]
+        %% ===== PROJECTS =====
+        subgraph Projects["📁 Projects"]
+            PROJ["📋 eShop Project"]
         end
         
-        subgraph Pools["Dev Box Pools"]
-            P1["backend-engineer\ngeneral_i_32c128gb512ssd_v2"]
-            P2["frontend-engineer\ngeneral_i_16c64gb256ssd_v2"]
+        %% ===== POOLS =====
+        subgraph Pools["🏊 Dev Box Pools"]
+            P1["⚙️ backend-engineer<br/>general_i_32c128gb512ssd_v2"]
+            P2["🎨 frontend-engineer<br/>general_i_16c64gb256ssd_v2"]
         end
     end
     
-    subgraph Runtime["Runtime Environment"]
-        DB1["Dev Box Instance\n(Windows 11)"]
-        DB2["Dev Box Instance\n(Windows 11)"]
+    %% ===== RUNTIME =====
+    subgraph Runtime["🚀 Runtime Environment"]
+        DB1["🖥️ Dev Box Instance<br/>(Windows 11)"]
+        DB2["🖥️ Dev Box Instance<br/>(Windows 11)"]
     end
     
-    DC --> Images
-    DC --> Projects
-    Projects --> Pools
-    P1 --> DB1
-    P2 --> DB2
+    %% ===== CONNECTIONS =====
+    DC -->|manages| Images
+    DC -->|contains| Projects
+    Projects -->|deploys| Pools
+    P1 -->|provisions| DB1
+    P2 -->|provisions| DB2
     
     IMG1 -->|imageDefinition| P1
     IMG2 -->|imageDefinition| P2
     
-    style DevCenter fill:#2196F3,color:#fff
-    style Runtime fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class DC,PROJ primary
+    class IMG1,IMG2,P1,P2,DB1,DB2 secondary
+    
+    style DevCenter fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Runtime fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ### Dev Box SKU Options
@@ -502,31 +534,47 @@ flowchart TB
 Dev Box images are managed through DevCenter catalogs containing image definitions:
 
 ```mermaid
+---
+title: Image Management Flow
+---
 flowchart LR
-    subgraph Catalog["DevCenter Catalog"]
-        GIT["Git Repository"]
-        IMG_DEF["Image Definitions\n(YAML/JSON)"]
-        DSC["DSC Configurations\n(Optional)"]
+    %% ===== CATALOG =====
+    subgraph Catalog["📚 DevCenter Catalog"]
+        GIT["🐙 Git Repository"]
+        IMG_DEF["📄 Image Definitions<br/>(YAML/JSON)"]
+        DSC["⚙️ DSC Configurations<br/>(Optional)"]
     end
     
-    subgraph DevCenter["DevCenter"]
-        CAT["Catalog Sync"]
-        IMG["Image Gallery"]
+    %% ===== DEVCENTER =====
+    subgraph DevCenter["🏢 DevCenter"]
+        CAT["🔄 Catalog Sync"]
+        IMG["📦 Image Gallery"]
     end
     
-    subgraph Pool["Dev Box Pool"]
-        VM["Dev Box VMs"]
+    %% ===== POOL =====
+    subgraph Pool["🏊 Dev Box Pool"]
+        VM["🖥️ Dev Box VMs"]
     end
     
-    GIT --> CAT
-    CAT --> IMG_DEF
-    IMG_DEF --> IMG
-    IMG --> VM
-    DSC --> IMG
+    %% ===== CONNECTIONS =====
+    GIT -->|syncs| CAT
+    CAT -->|loads| IMG_DEF
+    IMG_DEF -->|registers| IMG
+    IMG -->|provisions| VM
+    DSC -->|configures| IMG
     
-    style Catalog fill:#FF9800,color:#fff
-    style DevCenter fill:#2196F3,color:#fff
-    style Pool fill:#4CAF50,color:#fff
+    %% ===== STYLES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class GIT,IMG_DEF,DSC datastore
+    class CAT,IMG primary
+    class VM secondary
+    
+    style Catalog fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style DevCenter fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Pool fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ---
