@@ -2,11 +2,14 @@
 
 [![Continuous Integration](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/ci.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/ci.yml)
 [![Deploy to Azure](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/deploy.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/deploy.yml)
+[![Release](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/release.yml/badge.svg)](https://github.com/Evilazaro/DevExp-DevBox/actions/workflows/release.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Azure](https://img.shields.io/badge/Azure-0078D4?logo=microsoftazure&logoColor=white)
 ![Bicep](https://img.shields.io/badge/Bicep-IaC-blue)
 
-An enterprise-grade Infrastructure-as-Code (IaC) solution built with **Azure Bicep** for deploying and managing **Microsoft Dev Box** environments at scale. This accelerator follows **Azure Landing Zone** principles with a modular architecture that separates concerns across security, monitoring, connectivity, and workload layers.
+An enterprise-grade **Infrastructure-as-Code (IaC)** solution built with **Azure Bicep** for deploying and managing **Microsoft Dev Box** environments at scale. This accelerator implements **Azure Landing Zone** principles with a modular architecture that separates concerns across security, monitoring, connectivity, and workload layers—enabling platform engineering teams to provision consistent, secure developer workstations in minutes.
+
+Whether you're setting up a development environment for a small team or deploying Dev Boxes across an enterprise, DevExp-DevBox provides the automation, governance, and flexibility you need. The solution integrates seamlessly with **GitHub Actions** for CI/CD, uses **OIDC federation** for passwordless Azure authentication, and supports **PowerShell DSC** for customizing Dev Box images with role-specific tooling.
 
 ---
 
@@ -28,20 +31,26 @@ An enterprise-grade Infrastructure-as-Code (IaC) solution built with **Azure Bic
 
 ## ✨ Features
 
-- **Landing Zone Architecture** — Implements Azure best practices with segregated resource groups for Security, Monitoring, and Workload layers
-- **Configuration-as-Code** — YAML-based configuration with JSON Schema validation for type safety and IDE intellisense
-- **Modular Bicep Design** — Reusable, composable modules with clear input/output contracts
-- **OIDC Authentication** — Passwordless GitHub Actions deployment using federated credentials
-- **Multi-Project Support** — Deploy multiple Dev Box projects with distinct pools, catalogs, and access controls
-- **Role-Based Access Control** — Hierarchical RBAC with Managed Identities following least-privilege principles
-- **DSC Customization** — PowerShell Desired State Configuration (DSC) for Dev Box image customization
-- **Automated Provisioning** — Azure Developer CLI (azd) integration for streamlined setup and deployment
+| Feature | Description |
+|---------|-------------|
+| **🏢 Landing Zone Architecture** | Implements Azure best practices with segregated resource groups for Security, Monitoring, and Workload layers |
+| **📄 Configuration-as-Code** | YAML-based configuration with JSON Schema validation for type safety and IDE IntelliSense |
+| **🧩 Modular Bicep Design** | Reusable, composable modules with clear input/output contracts and typed parameters |
+| **🔐 OIDC Authentication** | Passwordless GitHub Actions deployment using Azure AD federated credentials |
+| **📊 Multi-Project Support** | Deploy multiple Dev Box projects with distinct pools, catalogs, and access controls |
+| **👥 Role-Based Access Control** | Hierarchical RBAC with Managed Identities following least-privilege principles |
+| **⚙️ DSC Customization** | PowerShell Desired State Configuration (DSC) for Dev Box image customization |
+| **🚀 Automated Provisioning** | Azure Developer CLI (azd) integration for streamlined setup and deployment |
+| **📈 Centralized Monitoring** | Log Analytics workspace integration for unified observability |
+| **🌐 Network Flexibility** | Support for both Microsoft-managed and custom VNet configurations |
 
 ---
 
 ## 🏗️ Architecture
 
-DevExp-DevBox implements a **Landing Zone** pattern that organizes Azure resources by function:
+DevExp-DevBox implements a **Landing Zone** pattern that organizes Azure resources by function, ensuring proper separation of concerns and alignment with Azure Well-Architected Framework principles.
+
+### High-Level Architecture
 
 ```mermaid
 flowchart TB
@@ -111,25 +120,83 @@ flowchart TB
 | **Log Analytics** | Centralized logging and monitoring for all resources |
 | **Virtual Network** | Network isolation with managed or custom VNet options |
 
+### Module Dependency Flow
+
+```mermaid
+flowchart LR
+    subgraph Orchestration["🎯 Orchestration"]
+        MAIN["main.bicep"]
+    end
+    
+    subgraph Layers["📦 Landing Zone Layers"]
+        SEC["security.bicep"]
+        MON["logAnalytics.bicep"]
+        WL["workload.bicep"]
+        CONN["connectivity.bicep"]
+    end
+    
+    subgraph Resources["⚙️ Resources"]
+        KV["Key Vault"]
+        LA["Log Analytics"]
+        DC["DevCenter"]
+        PROJ["Projects"]
+        POOL["Pools"]
+        VNET["VNet"]
+    end
+    
+    MAIN --> SEC --> KV
+    MAIN --> MON --> LA
+    MAIN --> WL --> DC --> PROJ --> POOL
+    WL --> CONN --> VNET
+    
+    KV -.->|secrets| DC
+    LA -.->|diagnostics| DC
+    VNET -.->|network| POOL
+```
+
 ---
 
 ## 📋 Prerequisites
 
 Ensure you have the following tools installed before proceeding:
 
-| Tool | Version | Installation |
-|------|---------|--------------|
-| **Azure CLI** | 2.50+ | [Install Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) |
-| **Azure Developer CLI (azd)** | Latest | [Install azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) |
-| **GitHub CLI** | 2.0+ | [Install gh](https://cli.github.com/) |
-| **Bicep CLI** | 0.20+ | Included with Azure CLI |
-| **PowerShell** | 7.0+ | [Install PowerShell](https://docs.microsoft.com/powershell/scripting/install/installing-powershell) |
+| Tool | Version | Purpose | Installation |
+|------|---------|---------|--------------|
+| **Azure CLI** | 2.50+ | Azure resource management | [Install Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) |
+| **Azure Developer CLI (azd)** | Latest | Deployment orchestration | [Install azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) |
+| **GitHub CLI** | 2.0+ | Repository and secret management | [Install gh](https://cli.github.com/) |
+| **Bicep CLI** | 0.20+ | Template compilation | Included with Azure CLI |
+| **PowerShell** | 7.0+ | Script execution | [Install PowerShell](https://docs.microsoft.com/powershell/scripting/install/installing-powershell) |
 
 ### Azure Requirements
 
-- An active Azure subscription with **Owner** or **Contributor + User Access Administrator** permissions
-- Azure AD permissions to create App Registrations (for OIDC setup)
-- Registered resource providers: `Microsoft.DevCenter`, `Microsoft.KeyVault`, `Microsoft.Network`
+- ✅ An active Azure subscription with **Owner** or **Contributor + User Access Administrator** permissions
+- ✅ Azure AD permissions to create App Registrations (for OIDC setup)
+- ✅ Registered resource providers:
+
+```bash
+# Register required resource providers
+az provider register --namespace Microsoft.DevCenter
+az provider register --namespace Microsoft.KeyVault
+az provider register --namespace Microsoft.Network
+az provider register --namespace Microsoft.OperationalInsights
+```
+
+### Verify Prerequisites
+
+```bash
+# Check Azure CLI
+az --version
+
+# Check azd
+azd version
+
+# Check GitHub CLI
+gh --version
+
+# Check PowerShell
+pwsh --version
+```
 
 ---
 
@@ -147,8 +214,11 @@ cd DevExp-DevBox
 ### 2️⃣ Authenticate with Azure and GitHub
 
 ```bash
-# Login to Azure
+# Login to Azure (interactive)
 az login
+
+# Set your target subscription
+az account set --subscription "<subscription-id>"
 
 # Login to GitHub (required for OIDC credential setup)
 gh auth login
@@ -156,11 +226,17 @@ gh auth login
 
 ### 3️⃣ Run the Setup Script
 
-The setup script initializes your Azure Developer CLI environment and configures OIDC authentication:
+The setup script performs the following:
+
+- ✅ Initializes Azure Developer CLI environment
+- ✅ Creates Azure AD App Registration for OIDC
+- ✅ Configures federated credentials for GitHub Actions
+- ✅ Sets up GitHub repository secrets and variables
 
 **Linux/macOS:**
 
 ```bash
+chmod +x setUp.sh
 ./setUp.sh -e <environment-name> -s github
 ```
 
@@ -170,15 +246,21 @@ The setup script initializes your Azure Developer CLI environment and configures
 .\setUp.ps1 -EnvName <environment-name> -SourceControl github
 ```
 
-Replace `<environment-name>` with your desired environment identifier (e.g., `dev`, `prod`).
+> 📝 **Parameters:**
+>
+> - `-e` / `-EnvName`: Environment identifier (e.g., `dev`, `staging`, `prod`)
+> - `-s` / `-SourceControl`: Source control platform (`github` or `adogit`)
 
 ### 4️⃣ Provision Infrastructure
 
 ```bash
+# Deploy all resources to Azure
 azd provision
 ```
 
-> 💡 **Tip:** For CI/CD deployments, use the GitHub Actions workflow instead. See [CI/CD Pipelines](#-cicd-pipelines).
+The deployment takes approximately **15-30 minutes** depending on the number of projects and pools configured.
+
+> 💡 **Tip:** For automated CI/CD deployments, use the GitHub Actions workflow. See [CI/CD Pipelines](#-cicd-pipelines).
 
 ---
 
@@ -261,15 +343,46 @@ DevExp-DevBox/
 
 ## ⚙️ Configuration
 
-DevExp-DevBox uses **YAML configuration files** with JSON Schema validation for a type-safe, IDE-friendly experience.
+DevExp-DevBox uses **YAML configuration files** with JSON Schema validation for a type-safe, IDE-friendly experience. Each configuration file has a corresponding JSON Schema that provides IntelliSense and validation in VS Code.
 
 ### Configuration Files
 
-| File | Purpose |
-|------|---------|
-| [infra/settings/resourceOrganization/azureResources.yaml](infra/settings/resourceOrganization/azureResources.yaml) | Resource group naming and tagging |
-| [infra/settings/security/security.yaml](infra/settings/security/security.yaml) | Key Vault configuration |
-| [infra/settings/workload/devcenter.yaml](infra/settings/workload/devcenter.yaml) | DevCenter, projects, pools, catalogs |
+| File | Purpose | Schema |
+|------|---------|--------|
+| [azureResources.yaml](infra/settings/resourceOrganization/azureResources.yaml) | Resource group naming, tagging, and landing zone organization | [azureResources.schema.json](infra/settings/resourceOrganization/azureResources.schema.json) |
+| [security.yaml](infra/settings/security/security.yaml) | Key Vault configuration and access policies | [security.schema.json](infra/settings/security/security.schema.json) |
+| [devcenter.yaml](infra/settings/workload/devcenter.yaml) | DevCenter, projects, pools, catalogs, and RBAC | [devcenter.schema.json](infra/settings/workload/devcenter.schema.json) |
+
+### Landing Zone Configuration
+
+Configure resource groups in `infra/settings/resourceOrganization/azureResources.yaml`:
+
+```yaml
+# Workload Resource Group - Dev Center and projects
+workload:
+  create: true
+  name: devexp-workload
+  tags:
+    environment: dev
+    project: Contoso-DevExp-DevBox
+    costCenter: IT
+
+# Security Resource Group - Key Vault
+security:
+  create: true
+  name: devexp-security
+  tags:
+    environment: dev
+    landingZone: Security
+
+# Monitoring Resource Group - Log Analytics
+monitoring:
+  create: true
+  name: devexp-monitoring
+  tags:
+    environment: dev
+    landingZone: Monitoring
+```
 
 ### Example: Adding a New Project
 
@@ -323,49 +436,127 @@ projects:
 | `general_i_16c64gb256ssd_v2` | 16 | 64 GB | 256 GB | Standard development |
 | `general_i_32c128gb512ssd_v2` | 32 | 128 GB | 512 GB | Heavy workloads, builds |
 
+### DSC Customization
+
+Dev Box images can be customized using PowerShell Desired State Configuration (DSC). Sample configurations are provided in `.configuration/devcenter/workloads/`:
+
+| Configuration | Purpose |
+|---------------|---------|
+| `common-config.dsc.yaml` | Base configuration for all Dev Boxes |
+| `common-backend-config.dsc.yaml` | Backend developer tools (Azure CLI, .NET SDK, Docker) |
+| `common-frontend-usertasks-config.dsc.yaml` | Frontend developer tools (Node.js, npm) |
+| `winget-upgrade-packages.dsc.yaml` | Automated package updates |
+
+**Example: Backend Developer DSC**
+
+```yaml
+# .configuration/devcenter/workloads/common-backend-config.dsc.yaml
+properties:
+  configurationVersion: "0.2.0"
+  resources:
+    # Azure CLI
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: Microsoft.AzureCLI
+      settings:
+        id: Microsoft.AzureCLI
+
+    # Azure Developer CLI
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: Microsoft.Azd
+      settings:
+        id: Microsoft.Azd
+
+    # Visual Studio Code
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: Microsoft.VisualStudioCode
+      settings:
+        id: Microsoft.VisualStudioCode
+```
+
 ---
 
 ## 🔄 CI/CD Pipelines
 
-### Workflows Overview
+DevExp-DevBox includes a complete CI/CD pipeline architecture using GitHub Actions with OIDC-based authentication.
 
-| Workflow | Trigger | Purpose |
-|----------|---------|---------|
-| **ci.yml** | Push to `feature/**`, `fix/**` branches; PRs to `main` | Build and validate Bicep templates |
-| **deploy.yml** | Manual dispatch | Deploy infrastructure to Azure |
-| **release.yml** | Manual dispatch | Generate semantic versions and GitHub releases |
+### Pipeline Architecture
 
-### Deployment Workflow
-
-The `deploy.yml` workflow uses **OIDC federation** for passwordless Azure authentication:
-
-```yaml
-# Required GitHub Repository Variables
-AZURE_CLIENT_ID       # App registration client ID
-AZURE_TENANT_ID       # Azure AD tenant ID
-AZURE_SUBSCRIPTION_ID # Target subscription ID
-
-# Required GitHub Repository Secrets
-KEY_VAULT_SECRET      # GitHub PAT for private catalog access
+```mermaid
+flowchart TB
+    subgraph Triggers["🎯 Triggers"]
+        T1["Push: feature/**"]
+        T2["Push: fix/**"]
+        T3["PR to main"]
+        T4["Manual: Deploy"]
+        T5["Manual: Release"]
+    end
+    
+    subgraph CI["🔄 Continuous Integration"]
+        CI1["generate-tag-version"]
+        CI2["build"]
+    end
+    
+    subgraph Deploy["🚀 Deployment"]
+        D1["Validate Variables"]
+        D2["Build Bicep"]
+        D3["OIDC Auth"]
+        D4["azd provision"]
+    end
+    
+    subgraph Release["🏷️ Release"]
+        R1["Generate Release"]
+        R2["Publish Artifacts"]
+    end
+    
+    T1 & T2 & T3 --> CI1 --> CI2
+    T4 --> D1 --> D2 --> D3 --> D4
+    T5 --> R1 --> R2
 ```
 
-#### Deploy via GitHub Actions
+### Workflows Overview
+
+| Workflow | File | Trigger | Purpose |
+|----------|------|---------|---------|
+| **Continuous Integration** | `.github/workflows/ci.yml` | Push to `feature/**`, `fix/**`; PRs to `main` | Build and validate Bicep templates |
+| **Deploy to Azure** | `.github/workflows/deploy.yml` | Manual dispatch | Provision infrastructure to Azure |
+| **Release** | `.github/workflows/release.yml` | Manual dispatch | Generate semantic versions and GitHub releases |
+
+### Required GitHub Configuration
+
+#### Repository Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `AZURE_CLIENT_ID` | App Registration client ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+| `AZURE_TENANT_ID` | Azure AD tenant ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+| `AZURE_SUBSCRIPTION_ID` | Target subscription ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+| `AZURE_LOCATION` | Default Azure region | `eastus2` |
+
+#### Repository Secrets
+
+| Secret | Description |
+|--------|-------------|
+| `KEY_VAULT_SECRET` | GitHub Personal Access Token for private catalog access |
+
+### Deploying via GitHub Actions
 
 1. Navigate to **Actions** → **Deploy to Azure**
 2. Click **Run workflow**
-3. Enter:
-   - `AZURE_ENV_NAME`: Environment name (e.g., `dev`, `prod`)
-   - `AZURE_LOCATION`: Azure region (e.g., `eastus2`)
+3. Configure deployment parameters:
+   - `AZURE_ENV_NAME`: Environment name (e.g., `dev`, `staging`, `prod`)
+   - `AZURE_LOCATION`: Azure region (e.g., `eastus2`, `westus2`)
 4. Click **Run workflow**
 
 ### Setting Up OIDC Authentication
 
-Run the setup script to configure OIDC credentials automatically:
+The setup scripts automatically configure OIDC, but you can also set it up manually:
 
 ```powershell
-# Creates App Registration and configures federated credentials
+# Create App Registration and federated credentials
 .\.configuration\setup\powershell\Azure\generateDeploymentCredentials.ps1
 ```
+
+> 📖 **More Details:** See [DevOps Documentation](docs/devops/README.md) for comprehensive CI/CD pipeline documentation.
 
 ---
 
@@ -431,47 +622,104 @@ Run the setup script to configure OIDC credentials automatically:
 
 ## 🧹 Cleanup
 
-Remove all deployed resources when no longer needed:
+Remove all deployed resources when no longer needed.
 
-### Option 1: Azure Developer CLI
+### Option 1: Azure Developer CLI (Recommended)
 
 ```bash
+# Remove all resources and purge Key Vault
 azd down --purge --force
 ```
 
-### Option 2: Cleanup Script
+### Option 2: Cleanup Script (Full Cleanup)
+
+The cleanup script performs a comprehensive teardown:
 
 ```powershell
 .\cleanSetUp.ps1 -EnvName <environment-name> -Location <azure-region>
 ```
 
-This script:
+**What the cleanup script removes:**
 
-- Deletes subscription-level deployments
-- Removes user role assignments
-- Deletes service principals and app registrations
-- Removes GitHub secrets
-- Cleans up resource groups
+| Resource Type | Action |
+|---------------|--------|
+| Subscription Deployments | Deletes all ARM deployments |
+| Role Assignments | Removes user and managed identity RBAC |
+| Service Principals | Deletes OIDC app registrations |
+| GitHub Secrets | Removes Azure credential secrets |
+| Resource Groups | Deletes Security, Monitoring, Workload, and Connectivity RGs |
+
+### Option 3: Manual Cleanup
+
+```bash
+# List resource groups
+az group list --query "[?starts_with(name, 'devexp-')].name" -o tsv
+
+# Delete specific resource groups
+az group delete --name devexp-workload-<env>-<region>-RG --yes --no-wait
+az group delete --name devexp-security-<env>-<region>-RG --yes --no-wait
+az group delete --name devexp-monitoring-<env>-<region>-RG --yes --no-wait
+```
+
+> ⚠️ **Warning:** Key Vault soft-delete is enabled by default. Use `--purge` flag or manually purge deleted vaults to fully remove secrets.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these guidelines:
+Contributions are welcome! We follow a standard GitHub workflow.
+
+### How to Contribute
 
 1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
+2. **Create** a feature branch:
+
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+
+3. **Make** your changes following the guidelines below
+4. **Test** locally:
+
+   ```bash
+   az bicep build --file infra/main.bicep
+   ```
+
+5. **Commit** your changes:
+
+   ```bash
+   git commit -m 'feat: add amazing feature'
+   ```
+
+6. **Push** to the branch:
+
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+
+7. **Open** a Pull Request to `main`
 
 ### Development Guidelines
 
-- Follow [Bicep best practices](https://learn.microsoft.com/azure/azure-resource-manager/bicep/best-practices)
-- Include descriptions for all parameters and variables
-- Add appropriate tags to all resources
-- Update documentation for configuration changes
-- Test changes locally before submitting PRs
+| Area | Guideline |
+|------|-----------|
+| **Bicep** | Follow [Bicep best practices](https://learn.microsoft.com/azure/azure-resource-manager/bicep/best-practices) |
+| **Parameters** | Include `@description()` decorators for all parameters |
+| **Resources** | Add appropriate tags to all resources |
+| **Naming** | Use consistent naming conventions (camelCase for variables, kebab-case for resources) |
+| **Documentation** | Update README and architecture docs for configuration changes |
+| **Testing** | Validate Bicep files compile before submitting PRs |
+
+### Commit Message Convention
+
+We use [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+feat: add new Dev Box pool configuration
+fix: correct Key Vault access policy
+docs: update README with DSC examples
+refactor: simplify network module
+```
 
 ---
 
@@ -483,11 +731,28 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 ## 📚 Additional Resources
 
-- [Microsoft Dev Box Documentation](https://learn.microsoft.com/azure/dev-box/overview-what-is-microsoft-dev-box)
-- [Azure DevCenter Documentation](https://learn.microsoft.com/azure/deployment-environments/overview-what-is-azure-deployment-environments)
-- [Azure Bicep Documentation](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
-- [Azure Landing Zones](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/)
-- [Project Architecture Documentation](docs/architecture/)
+### Documentation
+
+| Resource | Description |
+|----------|-------------|
+| [Architecture Documentation](docs/architecture/) | TOGAF-aligned architecture decision records |
+| [DevOps Documentation](docs/devops/README.md) | Comprehensive CI/CD pipeline documentation |
+| [Script Documentation](docs/scripts/README.md) | Setup and configuration script guides |
+
+### External References
+
+| Resource | Link |
+|----------|------|
+| Microsoft Dev Box | [Documentation](https://learn.microsoft.com/azure/dev-box/overview-what-is-microsoft-dev-box) |
+| Azure DevCenter | [Documentation](https://learn.microsoft.com/azure/deployment-environments/overview-what-is-azure-deployment-environments) |
+| Azure Bicep | [Documentation](https://learn.microsoft.com/azure/azure-resource-manager/bicep/) |
+| Azure Landing Zones | [Cloud Adoption Framework](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/) |
+| Azure Developer CLI | [Documentation](https://learn.microsoft.com/azure/developer/azure-developer-cli/) |
+
+### Support
+
+- 🐛 **Issues:** [GitHub Issues](https://github.com/Evilazaro/DevExp-DevBox/issues)
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/Evilazaro/DevExp-DevBox/discussions)
 
 ---
 
