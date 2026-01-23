@@ -38,11 +38,11 @@ tags:
 - [🎯 Overview](#-overview)
 - [📊 Flow Visualization](#-flow-visualization)
 - [📝 Parameters](#-parameters)
-- [⚙️ Prerequisites](#️-prerequisites)
+- [⚙️ Prerequisites](#-prerequisites)
 - [🔧 Functions Reference](#-functions-reference)
 - [📝 Usage Examples](#-usage-examples)
-- [⚠️ Error Handling](#️-error-handling)
-- [🛠️ Troubleshooting](#️-troubleshooting)
+- [⚠️ Error Handling](#-error-handling)
+- [🛠️ Troubleshooting](#-troubleshooting)
 - [🔒 Security Considerations](#-security-considerations)
 - [🔗 Related Scripts](#-related-scripts)
 
@@ -54,7 +54,7 @@ This script authenticates to GitHub using the GitHub CLI and removes a specified
 
 ---
 
-[⬆️ Back to Top](#️-deletegithubsecretazurecredentialsps1)
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 
@@ -127,7 +127,7 @@ flowchart TD
 
 ---
 
-[⬆️ Back to Top](#️-deletegithubsecretazurecredentialsps1)
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 
@@ -141,7 +141,7 @@ flowchart TD
 
 ---
 
-[⬆️ Back to Top](#️-deletegithubsecretazurecredentialsps1)
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 
@@ -161,7 +161,7 @@ flowchart TD
 
 ---
 
-[⬆️ Back to Top](#️-deletegithubsecretazurecredentialsps1)
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 
@@ -206,7 +206,7 @@ flowchart TD
 
 ---
 
-[⬆️ Back to Top](#️-deletegithubsecretazurecredentialsps1)
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 
@@ -247,7 +247,7 @@ GitHub secret deletion completed.
 
 ---
 
-[⬆️ Back to Top](#️-deletegithubsecretazurecredentialsps1)
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 
@@ -277,7 +277,7 @@ The script is **idempotent**:
 
 ---
 
-[⬆️ Back to Top](#️-deletegithubsecretazurecredentialsps1)
+[⬆️ Back to Top](#-table-of-contents)
 
 ---
 
