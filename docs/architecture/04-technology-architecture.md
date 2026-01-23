@@ -1,6 +1,33 @@
+---
+title: "Technology Architecture"
+description: "Azure services, infrastructure design, and technology standards for DevExp-DevBox"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - architecture
+  - technology
+  - togaf
+  - azure
+  - infrastructure
+---
+
 # ☁️ Technology Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
+
+> [!NOTE]
+> **Target Audience:** Cloud Architects, Infrastructure Engineers, Platform Teams  
+> **Reading Time:** ~20 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← Application Architecture](03-application-architecture.md) | [Architecture Index](../README.md) | [Security Architecture →](05-security-architecture.md) |
+
+</details>
 
 | Property | Value |
 |:---------|:------|
@@ -705,3 +732,13 @@ flowchart TB
 - [Azure Bicep Documentation](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/)
 - [GitHub Actions OIDC](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect)
 - [Log Analytics Documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview)
+
+---
+
+<div align="center">
+
+[← Application Architecture](03-application-architecture.md) | [⬆️ Back to Top](#-table-of-contents) | [Security Architecture →](05-security-architecture.md)
+
+*DevExp-DevBox Landing Zone Accelerator • Technology Architecture*
+
+</div>

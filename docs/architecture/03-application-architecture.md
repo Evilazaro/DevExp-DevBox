@@ -1,6 +1,33 @@
+---
+title: "Application Architecture"
+description: "Bicep module architecture, dependencies, and deployment orchestration for DevExp-DevBox"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - architecture
+  - application
+  - togaf
+  - bicep
+  - modules
+---
+
 # 📦 Application Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
+
+> [!NOTE]
+> **Target Audience:** Platform Engineers, DevOps Engineers, IaC Developers  
+> **Reading Time:** ~25 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← Data Architecture](02-data-architecture.md) | [Architecture Index](../README.md) | [Technology Architecture →](04-technology-architecture.md) |
+
+</details>
 
 | Property | Value |
 |:---------|:------|
@@ -775,3 +802,13 @@ output resourceName string = childResource.name
 - [Azure DevCenter API Reference](https://learn.microsoft.com/en-us/rest/api/devcenter/)
 - [Bicep Module Best Practices](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/best-practices)
 - [ARM Template Scopes](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-to-subscription)
+
+---
+
+<div align="center">
+
+[← Data Architecture](02-data-architecture.md) | [⬆️ Back to Top](#-table-of-contents) | [Technology Architecture →](04-technology-architecture.md)
+
+*DevExp-DevBox Landing Zone Accelerator • Application Architecture*
+
+</div>

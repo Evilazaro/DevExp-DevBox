@@ -1,6 +1,33 @@
+---
+title: "Deployment Architecture"
+description: "CI/CD pipeline design and deployment patterns for DevExp-DevBox Landing Zone Accelerator"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - architecture
+  - deployment
+  - cicd
+  - github-actions
+  - azure
+---
+
 # 🚀 Deployment Architecture
 
 > 📖 This document describes the deployment architecture and CI/CD pipeline design for the Dev Box Accelerator project.
+
+> [!NOTE]
+> **Target Audience:** DevOps Engineers, Platform Engineers, Release Managers  
+> **Reading Time:** ~15 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← Security Architecture](05-security-architecture.md) | [Architecture Index](../README.md) | — |
+
+</details>
 
 ---
 
@@ -463,3 +490,13 @@ flowchart LR
 - [CI Workflow](../devops/ci.md) - Continuous integration details
 - [Deploy Workflow](../devops/deploy.md) - Deployment process
 - [Release Workflow](../devops/release.md) - Release management
+
+---
+
+<div align="center">
+
+[← Security Architecture](05-security-architecture.md) | [⬆️ Back to Top](#-table-of-contents)
+
+*DevExp-DevBox Landing Zone Accelerator • Deployment Architecture*
+
+</div>

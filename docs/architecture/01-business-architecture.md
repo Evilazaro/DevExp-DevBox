@@ -1,6 +1,33 @@
+---
+title: "Business Architecture"
+description: "Enterprise business architecture for DevExp-DevBox Landing Zone Accelerator using TOGAF BDAT framework"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - architecture
+  - business
+  - togaf
+  - dev-box
+  - landing-zone
+---
+
 # 🏢 Business Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
+
+> [!NOTE]
+> **Target Audience:** Business Decision Makers, Enterprise Architects, Platform Engineers  
+> **Reading Time:** ~15 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| — | [Architecture Index](../README.md) | [Data Architecture →](02-data-architecture.md) |
+
+</details>
 
 | Property | Value |
 |:---------|:------|
@@ -459,3 +486,13 @@ flowchart TB
 - [Application Architecture](03-application-architecture.md)
 - [Technology Architecture](04-technology-architecture.md)
 - [Security Architecture](05-security-architecture.md)
+
+---
+
+<div align="center">
+
+[⬆️ Back to Top](#-table-of-contents) | [Data Architecture →](02-data-architecture.md)
+
+*DevExp-DevBox Landing Zone Accelerator • Business Architecture*
+
+</div>

@@ -1,6 +1,33 @@
+---
+title: "Data Architecture"
+description: "Data architecture defining configuration, secrets, telemetry, and state management for DevExp-DevBox"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - architecture
+  - data
+  - togaf
+  - configuration
+  - secrets
+---
+
 # 🗄️ Data Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
+
+> [!NOTE]
+> **Target Audience:** Data Architects, Platform Engineers, Security Engineers  
+> **Reading Time:** ~20 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← Business Architecture](01-business-architecture.md) | [Architecture Index](../README.md) | [Application Architecture →](03-application-architecture.md) |
+
+</details>
 
 | Property | Value |
 |:---------|:------|
@@ -725,3 +752,13 @@ Configure VS Code to validate YAML files:
 - [Log Analytics Documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview)
 - [Bicep loadYamlContent](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/bicep-functions-files#loadyamlcontent)
 - [JSON Schema Specification](https://json-schema.org/specification.html)
+
+---
+
+<div align="center">
+
+[← Business Architecture](01-business-architecture.md) | [⬆️ Back to Top](#-table-of-contents) | [Application Architecture →](03-application-architecture.md)
+
+*DevExp-DevBox Landing Zone Accelerator • Data Architecture*
+
+</div>

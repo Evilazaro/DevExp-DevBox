@@ -1,6 +1,33 @@
+---
+title: "Security Architecture"
+description: "Security controls, identity management, and compliance framework for DevExp-DevBox"
+author: "DevExp Team"
+date: 2026-01-23
+version: "1.0.0"
+tags:
+  - architecture
+  - security
+  - togaf
+  - rbac
+  - compliance
+---
+
 # 🔒 Security Architecture
 
 > **DevExp-DevBox Landing Zone Accelerator**
+
+> [!NOTE]
+> **Target Audience:** Security Architects, Compliance Officers, Platform Engineers  
+> **Reading Time:** ~25 minutes
+
+<details>
+<summary>📍 Navigation</summary>
+
+| Previous | Index | Next |
+|:---------|:-----:|-----:|
+| [← Technology Architecture](04-technology-architecture.md) | [Architecture Index](../README.md) | [Deployment Architecture →](07-deployment-architecture.md) |
+
+</details>
 
 | Property | Value |
 |:---------|:------|
@@ -734,3 +761,13 @@ flowchart TB
 - [GitHub Actions Security](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions)
 - [Zero Trust Architecture](https://learn.microsoft.com/en-us/security/zero-trust/)
 - [STRIDE Threat Model](https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats)
+
+---
+
+<div align="center">
+
+[← Technology Architecture](04-technology-architecture.md) | [⬆️ Back to Top](#-table-of-contents) | [Deployment Architecture →](07-deployment-architecture.md)
+
+*DevExp-DevBox Landing Zone Accelerator • Security Architecture*
+
+</div>
