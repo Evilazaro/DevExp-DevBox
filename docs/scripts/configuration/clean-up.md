@@ -1,12 +1,36 @@
-# cleanUp.ps1
+# 🧹 cleanUp.ps1
 
 > **Removes Azure resource groups for DevExp-DevBox environment**
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Flow Visualization](#flow-visualization)
+- [📝 Parameters](#parameters)
+- [⚙️ Prerequisites](#prerequisites)
+- [🗂️ Resource Groups Deleted](#resource-groups-deleted)
+- [🔧 Functions Reference](#functions-reference)
+- [📝 Usage Examples](#usage-examples)
+- [⚠️ Error Handling](#error-handling)
+- [🛠️ Troubleshooting](#troubleshooting)
+- [🔒 Security Considerations](#security-considerations)
+- [🔗 Related Scripts](#related-scripts)
+
+---
+
+## 🎯 Overview
 
 This script deletes Azure resource groups and their associated deployments for the DevExp-DevBox infrastructure. It removes workload, connectivity, monitoring, security, and supporting resource groups based on a naming convention.
 
-## Flow Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Flow Visualization
 
 ```mermaid
 flowchart TD
@@ -53,7 +77,13 @@ flowchart TD
     classDef error fill:#F44336,stroke:#C62828,color:#fff
 ```
 
-## Parameters
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Parameters
 
 | Parameter | Type | Required | Default | Validation | Description |
 |-----------|------|----------|---------|------------|-------------|
@@ -61,7 +91,13 @@ flowchart TD
 | `-Location` | `string` | No | `"eastus2"` | `ValidateSet` | Azure region (eastus, eastus2, westus, westus2, westus3, northeurope, westeurope) |
 | `-WorkloadName` | `string` | No | `"devexp"` | `ValidateNotNullOrEmpty` | Workload name prefix for resource groups |
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites
 
 ### Required Tools
 
@@ -75,7 +111,13 @@ flowchart TD
 - **Azure**: Contributor or Owner on the subscription
 - Permission to delete resource groups and deployments
 
-## Resource Groups Deleted
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🗂️ Resource Groups Deleted
 
 Based on the naming convention `{WorkloadName}-{type}-{EnvName}-{Location}-rg`:
 
@@ -98,7 +140,13 @@ devexp-monitoring-demo-eastus2-rg
 devexp-security-demo-eastus2-rg
 ```
 
-## Functions Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Functions Reference
 
 ### Function: `Remove-AzureResourceGroup`
 
@@ -147,7 +195,13 @@ devexp-security-demo-eastus2-rg
 - `Default-ActivityLogAlerts`
 - `DefaultResourceGroup-WUS2`
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Default Cleanup
 
@@ -201,7 +255,13 @@ All resource group deletions initiated successfully.
 
 </details>
 
-## Error Handling
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling
 
 ### Error Action Preference
 
@@ -233,7 +293,13 @@ The script is **idempotent**:
 - Safe to run multiple times
 - No error if already deleted
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🛠️ Troubleshooting
 
 ### Common Issues
 
@@ -261,7 +327,13 @@ az group list --query "[?contains(name, 'devexp')]" --output table
 az lock delete --name {lock-name} --resource-group {rg-name}
 ```
 
-## Security Considerations
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔒 Security Considerations
 
 ### Destructive Operation
 
@@ -283,7 +355,13 @@ Azure resource locks can prevent accidental deletion:
 - Remove locks before running cleanup
 - Or use Azure portal to delete locked resources
 
-## Related Scripts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Scripts
 
 | Script | Purpose | Link |
 |--------|---------|------|

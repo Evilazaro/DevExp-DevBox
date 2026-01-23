@@ -1,12 +1,38 @@
-# winget-update.ps1
+# 📦 winget-update.ps1
 
 > **Silently updates all Microsoft Store applications using Windows Package Manager**
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Flow Visualization](#flow-visualization)
+- [🔄 Update Process Flow](#update-process-flow)
+- [📝 Parameters](#parameters)
+- [⚙️ Prerequisites](#prerequisites)
+- [🛠️ Configuration](#configuration)
+- [🔧 Functions Reference](#functions-reference)
+- [📝 Usage Examples](#usage-examples)
+- [⚠️ Error Handling](#error-handling)
+- [🔍 Troubleshooting](#troubleshooting)
+- [🔄 DSC Integration](#dsc-integration)
+- [🔒 Security Considerations](#security-considerations)
+- [🔗 Related Files](#related-files)
+
+---
+
+## 🎯 Overview
 
 This script performs a comprehensive, non-interactive update of all Microsoft Store applications using Windows Package Manager (winget). It handles self-updates of winget, runs multiple passes to catch stubborn apps, and maintains detailed logging.
 
-## Flow Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Flow Visualization
 
 ```mermaid
 flowchart TD
@@ -54,7 +80,13 @@ flowchart TD
     classDef error fill:#F44336,stroke:#C62828,color:#fff
 ```
 
-## Update Process Flow
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔄 Update Process Flow
 
 ```mermaid
 sequenceDiagram
@@ -90,11 +122,23 @@ sequenceDiagram
     Script->>Log: Complete - log file path
 ```
 
-## Parameters
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Parameters
 
 This script has no parameters. All configuration is handled internally.
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites
 
 ### Required Tools
 
@@ -108,7 +152,13 @@ This script has no parameters. All configuration is handled internally.
 - **Elevated (Administrator)**: Required for machine-wide app updates
 - **Standard User**: Will update user-scoped apps only
 
-## Configuration
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🛠️ Configuration
 
 ### Environment Variables Set
 
@@ -130,7 +180,13 @@ This script has no parameters. All configuration is handled internally.
 - **Log File Format:** `upgrade-YYYYMMDD-HHMMSS.log`
 - **Log Levels:** `[INFO ]`, `[WARN ]`, `[ERROR]`
 
-## Functions Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Functions Reference
 
 ### Function: `Write-LogInfo`
 
@@ -235,7 +291,13 @@ This script has no parameters. All configuration is handled internally.
 - `--accept-package-agreements`
 - `--disable-interactivity`
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Standard Execution
 
@@ -287,7 +349,13 @@ No applicable upgrade found.
 
 </details>
 
-## Error Handling
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling
 
 ### Exit Codes
 
@@ -302,7 +370,13 @@ No applicable upgrade found.
 - Individual app update failures don't stop the process
 - Service start failures are logged as warnings
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔍 Troubleshooting
 
 ### Common Issues
 
@@ -333,7 +407,13 @@ winget source reset --force
 winget source update
 ```
 
-## DSC Integration
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔄 DSC Integration
 
 This script is designed to work with Windows Desired State Configuration (DSC). Related DSC files:
 
@@ -342,7 +422,13 @@ This script is designed to work with Windows Desired State Configuration (DSC). 
 | `winget-upgrade-packages.dsc.yaml` | DSC configuration for package updates |
 | `common-config.dsc.yaml` | Common DSC configuration |
 
-## Security Considerations
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔒 Security Considerations
 
 ### Execution Policy
 
@@ -371,7 +457,13 @@ The script automatically accepts:
 
 Review these agreements at [Microsoft Store Terms](https://www.microsoft.com/store/b/terms-of-use).
 
-## Related Files
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Files
 
 | File | Purpose | Location |
 |------|---------|----------|

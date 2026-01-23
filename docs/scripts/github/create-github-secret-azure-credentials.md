@@ -1,12 +1,37 @@
-# createGitHubSecretAzureCredentials.ps1
+# 🔐 createGitHubSecretAzureCredentials.ps1
 
 > **Creates a GitHub repository secret for Azure service principal credentials**
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Flow Visualization](#flow-visualization)
+- [📝 Parameters](#parameters)
+- [⚙️ Prerequisites](#prerequisites)
+- [📥 Expected Input Format](#expected-input-format)
+- [🔧 Functions Reference](#functions-reference)
+- [📝 Usage Examples](#usage-examples)
+- [⚙️ Using the Secret in GitHub Actions](#using-the-secret-in-github-actions)
+- [⚠️ Error Handling](#error-handling)
+- [🛠️ Troubleshooting](#troubleshooting)
+- [🔒 Security Considerations](#security-considerations)
+- [🔗 Related Scripts](#related-scripts)
+
+---
+
+## 🎯 Overview
 
 This script authenticates to GitHub using the GitHub CLI and creates a repository secret named `AZURE_CREDENTIALS` containing Azure service principal credentials for use in GitHub Actions workflows.
 
-## Flow Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Flow Visualization
 
 ```mermaid
 flowchart TD
@@ -49,7 +74,13 @@ flowchart TD
     classDef error fill:#F44336,stroke:#C62828,color:#fff
 ```
 
-## Parameters
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Parameters
 
 | Parameter | Type | Required | Default | Validation | Description |
 |-----------|------|----------|---------|------------|-------------|
@@ -57,7 +88,13 @@ flowchart TD
 
 **Aliases:** `ghSecretBody`
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites
 
 ### Required Tools
 
@@ -71,7 +108,13 @@ flowchart TD
 - **GitHub**: Repository admin or secrets write permission
 - Must be in a Git repository directory or specify repository
 
-## Expected Input Format
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📥 Expected Input Format
 
 The `GhSecretBody` parameter should contain Azure service principal credentials in this JSON format:
 
@@ -86,7 +129,13 @@ The `GhSecretBody` parameter should contain Azure service principal credentials 
 
 This format is output by `az ad sp create-for-rbac --json-auth`.
 
-## Functions Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Functions Reference
 
 ### Function: `Connect-GitHubCli`
 
@@ -119,7 +168,13 @@ This format is output by `az ad sp create-for-rbac --json-auth`.
 
 **Command:** `gh secret set {SecretName} --body {SecretValue}`
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Direct Execution with JSON
 
@@ -162,7 +217,13 @@ You can now use this secret in your GitHub Actions workflows.
 
 </details>
 
-## Using the Secret in GitHub Actions
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Using the Secret in GitHub Actions
 
 After creating the secret, use it in your workflow:
 
@@ -186,7 +247,13 @@ jobs:
           az group create --name my-rg --location eastus
 ```
 
-## Error Handling
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling
 
 ### Error Action Preference
 
@@ -202,7 +269,13 @@ $WarningPreference = 'Stop'
 | `0` | Secret created successfully |
 | `1` | Secret creation failed |
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🛠️ Troubleshooting
 
 ### Common Issues
 
@@ -230,7 +303,13 @@ gh auth status
 gh auth token
 ```
 
-## Security Considerations
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔒 Security Considerations
 
 ### Secret Handling
 
@@ -251,7 +330,13 @@ When rotating credentials:
 2. Update secret with same command (overwrites existing)
 3. Delete old service principal
 
-## Related Scripts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Scripts
 
 | Script | Purpose | Link |
 |--------|---------|------|

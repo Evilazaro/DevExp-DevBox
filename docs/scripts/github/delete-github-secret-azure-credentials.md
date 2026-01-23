@@ -1,12 +1,35 @@
-# deleteGitHubSecretAzureCredentials.ps1
+# 🗑️ deleteGitHubSecretAzureCredentials.ps1
 
 > **Removes a GitHub repository secret**
 
-## Overview
+---
+
+## 📑 Table of Contents
+
+- [🎯 Overview](#overview)
+- [📊 Flow Visualization](#flow-visualization)
+- [📝 Parameters](#parameters)
+- [⚙️ Prerequisites](#prerequisites)
+- [🔧 Functions Reference](#functions-reference)
+- [📝 Usage Examples](#usage-examples)
+- [⚠️ Error Handling](#error-handling)
+- [🛠️ Troubleshooting](#troubleshooting)
+- [🔒 Security Considerations](#security-considerations)
+- [🔗 Related Scripts](#related-scripts)
+
+---
+
+## 🎯 Overview
 
 This script authenticates to GitHub using the GitHub CLI and removes a specified secret from the current repository. Typically used to remove the `AZURE_CREDENTIALS` secret during cleanup operations.
 
-## Flow Visualization
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📊 Flow Visualization
 
 ```mermaid
 flowchart TD
@@ -50,7 +73,13 @@ flowchart TD
     classDef error fill:#F44336,stroke:#C62828,color:#fff
 ```
 
-## Parameters
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Parameters
 
 | Parameter | Type | Required | Default | Validation | Description |
 |-----------|------|----------|---------|------------|-------------|
@@ -58,7 +87,13 @@ flowchart TD
 
 **Aliases:** `ghSecretName`
 
-## Prerequisites
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚙️ Prerequisites
 
 ### Required Tools
 
@@ -72,7 +107,13 @@ flowchart TD
 - **GitHub**: Repository admin or secrets delete permission
 - Must be in a Git repository directory or specify repository
 
-## Functions Reference
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔧 Functions Reference
 
 ### Function: `Connect-GitHubCli`
 
@@ -111,7 +152,13 @@ flowchart TD
 
 **Command:** `gh secret remove {SecretName}`
 
-## Usage Examples
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 📝 Usage Examples
 
 ### Delete Default Azure Credentials Secret
 
@@ -146,7 +193,13 @@ GitHub secret deletion completed.
 
 </details>
 
-## Error Handling
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## ⚠️ Error Handling
 
 ### Error Action Preference
 
@@ -170,7 +223,13 @@ The script is **idempotent**:
 - Safe to run multiple times
 - No error if already deleted
 
-## Troubleshooting
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🛠️ Troubleshooting
 
 ### Common Issues
 
@@ -195,7 +254,13 @@ gh secret list
 gh secret list | findstr "AZURE_CREDENTIALS"
 ```
 
-## Security Considerations
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔒 Security Considerations
 
 ### Immediate Effect
 
@@ -214,7 +279,13 @@ gh secret list | findstr "AZURE_CREDENTIALS"
 - GitHub audit logs record secret deletion
 - Deletion cannot be undone - must recreate secret
 
-## Related Scripts
+---
+
+[⬆️ Back to Top](#-table-of-contents)
+
+---
+
+## 🔗 Related Scripts
 
 | Script | Purpose | Link |
 |--------|---------|------|
