@@ -58,68 +58,85 @@ This folder contains detailed documentation for all CI/CD workflows that automat
 The following diagram shows the complete CI/CD pipeline architecture and how all workflows relate to each other:
 
 ```mermaid
+---
+title: Master Pipeline Architecture
+---
 flowchart TB
-    subgraph "🎯 Triggers"
+    %% ===== TRIGGERS =====
+    subgraph Triggers["🎯 Triggers"]
         direction LR
-        T1([Push: feature/**])
-        T2([Push: fix/**])
-        T3([PR to main])
-        T4([Manual: Deploy])
-        T5([Manual: Release])
+        T1(["🌿 Push: feature/**"])
+        T2(["🔧 Push: fix/**"])
+        T3(["📝 PR to main"])
+        T4(["🖱️ Manual: Deploy"])
+        T5(["🖱️ Manual: Release"])
     end
 
-    subgraph "🔄 Continuous Integration"
+    %% ===== CONTINUOUS INTEGRATION =====
+    subgraph CI["🔄 Continuous Integration"]
         direction TB
         CI1["📊 generate-tag-version"]
         CI2["🔨 build"]
-        CI1 --> CI2
+        CI1 -->|calculates| CI2
     end
 
-    subgraph "🚀 Deployment"
+    %% ===== DEPLOYMENT =====
+    subgraph Deployment["🚀 Deployment"]
         direction TB
         D1["✅ Validate Variables"]
         D2["🔨 Build Bicep"]
         D3["🔐 Azure OIDC Auth"]
         D4["☁️ azd provision"]
-        D1 --> D2 --> D3 --> D4
+        D1 -->|validates| D2 -->|authenticates| D3 -->|provisions| D4
     end
 
-    subgraph "🏷️ Release"
+    %% ===== RELEASE =====
+    subgraph Release["🏷️ Release"]
         direction TB
         R1["📊 generate-release"]
         R2["🔨 build"]
         R3["🎉 publish-release"]
         R4["📋 summary"]
-        R1 --> R2 --> R3 --> R4
+        R1 -->|prepares| R2 -->|publishes| R3 -->|summarizes| R4
     end
 
-    subgraph "📦 Outputs"
+    %% ===== OUTPUTS =====
+    subgraph Outputs["📦 Outputs"]
         direction TB
-        O1[/"Versioned Artifacts"/]
-        O2[/"GitHub Release"/]
-        O3[(Azure Resources)]
+        O1[/"✅ Versioned Artifacts"/]
+        O2[/"🏷️ GitHub Release"/]
+        O3[("☁️ Azure Resources")]
     end
 
-    T1 & T2 & T3 --> CI1
-    T4 --> D1
-    T5 --> R1
+    %% ===== CONNECTIONS =====
+    T1 & T2 & T3 -->|triggers| CI1
+    T4 -->|triggers| D1
+    T5 -->|triggers| R1
 
-    CI2 --> O1
-    R3 --> O1
-    R3 --> O2
-    D4 --> O3
+    CI2 -->|produces| O1
+    R3 -->|creates| O1
+    R3 -->|creates| O2
+    D4 -->|provisions| O3
 
-    classDef trigger fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef ci fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef deploy fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef release fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef output fill:#607D8B,stroke:#455A64,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
 
     class T1,T2,T3,T4,T5 trigger
-    class CI1,CI2 ci
-    class D1,D2,D3,D4 deploy
-    class R1,R2,R3,R4 release
-    class O1,O2,O3 output
+    class CI1,CI2 primary
+    class D1,D2,D3,D4 secondary
+    class R1,R2,R3,R4 datastore
+    class O1,O2,O3 external
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Triggers fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style CI fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Deployment fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Release fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Outputs fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 ---
@@ -147,25 +164,35 @@ flowchart TB
 ### Trigger Summary
 
 ```mermaid
+---
+title: Trigger Summary
+---
 flowchart LR
-    subgraph "Automatic Triggers"
-        A1["Push to feature/**"] --> CI["CI Workflow"]
-        A2["Push to fix/**"] --> CI
-        A3["PR to main"] --> CI
+    %% ===== AUTOMATIC TRIGGERS =====
+    subgraph AutoTriggers["🔄 Automatic Triggers"]
+        A1["🌿 Push to feature/**"] -->|triggers| CI["📊 CI Workflow"]
+        A2["🔧 Push to fix/**"] -->|triggers| CI
+        A3["📝 PR to main"] -->|triggers| CI
     end
 
-    subgraph "Manual Triggers"
-        M1["workflow_dispatch"] --> DEPLOY["Deploy Workflow"]
-        M2["workflow_dispatch"] --> RELEASE["Release Workflow"]
+    %% ===== MANUAL TRIGGERS =====
+    subgraph ManualTriggers["🖱️ Manual Triggers"]
+        M1["🖱️ workflow_dispatch"] -->|triggers| DEPLOY["🚀 Deploy Workflow"]
+        M2["🖱️ workflow_dispatch"] -->|triggers| RELEASE["🏷️ Release Workflow"]
     end
 
-    classDef auto fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef manual fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef workflow fill:#FF9800,stroke:#EF6C00,color:#fff
+    %% ===== STYLES =====
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
 
-    class A1,A2,A3 auto
-    class M1,M2 manual
-    class CI,DEPLOY,RELEASE workflow
+    class A1,A2,A3 secondary
+    class M1,M2 trigger
+    class CI,DEPLOY,RELEASE datastore
+    
+    %% ===== SUBGRAPH STYLES =====
+    style AutoTriggers fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style ManualTriggers fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 ### Required Secrets & Variables
@@ -206,26 +233,39 @@ flowchart LR
 ### Action Flow
 
 ```mermaid
+---
+title: Reusable Actions Flow
+---
 flowchart LR
-    subgraph "generate-release"
-        GR1["Get Branch Info"]
-        GR2["Get Latest Tag"]
-        GR3["Determine Release Type"]
-        GR4["Count Commits"]
-        GR5["Calculate Version"]
-        GR6["Create Tag"]
-        GR1 --> GR2 --> GR3 --> GR4 --> GR5 --> GR6
+    %% ===== GENERATE RELEASE ACTION =====
+    subgraph GenerateRelease["🏷️ generate-release"]
+        GR1["📋 Get Branch Info"]
+        GR2["🏷️ Get Latest Tag"]
+        GR3["🔍 Determine Release Type"]
+        GR4["📊 Count Commits"]
+        GR5["🔢 Calculate Version"]
+        GR6["🏷️ Create Tag"]
+        GR1 -->|gets| GR2 -->|determines| GR3 -->|counts| GR4 -->|calculates| GR5 -->|creates| GR6
     end
 
-    subgraph "bicep-standard-ci"
-        BC1["Build Bicep"]
-        BC2["Upload Artifacts"]
-        BC3["Generate Summary"]
-        BC1 --> BC2 --> BC3
+    %% ===== BICEP STANDARD CI ACTION =====
+    subgraph BicepCI["🔨 bicep-standard-ci"]
+        BC1["📦 Build Bicep"]
+        BC2["📤 Upload Artifacts"]
+        BC3["📊 Generate Summary"]
+        BC1 -->|uploads| BC2 -->|summarizes| BC3
     end
 
-    classDef action fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    class GR1,GR2,GR3,GR4,GR5,GR6,BC1,BC2,BC3 action
+    %% ===== STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    
+    class GR1,GR2,GR3,GR4,GR5,GR6 primary
+    class BC1,BC2,BC3 secondary
+    
+    %% ===== SUBGRAPH STYLES =====
+    style GenerateRelease fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style BicepCI fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ---
