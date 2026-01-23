@@ -57,55 +57,80 @@ This script retrieves the current Azure AD signed-in user and assigns DevCenter-
 ## 📊 Flow Visualization
 
 ```mermaid
+---
+title: Create Users and Assign Role Flow
+---
 flowchart TD
-    subgraph Entry["Script Entry"]
-        A([createUsersAndAssignRole.ps1 Start]):::entry
-        B[/"Parse Parameters"/]:::input
+    %% ===== SCRIPT ENTRY =====
+    subgraph Entry["📥 Script Entry"]
+        A(["🚀 createUsersAndAssignRole.ps1 Start"])
+        B[/"📝 Parse Parameters"/]
     end
     
-    subgraph SubCheck["Subscription Resolution"]
-        C{SubscriptionId provided?}:::decision
-        D[(az account show)]:::external
+    %% ===== SUBSCRIPTION RESOLUTION =====
+    subgraph SubCheck["🔍 Subscription Resolution"]
+        C{"📋 SubscriptionId provided?"}
+        D[("☁️ az account show")]
     end
     
-    subgraph UserLookup["User Identification"]
-        E["New-UserRoleAssignments"]:::core
-        F[(az ad signed-in-user show)]:::external
-        G["Get current user Object ID"]:::core
+    %% ===== USER IDENTIFICATION =====
+    subgraph UserLookup["👤 User Identification"]
+        E["⚙️ New-UserRoleAssignments"]
+        F[("🔍 az ad signed-in-user show")]
+        G["🆔 Get current user Object ID"]
     end
     
-    subgraph RoleLoop["Role Assignment Loop"]
-        H["For each DevCenter role"]:::core
-        I["Set-AzureRole"]:::core
-        I1{Role already assigned?}:::decision
-        I2["Skip - already assigned"]:::core
-        I3[(az role assignment create)]:::external
+    %% ===== ROLE ASSIGNMENT LOOP =====
+    subgraph RoleLoop["🔄 Role Assignment Loop"]
+        H["📋 For each DevCenter role"]
+        I["🔐 Set-AzureRole"]
+        I1{"✅ Role already assigned?"}
+        I2["⏭️ Skip - already assigned"]
+        I3[("🔑 az role assignment create")]
     end
     
-    subgraph Exit["Script Exit"]
-        J{All succeeded?}:::decision
-        K[\Roles Assigned\]:::output
-        L{{Error Handler}}:::error
+    %% ===== SCRIPT EXIT =====
+    subgraph Exit["📤 Script Exit"]
+        J{"✅ All succeeded?"}
+        K[\"🎉 Roles Assigned"\]
+        L{{"❌ Error Handler"}}
     end
     
-    A --> B --> C
-    C -->|No| D --> E
+    %% ===== CONNECTIONS =====
+    A -->|parses| B -->|checks| C
+    C -->|No| D -->|continues| E
     C -->|Yes| E
-    E --> F --> G --> H
-    H --> I --> I1
-    I1 -->|Yes| I2 --> H
-    I1 -->|No| I3 --> H
+    E -->|calls| F -->|retrieves| G -->|iterates| H
+    H -->|assigns| I -->|checks| I1
+    I1 -->|Yes| I2 -->|next| H
+    I1 -->|No| I3 -->|next| H
     H -->|All roles processed| J
     J -->|Yes| K
     J -->|No| L
 
-    classDef entry fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef input fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef core fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef external fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef decision fill:#FFC107,stroke:#FFA000,color:#000
-    classDef output fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef error fill:#F44336,stroke:#C62828,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef input fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    
+    class A trigger
+    class B input
+    class E,G,H,I,I2 primary
+    class D,F,I3 external
+    class C,I1,J decision
+    class K secondary
+    class L failed
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Entry fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style SubCheck fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style UserLookup fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style RoleLoop fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Exit fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---

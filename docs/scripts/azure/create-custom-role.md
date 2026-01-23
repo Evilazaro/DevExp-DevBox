@@ -59,55 +59,80 @@ This script creates a custom Azure RBAC role definition that grants permissions 
 ## 📊 Flow Visualization
 
 ```mermaid
+---
+title: Create Custom Role Flow
+---
 flowchart TD
-    subgraph Entry["Script Entry"]
-        A([createCustomRole.ps1 Start]):::entry
-        B[/"Parse Parameters"/]:::input
+    %% ===== SCRIPT ENTRY =====
+    subgraph Entry["📥 Script Entry"]
+        A(["🚀 createCustomRole.ps1 Start"])
+        B[/"📝 Parse Parameters"/]
     end
     
-    subgraph SubCheck["Subscription Resolution"]
-        C{SubscriptionId provided?}:::decision
-        D["Get-CurrentSubscriptionId"]:::core
-        E[(Azure CLI)]:::external
+    %% ===== SUBSCRIPTION RESOLUTION =====
+    subgraph SubCheck["🔍 Subscription Resolution"]
+        C{"📋 SubscriptionId provided?"}
+        D["⚙️ Get-CurrentSubscriptionId"]
+        E[("☁️ Azure CLI")]
     end
     
-    subgraph RoleCreation["Role Definition Creation"]
-        F["New-CustomRoleDefinition"]:::core
-        F1["Build role definition JSON"]:::core
-        F2["Write to temp file"]:::core
-        F3{Force flag set?}:::decision
-        F4["Delete existing role"]:::core
-        F5[(az role definition create)]:::external
+    %% ===== ROLE CREATION =====
+    subgraph RoleCreation["🔐 Role Definition Creation"]
+        F["⚙️ New-CustomRoleDefinition"]
+        F1["📄 Build role definition JSON"]
+        F2["📝 Write to temp file"]
+        F3{"🔄 Force flag set?"}
+        F4["🗑️ Delete existing role"]
+        F5[("🔑 az role definition create")]
     end
     
-    subgraph Cleanup["Cleanup"]
-        G["Remove temp file"]:::core
+    %% ===== CLEANUP =====
+    subgraph Cleanup["🧹 Cleanup"]
+        G["🗑️ Remove temp file"]
     end
     
-    subgraph Exit["Script Exit"]
-        H{Success?}:::decision
-        I[\Role Created\]:::output
-        J{{Error Handler}}:::error
+    %% ===== SCRIPT EXIT =====
+    subgraph Exit["📤 Script Exit"]
+        H{"✅ Success?"}
+        I[\"🎉 Role Created"\]
+        J{{"❌ Error Handler"}}
     end
     
-    A --> B --> C
-    C -->|No| D --> E
+    %% ===== CONNECTIONS =====
+    A -->|parses| B -->|checks| C
+    C -->|No| D -->|calls| E
     C -->|Yes| F
-    E --> F
-    F --> F1 --> F2 --> F3
-    F3 -->|Yes| F4 --> F5
+    E -->|provides| F
+    F -->|builds| F1 -->|writes| F2 -->|checks| F3
+    F3 -->|Yes| F4 -->|creates| F5
     F3 -->|No| F5
-    F5 --> G --> H
+    F5 -->|cleans| G -->|evaluates| H
     H -->|Yes| I
     H -->|No| J
 
-    classDef entry fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef input fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef core fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef external fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef decision fill:#FFC107,stroke:#FFA000,color:#000
-    classDef output fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef error fill:#F44336,stroke:#C62828,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef input fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    
+    class A trigger
+    class B input
+    class D,F,F1,F2,F4,G primary
+    class E,F5 external
+    class C,F3,H decision
+    class I secondary
+    class J failed
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Entry fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style SubCheck fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style RoleCreation fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Cleanup fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Exit fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---
