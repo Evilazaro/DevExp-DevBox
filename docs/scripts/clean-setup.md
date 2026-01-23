@@ -60,69 +60,100 @@ This script orchestrates the complete cleanup of DevExp-DevBox infrastructure, i
 ## 📊 Flow Visualization
 
 ```mermaid
+---
+title: Clean Setup Script Flow
+---
 flowchart TD
-    subgraph Entry["Script Entry"]
-        A([cleanSetUp.ps1 Start]):::entry
-        B[/"Parse Parameters"/]:::input
+    %% ===== SCRIPT ENTRY =====
+    subgraph Entry["📥 Script Entry"]
+        A(["🚀 cleanSetUp.ps1 Start"])
+        B[/"📝 Parse Parameters"/]
     end
     
-    subgraph Main["Main Orchestration"]
-        C["Start-FullCleanup"]:::core
+    %% ===== MAIN ORCHESTRATION =====
+    subgraph Main["🎯 Main Orchestration"]
+        C["⚙️ Start-FullCleanup"]
     end
     
-    subgraph Deployments["Subscription Deployments"]
-        D["Remove-SubscriptionDeployments"]:::core
-        D1{Deployments exist?}:::decision
-        D2["Delete each deployment"]:::core
-        D3[\Deployments removed\]:::output
+    %% ===== SUBSCRIPTION DEPLOYMENTS =====
+    subgraph Deployments["📋 Subscription Deployments"]
+        D["🗑️ Remove-SubscriptionDeployments"]
+        D1{"📊 Deployments exist?"}
+        D2["🔄 Delete each deployment"]
+        D3[\"✅ Deployments removed"\]
     end
     
-    subgraph Users["User Cleanup"]
-        E["Invoke-CleanupScript"]:::core
-        E1["deleteUsersAndAssignedRoles.ps1"]:::external
+    %% ===== USER CLEANUP =====
+    subgraph Users["👥 User Cleanup"]
+        E["⚙️ Invoke-CleanupScript"]
+        E1[("🔧 deleteUsersAndAssignedRoles.ps1")]
     end
     
-    subgraph Credentials["Credentials Cleanup"]
-        F["Invoke-CleanupScript"]:::core
-        F1["deleteDeploymentCredentials.ps1"]:::external
+    %% ===== CREDENTIALS CLEANUP =====
+    subgraph Credentials["🔑 Credentials Cleanup"]
+        F["⚙️ Invoke-CleanupScript"]
+        F1[("🔧 deleteDeploymentCredentials.ps1")]
     end
     
-    subgraph GitHub["GitHub Secret Cleanup"]
-        G["Invoke-CleanupScript"]:::core
-        G1["deleteGitHubSecretAzureCredentials.ps1"]:::external
+    %% ===== GITHUB SECRET CLEANUP =====
+    subgraph GitHub["🐙 GitHub Secret Cleanup"]
+        G["⚙️ Invoke-CleanupScript"]
+        G1[("🔧 deleteGitHubSecretAzureCredentials.ps1")]
     end
     
-    subgraph Resources["Resource Groups"]
-        H["Invoke-CleanupScript"]:::core
-        H1["cleanUp.ps1"]:::external
+    %% ===== RESOURCE GROUPS =====
+    subgraph Resources["🏢 Resource Groups"]
+        H["⚙️ Invoke-CleanupScript"]
+        H1[("🔧 cleanUp.ps1")]
     end
     
-    subgraph Exit["Script Exit"]
-        I{All succeeded?}:::decision
-        J[\Success\]:::output
-        K{{Error Handler}}:::error
+    %% ===== SCRIPT EXIT =====
+    subgraph Exit["📤 Script Exit"]
+        I{"✅ All succeeded?"}
+        J[\"🎉 Success"\]
+        K{{"❌ Error Handler"}}
     end
     
-    A --> B --> C
-    C --> D
-    D --> D1
-    D1 -->|Yes| D2 --> D3
+    %% ===== CONNECTIONS =====
+    A -->|parses| B -->|orchestrates| C
+    C -->|removes| D
+    D -->|checks| D1
+    D1 -->|Yes| D2 -->|completes| D3
     D1 -->|No| D3
-    D3 --> E --> E1
-    E1 --> F --> F1
-    F1 --> G --> G1
-    G1 --> H --> H1
-    H1 --> I
+    D3 -->|invokes| E -->|runs| E1
+    E1 -->|invokes| F -->|runs| F1
+    F1 -->|invokes| G -->|runs| G1
+    G1 -->|invokes| H -->|runs| H1
+    H1 -->|evaluates| I
     I -->|Yes| J
     I -->|No| K
 
-    classDef entry fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef input fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef core fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef external fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef decision fill:#FFC107,stroke:#FFA000,color:#000
-    classDef output fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef error fill:#F44336,stroke:#C62828,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef input fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+
+    class A trigger
+    class B input
+    class C,D,E,F,G,H primary
+    class D2,D3,J secondary
+    class E1,F1,G1,H1 external
+    class D1,I decision
+    class K failed
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Entry fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Main fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Deployments fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Users fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Credentials fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style GitHub fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Resources fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Exit fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---

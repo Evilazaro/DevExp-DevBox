@@ -59,43 +59,63 @@ This documentation covers the PowerShell scripts used to set up, manage, and cle
 ## 🏗️ Scripts Architecture
 
 ```mermaid
+---
+title: Scripts Architecture
+---
 flowchart TB
-    subgraph RootScripts["Root Scripts"]
-        setUp["setUp.ps1\n(Environment Setup)"]:::root
-        cleanSetUp["cleanSetUp.ps1\n(Full Cleanup)"]:::root
+    %% ===== ROOT SCRIPTS =====
+    subgraph RootScripts["🚀 Root Scripts"]
+        setUp["📥 setUp.ps1<br/>(Environment Setup)"]
+        cleanSetUp["🗑️ cleanSetUp.ps1<br/>(Full Cleanup)"]
     end
     
-    subgraph AzureScripts["Azure Scripts"]
-        createRole["createCustomRole.ps1"]:::azure
-        createUsers["createUsersAndAssignRole.ps1"]:::azure
-        genCreds["generateDeploymentCredentials.ps1"]:::azure
-        deleteUsers["deleteUsersAndAssignedRoles.ps1"]:::azure
-        deleteCreds["deleteDeploymentCredentials.ps1"]:::azure
+    %% ===== AZURE SCRIPTS =====
+    subgraph AzureScripts["☁️ Azure Scripts"]
+        createRole["🔐 createCustomRole.ps1"]
+        createUsers["👥 createUsersAndAssignRole.ps1"]
+        genCreds["🔑 generateDeploymentCredentials.ps1"]
+        deleteUsers["👤 deleteUsersAndAssignedRoles.ps1"]
+        deleteCreds["🔒 deleteDeploymentCredentials.ps1"]
     end
     
-    subgraph GitHubScripts["GitHub Scripts"]
-        createSecret["createGitHubSecret\nAzureCredentials.ps1"]:::github
-        deleteSecret["deleteGitHubSecret\nAzureCredentials.ps1"]:::github
+    %% ===== GITHUB SCRIPTS =====
+    subgraph GitHubScripts["🐙 GitHub Scripts"]
+        createSecret["📝 createGitHubSecret<br/>AzureCredentials.ps1"]
+        deleteSecret["❌ deleteGitHubSecret<br/>AzureCredentials.ps1"]
     end
     
-    subgraph UtilityScripts["Utility Scripts"]
-        cleanUp["cleanUp.ps1\n(Resource Groups)"]:::utility
-        wingetUpdate["winget-update.ps1\n(Store Apps)"]:::utility
+    %% ===== UTILITY SCRIPTS =====
+    subgraph UtilityScripts["🔧 Utility Scripts"]
+        cleanUp["🗑️ cleanUp.ps1<br/>(Resource Groups)"]
+        wingetUpdate["📦 winget-update.ps1<br/>(Store Apps)"]
     end
     
-    setUp -->|"Initializes"| genCreds
-    genCreds -->|"Calls"| createUsers
-    genCreds -->|"Calls"| createSecret
+    %% ===== CONNECTIONS =====
+    setUp -->|initializes| genCreds
+    genCreds -->|calls| createUsers
+    genCreds -->|calls| createSecret
     
-    cleanSetUp -->|"Orchestrates"| deleteUsers
-    cleanSetUp -->|"Orchestrates"| deleteCreds
-    cleanSetUp -->|"Orchestrates"| deleteSecret
-    cleanSetUp -->|"Orchestrates"| cleanUp
+    cleanSetUp -->|orchestrates| deleteUsers
+    cleanSetUp -->|orchestrates| deleteCreds
+    cleanSetUp -->|orchestrates| deleteSecret
+    cleanSetUp -->|orchestrates| cleanUp
 
-    classDef root fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef azure fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef github fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef utility fill:#9C27B0,stroke:#6A1B9A,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class setUp,cleanSetUp trigger
+    class createRole,createUsers,genCreds,deleteUsers,deleteCreds primary
+    class createSecret,deleteSecret secondary
+    class cleanUp,wingetUpdate datastore
+    
+    %% ===== SUBGRAPH STYLES =====
+    style RootScripts fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style AzureScripts fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style GitHubScripts fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style UtilityScripts fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---
@@ -215,15 +235,22 @@ Scripts for resource management and Dev Box configuration.
 ### New Environment Setup
 
 ```mermaid
+---
+title: New Environment Setup Flow
+---
 flowchart LR
-    A[az login] --> B[setUp.ps1]
-    B --> C[generateDeploymentCredentials.ps1]
-    C --> D[azd provision]
+    A["☁️ az login"] -->|authenticates| B["📥 setUp.ps1"]
+    B -->|initializes| C["🔑 generateDeploymentCredentials.ps1"]
+    C -->|provisions| D["🚀 azd provision"]
     
-    style A fill:#4CAF50
-    style B fill:#2196F3
-    style C fill:#FF9800
-    style D fill:#4CAF50
+    %% ===== STYLES =====
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    
+    class A,D secondary
+    class B trigger
+    class C datastore
 ```
 
 ```powershell

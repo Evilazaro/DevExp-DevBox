@@ -60,84 +60,113 @@ This script automates the setup of an Azure Developer CLI (azd) environment for 
 ## 📊 Flow Visualization
 
 ```mermaid
+---
+title: Setup Script Flow
+---
 flowchart TD
-    subgraph Entry["Script Entry"]
-        A([setUp.ps1 Start]):::entry
-        B[/"Parse Parameters"/]:::input
-        C{Help requested?}:::decision
+    %% ===== SCRIPT ENTRY =====
+    subgraph Entry["📥 Script Entry"]
+        A(["🚀 setUp.ps1 Start"])
+        B[/"📝 Parse Parameters"/]
+        C{"❓ Help requested?"}
     end
     
-    subgraph Validation["Argument Validation"]
-        D["Test-Arguments"]:::validation
-        D1{EnvName provided?}:::decision
-        D2{SourceControl provided?}:::decision
-        D3["Select-SourceControlPlatform"]:::core
-        D4["Test-SourceControlValidation"]:::validation
+    %% ===== ARGUMENT VALIDATION =====
+    subgraph Validation["✅ Argument Validation"]
+        D["🔍 Test-Arguments"]
+        D1{"📋 EnvName provided?"}
+        D2{"🔗 SourceControl provided?"}
+        D3["🎯 Select-SourceControlPlatform"]
+        D4["✔️ Test-SourceControlValidation"]
     end
     
-    subgraph Tools["Tool Verification"]
-        E["Test-CommandAvailability"]:::validation
-        E1[(az)]:::external
-        E2[(azd)]:::external
-        E3[(gh)]:::external
+    %% ===== TOOL VERIFICATION =====
+    subgraph Tools["🔧 Tool Verification"]
+        E["🧪 Test-CommandAvailability"]
+        E1[("☁️ az")]
+        E2[("🚀 azd")]
+        E3[("🐙 gh")]
     end
     
-    subgraph Auth["Authentication"]
-        F["Test-AzureAuthentication"]:::validation
-        F1{Platform?}:::decision
-        F2["Test-GitHubAuthentication"]:::validation
-        F3["Test-AdoAuthentication"]:::validation
+    %% ===== AUTHENTICATION =====
+    subgraph Auth["🔐 Authentication"]
+        F["🔑 Test-AzureAuthentication"]
+        F1{"🎛️ Platform?"}
+        F2["🐙 Test-GitHubAuthentication"]
+        F3["🔷 Test-AdoAuthentication"]
     end
     
-    subgraph Token["Token Retrieval"]
-        G{Platform?}:::decision
-        G1["Get-SecureGitHubToken"]:::core
-        G2["Get-SecureAdoGitToken"]:::core
+    %% ===== TOKEN RETRIEVAL =====
+    subgraph Token["🎫 Token Retrieval"]
+        G{"🎛️ Platform?"}
+        G1["🔒 Get-SecureGitHubToken"]
+        G2["🔒 Get-SecureAdoGitToken"]
     end
     
-    subgraph Init["Environment Init"]
-        H["Initialize-AzdEnvironment"]:::core
-        H1["Create .azure directory"]:::core
-        H2["Write .env file"]:::core
-        H3["Configure azd"]:::core
+    %% ===== ENVIRONMENT INIT =====
+    subgraph Init["⚙️ Environment Init"]
+        H["🌐 Initialize-AzdEnvironment"]
+        H1["📁 Create .azure directory"]
+        H2["📝 Write .env file"]
+        H3["⚙️ Configure azd"]
     end
     
-    subgraph Exit["Script Exit"]
-        I[\Success\]:::output
-        J{{Error Handler}}:::error
+    %% ===== SCRIPT EXIT =====
+    subgraph Exit["📤 Script Exit"]
+        I[\"✅ Success"\]
+        J{{"❌ Error Handler"}}
     end
     
-    A --> B --> C
-    C -->|Yes| HELP[Show-Help] --> EXIT([Exit 0]):::entry
+    %% ===== CONNECTIONS =====
+    A -->|starts| B -->|checks| C
+    C -->|Yes| HELP["📖 Show-Help"] -->|exits| EXIT(["🚪 Exit 0"])
     C -->|No| D
-    D --> D1
+    D -->|validates| D1
     D1 -->|No| J
     D1 -->|Yes| D2
     D2 -->|No| D3
     D2 -->|Yes| D4
-    D3 --> D4
-    D4 --> E
-    E --> E1 & E2
-    E --> F
-    F --> F1
-    F1 -->|github| E3 --> F2
+    D3 -->|selects| D4
+    D4 -->|checks| E
+    E -->|verifies| E1 & E2
+    E -->|continues| F
+    F -->|determines| F1
+    F1 -->|github| E3 -->|validates| F2
     F1 -->|adogit| F3
-    F2 --> G
-    F3 --> G
+    F2 -->|retrieves| G
+    F3 -->|retrieves| G
     G -->|github| G1
     G -->|adogit| G2
-    G1 --> H
-    G2 --> H
-    H --> H1 --> H2 --> H3 --> I
+    G1 -->|initializes| H
+    G2 -->|initializes| H
+    H -->|creates| H1 -->|writes| H2 -->|configures| H3 -->|completes| I
 
-    classDef entry fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef input fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef core fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef validation fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef external fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef decision fill:#FFC107,stroke:#FFA000,color:#000
-    classDef output fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef error fill:#F44336,stroke:#C62828,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef input fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+
+    class A,EXIT trigger
+    class B input
+    class D,D4,E,F,F2,F3 primary
+    class E1,E2,E3 external
+    class C,D1,D2,F1,G decision
+    class D3,G1,G2,H,H1,H2,H3 secondary
+    class I secondary
+    class J,HELP failed
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Entry fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Validation fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Tools fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Auth fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Token fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Init fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Exit fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---
