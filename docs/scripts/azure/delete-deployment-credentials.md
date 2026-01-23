@@ -61,46 +61,69 @@ This script removes an Azure AD service principal and its associated application
 ## 📊 Flow Visualization
 
 ```mermaid
+---
+title: Delete Deployment Credentials Flow
+---
 flowchart TD
-    subgraph Entry["Script Entry"]
-        A([deleteDeploymentCredentials.ps1 Start]):::entry
-        B[/"Parse Parameters"/]:::input
+    %% ===== SCRIPT ENTRY =====
+    subgraph Entry["📥 Script Entry"]
+        A(["🚀 deleteDeploymentCredentials.ps1 Start"])
+        B[/"📝 Parse Parameters"/]
     end
     
-    subgraph Lookup["Application Lookup"]
-        C["Remove-AzureDeploymentCredentials"]:::core
-        D[(az ad app list)]:::external
-        E{App found?}:::decision
-        F["Get App ID"]:::core
+    %% ===== APPLICATION LOOKUP =====
+    subgraph Lookup["🔍 Application Lookup"]
+        C["⚙️ Remove-AzureDeploymentCredentials"]
+        D[("🔍 az ad app list")]
+        E{"📋 App found?"}
+        F["🆔 Get App ID"]
     end
     
-    subgraph Delete["Credential Deletion"]
-        G[(az ad sp delete)]:::external
-        H["Delete service principal"]:::core
-        I[(az ad app delete)]:::external
-        J["Delete app registration"]:::core
+    %% ===== CREDENTIAL DELETION =====
+    subgraph Delete["🗑️ Credential Deletion"]
+        G[("🗑️ az ad sp delete")]
+        H["👤 Delete service principal"]
+        I[("🗑️ az ad app delete")]
+        J["📝 Delete app registration"]
     end
     
-    subgraph Exit["Script Exit"]
-        K{Success?}:::decision
-        L[\Credentials Deleted\]:::output
-        M[\Not Found - Skip\]:::output
-        N{{Error Handler}}:::error
+    %% ===== SCRIPT EXIT =====
+    subgraph Exit["📤 Script Exit"]
+        K{"✅ Success?"}
+        L[\"🎉 Credentials Deleted"\]
+        M[\"⏭️ Not Found - Skip"\]
+        N{{"❌ Error Handler"}}
     end
     
-    A --> B --> C --> D --> E
+    %% ===== CONNECTIONS =====
+    A -->|parses| B -->|invokes| C -->|queries| D -->|checks| E
     E -->|No| M
-    E -->|Yes| F --> G --> H --> I --> J --> K
+    E -->|Yes| F -->|deletes| G -->|continues| H -->|deletes| I -->|completes| J -->|evaluates| K
     K -->|Yes| L
     K -->|No| N
 
-    classDef entry fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef input fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef core fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef external fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef decision fill:#FFC107,stroke:#FFA000,color:#000
-    classDef output fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef error fill:#F44336,stroke:#C62828,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef input fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    
+    class A trigger
+    class B input
+    class C,F,H,J primary
+    class D,G,I external
+    class E,K decision
+    class L,M secondary
+    class N failed
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Entry fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Lookup fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Delete fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Exit fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---

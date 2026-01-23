@@ -64,50 +64,75 @@ This script creates an Azure AD service principal with required roles for CI/CD 
 ## 📊 Flow Visualization
 
 ```mermaid
+---
+title: Generate Deployment Credentials Flow
+---
 flowchart TD
-    subgraph Entry["Script Entry"]
-        A([generateDeploymentCredentials.ps1 Start]):::entry
-        B[/"Parse Parameters"/]:::input
+    %% ===== SCRIPT ENTRY =====
+    subgraph Entry["📥 Script Entry"]
+        A(["🚀 generateDeploymentCredentials.ps1 Start"])
+        B[/"📝 Parse Parameters"/]
     end
     
-    subgraph SPCreation["Service Principal Creation"]
-        C["New-AzureDeploymentCredentials"]:::core
-        D[(az ad sp create-for-rbac)]:::external
-        E["Assign Contributor role"]:::core
-        F[(az role assignment create)]:::external
-        G["Assign User Access Administrator"]:::core
-        H["Assign Managed Identity Contributor"]:::core
+    %% ===== SERVICE PRINCIPAL CREATION =====
+    subgraph SPCreation["🔐 Service Principal Creation"]
+        C["⚙️ New-AzureDeploymentCredentials"]
+        D[("🔑 az ad sp create-for-rbac")]
+        E["👤 Assign Contributor role"]
+        F[("🛡️ az role assignment create")]
+        G["🔐 Assign User Access Administrator"]
+        H["🆔 Assign Managed Identity Contributor"]
     end
     
-    subgraph UserRoles["User Role Setup"]
-        I["Invoke-UserRoleAssignment"]:::core
-        J["createUsersAndAssignRole.ps1"]:::external
+    %% ===== USER ROLE SETUP =====
+    subgraph UserRoles["👥 User Role Setup"]
+        I["⚙️ Invoke-UserRoleAssignment"]
+        J[("🔧 createUsersAndAssignRole.ps1")]
     end
     
-    subgraph GitHubSecret["GitHub Secret Creation"]
-        K["Invoke-GitHubSecretCreation"]:::core
-        L["createGitHubSecretAzureCredentials.ps1"]:::external
+    %% ===== GITHUB SECRET CREATION =====
+    subgraph GitHubSecret["🐙 GitHub Secret Creation"]
+        K["⚙️ Invoke-GitHubSecretCreation"]
+        L[("📝 createGitHubSecretAzureCredentials.ps1")]
     end
     
-    subgraph Exit["Script Exit"]
-        M{All succeeded?}:::decision
-        N[\Credentials Created\]:::output
-        O{{Warning: Partial failure}}:::error
+    %% ===== SCRIPT EXIT =====
+    subgraph Exit["📤 Script Exit"]
+        M{"✅ All succeeded?"}
+        N[\"🎉 Credentials Created"\]
+        O{{"⚠️ Warning: Partial failure"}}
     end
     
-    A --> B --> C --> D --> E --> F --> G --> H
-    H --> I --> J
-    J --> K --> L --> M
+    %% ===== CONNECTIONS =====
+    A -->|parses| B -->|invokes| C -->|creates| D -->|assigns| E -->|calls| F -->|assigns| G -->|assigns| H
+    H -->|invokes| I -->|runs| J
+    J -->|invokes| K -->|runs| L -->|evaluates| M
     M -->|Yes| N
     M -->|No| O
 
-    classDef entry fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef input fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef core fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef external fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef decision fill:#FFC107,stroke:#FFA000,color:#000
-    classDef output fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef error fill:#F44336,stroke:#C62828,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef input fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    
+    class A trigger
+    class B input
+    class C,E,G,H,I,K primary
+    class D,F,J,L external
+    class M decision
+    class N secondary
+    class O failed
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Entry fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style SPCreation fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style UserRoles fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style GitHubSecret fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Exit fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---
