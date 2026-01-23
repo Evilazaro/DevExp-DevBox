@@ -472,6 +472,7 @@ flowchart LR
 **Scope:** `targetScope = 'subscription'`
 
 **Responsibilities:**
+
 - Load YAML configuration files
 - Create landing zone resource groups
 - Orchestrate module deployments with dependencies
@@ -510,6 +511,7 @@ module security 'src/security/security.bicep' = if (securityConfig.create) {
 **Scope:** Resource Group
 
 **Resources Created:**
+
 - Microsoft.DevCenter/devcenters
 - Diagnostic Settings
 - Catalogs (via child module)
@@ -517,6 +519,7 @@ module security 'src/security/security.bicep' = if (securityConfig.create) {
 - Role Assignments (via child module)
 
 **Key Features:**
+
 - SystemAssigned managed identity
 - Microsoft-hosted network support
 - Azure Monitor agent installation
@@ -548,6 +551,7 @@ resource devCenter 'Microsoft.DevCenter/devcenters@2024-08-01-preview' = {
 **Scope:** DevCenter
 
 **Resources Created:**
+
 - Microsoft.DevCenter/devcenters/projects
 - Project Pools (via child module)
 - Project Catalogs (via child module)
