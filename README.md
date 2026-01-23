@@ -108,16 +108,28 @@ This separation ensures that security-sensitive resources are isolated, monitori
 ### High-Level Architecture
 
 ```mermaid
+---
+title: DevExp-DevBox High-Level Architecture
+---
 flowchart TB
+    %% ===== EXTERNAL RESOURCES =====
+    subgraph External["🌍 External Resources"]
+        GH["📚 GitHub Catalog<br/>DSC Configurations"]
+    end
+
+    %% ===== AZURE SUBSCRIPTION =====
     subgraph SUB["☁️ Azure Subscription"]
+        %% ===== SECURITY LANDING ZONE =====
         subgraph Security["🔐 Security Landing Zone"]
-            KV["🔑 Key Vault<br/>Secrets & Credentials"]
+            KV[("🔑 Key Vault<br/>Secrets & Credentials")]
         end
         
+        %% ===== MONITORING LANDING ZONE =====
         subgraph Monitoring["📊 Monitoring Landing Zone"]
-            LA["📈 Log Analytics<br/>Centralized Logging"]
+            LA[("📈 Log Analytics<br/>Centralized Logging")]
         end
         
+        %% ===== WORKLOAD LANDING ZONE =====
         subgraph Workload["📦 Workload Landing Zone"]
             DC["🖥️ DevCenter<br/>Management Hub"]
             
@@ -132,35 +144,44 @@ flowchart TB
             end
         end
         
+        %% ===== CONNECTIVITY =====
         subgraph Connectivity["🌐 Connectivity"]
             VNET["🔗 Virtual Network"]
             NC["🔌 Network Connection"]
         end
     end
     
-    subgraph External["🌍 External Resources"]
-        GH["📚 GitHub Catalog<br/>DSC Configurations"]
-    end
-    
-    DC --> P1 & P2
-    P1 & P2 --> POOL1 & POOL2
-    POOL1 & POOL2 --> NC
-    NC --> VNET
-    DC -.->|"Sync"| GH
-    DC -.->|"Read Secrets"| KV
-    KV & DC & VNET -->|"Diagnostics"| LA
-    
-    classDef security fill:#FEE2E2,stroke:#DC2626,stroke-width:2px
-    classDef monitoring fill:#DBEAFE,stroke:#2563EB,stroke-width:2px
-    classDef workload fill:#D1FAE5,stroke:#059669,stroke-width:2px
-    classDef connectivity fill:#FEF3C7,stroke:#D97706,stroke-width:2px
-    classDef external fill:#F3E8FF,stroke:#7C3AED,stroke-width:2px
-    
-    class Security,KV security
-    class Monitoring,LA monitoring
-    class Workload,DC,Projects,P1,P2,Pools,POOL1,POOL2 workload
-    class Connectivity,VNET,NC connectivity
-    class External,GH external
+    %% ===== CONNECTIONS =====
+    DC -->|"manages"| P1 & P2
+    P1 & P2 -->|"provisions"| POOL1 & POOL2
+    POOL1 & POOL2 -->|"connects via"| NC
+    NC -->|"uses"| VNET
+    DC -.->|"syncs catalogs"| GH
+    DC -.->|"reads secrets"| KV
+    KV & DC & VNET -->|"sends diagnostics"| LA
+
+    %% ===== NODE STYLES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+
+    %% ===== APPLY NODE CLASSES =====
+    class DC,P1,P2 primary
+    class POOL1,POOL2,VNET,NC secondary
+    class KV,LA datastore
+    class GH external
+
+    %% ===== SUBGRAPH STYLES =====
+    style SUB fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style Security fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style Monitoring fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style Workload fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Projects fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style Pools fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style Connectivity fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style External fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 ### Azure Services Deployed
@@ -177,50 +198,67 @@ flowchart TB
 ### Module Dependency Flow
 
 ```mermaid
+---
+title: Module Dependency Flow
+---
 flowchart LR
+    %% ===== ORCHESTRATION LAYER =====
     subgraph Orchestration["🎯 Orchestration"]
         MAIN["main.bicep<br/>(Subscription Scope)"]
     end
     
+    %% ===== LANDING ZONE MODULES =====
     subgraph LandingZones["🏗️ Landing Zone Modules"]
         SEC["security.bicep"]
         MON["logAnalytics.bicep"]
         WL["workload.bicep"]
     end
     
+    %% ===== CORE RESOURCES =====
     subgraph CoreResources["⚙️ Core Resources"]
-        KV["keyVault.bicep"]
-        LA["logAnalytics.bicep"]
+        KV[("keyVault.bicep")]
+        LA[("logAnalytics.bicep")]
         DC["devCenter.bicep"]
         VNET["vnet.bicep"]
     end
     
+    %% ===== PROJECT RESOURCES =====
     subgraph ProjectResources["📁 Project Resources"]
         PROJ["project.bicep"]
         POOL["projectPool.bicep"]
         PCAT["projectCatalog.bicep"]
     end
     
-    MAIN --> SEC & MON & WL
-    SEC --> KV
-    MON --> LA
-    WL --> DC & VNET
-    DC --> PROJ
-    PROJ --> POOL & PCAT
+    %% ===== PRIMARY FLOW CONNECTIONS =====
+    MAIN ==>|"deploys"| SEC & MON & WL
+    SEC -->|"creates"| KV
+    MON -->|"creates"| LA
+    WL -->|"creates"| DC & VNET
+    DC -->|"creates"| PROJ
+    PROJ -->|"creates"| POOL & PCAT
     
-    KV -.->|"secrets"| DC
-    LA -.->|"diagnostics"| DC
-    VNET -.->|"network"| POOL
-    
-    classDef orch fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
-    classDef lz fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
-    classDef core fill:#10B981,stroke:#059669,color:#FFFFFF
-    classDef proj fill:#F59E0B,stroke:#D97706,color:#000000
-    
-    class MAIN orch
-    class SEC,MON,WL lz
-    class KV,LA,DC,VNET core
-    class PROJ,POOL,PCAT proj
+    %% ===== DEPENDENCY CONNECTIONS =====
+    KV -.->|"provides secrets"| DC
+    LA -.->|"receives diagnostics"| DC
+    VNET -.->|"provides network"| POOL
+
+    %% ===== NODE STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== APPLY NODE CLASSES =====
+    class MAIN trigger
+    class SEC,MON,WL primary
+    class KV,LA,DC,VNET secondary
+    class PROJ,POOL,PCAT datastore
+
+    %% ===== SUBGRAPH STYLES =====
+    style Orchestration fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style LandingZones fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style CoreResources fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style ProjectResources fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 <div align="right">
@@ -596,53 +634,72 @@ properties:
 ### Pipeline Architecture
 
 ```mermaid
+---
+title: CI/CD Pipeline Architecture
+---
 flowchart TB
+    %% ===== TRIGGERS =====
     subgraph Triggers["🎯 Triggers"]
         direction LR
-        T1["🌿 Push: feature/**"]
-        T2["🔧 Push: fix/**"]
-        T3["📝 PR to main"]
-        T4["🖱️ Manual: Deploy"]
-        T5["🖱️ Manual: Release"]
+        T1(["🌿 Push: feature/**"])
+        T2(["🔧 Push: fix/**"])
+        T3(["📝 PR to main"])
+        T4(["🖱️ Manual: Deploy"])
+        T5(["🖱️ Manual: Release"])
     end
     
+    %% ===== CONTINUOUS INTEGRATION =====
     subgraph CI["🔄 Continuous Integration (ci.yml)"]
         direction TB
         CI1["📊 generate-tag-version<br/>Semantic Version Calculation"]
         CI2["🔨 build<br/>Bicep Compilation & Validation"]
-        CI1 --> CI2
+        CI1 -->|"passes version"| CI2
     end
     
+    %% ===== DEPLOYMENT =====
     subgraph Deploy["🚀 Deployment (deploy.yml)"]
         direction TB
         D1["✅ Validate Variables<br/>Check Required Secrets"]
         D2["🔨 Build Bicep<br/>Compile Templates"]
         D3["🔐 OIDC Auth<br/>Federated Credentials"]
         D4["☁️ azd provision<br/>Deploy to Azure"]
-        D1 --> D2 --> D3 --> D4
+        D1 -->|"validates"| D2
+        D2 -->|"authenticates"| D3
+        D3 -->|"deploys"| D4
     end
     
+    %% ===== RELEASE =====
     subgraph Release["🏷️ Release (release.yml)"]
         direction TB
         R1["📊 generate-release<br/>Tag & Changelog"]
         R2["🔨 build<br/>Final Artifacts"]
-        R3["🎉 publish-release<br/>GitHub Release"]
-        R1 --> R2 --> R3
+        R3[/"🎉 publish-release<br/>GitHub Release"/]
+        R1 -->|"generates"| R2
+        R2 -->|"publishes"| R3
     end
     
-    T1 & T2 & T3 --> CI
-    T4 --> Deploy
-    T5 --> Release
-    
-    classDef trigger fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
-    classDef ci fill:#DBEAFE,stroke:#2563EB,stroke-width:2px
-    classDef deploy fill:#D1FAE5,stroke:#059669,stroke-width:2px
-    classDef release fill:#FEF3C7,stroke:#D97706,stroke-width:2px
-    
-    class Triggers,T1,T2,T3,T4,T5 trigger
-    class CI,CI1,CI2 ci
-    class Deploy,D1,D2,D3,D4 deploy
-    class Release,R1,R2,R3 release
+    %% ===== WORKFLOW CONNECTIONS =====
+    T1 & T2 & T3 -->|"triggers"| CI
+    T4 -->|"triggers"| Deploy
+    T5 -->|"triggers"| Release
+
+    %% ===== NODE STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000
+
+    %% ===== APPLY NODE CLASSES =====
+    class T1,T2,T3,T4,T5 trigger
+    class CI1,CI2 primary
+    class D1,D2,D3,D4 secondary
+    class R1,R2,R3 datastore
+
+    %% ===== SUBGRAPH STYLES =====
+    style Triggers fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style CI fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Deploy fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style Release fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ### Workflows Overview
