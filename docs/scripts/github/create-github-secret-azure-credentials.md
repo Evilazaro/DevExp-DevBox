@@ -61,44 +61,67 @@ This script authenticates to GitHub using the GitHub CLI and creates a repositor
 ## 📊 Flow Visualization
 
 ```mermaid
+---
+title: Create GitHub Secret Flow
+---
 flowchart TD
-    subgraph Entry["Script Entry"]
-        A([createGitHubSecretAzureCredentials.ps1 Start]):::entry
-        B[/"Parse Parameters"/]:::input
+    %% ===== SCRIPT ENTRY =====
+    subgraph Entry["📥 Script Entry"]
+        A(["🚀 createGitHubSecretAzureCredentials.ps1 Start"])
+        B[/"📝 Parse Parameters"/]
     end
     
-    subgraph Auth["GitHub Authentication"]
-        C["Connect-GitHubCli"]:::core
-        D[(gh auth status)]:::external
-        E{Authenticated?}:::decision
-        F[(gh auth login)]:::external
+    %% ===== GITHUB AUTHENTICATION =====
+    subgraph Auth["🔐 GitHub Authentication"]
+        C["⚙️ Connect-GitHubCli"]
+        D[("🐙 gh auth status")]
+        E{"✅ Authenticated?"}
+        F[("🔑 gh auth login")]
     end
     
-    subgraph SecretCreation["Secret Creation"]
-        G["Set-GitHubRepositorySecret"]:::core
-        H[(gh secret set)]:::external
+    %% ===== SECRET CREATION =====
+    subgraph SecretCreation["📝 Secret Creation"]
+        G["⚙️ Set-GitHubRepositorySecret"]
+        H[("🔒 gh secret set")]
     end
     
-    subgraph Exit["Script Exit"]
-        I{Success?}:::decision
-        J[\Secret Created\]:::output
-        K{{Error Handler}}:::error
+    %% ===== SCRIPT EXIT =====
+    subgraph Exit["📤 Script Exit"]
+        I{"✅ Success?"}
+        J[\"🎉 Secret Created"\]
+        K{{"❌ Error Handler"}}
     end
     
-    A --> B --> C --> D --> E
+    %% ===== CONNECTIONS =====
+    A -->|parses| B -->|connects| C -->|checks| D -->|evaluates| E
     E -->|Yes| G
-    E -->|No| F --> G
-    G --> H --> I
+    E -->|No| F -->|authenticates| G
+    G -->|creates| H -->|evaluates| I
     I -->|Yes| J
     I -->|No| K
 
-    classDef entry fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef input fill:#9C27B0,stroke:#6A1B9A,color:#fff
-    classDef core fill:#FF9800,stroke:#EF6C00,color:#fff
-    classDef external fill:#4CAF50,stroke:#2E7D32,color:#fff
-    classDef decision fill:#FFC107,stroke:#FFA000,color:#000
-    classDef output fill:#2196F3,stroke:#1565C0,color:#fff
-    classDef error fill:#F44336,stroke:#C62828,color:#fff
+    %% ===== STYLES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF
+    classDef input fill:#F59E0B,stroke:#D97706,color:#000000
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-dasharray:5 5
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF
+    
+    class A trigger
+    class B input
+    class C,G primary
+    class D,F,H external
+    class E,I decision
+    class J secondary
+    class K failed
+    
+    %% ===== SUBGRAPH STYLES =====
+    style Entry fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style Auth fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style SecretCreation fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style Exit fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 ---
