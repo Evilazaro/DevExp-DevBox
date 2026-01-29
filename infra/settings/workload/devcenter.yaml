@@ -1,21 +1,20 @@
 # yaml-language-server: $schema=./devcenter.schema.json
-# =============================================================================
-# File: devcenter.yaml
-# Purpose: Dev Center Configuration for Microsoft Dev Box Accelerator
-# Description: Defines the Dev Center resource, projects, catalogs, and environment types
-# =============================================================================
-#
-# This configuration establishes a centralized developer workstation platform with
-# role-specific configurations and appropriate access controls.
-#
-# References:
-# - Microsoft Dev Box accelerator: https://evilazaro.github.io/DevExp-DevBox/docs/configureresources/workload/
-# - Dev Center documentation: https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box
-# - Azure RBAC roles: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
 
-# =============================================================================
-# Dev Center Core Settings
-# =============================================================================
+# ============================================================================
+# Dev Center Configuration File
+# ============================================================================
+# This YAML file defines the configuration for an Azure Dev Center deployment.
+# It includes settings for:
+#   - Dev Center identity and role-based access control (RBAC)
+#   - Catalogs for Dev Box configurations and environment definitions
+#   - Environment types for different stages of the development lifecycle
+#   - Projects with their networks, pools, and team assignments
+#   - Resource tagging for governance and cost management
+#
+# For more information, see:
+# https://learn.microsoft.com/en-us/azure/dev-box/
+# ============================================================================
+
 name: "devexp-devcenter"
 catalogItemSyncEnableStatus: "Enabled"
 microsoftHostedNetworkEnableStatus: "Enabled"

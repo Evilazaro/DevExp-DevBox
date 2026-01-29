@@ -1,19 +1,9 @@
 # yaml-language-server: $schema=./security.schema.json
-# =============================================================================
-# File: security.yaml
-# Purpose: Azure Key Vault Configuration for Dev Box Accelerator
-# Description: Centralized management of secrets, keys, and certificates
-# =============================================================================
-#
-# This file defines the configuration for an Azure Key Vault resource used for
-# storing sensitive credentials and secrets in the development environment.
-#
-# References:
-# - Microsoft Dev Box accelerator: https://evilazaro.github.io/DevExp-DevBox/docs/configureresources/security/
-# - Azure Key Vault documentation: https://learn.microsoft.com/en-us/azure/key-vault/general/basic-concepts
-# - Azure Key Vault best practices: https://learn.microsoft.com/en-us/azure/key-vault/general/best-practices
 
-# Top-level flag: Should the Key Vault resource be created?
+# Security Configuration File
+# This file defines the security infrastructure settings for the DevExp-DevBox project.
+# It configures Azure Key Vault resources for secure secret management.
+
 create: true
 
 # Key Vault configuration block

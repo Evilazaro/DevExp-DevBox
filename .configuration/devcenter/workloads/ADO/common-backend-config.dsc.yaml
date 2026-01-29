@@ -1,22 +1,29 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
 #
-# Backend Development Configuration Sample for .NET Engineers
-# =============================================
+# =============================================================================
+# Common Backend Configuration - Azure Development Tools
+# =============================================================================
 #
 # Purpose:
-#   This DSC configuration installs essential tools for Azure backend development including:
-#   - Source control tools (GitHub Desktop)
-#   - Azure command-line tools (CLI, AZD, Bicep)
-#   - Local development emulators for Azure services
+#   This DSC (Desired State Configuration) file defines the standard set of
+#   Azure development tools required for backend development workloads in
+#   Azure DevOps (ADO) environments.
 #
-# Best Practices:
-#   - All tools are installed via WinGet for consistent versioning
-#   - Dependencies are explicitly declared to ensure proper installation order
-#   - Tools are grouped logically by purpose
-#   - Configuration should be version controlled and tested in CI/CD pipelines
-#   - Regular updates to ensure latest security patches and features
-#   - Separation of development tools from production configurations
+# Contents:
+#   - Azure Command-Line Tools (Azure CLI, Azure Developer CLI, Bicep CLI)
+#   - Local Development Emulators (Azure Storage Emulator)
 #
+# Usage:
+#   This configuration is applied to Dev Box environments to ensure consistent
+#   tooling across development teams working on Azure backend services.
+#
+# Dependencies:
+#   - Windows Package Manager (WinGet) must be available
+#   - Some tools have interdependencies (documented in resource sections)
+#
+# Maintainer: DevExp-DevBox Team
+# =============================================================================
+
 properties:
   configurationVersion: "0.2.0"
   resources:

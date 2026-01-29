@@ -5,38 +5,41 @@
     Creates a custom Azure RBAC role for role assignment management.
 
 .DESCRIPTION
-    This script creates a custom Azure role definition that grants permissions
-    to manage role assignments. The role includes permissions to read, write,
-    and delete role assignments within a specified subscription scope.
+    This script creates a custom Azure RBAC role definition that allows creating,
+    reading, and deleting role assignments. The role is scoped to a specific
+    subscription and can be used to delegate role assignment permissions.
 
 .PARAMETER RoleName
-    The display name for the custom role. Defaults to 'Contoso DevBox - Role Assignment Writer'.
+    The name of the custom role to create. Defaults to "Contoso DevBox - Role Assignment Writer".
 
 .PARAMETER SubscriptionId
-    The Azure subscription ID where the role will be scoped. If not provided,
-    the current subscription is used.
+    The Azure subscription ID where the role will be created. Must be a valid GUID format.
+    If not provided, the script will use the current Azure CLI subscription.
 
 .PARAMETER Description
-    Description for the custom role. Defaults to 'Allows creating role assignments.'
+    A description for the custom role. Defaults to "Allows creating role assignments."
 
 .PARAMETER Force
-    If specified, deletes any existing role with the same name before creating.
+    If specified, removes any existing role with the same name before creating the new one.
 
 .EXAMPLE
     .\createCustomRole.ps1
-    Creates the custom role using the current subscription.
+    Creates the default custom role in the current subscription.
 
 .EXAMPLE
-    .\createCustomRole.ps1 -SubscriptionId "12345678-1234-1234-1234-123456789012"
-    Creates the custom role scoped to a specific subscription.
+    .\createCustomRole.ps1 -RoleName "My Custom Role" -SubscriptionId "12345678-1234-1234-1234-123456789012"
+    Creates a custom role with the specified name in the specified subscription.
 
 .EXAMPLE
-    .\createCustomRole.ps1 -RoleName "MyCompany Role Writer" -Force
-    Creates a custom role with a different name, removing any existing role first.
+    .\createCustomRole.ps1 -Force -Verbose
+    Creates the custom role, removing any existing role with the same name first, with verbose output.
 
 .NOTES
-    Author: DevExp Team
-    Requires: Azure CLI (az) authenticated with appropriate permissions
+    Requires Azure CLI to be installed and authenticated.
+    The executing user must have permissions to create role definitions in the target subscription.
+
+.LINK
+    https://docs.microsoft.com/en-us/azure/role-based-access-control/custom-roles
 #>
 
 [CmdletBinding(SupportsShouldProcess)]

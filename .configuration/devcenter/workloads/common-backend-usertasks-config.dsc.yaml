@@ -1,34 +1,29 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+##################################################################################
+# Common Backend User Tasks Configuration
+# 
+# This DSC (Desired State Configuration) file provisions a complete backend
+# development environment for Azure cloud-native application development.
 #
-# Backend Development Configuration Sample for .NET Engineers
-# =============================================
+# Components Installed:
+#   - WSL2 with Ubuntu distribution for cross-platform development
+#   - Azure CLI, Azure Developer CLI, and Bicep tools (Linux)
+#   - .NET 9 SDK and ASP.NET Core Runtime (Linux)
+#   - Docker Desktop for container development
+#   - Helm for Kubernetes package management
+#   - Postman for API testing
+#   - VS Code extensions for Azure backend development
 #
-# Purpose:
-#   This DSC configuration creates a complete Azure backend development environment with:
-#   - WSL2 with Ubuntu for Linux-based development
-#   - Azure CLI tools in both Windows and Ubuntu environments
-#   - .NET development tools in both environments
-#   - Container tools (Docker Desktop, Helm) for microservice development
-#   - API testing tools (Postman)
+# Prerequisites:
+#   - Windows 10/11 with WSL2 support
+#   - Administrator privileges for installation
+#   - Visual Studio Code installed
 #
-# Requirements:
-#   - with Windows 11
-#   - Administrator access for tool installation
-#   - Internet connectivity for package downloads
-#
-# Security Considerations:
-#   - Uses secure communication channels for downloads
-#   - Applies principle of least privilege where possible
-#   - Uses official Microsoft installation methods
-#
-# Best Practices:
-#   - Uses Windows and WSL2 for a complete cross-platform experience
-#   - Applies principle of least privilege where possible
-#   - Maintains consistent environment between Windows and Linux
-#   - Uses official Microsoft installation methods for all tools
-#
-# Maintainer: DevExp Team
-#
+# Usage:
+#   This configuration is applied automatically by Dev Box during provisioning
+#   or can be manually applied using WinGet Configuration.
+##################################################################################
+
 properties:
   configurationVersion: 0.2.0
 

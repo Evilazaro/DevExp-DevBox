@@ -1,20 +1,29 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
 #
-# Common Configuration Sample for .NET Engineers
-# =================================
+# Common Configuration for Azure DevOps Development Environment
+# ==============================================================
+#
+# This DSC (Desired State Configuration) file defines the common development
+# tools and runtimes required for Azure DevOps (ADO) development workflows.
 #
 # Purpose:
-#   This DSC configuration sets up a standard development environment with:
-#   - Development storage using Dev Drive
-#   - Source control tools (Git, GitHub CLI)
-#   - Development runtimes (.NET 9 SDK and Runtime)
-#   - Development tools (VS Code, Node.js)
+#   Automates the installation and configuration of essential development tools
+#   for developers working with Azure DevOps, ensuring a consistent and
+#   reproducible development environment.
 #
-# Prerequisites:
-#   - Windows 10/11 with admin privileges
-#   - Internet connectivity for package downloads
+# Components:
+#   - Source Control Tools: Git, GitHub CLI
+#   - Development Runtimes: .NET SDK 9, .NET Runtime 9, Node.js
+#   - Development Tools: Visual Studio Code
 #
-# Maintainers: DevExp Team
+# Usage:
+#   This configuration is applied through Microsoft Dev Box or Windows Package
+#   Manager (WinGet) DSC to provision developer workstations automatically.
+#
+# Dependencies:
+#   - Windows Package Manager (WinGet) must be available on the target system
+#   - Internet connectivity required for package downloads
+#
 
 properties:
   configurationVersion: "0.2.0"

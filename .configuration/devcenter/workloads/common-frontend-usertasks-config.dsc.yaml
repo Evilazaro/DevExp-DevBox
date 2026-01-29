@@ -1,26 +1,25 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
-#
-# Frontend Development Configuration Sample for .NET Engineers
-# =============================================
+##################################################################################
+# Common Frontend User Tasks Configuration
+# 
+# This DSC (Desired State Configuration) file defines the standard development
+# environment setup for frontend developers working with Azure services.
 #
 # Purpose:
-#   This DSC configuration creates a complete Azure Frontend development environment with:
-#   - .NET development tools in both environments
-#   - API testing tools (Postman)
+#   - Automates installation of essential frontend development tools
+#   - Ensures consistent tooling across all developer workstations
+#   - Configures VS Code with Azure and web development extensions
 #
-# Requirements:
-#   - with Windows 11
-#   - Administrator access for tool installation
-#   - Internet connectivity for package downloads
+# Tools Installed:
+#   - Postman: API testing and documentation platform
+#   - VS Code Extensions: Azure, TypeScript, PowerShell, GitHub integration
 #
-# Best Practices:
-#   - Uses Windows and WSL2 for a complete cross-platform experience
-#   - Applies principle of least privilege where possible
-#   - Maintains consistent environment between Windows and Linux
-#   - Uses official Microsoft installation methods for all tools
+# Usage:
+#   This configuration is applied automatically via Dev Box provisioning
+#   or can be manually invoked using WinGet Configuration.
 #
-# Maintainer: DevExp Team
-#
+##################################################################################
+
 properties:
   configurationVersion: 0.2.0
 

@@ -1,18 +1,25 @@
 # yaml-language-server: $schema=./azureResources.schema.json
+
+# =============================================================================
+# Azure Resources Configuration
+# =============================================================================
+# This file defines the resource group organization for the DevExp-DevBox project.
+# It configures three main resource groups:
+#   - Workload: Core application and compute resources
+#   - Security: Security-related resources (Key Vaults, NSGs, etc.)
+#   - Monitoring: Observability and monitoring resources
 #
-# azureResources.yaml
-# -------------------------------------------------------
-# Purpose: Defines resource group organization for Dev Box environments.
-# Follows Azure Landing Zone principles for segregation by function.
-# References:
-# - Microsoft Dev Box accelerator: https://evilazaro.github.io/DevExp-DevBox/docs/configureresources/resourceorganization/
-# - Azure Landing Zones: https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/
-# - Azure Resource Groups: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal
+# Each resource group includes:
+#   - create: Boolean flag to enable/disable resource creation
+#   - name: The resource group name
+#   - description: Brief description of the resource group purpose
+#   - tags: Azure resource tags for organization, billing, and governance
+# =============================================================================
 
 # =============================================================================
 # Workload Resource Group
 # =============================================================================
-# Main application resources for Dev Box workloads
+# Core workload resources including compute, storage, and application services
 workload:
   create: true
   name: devexp-workload

@@ -1,3 +1,11 @@
+// ============================================================================
+// Network Connection Module for DevCenter
+// ============================================================================
+// This module creates a network connection and attaches it to an existing
+// DevCenter instance. The network connection enables DevCenter to provision
+// Dev Boxes within the specified subnet using Azure AD Join.
+// ============================================================================
+
 @description('Name of the network connection to be created')
 param name string
 

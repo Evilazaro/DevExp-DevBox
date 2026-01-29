@@ -1,3 +1,4 @@
+
 #Requires -Version 5.1
 
 <#
@@ -9,27 +10,69 @@
     for the DevExp-DevBox infrastructure. It removes workload, connectivity,
     monitoring, security, and supporting resource groups.
 
+    The script performs the following operations:
+    1. Validates input parameters and Azure CLI authentication
+    2. Identifies all resource groups matching the naming convention
+    3. Deletes all deployments within each resource group
+    4. Initiates asynchronous deletion of each resource group
+
+    Resource groups targeted for deletion:
+    - {WorkloadName}-workload-{EnvName}-{Location}-rg
+    - {WorkloadName}-connectivity-{EnvName}-{Location}-rg
+    - {WorkloadName}-monitoring-{EnvName}-{Location}-rg
+    - {WorkloadName}-security-{EnvName}-{Location}-rg
+    - NetworkWatcherRG
+    - Default-ActivityLogAlerts
+    - DefaultResourceGroup-WUS2
+
 .PARAMETER EnvName
-    The environment name used in resource group naming. Defaults to 'demo'.
+    The environment name used in resource group naming.
+    This value is used as part of the resource group naming convention.
+    Defaults to 'demo'.
 
 .PARAMETER Location
-    The Azure region where resources are deployed. Defaults to 'eastus2'.
+    The Azure region where resources are deployed.
+    This value is used as part of the resource group naming convention.
+    Defaults to 'eastus2'.
     Valid values: eastus, eastus2, westus, westus2, westus3, northeurope, westeurope
 
 .PARAMETER WorkloadName
-    The workload name prefix used in resource group naming. Defaults to 'devexp'.
+    The workload name prefix used in resource group naming.
+    This value is used as the first segment of the resource group naming convention.
+    Defaults to 'devexp'.
 
 .EXAMPLE
     .\cleanUp.ps1
     Cleans up resources using default environment 'demo' in 'eastus2'.
+    Deletes resource groups: devexp-workload-demo-eastus2-rg, devexp-connectivity-demo-eastus2-rg, etc.
 
 .EXAMPLE
     .\cleanUp.ps1 -EnvName "prod" -Location "westus2"
     Cleans up resources for the 'prod' environment in 'westus2'.
+    Deletes resource groups: devexp-workload-prod-westus2-rg, devexp-connectivity-prod-westus2-rg, etc.
+
+.EXAMPLE
+    .\cleanUp.ps1 -WorkloadName "myapp" -EnvName "dev" -Location "northeurope"
+    Cleans up resources for a custom workload 'myapp' in the 'dev' environment in 'northeurope'.
+
+.EXAMPLE
+    .\cleanUp.ps1 -WhatIf
+    Shows what resource groups would be deleted without actually performing the deletion.
+
+.INPUTS
+    None. This script does not accept pipeline input.
+
+.OUTPUTS
+    System.Int32. Returns exit code 0 on success, 1 on failure.
 
 .NOTES
     Author: DevExp Team
+    Version: 1.0
     Requires: Azure CLI (az) authenticated with appropriate permissions
+    Requires: PowerShell 5.1 or later
+
+.LINK
+    https://github.com/Evilazaro/DevExp-DevBox
 #>
 
 [CmdletBinding(SupportsShouldProcess)]

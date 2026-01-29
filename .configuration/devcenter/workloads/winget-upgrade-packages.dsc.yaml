@@ -1,20 +1,21 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
 #
-# Common Configuration Sample for .NET Engineers
-# =================================
+# DSC Configuration: Winget Package Upgrade
+# -----------------------------------------
+# This configuration upgrades all Microsoft Store apps using winget.
+# It downloads and executes a remote PowerShell script that performs
+# the winget update operation.
 #
-# Purpose:
-#   This DSC configuration sets up a standard development environment with:
-#   - Development storage using Dev Drive
-#   - Source control tools (Git, GitHub CLI)
-#   - Development runtimes (.NET 9 SDK and Runtime)
-#   - Development tools (VS Code, Node.js)
+# Requirements:
+#   - Elevated (admin) security context
+#   - Internet connectivity to download the update script
+#   - TLS 1.2 support for secure download
 #
-# Prerequisites:
-#   - Windows 10/11 with admin privileges
-#   - Internet connectivity for package downloads
+# Workflow:
+#   1. Downloads winget-update.ps1 from the repository (with retry logic)
+#   2. Validates the downloaded script
+#   3. Executes the script in a hidden PowerShell process
 #
-# Maintainers: DevExp Team
 
 properties:
   configurationVersion: "0.2.0"

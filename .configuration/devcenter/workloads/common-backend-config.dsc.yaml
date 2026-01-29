@@ -1,22 +1,31 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
 #
-# Backend Development Configuration Sample for .NET Engineers 
-# =============================================
+# =============================================================================
+# Common Backend Configuration - DSC (Desired State Configuration)
+# =============================================================================
 #
 # Purpose:
-#   This DSC configuration installs essential tools for Azure backend development including:
-#   - Source control tools (GitHub Desktop)
-#   - Azure command-line tools (CLI, AZD, Bicep)
-#   - Local development emulators for Azure services
+#   This configuration file defines the common backend development tools and
+#   emulators required for Azure-based backend development. It uses Windows
+#   Package Manager (WinGet) DSC resources to ensure consistent developer
+#   environments across the team.
 #
-# Best Practices:
-#   - All tools are installed via WinGet for consistent versioning
-#   - Dependencies are explicitly declared to ensure proper installation order
-#   - Tools are grouped logically by purpose
-#   - Configuration should be version controlled and tested in CI/CD pipelines
-#   - Regular updates to ensure latest security patches and features
-#   - Separation of development tools from production configurations
+# Contents:
+#   - Azure Command-Line Tools (Azure CLI, Azure Developer CLI, Bicep, Data CLI)
+#   - Local Development Emulators (Azure Storage Emulator)
 #
+# Usage:
+#   This configuration is applied via Microsoft Dev Box or Windows DSC to
+#   provision developer workstations with the necessary Azure development tools.
+#
+# Dependencies:
+#   - Windows Package Manager (WinGet) must be available on the target system
+#   - Some resources have inter-dependencies (documented inline)
+#
+# Maintainer: DevExp Team
+# Repository: https://github.com/Evilazaro/DevExp-DevBox
+# =============================================================================
+
 properties:
   configurationVersion: "0.2.0"
   resources:

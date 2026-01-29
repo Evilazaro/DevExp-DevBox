@@ -1,3 +1,15 @@
+/*
+  Resource Group Module
+  ---------------------
+  This Bicep module manages Azure Resource Groups at the subscription scope.
+  It supports both creating new resource groups and referencing existing ones
+  based on the 'create' parameter flag.
+
+  Usage:
+    - Set create=true to provision a new resource group
+    - Set create=false to reference an existing resource group by name
+*/
+
 targetScope = 'subscription'
 
 @description('Flag indicating whether to create a new resource group or reference an existing one')

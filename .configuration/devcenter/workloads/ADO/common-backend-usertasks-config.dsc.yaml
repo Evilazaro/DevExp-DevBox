@@ -1,34 +1,31 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+################################################################################
+# DevBox Configuration: Azure Backend Development User Tasks
+################################################################################
+# This DSC (Desired State Configuration) file defines the user-level setup tasks
+# for Azure backend development workloads. It configures the development environment
+# with essential tools and frameworks required for building Azure cloud-native
+# applications, microservices, and containerized solutions.
 #
-# Backend Development Configuration Sample for .NET Engineers
-# =============================================
+# Components Installed:
+#   - WSL2 with Ubuntu: Cross-platform Linux development environment
+#   - Azure CLI & Developer CLI: Azure resource management tools
+#   - .NET 9 SDK & Runtime: Backend application development framework
+#   - Docker Desktop: Container development and orchestration
+#   - Helm: Kubernetes package manager for AKS deployments
+#   - Postman: API testing and documentation platform
+#   - VS Code Extensions: Azure development tooling and integrations
 #
-# Purpose:
-#   This DSC configuration creates a complete Azure backend development environment with:
-#   - WSL2 with Ubuntu for Linux-based development
-#   - Azure CLI tools in both Windows and Ubuntu environments
-#   - .NET development tools in both environments
-#   - Container tools (Docker Desktop, Helm) for microservice development
-#   - API testing tools (Postman)
+# Prerequisites:
+#   - Windows 11 with virtualization enabled
+#   - Visual Studio Code installed
+#   - Administrative privileges for elevated tasks
 #
-# Requirements:
-#   - with Windows 11
-#   - Administrator access for tool installation
-#   - Internet connectivity for package downloads
-#
-# Security Considerations:
-#   - Uses secure communication channels for downloads
-#   - Applies principle of least privilege where possible
-#   - Uses official Microsoft installation methods
-#
-# Best Practices:
-#   - Uses Windows and WSL2 for a complete cross-platform experience
-#   - Applies principle of least privilege where possible
-#   - Maintains consistent environment between Windows and Linux
-#   - Uses official Microsoft installation methods for all tools
-#
-# Maintainer: DevExp Team
-#
+# Usage:
+#   This configuration is applied automatically during DevBox provisioning
+#   or can be manually invoked using the WinGet Configuration feature.
+################################################################################
+
 properties:
   configurationVersion: 0.2.0
 

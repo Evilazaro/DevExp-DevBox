@@ -1,20 +1,29 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
 #
-# Common Configuration Sample for .NET Engineers
-# =================================
+# ==============================================================================
+# Common Development Environment Configuration
+# ==============================================================================
 #
-# Purpose:
-#   This DSC configuration sets up a standard development environment with:
-#   - Development storage using Dev Drive
-#   - Source control tools (Git, GitHub CLI)
-#   - Development runtimes (.NET 9 SDK and Runtime)
-#   - Development tools (VS Code, Node.js)
+# This DSC (Desired State Configuration) file defines the baseline development
+# environment setup for Azure Dev Box workloads. It provisions essential tools
+# and configurations required for Azure cloud development.
 #
-# Prerequisites:
-#   - Windows 10/11 with admin privileges
-#   - Internet connectivity for package downloads
+# Target Environment: Windows Dev Box
+# Schema Version: 0.2
 #
-# Maintainers: DevExp Team
+# Components Installed:
+#   - Dev Drive (ReFS) - Optimized storage for development workloads
+#   - Git & GitHub CLI - Source control and repository management
+#   - .NET SDK 9 & Runtime - Application development framework
+#   - Node.js - JavaScript runtime for web and Azure Functions
+#   - Visual Studio Code - Primary code editor
+#
+# Usage:
+#   This configuration is applied automatically during Dev Box provisioning
+#   or can be manually applied using WinGet Configuration.
+#
+# Repository: https://github.com/Evilazaro/DevExp-DevBox
+# ==============================================================================
 
 properties:
   configurationVersion: "0.2.0"

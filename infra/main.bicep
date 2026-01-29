@@ -1,3 +1,27 @@
+/*
+  Main Bicep Deployment Template
+  ==============================
+  This template deploys the DevExp-DevBox infrastructure at the subscription scope.
+  
+  Resources Deployed:
+  - Security Resource Group: Contains Key Vault and security-related resources
+  - Monitoring Resource Group: Contains Log Analytics Workspace for centralized monitoring
+  - Workload Resource Group: Contains Azure DevCenter and related workload resources
+  
+  Modules:
+  - monitoring: Deploys Log Analytics Workspace for centralized logging
+  - security: Deploys Key Vault with secrets and diagnostic settings
+  - workload: Deploys Azure DevCenter with projects and configurations
+  
+  Configuration:
+  - Resource organization is loaded from 'settings/resourceOrganization/azureResources.yaml'
+  - Supports conditional resource group creation based on YAML configuration
+  
+  Usage:
+    az deployment sub create --location <location> --template-file main.bicep \
+      --parameters location=<region> environmentName=<env> secretValue=<token>
+*/
+
 targetScope = 'subscription'
 
 // Parameters with improved validation and documentation

@@ -1,31 +1,41 @@
+
+
+<#
+.SYNOPSIS
+    Updates Microsoft Store applications using winget.
+
+.DESCRIPTION
+    This script automates the process of updating all Microsoft Store applications
+    on a Windows system using the Windows Package Manager (winget). It performs
+    multiple upgrade passes to ensure all apps are updated, including those with
+    unknown versions.
+
+    The script:
+    - Resolves the winget executable path from the App Installer package
+    - Ensures the Microsoft Store Install Service is running
+    - Configures and refreshes winget sources
+    - Runs multiple upgrade passes (standard, forced, and safety net)
+    - Logs all operations to a timestamped log file
+
+.NOTES
+    File Name      : winget-update.ps1
+    Prerequisite   : Windows PowerShell 5.1 or later
+                     Microsoft Desktop App Installer (winget)
+    Log Location   : %ProgramData%\Winget-StoreUpgrade\
+
+.EXAMPLE
+    .\winget-update.ps1
+    
+    Runs the script to update all Microsoft Store applications.
+
+.LINK
+    https://github.com/microsoft/winget-cli
+#>
+
 #Requires -Version 5.1
 
 Set-ExecutionPolicy Bypass -Scope Process -Force
 Clear-Host
-
-<#
-.SYNOPSIS
-    Quietly updates all Microsoft Store apps using winget (v1.11.x compatible).
-
-.DESCRIPTION
-    This script performs a comprehensive update of all Microsoft Store applications
-    using Windows Package Manager (winget). Key features:
-    - Runs fully non-interactive (no prompts)
-    - Properly orders command + flags for winget 1.11.x
-    - Accepts msstore/package agreements on upgrade/install only
-    - Uses include-unknown and a forced second pass to catch stubborn Store apps
-    - Detects if winget/App Installer updated itself mid-run and retries once
-    - Executes winget by absolute path (no App Execution Alias quirks)
-    - Logs to C:\ProgramData\Winget-StoreUpgrade\upgrade-YYYYMMDD-HHMMSS.log
-
-.NOTES
-    Author: DevExp Team
-    Recommended to run in an elevated session to service machine-wide apps.
-    
-.EXAMPLE
-    .\winget-update.ps1
-    Runs a full update of all Microsoft Store applications.
-#>
 
 # Script Configuration
 $ErrorActionPreference = 'Stop'

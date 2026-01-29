@@ -1,3 +1,10 @@
+// ============================================================================
+// Module: connectivity.bicep
+// Description: Orchestrates network connectivity resources for DevCenter projects.
+//              This module provisions virtual networks, network connections, and
+//              resource groups based on the project network configuration.
+// ============================================================================
+
 @description('Name of the DevCenter instance')
 param devCenterName string
 

@@ -1,3 +1,32 @@
+/*
+  Virtual Network (VNet) Bicep Module
+  ------------------------------------
+  This module provisions or references an Azure Virtual Network with the following capabilities:
+  - Creates a new virtual network with configurable address spaces and subnets
+  - References an existing virtual network when not creating a new one
+  - Configures diagnostic settings to send logs and metrics to Log Analytics
+  - Supports both 'Managed' and 'Unmanaged' network types
+
+  Usage:
+    module vnet 'vnet.bicep' = {
+      name: 'vnetDeployment'
+      params: {
+        logAnalyticsId: '<log-analytics-resource-id>'
+        location: '<azure-region>'
+        tags: { environment: 'dev' }
+        settings: {
+          name: 'myVnet'
+          virtualNetworkType: 'Unmanaged'
+          create: true
+          resourceGroupName: 'myResourceGroup'
+          tags: {}
+          addressPrefixes: ['10.0.0.0/16']
+          subnets: [{ name: 'default', properties: { addressPrefix: '10.0.0.0/24' } }]
+        }
+      }
+    }
+*/
+
 @description('Log Analytics workspace resource ID for diagnostic settings')
 param logAnalyticsId string
 
