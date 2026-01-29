@@ -2,6 +2,24 @@
 # File: azure-pwh.yaml
 # Purpose: Azure Developer CLI (azd) configuration for Dev Box Accelerator
 # Description: Defines deployment hooks and environment setup for Windows (PowerShell)
+# 
+# This configuration file is used by the Azure Developer CLI (azd) to manage
+# the provisioning lifecycle of the Dev Box Accelerator project. It defines
+# hooks that execute during the deployment process.
+#
+# Prerequisites:
+#   - Azure Developer CLI (azd) installed
+#   - PowerShell 7+ (pwsh) available
+#   - Optional: bash for running setup.sh
+#
+# Environment Variables:
+#   - AZURE_ENV_NAME: The azd environment name (required, set by azd)
+#   - SOURCE_CONTROL_PLATFORM: The source control platform to use (optional, defaults to 'github')
+#
+# Usage:
+#   azd provision
+#   azd up
+#
 # =============================================================================
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/refs/heads/main/schemas/v1.0/azure.yaml.json
 
@@ -9,15 +27,25 @@
 name: ContosoDevExp
 
 hooks:
+    # -------------------------------------------------------------------------
+    # Preprovision Hook
+    # -------------------------------------------------------------------------
+    # Executes before Azure resources are provisioned. This hook:
+    # 1. Sets the default source control platform to 'github' if not specified
+    # 2. Invokes setup.sh to prepare the environment for deployment
+    # -------------------------------------------------------------------------
     preprovision:
         shell: pwsh
         continueOnError: false
         interactive: true
         run: |
             # PowerShell preprovision script
+            # Halt execution on any error to ensure clean provisioning
             $ErrorActionPreference = 'Stop'
             $defaultPlatform = 'github'
 
+            # Check and set SOURCE_CONTROL_PLATFORM environment variable
+            # This determines which source control integration to configure (github/azdo)
             if (-not $env:SOURCE_CONTROL_PLATFORM -or $env:SOURCE_CONTROL_PLATFORM -eq '') {
                 Write-Output "SOURCE_CONTROL_PLATFORM is not set. Setting it to '$defaultPlatform' by default."
                 $env:SOURCE_CONTROL_PLATFORM = $defaultPlatform
@@ -26,6 +54,8 @@ hooks:
             }
 
             # Run setup.sh (use bash if available)
+            # The setup script configures the deployment environment based on the
+            # specified environment name and source control platform
             if (Get-Command bash -ErrorAction SilentlyContinue) {
                 & bash -c "./setup.sh -e $env:AZURE_ENV_NAME -s $env:SOURCE_CONTROL_PLATFORM"
             } else {

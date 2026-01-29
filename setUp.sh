@@ -1,40 +1,95 @@
 #!/usr/bin/env bash
 
-# setUp.sh - Sets up Azure Dev Box environment with GitHub integration
+#######################################
+# setUp.sh - Azure Dev Box Environment Setup Script
+#######################################
+#
+# NAME
+#     setUp.sh - Sets up Azure Dev Box environment with source control integration
+#
+# SYNOPSIS
+#     ./setUp.sh -e ENV_NAME -s SOURCE_CONTROL [-h]
+#     ./setUp.sh --env-name ENV_NAME --source-control SOURCE_CONTROL [--help]
 #
 # DESCRIPTION
 #     Automates the setup of an Azure Developer CLI (azd) environment for Dev Box,
-#     handles GitHub authentication, and provisions required Azure resources.
+#     handles authentication for GitHub or Azure DevOps, and configures the
+#     required Azure resources.
 #
-#     This script follows Azure best practices for security, error handling, 
-#     and resource management.
+#     This script follows Azure best practices for security, error handling,
+#     and resource management. It performs the following operations:
+#       - Validates required CLI tools are installed
+#       - Verifies Azure subscription authentication and state
+#       - Authenticates with the selected source control platform
+#       - Retrieves and securely stores access tokens
+#       - Initializes the azd environment with appropriate configuration
 #
-# PARAMETERS
-#     -e, --env-name       Name of the Azure environment to create
-#     -s, --source-control Source control platform (github or adogit)
-#     -h, --help          Show this help message
+# OPTIONS
+#     -e, --env-name ENV_NAME
+#         Required. Name of the Azure environment to create or use.
+#         This name will be used for the azd environment directory.
+#
+#     -s, --source-control PLATFORM
+#         Source control platform to integrate with.
+#         Valid values: github, adogit
+#         If not provided, the script will prompt for selection.
+#
+#     -h, --help
+#         Display this help message and exit.
 #
 # EXAMPLES
 #     ./setUp.sh -e "prod" -s "github"
-#     # Creates a "prod" environment with GitHub
-#     
+#         Creates a "prod" environment integrated with GitHub.
+#
 #     ./setUp.sh -e "dev" -s "adogit"
-#     # Creates a "dev" environment with Azure DevOps
+#         Creates a "dev" environment integrated with Azure DevOps Git.
+#
+#     ./setUp.sh --env-name "staging" --source-control "github"
+#         Creates a "staging" environment with GitHub using long options.
+#
+#     ./setUp.sh -e "test"
+#         Creates a "test" environment and prompts for source control selection.
 #
 # REQUIREMENTS
-#     - Azure CLI (az)
-#     - Azure Developer CLI (azd)
-#     - GitHub CLI (gh) [if using GitHub]
-#     - jq (JSON processor)
-#     - Valid authentication for chosen platform
+#     Required Tools:
+#       - Azure CLI (az) - For Azure subscription management
+#       - Azure Developer CLI (azd) - For environment provisioning
+#       - jq - JSON processor for parsing CLI outputs
+#       - GitHub CLI (gh) - Required only when using GitHub integration
+#
+#     Authentication:
+#       - Valid Azure subscription with 'Enabled' state
+#       - Authenticated session for the chosen source control platform
+#       - Appropriate permissions for resource provisioning
+#
+# ENVIRONMENT VARIABLES
+#     KEY_VAULT_SECRET
+#         If set, used as the source control token instead of retrieving
+#         from the CLI. Useful for CI/CD pipelines.
+#
+#     AZURE_DEVOPS_EXT_PAT
+#         Exported by the script when using Azure DevOps integration.
 #
 # EXIT CODES
-#     0   - Success
-#     1   - General error (missing dependencies, validation failure)
+#     0   - Success: Environment setup completed successfully
+#     1   - General error: Missing dependencies, validation failure,
+#           authentication issues, or configuration errors
 #     130 - Script interrupted by user (SIGINT/SIGTERM)
-#     
-# Author: DevExp Team
-# Last Updated: 2026-01-22
+#
+# FILES
+#     ./.azure/<ENV_NAME>/.env
+#         Environment configuration file created by the script.
+#         Contains KEY_VAULT_SECRET and SOURCE_CONTROL_PLATFORM.
+#
+# SEE ALSO
+#     az(1), azd(1), gh(1), jq(1)
+#
+# AUTHOR
+#     DevExp Team
+#
+# VERSION
+#     Last Updated: 2026-01-22
+#######################################
 
 # Script Configuration
 set -euo pipefail  # Exit on error, undefined vars, pipe failures

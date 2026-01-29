@@ -8,7 +8,29 @@
 # Project name used by azd for environment naming and resource tagging
 name: ContosoDevExp
 
+# -----------------------------------------------------------------------------
+# Hooks Configuration
+# -----------------------------------------------------------------------------
+# Hooks are scripts that run at specific points during the azd workflow.
+# The preprovision hook runs before Azure resources are provisioned.
+# -----------------------------------------------------------------------------
 hooks:
+  # ---------------------------------------------------------------------------
+  # Pre-Provision Hook
+  # ---------------------------------------------------------------------------
+  # This hook executes before infrastructure provisioning begins.
+  # It validates and sets the SOURCE_CONTROL_PLATFORM environment variable,
+  # then runs the setup.sh script to prepare the deployment environment.
+  #
+  # Environment Variables:
+  #   - SOURCE_CONTROL_PLATFORM: The source control platform to use (default: "github")
+  #   - AZURE_ENV_NAME: The Azure environment name (provided by azd)
+  #
+  # Script Behavior:
+  #   1. Checks if SOURCE_CONTROL_PLATFORM is set
+  #   2. Defaults to "github" if not specified
+  #   3. Executes setup.sh with environment name and platform parameters
+  # ---------------------------------------------------------------------------
   preprovision:
     shell: sh
     continueOnError: false
@@ -19,11 +41,14 @@ hooks:
       set -e 
       defaultPlatform="github"
 
-      # Add a if statement to check if the environment variable is set
+      # Check if SOURCE_CONTROL_PLATFORM environment variable is set
+      # If not set, default to "github" platform
       if [ -z "${SOURCE_CONTROL_PLATFORM}" ]; then
           echo "SOURCE_CONTROL_PLATFORM is not set. Setting it to '${defaultPlatform}' by default."
           export SOURCE_CONTROL_PLATFORM="${SOURCE_CONTROL_PLATFORM:-${defaultPlatform}}"
       else
           echo "Existing SOURCE_CONTROL_PLATFORM is set to '${SOURCE_CONTROL_PLATFORM}'."
-      fi      
+      fi
+
+      # Execute the setup script with the environment name and source control platform
       ./setup.sh -e ${AZURE_ENV_NAME} -s ${SOURCE_CONTROL_PLATFORM}

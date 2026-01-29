@@ -5,38 +5,78 @@
     Cleans up the DevExp-DevBox setup including users, credentials, and GitHub secrets.
 
 .DESCRIPTION
-    This script orchestrates the complete cleanup of DevExp-DevBox infrastructure:
-    - Deletes Azure subscription deployments
-    - Removes user role assignments
-    - Deletes deployment credentials (service principals and app registrations)
-    - Removes GitHub secrets for Azure credentials
-    - Cleans up Azure resource groups
+    This script orchestrates the complete cleanup of DevExp-DevBox infrastructure by
+    performing the following operations in sequence:
+    
+    1. Deletes all Azure subscription-level deployments
+    2. Removes user role assignments and associated Azure AD users
+    3. Deletes deployment credentials including service principals and app registrations
+    4. Removes GitHub repository secrets for Azure credentials
+    5. Cleans up Azure resource groups associated with the environment
+
+    The script uses helper scripts located in the .configuration directory to perform
+    individual cleanup tasks. Each operation is executed with proper error handling,
+    and the script continues with remaining tasks even if individual operations fail.
+
+    The script supports -WhatIf and -Confirm parameters for safe execution previews.
 
 .PARAMETER EnvName
-    The environment name used in resource naming. Defaults to 'gitHub'.
+    The environment name used in resource naming conventions.
+    This value is used to identify and clean up environment-specific resource groups.
+    Defaults to 'gitHub'.
 
 .PARAMETER Location
-    The Azure region where resources are deployed. Defaults to 'eastus2'.
+    The Azure region where resources are deployed.
+    Used to identify region-specific resources during cleanup.
+    Defaults to 'eastus2'.
     Valid values: eastus, eastus2, westus, westus2, westus3, northeurope, westeurope
 
 .PARAMETER AppDisplayName
-    The display name of the Azure AD application to delete.
+    The display name of the Azure AD application (service principal) to delete.
+    This is used to identify and remove the app registration and associated credentials.
     Defaults to 'ContosoDevEx GitHub Actions Enterprise App'.
 
 .PARAMETER GhSecretName
-    The name of the GitHub secret to delete. Defaults to 'AZURE_CREDENTIALS'.
+    The name of the GitHub repository secret to delete.
+    This secret typically contains Azure credentials used for GitHub Actions workflows.
+    Defaults to 'AZURE_CREDENTIALS'.
 
 .EXAMPLE
     .\cleanSetUp.ps1
-    Runs cleanup with default parameters.
+    Runs cleanup with all default parameters. Deletes the default 'gitHub' environment
+    resources in 'eastus2' region.
 
 .EXAMPLE
     .\cleanSetUp.ps1 -EnvName "prod" -Location "westus2"
-    Runs cleanup for the 'prod' environment in 'westus2'.
+    Runs cleanup for the 'prod' environment deployed in the 'westus2' region.
+
+.EXAMPLE
+    .\cleanSetUp.ps1 -WhatIf
+    Shows what cleanup operations would be performed without making any changes.
+
+.EXAMPLE
+    .\cleanSetUp.ps1 -AppDisplayName "MyCustomApp" -GhSecretName "MY_AZURE_CREDS"
+    Runs cleanup targeting a custom Azure AD application and GitHub secret name.
+
+.INPUTS
+    None. This script does not accept pipeline input.
+
+.OUTPUTS
+    None. This script outputs status messages to the console.
 
 .NOTES
-    Author: DevExp Team
-    Requires: Azure CLI (az), GitHub CLI (gh), and appropriate permissions
+    File Name  : cleanSetUp.ps1
+    Author     : DevExp Team
+    Repository : Evilazaro/DevExp-DevBox
+    
+    Prerequisites:
+    - Azure CLI (az) must be installed and authenticated
+    - GitHub CLI (gh) must be installed and authenticated
+    - Appropriate Azure permissions (Owner or Contributor on subscription)
+    - Appropriate GitHub permissions (admin access to repository secrets)
+
+.LINK
+    https://github.com/Evilazaro/DevExp-DevBox
 #>
 
 [CmdletBinding(SupportsShouldProcess)]

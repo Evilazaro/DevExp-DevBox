@@ -2,41 +2,84 @@
 
 <#
 .SYNOPSIS
-    setUp.ps1 - Sets up Azure Dev Box environment with GitHub integration
+    Sets up an Azure Dev Box environment with GitHub or Azure DevOps integration.
 
 .DESCRIPTION
-    Automates the setup of an Azure Developer CLI (azd) environment for Dev Box,
-    handles GitHub authentication, and provisions required Azure resources.
-
-    This script follows Azure best practices for security, error handling, 
-    and resource management.
+    This script automates the complete setup of an Azure Developer CLI (azd) environment
+    for Dev Box deployments. It performs the following operations:
+    
+    - Validates required CLI tools (az, azd, gh)
+    - Authenticates with Azure and the selected source control platform
+    - Retrieves and securely stores authentication tokens
+    - Initializes the azd environment with platform-specific configuration
+    - Optionally provisions Azure resources
+    
+    The script follows Azure best practices for security, error handling, 
+    and resource management, including secure token handling and subscription validation.
 
 .PARAMETER EnvName
-    Name of the Azure environment to create
+    Specifies the name of the Azure Developer CLI environment to create or use.
+    This name is used to organize environment-specific configuration files
+    in the .azure directory.
 
 .PARAMETER SourceControl
-    Source control platform (github or adogit)
+    Specifies the source control platform for repository integration.
+    Valid values are:
+    - "github"  : Use GitHub for source control (requires gh CLI)
+    - "adogit"  : Use Azure DevOps Git for source control
+    If not specified, the script will prompt for interactive selection.
 
 .PARAMETER Help
-    Show this help message
+    Displays the help message and exits without performing any setup operations.
+
+.INPUTS
+    None. This script does not accept pipeline input.
+
+.OUTPUTS
+    None. This script does not produce pipeline output.
+    Status messages are written to the host with color-coded severity levels.
 
 .EXAMPLE
     .\setUp.ps1 -EnvName "prod" -SourceControl "github"
-    # Creates a "prod" environment with GitHub
     
+    Creates a production environment named "prod" with GitHub integration.
+    Retrieves the GitHub token using gh CLI and stores it in the environment configuration.
+
 .EXAMPLE
     .\setUp.ps1 -EnvName "dev" -SourceControl "adogit"
-    # Creates a "dev" environment with Azure DevOps
+    
+    Creates a development environment named "dev" with Azure DevOps Git integration.
+    Prompts for the Azure DevOps PAT if not found in environment variables.
+
+.EXAMPLE
+    .\setUp.ps1 -EnvName "test"
+    
+    Creates a test environment and interactively prompts the user to select
+    their preferred source control platform.
+
+.EXAMPLE
+    .\setUp.ps1 -Help
+    
+    Displays usage information and available parameters.
 
 .NOTES
-    Requirements:
-    - Azure CLI (az)
-    - Azure Developer CLI (azd)
-    - GitHub CLI (gh) [if using GitHub]
-    - Valid authentication for chosen platform
+    File Name      : setUp.ps1
+    Author         : DevExp Team
+    Prerequisite   : PowerShell 5.1 or later
+    Last Updated   : 2025-09-03
     
-    Author: DevExp Team
-    Last Updated: 2025-09-03
+    Requirements:
+    - Azure CLI (az) - https://docs.microsoft.com/cli/azure/install-azure-cli
+    - Azure Developer CLI (azd) - https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd
+    - GitHub CLI (gh) [if using GitHub] - https://cli.github.com/
+    - Valid authentication for the chosen platform
+    - Appropriate Azure subscription permissions for resource provisioning
+
+.LINK
+    https://github.com/Evilazaro/DevExp-DevBox
+
+.LINK
+    https://learn.microsoft.com/azure/dev-box/
 #>
 
 [CmdletBinding()]
