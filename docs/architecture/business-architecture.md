@@ -1168,7 +1168,7 @@ tags:
 
 ### Overview
 
-<!-- PHASE-2-START: section-1-overview -->
+
 
 The DevExp-DevBox solution implements a comprehensive Developer Self-Service
 Platform built on Azure DevCenter, enabling organizations to provide
@@ -1192,7 +1192,7 @@ groups. The relationship matrix demonstrates strong traceability between
 business services and their realizing processes, with governance rules ensuring
 consistent naming, tagging, and security policies across all components.
 
-<!-- PHASE-2-END: section-1-overview -->
+
 
 ### Architecture Overview Diagram
 
@@ -1239,7 +1239,7 @@ mindmap
       BRL-005: Key Vault Security Policy
 ```
 
-<!-- PHASE-2-START: section-1-content -->
+
 
 **Key Architecture Findings:**
 
@@ -1265,13 +1265,13 @@ mindmap
 5. The modular architecture supports future expansion to additional projects and
    teams
 
-<!-- PHASE-2-END: section-1-content -->
+
 
 ## 2. Business Services Catalog
 
 ### Overview
 
-<!-- PHASE-2-START: section-2-overview -->
+
 
 The Business Services Catalog documents the externally-visible capabilities that
 the DevExp-DevBox platform provides to its stakeholders. These services
@@ -1291,7 +1291,7 @@ delivery, and structured evolution of the platform capabilities. The
 relationships between services are documented in the Phase 1 registry, showing
 how services depend on and support each other.
 
-<!-- PHASE-2-END: section-2-overview -->
+
 
 ### Service Relationship Diagram
 
@@ -1354,7 +1354,7 @@ flowchart LR
     linkStyle 6 stroke:#E65100,stroke-width:2px
 ```
 
-<!-- PHASE-2-START: section-2-content -->
+
 
 | ID     | Name                             | Description                                                                                                                 | Source File                              |
 | ------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
@@ -1377,13 +1377,13 @@ flowchart LR
 - **BS-005**: Provides team autonomy while maintaining organizational governance
   standards
 
-<!-- PHASE-2-END: section-2-content -->
+
 
 ## 3. Business Process Inventory
 
 ### Overview
 
-<!-- PHASE-2-START: section-3-overview -->
+
 
 The Business Process Inventory documents how the DevExp-DevBox platform delivers
 its services through orchestrated workflows and procedures. Eight distinct
@@ -1404,7 +1404,7 @@ consistency, security, and compliance. The relationship between processes,
 services, and rules creates a traceable governance framework that supports audit
 and compliance requirements.
 
-<!-- PHASE-2-END: section-3-overview -->
+
 
 ### Process Flow Diagram
 
@@ -1479,7 +1479,7 @@ flowchart TB
     linkStyle 11 stroke:#1B5E20,stroke-width:2px
 ```
 
-<!-- PHASE-2-START: section-3-content -->
+
 
 | ID     | Name                                        | Description                                                                                                          | Source File                                                               |
 | ------ | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
@@ -1505,13 +1505,13 @@ flowchart TB
 | BP-007  | Fully Automated  | DSC Engine       |
 | BP-008  | Fully Automated  | DSC Engine       |
 
-<!-- PHASE-2-END: section-3-content -->
+
 
 ## 4. Business Capabilities Map
 
 ### Overview
 
-<!-- PHASE-2-START: section-4-overview -->
+
 
 The Business Capabilities Map documents what the DevExp-DevBox platform can do,
 independent of how it is organized or how it delivers these abilities. Four core
@@ -1530,7 +1530,7 @@ platform and enable future growth. The capability hierarchy shows clear
 dependencies between foundational infrastructure capabilities and higher-level
 developer-facing capabilities.
 
-<!-- PHASE-2-END: section-4-overview -->
+
 
 ### Capability Hierarchy Diagram
 
@@ -1573,7 +1573,7 @@ block-beta
     style BC4 fill:#66BB6A,stroke:#2E7D32,color:#fff
 ```
 
-<!-- PHASE-2-START: section-4-content -->
+
 
 | ID     | Name                            | Description                                                                                                               | Source File                              |
 | ------ | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
@@ -1591,13 +1591,13 @@ block-beta
 | BC-003     | Level 4 - Managed | RBAC authorization, purge protection, soft delete enabled   |
 | BC-004     | Level 3 - Defined | Diagnostic settings configured, activity solutions deployed |
 
-<!-- PHASE-2-END: section-4-content -->
+
 
 ## 5. Business Actors & Roles
 
 ### Overview
 
-<!-- PHASE-2-START: section-5-overview -->
+
 
 The Business Actors & Roles section documents the external parties (actors) that
 interact with the platform and the internal positions (roles) that perform
@@ -1615,7 +1615,7 @@ Engineer (BR-002) and Frontend Engineer (BR-003) who use dedicated Dev Box
 pools. Additional RBAC roles (BR-004 through BR-006) define Azure-specific
 permissions for DevCenter operations.
 
-<!-- PHASE-2-END: section-5-overview -->
+
 
 ### Organization Structure Diagram
 
@@ -1680,7 +1680,7 @@ flowchart TB
     linkStyle 5,6,7,8,9 stroke:#3949AB,stroke-width:1px,stroke-dasharray:3
 ```
 
-<!-- PHASE-2-START: section-5-content -->
+
 
 **Business Actors:**
 
@@ -1707,13 +1707,13 @@ flowchart TB
 | BR-002: Backend Engineer  | backend-engineer  | general_i_32c128gb512ssd_v2 | eShop-backend-engineer  |
 | BR-003: Frontend Engineer | frontend-engineer | general_i_16c64gb256ssd_v2  | eShop-frontend-engineer |
 
-<!-- PHASE-2-END: section-5-content -->
+
 
 ## 6. Business Objects
 
 ### Overview
 
-<!-- PHASE-2-START: section-6-overview -->
+
 
 The Business Objects catalog documents the information entities that are
 created, read, updated, and deleted by business processes within the
@@ -1731,7 +1731,7 @@ governance, impact analysis, and system integration planning. Each object maps
 to specific Azure resource types and is managed through infrastructure-as-code
 templates.
 
-<!-- PHASE-2-END: section-6-overview -->
+
 
 ### Entity Relationship Diagram
 
@@ -1809,7 +1809,7 @@ erDiagram
     }
 ```
 
-<!-- PHASE-2-START: section-6-content -->
+
 
 | ID     | Name             | Description                                                                                                | Source File                                               |
 | ------ | ---------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
@@ -1833,13 +1833,13 @@ erDiagram
 | BO-004 Catalog          | BP-001 Infrastructure Deployment | Git sync            | Manual     |
 | BO-005 Environment Type | BP-001 Infrastructure Deployment | BP-001              | Manual     |
 
-<!-- PHASE-2-END: section-6-content -->
+
 
 ## 7. Business Rules
 
 ### Overview
 
-<!-- PHASE-2-START: section-7-overview -->
+
 
 The Business Rules catalog documents the policies, constraints, and decision
 logic that govern the DevExp-DevBox platform. Five distinct business rules have
@@ -1857,7 +1857,7 @@ Business rules are typically enforced through infrastructure-as-code templates,
 Azure Policy, and process documentation. Violations of these rules should
 trigger review and remediation workflows.
 
-<!-- PHASE-2-END: section-7-overview -->
+
 
 ### Decision Logic Diagram
 
@@ -1918,7 +1918,7 @@ flowchart TD
     linkStyle 9,10,11,12,13 stroke:#455A64,stroke-width:2px
 ```
 
-<!-- PHASE-2-START: section-7-content -->
+
 
 | ID      | Name                               | Description                                                                                                    | Source File                                               |
 | ------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
@@ -1949,13 +1949,13 @@ flowchart TD
 | costCenter  | Financial allocation    | IT                    |
 | owner       | Resource owner          | Contoso               |
 
-<!-- PHASE-2-END: section-7-content -->
+
 
 ## 8. Traceability Matrix
 
 ### Overview
 
-<!-- PHASE-2-START: section-8-overview -->
+
 
 The Traceability Matrix documents the relationships between business
 architecture components, enabling impact analysis and change management. This
@@ -1972,7 +1972,7 @@ This traceability enables stakeholders to understand the ripple effects of
 changes, identify dependencies for release planning, and ensure that all
 components are properly connected within the architecture.
 
-<!-- PHASE-2-END: section-8-overview -->
+
 
 ### Component Traceability Diagram
 
@@ -2080,7 +2080,7 @@ flowchart LR
     linkStyle 12 stroke:#0277BD,stroke-width:2px
 ```
 
-<!-- PHASE-2-START: section-8-content -->
+
 
 **Complete Relationship Matrix:**
 
@@ -2133,13 +2133,13 @@ flowchart LR
 | contains          | 5     | Object → Object       |
 | triggered by      | 2     | Process → Event       |
 
-<!-- PHASE-2-END: section-8-content -->
+
 
 ## 9. Appendix
 
 ### Overview
 
-<!-- PHASE-2-START: section-9-overview -->
+
 
 This appendix provides supporting materials for the DevExp-DevBox Business
 Architecture documentation, including a glossary of terms, list of source files
@@ -2151,9 +2151,9 @@ document. The source file list provides a complete inventory of all files
 scanned during the Phase 0 discovery process, enabling verification of coverage
 and completeness.
 
-<!-- PHASE-2-END: section-9-overview -->
 
-<!-- PHASE-2-START: section-9-content -->
+
+
 
 ### Glossary
 
@@ -2230,7 +2230,7 @@ and completeness.
 | Framework           | TOGAF 10                            |
 | Diagram Notation    | Mermaid                             |
 
-<!-- PHASE-2-END: section-9-content -->
+
 
 ---
 
