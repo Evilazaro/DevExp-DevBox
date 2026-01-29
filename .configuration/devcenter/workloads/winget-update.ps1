@@ -28,8 +28,18 @@
     
     Runs the script to update all Microsoft Store applications.
 
+.OUTPUTS
+    None. This script does not return any objects. All output is written to the
+    console and to a timestamped log file in %ProgramData%\Winget-StoreUpgrade\.
+
+.INPUTS
+    None. This script does not accept pipeline input.
+
 .LINK
     https://github.com/microsoft/winget-cli
+
+.LINK
+    https://learn.microsoft.com/en-us/windows/package-manager/winget/
 #>
 
 #Requires -Version 5.1

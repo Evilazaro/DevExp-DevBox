@@ -11,17 +11,28 @@
 #   environments across the team.
 #
 # Contents:
-#   - Azure Command-Line Tools (Azure CLI, Azure Developer CLI, Bicep, Data CLI)
-#   - Local Development Emulators (Azure Storage Emulator)
+#   - Azure Command-Line Tools:
+#       * Azure CLI (Microsoft.AzureCLI) - Core Azure management CLI
+#       * Azure Developer CLI (Microsoft.Azd) - End-to-end app development
+#       * Bicep CLI (Microsoft.Bicep) - Infrastructure as Code tooling
+#       * Azure Data CLI (Microsoft.Azure.DataCLI) - Data services management
+#   - Local Development Emulators:
+#       * Azure Storage Emulator (Microsoft.Azure.StorageEmulator)
 #
 # Usage:
 #   This configuration is applied via Microsoft Dev Box or Windows DSC to
 #   provision developer workstations with the necessary Azure development tools.
 #
+#   To apply manually:
+#     winget configure <path-to-this-file>
+#
 # Dependencies:
 #   - Windows Package Manager (WinGet) must be available on the target system
-#   - Some resources have inter-dependencies (documented inline)
+#   - Some resources have inter-dependencies (documented inline):
+#       * Microsoft.Azd depends on Microsoft.AzureCLI
+#       * Microsoft.Bicep depends on Microsoft.AzureCLI
 #
+# Configuration Version: 0.2.0
 # Maintainer: DevExp Team
 # Repository: https://github.com/Evilazaro/DevExp-DevBox
 # =============================================================================

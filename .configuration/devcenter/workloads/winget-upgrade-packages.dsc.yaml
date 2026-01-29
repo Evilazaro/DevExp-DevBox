@@ -1,21 +1,46 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
 #
+# ==============================================================================
 # DSC Configuration: Winget Package Upgrade
-# -----------------------------------------
-# This configuration upgrades all Microsoft Store apps using winget.
-# It downloads and executes a remote PowerShell script that performs
-# the winget update operation.
+# ==============================================================================
 #
+# Description:
+#   This DSC (Desired State Configuration) file upgrades all Microsoft Store
+#   applications using the Windows Package Manager (winget). It automates the
+#   process by downloading and executing a remote PowerShell script that
+#   performs the winget upgrade operation.
+#
+# Author: DevExp-DevBox Team
+# Repository: https://github.com/Evilazaro/DevExp-DevBox
+#
+# ------------------------------------------------------------------------------
 # Requirements:
-#   - Elevated (admin) security context
-#   - Internet connectivity to download the update script
-#   - TLS 1.2 support for secure download
+# ------------------------------------------------------------------------------
+#   - Windows 10/11 with winget installed
+#   - Elevated (administrator) security context
+#   - Internet connectivity to download the update script from GitHub
+#   - TLS 1.2 support for secure HTTPS download
 #
+# ------------------------------------------------------------------------------
 # Workflow:
-#   1. Downloads winget-update.ps1 from the repository (with retry logic)
-#   2. Validates the downloaded script
-#   3. Executes the script in a hidden PowerShell process
+# ------------------------------------------------------------------------------
+#   1. Sets up error handling and execution policy for the session
+#   2. Configures TLS 1.2 protocol for secure communication
+#   3. Creates a temporary directory for script download
+#   4. Downloads winget-update.ps1 from the repository with retry logic
+#      (up to 3 attempts with exponential backoff)
+#   5. Validates the downloaded script (existence and non-empty)
+#   6. Unblocks the downloaded file for execution
+#   7. Executes the script in a hidden PowerShell process
 #
+# ------------------------------------------------------------------------------
+# Notes:
+# ------------------------------------------------------------------------------
+#   - The TestScript always returns $false to ensure the upgrade runs each time
+#   - Script execution uses a hidden window to avoid UI interruption
+#   - Failed downloads after 3 attempts will cause the configuration to fail
+#
+# ==============================================================================
 
 properties:
   configurationVersion: "0.2.0"

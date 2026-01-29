@@ -4,25 +4,41 @@
 # Common Development Environment Configuration
 # ==============================================================================
 #
-# This DSC (Desired State Configuration) file defines the baseline development
-# environment setup for Azure Dev Box workloads. It provisions essential tools
-# and configurations required for Azure cloud development.
+# Description:
+#   This DSC (Desired State Configuration) file defines the baseline development
+#   environment setup for Azure Dev Box workloads. It provisions essential tools
+#   and configurations required for Azure cloud development.
 #
 # Target Environment: Windows Dev Box
 # Schema Version: 0.2
 #
+# Prerequisites:
+#   - Windows 11 Dev Box with WinGet support
+#   - Administrator privileges for Dev Drive creation
+#   - Internet connectivity for package downloads
+#
 # Components Installed:
-#   - Dev Drive (ReFS) - Optimized storage for development workloads
-#   - Git & GitHub CLI - Source control and repository management
-#   - .NET SDK 9 & Runtime - Application development framework
-#   - Node.js - JavaScript runtime for web and Azure Functions
-#   - Visual Studio Code - Primary code editor
+#   - Dev Drive (ReFS)      - Optimized storage for development workloads
+#   - Git                   - Distributed version control system
+#   - GitHub CLI            - Command-line interface for GitHub operations
+#   - .NET SDK 9            - Application development framework
+#   - .NET Runtime 9        - Runtime for .NET applications
+#   - Node.js               - JavaScript runtime for web and Azure Functions
+#   - Visual Studio Code    - Primary code editor with Azure integration
 #
 # Usage:
 #   This configuration is applied automatically during Dev Box provisioning
-#   or can be manually applied using WinGet Configuration.
+#   or can be manually applied using WinGet Configuration:
 #
+#     winget configure --file common-config.dsc.yaml
+#
+# Dependencies:
+#   - Git.Git must be installed before GitHub.cli
+#   - Microsoft.DotNet.SDK.9 must be installed before Microsoft.DotNet.Runtime.9
+#
+# Author: Evilazaro
 # Repository: https://github.com/Evilazaro/DevExp-DevBox
+# License: See repository for license information
 # ==============================================================================
 
 properties:

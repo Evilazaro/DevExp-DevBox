@@ -1,8 +1,51 @@
-/*
-  Workload Module for DevCenter Resources
-  -------------------------------------
-  This module deploys the DevCenter workload and associated projects.
-*/
+// =============================================================================
+// Workload Bicep Template
+// =============================================================================
+// 
+// Description:
+//   This template deploys the DevCenter workload infrastructure for the DevExp-DevBox
+//   solution. It orchestrates the deployment of developer self-service infrastructure
+//   enabling cloud-based development environments.
+//
+// Architecture:
+//   ┌─────────────────────────────────────────────────────────────────┐
+//   │                     workload.bicep                              │
+//   │  ┌─────────────────────┐    ┌─────────────────────────────┐    │
+//   │  │  DevCenter Core     │    │  DevCenter Projects (loop)  │    │
+//   │  │  - Catalogs         │───▶│  - Pools                    │    │
+//   │  │  - Environment Types│    │  - Networks                 │    │
+//   │  └─────────────────────┘    │  - Identity Settings        │    │
+//   │                             └─────────────────────────────┘    │
+//   └─────────────────────────────────────────────────────────────────┘
+//
+// Deployed Resources:
+//   - Core DevCenter infrastructure with catalogs and environment types
+//   - Individual DevCenter projects with pools, networks, and identity settings
+//
+// Prerequisites:
+//   - Log Analytics Workspace must exist (passed via logAnalyticsId parameter)
+//   - Security Resource Group must be configured
+//   - DevCenter settings YAML configuration file at ../../infra/settings/workload/devcenter.yaml
+//
+// Parameters:
+//   - logAnalyticsId: Resource ID of the Log Analytics Workspace for diagnostics
+//   - secretIdentifier: Secure identifier for accessing secrets
+//   - securityResourceGroupName: Name of the security resource group
+//   - location: Azure region for deployment (defaults to resource group location)
+//
+// Outputs:
+//   - AZURE_DEV_CENTER_NAME: Name of the deployed DevCenter
+//   - AZURE_DEV_CENTER_PROJECTS: Array of deployed project names
+//
+// Usage:
+//   az deployment group create \
+//     --resource-group <resource-group-name> \
+//     --template-file workload.bicep \
+//     --parameters logAnalyticsId=<workspace-id> \
+//                  secretIdentifier=<secret-id> \
+//                  securityResourceGroupName=<security-rg>
+//
+// =============================================================================
 
 // Parameters with improved validation and documentation
 @description('Log Analytics Workspace Resource ID')

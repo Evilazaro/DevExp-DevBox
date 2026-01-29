@@ -5,23 +5,52 @@
 # This DSC (Desired State Configuration) file provisions a complete backend
 # development environment for Azure cloud-native application development.
 #
+# Overview:
+#   Automates the setup of a fully-featured backend development workstation
+#   with cross-platform capabilities through WSL2/Ubuntu and containerization
+#   tools for modern microservices architecture.
+#
 # Components Installed:
-#   - WSL2 with Ubuntu distribution for cross-platform development
-#   - Azure CLI, Azure Developer CLI, and Bicep tools (Linux)
-#   - .NET 9 SDK and ASP.NET Core Runtime (Linux)
-#   - Docker Desktop for container development
-#   - Helm for Kubernetes package management
-#   - Postman for API testing
-#   - VS Code extensions for Azure backend development
+#   Platform Layer:
+#     - WSL2 with Ubuntu distribution for cross-platform development
+#     - Docker Desktop for container development and local Kubernetes
+#
+#   Azure Development Tools (Linux):
+#     - Azure CLI for resource management
+#     - Azure Developer CLI (azd) for application scaffolding
+#     - Bicep for infrastructure as code
+#
+#   Runtime & SDK:
+#     - .NET 9 SDK for application development
+#     - ASP.NET Core Runtime 9.0 for web applications
+#
+#   DevOps & API Tools:
+#     - Helm for Kubernetes package management
+#     - Postman for API testing and documentation
+#
+#   VS Code Extensions:
+#     - Azure Tools, Bicep, Docker, Kubernetes
+#     - C# DevKit, PowerShell, YAML support
+#     - GitHub integration (Pull Requests, Remote Repositories)
 #
 # Prerequisites:
-#   - Windows 10/11 with WSL2 support
+#   - Windows 10/11 with WSL2 support enabled
 #   - Administrator privileges for installation
-#   - Visual Studio Code installed
+#   - Visual Studio Code installed (for extension installation)
+#   - Internet connectivity for package downloads
 #
 # Usage:
 #   This configuration is applied automatically by Dev Box during provisioning
-#   or can be manually applied using WinGet Configuration.
+#   or can be manually applied using WinGet Configuration:
+#     winget configure <path-to-this-file>
+#
+# Security Notes:
+#   - WSL user is configured with passwordless sudo for development convenience
+#   - Docker Desktop runs with user-level permissions after initial setup
+#   - All packages are installed from official Microsoft/vendor sources
+#
+# Author: DevExp Team
+# Version: 1.0.0
 ##################################################################################
 
 properties:

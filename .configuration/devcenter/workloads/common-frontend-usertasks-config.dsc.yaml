@@ -18,6 +18,17 @@
 #   This configuration is applied automatically via Dev Box provisioning
 #   or can be manually invoked using WinGet Configuration.
 #
+# Prerequisites:
+#   - Windows 10/11 with WinGet package manager installed
+#   - Visual Studio Code must be installed prior to extension installation
+#   - Administrator privileges required for elevated security context operations
+#
+# Configuration Version: 0.2.0
+# Schema: https://aka.ms/configuration-dsc-schema/0.2
+#
+# Maintainer: DevExp-DevBox Team
+# Repository: https://github.com/Evilazaro/DevExp-DevBox
+#
 ##################################################################################
 
 properties:

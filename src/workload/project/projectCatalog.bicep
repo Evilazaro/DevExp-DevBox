@@ -1,3 +1,46 @@
+/*
+  Project Catalog Module
+  ----------------------
+  This Bicep module creates a catalog resource for a Microsoft DevCenter project.
+  Catalogs can be used for environment definitions or image definitions and support
+  both GitHub and Azure DevOps Git repositories as source control providers.
+  
+  The module supports:
+  - Public and private repository visibility
+  - Scheduled sync type for catalog updates
+  - GitHub and Azure DevOps Git source control
+  - Environment and image definition catalog types
+
+  Parameters:
+  - projectName: The name of the existing DevCenter project to attach the catalog to
+  - catalogConfig: Configuration object containing catalog settings (name, type, source control, visibility, uri, branch, path)
+  - secretIdentifier: Secure string for Git repository authentication (required for private repositories)
+
+  Outputs:
+  - catalogName: The name of the created project catalog
+  - catalogId: The resource ID of the created project catalog
+
+  Usage Example:
+  ```bicep
+  module projectCatalog 'projectCatalog.bicep' = {
+    name: 'deploy-project-catalog'
+    params: {
+      projectName: 'my-devcenter-project'
+      catalogConfig: {
+        name: 'my-catalog'
+        type: 'environmentDefinition'
+        sourceControl: 'gitHub'
+        visibility: 'private'
+        uri: 'https://github.com/org/repo.git'
+        branch: 'main'
+        path: '/environments'
+      }
+      secretIdentifier: keyVaultSecretUri
+    }
+  }
+  ```
+*/
+
 @description('Name of the DevCenter project')
 param projectName string
 

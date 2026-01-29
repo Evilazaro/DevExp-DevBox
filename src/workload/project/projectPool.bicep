@@ -1,3 +1,54 @@
+/*
+  Project Pool Module
+  -------------------
+  This Bicep module creates DevBox pools for a Microsoft DevCenter project.
+  
+  Overview:
+  DevBox pools define the configuration for developer workstations that can be
+  provisioned on-demand within a DevCenter project. Each pool specifies the VM
+  size, image, network configuration, and access settings.
+  
+  Functionality:
+  - Iterates through provided catalogs and creates pools only for 'imageDefinition' types
+  - Configures each pool with:
+    - Custom VM SKU and image reference from the catalog
+    - Network connection (supports both managed and unmanaged virtual networks)
+    - Windows Client licensing
+    - Local administrator access enabled
+    - Single Sign-On (SSO) enabled for seamless authentication
+  
+  Parameters:
+  - name: Base name used for naming pool resources (format: {name}-{index}-pool)
+  - location: Azure region for deployment (defaults to resource group location)
+  - catalogs: Array of Catalog objects defining image sources
+  - imageDefinitionName: Name of the image definition within each catalog
+  - networkConnectionName: Name of the network connection to attach to pools
+  - vmSku: Virtual machine SKU (e.g., 'general_i_8c32gb256ssd_v2')
+  - networkType: 'Managed' or 'Unmanaged' virtual network type
+  - projectName: Name of the parent DevCenter project resource
+  
+  Outputs:
+  - poolNames: Array of created pool resource names (null for non-imageDefinition catalogs)
+  
+  Dependencies:
+  - Requires an existing DevCenter project resource
+  - Requires catalogs to be synced with image definitions
+  
+  Example Usage:
+    module pools 'projectPool.bicep' = {
+      name: 'deploy-pools'
+      params: {
+        name: 'dev-pool'
+        catalogs: catalogDefinitions
+        imageDefinitionName: 'win11-vs2022'
+        networkConnectionName: 'myNetworkConnection'
+        vmSku: 'general_i_8c32gb256ssd_v2'
+        networkType: 'Managed'
+        projectName: 'myProject'
+      }
+    }
+*/
+
 @description('Pool Name')
 param name string
 

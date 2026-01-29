@@ -1,3 +1,35 @@
+// ============================================================================
+// Project Environment Type Bicep Module
+// ============================================================================
+// This module creates a Project Environment Type resource within an existing
+// DevCenter project. Environment types define deployment targets and creator
+// role assignments for deployment environments.
+//
+// Parameters:
+//   - projectName: The name of the existing DevCenter project to associate with
+//   - location: Azure region for resource deployment (defaults to resource group location)
+//   - environmentConfig: Configuration object containing environment type name and deployment target
+//
+// Resources Created:
+//   - Microsoft.DevCenter/projects/environmentTypes: A project environment type with
+//     SystemAssigned managed identity and Contributor role assignment for creators
+//
+// Outputs:
+//   - environmentTypeName: The name of the created environment type
+//
+// Usage Example:
+//   module projectEnvType 'projectEnvironmentType.bicep' = {
+//     name: 'deploy-env-type'
+//     params: {
+//       projectName: 'my-project'
+//       environmentConfig: {
+//         name: 'Development'
+//         deploymentTargetId: '/subscriptions/xxx-xxx-xxx'
+//       }
+//     }
+//   }
+// ============================================================================
+
 @description('Project Name')
 param projectName string
 

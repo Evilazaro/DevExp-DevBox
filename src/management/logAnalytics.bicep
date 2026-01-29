@@ -1,3 +1,26 @@
+// ============================================================================
+// Log Analytics Workspace Bicep Module
+// ============================================================================
+// This module deploys a Log Analytics Workspace with associated solutions
+// and diagnostic settings for centralized logging and monitoring.
+//
+// Resources deployed:
+// - Log Analytics Workspace
+// - Azure Activity Solution
+// - Diagnostic Settings for the workspace
+//
+// Usage:
+//   module logAnalytics 'logAnalytics.bicep' = {
+//     name: 'logAnalyticsDeployment'
+//     params: {
+//       name: 'my-workspace'
+//       location: 'eastus'
+//       sku: 'PerGB2018'
+//       tags: { environment: 'dev' }
+//     }
+//   }
+// ============================================================================
+
 @description('The name of the Log Analytics Workspace')
 @minLength(4)
 @maxLength(49)

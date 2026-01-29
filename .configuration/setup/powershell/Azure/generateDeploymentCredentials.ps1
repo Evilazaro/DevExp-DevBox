@@ -9,19 +9,50 @@
     and Managed Identity Contributor roles. Additionally creates user role assignments
     and stores credentials as a GitHub secret for GitHub Actions workflows.
 
+    This script performs the following operations:
+    1. Creates a service principal with Contributor role at the subscription scope
+    2. Assigns User Access Administrator role for managing access control
+    3. Assigns Managed Identity Contributor role for managed identity operations
+    4. Invokes user role assignment for DevCenter roles
+    5. Stores the credentials as a GitHub secret (AZURE_CREDENTIALS) for GitHub Actions
+
 .PARAMETER AppName
-    The name for the Azure AD application registration.
+    The name for the Azure AD application registration. This will be used as the
+    application identifier in Azure AD.
 
 .PARAMETER DisplayName
-    The display name for the service principal.
+    The display name for the service principal. This is the human-readable name
+    that will appear in the Azure portal.
 
 .EXAMPLE
     .\generateDeploymentCredentials.ps1 -AppName "contoso-cicd" -DisplayName "Contoso CI/CD Service Principal"
-    Creates a service principal and configures GitHub secrets.
+    Creates a service principal named "contoso-cicd" with display name "Contoso CI/CD Service Principal"
+    and configures GitHub secrets for the repository.
+
+.EXAMPLE
+    .\generateDeploymentCredentials.ps1 -AppName "devexp-deploy" -DisplayName "DevExp Deployment SP"
+    Creates a service principal for DevExp deployment scenarios.
+
+.INPUTS
+    None. This script does not accept pipeline input.
+
+.OUTPUTS
+    None. This script outputs status messages to the console.
 
 .NOTES
     Author: DevExp Team
     Requires: Azure CLI (az), GitHub CLI (gh), and appropriate permissions
+    Prerequisites:
+    - Azure CLI must be installed and logged in (az login)
+    - GitHub CLI must be installed and authenticated (gh auth login)
+    - User must have Owner or User Access Administrator role on the subscription
+    - Repository must be configured for GitHub CLI operations
+
+.LINK
+    https://docs.microsoft.com/en-us/cli/azure/ad/sp
+
+.LINK
+    https://docs.github.com/en/actions/security-guides/encrypted-secrets
 #>
 
 [CmdletBinding()]

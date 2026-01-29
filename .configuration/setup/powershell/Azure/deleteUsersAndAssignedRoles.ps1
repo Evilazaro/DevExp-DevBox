@@ -12,20 +12,40 @@
     - Deployment Environments Reader
     - Deployment Environments User
 
+    The script first retrieves the current Azure AD signed-in user, then iterates
+    through each DevCenter-related role and removes the assignment if it exists.
+    Role assignments are scoped to the specified subscription.
+
 .PARAMETER AppDisplayName
     The display name of the associated application (used for logging purposes).
+    This parameter is optional and primarily used for informational output.
 
 .PARAMETER SubscriptionId
-    The Azure subscription ID where roles will be removed. If not provided,
-    uses the current subscription.
+    The Azure subscription ID where roles will be removed. Must be a valid GUID format.
+    If not provided, the script will use the current active subscription from Azure CLI.
 
 .EXAMPLE
     .\deleteUsersAndAssignedRoles.ps1 -AppDisplayName "ContosoDevEx GitHub Actions Enterprise App"
-    Removes DevCenter role assignments from the current user.
+    Removes DevCenter role assignments from the current user using the default subscription.
+
+.EXAMPLE
+    .\deleteUsersAndAssignedRoles.ps1 -SubscriptionId "12345678-1234-1234-1234-123456789012"
+    Removes DevCenter role assignments from the current user in the specified subscription.
+
+.EXAMPLE
+    .\deleteUsersAndAssignedRoles.ps1 -WhatIf
+    Shows what role assignments would be removed without actually removing them.
+
+.INPUTS
+    None. This script does not accept pipeline input.
+
+.OUTPUTS
+    None. This script outputs status messages to the console.
 
 .NOTES
     Author: DevExp Team
     Requires: Azure CLI (az) authenticated with appropriate permissions
+    Requires: User must have permissions to delete role assignments in the target subscription
 #>
 
 [CmdletBinding(SupportsShouldProcess)]

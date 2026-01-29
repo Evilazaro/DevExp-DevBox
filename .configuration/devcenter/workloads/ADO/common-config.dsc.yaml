@@ -1,29 +1,68 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
 #
+# ==============================================================================
 # Common Configuration for Azure DevOps Development Environment
-# ==============================================================
+# ==============================================================================
 #
+# File:        common-config.dsc.yaml
+# Version:     0.2.0
+# Author:      Evilazaro
+# Repository:  https://github.com/Evilazaro/DevExp-DevBox
+# Branch:      main
+#
+# ------------------------------------------------------------------------------
+# DESCRIPTION
+# ------------------------------------------------------------------------------
 # This DSC (Desired State Configuration) file defines the common development
 # tools and runtimes required for Azure DevOps (ADO) development workflows.
+# It automates the installation and configuration of essential development tools
+# for developers working with Azure DevOps, ensuring a consistent and
+# reproducible development environment across all team workstations.
 #
-# Purpose:
-#   Automates the installation and configuration of essential development tools
-#   for developers working with Azure DevOps, ensuring a consistent and
-#   reproducible development environment.
+# ------------------------------------------------------------------------------
+# COMPONENTS INSTALLED
+# ------------------------------------------------------------------------------
+#   Source Control Tools:
+#     - Git (Git.Git)              - Distributed version control system
+#     - GitHub CLI (GitHub.cli)   - Command-line interface for GitHub
 #
-# Components:
-#   - Source Control Tools: Git, GitHub CLI
-#   - Development Runtimes: .NET SDK 9, .NET Runtime 9, Node.js
-#   - Development Tools: Visual Studio Code
+#   Development Runtimes:
+#     - .NET SDK 9 (Microsoft.DotNet.SDK.9)         - Build and develop .NET apps
+#     - .NET Runtime 9 (Microsoft.DotNet.Runtime.9) - Execute .NET applications
+#     - Node.js (OpenJS.NodeJS)                     - JavaScript runtime
 #
-# Usage:
-#   This configuration is applied through Microsoft Dev Box or Windows Package
-#   Manager (WinGet) DSC to provision developer workstations automatically.
+#   Development Tools:
+#     - Visual Studio Code (Microsoft.VisualStudioCode) - Code editor
 #
-# Dependencies:
+# ------------------------------------------------------------------------------
+# PREREQUISITES
+# ------------------------------------------------------------------------------
 #   - Windows Package Manager (WinGet) must be available on the target system
 #   - Internet connectivity required for package downloads
+#   - Administrator privileges may be required for some installations
 #
+# ------------------------------------------------------------------------------
+# USAGE
+# ------------------------------------------------------------------------------
+# This configuration is applied through Microsoft Dev Box or Windows Package
+# Manager (WinGet) DSC to provision developer workstations automatically.
+#
+# To apply manually:
+#   winget configure --file common-config.dsc.yaml
+#
+# ------------------------------------------------------------------------------
+# DEPENDENCY GRAPH
+# ------------------------------------------------------------------------------
+#   Git.Git
+#      └── GitHub.cli (depends on Git)
+#
+#   Microsoft.DotNet.SDK.9
+#      └── Microsoft.DotNet.Runtime.9 (depends on SDK)
+#
+#   OpenJS.NodeJS (standalone)
+#   Microsoft.VisualStudioCode (standalone)
+#
+# ==============================================================================
 
 properties:
   configurationVersion: "0.2.0"

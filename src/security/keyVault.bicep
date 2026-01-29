@@ -1,3 +1,20 @@
+/*
+  Key Vault Bicep Module
+  ----------------------
+  This module deploys an Azure Key Vault resource with configurable settings for security,
+  soft delete, purge protection, and RBAC authorization.
+
+  Parameters:
+    - keyvaultSettings: Configuration settings for the Key Vault instance
+    - location: Azure region for deployment (defaults to resource group location)
+    - tags: Resource tags to apply
+    - unique: Unique string for resource naming to ensure global uniqueness
+
+  Outputs:
+    - AZURE_KEY_VAULT_NAME: The deployed Key Vault name
+    - AZURE_KEY_VAULT_ENDPOINT: The Key Vault URI endpoint
+*/
+
 @description('Key Vault configuration settings')
 param keyvaultSettings KeyVaultSettings
 

@@ -1,3 +1,25 @@
+// ============================================================================
+// Module: catalog.bicep
+// Description: Deploys a DevCenter catalog resource that syncs environment
+//              definitions from a GitHub or Azure DevOps Git repository.
+//
+// Parameters:
+//   - devCenterName: The name of the existing DevCenter instance to attach the catalog to.
+//   - catalogConfig: Configuration object containing catalog name, type, visibility, 
+//                    repository URI, branch, and path.
+//   - secretIdentifier: Secure string containing the Key Vault secret identifier for 
+//                       authenticating to private repositories.
+//
+// Resources:
+//   - devCenter: Reference to an existing DevCenter instance.
+//   - catalog: DevCenter catalog resource configured for GitHub or Azure DevOps Git.
+//
+// Outputs:
+//   - AZURE_DEV_CENTER_CATALOG_NAME: The name of the created catalog.
+//   - AZURE_DEV_CENTER_CATALOG_ID: The resource ID of the created catalog.
+//   - AZURE_DEV_CENTER_CATALOG_TYPE: The type of catalog (gitHub or adoGit).
+// ============================================================================
+
 @description('The name of the DevCenter instance')
 param devCenterName string
 
@@ -16,7 +38,7 @@ type Catalog = {
   @description('Type of repository (GitHub or Azure DevOps Git)')
   type: CatalogType
 
-   @description('Visibility of the catalog')
+  @description('Visibility of the catalog')
   visibility: 'public' | 'private'
 
   @description('URI of the repository')

@@ -9,16 +9,46 @@
     application registration by looking up the display name. This is typically
     used to clean up credentials created for CI/CD pipelines.
 
+    The script performs the following operations:
+    1. Queries Azure AD for an application matching the specified display name
+    2. Deletes the associated service principal (if it exists)
+    3. Deletes the application registration
+
+    The script supports -WhatIf and -Confirm parameters for safe execution.
+
 .PARAMETER AppDisplayName
     The display name of the application registration to delete.
+    This must match exactly the name shown in Azure AD App Registrations.
 
 .EXAMPLE
     .\deleteDeploymentCredentials.ps1 -AppDisplayName "ContosoDevEx GitHub Actions Enterprise App"
     Deletes the service principal and app registration with the specified name.
 
+.EXAMPLE
+    .\deleteDeploymentCredentials.ps1 -AppDisplayName "My CI/CD App" -WhatIf
+    Shows what would be deleted without actually performing the deletion.
+
+.EXAMPLE
+    .\deleteDeploymentCredentials.ps1 -AppDisplayName "My CI/CD App" -Verbose
+    Deletes the credentials with verbose output showing each step.
+
+.INPUTS
+    None. This script does not accept pipeline input.
+
+.OUTPUTS
+    None. This script outputs status messages to the console.
+
 .NOTES
     Author: DevExp Team
     Requires: Azure CLI (az) authenticated with Azure AD admin permissions
+    
+    Prerequisites:
+    - Azure CLI must be installed and in PATH
+    - User must be authenticated via 'az login'
+    - User must have sufficient Azure AD permissions to delete app registrations
+
+.LINK
+    https://learn.microsoft.com/en-us/cli/azure/ad/app
 #>
 
 [CmdletBinding(SupportsShouldProcess)]

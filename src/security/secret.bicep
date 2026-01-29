@@ -1,3 +1,17 @@
+/*
+  This Bicep module creates an Azure Key Vault secret and configures diagnostic settings
+  for the Key Vault to send logs and metrics to a Log Analytics workspace.
+
+  Parameters:
+    - name: The name of the secret to create
+    - secretValue: The secure value of the secret
+    - keyVaultName: The name of the existing Key Vault to store the secret
+    - logAnalyticsId: The resource ID of the Log Analytics workspace for diagnostics
+
+  Outputs:
+    - AZURE_KEY_VAULT_SECRET_IDENTIFIER: The URI of the created secret
+*/
+
 @description('Secret Name')
 param name string
 

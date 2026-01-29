@@ -1,10 +1,21 @@
 # yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
 ################################################################################
 # DSC Configuration: Common Frontend User Tasks
-# 
+#
+# File: common-frontend-usertasks-config.dsc.yaml
+# Version: 0.2.0
+# Last Updated: 2025
+#
 # Purpose:
 #   This configuration defines the standard developer tooling and VS Code
 #   extensions required for frontend development with Azure integration.
+#   It ensures a consistent, reproducible development environment across
+#   all frontend team members using Microsoft Dev Box.
+#
+# Description:
+#   Leverages Windows Package Manager (WinGet) and PowerShell DSC resources
+#   to declaratively install and configure development tools. This approach
+#   enables Infrastructure as Code (IaC) for developer workstations.
 #
 # Resources Installed:
 #   - Postman API Platform: For API testing, documentation, and collaboration
@@ -13,11 +24,36 @@
 # Usage:
 #   This configuration is applied to Dev Box environments to ensure consistent
 #   tooling across all frontend development teams working with Azure services.
+#   It is typically referenced by a Dev Box definition or applied via:
+#     winget configure -f common-frontend-usertasks-config.dsc.yaml
 #
 # Prerequisites:
 #   - Visual Studio Code must be installed
-#   - WinGet package manager must be available
+#   - WinGet package manager must be available (Windows 10/11)
 #   - Elevated privileges for system-wide extension installation
+#   - Internet connectivity for downloading packages and extensions
+#
+# VS Code Extensions Installed:
+#   - ms-vscode.powershell: PowerShell language support for Azure automation
+#   - ms-vscode-remote.remote-wsl: Windows Subsystem for Linux integration
+#   - ms-dotnettools.csdevkit: C# Dev Kit for .NET development
+#   - ms-vscode.vscode-typescript-next: TypeScript language features (nightly)
+#   - redhat.vscode-yaml: YAML language support for config files
+#   - ms-azuretools.vscode-bicep: Azure Bicep infrastructure as code
+#   - ms-vscode.vscode-node-azure-pack: Azure Tools extension pack
+#   - ms-vscode.azurecli: Azure CLI integration
+#   - GitHub.remotehub: GitHub Repositories integration
+#   - GitHub.vscode-pull-request-github: GitHub Pull Requests and Issues
+#   - Postman.postman-for-vscode: Postman API testing integration
+#
+# Related Configurations:
+#   - common-frontend-config.dsc.yaml: Core frontend tools and runtimes
+#   - common-backend-config.dsc.yaml: Backend development environment
+#
+# Author: DevExp Team
+# Repository: https://github.com/Evilazaro/DevExp-DevBox
+# Branch: main
+# License: MIT
 ################################################################################
 
 properties:

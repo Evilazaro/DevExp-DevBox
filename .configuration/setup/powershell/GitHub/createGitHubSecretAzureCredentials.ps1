@@ -9,17 +9,47 @@
     named AZURE_CREDENTIALS containing the Azure service principal credentials
     for use in GitHub Actions workflows.
 
+    This script performs the following operations:
+    1. Validates the provided Azure credentials JSON body
+    2. Checks GitHub CLI authentication status and prompts for login if needed
+    3. Creates or updates the AZURE_CREDENTIALS secret in the current repository
+
+    The secret can then be used in GitHub Actions workflows to authenticate
+    with Azure using the azure/login action.
+
 .PARAMETER GhSecretBody
     The JSON body containing Azure service principal credentials.
     This should be the output from 'az ad sp create-for-rbac --json-auth'.
+    The JSON must include clientId, clientSecret, subscriptionId, and tenantId.
 
 .EXAMPLE
     .\createGitHubSecretAzureCredentials.ps1 -GhSecretBody '{"clientId":"...","clientSecret":"..."}'
     Creates the AZURE_CREDENTIALS secret in the current repository.
 
+.EXAMPLE
+    $creds = az ad sp create-for-rbac --json-auth --role Contributor --scopes /subscriptions/<subscription-id>
+    .\createGitHubSecretAzureCredentials.ps1 -GhSecretBody $creds
+    Creates a service principal and stores its credentials as a GitHub secret.
+
+.INPUTS
+    System.String
+    You can pipe the Azure credentials JSON string to this script.
+
+.OUTPUTS
+    None
+    This script does not generate any output objects. It writes status messages to the output stream.
+
 .NOTES
     Author: DevExp Team
     Requires: GitHub CLI (gh) installed and accessible
+    Requires: Git repository with GitHub remote configured
+    Version: 1.0.0
+
+.LINK
+    https://docs.github.com/en/actions/security-guides/encrypted-secrets
+
+.LINK
+    https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure
 #>
 
 [CmdletBinding()]

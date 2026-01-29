@@ -9,16 +9,40 @@
     secret from the current repository. Typically used to remove the
     AZURE_CREDENTIALS secret during cleanup operations.
 
+    The script performs the following operations:
+    1. Verifies GitHub CLI authentication status
+    2. Prompts for interactive login if not authenticated
+    3. Removes the specified secret from the repository
+
 .PARAMETER GhSecretName
-    The name of the GitHub secret to delete.
+    The name of the GitHub secret to delete. This parameter is mandatory
+    and must not be null or empty.
+
+.INPUTS
+    None. This script does not accept pipeline input.
+
+.OUTPUTS
+    None. This script does not return any objects.
 
 .EXAMPLE
     .\deleteGitHubSecretAzureCredentials.ps1 -GhSecretName "AZURE_CREDENTIALS"
     Deletes the AZURE_CREDENTIALS secret from the current repository.
 
+.EXAMPLE
+    .\deleteGitHubSecretAzureCredentials.ps1 -GhSecretName "MY_SECRET" -WhatIf
+    Shows what would happen if the script runs without actually deleting the secret.
+
+.EXAMPLE
+    .\deleteGitHubSecretAzureCredentials.ps1 -ghSecretName "AZURE_CREDENTIALS" -Verbose
+    Deletes the secret with verbose output enabled.
+
+.LINK
+    https://cli.github.com/manual/gh_secret_delete
+
 .NOTES
     Author: DevExp Team
     Requires: GitHub CLI (gh) installed and accessible
+    The script supports -WhatIf and -Confirm parameters via SupportsShouldProcess.
 #>
 
 [CmdletBinding(SupportsShouldProcess)]

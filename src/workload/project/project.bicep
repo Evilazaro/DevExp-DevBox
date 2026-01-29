@@ -1,3 +1,66 @@
+/*
+  =============================================================================
+  DevCenter Project Deployment Template
+  =============================================================================
+  
+  Description:
+    This Bicep template deploys a complete DevCenter project infrastructure
+    for Azure Dev Box and Azure Deployment Environments.
+  
+  Resources Deployed:
+    - DevCenter Project with catalog settings for environment and image definitions
+    - Project catalogs (GitHub or Azure DevOps Git repositories)
+    - Project environment types with deployment target subscriptions
+    - DevBox pools with VM configurations
+    - Network connectivity (managed or unmanaged virtual networks)
+    - Identity and RBAC role assignments for service principals and AD groups
+  
+  Prerequisites:
+    - An existing DevCenter instance
+    - Log Analytics workspace for diagnostics
+    - Key Vault secret for Git repository authentication (if using private repos)
+    - Security resource group for identity role assignments
+  
+  Parameters:
+    - devCenterName: Name of the parent DevCenter instance
+    - name: Name of the project to create
+    - logAnalyticsId: Resource ID of Log Analytics workspace for diagnostics
+    - projectDescription: Description for the project
+    - catalogs: Array of catalog configurations (GitHub/ADO Git repos)
+    - projectEnvironmentTypes: Environment types with deployment targets
+    - projectPools: DevBox pool configurations with VM SKUs
+    - projectNetwork: Network configuration (managed/unmanaged VNet)
+    - secretIdentifier: Key Vault secret for Git authentication
+    - securityResourceGroupName: Resource group for security resources
+    - identity: Managed identity and role assignment configuration
+    - tags: Resource tags (optional)
+    - location: Azure region (defaults to resource group location)
+  
+  Outputs:
+    - AZURE_PROJECT_NAME: Name of the deployed project
+    - AZURE_PROJECT_ID: Resource ID of the deployed project
+  
+  Usage:
+    module project 'project.bicep' = {
+      name: 'projectDeployment'
+      params: {
+        devCenterName: 'myDevCenter'
+        name: 'myProject'
+        logAnalyticsId: logAnalytics.id
+        projectDescription: 'Development project'
+        catalogs: [...]
+        projectEnvironmentTypes: [...]
+        projectPools: [...]
+        projectNetwork: { virtualNetworkType: 'Managed', addressPrefixes: [...] }
+        secretIdentifier: keyVaultSecret.properties.secretUri
+        securityResourceGroupName: 'rg-security'
+        identity: { type: 'SystemAssigned', roleAssignments: [...] }
+      }
+    }
+  
+  =============================================================================
+*/
+
 @description('Name of the DevCenter instance')
 param devCenterName string
 

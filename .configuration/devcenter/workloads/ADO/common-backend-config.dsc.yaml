@@ -17,11 +17,26 @@
 #   This configuration is applied to Dev Box environments to ensure consistent
 #   tooling across development teams working on Azure backend services.
 #
+# Prerequisites:
+#   - Windows Package Manager (WinGet) must be available on the target system
+#   - Administrative privileges may be required for some installations
+#   - Internet connectivity for downloading packages
+#
 # Dependencies:
 #   - Windows Package Manager (WinGet) must be available
-#   - Some tools have interdependencies (documented in resource sections)
+#   - Some tools have interdependencies (documented in resource sections):
+#     - Azure Developer CLI (azd) depends on Azure CLI
+#     - Bicep CLI depends on Azure CLI for deployment operations
 #
+# Installation Order:
+#   1. Azure CLI (foundation for other Azure tools)
+#   2. Azure Developer CLI (depends on Azure CLI)
+#   3. Bicep CLI (depends on Azure CLI)
+#   4. Azure Storage Emulator (independent)
+#
+# Version: 0.2.0
 # Maintainer: DevExp-DevBox Team
+# Repository: https://github.com/Evilazaro/DevExp-DevBox
 # =============================================================================
 
 properties:

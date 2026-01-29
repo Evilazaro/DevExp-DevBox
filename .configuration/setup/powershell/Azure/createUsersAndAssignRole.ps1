@@ -1,4 +1,5 @@
 #Requires -Version 5.1
+#Requires -Modules Az.Accounts, Az.Resources
 
 <#
 .SYNOPSIS
@@ -12,11 +13,19 @@
     - Deployment Environments Reader
     - Deployment Environments User
 
-    The roles are assigned at the subscription scope.
+    The roles are assigned at the subscription scope. The script first checks
+    if a role is already assigned before attempting to create a new assignment,
+    preventing duplicate assignments and unnecessary API calls.
 
 .PARAMETER SubscriptionId
     The Azure subscription ID where roles will be assigned. If not provided,
-    uses the current subscription.
+    uses the current subscription from the Azure CLI context.
+
+.INPUTS
+    None. This script does not accept pipeline input.
+
+.OUTPUTS
+    None. This script outputs status messages to the console.
 
 .EXAMPLE
     .\createUsersAndAssignRole.ps1
@@ -26,9 +35,21 @@
     .\createUsersAndAssignRole.ps1 -SubscriptionId "12345678-1234-1234-1234-123456789012"
     Assigns DevCenter roles using a specific subscription.
 
+.EXAMPLE
+    .\createUsersAndAssignRole.ps1 -Verbose
+    Assigns DevCenter roles with verbose output for debugging purposes.
+
 .NOTES
-    Author: DevExp Team
-    Requires: Azure CLI (az) authenticated with appropriate permissions
+    File Name      : createUsersAndAssignRole.ps1
+    Author         : DevExp Team
+    Prerequisite   : Azure CLI (az) authenticated with appropriate permissions
+                     User must have Owner or User Access Administrator role
+                     on the target subscription to assign roles.
+    Version        : 1.0
+
+.LINK
+    https://learn.microsoft.com/en-us/azure/dev-box/
+    https://learn.microsoft.com/en-us/azure/role-based-access-control/
 #>
 
 [CmdletBinding()]
