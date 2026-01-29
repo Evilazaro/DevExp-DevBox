@@ -1,3 +1,20 @@
+/*
+  Module: devCenterRoleAssignmentRG.bicep
+  Description: Creates a role assignment at the resource group scope for a specified identity.
+               This module is used to grant RBAC permissions to service principals, users, or groups
+               within a resource group context, typically for Dev Center scenarios.
+  
+  Parameters:
+    - id: The role definition ID (GUID) to assign
+    - principalId: The principal ID of the identity receiving the role
+    - principalType: The type of principal (User, Group, or ServicePrincipal)
+    - scope: The scope level for the assignment (only 'ResourceGroup' creates the assignment)
+  
+  Outputs:
+    - roleAssignmentId: The resource ID of the created role assignment
+    - scope: The resource group ID where the assignment was created
+*/
+
 targetScope = 'resourceGroup'
 
 @description('The role definition ID to assign to the identity')

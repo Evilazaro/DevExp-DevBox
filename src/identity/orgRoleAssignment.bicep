@@ -1,3 +1,22 @@
+// ============================================================================
+// Organization Role Assignment Module
+// ============================================================================
+// This Bicep module creates Azure RBAC role assignments at the resource group
+// scope for a specified principal (user, group, service principal, etc.).
+//
+// Usage:
+//   module roleAssignments 'orgRoleAssignment.bicep' = {
+//     name: 'roleAssignments'
+//     params: {
+//       principalId: '<object-id>'
+//       roles: [
+//         { id: '<role-definition-guid>', name: 'Contributor' }
+//       ]
+//       principalType: 'Group'
+//     }
+//   }
+// ============================================================================
+
 @description('The principal (object) ID of the security group to assign roles to')
 param principalId string
 

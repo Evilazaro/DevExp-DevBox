@@ -1,10 +1,27 @@
+/*
+  Key Vault Access Bicep Module
+  
+  This module creates a role assignment that grants Key Vault Secrets User access
+  to a specified service principal. The Key Vault Secrets User role allows reading
+  secrets from Azure Key Vault.
+  
+  Usage:
+    module keyVaultAccess 'keyVaultAccess.bicep' = {
+      name: 'keyVaultAccessDeployment'
+      params: {
+        name: 'myRoleAssignment'
+        principalId: '<service-principal-id>'
+      }
+    }
+*/
+
 @description('Name identifier for the role assignment')
 param name string
 
 @description('The principal ID of the identity to assign Key Vault access to')
 param principalId string
 
-@description('Role assignment resource')
+@description('Role assignment resource that grants Key Vault Secrets User permissions to the specified principal')
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(subscription().id, name, resourceGroup().id)
   properties: {

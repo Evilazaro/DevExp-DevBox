@@ -1,3 +1,20 @@
+/*
+  Module: projectIdentityRoleAssignment.bicep
+  Description: Assigns Azure RBAC roles to a principal (user, group, or service principal) 
+               for a DevCenter project. This module creates role assignments scoped to the 
+               project level for each role definition provided.
+  
+  Parameters:
+    - projectName: Name of the existing DevCenter project
+    - principalId: The object ID of the principal to assign roles to
+    - roles: Array of role definitions with id, optional name, and scope
+    - principalType: Type of principal (User, Group, ServicePrincipal, ForeignGroup, Device)
+  
+  Outputs:
+    - roleAssignmentIds: Array of created role assignment details
+    - projectId: The resource ID of the DevCenter project
+*/
+
 @description('The name of the DevCenter project')
 param projectName string
 

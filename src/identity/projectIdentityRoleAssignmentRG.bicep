@@ -1,3 +1,17 @@
+// ============================================================================
+// Project Identity Role Assignment (Resource Group Scope)
+// ============================================================================
+// This Bicep module assigns Azure RBAC roles to a principal at the resource
+// group scope for a DevCenter project. It supports multiple role assignments
+// and filters roles based on the 'ResourceGroup' scope.
+//
+// Usage:
+//   - Provide the DevCenter project name to reference
+//   - Specify the principal ID (user, group, or service principal)
+//   - Pass an array of roles with scope set to 'ResourceGroup'
+//   - Specify the principal type for proper role assignment
+// ============================================================================
+
 @description('The name of the DevCenter project')
 param projectName string
 

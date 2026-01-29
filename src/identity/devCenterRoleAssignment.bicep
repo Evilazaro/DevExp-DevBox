@@ -1,3 +1,20 @@
+/*
+  Module: devCenterRoleAssignment.bicep
+  Description: Creates a role assignment at the subscription scope for a given identity.
+               This module is used to assign Azure RBAC roles to service principals, users, or groups
+               for Dev Center resources.
+  
+  Parameters:
+    - id: The role definition ID (GUID) to assign
+    - principalId: The principal ID of the identity receiving the role assignment
+    - principalType: The type of principal (User, Group, or ServicePrincipal)
+    - scope: The scope level for the role assignment (currently supports 'Subscription')
+  
+  Outputs:
+    - roleAssignmentId: The resource ID of the created role assignment
+    - scope: The subscription ID where the role assignment was created
+*/
+
 targetScope = 'subscription'
 
 @description('The role definition ID to assign to the identity')
