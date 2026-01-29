@@ -1,18 +1,42 @@
 /*
   Module: projectIdentityRoleAssignment.bicep
-  Description: Assigns Azure RBAC roles to a principal (user, group, or service principal) 
-               for a DevCenter project. This module creates role assignments scoped to the 
-               project level for each role definition provided.
+  
+  Description: 
+    Assigns Azure RBAC roles to a principal (user, group, or service principal) 
+    for a DevCenter project. This module creates role assignments scoped to the 
+    project level for each role definition provided where the scope is 'Project'.
+  
+  Usage:
+    This module is designed to be called from a parent deployment to grant 
+    identity access to DevCenter project resources. Role assignments are created
+    using a deterministic GUID based on subscription, resource group, project,
+    principal, and role to ensure idempotent deployments.
   
   Parameters:
-    - projectName: Name of the existing DevCenter project
-    - principalId: The object ID of the principal to assign roles to
-    - roles: Array of role definitions with id, optional name, and scope
-    - principalType: Type of principal (User, Group, ServicePrincipal, ForeignGroup, Device)
+    - projectName: Name of the existing DevCenter project to assign roles on
+    - principalId: The object ID (GUID) of the principal to assign roles to
+    - roles: Array of AzureRBACRole objects containing:
+        - id: The GUID of the role definition (e.g., 'b24988ac-6180-42a0-ab88-20f7382dd24c' for Contributor)
+        - name: (Optional) Display name of the role for documentation purposes
+        - scope: Scope at which the role should be assigned (only 'Project' scope is processed)
+    - principalType: Type of principal being assigned (User, Group, ServicePrincipal, ForeignGroup, Device)
   
   Outputs:
-    - roleAssignmentIds: Array of created role assignment details
-    - projectId: The resource ID of the DevCenter project
+    - roleAssignmentIds: Array of objects containing roleId, roleName, and assignmentId for each created assignment
+    - projectId: The full resource ID of the DevCenter project
+  
+  Example:
+    module projectRoleAssignment 'projectIdentityRoleAssignment.bicep' = {
+      name: 'assign-project-roles'
+      params: {
+        projectName: 'my-devcenter-project'
+        principalId: '00000000-0000-0000-0000-000000000000'
+        principalType: 'ServicePrincipal'
+        roles: [
+          { id: 'b24988ac-6180-42a0-ab88-20f7382dd24c', name: 'Contributor', scope: 'Project' }
+        ]
+      }
+    }
 */
 
 @description('The name of the DevCenter project')

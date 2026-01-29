@@ -23,6 +23,11 @@ permissions:
   contents: write # Required for creating tags
   pull-requests: read # Required for PR triggers
 
+# Prevent duplicate runs for same commit, cancel superseded runs for PRs
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   # -----------------------------------------------------------------------------
   # Job: generate-tag-version
@@ -61,8 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: generate-tag-version
-    # Only build if version generation succeeded
-    if: needs.generate-tag-version.result == 'success'
+    # Only build if version generation succeeded and workflow wasn't cancelled
+    if: ${{ !cancelled() && needs.generate-tag-version.result == 'success' }}
 
     steps:
       - name: Checkout Repository

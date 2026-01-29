@@ -5,9 +5,19 @@
 // and diagnostic settings for centralized logging and monitoring.
 //
 // Resources deployed:
-// - Log Analytics Workspace
-// - Azure Activity Solution
-// - Diagnostic Settings for the workspace
+// - Log Analytics Workspace: Core workspace for collecting and analyzing log data
+// - Azure Activity Solution: Provides insights into Azure subscription-level events
+// - Diagnostic Settings: Enables logging and metrics collection for the workspace itself
+//
+// Parameters:
+// - name (required): The name of the Log Analytics Workspace (4-49 characters)
+// - location (optional): Azure region for deployment (defaults to resource group location)
+// - tags (optional): Key-value pairs for resource tagging
+// - sku (optional): Pricing tier for the workspace (defaults to 'PerGB2018')
+//
+// Outputs:
+// - AZURE_LOG_ANALYTICS_WORKSPACE_ID: The resource ID of the deployed workspace
+// - AZURE_LOG_ANALYTICS_WORKSPACE_NAME: The generated name of the workspace (includes unique suffix)
 //
 // Usage:
 //   module logAnalytics 'logAnalytics.bicep' = {
@@ -19,6 +29,10 @@
 //       tags: { environment: 'dev' }
 //     }
 //   }
+//
+// Notes:
+// - Workspace name is automatically suffixed with a unique string to ensure uniqueness
+// - Total workspace name length is limited to 63 characters
 // ============================================================================
 
 @description('The name of the Log Analytics Workspace')

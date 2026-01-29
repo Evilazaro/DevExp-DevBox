@@ -80,6 +80,8 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Install Azure Developer CLI
+        # Note: Pin to SHA for production. Using tag for maintainability.
+        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
         uses: Azure/setup-azd@v2.2.1
 
       - name: Build Bicep Templates
@@ -138,21 +140,51 @@ jobs:
           echo "::group::Deploying to Azure"
           echo "Environment: ${{ env.AZURE_ENV_NAME }}"
           echo "Location: ${{ env.AZURE_LOCATION }}"
-          azd provision --no-prompt
-          echo "✅ Deployment completed successfully"
+          
+          # Retry logic for transient Azure failures
+          max_retries=3
+          retry_count=0
+          retry_delay=30
+          
+          while [ $retry_count -lt $max_retries ]; do
+            if azd provision --no-prompt; then
+              echo "✅ Deployment completed successfully"
+              break
+            else
+              retry_count=$((retry_count + 1))
+              if [ $retry_count -lt $max_retries ]; then
+                echo "::warning::Deployment attempt $retry_count failed, retrying in ${retry_delay}s..."
+                sleep $retry_delay
+                retry_delay=$((retry_delay * 2))
+              else
+                echo "::error::Deployment failed after $max_retries attempts"
+                exit 1
+              fi
+            fi
+          done
           echo "::endgroup::"
         env:
           KEY_VAULT_SECRET: ${{ secrets.KEY_VAULT_SECRET }}
           SOURCE_CONTROL_PLATFORM: "github"
 
       - name: Generate Deployment Summary
-        if: always()
+        if: ${{ !cancelled() }}
         run: |
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## 🚀 Deployment Result" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.deploy.outcome }}" == "success" ]; then
             echo "✅ **Deployment succeeded**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| Resource | Value |" >> $GITHUB_STEP_SUMMARY
+            echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| Subscription | \`${{ env.AZURE_SUBSCRIPTION_ID }}\` |" >> $GITHUB_STEP_SUMMARY
+            echo "| Environment | \`${{ env.AZURE_ENV_NAME }}\` |" >> $GITHUB_STEP_SUMMARY
+            echo "| Location | \`${{ env.AZURE_LOCATION }}\` |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ steps.deploy.outcome }}" == "skipped" ]; then
+            echo "⏭️ **Deployment skipped**" >> $GITHUB_STEP_SUMMARY
           else
             echo "❌ **Deployment failed**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Check the workflow logs for details." >> $GITHUB_STEP_SUMMARY
           fi

@@ -1,30 +1,79 @@
 /*
   Virtual Network (VNet) Bicep Module
-  ------------------------------------
-  This module provisions or references an Azure Virtual Network with the following capabilities:
+  ====================================
+
+  Description:
+  ------------
+  This module provisions or references an Azure Virtual Network (VNet) for use in 
+  Dev Box and related Azure infrastructure deployments. It provides flexible network 
+  configuration options supporting both new and existing virtual networks.
+
+  Features:
+  ---------
   - Creates a new virtual network with configurable address spaces and subnets
   - References an existing virtual network when not creating a new one
   - Configures diagnostic settings to send logs and metrics to Log Analytics
   - Supports both 'Managed' and 'Unmanaged' network types
+  - Applies consistent tagging across all resources
 
-  Usage:
-    module vnet 'vnet.bicep' = {
-      name: 'vnetDeployment'
-      params: {
-        logAnalyticsId: '<log-analytics-resource-id>'
-        location: '<azure-region>'
-        tags: { environment: 'dev' }
-        settings: {
-          name: 'myVnet'
-          virtualNetworkType: 'Unmanaged'
-          create: true
-          resourceGroupName: 'myResourceGroup'
-          tags: {}
-          addressPrefixes: ['10.0.0.0/16']
-          subnets: [{ name: 'default', properties: { addressPrefix: '10.0.0.0/24' } }]
-        }
+  Parameters:
+  -----------
+  - logAnalyticsId : string  - Resource ID of the Log Analytics workspace for diagnostics
+  - location       : string  - Azure region for resource deployment
+  - tags           : object  - Tags to apply to all resources (optional)
+  - settings       : object  - Network configuration settings (see NetworkSettings type)
+
+  Outputs:
+  --------
+  - AZURE_VIRTUAL_NETWORK : object - Contains name, resourceGroupName, virtualNetworkType, and subnets
+
+  Dependencies:
+  -------------
+  - Log Analytics workspace (for diagnostic settings)
+  - Existing resource group (when referencing existing VNet)
+
+  Usage Example:
+  --------------
+  // Create a new virtual network
+  module vnet 'vnet.bicep' = {
+    name: 'vnetDeployment'
+    params: {
+      logAnalyticsId: '<log-analytics-resource-id>'
+      location: 'eastus'
+      tags: { environment: 'dev', project: 'devbox' }
+      settings: {
+        name: 'myVnet'
+        virtualNetworkType: 'Unmanaged'
+        create: true
+        resourceGroupName: 'myResourceGroup'
+        tags: {}
+        addressPrefixes: ['10.0.0.0/16']
+        subnets: [
+          { name: 'default', properties: { addressPrefix: '10.0.0.0/24' } }
+          { name: 'devbox', properties: { addressPrefix: '10.0.1.0/24' } }
+        ]
       }
     }
+  }
+
+  // Reference an existing virtual network
+  module existingVnet 'vnet.bicep' = {
+    name: 'existingVnetDeployment'
+    params: {
+      logAnalyticsId: '<log-analytics-resource-id>'
+      location: 'eastus'
+      tags: {}
+      settings: {
+        name: 'existingVnetName'
+        virtualNetworkType: 'Unmanaged'
+        create: false
+        resourceGroupName: 'existingResourceGroup'
+        tags: {}
+        addressPrefixes: []
+        subnets: []
+      }
+    }
+  }
 */
 
 @description('Log Analytics workspace resource ID for diagnostic settings')

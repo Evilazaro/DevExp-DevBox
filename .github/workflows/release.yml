@@ -117,12 +117,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [generate-release, build]
+    # Publish release when: build succeeded AND should_release is true AND (should_publish is true OR force_release input is true)
+    # Using !cancelled() to ensure we don't run if workflow was cancelled
     if: |
-      always() &&
-      needs.generate-release.outputs.should_release == 'true' && 
+      !cancelled() &&
       needs.build.result == 'success' &&
-      (needs.generate-release.outputs.should_publish == 'true' || 
-       github.event.inputs.force_release == 'true')
+      needs.generate-release.outputs.should_release == 'true' && 
+      (needs.generate-release.outputs.should_publish == 'true' || github.event.inputs.force_release == 'true')
 
     steps:
       - name: Checkout Repository
@@ -132,7 +133,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download Build Artifacts
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
         with:
           name: artifacts-${{ needs.generate-release.outputs.new_version }}
           path: ./artifacts
@@ -207,8 +208,10 @@ jobs:
   summary:
     name: Workflow Summary
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [generate-release, build, publish-release]
-    if: always()
+    # Run on success or failure but not when cancelled
+    if: ${{ !cancelled() }}
     steps:
       - name: Workflow Summary
         shell: bash

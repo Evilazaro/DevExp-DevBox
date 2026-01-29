@@ -49,6 +49,7 @@ runs:
         compression-level: 6
         if-no-files-found: error
         retention-days: 30
+        overwrite: true # Allow retry uploads to succeed
 
     - name: Generate Artifact Summary
       shell: bash

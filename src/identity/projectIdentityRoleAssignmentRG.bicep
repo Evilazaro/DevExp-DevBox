@@ -5,11 +5,33 @@
 // group scope for a DevCenter project. It supports multiple role assignments
 // and filters roles based on the 'ResourceGroup' scope.
 //
+// Parameters:
+//   - projectName: The name of the DevCenter project to reference
+//   - principalId: The object ID of the principal (user, group, or service principal)
+//   - roles: Array of AzureRBACRole objects defining the roles to assign
+//   - principalType: The type of principal (User, Group, ServicePrincipal, ForeignGroup, Device)
+//
+// Outputs:
+//   - roleAssignmentIds: Array of objects containing roleId, roleName, and assignmentId
+//   - projectId: The resource ID of the referenced DevCenter project
+//
 // Usage:
-//   - Provide the DevCenter project name to reference
-//   - Specify the principal ID (user, group, or service principal)
-//   - Pass an array of roles with scope set to 'ResourceGroup'
-//   - Specify the principal type for proper role assignment
+//   module rgRoleAssignment 'projectIdentityRoleAssignmentRG.bicep' = {
+//     name: 'projectRgRoleAssignment'
+//     params: {
+//       projectName: 'myProject'
+//       principalId: '00000000-0000-0000-0000-000000000000'
+//       roles: [
+//         { id: 'acdd72a7-3385-48ef-bd42-f606fba81ae7', name: 'Reader', scope: 'ResourceGroup' }
+//       ]
+//       principalType: 'User'
+//     }
+//   }
+//
+// Notes:
+//   - Only roles with scope set to 'ResourceGroup' will be assigned
+//   - Role assignment names are generated using a deterministic GUID based on
+//     subscription, resource group, project, principal, and role IDs
 // ============================================================================
 
 @description('The name of the DevCenter project')

@@ -4,6 +4,33 @@
 // This module creates a network connection and attaches it to an existing
 // DevCenter instance. The network connection enables DevCenter to provision
 // Dev Boxes within the specified subnet using Azure AD Join.
+//
+// Parameters:
+//   - name: Name of the network connection to be created
+//   - devCenterName: Name of the existing DevCenter instance to attach to
+//   - subnetId: Resource ID of the subnet for Dev Box connectivity
+//   - location: Azure region for deployment (defaults to resource group location)
+//   - tags: Optional tags to apply to resources
+//
+// Resources Created:
+//   - Microsoft.DevCenter/networkConnections: Network connection with Azure AD Join
+//   - Microsoft.DevCenter/devcenters/attachednetworks: Attachment to DevCenter
+//
+// Outputs:
+//   - vnetAttachmentName: Name of the VNet attachment resource
+//   - networkConnectionId: Resource ID of the network connection
+//   - attachedNetworkId: Resource ID of the attached network
+//   - networkConnectionName: Name of the network connection
+//
+// Usage Example:
+//   module networkConnection 'networkConnection.bicep' = {
+//     name: 'deploy-network-connection'
+//     params: {
+//       name: 'my-network-connection'
+//       devCenterName: 'my-devcenter'
+//       subnetId: '/subscriptions/.../subnets/dev-subnet'
+//     }
+//   }
 // ============================================================================
 
 @description('Name of the network connection to be created')

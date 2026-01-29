@@ -3,21 +3,39 @@
 // Description: Orchestrates network connectivity resources for DevCenter projects.
 //              This module provisions virtual networks, network connections, and
 //              resource groups based on the project network configuration.
+// 
+// Dependencies:
+//   - resourceGroup.bicep: Creates or references the resource group for network resources
+//   - vnet.bicep: Provisions or references the virtual network and subnets
+//   - networkConnection.bicep: Creates the DevCenter network connection attachment
+// 
+// Usage:
+//   This module is typically called from a parent deployment to set up network
+//   connectivity for DevCenter projects. It supports both creating new network
+//   infrastructure and connecting to existing virtual networks.
+// 
+// Outputs:
+//   - networkConnectionName: The name of the network connection for DevCenter attachment
+//   - networkType: The type of virtual network (Managed or Unmanaged)
 // ============================================================================
 
-@description('Name of the DevCenter instance')
+// =========================== Parameters ===========================
+
+@description('Name of the DevCenter instance that will be connected to the virtual network')
 param devCenterName string
 
-@description('Project Network Connectivity')
+@description('Project network configuration object containing: name, virtualNetworkType, create flag, resourceGroupName, addressPrefixes, subnets, and tags')
 param projectNetwork object
 
-@description('Log Analytics workspace resource ID for diagnostic settings')
+@description('Log Analytics workspace resource ID for enabling diagnostic settings on network resources')
 param logAnalyticsId string
 
-@description('Azure region for resource deployment')
+@description('Azure region where network resources will be deployed')
 param location string
 
-@description('Determines if network connectivity resources should be created based on project network configuration')
+// =========================== Variables ============================
+
+@description('Determines if network connectivity resources should be created. Returns true when virtualNetworkType is Unmanaged, regardless of whether creating new or using existing network.')
 var networkConnectivityCreate = (projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged') || (!projectNetwork.create && projectNetwork.virtualNetworkType == 'Unmanaged')
 
 @description('Resource Group module for network connectivity resources')

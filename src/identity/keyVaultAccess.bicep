@@ -5,6 +5,20 @@
   to a specified service principal. The Key Vault Secrets User role allows reading
   secrets from Azure Key Vault.
   
+  Parameters:
+    - name: A unique name identifier used to generate a deterministic GUID for the role assignment.
+    - principalId: The Azure AD principal ID (e.g., managed identity, service principal) 
+                   that will be granted access to Key Vault secrets.
+  
+  Outputs:
+    - roleAssignmentId: The resource ID of the created role assignment.
+    - roleAssignmentName: The name (GUID) of the created role assignment.
+  
+  Role Definition:
+    Key Vault Secrets User (4633458b-17de-408a-b874-0445c86b69e6)
+    - Allows read access to secret contents
+    - Does not allow management of Key Vault or secret metadata
+  
   Usage:
     module keyVaultAccess 'keyVaultAccess.bicep' = {
       name: 'keyVaultAccessDeployment'
@@ -13,6 +27,11 @@
         principalId: '<service-principal-id>'
       }
     }
+  
+  Notes:
+    - The role assignment name is generated using a GUID based on subscription, 
+      resource group, and the provided name parameter for idempotency.
+    - principalType is set to 'ServicePrincipal' which includes managed identities.
 */
 
 @description('Name identifier for the role assignment')
