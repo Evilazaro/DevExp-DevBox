@@ -4,15 +4,48 @@
   This module deploys an Azure Key Vault resource with configurable settings for security,
   soft delete, purge protection, and RBAC authorization.
 
+  Features:
+    - Configurable soft delete with customizable retention period
+    - Purge protection to prevent permanent deletion
+    - RBAC-based authorization support
+    - Standard SKU with 'A' family
+    - Default access policies for deployer with secrets and keys permissions
+
   Parameters:
     - keyvaultSettings: Configuration settings for the Key Vault instance
+      - keyVault.name: Base name for the Key Vault (will be suffixed with unique string and '-kv')
+      - keyVault.enablePurgeProtection: Enable/disable purge protection
+      - keyVault.enableSoftDelete: Enable/disable soft delete
+      - keyVault.softDeleteRetentionInDays: Number of days to retain soft-deleted vaults
+      - keyVault.enableRbacAuthorization: Enable/disable RBAC authorization
     - location: Azure region for deployment (defaults to resource group location)
-    - tags: Resource tags to apply
+    - tags: Resource tags to apply (key-value pairs)
     - unique: Unique string for resource naming to ensure global uniqueness
+             (defaults to uniqueString based on resource group, location, subscription, and tenant)
 
   Outputs:
-    - AZURE_KEY_VAULT_NAME: The deployed Key Vault name
-    - AZURE_KEY_VAULT_ENDPOINT: The Key Vault URI endpoint
+    - AZURE_KEY_VAULT_NAME: The deployed Key Vault name (includes unique suffix)
+    - AZURE_KEY_VAULT_ENDPOINT: The Key Vault URI endpoint for accessing secrets and keys
+
+  Usage Example:
+    module keyVault 'security/keyVault.bicep' = {
+      name: 'keyVaultDeployment'
+      params: {
+        keyvaultSettings: {
+          keyVault: {
+            name: 'mykeyvault'
+            enablePurgeProtection: true
+            enableSoftDelete: true
+            softDeleteRetentionInDays: 90
+            enableRbacAuthorization: true
+          }
+        }
+        location: 'eastus'
+        tags: {
+          environment: 'production'
+        }
+      }
+    }
 */
 
 @description('Key Vault configuration settings')

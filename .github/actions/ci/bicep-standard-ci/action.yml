@@ -2,6 +2,26 @@
 # File: action.yml (bicep-standard-ci)
 # Purpose: Composite action for building and uploading Bicep artifacts
 # Description: Compiles Bicep templates to ARM and uploads versioned artifacts
+#
+# Usage:
+#   This composite action is designed to be called from a workflow to build
+#   Bicep infrastructure-as-code templates and upload them as versioned artifacts.
+#
+# Example:
+#   - name: Build and Upload Bicep Artifacts
+#     uses: ./.github/actions/ci/bicep-standard-ci
+#     with:
+#       branch_name: ${{ github.ref_name }}
+#       new_version: v1.2.3
+#       should_publish: true
+#
+# Prerequisites:
+#   - Azure CLI must be installed on the runner
+#   - Bicep templates must exist at ./infra/main.bicep
+#
+# Outputs:
+#   - Compiled ARM templates uploaded as artifacts with name: artifacts-<version>
+#   - Build summary appended to GITHUB_STEP_SUMMARY
 # =============================================================================
 
 name: Bicep Standard CI
@@ -11,13 +31,13 @@ description: |
 
 inputs:
   branch_name:
-    description: "The name of the branch being built"
+    description: "The name of the branch being built (e.g., main, feature/xyz)"
     required: true
   new_version:
-    description: "The semantic version being built (e.g., v1.2.3)"
+    description: "The semantic version being built in format vX.Y.Z (e.g., v1.2.3)"
     required: true
   should_publish:
-    description: "Whether the build artifacts should be published to a release"
+    description: "Whether the build artifacts should be published to a GitHub release (true/false)"
     required: true
 
 runs:

@@ -1,19 +1,39 @@
 # yaml-language-server: $schema=./azureResources.schema.json
-
+#
 # =============================================================================
 # Azure Resources Configuration
 # =============================================================================
-# This file defines the resource group organization for the DevExp-DevBox project.
-# It configures three main resource groups:
-#   - Workload: Core application and compute resources
-#   - Security: Security-related resources (Key Vaults, NSGs, etc.)
-#   - Monitoring: Observability and monitoring resources
 #
-# Each resource group includes:
-#   - create: Boolean flag to enable/disable resource creation
-#   - name: The resource group name
-#   - description: Brief description of the resource group purpose
-#   - tags: Azure resource tags for organization, billing, and governance
+# Description:
+#   This configuration file defines the Azure resource group organization for
+#   the DevExp-DevBox project. It provides a structured approach to organizing
+#   cloud resources into logical groups based on their function.
+#
+# Resource Groups:
+#   - Workload:   Core application and compute resources (VMs, storage, apps)
+#   - Security:   Security-related resources (Key Vaults, NSGs, Defender)
+#   - Monitoring: Observability and logging resources (Log Analytics, App Insights)
+#
+# Configuration Properties:
+#   - create:      Boolean flag to enable/disable resource group creation
+#   - name:        Azure resource group name (must be unique within subscription)
+#   - description: Brief description of the resource group's purpose
+#   - tags:        Azure resource tags for organization, billing, and governance
+#
+# Tags Schema:
+#   - environment:  Deployment environment (dev, test, prod)
+#   - division:     Business division responsible for the resource
+#   - team:         Team owning and managing the resource
+#   - project:      Associated project name
+#   - costCenter:   Financial allocation center for billing
+#   - owner:        Resource owner for accountability
+#   - landingZone:  Azure landing zone classification
+#   - resources:    Resource type identifier
+#
+# Usage:
+#   This file is consumed by Azure Bicep templates during infrastructure
+#   deployment to create and configure the defined resource groups.
+#
 # =============================================================================
 
 # =============================================================================

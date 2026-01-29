@@ -3,16 +3,36 @@
 # ============================================================================
 # Dev Center Configuration File
 # ============================================================================
-# This YAML file defines the configuration for an Azure Dev Center deployment.
-# It includes settings for:
-#   - Dev Center identity and role-based access control (RBAC)
-#   - Catalogs for Dev Box configurations and environment definitions
-#   - Environment types for different stages of the development lifecycle
-#   - Projects with their networks, pools, and team assignments
-#   - Resource tagging for governance and cost management
 #
-# For more information, see:
-# https://learn.microsoft.com/en-us/azure/dev-box/
+# DESCRIPTION:
+#   This YAML configuration file defines the complete setup for an Azure Dev
+#   Center deployment, enabling self-service developer environments with
+#   standardized Dev Boxes and deployment environments.
+#
+# CONTENTS:
+#   - Dev Center core settings (name, features, monitoring)
+#   - Identity configuration with system-assigned managed identity
+#   - Role-based access control (RBAC) assignments for Dev Center and projects
+#   - Catalogs for Dev Box image definitions and environment templates
+#   - Environment types for SDLC stages (dev, staging, UAT)
+#   - Project definitions with networks, pools, and team assignments
+#   - Resource tagging strategy for governance and cost management
+#
+# USAGE:
+#   This file is consumed by the DevExp-DevBox infrastructure deployment
+#   scripts to provision and configure Azure Dev Center resources.
+#
+# SCHEMA:
+#   Validated against: ./devcenter.schema.json
+#
+# REFERENCES:
+#   - Azure Dev Box Documentation:
+#     https://learn.microsoft.com/en-us/azure/dev-box/
+#   - Dev Center Deployment Guide:
+#     https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-deployment-guide
+#   - Azure Deployment Environments:
+#     https://learn.microsoft.com/en-us/azure/deployment-environments/
+#
 # ============================================================================
 
 name: "devexp-devcenter"

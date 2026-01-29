@@ -1,8 +1,37 @@
 # yaml-language-server: $schema=./security.schema.json
 
+# =============================================================================
 # Security Configuration File
-# This file defines the security infrastructure settings for the DevExp-DevBox project.
-# It configures Azure Key Vault resources for secure secret management.
+# =============================================================================
+#
+# This file defines the security infrastructure settings for the DevExp-DevBox
+# project. It configures Azure Key Vault resources for secure secret management.
+#
+# Key Vault Overview:
+#   Azure Key Vault is a cloud service for securely storing and accessing secrets,
+#   keys, and certificates. This configuration enables:
+#   - Centralized secret management for development environments
+#   - GitHub Actions token storage for CI/CD pipelines
+#   - RBAC-based access control for enhanced security
+#
+# Configuration Sections:
+#   - create: Boolean flag to enable/disable Key Vault provisioning
+#   - keyVault: Main configuration block containing:
+#       - Basic settings (name, description, secretName)
+#       - Security settings (purge protection, soft delete, RBAC)
+#       - Resource organization tags for Azure governance
+#
+# Usage:
+#   This configuration is consumed by the infrastructure deployment scripts
+#   to provision and configure the Azure Key Vault resource.
+#
+# Related Files:
+#   - security.schema.json: JSON schema for validation
+#
+# Repository: Evilazaro/DevExp-DevBox
+# Branch: docs/refacto
+#
+# =============================================================================
 
 create: true
 

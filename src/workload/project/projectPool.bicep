@@ -1,52 +1,83 @@
 /*
+  =====================================================================
   Project Pool Module
-  -------------------
-  This Bicep module creates DevBox pools for a Microsoft DevCenter project.
+  =====================================================================
   
-  Overview:
-  DevBox pools define the configuration for developer workstations that can be
-  provisioned on-demand within a DevCenter project. Each pool specifies the VM
-  size, image, network configuration, and access settings.
+  Module:       projectPool.bicep
+  Description:  Creates DevBox pools for a Microsoft DevCenter project
+  API Version:  2025-10-01-preview
   
-  Functionality:
-  - Iterates through provided catalogs and creates pools only for 'imageDefinition' types
-  - Configures each pool with:
-    - Custom VM SKU and image reference from the catalog
-    - Network connection (supports both managed and unmanaged virtual networks)
-    - Windows Client licensing
-    - Local administrator access enabled
-    - Single Sign-On (SSO) enabled for seamless authentication
+  =====================================================================
+  OVERVIEW
+  =====================================================================
   
-  Parameters:
-  - name: Base name used for naming pool resources (format: {name}-{index}-pool)
-  - location: Azure region for deployment (defaults to resource group location)
-  - catalogs: Array of Catalog objects defining image sources
-  - imageDefinitionName: Name of the image definition within each catalog
-  - networkConnectionName: Name of the network connection to attach to pools
-  - vmSku: Virtual machine SKU (e.g., 'general_i_8c32gb256ssd_v2')
-  - networkType: 'Managed' or 'Unmanaged' virtual network type
-  - projectName: Name of the parent DevCenter project resource
+  DevBox pools define the configuration for developer workstations that
+  can be provisioned on-demand within a DevCenter project. Each pool
+  specifies the VM size, image, network configuration, and access settings.
   
-  Outputs:
-  - poolNames: Array of created pool resource names (null for non-imageDefinition catalogs)
+  This module iterates through a collection of catalogs and creates pool
+  resources only for catalogs marked as 'imageDefinition' type.
   
-  Dependencies:
-  - Requires an existing DevCenter project resource
-  - Requires catalogs to be synced with image definitions
+  =====================================================================
+  FEATURES
+  =====================================================================
   
-  Example Usage:
-    module pools 'projectPool.bicep' = {
-      name: 'deploy-pools'
-      params: {
-        name: 'dev-pool'
-        catalogs: catalogDefinitions
-        imageDefinitionName: 'win11-vs2022'
-        networkConnectionName: 'myNetworkConnection'
-        vmSku: 'general_i_8c32gb256ssd_v2'
-        networkType: 'Managed'
-        projectName: 'myProject'
-      }
+  - Dynamic pool creation based on catalog type filtering
+  - Configurable VM SKU and image references from catalog definitions
+  - Network connection support (Managed and Unmanaged VNet types)
+  - Windows Client licensing pre-configured
+  - Local administrator access enabled by default
+  - Single Sign-On (SSO) enabled for seamless authentication
+  - Managed virtual network regions auto-configured for Managed type
+  
+  =====================================================================
+  PARAMETERS
+  =====================================================================
+  
+  | Parameter             | Type       | Required | Description                                    |
+  |-----------------------|------------|----------|------------------------------------------------|
+  | name                  | string     | Yes      | Base name for pool resources ({name}-{i}-pool) |
+  | location              | string     | No       | Azure region (defaults to resource group)      |
+  | catalogs              | Catalog[]  | Yes      | Array of catalog definitions                   |
+  | imageDefinitionName   | string     | Yes      | Image definition name within each catalog      |
+  | networkConnectionName | string     | Yes      | Network connection to attach to pools          |
+  | vmSku                 | string     | Yes      | VM SKU (e.g., 'general_i_8c32gb256ssd_v2')     |
+  | networkType           | string     | Yes      | 'Managed' or 'Unmanaged' VNet type             |
+  | projectName           | string     | Yes      | Parent DevCenter project resource name         |
+  
+  =====================================================================
+  OUTPUTS
+  =====================================================================
+  
+  | Output    | Type  | Description                                              |
+  |-----------|-------|----------------------------------------------------------|
+  | poolNames | array | Array of created pool names (null for non-image catalogs)|
+  
+  =====================================================================
+  DEPENDENCIES
+  =====================================================================
+  
+  - Existing DevCenter project resource (Microsoft.DevCenter/projects)
+  - Catalogs must be synced with image definitions before pool creation
+  
+  =====================================================================
+  EXAMPLE USAGE
+  =====================================================================
+  
+  module pools 'projectPool.bicep' = {
+    name: 'deploy-pools'
+    params: {
+      name: 'dev-pool'
+      catalogs: catalogDefinitions
+      imageDefinitionName: 'win11-vs2022'
+      networkConnectionName: 'myNetworkConnection'
+      vmSku: 'general_i_8c32gb256ssd_v2'
+      networkType: 'Managed'
+      projectName: 'myProject'
     }
+  }
+  
+  =====================================================================
 */
 
 @description('Pool Name')

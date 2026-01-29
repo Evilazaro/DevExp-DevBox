@@ -1,19 +1,33 @@
 // ============================================================================
 // Environment Type Bicep Module
 // ============================================================================
-// This module creates a DevCenter Environment Type resource.
-// Environment Types define the different environments (e.g., Dev, Test, Prod)
-// that can be used within a DevCenter for project deployments.
+// 
+// Description:
+//   This module creates a DevCenter Environment Type resource. Environment Types
+//   define the different deployment environments (e.g., Development, Testing, 
+//   Staging, Production) that can be used within a DevCenter for project deployments.
+//
+// Resources Created:
+//   - Microsoft.DevCenter/devcenters/environmentTypes: The environment type attached
+//     to an existing DevCenter instance.
 //
 // Parameters:
-//   - devCenterName: The name of the existing DevCenter instance to attach to
-//   - environmentConfig: Configuration object containing the environment type name
+//   - devCenterName (string, required): The name of the existing DevCenter instance
+//     to which the environment type will be attached.
+//   - environmentConfig (EnvironmentType, required): Configuration object containing
+//     the environment type settings, including the name property.
 //
 // Outputs:
-//   - environmentTypeName: The name of the created Environment Type
-//   - environmentTypeId: The resource ID of the created Environment Type
+//   - environmentTypeName (string): The name of the created Environment Type resource.
+//   - environmentTypeId (string): The fully qualified resource ID of the created
+//     Environment Type.
 //
-// Usage:
+// Dependencies:
+//   - An existing DevCenter resource must be deployed before using this module.
+//
+// API Version: 2025-10-01-preview
+//
+// Usage Example:
 //   module envType 'environmentType.bicep' = {
 //     name: 'deploy-env-type'
 //     params: {
@@ -23,6 +37,11 @@
 //       }
 //     }
 //   }
+//
+//   // Access outputs
+//   var envTypeName = envType.outputs.environmentTypeName
+//   var envTypeId = envType.outputs.environmentTypeId
+//
 // ============================================================================
 
 @description('The name of the DevCenter instance')

@@ -2,6 +2,32 @@
 # File: action.yml (generate-release)
 # Purpose: Composite action for generating release versions and tags
 # Description: Calculates semantic versions based on branch strategy and commits
+#
+# Versioning Strategy:
+#   - Main branch: Conditional major increment. If minor=0 AND patch=0, increment
+#     major version. Otherwise, increment patch with overflow handling (patch>99
+#     triggers minor increment, minor>99 triggers major increment).
+#   - Feature branches (feature/*): Increment patch by commit count with overflow
+#     handling. Creates pre-release suffix: -feature.<branch-name>
+#   - Fix branches (fix/*): Increment minor by commit count with overflow handling.
+#     Creates pre-release suffix: -fix.<branch-name>
+#
+# Overflow Rules:
+#   - Patch overflow (>99): Reset patch to 0, increment minor
+#   - Minor overflow (>99): Reset minor to 0, increment major
+#
+# Release Behavior:
+#   - Main branch: Creates published GitHub releases
+#   - Feature/Fix branches: Creates tags only (no published release)
+#   - Pull requests: Creates pre-release tags with -pr<number> suffix
+#
+# Outputs:
+#   - new_version: The calculated semantic version (e.g., v1.2.3)
+#   - release_type: Branch type (main, feature, fix, none)
+#   - previous_tag: Last existing tag before this release
+#   - should_release: Whether to create a tag
+#   - should_publish: Whether to publish a GitHub release
+#   - branch_name: Current branch being built
 # =============================================================================
 
 name: Generate Release

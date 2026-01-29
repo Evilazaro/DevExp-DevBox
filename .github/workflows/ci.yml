@@ -1,8 +1,25 @@
 # =============================================================================
 # File: ci.yml
 # Purpose: Continuous Integration workflow for Dev Box Accelerator
-# Description: Builds and validates Bicep templates on feature/fix branches and PRs
-# Triggers: Push to feature/** and fix/** branches, PRs to main
+# Description: This workflow automates the CI pipeline for the Dev Box Accelerator
+#              project. It performs semantic versioning based on branch names and
+#              commit history, builds Bicep infrastructure templates, and prepares
+#              artifacts for deployment.
+#
+# Triggers:
+#   - Push events to feature/** and fix/** branches
+#   - Pull request events (opened, synchronize, reopened) targeting main branch
+#
+# Jobs:
+#   1. generate-tag-version: Calculates semantic version using branch context
+#      and commit history. Outputs version info for downstream jobs.
+#   2. build: Compiles Bicep templates using the bicep-standard-ci action
+#      and creates deployment artifacts.
+#
+# Security:
+#   - Uses pinned action versions (SHA) for supply chain security
+#   - Applies least-privilege permissions model
+#   - Implements concurrency controls to prevent duplicate runs
 # =============================================================================
 
 name: Continuous Integration

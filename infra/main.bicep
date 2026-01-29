@@ -2,24 +2,74 @@
   Main Bicep Deployment Template
   ==============================
   This template deploys the DevExp-DevBox infrastructure at the subscription scope.
+  It provisions a complete development environment with security, monitoring, and 
+  DevCenter workload resources organized into separate resource groups.
+  
+  Architecture Overview:
+  ----------------------
+  The deployment follows a landing zone pattern with three resource groups:
+  
+  ┌─────────────────────────────────────────────────────────────────────────────┐
+  │                         Subscription Scope                                   │
+  ├─────────────────┬─────────────────────┬─────────────────────────────────────┤
+  │ Security RG     │ Monitoring RG       │ Workload RG                         │
+  │ - Key Vault     │ - Log Analytics     │ - Azure DevCenter                   │
+  │ - Secrets       │   Workspace         │ - Projects                          │
+  │ - Diagnostics   │                     │ - Dev Box Definitions               │
+  └─────────────────┴─────────────────────┴─────────────────────────────────────┘
   
   Resources Deployed:
-  - Security Resource Group: Contains Key Vault and security-related resources
-  - Monitoring Resource Group: Contains Log Analytics Workspace for centralized monitoring
-  - Workload Resource Group: Contains Azure DevCenter and related workload resources
+  -------------------
+  - Security Resource Group: Contains Key Vault for secret management with 
+    diagnostic settings forwarding logs to Log Analytics
+  - Monitoring Resource Group: Contains Log Analytics Workspace for centralized 
+    monitoring and log aggregation across all resources
+  - Workload Resource Group: Contains Azure DevCenter with projects, pools, 
+    and developer self-service configurations
   
-  Modules:
-  - monitoring: Deploys Log Analytics Workspace for centralized logging
-  - security: Deploys Key Vault with secrets and diagnostic settings
-  - workload: Deploys Azure DevCenter with projects and configurations
+  Module Dependencies:
+  --------------------
+  1. monitoring → Deploys first (Log Analytics Workspace)
+  2. security   → Depends on monitoring (uses workspace ID for diagnostics)
+  3. workload   → Depends on security & monitoring (uses secret identifier)
   
   Configuration:
-  - Resource organization is loaded from 'settings/resourceOrganization/azureResources.yaml'
-  - Supports conditional resource group creation based on YAML configuration
+  --------------
+  - Resource organization loaded from 'settings/resourceOrganization/azureResources.yaml'
+  - Supports conditional resource group creation based on YAML 'create' flag
+  - Resource naming follows pattern: {name}-{environment}-{location}-RG
+  
+  Parameters:
+  -----------
+  - location        : Azure region for deployment (restricted to supported regions)
+  - environmentName : Environment identifier (dev, test, prod) - 2-10 characters
+  - secretValue     : Secure GitHub Access Token stored in Key Vault
+  
+  Outputs:
+  --------
+  - Resource group names for security, monitoring, and workload
+  - Log Analytics Workspace ID and name
+  - Key Vault name, endpoint, and secret identifier
+  - DevCenter name and project list
   
   Usage:
-    az deployment sub create --location <location> --template-file main.bicep \
-      --parameters location=<region> environmentName=<env> secretValue=<token>
+  ------
+    # Deploy to a subscription
+    az deployment sub create \
+      --location eastus2 \
+      --template-file main.bicep \
+      --parameters location=eastus2 \
+                   environmentName=dev \
+                   secretValue=<github-token>
+    
+    # Deploy with parameter file
+    az deployment sub create \
+      --location eastus2 \
+      --template-file main.bicep \
+      --parameters @main.bicepparam
+  
+  Repository: Evilazaro/DevExp-DevBox
+  Branch: docs/refacto
 */
 
 targetScope = 'subscription'

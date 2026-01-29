@@ -1,26 +1,51 @@
 /*
+  =============================================================================
   Project Catalog Module
-  ----------------------
-  This Bicep module creates a catalog resource for a Microsoft DevCenter project.
-  Catalogs can be used for environment definitions or image definitions and support
-  both GitHub and Azure DevOps Git repositories as source control providers.
+  =============================================================================
   
-  The module supports:
-  - Public and private repository visibility
-  - Scheduled sync type for catalog updates
-  - GitHub and Azure DevOps Git source control
-  - Environment and image definition catalog types
+  Description:
+  ------------
+  This Bicep module creates a catalog resource for a Microsoft DevCenter project.
+  Catalogs provide reusable definitions that can be used to create environments
+  or custom images within DevCenter projects.
+
+  Features:
+  ---------
+  - Supports both GitHub and Azure DevOps Git repositories as source control
+  - Configurable repository visibility (public/private)
+  - Automatic scheduled synchronization of catalog contents
+  - Two catalog types: environment definitions and image definitions
+  - Secure authentication via Key Vault secret references for private repos
 
   Parameters:
-  - projectName: The name of the existing DevCenter project to attach the catalog to
-  - catalogConfig: Configuration object containing catalog settings (name, type, source control, visibility, uri, branch, path)
-  - secretIdentifier: Secure string for Git repository authentication (required for private repositories)
+  -----------
+  | Name             | Type           | Description                                              |
+  |------------------|----------------|----------------------------------------------------------|
+  | projectName      | string         | Name of the existing DevCenter project                   |
+  | catalogConfig    | Catalog        | Configuration object with catalog settings               |
+  | secretIdentifier | secureString   | Key Vault secret URI for private repo authentication     |
+
+  Catalog Configuration Properties:
+  ---------------------------------
+  | Property      | Type                                    | Description                        |
+  |---------------|-----------------------------------------|------------------------------------|
+  | name          | string                                  | Unique name for the catalog        |
+  | type          | 'environmentDefinition'|'imageDefinition'| Type of definitions in catalog    |
+  | sourceControl | 'gitHub' | 'adoGit'                     | Source control provider            |
+  | visibility    | 'public' | 'private'                    | Repository visibility              |
+  | uri           | string                                  | Repository clone URL               |
+  | branch        | string                                  | Branch to sync from                |
+  | path          | string                                  | Path within repo to sync           |
 
   Outputs:
-  - catalogName: The name of the created project catalog
-  - catalogId: The resource ID of the created project catalog
+  --------
+  | Name        | Type   | Description                              |
+  |-------------|--------|------------------------------------------|
+  | catalogName | string | The name of the created project catalog  |
+  | catalogId   | string | The resource ID of the created catalog   |
 
   Usage Example:
+  --------------
   ```bicep
   module projectCatalog 'projectCatalog.bicep' = {
     name: 'deploy-project-catalog'
@@ -39,6 +64,15 @@
     }
   }
   ```
+
+  Notes:
+  ------
+  - For private repositories, ensure the secretIdentifier points to a valid
+    Key Vault secret containing a PAT or appropriate authentication token
+  - The sync type is set to 'Scheduled' for automatic catalog updates
+  - API Version: 2025-10-01-preview
+
+  =============================================================================
 */
 
 @description('Name of the DevCenter project')

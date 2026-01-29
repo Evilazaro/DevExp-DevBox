@@ -1,15 +1,37 @@
 /*
-  This Bicep module creates an Azure Key Vault secret and configures diagnostic settings
-  for the Key Vault to send logs and metrics to a Log Analytics workspace.
+  Module: secret.bicep
+  Description: Creates an Azure Key Vault secret and configures diagnostic settings
+               for monitoring the Key Vault using Log Analytics.
+
+  This module performs the following:
+    1. References an existing Azure Key Vault in the current resource group
+    2. Creates a new secret with the specified name and value
+    3. Configures diagnostic settings to send all logs and metrics to Log Analytics
 
   Parameters:
-    - name: The name of the secret to create
-    - secretValue: The secure value of the secret
-    - keyVaultName: The name of the existing Key Vault to store the secret
-    - logAnalyticsId: The resource ID of the Log Analytics workspace for diagnostics
+    - name (string): The name of the secret to create in the Key Vault
+    - secretValue (securestring): The sensitive value to store in the secret
+    - keyVaultName (string): The name of the existing Key Vault resource
+    - logAnalyticsId (string): The resource ID of the Log Analytics workspace for diagnostics
+
+  Resources Created:
+    - Microsoft.KeyVault/vaults/secrets: The Key Vault secret with the provided value
+    - Microsoft.Insights/diagnosticSettings: Diagnostic settings for the Key Vault
 
   Outputs:
-    - AZURE_KEY_VAULT_SECRET_IDENTIFIER: The URI of the created secret
+    - AZURE_KEY_VAULT_SECRET_IDENTIFIER (string): The full URI of the created secret
+      (e.g., https://<vault-name>.vault.azure.net/secrets/<secret-name>)
+
+  Usage Example:
+    module secret 'security/secret.bicep' = {
+      name: 'deploySecret'
+      params: {
+        name: 'mySecret'
+        secretValue: 'supersecretvalue'
+        keyVaultName: 'myKeyVault'
+        logAnalyticsId: '/subscriptions/.../workspaces/myWorkspace'
+      }
+    }
 */
 
 @description('Secret Name')

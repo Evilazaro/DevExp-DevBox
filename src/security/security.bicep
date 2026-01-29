@@ -4,7 +4,7 @@
 // Description: This module deploys Azure Key Vault and related security 
 //              resources for the DevExp-DevBox project. It supports both
 //              creating a new Key Vault or referencing an existing one based
-//              on configuration settings.
+//              on configuration settings loaded from security.yaml.
 //
 // Parameters:
 //   - tags: Resource tags to apply to deployed resources
@@ -20,11 +20,26 @@
 //   - keyVault.bicep: Module for creating new Key Vault
 //   - secret.bicep: Module for managing Key Vault secrets
 //   - security.yaml: Configuration file for security settings
+//
+// Usage:
+//   module security 'security.bicep' = {
+//     params: {
+//       tags: { environment: 'dev' }
+//       secretValue: mySecretValue
+//       logAnalyticsId: logAnalytics.outputs.id
+//     }
+//   }
+//
+// Notes:
+//   - Set securitySettings.create to true in security.yaml to create a new Key Vault
+//   - Set securitySettings.create to false to reference an existing Key Vault
+//   - The module uses safe navigation operators (?.) for conditional resource access
 // ============================================================================
 
 metadata name = 'Security Module'
 metadata description = 'This module deploys Azure Key Vault and related security resources for the DevExp-DevBox project.'
 metadata owner = 'DevExp Team'
+metadata version = '1.0.0'
 
 @description('Key Vault Tags')
 param tags Tags

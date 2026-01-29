@@ -1,33 +1,62 @@
 // ============================================================================
 // Project Environment Type Bicep Module
 // ============================================================================
-// This module creates a Project Environment Type resource within an existing
-// DevCenter project. Environment types define deployment targets and creator
-// role assignments for deployment environments.
+// 
+// Purpose:
+//   Creates a Project Environment Type resource within an existing Azure DevCenter
+//   project. Environment types define deployment targets and configure creator
+//   role assignments for Azure Deployment Environments.
+//
+// Description:
+//   This module provisions a project-scoped environment type that enables developers
+//   to create deployment environments within a DevCenter project. The environment
+//   type is configured with a SystemAssigned managed identity and grants the
+//   Contributor role to environment creators by default.
 //
 // Parameters:
-//   - projectName: The name of the existing DevCenter project to associate with
-//   - location: Azure region for resource deployment (defaults to resource group location)
-//   - environmentConfig: Configuration object containing environment type name and deployment target
+//   - projectName (string, required): 
+//       The name of the existing DevCenter project to associate the environment type with.
+//   
+//   - location (string, optional): 
+//       Azure region for resource deployment. Defaults to the resource group location.
+//   
+//   - environmentConfig (ProjectEnvironmentType, required): 
+//       Configuration object containing:
+//         - name: The name/identifier of the environment type (e.g., 'Development', 'Staging')
+//         - deploymentTargetId: Resource ID of the target subscription for deployments
 //
 // Resources Created:
-//   - Microsoft.DevCenter/projects/environmentTypes: A project environment type with
-//     SystemAssigned managed identity and Contributor role assignment for creators
+//   - Microsoft.DevCenter/projects/environmentTypes (API: 2025-10-01-preview):
+//       A project environment type with:
+//       - SystemAssigned managed identity for secure resource access
+//       - Contributor role (b24988ac-6180-42a0-ab88-20f7382dd24c) for creators
+//       - Enabled status for immediate availability
 //
 // Outputs:
-//   - environmentTypeName: The name of the created environment type
+//   - environmentTypeName (string): The name of the created environment type resource
+//
+// Dependencies:
+//   - An existing DevCenter project (referenced by projectName parameter)
+//   - Valid subscription ID for deployment target
 //
 // Usage Example:
 //   module projectEnvType 'projectEnvironmentType.bicep' = {
 //     name: 'deploy-env-type'
 //     params: {
 //       projectName: 'my-project'
+//       location: 'eastus'
 //       environmentConfig: {
 //         name: 'Development'
-//         deploymentTargetId: '/subscriptions/xxx-xxx-xxx'
+//         deploymentTargetId: '/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
 //       }
 //     }
 //   }
+//
+// Notes:
+//   - The environment type uses the current subscription as the deployment target
+//   - Creator role assignment enables developers to manage resources in their environments
+//   - The managed identity allows the environment type to perform Azure operations
+//
 // ============================================================================
 
 @description('Project Name')

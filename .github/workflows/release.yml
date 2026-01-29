@@ -1,8 +1,34 @@
 # =============================================================================
 # File: release.yml
 # Purpose: Branch-based release strategy workflow for Dev Box Accelerator
-# Description: Generates semantic versions and publishes GitHub releases
-# Triggers: Manual workflow dispatch
+# Description: Generates semantic versions and publishes GitHub releases based
+#              on branch context. Supports both production (main) and pre-release
+#              (feature/development) workflows with automatic version calculation.
+#
+# Triggers: Manual workflow dispatch only
+#
+# Inputs:
+#   - force_release: (boolean) Force create a release even for non-main branches
+#
+# Jobs:
+#   1. generate-release - Calculates semantic version and prepares release metadata
+#   2. build - Compiles Bicep templates and creates versioned artifacts
+#   3. publish-release - Creates and publishes GitHub Release with artifacts
+#   4. summary - Generates workflow execution summary
+#
+# Outputs:
+#   - GitHub Release with compiled ARM templates and deployment files
+#   - Semantic version tags following branch-based strategy
+#
+# Required Permissions:
+#   - contents: write (for creating tags and releases)
+#   - pull-requests: read (for PR information)
+#   - actions: read (for workflow introspection)
+#
+# Dependencies:
+#   - .github/actions/ci/generate-release
+#   - .github/actions/ci/bicep-standard-ci
+#   - softprops/action-gh-release
 # =============================================================================
 
 name: Branch-Based Release Strategy
@@ -80,7 +106,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: generate-release
-    if: needs.generate-release.outputs.should_release == 'true'
+    # Only build if should_release is true and workflow wasn't cancelled
+    if: ${{ !cancelled() && needs.generate-release.outputs.should_release == 'true' }}
 
     steps:
       - name: Checkout Repository

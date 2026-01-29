@@ -1,13 +1,17 @@
 // ============================================================================
 // DevCenter Bicep Module
 // ============================================================================
-// This module provisions a Microsoft DevCenter instance along with its
-// associated resources including:
-// - DevCenter with managed identity and feature configurations
-// - Diagnostic settings for Log Analytics integration
-// - RBAC role assignments for DevCenter identity and user groups
-// - Catalog configurations for code repositories
-// - Environment type definitions
+// 
+// Description:
+//   This module provisions a Microsoft DevCenter instance along with its
+//   associated resources including:
+//   - DevCenter with managed identity and feature configurations
+//   - Diagnostic settings for Log Analytics integration
+//   - RBAC role assignments for DevCenter identity and user groups
+//   - Catalog configurations for code repositories
+//   - Environment type definitions
+//
+// API Version: 2025-10-01-preview
 //
 // Parameters:
 //   - config: DevCenter configuration including identity, feature toggles, and tags
@@ -27,6 +31,21 @@
 //   - ../../identity/orgRoleAssignment.bicep
 //   - catalog.bicep
 //   - environmentType.bicep
+//
+// Usage:
+//   module devCenter 'devCenter.bicep' = {
+//     name: 'devCenterDeployment'
+//     params: {
+//       config: devCenterConfig
+//       catalogs: catalogConfigs
+//       environmentTypes: envTypes
+//       logAnalyticsId: logAnalyticsWorkspace.id
+//       secretIdentifier: keyVaultSecret.properties.secretUri
+//       securityResourceGroupName: securityRgName
+//       location: location
+//     }
+//   }
+//
 // ============================================================================
 
 // Common variables for reuse
