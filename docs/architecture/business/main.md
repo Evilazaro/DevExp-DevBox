@@ -1,0 +1,550 @@
+# Business Architecture Document
+
+## Overview
+
+The **ContosoDevExp** (Contoso Developer Experience) platform represents a
+comprehensive enterprise developer workstation provisioning and management
+solution built on Microsoft Azure Dev Center. This Business Architecture
+document captures the business layer components as discovered through systematic
+analysis of the codebase, following TOGAF 10 BDAT (Business, Data, Application,
+Technology) principles.
+
+The platform serves as a centralized developer workstation management system
+designed to accelerate onboarding, standardize development environments, and
+enforce governance policies across the organization. The business architecture
+defines how the **Platforms Division** within **Contoso** organization delivers
+self-service developer environments to project teams such as **eShop
+Developers**, while maintaining security, cost management, and operational
+excellence through role-based access control and automated provisioning
+workflows.
+
+This document exclusively focuses on Business Layer components including
+business capabilities, business services, business processes, organizational
+structure, business actors/roles, and business governance elements. Cross-layer
+dependencies to Data, Application, and Technology layers are documented to
+illustrate integration points but are not elaborated beyond their business
+relevance.
+
+---
+
+## Component Inventory
+
+The following table catalogs all Business Layer components discovered in the
+codebase, classified according to TOGAF Business Architecture building blocks.
+
+### Business Capabilities
+
+| Capability                         | Description                                                                       | Source Location                                                                                                       |
+| ---------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Developer Platform Management      | Centralized management of Dev Center resources, catalogs, and environment types   | [infra/settings/workload/devcenter.yaml](../infra/settings/workload/devcenter.yaml)                                   |
+| Project Portfolio Management       | Organization and governance of development projects with dedicated configurations | [infra/settings/workload/devcenter.yaml](../infra/settings/workload/devcenter.yaml#L87-L195)                          |
+| Secrets Management                 | Secure storage and access control for sensitive credentials and tokens            | [infra/settings/security/security.yaml](../infra/settings/security/security.yaml)                                     |
+| Identity & Access Management       | Role-based access control and managed identity configuration                      | [infra/settings/workload/devcenter.yaml](../infra/settings/workload/devcenter.yaml#L24-L62)                           |
+| Developer Environment Provisioning | Automated provisioning of role-specific development workstations                  | [.configuration/devcenter/workloads/](../.configuration/devcenter/workloads/)                                         |
+| Resource Organization              | Landing zone structure following Azure Cloud Adoption Framework principles        | [infra/settings/resourceOrganization/azureResources.yaml](../infra/settings/resourceOrganization/azureResources.yaml) |
+| CI/CD Orchestration                | Continuous integration and deployment pipeline management                         | [.github/workflows/](../.github/workflows/)                                                                           |
+
+### Business Services
+
+| Service              | Description                                                           | Source Location                                                               |
+| -------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Dev Center Service   | Core service for managing developer workstation definitions and pools | [src/workload/core/devCenter.bicep](../src/workload/core/devCenter.bicep)     |
+| Project Service      | Project-level service for team-specific configurations and access     | [src/workload/project/project.bicep](../src/workload/project/project.bicep)   |
+| Security Service     | Key Vault-based secrets management and security policy enforcement    | [src/security/security.bicep](../src/security/security.bicep)                 |
+| Monitoring Service   | Centralized logging and monitoring through Log Analytics              | [src/management/logAnalytics.bicep](../src/management/logAnalytics.bicep)     |
+| Connectivity Service | Network provisioning for Dev Box connectivity                         | [src/connectivity/connectivity.bicep](../src/connectivity/connectivity.bicep) |
+| Identity Service     | Role assignment and access control management                         | [src/identity/](../src/identity/)                                             |
+
+### Business Actors and Roles
+
+| Actor/Role                | Azure AD Group ID                      | Responsibilities                                         | Source                                                                          |
+| ------------------------- | -------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Platform Engineering Team | `5a1d1455-e771-4c19-aa03-fb4a08418f22` | DevCenter Project Admin, manages platform infrastructure | [devcenter.yaml#L52-L62](../infra/settings/workload/devcenter.yaml#L52-L62)     |
+| Dev Managers              | (Type: DevManager)                     | Configure Dev Box definitions, manage project settings   | [devcenter.yaml#L52](../infra/settings/workload/devcenter.yaml#L52)             |
+| eShop Developers          | `9d42a792-2d74-441d-8bcb-71009371725f` | Consume Dev Boxes, deploy to environments                | [devcenter.yaml#L113-L134](../infra/settings/workload/devcenter.yaml#L113-L134) |
+| DevOps Engineers          | (Implied via workflows)                | Operate CI/CD pipelines, manage releases                 | [.github/workflows/](../.github/workflows/)                                     |
+
+### Business Governance Elements
+
+| Element     | Value                                     | Description                       | Source                  |
+| ----------- | ----------------------------------------- | --------------------------------- | ----------------------- |
+| Environment | `dev`                                     | Deployment environment stage      | All configuration files |
+| Division    | `Platforms`                               | Organizational division ownership | All tags sections       |
+| Team        | `DevExP`                                  | Responsible team                  | All tags sections       |
+| Project     | `DevExP-DevBox` / `Contoso-DevExp-DevBox` | Project identifier                | All tags sections       |
+| Cost Center | `IT`                                      | Financial allocation center       | All tags sections       |
+| Owner       | `Contoso`                                 | Resource ownership designation    | All tags sections       |
+
+---
+
+## Architecture Diagrams
+
+### Business Capability Model
+
+This diagram illustrates the core business capabilities delivered by the
+ContosoDevExp platform and their relationships to business services and actors.
+The capability model represents the fundamental functions the platform must
+perform to achieve its business objectives.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#4A90D9', 'primaryTextColor': '#fff', 'primaryBorderColor': '#2E6BA6', 'lineColor': '#5C6BC0', 'secondaryColor': '#81C784', 'tertiaryColor': '#FFB74D'}}}%%
+flowchart TB
+    subgraph BusinessCapabilities["Business Capabilities"]
+        direction TB
+        DevPlatform["Developer Platform Management"]
+        ProjectMgmt["Project Portfolio Management"]
+        SecretsMgmt["Secrets Management"]
+        IdentityMgmt["Identity & Access Management"]
+        DevEnv["Developer Environment Provisioning"]
+    end
+
+    subgraph BusinessServices["Business Services"]
+        direction TB
+        DevCenterSvc["Dev Center Service"]
+        ProjectSvc["Project Service"]
+        SecuritySvc["Security Service"]
+        MonitoringSvc["Monitoring Service"]
+        ConnectivitySvc["Connectivity Service"]
+    end
+
+    subgraph BusinessActors["Business Actors"]
+        direction TB
+        PlatformTeam["Platform Engineering Team"]
+        DevManagers["Dev Managers"]
+        Developers["eShop Developers"]
+        DevOpsEng["DevOps Engineers"]
+    end
+
+    DevPlatform --> DevCenterSvc
+    ProjectMgmt --> ProjectSvc
+    SecretsMgmt --> SecuritySvc
+    IdentityMgmt --> SecuritySvc
+    DevEnv --> ConnectivitySvc
+
+    PlatformTeam -->|"manages"| DevCenterSvc
+    DevManagers -->|"configures"| ProjectSvc
+    Developers -->|"consumes"| DevEnv
+    DevOpsEng -->|"operates"| MonitoringSvc
+
+    classDef capability fill:#4A90D9,stroke:#2E6BA6,color:#fff
+    classDef service fill:#81C784,stroke:#4CAF50,color:#fff
+    classDef actor fill:#FFB74D,stroke:#FF9800,color:#000
+
+    class DevPlatform,ProjectMgmt,SecretsMgmt,IdentityMgmt,DevEnv capability
+    class DevCenterSvc,ProjectSvc,SecuritySvc,MonitoringSvc,ConnectivitySvc service
+    class PlatformTeam,DevManagers,Developers,DevOpsEng actor
+```
+
+**Legend:**
+
+- 🔵 Blue: Business Capabilities
+- 🟢 Green: Business Services
+- 🟠 Orange: Business Actors
+
+---
+
+### Organizational Structure
+
+This diagram represents the organizational hierarchy and role assignments
+discovered in the configuration. The structure follows Azure Landing Zone
+principles for clear separation of responsibilities.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#4A90D9'}}}%%
+flowchart TB
+    subgraph Organization["Contoso Organization"]
+        direction TB
+
+        subgraph PlatformsDivision["Platforms Division"]
+            DevExPTeam["DevExP Team"]
+        end
+
+        subgraph ProjectTeams["Project Teams"]
+            eShopDevs["eShop Developers"]
+        end
+    end
+
+    subgraph Roles["Organizational Roles"]
+        direction TB
+        PlatformEngRole["Platform Engineering Team Role"]
+        DevManagerRole["Dev Manager Role"]
+        DevBoxUserRole["Dev Box User Role"]
+        EnvUserRole["Deployment Environment User Role"]
+    end
+
+    subgraph CostCenters["Cost Centers"]
+        ITCostCenter["IT Cost Center"]
+    end
+
+    DevExPTeam -->|"assigned"| PlatformEngRole
+    DevExPTeam -->|"assigned"| DevManagerRole
+    eShopDevs -->|"assigned"| DevBoxUserRole
+    eShopDevs -->|"assigned"| EnvUserRole
+
+    PlatformsDivision -->|"charged to"| ITCostCenter
+    ProjectTeams -->|"charged to"| ITCostCenter
+
+    classDef org fill:#4A90D9,stroke:#2E6BA6,color:#fff
+    classDef role fill:#81C784,stroke:#4CAF50,color:#fff
+    classDef cost fill:#FFB74D,stroke:#FF9800,color:#000
+
+    class DevExPTeam,eShopDevs org
+    class PlatformEngRole,DevManagerRole,DevBoxUserRole,EnvUserRole role
+    class ITCostCenter cost
+```
+
+**Discovered Azure RBAC Roles:**
+
+| Role Name                   | Role ID                                | Scope         | Assigned To                           |
+| --------------------------- | -------------------------------------- | ------------- | ------------------------------------- |
+| Contributor                 | `b24988ac-6180-42a0-ab88-20f7382dd24c` | Subscription  | Dev Center Identity, eShop Developers |
+| User Access Administrator   | `18d7d88d-d35e-4fb5-a5c3-7773c20a72d9` | Subscription  | Dev Center Identity                   |
+| Key Vault Secrets User      | `4633458b-17de-408a-b874-0445c86b69e6` | ResourceGroup | Dev Center Identity, eShop Developers |
+| Key Vault Secrets Officer   | `b86a8fe4-44ce-4948-aee5-eccb2c155cd7` | ResourceGroup | Dev Center Identity, eShop Developers |
+| DevCenter Project Admin     | `331c37c6-af14-46d9-b9f4-e1909e1b95a0` | ResourceGroup | Platform Engineering Team             |
+| Dev Box User                | `45d50f46-0b78-4001-a660-4198cbe8cd05` | Project       | eShop Developers                      |
+| Deployment Environment User | `18e40d4e-8d2e-438d-97e1-9528336e149c` | Project       | eShop Developers                      |
+
+---
+
+### CI/CD Business Process Flow
+
+This diagram illustrates the business process for continuous integration and
+deployment as defined in the GitHub Actions workflows. The process supports
+feature development, release management, and Azure infrastructure deployment.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#4A90D9'}}}%%
+flowchart LR
+    subgraph Trigger["Trigger"]
+        CodeCommit["Code Commit"]
+        ManualDispatch["Manual Dispatch"]
+    end
+
+    subgraph CI["Continuous Integration"]
+        VersionGen["Generate Version"]
+        BicepBuild["Build Bicep Templates"]
+        ArtifactUpload["Upload Artifacts"]
+    end
+
+    subgraph CD["Continuous Deployment"]
+        ValidateVars["Validate Azure Variables"]
+        AzureAuth["Azure OIDC Authentication"]
+        Provision["Provision Infrastructure"]
+    end
+
+    subgraph Release["Release Management"]
+        TagCreate["Create Git Tag"]
+        ReleasePublish["Publish GitHub Release"]
+    end
+
+    CodeCommit -->|"feature/fix branches"| VersionGen
+    ManualDispatch -->|"workflow_dispatch"| ValidateVars
+    VersionGen --> BicepBuild
+    BicepBuild --> ArtifactUpload
+    ArtifactUpload -->|"on main"| TagCreate
+    TagCreate --> ReleasePublish
+    ValidateVars --> AzureAuth
+    AzureAuth --> Provision
+
+    classDef trigger fill:#CE93D8,stroke:#9C27B0,color:#fff
+    classDef ci fill:#4A90D9,stroke:#2E6BA6,color:#fff
+    classDef cd fill:#81C784,stroke:#4CAF50,color:#fff
+    classDef release fill:#FFB74D,stroke:#FF9800,color:#000
+
+    class CodeCommit,ManualDispatch trigger
+    class VersionGen,BicepBuild,ArtifactUpload ci
+    class ValidateVars,AzureAuth,Provision cd
+    class TagCreate,ReleasePublish release
+```
+
+**Workflow Files:**
+
+- [ci.yml](../.github/workflows/ci.yml) - Continuous Integration (triggers on
+  feature/fix branches and PRs)
+- [deploy.yml](../.github/workflows/deploy.yml) - Azure Deployment (manual
+  workflow_dispatch)
+- [release.yml](../.github/workflows/release.yml) - Release Management (manual
+  workflow_dispatch)
+
+---
+
+### Developer Environment Provisioning Process
+
+This diagram represents the business process for provisioning developer
+workstations with role-specific configurations. The DSC (Desired State
+Configuration) files define the tooling requirements for different developer
+personas.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#4A90D9'}}}%%
+flowchart TB
+    subgraph DevLifecycle["Developer Environment Lifecycle"]
+        direction LR
+        Request["Request Dev Box"]
+        Provision["Provision Environment"]
+        Configure["Configure Workload"]
+        Develop["Development Work"]
+        Cleanup["Cleanup Resources"]
+    end
+
+    subgraph BackendConfig["Backend Engineer Configuration"]
+        AzureCLI["Azure CLI Tools"]
+        DotNetSDK[".NET 9 SDK"]
+        DockerTools["Container Tools"]
+        WSL2["WSL2 Ubuntu"]
+    end
+
+    subgraph FrontendConfig["Frontend Engineer Configuration"]
+        VSCodeExt["VS Code Extensions"]
+        Postman["Postman API Platform"]
+        NodeJS["Node.js Runtime"]
+    end
+
+    subgraph CommonConfig["Common Configuration"]
+        DevDrive["Dev Drive Storage"]
+        GitTools["Git and GitHub CLI"]
+        AzdCLI["Azure Developer CLI"]
+    end
+
+    Request --> Provision
+    Provision --> Configure
+    Configure --> Develop
+    Develop --> Cleanup
+
+    Configure --> BackendConfig
+    Configure --> FrontendConfig
+    Configure --> CommonConfig
+
+    classDef lifecycle fill:#4A90D9,stroke:#2E6BA6,color:#fff
+    classDef backend fill:#81C784,stroke:#4CAF50,color:#fff
+    classDef frontend fill:#CE93D8,stroke:#9C27B0,color:#fff
+    classDef common fill:#FFB74D,stroke:#FF9800,color:#000
+
+    class Request,Provision,Configure,Develop,Cleanup lifecycle
+    class AzureCLI,DotNetSDK,DockerTools,WSL2 backend
+    class VSCodeExt,Postman,NodeJS frontend
+    class DevDrive,GitTools,AzdCLI common
+```
+
+**DSC Configuration Files:**
+
+| Configuration                             | Purpose                                                          | Source                                                                                                                                                          |
+| ----------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| common-config.dsc.yaml                    | Base development tools (Git, .NET, Node.js, Dev Drive)           | [.configuration/devcenter/workloads/common-config.dsc.yaml](../.configuration/devcenter/workloads/common-config.dsc.yaml)                                       |
+| common-backend-config.dsc.yaml            | Azure CLI, Bicep, Azure Developer CLI for backend development    | [.configuration/devcenter/workloads/common-backend-config.dsc.yaml](../.configuration/devcenter/workloads/common-backend-config.dsc.yaml)                       |
+| common-backend-usertasks-config.dsc.yaml  | WSL2, Ubuntu, Docker, Helm for containerized backend development | [.configuration/devcenter/workloads/common-backend-usertasks-config.dsc.yaml](../.configuration/devcenter/workloads/common-backend-usertasks-config.dsc.yaml)   |
+| common-frontend-usertasks-config.dsc.yaml | VS Code extensions, Postman for frontend/API development         | [.configuration/devcenter/workloads/common-frontend-usertasks-config.dsc.yaml](../.configuration/devcenter/workloads/common-frontend-usertasks-config.dsc.yaml) |
+
+**Dev Box Pool Definitions (eShop Project):**
+
+| Pool Name         | Image Definition        | VM SKU                      | Target Persona                                                    |
+| ----------------- | ----------------------- | --------------------------- | ----------------------------------------------------------------- |
+| backend-engineer  | eShop-backend-engineer  | general_i_32c128gb512ssd_v2 | Backend engineers requiring powerful compute for containerization |
+| frontend-engineer | eShop-frontend-engineer | general_i_16c64gb256ssd_v2  | Frontend engineers with moderate compute requirements             |
+
+---
+
+### BDAT Cross-Layer Integration
+
+This diagram illustrates how the Business Layer components integrate with Data,
+Application, and Technology layers, showing the vertical relationships across
+the TOGAF BDAT model.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#4A90D9'}}}%%
+flowchart TB
+    subgraph BusinessLayer["Business Layer"]
+        direction TB
+        BizCap["Business Capabilities"]
+        BizSvc["Business Services"]
+        BizProc["Business Processes"]
+        BizActors["Business Actors"]
+    end
+
+    subgraph DataLayer["Data Layer"]
+        direction TB
+        ConfigData["Configuration Data"]
+        SecretData["Secrets and Keys"]
+        LogData["Monitoring Logs"]
+    end
+
+    subgraph ApplicationLayer["Application Layer"]
+        direction TB
+        BicepModules["Bicep IaC Modules"]
+        DSCConfigs["DSC Configurations"]
+        SetupScripts["Setup Scripts"]
+        Workflows["GitHub Actions Workflows"]
+    end
+
+    subgraph TechnologyLayer["Technology Layer"]
+        direction TB
+        AzureDevCenter["Azure Dev Center"]
+        AzureKeyVault["Azure Key Vault"]
+        LogAnalytics["Log Analytics"]
+        GitHubActions["GitHub Actions"]
+    end
+
+    BizCap -->|"defines requirements for"| BicepModules
+    BizSvc -->|"implemented by"| DSCConfigs
+    BizProc -->|"automated via"| Workflows
+    BizActors -->|"configured in"| ConfigData
+
+    BicepModules -->|"deploys to"| AzureDevCenter
+    DSCConfigs -->|"provisions"| AzureDevCenter
+    SetupScripts -->|"configures"| AzureKeyVault
+    Workflows -->|"executes on"| GitHubActions
+
+    ConfigData -->|"stored in"| AzureDevCenter
+    SecretData -->|"managed by"| AzureKeyVault
+    LogData -->|"collected by"| LogAnalytics
+
+    classDef business fill:#4A90D9,stroke:#2E6BA6,color:#fff
+    classDef data fill:#CE93D8,stroke:#9C27B0,color:#fff
+    classDef app fill:#81C784,stroke:#4CAF50,color:#fff
+    classDef tech fill:#FFB74D,stroke:#FF9800,color:#000
+
+    class BizCap,BizSvc,BizProc,BizActors business
+    class ConfigData,SecretData,LogData data
+    class BicepModules,DSCConfigs,SetupScripts,Workflows app
+    class AzureDevCenter,AzureKeyVault,LogAnalytics,GitHubActions tech
+```
+
+---
+
+## Dependencies
+
+### Internal Business Layer Dependencies
+
+| From Component                     | To Component                  | Relationship Type | Description                                                 |
+| ---------------------------------- | ----------------------------- | ----------------- | ----------------------------------------------------------- |
+| Project Portfolio Management       | Developer Platform Management | Depends On        | Projects are hosted within the Dev Center platform          |
+| Identity & Access Management       | Secrets Management            | Depends On        | Role assignments require Key Vault access for token storage |
+| Developer Environment Provisioning | Project Portfolio Management  | Depends On        | Dev Box pools are project-scoped resources                  |
+| CI/CD Orchestration                | Secrets Management            | Depends On        | Workflows require secure credential access                  |
+
+### Cross-Layer Dependencies (Business → Other Layers)
+
+| Business Component    | Target Layer | Target Component                 | Dependency Nature    |
+| --------------------- | ------------ | -------------------------------- | -------------------- |
+| Dev Center Service    | Application  | devCenter.bicep, workload.bicep  | Implementation       |
+| Project Service       | Application  | project.bicep, projectPool.bicep | Implementation       |
+| Security Service      | Technology   | Azure Key Vault                  | Runtime dependency   |
+| Monitoring Service    | Technology   | Log Analytics Workspace          | Runtime dependency   |
+| CI/CD Process         | Technology   | GitHub Actions                   | Execution platform   |
+| Developer Environment | Data         | DSC YAML configurations          | Configuration source |
+
+### External Dependencies
+
+| Business Service   | External System                     | Integration Point                          | Source Reference                                                                |
+| ------------------ | ----------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------- |
+| Dev Center Service | GitHub Repository                   | Catalog sync for customTasks               | [devcenter.yaml#L66-L71](../infra/settings/workload/devcenter.yaml#L66-L71)     |
+| eShop Project      | GitHub Repository (Evilazaro/eShop) | Environment definitions and Dev Box images | [devcenter.yaml#L161-L178](../infra/settings/workload/devcenter.yaml#L161-L178) |
+| CI/CD Workflows    | Azure (via OIDC)                    | Infrastructure provisioning                | [deploy.yml](../.github/workflows/deploy.yml)                                   |
+
+---
+
+## Business Environment Types
+
+The platform defines deployment environment stages following SDLC best
+practices. Each environment type represents a distinct phase in the application
+lifecycle.
+
+| Environment Type | Deployment Target    | Purpose                                           | Source                                                              |
+| ---------------- | -------------------- | ------------------------------------------------- | ------------------------------------------------------------------- |
+| dev              | Default subscription | Development and feature testing                   | [devcenter.yaml#L77](../infra/settings/workload/devcenter.yaml#L77) |
+| staging          | Default subscription | Integration testing and pre-production validation | [devcenter.yaml#L79](../infra/settings/workload/devcenter.yaml#L79) |
+| UAT              | Default subscription | User acceptance testing                           | [devcenter.yaml#L81](../infra/settings/workload/devcenter.yaml#L81) |
+
+---
+
+## Business Catalogs
+
+Catalogs provide version-controlled repositories for Dev Center configurations,
+enabling a GitOps approach to developer environment management.
+
+### Dev Center Level Catalogs
+
+| Catalog Name | Type   | Source Control | Repository                  | Path    |
+| ------------ | ------ | -------------- | --------------------------- | ------- |
+| customTasks  | gitHub | Public         | microsoft/devcenter-catalog | ./Tasks |
+
+### Project Level Catalogs (eShop)
+
+| Catalog Name | Type                  | Source Control   | Repository      | Path                         |
+| ------------ | --------------------- | ---------------- | --------------- | ---------------------------- |
+| environments | environmentDefinition | gitHub (private) | Evilazaro/eShop | /.devcenter/environments     |
+| devboxImages | imageDefinition       | gitHub (private) | Evilazaro/eShop | /.devcenter/imageDefinitions |
+
+---
+
+## Resource Governance
+
+### Landing Zone Structure
+
+The platform follows Azure Landing Zone principles with resource groups
+segregated by function:
+
+| Landing Zone | Resource Group Pattern              | Purpose                          | Source                                                                                            |
+| ------------ | ----------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Workload     | devexp-workload-{env}-{region}-RG   | Dev Center and project resources | [azureResources.yaml#L14-L27](../infra/settings/resourceOrganization/azureResources.yaml#L14-L27) |
+| Security     | devexp-security-{env}-{region}-RG   | Key Vault and security resources | [azureResources.yaml#L32-L45](../infra/settings/resourceOrganization/azureResources.yaml#L32-L45) |
+| Monitoring   | devexp-monitoring-{env}-{region}-RG | Log Analytics and diagnostics    | [azureResources.yaml#L50-L63](../infra/settings/resourceOrganization/azureResources.yaml#L50-L63) |
+
+### Tagging Strategy
+
+All resources follow a consistent tagging strategy for governance, cost
+management, and operational tracking:
+
+| Tag Key     | Description                       | Example Value            |
+| ----------- | --------------------------------- | ------------------------ |
+| environment | Deployment stage identifier       | dev, staging, prod       |
+| division    | Organizational division           | Platforms                |
+| team        | Responsible team                  | DevExP                   |
+| project     | Project identifier                | DevExP-DevBox            |
+| costCenter  | Financial allocation              | IT                       |
+| owner       | Resource ownership                | Contoso                  |
+| landingZone | Azure landing zone classification | Workload, Security       |
+| resources   | Resource type identifier          | DevCenter, ResourceGroup |
+
+---
+
+## Appendix
+
+### Glossary
+
+| Term                                  | Definition                                                                      | TOGAF Context                        |
+| ------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------ |
+| **Business Capability**               | A high-level description of what the business does to create value              | Business Architecture Building Block |
+| **Business Service**                  | A unit of business functionality that is meaningful from a customer perspective | Business Architecture Building Block |
+| **Business Actor**                    | A person, organization, or system that performs behavior                        | Stakeholder                          |
+| **Dev Center**                        | Azure service for managing developer workstations and deployment environments   | Technology Component                 |
+| **Dev Box**                           | Pre-configured cloud-based development workstation                              | Technology Component                 |
+| **DSC (Desired State Configuration)** | PowerShell-based configuration management                                       | Application Component                |
+| **Landing Zone**                      | Azure environment architecture following Cloud Adoption Framework               | Architecture Pattern                 |
+| **RBAC**                              | Role-Based Access Control                                                       | Security Pattern                     |
+| **SDLC**                              | Software Development Lifecycle                                                  | Business Process                     |
+
+### References
+
+| Reference                         | URL                                                                                  | Purpose                |
+| --------------------------------- | ------------------------------------------------------------------------------------ | ---------------------- |
+| Microsoft Dev Box Documentation   | https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box   | Technology reference   |
+| Azure Landing Zones               | https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/ | Architecture guidance  |
+| Azure RBAC Built-in Roles         | https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles     | Security reference     |
+| Dev Box Accelerator Documentation | https://evilazaro.github.io/DevExp-DevBox/docs/                                      | Project documentation  |
+| TOGAF 10 Standard                 | https://pubs.opengroup.org/togaf-standard/                                           | Architecture framework |
+
+### Source Control Information
+
+| Property           | Value                   |
+| ------------------ | ----------------------- |
+| Repository         | Evilazaro/DevExp-DevBox |
+| Default Branch     | main                    |
+| License            | MIT                     |
+| Project Name (azd) | ContosoDevExp           |
+
+---
+
+_Document generated following TOGAF 10 BDAT principles. Last analysis performed
+on workspace files as of the documentation date._
