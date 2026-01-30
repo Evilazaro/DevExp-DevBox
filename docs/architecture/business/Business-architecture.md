@@ -23,18 +23,18 @@ This section provides essential metadata for document management and governance.
 It establishes clear ownership, versioning, and review cadence to ensure the
 Business layer architecture documentation remains current and authoritative.
 
-| Attribute      | Value                                      |
-| -------------- | ------------------------------------------ |
-| Document Title | ContosoDevExp Business Layer Architecture  |
-| Version        | 1.0.0                                      |
-| Last Updated   | 2026-01-30                                 |
-| Author         | BDAT-DocGen Orchestrator                   |
-| Owner          | DevExp Team                                |
-| Status         | Published                                  |
-| Classification | Internal                                   |
-| Review Cycle   | Quarterly                                  |
-| Next Review    | 2026-04-30                                 |
-| Repository URL | https://github.com/Evilazaro/DevExp-DevBox |
+| Attribute      | Value                                        |
+| -------------- | -------------------------------------------- |
+| Document Title | ContosoDevExp Business Layer Architecture    |
+| Version        | 1.0.0                                        |
+| Last Updated   | 2026-01-30                                   |
+| Author         | BDAT-DocGen Orchestrator                     |
+| Owner          | DevExp Team                                  |
+| Status         | Published                                    |
+| Classification | Internal                                     |
+| Review Cycle   | Quarterly                                    |
+| Next Review    | 2026-04-30                                   |
+| Repository URL | <https://github.com/Evilazaro/DevExp-DevBox> |
 
 **Source:** [LICENSE](../../../LICENSE):L1-L5,
 [azure.yaml](../../../azure.yaml):L8
@@ -279,7 +279,7 @@ their performance characteristics.
 | ---------------- | -------------------------------------------------------------------- |
 | Process ID       | PROC-001                                                             |
 | Description      | Builds and validates Bicep templates on feature/fix branches and PRs |
-| Trigger          | Push to feature/** and fix/** branches, PRs to main                  |
+| Trigger          | Push to feature/\*\* and fix/\*\* branches, PRs to main              |
 | Inputs           | Source code, Bicep templates                                         |
 | Outputs          | Versioned artifacts, build status                                    |
 | Owner            | Platform Engineering Team                                            |
