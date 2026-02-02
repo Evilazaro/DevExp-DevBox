@@ -67,55 +67,52 @@ styling with classDef definitions.
 
 ```mermaid
 flowchart TB
-    direction TB
-
-    subgraph externalActors["👤 External Actors"]
-        developers["👤 Developers"]
-        platformManagers["👤 Platform Managers"]
-        securityTeam["🔐 Security Team"]
+    subgraph ExternalActors["👤 External Actors"]
+        DEV["👤 Developers"]
+        PM["👤 Platform Managers"]
+        SEC["🔐 Security Team"]
     end
 
-    subgraph businessContext["DevExp-DevBox Business Context"]
-        direction TB
-        subgraph coreBusiness["Core Business Domain"]
-            workloadMgmt["⚙️ Workload Management"]
-            envProvisioning["📦 Environment Provisioning"]
-            identityAccess["🔐 Identity & Access Management"]
+    subgraph BusinessContext["DevExp-DevBox Business Context"]
+        subgraph CoreBusiness["Core Business Domain"]
+            WM["⚙️ Workload Management"]
+            EP["📦 Environment Provisioning"]
+            IAM["🔐 Identity & Access Management"]
         end
 
-        subgraph supportingBusiness["Supporting Business Domain"]
-            governance["📋 Governance & Compliance"]
-            costMgmt["💰 Cost Management"]
-            operations["📊 Operations & Monitoring"]
+        subgraph SupportingBusiness["Supporting Business Domain"]
+            GOV["📋 Governance & Compliance"]
+            CM["💰 Cost Management"]
+            OPS["📊 Operations & Monitoring"]
         end
     end
 
-    subgraph externalSystems["🌐 External Systems"]
-        entraId["🔐 Microsoft Entra ID"]
-        github["🌐 GitHub"]
-        azureDevOps["🌐 Azure DevOps"]
+    subgraph ExternalSystems["🌐 External Systems"]
+        ENTRA["🔐 Microsoft Entra ID"]
+        GH["🌐 GitHub"]
+        ADO["🌐 Azure DevOps"]
     end
 
-    developers -->|"requests"| envProvisioning
-    platformManagers -->|"configures"| workloadMgmt
-    securityTeam -->|"defines policies"| governance
+    DEV -->|"requests"| EP
+    PM -->|"configures"| WM
+    SEC -->|"defines policies"| GOV
 
-    coreBusiness -->|"authenticates"| entraId
-    coreBusiness -->|"integrates"| github
-    coreBusiness -->|"integrates"| azureDevOps
+    CoreBusiness -->|"authenticates"| ENTRA
+    CoreBusiness -->|"integrates"| GH
+    CoreBusiness -->|"integrates"| ADO
 
-    governance --> costMgmt
-    operations --> governance
+    GOV -->|"informs"| CM
+    OPS -->|"supports"| GOV
 
-    classDef actor fill:#CE93D8,stroke:#7B1FA2,color:#212121
-    classDef coreDomain fill:#64B5F6,stroke:#1976D2,color:#212121
-    classDef supportDomain fill:#81C784,stroke:#388E3C,color:#212121
-    classDef external fill:#FFB74D,stroke:#F57C00,color:#212121
+    %% Style Definitions
+    classDef L0 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef L1 fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    classDef L2 fill:#FFF3E0,stroke:#EF6C00,stroke-width:1px,color:#E65100
+    classDef L3 fill:#F3E5F5,stroke:#7B1FA2,stroke-width:1px,color:#4A148C
 
-    class developers,platformManagers,securityTeam actor
-    class workloadMgmt,envProvisioning,identityAccess coreDomain
-    class governance,costMgmt,operations supportDomain
-    class entraId,github,azureDevOps external
+    class BusinessContext L0
+    class ExternalActors,CoreBusiness,SupportingBusiness,ExternalSystems L1
+    class DEV,PM,SEC,WM,EP,IAM,GOV,CM,OPS,ENTRA,GH,ADO L3
 ```
 
 ---
@@ -147,57 +144,54 @@ color styling with classDef for capability categories.
 
 ```mermaid
 flowchart TB
-    direction TB
-
-    subgraph level1["🏢 Level 1: Enterprise Capabilities"]
-        direction TB
-        subgraph devExpPlatform["Developer Experience Platform"]
-            direction LR
-
-            subgraph coreCapabilities["Core Capabilities"]
-                devCenterMgmt["⚙️ Dev Center Management"]
-                projectMgmt["📁 Project Management"]
-                envProvisioning["📦 Environment Provisioning"]
-                imageMgmt["🖼️ Image Management"]
+    subgraph Level1["🏢 Level 1: Enterprise Capabilities"]
+        subgraph DevExpPlatform["Developer Experience Platform"]
+            subgraph CoreCapabilities["Core Capabilities"]
+                DCM["⚙️ Dev Center Management"]
+                PJM["📁 Project Management"]
+                ENV["📦 Environment Provisioning"]
+                IMG["🖼️ Image Management"]
             end
 
-            subgraph enablingCapabilities["Enabling Capabilities"]
-                identityAccess["🔐 Identity & Access"]
-                securityMgmt["🔐 Security Management"]
-                networkMgmt["🌐 Network Management"]
-                monitoring["📊 Monitoring & Observability"]
+            subgraph EnablingCapabilities["Enabling Capabilities"]
+                IAM["🔐 Identity & Access"]
+                SCM["🔐 Security Management"]
+                NET["🌐 Network Management"]
+                MON["📊 Monitoring & Observability"]
             end
 
-            subgraph supportingCapabilities["Supporting Capabilities"]
-                cicdAutomation["🔄 CI/CD Automation"]
-                configMgmt["⚙️ Configuration Management"]
-                costAllocation["💰 Cost Allocation"]
-                governance["📋 Governance"]
+            subgraph SupportingCapabilities["Supporting Capabilities"]
+                CICD["🔄 CI/CD Automation"]
+                CFG["⚙️ Configuration Management"]
+                COST["💰 Cost Allocation"]
+                GOV["📋 Governance"]
             end
         end
     end
 
-    devCenterMgmt --> projectMgmt
-    projectMgmt --> envProvisioning
-    envProvisioning --> imageMgmt
+    DCM -->|"enables"| PJM
+    PJM -->|"triggers"| ENV
+    ENV -->|"uses"| IMG
 
-    identityAccess -->|"secures"| devCenterMgmt
-    securityMgmt -->|"protects"| devCenterMgmt
-    networkMgmt -->|"connects"| envProvisioning
-    monitoring -->|"observes"| devCenterMgmt
+    IAM -->|"secures"| DCM
+    SCM -->|"protects"| DCM
+    NET -->|"connects"| ENV
+    MON -->|"observes"| DCM
 
-    cicdAutomation -->|"deploys"| envProvisioning
-    configMgmt -->|"configures"| devCenterMgmt
-    costAllocation -->|"tracks"| projectMgmt
-    governance -->|"enforces"| securityMgmt
+    CICD -->|"deploys"| ENV
+    CFG -->|"configures"| DCM
+    COST -->|"tracks"| PJM
+    GOV -->|"enforces"| SCM
 
-    classDef coreCapability fill:#64B5F6,stroke:#1976D2,color:#212121
-    classDef enablingCapability fill:#81C784,stroke:#388E3C,color:#212121
-    classDef supportCapability fill:#FFB74D,stroke:#F57C00,color:#212121
+    %% Style Definitions
+    classDef L0 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef L1 fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    classDef L2 fill:#FFF3E0,stroke:#EF6C00,stroke-width:1px,color:#E65100
+    classDef L3 fill:#F3E5F5,stroke:#7B1FA2,stroke-width:1px,color:#4A148C
 
-    class devCenterMgmt,projectMgmt,envProvisioning,imageMgmt coreCapability
-    class identityAccess,securityMgmt,networkMgmt,monitoring enablingCapability
-    class cicdAutomation,configMgmt,costAllocation,governance supportCapability
+    class Level1 L0
+    class DevExpPlatform,CoreCapabilities,EnablingCapabilities,SupportingCapabilities L1
+    class DCM,PJM,ENV,IMG,IAM,SCM,NET,MON,CICD,CFG,COST,GOV L3
 ```
 
 ### 3.3 Capability Catalog
@@ -244,77 +238,62 @@ with emojis, descriptive inter-process edge labels, and Material Design
 
 ```mermaid
 flowchart TB
-    direction TB
-
-    subgraph setupProcess["BP-001: Platform Setup Process"]
+    subgraph SetupProcess["BP-001: Platform Setup Process"]
         direction LR
-        initEnv["1️⃣ Initialize Environment"]
-        authPlatform["2️⃣ Authenticate Platform"]
-        configSourceCtrl["3️⃣ Configure Source Control"]
-        genCreds["4️⃣ Generate Credentials"]
-        provisionInfra["5️⃣ Provision Infrastructure"]
+        S1["1️⃣ Initialize Environment"]
+        S2["2️⃣ Authenticate Platform"]
+        S3["3️⃣ Configure Source Control"]
+        S4["4️⃣ Generate Credentials"]
+        S5["5️⃣ Provision Infrastructure"]
 
-        initEnv --> authPlatform
-        authPlatform --> configSourceCtrl
-        configSourceCtrl --> genCreds
-        genCreds --> provisionInfra
+        S1 --> S2 --> S3 --> S4 --> S5
     end
 
-    subgraph deployProcess["BP-002: Deployment Process"]
+    subgraph DeployProcess["BP-002: Deployment Process"]
         direction LR
-        validateConfig["1️⃣ Validate Configuration"]
-        buildBicep["2️⃣ Build Bicep Templates"]
-        oidcAuth["3️⃣ Azure OIDC Auth"]
-        deployResources["4️⃣ Deploy Resources"]
-        genSummary["5️⃣ Generate Summary"]
+        D1["1️⃣ Validate Configuration"]
+        D2["2️⃣ Build Bicep Templates"]
+        D3["3️⃣ Azure OIDC Auth"]
+        D4["4️⃣ Deploy Resources"]
+        D5["5️⃣ Generate Summary"]
 
-        validateConfig --> buildBicep
-        buildBicep --> oidcAuth
-        oidcAuth --> deployResources
-        deployResources --> genSummary
+        D1 --> D2 --> D3 --> D4 --> D5
     end
 
-    subgraph devBoxProcess["BP-003: Dev Box Provisioning"]
+    subgraph DevBoxProcess["BP-003: Dev Box Provisioning"]
         direction LR
-        requestDevBox["1️⃣ Request Dev Box"]
-        validateAccess["2️⃣ Validate User Access"]
-        selectPool["3️⃣ Select Pool"]
-        applyConfig["4️⃣ Apply Configuration"]
-        provisionWs["5️⃣ Provision Workstation"]
+        B1["1️⃣ Request Dev Box"]
+        B2["2️⃣ Validate User Access"]
+        B3["3️⃣ Select Pool"]
+        B4["4️⃣ Apply Configuration"]
+        B5["5️⃣ Provision Workstation"]
 
-        requestDevBox --> validateAccess
-        validateAccess --> selectPool
-        selectPool --> applyConfig
-        applyConfig --> provisionWs
+        B1 --> B2 --> B3 --> B4 --> B5
     end
 
-    subgraph cleanupProcess["BP-004: Cleanup Process"]
+    subgraph CleanupProcess["BP-004: Cleanup Process"]
         direction LR
-        deleteDeployments["1️⃣ Delete Deployments"]
-        removeRoles["2️⃣ Remove Role Assignments"]
-        deleteCreds["3️⃣ Delete Credentials"]
-        removeSecrets["4️⃣ Remove Secrets"]
-        deleteRgs["5️⃣ Delete Resource Groups"]
+        C1["1️⃣ Delete Deployments"]
+        C2["2️⃣ Remove Role Assignments"]
+        C3["3️⃣ Delete Credentials"]
+        C4["4️⃣ Remove Secrets"]
+        C5["5️⃣ Delete Resource Groups"]
 
-        deleteDeployments --> removeRoles
-        removeRoles --> deleteCreds
-        deleteCreds --> removeSecrets
-        removeSecrets --> deleteRgs
+        C1 --> C2 --> C3 --> C4 --> C5
     end
 
-    setupProcess -->|"triggers"| deployProcess
-    deployProcess -->|"enables"| devBoxProcess
-    devBoxProcess -.->|"end of lifecycle"| cleanupProcess
+    SetupProcess -->|"triggers"| DeployProcess
+    DeployProcess -->|"enables"| DevBoxProcess
+    DevBoxProcess -.->|"end of lifecycle"| CleanupProcess
 
-    classDef setupStep fill:#64B5F6,stroke:#1976D2,color:#212121
-    classDef deployStep fill:#81C784,stroke:#388E3C,color:#212121
-    classDef devBoxStep fill:#CE93D8,stroke:#7B1FA2,color:#212121
-    classDef cleanupStep fill:#FFB74D,stroke:#F57C00,color:#212121
+    %% Style Definitions
+    classDef L0 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef L1 fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    classDef L2 fill:#FFF3E0,stroke:#EF6C00,stroke-width:1px,color:#E65100
+    classDef L3 fill:#F3E5F5,stroke:#7B1FA2,stroke-width:1px,color:#4A148C
 
-    class initEnv,authPlatform,configSourceCtrl,genCreds,provisionInfra setupStep
-    class validateConfig,buildBicep,oidcAuth,deployResources,genSummary deployStep
-    class requestDevBox,validateAccess,selectPool,applyConfig,provisionWs devBoxStep
-    class deleteDeployments,removeRoles,deleteCreds,removeSecrets,deleteRgs cleanupStep
+    class SetupProcess,DeployProcess,DevBoxProcess,CleanupProcess L1
+    class S1,S2,S3,S4,S5,D1,D2,D3,D4,D5,B1,B2,B3,B4,B5,C1,C2,C3,C4,C5 L3
 ```
 
 ### 4.3 Process Catalog
@@ -358,62 +337,59 @@ Material Design 300-level color styling.
 
 ```mermaid
 flowchart LR
-    direction LR
-
-    subgraph consumers["👤 Service Consumers"]
-        developers["👤 Developers"]
-        platformOps["👤 Platform Operators"]
-        cicdPipelines["🔄 CI/CD Pipelines"]
+    subgraph Consumers["👤 Service Consumers"]
+        DEV["👤 Developers"]
+        OPS["👤 Platform Operators"]
+        CICD["🔄 CI/CD Pipelines"]
     end
 
-    subgraph coreServices["⚙️ Core Business Services"]
+    subgraph CoreServices["⚙️ Core Business Services"]
         direction TB
-        devCenterSvc["⚙️ Dev Center Service"]
-        projectSvc["📁 Project Service"]
-        poolSvc["🖥️ Pool Service"]
-        envSvc["📦 Environment Service"]
+        DCS["⚙️ Dev Center Service"]
+        PJS["📁 Project Service"]
+        PLS["🖥️ Pool Service"]
+        ENS["📦 Environment Service"]
     end
 
-    subgraph platformServices["🔧 Platform Services"]
+    subgraph PlatformServices["🔧 Platform Services"]
         direction TB
-        identitySvc["🔐 Identity Service"]
-        securitySvc["🔐 Security Service"]
-        networkSvc["🌐 Network Service"]
-        monitoringSvc["📊 Monitoring Service"]
+        IDS["🔐 Identity Service"]
+        SCS["🔐 Security Service"]
+        NTS["🌐 Network Service"]
+        MNS["📊 Monitoring Service"]
     end
 
-    subgraph integrationServices["🔗 Integration Services"]
+    subgraph IntegrationServices["🔗 Integration Services"]
         direction TB
-        githubIntegration["🌐 GitHub Integration"]
-        adoIntegration["🌐 Azure DevOps Integration"]
-        entraIdIntegration["🔐 Azure AD Integration"]
+        GHI["🌐 GitHub Integration"]
+        ADI["🌐 Azure DevOps Integration"]
+        AAI["🔐 Azure AD Integration"]
     end
 
-    developers -->|"consumes"| devCenterSvc
-    developers -->|"uses"| poolSvc
-    platformOps -->|"manages"| projectSvc
-    platformOps -->|"configures"| securitySvc
-    cicdPipelines -->|"deploys"| envSvc
-    cicdPipelines -->|"triggers"| githubIntegration
+    DEV -->|"consumes"| DCS
+    DEV -->|"uses"| PLS
+    OPS -->|"manages"| PJS
+    OPS -->|"configures"| SCS
+    CICD -->|"deploys"| ENS
+    CICD -->|"triggers"| GHI
 
-    devCenterSvc -->|"requires"| identitySvc
-    devCenterSvc -->|"uses"| securitySvc
-    projectSvc -->|"connects"| networkSvc
-    poolSvc -->|"reports to"| monitoringSvc
+    DCS -->|"requires"| IDS
+    DCS -->|"uses"| SCS
+    PJS -->|"connects"| NTS
+    PLS -->|"reports to"| MNS
 
-    identitySvc -->|"authenticates via"| entraIdIntegration
-    githubIntegration -->|"secured by"| securitySvc
-    adoIntegration -->|"secured by"| securitySvc
+    IDS -->|"authenticates via"| AAI
+    GHI -->|"secured by"| SCS
+    ADI -->|"secured by"| SCS
 
-    classDef consumer fill:#CE93D8,stroke:#7B1FA2,color:#212121
-    classDef coreSvc fill:#64B5F6,stroke:#1976D2,color:#212121
-    classDef platformSvc fill:#81C784,stroke:#388E3C,color:#212121
-    classDef integrationSvc fill:#FFB74D,stroke:#F57C00,color:#212121
+    %% Style Definitions
+    classDef L0 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef L1 fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    classDef L2 fill:#FFF3E0,stroke:#EF6C00,stroke-width:1px,color:#E65100
+    classDef L3 fill:#F3E5F5,stroke:#7B1FA2,stroke-width:1px,color:#4A148C
 
-    class developers,platformOps,cicdPipelines consumer
-    class devCenterSvc,projectSvc,poolSvc,envSvc coreSvc
-    class identitySvc,securitySvc,networkSvc,monitoringSvc platformSvc
-    class githubIntegration,adoIntegration,entraIdIntegration integrationSvc
+    class Consumers,CoreServices,PlatformServices,IntegrationServices L1
+    class DEV,OPS,CICD,DCS,PJS,PLS,ENS,IDS,SCS,NTS,MNS,GHI,ADI,AAI L3
 ```
 
 ### 5.3 Service Catalog
@@ -460,52 +436,51 @@ Material Design 300-level color styling.
 
 ```mermaid
 flowchart TB
-    direction TB
-
-    subgraph organization["🏢 Contoso Organization"]
-        direction TB
-        subgraph division["Platforms Division"]
-            direction LR
-
-            subgraph platformTeam["Platform Engineering Team"]
-                devManager["👤 Dev Manager"]
-                platformAdmin["👤 Platform Administrator"]
+    subgraph Organization["🏢 Contoso Organization"]
+        subgraph Division["Platforms Division"]
+            subgraph PlatformTeam["Platform Engineering Team"]
+                DM["👤 Dev Manager"]
+                PA["👤 Platform Administrator"]
             end
 
-            subgraph projectTeams["Project Teams"]
-                projectLead["👤 Project Lead"]
-                backendEngineer["👤 Backend Engineer"]
-                frontendEngineer["👤 Frontend Engineer"]
+            subgraph ProjectTeams["Project Teams"]
+                PL["👤 Project Lead"]
+                BE["👤 Backend Engineer"]
+                FE["👤 Frontend Engineer"]
             end
         end
     end
 
-    subgraph rbacRoles["🔐 Azure RBAC Roles"]
-        direction TB
-        devCenterProjectAdmin["🔐 DevCenter Project Admin"]
-        devBoxUser["🔐 Dev Box User"]
-        deploymentEnvUser["🔐 Deployment Environment User"]
-        contributor["🔐 Contributor"]
-        keyVaultSecretsUser["🔐 Key Vault Secrets User"]
-        userAccessAdmin["🔐 User Access Administrator"]
+    subgraph RbacRoles["🔐 Azure RBAC Roles"]
+        DCPA["🔐 DevCenter Project Admin"]
+        DBU["🔐 Dev Box User"]
+        DEU["🔐 Deployment Environment User"]
+        CONT["🔐 Contributor"]
+        KVSU["🔐 Key Vault Secrets User"]
+        UAA["🔐 User Access Administrator"]
     end
 
-    devManager -->|"assigned"| devCenterProjectAdmin
-    devManager -->|"assigned"| userAccessAdmin
-    platformAdmin -->|"assigned"| contributor
-    platformAdmin -->|"assigned"| keyVaultSecretsUser
-    projectLead -->|"assigned"| devCenterProjectAdmin
-    projectLead -->|"assigned"| deploymentEnvUser
-    backendEngineer -->|"assigned"| devBoxUser
-    backendEngineer -->|"assigned"| deploymentEnvUser
-    frontendEngineer -->|"assigned"| devBoxUser
-    frontendEngineer -->|"assigned"| deploymentEnvUser
+    DM -->|"assigned"| DCPA
+    DM -->|"assigned"| UAA
+    PA -->|"assigned"| CONT
+    PA -->|"assigned"| KVSU
+    PL -->|"assigned"| DCPA
+    PL -->|"assigned"| DEU
+    BE -->|"assigned"| DBU
+    BE -->|"assigned"| DEU
+    FE -->|"assigned"| DBU
+    FE -->|"assigned"| DEU
 
-    classDef actor fill:#CE93D8,stroke:#7B1FA2,color:#212121
-    classDef role fill:#64B5F6,stroke:#1976D2,color:#212121
+    %% Style Definitions
+    classDef L0 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef L1 fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    classDef L2 fill:#FFF3E0,stroke:#EF6C00,stroke-width:1px,color:#E65100
+    classDef L3 fill:#F3E5F5,stroke:#7B1FA2,stroke-width:1px,color:#4A148C
 
-    class devManager,platformAdmin,projectLead,backendEngineer,frontendEngineer actor
-    class devCenterProjectAdmin,devBoxUser,deploymentEnvUser,contributor,keyVaultSecretsUser,userAccessAdmin role
+    class Organization L0
+    class Division,RbacRoles L1
+    class PlatformTeam,ProjectTeams L2
+    class DM,PA,PL,BE,FE,DCPA,DBU,DEU,CONT,KVSU,UAA L3
 ```
 
 ### 6.3 Actor/Role Catalog
