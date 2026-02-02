@@ -61,45 +61,61 @@ environments.
 
 ### 2.2 Business Context Diagram
 
+**Changes:** Added explicit direction, camelCase node IDs, descriptive edge
+labels, emoji prefixes for visual clarity, and Material Design 300-level color
+styling with classDef definitions.
+
 ```mermaid
 flowchart TB
-    subgraph ExternalActors["External Actors"]
-        DEV["Developers"]
-        PM["Platform Managers"]
-        SEC["Security Team"]
+    direction TB
+
+    subgraph externalActors["👤 External Actors"]
+        developers["👤 Developers"]
+        platformManagers["👤 Platform Managers"]
+        securityTeam["🔐 Security Team"]
     end
 
-    subgraph BusinessContext["DevExp-DevBox Business Context"]
+    subgraph businessContext["DevExp-DevBox Business Context"]
         direction TB
-        subgraph CoreBusiness["Core Business Domain"]
-            WKL["Workload Management"]
-            ENV["Environment Provisioning"]
-            IDM["Identity & Access Management"]
+        subgraph coreBusiness["Core Business Domain"]
+            workloadMgmt["⚙️ Workload Management"]
+            envProvisioning["📦 Environment Provisioning"]
+            identityAccess["🔐 Identity & Access Management"]
         end
 
-        subgraph SupportingBusiness["Supporting Business Domain"]
-            GOV["Governance & Compliance"]
-            COST["Cost Management"]
-            OPS["Operations & Monitoring"]
+        subgraph supportingBusiness["Supporting Business Domain"]
+            governance["📋 Governance & Compliance"]
+            costMgmt["💰 Cost Management"]
+            operations["📊 Operations & Monitoring"]
         end
     end
 
-    subgraph ExternalSystems["External Systems"]
-        AAD["Microsoft Entra ID"]
-        GH["GitHub"]
-        ADO["Azure DevOps"]
+    subgraph externalSystems["🌐 External Systems"]
+        entraId["🔐 Microsoft Entra ID"]
+        github["🌐 GitHub"]
+        azureDevOps["🌐 Azure DevOps"]
     end
 
-    DEV -->|"Request Dev Box"| ENV
-    PM -->|"Configure Platform"| WKL
-    SEC -->|"Define Policies"| GOV
+    developers -->|"requests"| envProvisioning
+    platformManagers -->|"configures"| workloadMgmt
+    securityTeam -->|"defines policies"| governance
 
-    CoreBusiness --> AAD
-    CoreBusiness --> GH
-    CoreBusiness --> ADO
+    coreBusiness -->|"authenticates"| entraId
+    coreBusiness -->|"integrates"| github
+    coreBusiness -->|"integrates"| azureDevOps
 
-    GOV --> COST
-    OPS --> GOV
+    governance --> costMgmt
+    operations --> governance
+
+    classDef actor fill:#CE93D8,stroke:#7B1FA2,color:#212121
+    classDef coreDomain fill:#64B5F6,stroke:#1976D2,color:#212121
+    classDef supportDomain fill:#81C784,stroke:#388E3C,color:#212121
+    classDef external fill:#FFB74D,stroke:#F57C00,color:#212121
+
+    class developers,platformManagers,securityTeam actor
+    class workloadMgmt,envProvisioning,identityAccess coreDomain
+    class governance,costMgmt,operations supportDomain
+    class entraId,github,azureDevOps external
 ```
 
 ---
@@ -125,48 +141,63 @@ primary organizational units.
 
 ### 3.2 Capability Map Diagram
 
+**Changes:** Added explicit direction, camelCase node IDs, descriptive edge
+labels showing relationships, emoji prefixes, and Material Design 300-level
+color styling with classDef for capability categories.
+
 ```mermaid
 flowchart TB
-    subgraph L1["Level 1: Enterprise Capabilities"]
+    direction TB
+
+    subgraph level1["🏢 Level 1: Enterprise Capabilities"]
         direction TB
-        subgraph DevExp["Developer Experience Platform"]
+        subgraph devExpPlatform["Developer Experience Platform"]
             direction LR
-            subgraph L2Core["Core Capabilities"]
-                DC["Dev Center Management"]
-                PM["Project Management"]
-                EP["Environment Provisioning"]
-                IM["Image Management"]
+
+            subgraph coreCapabilities["Core Capabilities"]
+                devCenterMgmt["⚙️ Dev Center Management"]
+                projectMgmt["📁 Project Management"]
+                envProvisioning["📦 Environment Provisioning"]
+                imageMgmt["🖼️ Image Management"]
             end
 
-            subgraph L2Enable["Enabling Capabilities"]
-                IAM["Identity & Access"]
-                SEC["Security Management"]
-                NET["Network Management"]
-                MON["Monitoring & Observability"]
+            subgraph enablingCapabilities["Enabling Capabilities"]
+                identityAccess["🔐 Identity & Access"]
+                securityMgmt["🔐 Security Management"]
+                networkMgmt["🌐 Network Management"]
+                monitoring["📊 Monitoring & Observability"]
             end
 
-            subgraph L2Support["Supporting Capabilities"]
-                CICD["CI/CD Automation"]
-                CFG["Configuration Management"]
-                COST["Cost Allocation"]
-                GOV["Governance"]
+            subgraph supportingCapabilities["Supporting Capabilities"]
+                cicdAutomation["🔄 CI/CD Automation"]
+                configMgmt["⚙️ Configuration Management"]
+                costAllocation["💰 Cost Allocation"]
+                governance["📋 Governance"]
             end
         end
     end
 
-    DC --> PM
-    PM --> EP
-    EP --> IM
+    devCenterMgmt --> projectMgmt
+    projectMgmt --> envProvisioning
+    envProvisioning --> imageMgmt
 
-    IAM --> DC
-    SEC --> DC
-    NET --> EP
-    MON --> DC
+    identityAccess -->|"secures"| devCenterMgmt
+    securityMgmt -->|"protects"| devCenterMgmt
+    networkMgmt -->|"connects"| envProvisioning
+    monitoring -->|"observes"| devCenterMgmt
 
-    CICD --> EP
-    CFG --> DC
-    COST --> PM
-    GOV --> SEC
+    cicdAutomation -->|"deploys"| envProvisioning
+    configMgmt -->|"configures"| devCenterMgmt
+    costAllocation -->|"tracks"| projectMgmt
+    governance -->|"enforces"| securityMgmt
+
+    classDef coreCapability fill:#64B5F6,stroke:#1976D2,color:#212121
+    classDef enablingCapability fill:#81C784,stroke:#388E3C,color:#212121
+    classDef supportCapability fill:#FFB74D,stroke:#F57C00,color:#212121
+
+    class devCenterMgmt,projectMgmt,envProvisioning,imageMgmt coreCapability
+    class identityAccess,securityMgmt,networkMgmt,monitoring enablingCapability
+    class cicdAutomation,configMgmt,costAllocation,governance supportCapability
 ```
 
 ### 3.3 Capability Catalog
@@ -207,43 +238,83 @@ OIDC-based authentication for enhanced security.
 
 ### 4.2 Process Flow Diagram
 
+**Changes:** Added explicit direction, camelCase node IDs, numbered step labels
+with emojis, descriptive inter-process edge labels, and Material Design
+300-level color styling per process category.
+
 ```mermaid
 flowchart TB
-    subgraph SetupProcess["BP-001: Platform Setup Process"]
+    direction TB
+
+    subgraph setupProcess["BP-001: Platform Setup Process"]
         direction LR
-        S1["Initialize Environment"] --> S2["Authenticate Platform"]
-        S2 --> S3["Configure Source Control"]
-        S3 --> S4["Generate Credentials"]
-        S4 --> S5["Provision Infrastructure"]
+        initEnv["1️⃣ Initialize Environment"]
+        authPlatform["2️⃣ Authenticate Platform"]
+        configSourceCtrl["3️⃣ Configure Source Control"]
+        genCreds["4️⃣ Generate Credentials"]
+        provisionInfra["5️⃣ Provision Infrastructure"]
+
+        initEnv --> authPlatform
+        authPlatform --> configSourceCtrl
+        configSourceCtrl --> genCreds
+        genCreds --> provisionInfra
     end
 
-    subgraph DeployProcess["BP-002: Deployment Process"]
+    subgraph deployProcess["BP-002: Deployment Process"]
         direction LR
-        D1["Validate Configuration"] --> D2["Build Bicep Templates"]
-        D2 --> D3["Azure OIDC Auth"]
-        D3 --> D4["Deploy Resources"]
-        D4 --> D5["Generate Summary"]
+        validateConfig["1️⃣ Validate Configuration"]
+        buildBicep["2️⃣ Build Bicep Templates"]
+        oidcAuth["3️⃣ Azure OIDC Auth"]
+        deployResources["4️⃣ Deploy Resources"]
+        genSummary["5️⃣ Generate Summary"]
+
+        validateConfig --> buildBicep
+        buildBicep --> oidcAuth
+        oidcAuth --> deployResources
+        deployResources --> genSummary
     end
 
-    subgraph DevBoxProcess["BP-003: Dev Box Provisioning"]
+    subgraph devBoxProcess["BP-003: Dev Box Provisioning"]
         direction LR
-        DB1["Request Dev Box"] --> DB2["Validate User Access"]
-        DB2 --> DB3["Select Pool"]
-        DB3 --> DB4["Apply Configuration"]
-        DB4 --> DB5["Provision Workstation"]
+        requestDevBox["1️⃣ Request Dev Box"]
+        validateAccess["2️⃣ Validate User Access"]
+        selectPool["3️⃣ Select Pool"]
+        applyConfig["4️⃣ Apply Configuration"]
+        provisionWs["5️⃣ Provision Workstation"]
+
+        requestDevBox --> validateAccess
+        validateAccess --> selectPool
+        selectPool --> applyConfig
+        applyConfig --> provisionWs
     end
 
-    subgraph CleanupProcess["BP-004: Cleanup Process"]
+    subgraph cleanupProcess["BP-004: Cleanup Process"]
         direction LR
-        C1["Delete Deployments"] --> C2["Remove Role Assignments"]
-        C2 --> C3["Delete Credentials"]
-        C3 --> C4["Remove Secrets"]
-        C4 --> C5["Delete Resource Groups"]
+        deleteDeployments["1️⃣ Delete Deployments"]
+        removeRoles["2️⃣ Remove Role Assignments"]
+        deleteCreds["3️⃣ Delete Credentials"]
+        removeSecrets["4️⃣ Remove Secrets"]
+        deleteRgs["5️⃣ Delete Resource Groups"]
+
+        deleteDeployments --> removeRoles
+        removeRoles --> deleteCreds
+        deleteCreds --> removeSecrets
+        removeSecrets --> deleteRgs
     end
 
-    SetupProcess --> DeployProcess
-    DeployProcess --> DevBoxProcess
-    DevBoxProcess -.->|"End of Lifecycle"| CleanupProcess
+    setupProcess -->|"triggers"| deployProcess
+    deployProcess -->|"enables"| devBoxProcess
+    devBoxProcess -.->|"end of lifecycle"| cleanupProcess
+
+    classDef setupStep fill:#64B5F6,stroke:#1976D2,color:#212121
+    classDef deployStep fill:#81C784,stroke:#388E3C,color:#212121
+    classDef devBoxStep fill:#CE93D8,stroke:#7B1FA2,color:#212121
+    classDef cleanupStep fill:#FFB74D,stroke:#F57C00,color:#212121
+
+    class initEnv,authPlatform,configSourceCtrl,genCreds,provisionInfra setupStep
+    class validateConfig,buildBicep,oidcAuth,deployResources,genSummary deployStep
+    class requestDevBox,validateAccess,selectPool,applyConfig,provisionWs devBoxStep
+    class deleteDeployments,removeRoles,deleteCreds,removeSecrets,deleteRgs cleanupStep
 ```
 
 ### 4.3 Process Catalog
@@ -281,52 +352,68 @@ requirements.
 
 ### 5.2 Service Interaction Diagram
 
+**Changes:** Added explicit direction, camelCase node IDs, descriptive edge
+labels showing service interactions, emoji prefixes by service category, and
+Material Design 300-level color styling.
+
 ```mermaid
 flowchart LR
-    subgraph Consumers["Service Consumers"]
-        DEV["Developers"]
-        OPS["Platform Operators"]
-        CICD["CI/CD Pipelines"]
+    direction LR
+
+    subgraph consumers["👤 Service Consumers"]
+        developers["👤 Developers"]
+        platformOps["👤 Platform Operators"]
+        cicdPipelines["🔄 CI/CD Pipelines"]
     end
 
-    subgraph CoreServices["Core Business Services"]
+    subgraph coreServices["⚙️ Core Business Services"]
         direction TB
-        DCS["Dev Center Service"]
-        PJS["Project Service"]
-        PBS["Pool Service"]
-        ENS["Environment Service"]
+        devCenterSvc["⚙️ Dev Center Service"]
+        projectSvc["📁 Project Service"]
+        poolSvc["🖥️ Pool Service"]
+        envSvc["📦 Environment Service"]
     end
 
-    subgraph PlatformServices["Platform Services"]
+    subgraph platformServices["🔧 Platform Services"]
         direction TB
-        IDS["Identity Service"]
-        SES["Security Service"]
-        NES["Network Service"]
-        MOS["Monitoring Service"]
+        identitySvc["🔐 Identity Service"]
+        securitySvc["🔐 Security Service"]
+        networkSvc["🌐 Network Service"]
+        monitoringSvc["📊 Monitoring Service"]
     end
 
-    subgraph IntegrationServices["Integration Services"]
+    subgraph integrationServices["🔗 Integration Services"]
         direction TB
-        GHS["GitHub Integration"]
-        ADS["Azure DevOps Integration"]
-        AAS["Azure AD Integration"]
+        githubIntegration["🌐 GitHub Integration"]
+        adoIntegration["🌐 Azure DevOps Integration"]
+        entraIdIntegration["🔐 Azure AD Integration"]
     end
 
-    DEV --> DCS
-    DEV --> PBS
-    OPS --> PJS
-    OPS --> SES
-    CICD --> ENS
-    CICD --> GHS
+    developers -->|"consumes"| devCenterSvc
+    developers -->|"uses"| poolSvc
+    platformOps -->|"manages"| projectSvc
+    platformOps -->|"configures"| securitySvc
+    cicdPipelines -->|"deploys"| envSvc
+    cicdPipelines -->|"triggers"| githubIntegration
 
-    DCS --> IDS
-    DCS --> SES
-    PJS --> NES
-    PBS --> MOS
+    devCenterSvc -->|"requires"| identitySvc
+    devCenterSvc -->|"uses"| securitySvc
+    projectSvc -->|"connects"| networkSvc
+    poolSvc -->|"reports to"| monitoringSvc
 
-    IDS --> AAS
-    GHS --> SES
-    ADS --> SES
+    identitySvc -->|"authenticates via"| entraIdIntegration
+    githubIntegration -->|"secured by"| securitySvc
+    adoIntegration -->|"secured by"| securitySvc
+
+    classDef consumer fill:#CE93D8,stroke:#7B1FA2,color:#212121
+    classDef coreSvc fill:#64B5F6,stroke:#1976D2,color:#212121
+    classDef platformSvc fill:#81C784,stroke:#388E3C,color:#212121
+    classDef integrationSvc fill:#FFB74D,stroke:#F57C00,color:#212121
+
+    class developers,platformOps,cicdPipelines consumer
+    class devCenterSvc,projectSvc,poolSvc,envSvc coreSvc
+    class identitySvc,securitySvc,networkSvc,monitoringSvc platformSvc
+    class githubIntegration,adoIntegration,entraIdIntegration integrationSvc
 ```
 
 ### 5.3 Service Catalog
@@ -367,45 +454,58 @@ their responsibilities.
 
 ### 6.2 Actor/Role Diagram
 
+**Changes:** Added explicit direction, camelCase node IDs, descriptive edge
+labels showing role assignments, emoji prefixes for actors and roles, and
+Material Design 300-level color styling.
+
 ```mermaid
 flowchart TB
-    subgraph Organization["Contoso Organization"]
+    direction TB
+
+    subgraph organization["🏢 Contoso Organization"]
         direction TB
-        subgraph Division["Platforms Division"]
+        subgraph division["Platforms Division"]
             direction LR
-            subgraph PlatformTeam["Platform Engineering Team"]
-                DM["Dev Manager"]
-                PA["Platform Administrator"]
+
+            subgraph platformTeam["Platform Engineering Team"]
+                devManager["👤 Dev Manager"]
+                platformAdmin["👤 Platform Administrator"]
             end
 
-            subgraph ProjectTeam["Project Teams"]
-                PL["Project Lead"]
-                BE["Backend Engineer"]
-                FE["Frontend Engineer"]
+            subgraph projectTeams["Project Teams"]
+                projectLead["👤 Project Lead"]
+                backendEngineer["👤 Backend Engineer"]
+                frontendEngineer["👤 Frontend Engineer"]
             end
         end
     end
 
-    subgraph Roles["Azure RBAC Roles"]
+    subgraph rbacRoles["🔐 Azure RBAC Roles"]
         direction TB
-        R1["DevCenter Project Admin"]
-        R2["Dev Box User"]
-        R3["Deployment Environment User"]
-        R4["Contributor"]
-        R5["Key Vault Secrets User"]
-        R6["User Access Administrator"]
+        devCenterProjectAdmin["🔐 DevCenter Project Admin"]
+        devBoxUser["🔐 Dev Box User"]
+        deploymentEnvUser["🔐 Deployment Environment User"]
+        contributor["🔐 Contributor"]
+        keyVaultSecretsUser["🔐 Key Vault Secrets User"]
+        userAccessAdmin["🔐 User Access Administrator"]
     end
 
-    DM --> R1
-    DM --> R6
-    PA --> R4
-    PA --> R5
-    PL --> R1
-    PL --> R3
-    BE --> R2
-    BE --> R3
-    FE --> R2
-    FE --> R3
+    devManager -->|"assigned"| devCenterProjectAdmin
+    devManager -->|"assigned"| userAccessAdmin
+    platformAdmin -->|"assigned"| contributor
+    platformAdmin -->|"assigned"| keyVaultSecretsUser
+    projectLead -->|"assigned"| devCenterProjectAdmin
+    projectLead -->|"assigned"| deploymentEnvUser
+    backendEngineer -->|"assigned"| devBoxUser
+    backendEngineer -->|"assigned"| deploymentEnvUser
+    frontendEngineer -->|"assigned"| devBoxUser
+    frontendEngineer -->|"assigned"| deploymentEnvUser
+
+    classDef actor fill:#CE93D8,stroke:#7B1FA2,color:#212121
+    classDef role fill:#64B5F6,stroke:#1976D2,color:#212121
+
+    class devManager,platformAdmin,projectLead,backendEngineer,frontendEngineer actor
+    class devCenterProjectAdmin,devBoxUser,deploymentEnvUser,contributor,keyVaultSecretsUser,userAccessAdmin role
 ```
 
 ### 6.3 Actor/Role Catalog
