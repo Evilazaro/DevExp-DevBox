@@ -29,26 +29,24 @@ with the principle of least privilege.
 ### Business Capability Map
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1976D2', 'lineColor': '#616161'}}}%%
 flowchart TB
     subgraph DevExpPlatform["Developer Experience Platform"]
         direction TB
 
         subgraph CoreCapabilities["Core Business Capabilities"]
-            style CoreCapabilities fill:#2E86AB,stroke:#1a5276,color:#fff
             BC1["Developer Workstation<br/>Provisioning"]
             BC2["Development Environment<br/>Management"]
             BC3["Project Portfolio<br/>Management"]
         end
 
         subgraph SupportingCapabilities["Supporting Capabilities"]
-            style SupportingCapabilities fill:#A23B72,stroke:#7a2956,color:#fff
             BC4["Identity & Access<br/>Management"]
             BC5["Security & Secrets<br/>Management"]
             BC6["Infrastructure<br/>Automation"]
         end
 
         subgraph GovernanceCapabilities["Governance Capabilities"]
-            style GovernanceCapabilities fill:#F18F01,stroke:#c47301,color:#fff
             BC7["Cost Management<br/>& Allocation"]
             BC8["Compliance &<br/>Policy Enforcement"]
             BC9["Audit & Monitoring"]
@@ -61,6 +59,15 @@ flowchart TB
     BC4 --> BC7
     BC5 --> BC8
     BC6 --> BC9
+
+    classDef coreStyle fill:#1976D2,stroke:#1565C0,color:#FFFFFF
+    classDef supportStyle fill:#388E3C,stroke:#2E7D32,color:#FFFFFF
+    classDef governStyle fill:#F57C00,stroke:#EF6C00,color:#FFFFFF
+    classDef platformStyle fill:#ECEFF1,stroke:#90A4AE,color:#37474F
+
+    class BC1,BC2,BC3 coreStyle
+    class BC4,BC5,BC6 supportStyle
+    class BC7,BC8,BC9 governStyle
 ```
 
 ---
@@ -88,21 +95,19 @@ operational processes defined in the repository.
 ### Capability Hierarchy Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1976D2', 'lineColor': '#616161'}}}%%
 flowchart TB
     subgraph L1["Level 1: Enterprise Capabilities"]
-        style L1 fill:#2E86AB,stroke:#1a5276,color:#fff
         EC1["Developer Experience<br/>Enablement"]
     end
 
     subgraph L2["Level 2: Business Domain Capabilities"]
-        style L2 fill:#A23B72,stroke:#7a2956,color:#fff
         DC1["Workstation<br/>Lifecycle"]
         DC2["Environment<br/>Orchestration"]
         DC3["Access<br/>Governance"]
     end
 
     subgraph L3["Level 3: Operational Capabilities"]
-        style L3 fill:#F18F01,stroke:#c47301,color:#fff
         OC1["Dev Box Pool<br/>Management"]
         OC2["Catalog<br/>Synchronization"]
         OC3["Role-Based<br/>Permissions"]
@@ -121,6 +126,14 @@ flowchart TB
     DC3 --> OC3
     DC3 --> OC4
     DC3 --> OC6
+
+    classDef level1Style fill:#1976D2,stroke:#1565C0,color:#FFFFFF
+    classDef level2Style fill:#7B1FA2,stroke:#6A1B9A,color:#FFFFFF
+    classDef level3Style fill:#F57C00,stroke:#EF6C00,color:#FFFFFF
+
+    class EC1 level1Style
+    class DC1,DC2,DC3 level2Style
+    class OC1,OC2,OC3,OC4,OC5,OC6 level3Style
 ```
 
 ### Capability Details
@@ -161,27 +174,25 @@ workflow definitions.
 ### Process Flow Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1976D2', 'lineColor': '#616161'}}}%%
 flowchart TB
     subgraph DeploymentProcess["Infrastructure Deployment Process"]
-        style DeploymentProcess fill:#2E86AB,stroke:#1a5276,color:#fff
-        P1["Initiate Deployment<br/>workflow_dispatch"]
-        P2["Authenticate with Azure<br/>OIDC"]
+        P1["Initiate Deployment"]
+        P2["Authenticate with Azure"]
         P3["Build Bicep Templates"]
-        P4["Provision Resources<br/>azd provision"]
+        P4["Provision Resources"]
         P5["Deployment Complete"]
     end
 
     subgraph SetupProcess["Environment Setup Process"]
-        style SetupProcess fill:#A23B72,stroke:#7a2956,color:#fff
         S1["Execute Setup Script"]
         S2["Configure Source Control"]
-        S3["Initialize azd Environment"]
+        S3["Initialize Environment"]
         S4["Setup Complete"]
     end
 
     subgraph OnboardingProcess["Developer Onboarding Process"]
-        style OnboardingProcess fill:#F18F01,stroke:#c47301,color:#fff
-        O1["Add User to Azure AD Group"]
+        O1["Add User to AD Group"]
         O2["Assign RBAC Roles"]
         O3["Grant Project Access"]
         O4["Onboarding Complete"]
@@ -202,6 +213,16 @@ flowchart TB
 
     P5 -.->|"enables"| O1
     S4 -.->|"prepares"| P1
+
+    classDef deployStyle fill:#1976D2,stroke:#1565C0,color:#FFFFFF
+    classDef setupStyle fill:#7B1FA2,stroke:#6A1B9A,color:#FFFFFF
+    classDef onboardStyle fill:#F57C00,stroke:#EF6C00,color:#FFFFFF
+    classDef completeStyle fill:#43A047,stroke:#388E3C,color:#FFFFFF
+
+    class P1,P2,P3,P4 deployStyle
+    class S1,S2,S3 setupStyle
+    class O1,O2,O3 onboardStyle
+    class P5,S4,O4 completeStyle
 ```
 
 ### Process Details
@@ -239,9 +260,9 @@ infrastructure components.
 ### Service Interaction Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1976D2', 'lineColor': '#616161'}}}%%
 flowchart LR
     subgraph Consumers["Service Consumers"]
-        style Consumers fill:#F18F01,stroke:#c47301,color:#fff
         U1["Backend Engineers"]
         U2["Frontend Engineers"]
         U3["Dev Managers"]
@@ -249,16 +270,14 @@ flowchart LR
     end
 
     subgraph Services["Business Services"]
-        style Services fill:#A23B72,stroke:#7a2956,color:#fff
-        SVC1["Developer Workstation<br/>Service"]
-        SVC2["Environment<br/>Provisioning Service"]
-        SVC3["Catalog Management<br/>Service"]
-        SVC4["Access Management<br/>Service"]
-        SVC5["Secret Management<br/>Service"]
+        SVC1["Workstation Service"]
+        SVC2["Environment Service"]
+        SVC3["Catalog Service"]
+        SVC4["Access Service"]
+        SVC5["Secret Service"]
     end
 
     subgraph Platform["Platform Components"]
-        style Platform fill:#2E86AB,stroke:#1a5276,color:#fff
         PC1["Azure DevCenter"]
         PC2["Dev Box Pools"]
         PC3["Key Vault"]
@@ -276,6 +295,14 @@ flowchart LR
     SVC3 --> PC1
     SVC4 --> PC4
     SVC5 --> PC3
+
+    classDef consumerStyle fill:#F57C00,stroke:#EF6C00,color:#FFFFFF
+    classDef serviceStyle fill:#7B1FA2,stroke:#6A1B9A,color:#FFFFFF
+    classDef platformStyle fill:#1976D2,stroke:#1565C0,color:#FFFFFF
+
+    class U1,U2,U3,U4 consumerStyle
+    class SVC1,SVC2,SVC3,SVC4,SVC5 serviceStyle
+    class PC1,PC2,PC3,PC4 platformStyle
 ```
 
 ### Service Catalog
@@ -313,31 +340,34 @@ guidance.
 ### Organization Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1976D2', 'lineColor': '#616161'}}}%%
 flowchart TB
     subgraph Organization["Contoso Organization"]
-        style Organization fill:#2E86AB,stroke:#1a5276,color:#fff
-
         subgraph Division["Platforms Division"]
-            style Division fill:#A23B72,stroke:#7a2956,color:#fff
-
             subgraph Teams["Development Teams"]
-                style Teams fill:#F18F01,stroke:#c47301,color:#fff
-                T1["Platform Engineering Team<br/>Azure AD Group: 5a1d1455-..."]
-                T2["eShop Developers<br/>Azure AD Group: 9d42a792-..."]
+                T1["Platform Engineering Team"]
+                T2["eShop Developers"]
             end
         end
     end
 
     subgraph Roles["Organizational Roles"]
-        style Roles fill:#C73E1D,stroke:#9a3017,color:#fff
-        R1["Dev Manager<br/>DevCenter Project Admin"]
-        R2["Dev Box User<br/>Deployment Environment User"]
-        R3["Platform Engineer<br/>Contributor"]
+        R1["Dev Manager"]
+        R2["Dev Box User"]
+        R3["Platform Engineer"]
     end
 
     T1 --> R1
     T1 --> R3
     T2 --> R2
+
+    classDef orgStyle fill:#1976D2,stroke:#1565C0,color:#FFFFFF
+    classDef divStyle fill:#7B1FA2,stroke:#6A1B9A,color:#FFFFFF
+    classDef teamStyle fill:#F57C00,stroke:#EF6C00,color:#FFFFFF
+    classDef roleStyle fill:#D32F2F,stroke:#C62828,color:#FFFFFF
+
+    class T1,T2 teamStyle
+    class R1,R2,R3 roleStyle
 ```
 
 ### Actor & Role Details
@@ -375,27 +405,25 @@ access control, and schema-validated configuration to prevent deployment errors.
 ### Rule Dependency Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1976D2', 'lineColor': '#616161'}}}%%
 flowchart TB
     subgraph SecurityPolicies["Security Policies"]
-        style SecurityPolicies fill:#C73E1D,stroke:#9a3017,color:#fff
-        SP1["RBAC Authorization<br/>Required"]
-        SP2["Purge Protection<br/>Enabled"]
-        SP3["Soft Delete<br/>7-day retention"]
-        SP4["OIDC Authentication<br/>for CI/CD"]
+        SP1["RBAC Authorization"]
+        SP2["Purge Protection"]
+        SP3["Soft Delete Retention"]
+        SP4["OIDC Authentication"]
     end
 
     subgraph GovernancePolicies["Governance Policies"]
-        style GovernancePolicies fill:#3B1F2B,stroke:#2a1620,color:#fff
-        GP1["Mandatory Resource<br/>Tagging"]
-        GP2["Schema Validation<br/>Required"]
-        GP3["Landing Zone<br/>Segregation"]
+        GP1["Mandatory Tagging"]
+        GP2["Schema Validation"]
+        GP3["Landing Zone Segregation"]
     end
 
     subgraph AccessPolicies["Access Control Policies"]
-        style AccessPolicies fill:#2E86AB,stroke:#1a5276,color:#fff
-        AP1["Least Privilege<br/>Principle"]
-        AP2["Azure AD Group<br/>Membership"]
-        AP3["Scope-based Role<br/>Assignment"]
+        AP1["Least Privilege"]
+        AP2["AD Group Membership"]
+        AP3["Scope-based Roles"]
     end
 
     SP1 --> AP1
@@ -404,6 +432,14 @@ flowchart TB
     GP2 --> GP1
     AP2 --> AP3
     AP1 --> AP3
+
+    classDef securityStyle fill:#D32F2F,stroke:#C62828,color:#FFFFFF
+    classDef governStyle fill:#5E35B1,stroke:#512DA8,color:#FFFFFF
+    classDef accessStyle fill:#1976D2,stroke:#1565C0,color:#FFFFFF
+
+    class SP1,SP2,SP3,SP4 securityStyle
+    class GP1,GP2,GP3 governStyle
+    class AP1,AP2,AP3 accessStyle
 ```
 
 ### Business Rules & Policies Catalog
