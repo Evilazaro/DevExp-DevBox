@@ -75,21 +75,32 @@ centralized monitoring through Log Analytics workspaces.
 ### 2.3 Application Portfolio Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px'}}}%%
 flowchart TB
-    subgraph "DevExp-DevBox Platform"
-        subgraph "Entry Point"
-            azure_yaml["Azure Developer CLI<br/>(azure.yaml)"]
-            main_bicep["Main Deployment<br/>(main.bicep)"]
+    %% Style definitions using Material Design 300-level colors
+    classDef entryPoint fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px
+    classDef workload fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
+    classDef security fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px
+    classDef connectivity fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+    classDef identity fill:#FFE0B2,stroke:#F57C00,stroke-width:2px
+    classDef management fill:#B2DFDB,stroke:#00796B,stroke-width:2px
+    classDef core fill:#E3F2FD,stroke:#1565C0,stroke-width:1px
+    classDef project fill:#E8F5E9,stroke:#2E7D32,stroke-width:1px
+
+    subgraph Platform["DevExp-DevBox Platform"]
+        subgraph EntryPoint["Entry Point"]
+            azureYaml["Azure Developer CLI<br/>(azure.yaml)"]
+            mainBicep["Main Deployment<br/>(main.bicep)"]
         end
 
-        subgraph "Workload Domain"
+        subgraph WorkloadDomain["Workload Domain"]
             workload["Workload Module"]
-            subgraph "DevCenter Core"
+            subgraph DevCenterCore["DevCenter Core"]
                 devcenter["DevCenter Module"]
                 catalog["Catalog Module"]
                 envtype["Environment Type Module"]
             end
-            subgraph "Project Components"
+            subgraph ProjectComponents["Project Components"]
                 project["Project Module"]
                 pool["Project Pool Module"]
                 projcatalog["Project Catalog Module"]
@@ -97,58 +108,70 @@ flowchart TB
             end
         end
 
-        subgraph "Security Domain"
+        subgraph SecurityDomain["Security Domain"]
             security["Security Module"]
             keyvault["Key Vault Module"]
             secret["Secret Module"]
         end
 
-        subgraph "Connectivity Domain"
+        subgraph ConnectivityDomain["Connectivity Domain"]
             connectivity["Connectivity Module"]
             vnet["Virtual Network Module"]
             netconn["Network Connection Module"]
-            rg_module["Resource Group Module"]
+            rgModule["Resource Group Module"]
         end
 
-        subgraph "Identity Domain"
-            dc_role["DevCenter Role Assignment"]
-            dc_role_rg["DevCenter Role Assignment RG"]
-            org_role["Organization Role Assignment"]
-            proj_role["Project Identity Role Assignment"]
-            proj_role_rg["Project Identity Role Assignment RG"]
+        subgraph IdentityDomain["Identity Domain"]
+            dcRole["DevCenter Role Assignment"]
+            dcRoleRg["DevCenter Role Assignment RG"]
+            orgRole["Organization Role Assignment"]
+            projRole["Project Identity Role Assignment"]
+            projRoleRg["Project Identity Role Assignment RG"]
         end
 
-        subgraph "Management Domain"
+        subgraph ManagementDomain["Management Domain"]
             loganalytics["Log Analytics Module"]
         end
     end
 
-    azure_yaml --> main_bicep
-    main_bicep --> workload
-    main_bicep --> security
-    main_bicep --> loganalytics
+    %% Entry Point flows
+    azureYaml -->|"Orchestrates"| mainBicep
+    mainBicep -->|"Deploys"| workload
+    mainBicep -->|"Deploys"| security
+    mainBicep -->|"Deploys"| loganalytics
 
-    workload --> devcenter
-    devcenter --> catalog
-    devcenter --> envtype
-    devcenter --> dc_role
-    devcenter --> dc_role_rg
-    devcenter --> org_role
+    %% Workload Domain flows
+    workload -->|"Provisions"| devcenter
+    devcenter -->|"Configures"| catalog
+    devcenter -->|"Configures"| envtype
+    devcenter -->|"Assigns"| dcRole
+    devcenter -->|"Assigns"| dcRoleRg
+    devcenter -->|"Assigns"| orgRole
 
-    workload --> project
-    project --> pool
-    project --> projcatalog
-    project --> projenvtype
-    project --> connectivity
-    project --> proj_role
-    project --> proj_role_rg
+    workload -->|"Provisions"| project
+    project -->|"Creates"| pool
+    project -->|"Configures"| projcatalog
+    project -->|"Configures"| projenvtype
+    project -->|"Requires"| connectivity
+    project -->|"Assigns"| projRole
+    project -->|"Assigns"| projRoleRg
 
-    security --> keyvault
-    security --> secret
+    %% Security Domain flows
+    security -->|"Provisions"| keyvault
+    security -->|"Manages"| secret
 
-    connectivity --> vnet
-    connectivity --> netconn
-    connectivity --> rg_module
+    %% Connectivity Domain flows
+    connectivity -->|"Provisions"| vnet
+    connectivity -->|"Creates"| netconn
+    connectivity -->|"Creates"| rgModule
+
+    %% Apply styles to nodes
+    class azureYaml,mainBicep entryPoint
+    class workload,devcenter,catalog,envtype,project,pool,projcatalog,projenvtype workload
+    class security,keyvault,secret security
+    class connectivity,vnet,netconn,rgModule connectivity
+    class dcRole,dcRoleRg,orgRole,projRole,projRoleRg identity
+    class loganalytics management
 ```
 
 ## 3. Application Services
@@ -193,57 +216,85 @@ connection strings, and secret references across the deployment graph.
 ### 3.3 Service Interaction Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px'}}}%%
 flowchart LR
-    subgraph "Deployment Trigger"
+    %% Style definitions using Material Design 300-level colors
+    classDef trigger fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px
+    classDef arm fill:#B3E5FC,stroke:#0288D1,stroke-width:2px
+    classDef coreService fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
+    classDef securityService fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px
+    classDef networkService fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+    classDef monitorService fill:#B2DFDB,stroke:#00796B,stroke-width:2px
+    classDef identityService fill:#FFE0B2,stroke:#F57C00,stroke-width:2px
+
+    subgraph DeploymentTrigger["Deployment Trigger"]
         azd["Azure Developer CLI"]
     end
 
-    subgraph "Azure Resource Manager"
+    subgraph AzureResourceManager["Azure Resource Manager"]
         arm["ARM API"]
     end
 
-    subgraph "Resource Provisioning Services"
-        rg_svc["Resource Group Service"]
-        dc_svc["DevCenter Service"]
-        proj_svc["Project Service"]
-        pool_svc["Pool Service"]
-        cat_svc["Catalog Service"]
-        env_svc["Environment Type Service"]
-        kv_svc["Key Vault Service"]
-        secret_svc["Secret Service"]
-        vnet_svc["VNet Service"]
-        netconn_svc["Network Connection Service"]
-        la_svc["Log Analytics Service"]
-        rbac_svc["RBAC Service"]
+    subgraph ResourceServices["Resource Provisioning Services"]
+        rgSvc["Resource Group Service"]
+        dcSvc["DevCenter Service"]
+        projSvc["Project Service"]
+        poolSvc["Pool Service"]
+        catSvc["Catalog Service"]
+        envSvc["Environment Type Service"]
+        kvSvc["Key Vault Service"]
+        secretSvc["Secret Service"]
+        vnetSvc["VNet Service"]
+        netconnSvc["Network Connection Service"]
+        laSvc["Log Analytics Service"]
+        rbacSvc["RBAC Service"]
     end
 
+    %% Deployment trigger flow
     azd -->|"azd up"| arm
-    arm --> rg_svc
-    rg_svc -->|"Creates"| dc_svc
-    rg_svc -->|"Creates"| kv_svc
-    rg_svc -->|"Creates"| la_svc
 
-    dc_svc -->|"Configures"| cat_svc
-    dc_svc -->|"Configures"| env_svc
-    dc_svc -->|"Creates"| proj_svc
+    %% Resource Group provisioning
+    arm -->|"Creates RGs"| rgSvc
+    rgSvc -->|"Creates"| dcSvc
+    rgSvc -->|"Creates"| kvSvc
+    rgSvc -->|"Creates"| laSvc
 
-    proj_svc -->|"Configures"| pool_svc
-    proj_svc -->|"Configures"| cat_svc
-    proj_svc -->|"Configures"| env_svc
-    proj_svc -->|"Requires"| vnet_svc
+    %% DevCenter configuration
+    dcSvc -->|"Configures"| catSvc
+    dcSvc -->|"Configures"| envSvc
+    dcSvc -->|"Creates"| projSvc
 
-    vnet_svc -->|"Attaches"| netconn_svc
-    netconn_svc -->|"Links"| dc_svc
+    %% Project configuration
+    projSvc -->|"Configures"| poolSvc
+    projSvc -->|"Configures"| catSvc
+    projSvc -->|"Configures"| envSvc
+    projSvc -->|"Requires"| vnetSvc
 
-    kv_svc -->|"Stores"| secret_svc
-    secret_svc -->|"Provides"| cat_svc
+    %% Network attachment
+    vnetSvc -->|"Attaches"| netconnSvc
+    netconnSvc -->|"Links"| dcSvc
 
-    dc_svc -->|"Assigns"| rbac_svc
-    proj_svc -->|"Assigns"| rbac_svc
+    %% Secret management
+    kvSvc -->|"Stores"| secretSvc
+    secretSvc -->|"Provides Auth"| catSvc
 
-    la_svc -->|"Monitors"| dc_svc
-    la_svc -->|"Monitors"| kv_svc
-    la_svc -->|"Monitors"| vnet_svc
+    %% RBAC assignments
+    dcSvc -->|"Assigns Roles"| rbacSvc
+    projSvc -->|"Assigns Roles"| rbacSvc
+
+    %% Monitoring
+    laSvc -.->|"Monitors"| dcSvc
+    laSvc -.->|"Monitors"| kvSvc
+    laSvc -.->|"Monitors"| vnetSvc
+
+    %% Apply styles
+    class azd trigger
+    class arm arm
+    class rgSvc,dcSvc,projSvc,poolSvc,catSvc,envSvc coreService
+    class kvSvc,secretSvc securityService
+    class vnetSvc,netconnSvc networkService
+    class laSvc monitorService
+    class rbacSvc identityService
 ```
 
 ## 4. Interfaces & Integration
@@ -286,20 +337,27 @@ infrastructure-as-code best practices.
 ### 4.3 Integration Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px'}}}%%
 flowchart TB
-    subgraph "External Systems"
+    %% Style definitions using Material Design 300-level colors
+    classDef external fill:#F5F5F5,stroke:#9E9E9E,stroke-width:1px,stroke-dasharray:5
+    classDef config fill:#FFF9C4,stroke:#FBC02D,stroke-width:2px
+    classDef platform fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
+    classDef azureService fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
+
+    subgraph ExternalSystems["External Systems"]
         github["GitHub"]
         ado["Azure DevOps"]
         aad["Azure Active Directory"]
     end
 
-    subgraph "Configuration Layer"
-        yaml_dc["devcenter.yaml"]
-        yaml_sec["security.yaml"]
-        yaml_res["azureResources.yaml"]
+    subgraph ConfigurationLayer["Configuration Layer"]
+        yamlDc["devcenter.yaml"]
+        yamlSec["security.yaml"]
+        yamlRes["azureResources.yaml"]
     end
 
-    subgraph "DevExp-DevBox Platform"
+    subgraph DevExpPlatform["DevExp-DevBox Platform"]
         main["Main Deployment"]
         workload["Workload Module"]
         security["Security Module"]
@@ -307,36 +365,48 @@ flowchart TB
         connectivity["Connectivity Module"]
     end
 
-    subgraph "Azure Services"
+    subgraph AzureServices["Azure Services"]
         arm["Azure Resource Manager"]
-        devcenter_res["Azure DevCenter"]
-        keyvault_res["Azure Key Vault"]
-        loganalytics_res["Log Analytics"]
-        vnet_res["Virtual Network"]
+        devcenterRes["Azure DevCenter"]
+        keyvaultRes["Azure Key Vault"]
+        loganalyticsRes["Log Analytics"]
+        vnetRes["Virtual Network"]
     end
 
-    yaml_dc -->|"Loads"| workload
-    yaml_sec -->|"Loads"| security
-    yaml_res -->|"Loads"| main
+    %% Configuration loading
+    yamlDc -->|"Loads Settings"| workload
+    yamlSec -->|"Loads Settings"| security
+    yamlRes -->|"Loads Settings"| main
 
+    %% ARM API provisioning
     main -->|"ARM API"| arm
-    arm -->|"Provisions"| devcenter_res
-    arm -->|"Provisions"| keyvault_res
-    arm -->|"Provisions"| loganalytics_res
-    arm -->|"Provisions"| vnet_res
+    arm -->|"Provisions"| devcenterRes
+    arm -->|"Provisions"| keyvaultRes
+    arm -->|"Provisions"| loganalyticsRes
+    arm -->|"Provisions"| vnetRes
 
-    devcenter_res -->|"Catalog Sync"| github
-    devcenter_res -->|"Catalog Sync"| ado
-    devcenter_res -->|"Secret Access"| keyvault_res
+    %% External integrations
+    devcenterRes -->|"Catalog Sync"| github
+    devcenterRes -->|"Catalog Sync"| ado
+    devcenterRes -->|"Secret Access"| keyvaultRes
 
-    identity -->|"RBAC"| aad
-    devcenter_res -->|"Managed Identity"| aad
+    %% Identity management
+    identity -->|"RBAC Assignment"| aad
+    devcenterRes -->|"Managed Identity"| aad
 
-    devcenter_res -->|"Diagnostics"| loganalytics_res
-    keyvault_res -->|"Diagnostics"| loganalytics_res
-    vnet_res -->|"Diagnostics"| loganalytics_res
+    %% Diagnostics (dotted for continuous)
+    devcenterRes -.->|"Diagnostics"| loganalyticsRes
+    keyvaultRes -.->|"Diagnostics"| loganalyticsRes
+    vnetRes -.->|"Diagnostics"| loganalyticsRes
 
-    devcenter_res -->|"Network Attach"| vnet_res
+    %% Network attachment
+    devcenterRes -->|"Network Attach"| vnetRes
+
+    %% Apply styles
+    class github,ado,aad external
+    class yamlDc,yamlSec,yamlRes config
+    class main,workload,security,identity,connectivity platform
+    class arm,devcenterRes,keyvaultRes,loganalyticsRes,vnetRes azureService
 ```
 
 ## 5. Data Flows
@@ -378,71 +448,94 @@ and subnets to enable DevBox connectivity with Azure AD Join authentication.
 ### 5.3 Data Flow Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px'}}}%%
 flowchart TB
-    subgraph "Configuration Sources"
+    %% Style definitions using Material Design 300-level colors
+    classDef source fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px
+    classDef pipeline fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
+    classDef secretMgmt fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px
+    classDef external fill:#F5F5F5,stroke:#9E9E9E,stroke-width:1px,stroke-dasharray:5
+    classDef devCenter fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+    classDef monitoring fill:#B2DFDB,stroke:#00796B,stroke-width:2px
+    classDef identity fill:#FFE0B2,stroke:#F57C00,stroke-width:2px
+
+    subgraph ConfigSources["Configuration Sources"]
         op["Operator"]
-        yaml_files["YAML Configuration Files"]
+        yamlFiles["YAML Configuration Files"]
     end
 
-    subgraph "Deployment Pipeline"
+    subgraph DeploymentPipeline["Deployment Pipeline"]
         azd["Azure Developer CLI"]
         bicep["Bicep Engine"]
         arm["ARM API"]
     end
 
-    subgraph "Secret Management"
+    subgraph SecretManagement["Secret Management"]
         kv["Key Vault"]
         secret["Stored Secrets"]
     end
 
-    subgraph "External Repositories"
+    subgraph ExternalRepos["External Repositories"]
         github["GitHub Repository"]
-        ado_git["Azure DevOps Git"]
+        adoGit["Azure DevOps Git"]
     end
 
-    subgraph "Azure DevCenter"
+    subgraph AzureDevCenter["Azure DevCenter"]
         dc["DevCenter"]
-        dc_cat["DevCenter Catalogs"]
+        dcCat["DevCenter Catalogs"]
         projects["Projects"]
-        proj_cat["Project Catalogs"]
+        projCat["Project Catalogs"]
         pools["DevBox Pools"]
     end
 
-    subgraph "Monitoring"
+    subgraph Monitoring["Monitoring"]
         la["Log Analytics"]
     end
 
-    subgraph "Identity"
+    subgraph Identity["Identity"]
         aad["Azure AD"]
         mi["Managed Identities"]
     end
 
+    %% Configuration and deployment flow (steps 1-4)
     op -->|"1. Secret Input"| azd
-    yaml_files -->|"2. Config Load"| bicep
+    yamlFiles -->|"2. Config Load"| bicep
     azd -->|"3. Environment Setup"| bicep
     bicep -->|"4. ARM Request"| arm
 
+    %% Secret storage flow (steps 5-7)
     arm -->|"5. Store Secret"| kv
     kv -->|"6. Secret URI"| secret
-    secret -->|"7. Auth Reference"| dc_cat
-    secret -->|"7. Auth Reference"| proj_cat
+    secret -->|"7. Auth Reference"| dcCat
+    secret -->|"7. Auth Reference"| projCat
 
-    dc_cat -->|"8. Catalog Sync"| github
-    dc_cat -->|"8. Catalog Sync"| ado_git
-    proj_cat -->|"9. Catalog Sync"| github
-    proj_cat -->|"9. Catalog Sync"| ado_git
-
+    %% Catalog sync flow (steps 8-10)
+    dcCat -->|"8. Catalog Sync"| github
+    dcCat -->|"8. Catalog Sync"| adoGit
+    projCat -->|"9. Catalog Sync"| github
+    projCat -->|"9. Catalog Sync"| adoGit
     github -->|"10. Definitions"| dc
-    ado_git -->|"10. Definitions"| dc
+    adoGit -->|"10. Definitions"| dc
 
-    dc -->|"11. Diagnostics"| la
-    kv -->|"11. Diagnostics"| la
-    projects -->|"11. Diagnostics"| la
+    %% Diagnostics flow (step 11 - dotted for continuous)
+    dc -.->|"11. Diagnostics"| la
+    kv -.->|"11. Diagnostics"| la
+    projects -.->|"11. Diagnostics"| la
 
+    %% Identity flow (steps 12-14)
     dc -->|"12. Identity Request"| aad
     projects -->|"12. Identity Request"| aad
     aad -->|"13. Token Response"| mi
     mi -->|"14. Authenticated Access"| pools
+
+    %% Apply styles
+    class op,yamlFiles source
+    class azd,bicep,arm pipeline
+    class kv,secret secretMgmt
+    class github,adoGit external
+    class dc,dcCat,projects,projCat,pools devCenter
+    class la monitoring
+    class aad,mi identity
 ```
 
 ## 6. Validation Summary
