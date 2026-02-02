@@ -24,42 +24,60 @@ requirements.
 ### 2.1 Landscape Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E3F2FD', 'lineColor': '#1976D2'}}}%%
 flowchart TB
-    subgraph Azure["Azure Cloud Platform"]
-        subgraph RG_Workload["Workload Resource Group"]
-            devcenter["Azure Dev Center"]
-            project["DevCenter Projects"]
-            pools["Dev Box Pools"]
-            catalog["DevCenter Catalogs"]
-            envtypes["Environment Types"]
+    classDef azure_root fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef workload fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+    classDef security fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#B71C1C
+    classDef monitoring fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    classDef connectivity fill:#B3E5FC,stroke:#0288D1,stroke-width:2px,color:#01579B
+    classDef cicd fill:#FFE0B2,stroke:#F57C00,stroke-width:2px,color:#E65100
+    classDef iac fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#212121
+
+    subgraph Azure["☁️ Azure Cloud Platform"]
+        direction TB
+        subgraph RG_Workload["📦 Workload Resource Group"]
+            devcenter["Azure Dev Center"]:::workload
+            project["DevCenter Projects"]:::workload
+            pools["Dev Box Pools"]:::workload
+            catalog["DevCenter Catalogs"]:::workload
+            envtypes["Environment Types"]:::workload
         end
-        subgraph RG_Security["Security Resource Group"]
-            keyvault["Azure Key Vault"]
-            secrets["Key Vault Secrets"]
+        subgraph RG_Security["🔒 Security Resource Group"]
+            keyvault["Azure Key Vault"]:::security
+            secrets["Key Vault Secrets"]:::security
         end
-        subgraph RG_Monitoring["Monitoring Resource Group"]
-            loganalytics["Log Analytics Workspace"]
-            solutions["Azure Activity Solution"]
+        subgraph RG_Monitoring["📊 Monitoring Resource Group"]
+            loganalytics["Log Analytics Workspace"]:::monitoring
+            solutions["Azure Activity Solution"]:::monitoring
         end
-        subgraph RG_Connectivity["Connectivity Resource Group"]
-            vnet["Virtual Network"]
-            subnet["Subnet"]
-            netconn["Network Connection"]
+        subgraph RG_Connectivity["🌐 Connectivity Resource Group"]
+            vnet["Virtual Network"]:::connectivity
+            subnet["Subnet"]:::connectivity
+            netconn["Network Connection"]:::connectivity
         end
     end
 
-    subgraph CICD["CI/CD Pipeline"]
-        ghactions["GitHub Actions"]
-        bicep_ci["Bicep Build CI"]
-        deploy_wf["Deploy Workflow"]
-        release_wf["Release Workflow"]
+    subgraph CICD["⚙️ CI/CD Pipeline"]
+        ghactions["GitHub Actions"]:::cicd
+        bicep_ci["Bicep Build CI"]:::cicd
+        deploy_wf["Deploy Workflow"]:::cicd
+        release_wf["Release Workflow"]:::cicd
     end
 
-    subgraph IaC["Infrastructure as Code"]
-        bicep_main["Main Bicep Template"]
-        bicep_modules["Bicep Modules"]
-        yaml_config["YAML Configuration"]
+    subgraph IaC["📝 Infrastructure As Code"]
+        bicep_main["Main Bicep Template"]:::iac
+        bicep_modules["Bicep Modules"]:::iac
+        yaml_config["YAML Configuration"]:::iac
     end
+
+    style Azure fill:#E3F2FD,stroke:#1565C0,stroke-width:3px
+    style RG_Workload fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
+    style RG_Security fill:#FFEBEE,stroke:#D32F2F,stroke-width:2px
+    style RG_Monitoring fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
+    style RG_Connectivity fill:#E1F5FE,stroke:#0288D1,stroke-width:2px
+    style CICD fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
+    style IaC fill:#FAFAFA,stroke:#616161,stroke-width:2px
 
     ghactions --> bicep_ci
     bicep_ci --> bicep_main
@@ -111,29 +129,43 @@ availability.
 ### 3.3 Infrastructure Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E3F2FD', 'lineColor': '#1976D2'}}}%%
 flowchart TB
-    subgraph Subscription["Azure Subscription"]
-        subgraph SecurityRG["Security Resource Group"]
-            kv["Azure Key Vault"]
-            kv_secrets["Secrets Store"]
-            kv_diag["Diagnostic Settings"]
+    classDef subscription fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef security fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#B71C1C
+    classDef monitoring fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    classDef workload fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+    classDef connectivity fill:#B3E5FC,stroke:#0288D1,stroke-width:2px,color:#01579B
+
+    subgraph Subscription["🏢 Azure Subscription"]
+        direction TB
+        subgraph SecurityRG["🔒 Security Resource Group"]
+            kv["Azure Key Vault"]:::security
+            kv_secrets["Secrets Store"]:::security
+            kv_diag["Diagnostic Settings"]:::security
         end
-        subgraph MonitoringRG["Monitoring Resource Group"]
-            la["Log Analytics Workspace"]
-            la_sol["Azure Activity Solution"]
-            la_diag["Diagnostic Settings"]
+        subgraph MonitoringRG["📊 Monitoring Resource Group"]
+            la["Log Analytics Workspace"]:::monitoring
+            la_sol["Azure Activity Solution"]:::monitoring
+            la_diag["Diagnostic Settings"]:::monitoring
         end
-        subgraph WorkloadRG["Workload Resource Group"]
-            dc["Azure Dev Center"]
-            dc_cat["Catalogs"]
-            dc_env["Environment Types"]
+        subgraph WorkloadRG["📦 Workload Resource Group"]
+            dc["Azure Dev Center"]:::workload
+            dc_cat["Catalogs"]:::workload
+            dc_env["Environment Types"]:::workload
         end
-        subgraph ConnectivityRG["Connectivity Resource Group"]
-            vnet_res["Virtual Network"]
-            subnet_res["Subnet"]
-            nc["Network Connection"]
+        subgraph ConnectivityRG["🌐 Connectivity Resource Group"]
+            vnet_res["Virtual Network"]:::connectivity
+            subnet_res["Subnet"]:::connectivity
+            nc["Network Connection"]:::connectivity
         end
     end
+
+    style Subscription fill:#E3F2FD,stroke:#1565C0,stroke-width:3px
+    style SecurityRG fill:#FFEBEE,stroke:#D32F2F,stroke-width:2px
+    style MonitoringRG fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
+    style WorkloadRG fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
+    style ConnectivityRG fill:#E1F5FE,stroke:#0288D1,stroke-width:2px
 
     kv --> kv_secrets
     kv --> kv_diag
@@ -185,33 +217,50 @@ enhanced Git and development performance.
 ### 4.3 Platform Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E8F5E9', 'lineColor': '#388E3C'}}}%%
 flowchart TB
-    subgraph DevCenter["Azure Dev Center Platform"]
-        dc_core["Dev Center Instance"]
-        subgraph Catalogs["Catalogs"]
-            custom_tasks["customTasks - GitHub"]
-            env_cat["environments - GitHub"]
-            img_cat["devboxImages - GitHub"]
+    classDef platform fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+    classDef catalog fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#0D47A1
+    classDef envtype fill:#FFE0B2,stroke:#F57C00,stroke-width:2px,color:#E65100
+    classDef project fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    classDef pool fill:#B2EBF2,stroke:#0097A7,stroke-width:2px,color:#006064
+    classDef sku fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#212121
+
+    subgraph DevCenter["🖥️ Azure Dev Center Platform"]
+        direction TB
+        dc_core["Dev Center Instance"]:::platform
+        subgraph Catalogs["📚 Catalogs"]
+            custom_tasks["customTasks - GitHub"]:::catalog
+            env_cat["environments - GitHub"]:::catalog
+            img_cat["devboxImages - GitHub"]:::catalog
         end
-        subgraph EnvTypes["Environment Types"]
-            dev_env["dev"]
-            staging_env["staging"]
-            uat_env["UAT"]
+        subgraph EnvTypes["🏷️ Environment Types"]
+            dev_env["Dev"]:::envtype
+            staging_env["Staging"]:::envtype
+            uat_env["UAT"]:::envtype
         end
     end
 
-    subgraph Projects["DevCenter Projects"]
-        eshop_proj["eShop Project"]
-        subgraph Pools["Dev Box Pools"]
-            backend_pool["backend-engineer Pool"]
-            frontend_pool["frontend-engineer Pool"]
+    subgraph Projects["📁 DevCenter Projects"]
+        direction TB
+        eshop_proj["eShop Project"]:::project
+        subgraph Pools["💻 Dev Box Pools"]
+            backend_pool["Backend Engineer Pool"]:::pool
+            frontend_pool["Frontend Engineer Pool"]:::pool
         end
     end
 
-    subgraph VMSKUs["VM SKUs"]
-        backend_sku["general_i_32c128gb512ssd_v2"]
-        frontend_sku["general_i_16c64gb256ssd_v2"]
+    subgraph VMSKUs["⚡ VM SKUs"]
+        backend_sku["general_i_32c128gb512ssd_v2"]:::sku
+        frontend_sku["general_i_16c64gb256ssd_v2"]:::sku
     end
+
+    style DevCenter fill:#E8F5E9,stroke:#388E3C,stroke-width:3px
+    style Catalogs fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
+    style EnvTypes fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
+    style Projects fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
+    style Pools fill:#E0F7FA,stroke:#0097A7,stroke-width:2px
+    style VMSKUs fill:#FAFAFA,stroke:#616161,stroke-width:2px
 
     dc_core --> Catalogs
     dc_core --> EnvTypes
@@ -255,21 +304,30 @@ troubleshooting. The network configuration supports the eShop project with a
 ### 5.3 Network Topology Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E1F5FE', 'lineColor': '#0288D1'}}}%%
 flowchart LR
-    subgraph VNet["Virtual Network - 10.0.0.0/16"]
-        subnet["eShop-subnet - 10.0.1.0/24"]
+    classDef network fill:#B3E5FC,stroke:#0288D1,stroke-width:2px,color:#01579B
+    classDef connectivity fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+    classDef devbox fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+
+    subgraph VNet["🌐 Virtual Network - 10.0.0.0/16"]
+        subnet["eShop Subnet - 10.0.1.0/24"]:::network
     end
 
-    subgraph DevCenterConn["Dev Center Connectivity"]
-        nc["Network Connection"]
-        att["Attached Network"]
-        dc["Azure Dev Center"]
+    subgraph DevCenterConn["🔗 Dev Center Connectivity"]
+        nc["Network Connection"]:::connectivity
+        att["Attached Network"]:::connectivity
+        dc["Azure Dev Center"]:::connectivity
     end
 
-    subgraph DevBoxes["Dev Box Pools"]
-        backend["Backend Pool"]
-        frontend["Frontend Pool"]
+    subgraph DevBoxes["💻 Dev Box Pools"]
+        backend["Backend Pool"]:::devbox
+        frontend["Frontend Pool"]:::devbox
     end
+
+    style VNet fill:#E1F5FE,stroke:#0288D1,stroke-width:3px
+    style DevCenterConn fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
+    style DevBoxes fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
 
     subnet --> nc
     nc --> att
@@ -322,24 +380,49 @@ subscription, resource group, and resource scopes.
 ### 6.3 Cloud Architecture Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#E3F2FD', 'lineColor': '#1976D2'}}}%%
 flowchart TB
-    subgraph AzureServices["Azure Cloud Services"]
-        devcenter["Microsoft.DevCenter/devcenters"]
-        project["Microsoft.DevCenter/projects"]
-        pools["Microsoft.DevCenter/projects/pools"]
-        catalog["Microsoft.DevCenter/devcenters/catalogs"]
-        envtype["Microsoft.DevCenter/devcenters/environmentTypes"]
-        netconn["Microsoft.DevCenter/networkConnections"]
-        attnet["Microsoft.DevCenter/devcenters/attachednetworks"]
-        keyvault["Microsoft.KeyVault/vaults"]
-        secrets["Microsoft.KeyVault/vaults/secrets"]
-        logana["Microsoft.OperationalInsights/workspaces"]
-        solution["Microsoft.OperationsManagement/solutions"]
-        vnet["Microsoft.Network/virtualNetworks"]
-        rg["Microsoft.Resources/resourceGroups"]
-        diag["Microsoft.Insights/diagnosticSettings"]
-        roleassign["Microsoft.Authorization/roleAssignments"]
+    classDef devcenter_svc fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+    classDef security_svc fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#B71C1C
+    classDef monitoring_svc fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    classDef network_svc fill:#B3E5FC,stroke:#0288D1,stroke-width:2px,color:#01579B
+    classDef mgmt_svc fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#212121
+
+    subgraph AzureServices["☁️ Azure Cloud Services"]
+        direction TB
+        subgraph DevCenterServices["Dev Center Resources"]
+            devcenter["Microsoft.DevCenter/devcenters"]:::devcenter_svc
+            project["Microsoft.DevCenter/projects"]:::devcenter_svc
+            pools["Microsoft.DevCenter/projects/pools"]:::devcenter_svc
+            catalog["Microsoft.DevCenter/devcenters/catalogs"]:::devcenter_svc
+            envtype["Microsoft.DevCenter/devcenters/environmentTypes"]:::devcenter_svc
+            netconn["Microsoft.DevCenter/networkConnections"]:::devcenter_svc
+            attnet["Microsoft.DevCenter/devcenters/attachednetworks"]:::devcenter_svc
+        end
+        subgraph SecurityServices["Security Resources"]
+            keyvault["Microsoft.KeyVault/vaults"]:::security_svc
+            secrets["Microsoft.KeyVault/vaults/secrets"]:::security_svc
+        end
+        subgraph MonitoringServices["Monitoring Resources"]
+            logana["Microsoft.OperationalInsights/workspaces"]:::monitoring_svc
+            solution["Microsoft.OperationsManagement/solutions"]:::monitoring_svc
+            diag["Microsoft.Insights/diagnosticSettings"]:::monitoring_svc
+        end
+        subgraph NetworkServices["Network Resources"]
+            vnet["Microsoft.Network/virtualNetworks"]:::network_svc
+        end
+        subgraph ManagementServices["Management Resources"]
+            rg["Microsoft.Resources/resourceGroups"]:::mgmt_svc
+            roleassign["Microsoft.Authorization/roleAssignments"]:::mgmt_svc
+        end
     end
+
+    style AzureServices fill:#E3F2FD,stroke:#1565C0,stroke-width:3px
+    style DevCenterServices fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
+    style SecurityServices fill:#FFEBEE,stroke:#D32F2F,stroke-width:2px
+    style MonitoringServices fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
+    style NetworkServices fill:#E1F5FE,stroke:#0288D1,stroke-width:2px
+    style ManagementServices fill:#FAFAFA,stroke:#616161,stroke-width:2px
 
     devcenter --> project
     project --> pools
@@ -391,34 +474,45 @@ Concurrency controls prevent parallel deployments to the same environment.
 ### 7.3 Deployment Pipeline Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#FFF3E0', 'lineColor': '#F57C00'}}}%%
 flowchart LR
-    subgraph Trigger["Workflow Triggers"]
-        manual["Manual Dispatch"]
-        push["Push to feature/fix"]
-        pr["Pull Request to main"]
+    classDef trigger fill:#FFECB3,stroke:#FFA000,stroke-width:2px,color:#FF6F00
+    classDef ci fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#0D47A1
+    classDef deploy fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+    classDef release fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+
+    subgraph Trigger["🎯 Workflow Triggers"]
+        manual["Manual Dispatch"]:::trigger
+        push["Push To Feature/Fix"]:::trigger
+        pr["Pull Request To Main"]:::trigger
     end
 
-    subgraph CI["Continuous Integration"]
-        version["Generate Tag Version"]
-        build_ci["Build Bicep Templates"]
-        upload_ci["Upload Artifacts"]
+    subgraph CI["🔄 Continuous Integration"]
+        version["Generate Tag Version"]:::ci
+        build_ci["Build Bicep Templates"]:::ci
+        upload_ci["Upload Artifacts"]:::ci
     end
 
-    subgraph Deploy["Deployment"]
-        validate["Validate Variables"]
-        checkout["Checkout Repository"]
-        azd_install["Install Azure Developer CLI"]
-        bicep_build["Build Bicep"]
-        azure_auth["OIDC Authentication"]
-        provision["azd provision"]
+    subgraph Deploy["🚀 Deployment"]
+        validate["Validate Variables"]:::deploy
+        checkout["Checkout Repository"]:::deploy
+        azd_install["Install Azure Developer CLI"]:::deploy
+        bicep_build["Build Bicep"]:::deploy
+        azure_auth["OIDC Authentication"]:::deploy
+        provision["Azd Provision"]:::deploy
     end
 
-    subgraph Release["Release Strategy"]
-        gen_release["Generate Release Metadata"]
-        build_rel["Build Artifacts"]
-        create_tag["Create Git Tag"]
-        publish["Publish GitHub Release"]
+    subgraph Release["📦 Release Strategy"]
+        gen_release["Generate Release Metadata"]:::release
+        build_rel["Build Artifacts"]:::release
+        create_tag["Create Git Tag"]:::release
+        publish["Publish GitHub Release"]:::release
     end
+
+    style Trigger fill:#FFF8E1,stroke:#FFA000,stroke-width:2px
+    style CI fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
+    style Deploy fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
+    style Release fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
 
     push --> CI
     pr --> CI
@@ -469,19 +563,31 @@ cost-effective log ingestion with pay-as-you-go pricing based on data volume.
 ### 8.3 Observability Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#F3E5F5', 'lineColor': '#7B1FA2'}}}%%
 flowchart TB
-    subgraph Monitoring["Azure Monitoring Stack"]
-        la_workspace["Log Analytics Workspace"]
-        activity_sol["Azure Activity Solution"]
-        diag_kv["Key Vault Diagnostics"]
-        diag_vnet["VNet Diagnostics"]
-        diag_la["Log Analytics Diagnostics"]
+    classDef monitoring fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    classDef diagnostic fill:#B3E5FC,stroke:#0288D1,stroke-width:2px,color:#01579B
+    classDef data fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+
+    subgraph Monitoring["📊 Azure Monitoring Stack"]
+        direction TB
+        la_workspace["Log Analytics Workspace"]:::monitoring
+        activity_sol["Azure Activity Solution"]:::monitoring
+        subgraph Diagnostics["🔍 Diagnostic Settings"]
+            diag_kv["Key Vault Diagnostics"]:::diagnostic
+            diag_vnet["VNet Diagnostics"]:::diagnostic
+            diag_la["Log Analytics Diagnostics"]:::diagnostic
+        end
     end
 
-    subgraph DataCollection["Data Collection"]
-        all_logs["All Logs Category"]
-        all_metrics["All Metrics Category"]
+    subgraph DataCollection["📥 Data Collection"]
+        all_logs["All Logs Category"]:::data
+        all_metrics["All Metrics Category"]:::data
     end
+
+    style Monitoring fill:#F3E5F5,stroke:#7B1FA2,stroke-width:3px
+    style Diagnostics fill:#E1F5FE,stroke:#0288D1,stroke-width:2px
+    style DataCollection fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
 
     diag_kv --> la_workspace
     diag_vnet --> la_workspace
@@ -530,32 +636,45 @@ application code.
 ### 9.3 Security Architecture Diagram
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#FFEBEE', 'lineColor': '#D32F2F'}}}%%
 flowchart TB
-    subgraph SecurityInfra["Security Infrastructure"]
-        subgraph KeyVault["Azure Key Vault"]
-            kv_instance["Key Vault Instance"]
-            purge_prot["Purge Protection"]
-            soft_del["Soft Delete - 7 Days"]
-            rbac_auth["RBAC Authorization"]
+    classDef keyvault fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#B71C1C
+    classDef secrets fill:#FFE0B2,stroke:#F57C00,stroke-width:2px,color:#E65100
+    classDef rbac fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#0D47A1
+    classDef identity fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#1B5E20
+
+    subgraph SecurityInfra["🔐 Security Infrastructure"]
+        direction TB
+        subgraph KeyVault["🗝️ Azure Key Vault"]
+            kv_instance["Key Vault Instance"]:::keyvault
+            purge_prot["Purge Protection"]:::keyvault
+            soft_del["Soft Delete - 7 Days"]:::keyvault
+            rbac_auth["RBAC Authorization"]:::keyvault
         end
-        subgraph Secrets["Secrets Management"]
-            gha_token["GitHub Actions Token"]
-            catalog_auth["Catalog Authentication"]
+        subgraph Secrets["🔑 Secrets Management"]
+            gha_token["GitHub Actions Token"]:::secrets
+            catalog_auth["Catalog Authentication"]:::secrets
         end
-        subgraph RBAC["Role-Based Access Control"]
-            contributor["Contributor Role"]
-            user_admin["User Access Administrator"]
-            kv_user["Key Vault Secrets User"]
-            kv_officer["Key Vault Secrets Officer"]
-            devbox_user["Dev Box User"]
-            project_admin["DevCenter Project Admin"]
+        subgraph RBAC["👥 Role-Based Access Control"]
+            contributor["Contributor Role"]:::rbac
+            user_admin["User Access Administrator"]:::rbac
+            kv_user["Key Vault Secrets User"]:::rbac
+            kv_officer["Key Vault Secrets Officer"]:::rbac
+            devbox_user["Dev Box User"]:::rbac
+            project_admin["DevCenter Project Admin"]:::rbac
         end
     end
 
-    subgraph Identity["Managed Identities"]
-        dc_identity["DevCenter System Identity"]
-        proj_identity["Project System Identity"]
+    subgraph Identity["🪪 Managed Identities"]
+        dc_identity["DevCenter System Identity"]:::identity
+        proj_identity["Project System Identity"]:::identity
     end
+
+    style SecurityInfra fill:#FFEBEE,stroke:#D32F2F,stroke-width:3px
+    style KeyVault fill:#FFCDD2,stroke:#C62828,stroke-width:2px
+    style Secrets fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
+    style RBAC fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
+    style Identity fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
 
     kv_instance --> purge_prot
     kv_instance --> soft_del
