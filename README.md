@@ -84,9 +84,23 @@ ContosoDevExp platform, showing the relationships between resource groups, Azure
 services, and deployment components.
 
 ```mermaid
+---
+title: ContosoDevExp Platform Architecture
+---
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
 flowchart TB
+    %% ===== STYLE DEFINITIONS =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,stroke-width:2px,color:#FFFFFF
+    classDef secondary fill:#10B981,stroke:#059669,stroke-width:2px,color:#FFFFFF
+    classDef datastore fill:#F59E0B,stroke:#D97706,stroke-width:2px,color:#000000
+    classDef external fill:#6B7280,stroke:#4B5563,stroke-width:2px,color:#FFFFFF,stroke-dasharray:5 5
+    classDef trigger fill:#818CF8,stroke:#4F46E5,stroke-width:2px,color:#FFFFFF
+
+    %% ===== AZURE SUBSCRIPTION =====
     subgraph SUB["Azure Subscription"]
+        direction TB
+
+        %% ===== WORKLOAD RESOURCE GROUP =====
         subgraph WRG["devexp-workload Resource Group"]
             DC["Azure DevCenter"]
             PROJ["eShop Project"]
@@ -95,16 +109,19 @@ flowchart TB
             ENV["Environment Types"]
         end
 
+        %% ===== SECURITY RESOURCE GROUP =====
         subgraph SRG["devexp-security Resource Group"]
-            KV["Azure Key Vault"]
+            KV[("Azure Key Vault")]
             SEC["Secrets"]
         end
 
+        %% ===== MONITORING RESOURCE GROUP =====
         subgraph MRG["devexp-monitoring Resource Group"]
             LA["Log Analytics Workspace"]
             DIAG["Diagnostic Settings"]
         end
 
+        %% ===== CONNECTIVITY RESOURCE GROUP =====
         subgraph CRG["eShop-connectivity-RG"]
             VNET["Virtual Network"]
             SUBNET["Subnet"]
@@ -112,24 +129,50 @@ flowchart TB
         end
     end
 
+    %% ===== EXTERNAL SERVICES =====
     subgraph GH["GitHub"]
         REPO["Source Repository"]
         GHA["GitHub Actions"]
         GHCAT["Catalog Repository"]
     end
 
-    DC --> PROJ
-    PROJ --> POOLS
-    PROJ --> CAT
-    PROJ --> ENV
-    DC --> NC
-    NC --> VNET
-    VNET --> SUBNET
-    DC --> KV
-    LA --> DC
-    LA --> KV
-    GHA --> DC
-    CAT --> GHCAT
+    %% ===== WORKLOAD CONNECTIONS =====
+    DC -->|"manages"| PROJ
+    PROJ -->|"provisions"| POOLS
+    PROJ -->|"references"| CAT
+    PROJ -->|"uses"| ENV
+
+    %% ===== NETWORK CONNECTIONS =====
+    DC -->|"connects to"| NC
+    NC -->|"attaches to"| VNET
+    VNET -->|"contains"| SUBNET
+
+    %% ===== SECURITY CONNECTIONS =====
+    DC -.->|"retrieves secrets"| KV
+
+    %% ===== MONITORING CONNECTIONS =====
+    LA -.->|"monitors"| DC
+    LA -.->|"monitors"| KV
+
+    %% ===== CI/CD CONNECTIONS =====
+    GHA ==>|"deploys"| DC
+    CAT -->|"syncs from"| GHCAT
+
+    %% ===== NODE CLASS ASSIGNMENTS =====
+    class DC,PROJ primary
+    class POOLS,CAT,ENV secondary
+    class KV,SEC datastore
+    class LA,DIAG secondary
+    class VNET,SUBNET,NC secondary
+    class REPO,GHA,GHCAT external
+
+    %% ===== SUBGRAPH STYLES =====
+    style SUB fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style WRG fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style SRG fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style MRG fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style CRG fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style GH fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 ### Architecture Best Practices
