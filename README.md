@@ -60,39 +60,60 @@ environments.
   organization, and workload configuration
 
 ```mermaid
-graph TB
-    subgraph "Entry Points"
-        Setup[setUp.ps1 / setUp.sh]
-        Main[infra/main.bicep]
-        Cleanup[cleanSetUp.ps1]
+---
+title: DevExp-DevBox Infrastructure Architecture
+---
+flowchart TB
+    %% ===== ENTRY POINTS =====
+    subgraph entryPoints["Entry Points"]
+        direction TB
+        setupScript(["setUp.ps1 / setUp.sh"])
+        mainTemplate["infra/main.bicep"]
+        cleanupScript(["cleanSetUp.ps1"])
     end
 
-    subgraph "Infrastructure Layers"
-        Security[Security Layer<br/>Key Vault + Secrets]
-        Identity[Identity Layer<br/>RBAC + Managed Identity]
-        Connectivity[Connectivity Layer<br/>Network Connections]
-        Monitoring[Monitoring Layer<br/>Log Analytics]
-        Workload[Workload Layer<br/>DevCenter + Projects]
+    %% ===== INFRASTRUCTURE LAYERS =====
+    subgraph infraLayers["Infrastructure Layers"]
+        direction TB
+        securityLayer["Security Layer<br/>Key Vault + Secrets"]
+        identityLayer["Identity Layer<br/>RBAC + Managed Identity"]
+        connectivityLayer["Connectivity Layer<br/>Network Connections"]
+        monitoringLayer["Monitoring Layer<br/>Log Analytics"]
+        workloadLayer["Workload Layer<br/>DevCenter + Projects"]
     end
 
-    Setup --> Main
-    Main --> Security
-    Main --> Identity
-    Main --> Connectivity
-    Main --> Monitoring
-    Main --> Workload
+    %% ===== CONNECTIONS =====
+    setupScript -->|executes| mainTemplate
+    mainTemplate -->|provisions| securityLayer
+    mainTemplate -->|configures| identityLayer
+    mainTemplate -->|establishes| connectivityLayer
+    mainTemplate -->|deploys| monitoringLayer
+    mainTemplate -->|creates| workloadLayer
 
-    Workload --> Security
-    Workload --> Connectivity
-    Workload --> Monitoring
+    workloadLayer -->|references| securityLayer
+    workloadLayer -->|uses| connectivityLayer
+    workloadLayer -->|logs to| monitoringLayer
 
-    Cleanup -.->|teardown| Security
-    Cleanup -.->|teardown| Workload
+    cleanupScript -.->|teardown| securityLayer
+    cleanupScript -.->|removes| workloadLayer
 
-    style Setup fill:#4CAF50
-    style Main fill:#2196F3
-    style Cleanup fill:#F44336
-    style Workload fill:#FF9800
+    %% ===== STYLING: NODE CLASSES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF,stroke-width:2px
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF,stroke-width:2px
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF,stroke-width:2px
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF,stroke-width:2px
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000,stroke-width:2px
+
+    %% ===== APPLY CLASSES TO NODES =====
+    class setupScript trigger
+    class mainTemplate primary
+    class cleanupScript failed
+    class securityLayer,identityLayer,connectivityLayer,monitoringLayer secondary
+    class workloadLayer datastore
+
+    %% ===== STYLING: SUBGRAPH BACKGROUNDS =====
+    style entryPoints fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style infraLayers fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 ---
