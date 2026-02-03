@@ -1,5 +1,7 @@
 # Business Architecture
 
+[Home](../README.md) > Architecture > Business
+
 ---
 
 > 📋 **Document Information**:
@@ -7,13 +9,13 @@
 > - **Last Updated**: 2026-02-02
 > - **Owner**: DevExP Team
 > - **Status**: Active
+> - **Version**: 1.0
 
 ---
 
 ## Table of Contents
 
 - [Executive Summary](#executive-summary)
-  - [Overview](#overview)
   - [Architecture Landscape](#architecture-landscape)
 - [Business Capabilities](#business-capabilities)
   - [Developer Experience Platform Capability](#developer-experience-platform-capability)
@@ -103,6 +105,8 @@ workstation provisioning and management, and established processes for
 environment setup and security management. All documented components derive
 exclusively from explicit definitions found within the provided codebase
 configuration files and infrastructure-as-code templates.
+
+---
 
 ### Architecture Landscape
 
@@ -238,6 +242,9 @@ management with role-specific configurations and appropriate access controls.
 This capability provides the overarching function of delivering standardized
 development environments to engineering teams across the organization.
 
+> ℹ️ **Note**: This capability serves as the foundation for all other supporting
+> capabilities in the DevExP platform.
+
 **Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
 (lines 1-15)
 
@@ -321,6 +328,9 @@ group-based role assignments.
 Centralizes secrets, keys, and certificate management for the development
 platform through Azure Key Vault integration. Implements security best practices
 including purge protection, soft delete, and RBAC-based authorization.
+
+> 🔒 **Security**: All secrets are protected with purge protection and soft
+> delete. RBAC authorization ensures least-privilege access.
 
 **Security Features**:
 
@@ -420,6 +430,10 @@ A semi-automated process that establishes the Azure Developer CLI (`azd`)
 environment for Dev Box deployment. This process validates prerequisites,
 configures authentication, and prepares the deployment context.
 
+> 💡 **Tip**: Run the setup script with `-SourceControl GitHub` or
+> `-SourceControl AzureDevOps` to specify your preferred source control
+> platform.
+
 **Process Steps**:
 
 1. Validate required command availability (`az`, `azd`, `gh`/`azure-devops`)
@@ -446,6 +460,12 @@ configures authentication, and prepares the deployment context.
 An automated CI/CD process that provisions infrastructure to Azure using OpenID
 Connect (OIDC) authentication and the Azure Developer CLI. This process is
 triggered manually through GitHub Actions workflow dispatch.
+
+> 📋 **Prerequisites**:
+>
+> - Azure subscription with Contributor access
+> - GitHub repository with OIDC federation configured
+> - Azure environment variables (`CLIENT_ID`, `TENANT_ID`, `SUBSCRIPTION_ID`)
 
 **Process Steps**:
 
@@ -516,6 +536,9 @@ Dev Box resources with appropriate permissions based on organizational roles.
 
 A process that orchestrates complete cleanup of DevExp-DevBox infrastructure
 including deployments, role assignments, credentials, and resource groups.
+
+> ⚠️ **Warning**: This process is destructive and cannot be undone. Ensure you
+> have backups of any important data before running the cleanup script.
 
 **Process Steps**:
 
@@ -676,8 +699,6 @@ section: `costCenter: IT`)
 
 ## Business Actors
 
-### Overview
-
 Business actors in TOGAF 10 represent individuals, groups, or external entities
 that interact with the business architecture. Actors are responsible for:
 
@@ -687,50 +708,6 @@ that interact with the business architecture. Actors are responsible for:
 
 Identifying and documenting actors enables proper authorization, access control,
 and responsibility assignment across the enterprise architecture.
-
-The ContosoDevExp solution defines several actor types through Azure AD group
-configurations, role assignments, and persona-specific workstation
-configurations. These actors represent the stakeholders who either manage the
-platform or consume its services. Actor definitions include both administrative
-roles (platform managers) and end-user roles (developers with specific
-specializations).
-
-The architecture model extracts actor definitions from explicit Azure AD group
-references, role type configurations, and pool-based workstation allocations.
-Each actor type has associated RBAC roles that define their permissions and
-capabilities within the platform.
-
-- Team name: "DevExP"
-- Responsibility: Developer Experience Platform
-- Operational ownership: Platform maintenance and support
-
-**Source:** `infra/settings/workload/devcenter.yaml` (tags section, line: "team:
-DevExP")
-
-### IT Cost Center
-
-The financial allocation center responsible for tracking and managing costs
-associated with the developer experience platform.
-
-**Organizational Attributes:**
-
-- Cost Center: "IT"
-- Budget responsibility: Platform infrastructure costs
-- Financial tracking: Resource consumption and allocation
-
-**Source:** `infra/settings/workload/devcenter.yaml` (tags section, line:
-"costCenter: IT")
-
----
-
-## Business Actors
-
-Business actors in TOGAF 10 represent individuals, groups, or external entities
-that interact with the business architecture. Actors are responsible for
-executing processes, consuming services, and fulfilling roles within the
-organization. Identifying and documenting actors enables proper authorization,
-access control, and responsibility assignment across the enterprise
-architecture.
 
 The ContosoDevExp solution defines several actor types through Azure AD group
 configurations, role assignments, and persona-specific workstation
@@ -1235,8 +1212,6 @@ Key Vault configuration includes purge protection and RBAC authorization.
 
 ## Business Policies and Rules
 
-## Business Policies and Rules
-
 Business policies and rules define the constraints, guidelines, and standards
 that govern business operations within the TOGAF framework. Policies establish
 boundaries for decision-making while rules provide specific criteria that must
@@ -1675,10 +1650,13 @@ Architecture document.
 
 ## See Also
 
-- [Azure Dev Box Documentation](https://learn.microsoft.com/azure/dev-box/)
-- [Azure DevCenter Documentation](https://learn.microsoft.com/azure/deployment-environments/)
-- [TOGAF 10 Framework](https://www.opengroup.org/togaf)
-- [Azure Landing Zones](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/)
+| Resource                                                                                              | Description                            |
+| :---------------------------------------------------------------------------------------------------- | :------------------------------------- |
+| [Azure Dev Box Documentation](https://learn.microsoft.com/azure/dev-box/)                             | Official Dev Box product documentation |
+| [Azure DevCenter Documentation](https://learn.microsoft.com/azure/deployment-environments/)           | Deployment Environments documentation  |
+| [TOGAF 10 Framework](https://www.opengroup.org/togaf)                                                 | Enterprise architecture framework      |
+| [Azure Landing Zones](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/) | Cloud Adoption Framework landing zones |
+| [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/)               | Best practices for Azure architectures |
 
 ---
 
