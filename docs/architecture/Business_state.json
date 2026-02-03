@@ -7,7 +7,17 @@
     ],
     "target_layer": "Business",
     "quality_level": "standard",
-    "output_sections": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "output_sections": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
     "include_diagrams": true
   },
   "phase1_discovery": {
@@ -73,7 +83,10 @@
         "description": "Provides self-service provisioning and management of development environments (DevBoxes)",
         "metadata": {
           "service_provider": "Platform Engineering Team",
-          "service_consumers": ["Developers", "Dev Managers"],
+          "service_consumers": [
+            "Developers",
+            "Dev Managers"
+          ],
           "maturity_level": 3,
           "strategic_importance": "Critical"
         }
@@ -89,7 +102,10 @@
         "description": "Manages multi-project workspace organization and team configuration",
         "metadata": {
           "service_provider": "Platform Engineering Team",
-          "service_consumers": ["Dev Managers", "Platform Engineers"],
+          "service_consumers": [
+            "Dev Managers",
+            "Platform Engineers"
+          ],
           "maturity_level": 2,
           "strategic_importance": "High"
         }
@@ -105,7 +121,10 @@
         "description": "Maintains centralized repository of environment templates and configurations",
         "metadata": {
           "service_provider": "Platform Engineering Team",
-          "service_consumers": ["Platform Engineers", "Dev Managers"],
+          "service_consumers": [
+            "Platform Engineers",
+            "Dev Managers"
+          ],
           "maturity_level": 1,
           "strategic_importance": "High"
         }
@@ -121,7 +140,9 @@
         "description": "Provides role-based access control and secrets management",
         "metadata": {
           "service_provider": "IT Security Team",
-          "service_consumers": ["All platform users"],
+          "service_consumers": [
+            "All platform users"
+          ],
           "maturity_level": 3,
           "strategic_importance": "Critical"
         }
@@ -280,22 +301,30 @@
         {
           "name": "DevCenter Resource",
           "layer": "Application",
-          "depends_on": ["BUS-SVC-001"]
+          "depends_on": [
+            "BUS-SVC-001"
+          ]
         },
         {
           "name": "Project Resources",
           "layer": "Application",
-          "depends_on": ["BUS-SVC-002"]
+          "depends_on": [
+            "BUS-SVC-002"
+          ]
         },
         {
           "name": "Virtual Networks",
           "layer": "Technology",
-          "depends_on": ["BUS-SVC-002"]
+          "depends_on": [
+            "BUS-SVC-002"
+          ]
         },
         {
           "name": "Managed Identities",
           "layer": "Security",
-          "depends_on": ["BUS-SVC-004"]
+          "depends_on": [
+            "BUS-SVC-004"
+          ]
         }
       ],
       "total_dependencies": 7
@@ -366,7 +395,17 @@
       "cross_layer_dependencies": "Cross-Layer Dependencies (Mermaid graph)",
       "downstream_dependencies": "Downstream Dependencies (Mermaid graph)"
     },
-    "sections_generated": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "sections_generated": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
     "total_sections": 9,
     "word_count": 15000,
     "diagram_count": 6

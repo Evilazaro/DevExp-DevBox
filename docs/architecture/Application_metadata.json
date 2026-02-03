@@ -3,10 +3,22 @@
   "timestamp": "2026-02-03T10:00:00.000Z",
   "execution_time_seconds": 180,
   "inputs": {
-    "folder_paths": ["z:\\dev"],
+    "folder_paths": [
+      "z:\\dev"
+    ],
     "target_layer": "Application",
     "quality_level": "standard",
-    "output_sections": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "output_sections": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
     "include_diagrams": true
   },
   "statistics": {

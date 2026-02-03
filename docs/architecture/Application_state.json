@@ -2,10 +2,22 @@
   "session_id": "b3f2e4a8-c1d5-4a2b-9e7f-8c6d4b2a1f3e",
   "timestamp": "2026-02-03T10:00:00.000Z",
   "inputs": {
-    "folder_paths": ["z:\\dev"],
+    "folder_paths": [
+      "z:\\dev"
+    ],
     "target_layer": "Application",
     "quality_level": "standard",
-    "output_sections": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "output_sections": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
     "include_diagrams": true
   },
   "phase1_discovery": {
@@ -1211,7 +1223,12 @@
         "adm_phase_coverage": {
           "status": "pass",
           "details": "Covers ADM Preliminary (Principles), Phase A (Vision/Exec Summary), Phase C (Application Architecture), Phase G (Governance)",
-          "phases_covered": ["Preliminary", "A", "C", "G"]
+          "phases_covered": [
+            "Preliminary",
+            "A",
+            "C",
+            "G"
+          ]
         },
         "metamodel_entities": {
           "status": "pass",
