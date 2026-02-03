@@ -1,0 +1,82 @@
+{
+  "session_id": "a7b3c8f2-9d4e-4a1b-8c7f-2e5d9a6b3f8c",
+  "timestamp": "2026-02-03T00:00:00.000Z",
+  "inputs": {
+    "folder_paths": ["z:\\dev"],
+    "target_layer": "Business",
+    "quality_level": "standard",
+    "output_sections": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "include_diagrams": true
+  },
+  "statistics": {
+    "components_discovered": 16,
+    "relationships_mapped": 24,
+    "diagrams_generated": 5,
+    "execution_time_seconds": 180,
+    "files_scanned": 4,
+    "business_services": 4,
+    "business_processes": 3,
+    "business_actors": 3,
+    "business_functions": 2,
+    "business_capabilities": 3
+  },
+  "validation_scores": {
+    "completeness": 0.92,
+    "togaf_compliance": 0.94,
+    "quality": 0.90
+  },
+  "validation_passed": true,
+  "warnings": [
+    "Limited to single project implementation (eShop) - multi-project scalability unproven",
+    "No self-service portal implemented - manual processes for environment requests",
+    "No automated environment lifecycle management - decommissioning processes undefined",
+    "Cost chargeback automation not implemented - manual cost allocation processes"
+  ],
+  "recommendations": [
+    "Implement self-service portal to reduce manual workload and improve developer experience (Q2 2026)",
+    "Develop automated environment lifecycle management for cost optimization (Q2 2026)",
+    "Onboard second project to validate multi-project scalability (Q2 2026)",
+    "Implement cost chargeback automation for transparent financial management (Q3 2026)",
+    "Establish formal SLA definitions and monitoring playbooks (Q1 2026)",
+    "Develop CI/CD pipeline for infrastructure deployment automation (Q3 2026)"
+  ],
+  "quality_level_thresholds": {
+    "completeness": 0.85,
+    "togaf_compliance": 0.90,
+    "quality": 0.85
+  },
+  "document_info": {
+    "total_sections": 9,
+    "total_pages_estimate": 85,
+    "total_words_estimate": 28000,
+    "adrs_documented": 8,
+    "standards_documented": 10,
+    "principles_documented": 8
+  },
+  "layer_specific_metrics": {
+    "business_capabilities_maturity": {
+      "level_1_initial": 1,
+      "level_2_managed": 2,
+      "level_3_defined": 4,
+      "level_4_quantitatively_managed": 0,
+      "level_5_optimizing": 0
+    },
+    "organizational_roles_defined": 3,
+    "azure_ad_groups_configured": 2,
+    "rbac_roles_assigned": 12,
+    "projects_configured": 1,
+    "environment_types_supported": 3
+  },
+  "source_files_analyzed": [
+    "infra/settings/workload/devcenter.yaml",
+    "infra/settings/resourceOrganization/azureResources.yaml",
+    "infra/settings/security/security.yaml",
+    "azure.yaml"
+  ],
+  "architecture_debt_items": 7,
+  "roadmap_phases": {
+    "short_term_q1_q2_2026": 6,
+    "medium_term_q3_q4_2026": 6,
+    "long_term_2027_plus": 5
+  }
+}
