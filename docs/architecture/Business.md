@@ -74,8 +74,6 @@
 
 ## Executive Summary
 
-### Overview
-
 This Business Architecture document provides a comprehensive analysis of the
 ContosoDevExp (Dev Box Accelerator) solution from a TOGAF 10 Business
 Architecture perspective. The solution establishes a centralized developer
@@ -352,8 +350,6 @@ visibility and compliance requirements.
 
 ## Business Processes
 
-### Overview
-
 Business processes in the TOGAF 10 framework represent the sequence of
 activities that accomplish specific business objectives. These processes
 describe _how_ the organization delivers its business capabilities through
@@ -544,8 +540,6 @@ including deployments, role assignments, credentials, and resource groups.
 
 ## Organization Structure
 
-### Overview
-
 The organizational structure within TOGAF 10 Business Architecture defines the
 entities, units, and hierarchies that execute business capabilities and
 processes. Understanding the organization structure is essential for:
@@ -730,8 +724,6 @@ associated with the developer experience platform.
 ---
 
 ## Business Actors
-
-### Overview
 
 Business actors in TOGAF 10 represent individuals, groups, or external entities
 that interact with the business architecture. Actors are responsible for
@@ -918,8 +910,6 @@ resource access.
 ---
 
 ## Business Services
-
-### Overview
 
 Business services in the TOGAF 10 framework represent the services that the
 organization provides to its stakeholders, either internally or externally.
@@ -1138,8 +1128,6 @@ supporting both managed and unmanaged virtual network configurations.
 
 ## Business Goals and Objectives
 
-### Overview
-
 Business goals and objectives in TOGAF 10 represent the desired outcomes that
 the organization seeks to achieve through its architecture. Goals provide
 strategic direction while objectives translate goals into measurable targets.
@@ -1247,7 +1235,7 @@ Key Vault configuration includes purge protection and RBAC authorization.
 
 ## Business Policies and Rules
 
-### Overview
+## Business Policies and Rules
 
 Business policies and rules define the constraints, guidelines, and standards
 that govern business operations within the TOGAF framework. Policies establish
