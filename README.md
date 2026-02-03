@@ -176,8 +176,8 @@ flowchart TB
 
 ## Installation
 
-> ⏱️ **Performance**: The complete installation takes approximately 15-20
-> minutes depending on Azure region and resource provisioning time.
+> ⏱️ **Performance**: Complete installation takes approximately 15-20 minutes
+> depending on Azure region and resource provisioning time.
 
 ### 1. Clone the Repository
 
@@ -193,8 +193,8 @@ az login
 az account set --subscription <subscription-id>
 ```
 
-> ✅ **Success**: After successful authentication, you should see your
-> subscription details displayed in the terminal.
+> ✅ **Success**: After authentication, your subscription details display in the
+> terminal.
 
 ### 3. Authenticate with Source Control
 
@@ -248,8 +248,8 @@ azd env get-values
 az devcenter admin show --name <devcenter-name> --resource-group <rg-name>
 ```
 
-> ✅ **Success**: The deployment is complete when you see DevCenter resource
-> details with `provisioningState: "Succeeded"`.
+> ✅ **Success**: Deployment is complete when you see DevCenter resource details
+> with `provisioningState: "Succeeded"`.
 
 ---
 
@@ -342,10 +342,10 @@ Provisions Azure DevCenter environment with all supporting infrastructure.
 **Exit Codes:**
 
 | Exit Code | Meaning                                                       |
-| --------: | :------------------------------------------------------------ |
-|       `0` | Success                                                       |
-|       `1` | General error (authentication, validation, deployment failed) |
-|     `130` | User interruption (Ctrl+C)                                    |
+| :-------: | :------------------------------------------------------------ |
+|    `0`    | Success                                                       |
+|    `1`    | General error (authentication, validation, deployment failed) |
+|   `130`   | User interruption (Ctrl+C)                                    |
 
 **Example:**
 
@@ -432,6 +432,8 @@ landingZones:
   - name: 'monitoring'
     create: true
 ```
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
@@ -704,14 +706,14 @@ DevBox pools.
 
 **Q: Can I use private GitHub repositories for catalogs?**
 
-A: Yes. The setup script stores GitHub PAT in Key Vault and configures the
+A: Yes. The setup script stores your GitHub PAT in Key Vault and configures the
 catalog with authentication. Ensure the PAT has `repo` scope.
 
 **Q: How do I update DevBox images?**
 
-A: Update the catalog repository (referenced in
-[devcenter.yaml](infra/settings/workload/devcenter.yaml)), and the DevCenter
-will sync automatically based on `catalogItemSyncEnableStatus` setting.
+A: Update the catalog repository referenced in
+[devcenter.yaml](infra/settings/workload/devcenter.yaml), and DevCenter will
+sync automatically based on the `catalogItemSyncEnableStatus` setting.
 
 [↑ Back to Top](#table-of-contents)
 
