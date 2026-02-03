@@ -173,7 +173,7 @@ flowchart TB
 
 ## Business Capabilities
 
-### Overview
+### Capabilities Overview
 
 Business capabilities represent the fundamental abilities an organization
 possesses to achieve specific business outcomes. Within the TOGAF 10 framework,
@@ -1596,49 +1596,62 @@ flowchart TB
 Base workstation configuration providing foundational development tools
 applicable to all engineering roles.
 
-**Configuration Components:**
+**Configuration Components**:
 
-- Dev Drive: ReFS-formatted development storage (50GB)
-- Source Control: Git, GitHub CLI
-- Development Runtimes: .NET 9 SDK and Runtime
-- Development Tools: VS Code, Node.js
+| Component            | Details                                   |
+| :------------------- | :---------------------------------------- |
+| Dev Drive            | ReFS-formatted development storage (50GB) |
+| Source Control       | Git, GitHub CLI                           |
+| Development Runtimes | .NET 9 SDK and Runtime                    |
+| Development Tools    | VS Code, Node.js                          |
 
-**Source:** `.configuration/devcenter/workloads/common-config.dsc.yaml`
+**Source**: `.configuration/devcenter/workloads/common-config.dsc.yaml`
 
 ### Backend Engineer Configuration
 
 Extended configuration for backend development including Azure CLI tools and
 local development emulators.
 
-**Configuration Components:**
+**Configuration Components**:
 
-- Azure CLI: Command-line Azure management
-- Azure Developer CLI (azd): Application development workflow
-- Azure Bicep: Infrastructure as code tooling
-- Local Emulators: Azure service emulators for development
+| Component           | Details                                  |
+| :------------------ | :--------------------------------------- |
+| Azure CLI           | Command-line Azure management            |
+| Azure Developer CLI | Application development workflow (`azd`) |
+| Azure Bicep         | Infrastructure as code tooling           |
+| Local Emulators     | Azure service emulators for development  |
 
-**Source:** `.configuration/devcenter/workloads/common-backend-config.dsc.yaml`
+**Source**: `.configuration/devcenter/workloads/common-backend-config.dsc.yaml`
 
 ### Frontend Engineer Configuration
 
 Extended configuration for frontend development including API testing tools and
 VS Code extensions.
 
-**Configuration Components:**
+**Configuration Components**:
 
-- Postman: API testing platform
-- VS Code Extensions:
-  - PowerShell extension
-  - WSL integration
-  - C# DevKit
-  - TypeScript support
-  - YAML support
-  - Bicep extension
-  - Azure Tools pack
-  - GitHub integration
+| Component          | Details              |
+| :----------------- | :------------------- |
+| Postman            | API testing platform |
+| VS Code Extensions | See table below      |
 
-**Source:**
+**VS Code Extensions**:
+
+| Extension   | Purpose                     |
+| :---------- | :-------------------------- |
+| PowerShell  | PowerShell scripting        |
+| WSL         | Windows Subsystem for Linux |
+| C# DevKit   | C# development              |
+| TypeScript  | TypeScript support          |
+| YAML        | YAML file support           |
+| Bicep       | Bicep IaC support           |
+| Azure Tools | Azure integration pack      |
+| GitHub      | GitHub integration          |
+
+**Source**:
 `.configuration/devcenter/workloads/common-frontend-usertasks-config.dsc.yaml`
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
@@ -1646,8 +1659,11 @@ VS Code extensions.
 
 ### Source Files Analyzed
 
+The following table lists all source files analyzed for this Business
+Architecture document.
+
 | File Path                                                                      | Purpose                       |
-| ------------------------------------------------------------------------------ | ----------------------------- |
+| :----------------------------------------------------------------------------- | :---------------------------- |
 | `infra/settings/workload/devcenter.yaml`                                       | DevCenter configuration       |
 | `infra/settings/resourceOrganization/azureResources.yaml`                      | Resource group organization   |
 | `infra/settings/security/security.yaml`                                        | Key Vault configuration       |
@@ -1674,3 +1690,14 @@ VS Code extensions.
 | `.configuration/devcenter/workloads/common-frontend-usertasks-config.dsc.yaml` | Frontend DSC configuration    |
 
 ---
+
+## See Also
+
+- [Azure Dev Box Documentation](https://learn.microsoft.com/azure/dev-box/)
+- [Azure DevCenter Documentation](https://learn.microsoft.com/azure/deployment-environments/)
+- [TOGAF 10 Framework](https://www.opengroup.org/togaf)
+- [Azure Landing Zones](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/)
+
+---
+
+[↑ Back to Top](#table-of-contents)
