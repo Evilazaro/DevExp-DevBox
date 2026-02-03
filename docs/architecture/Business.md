@@ -31,36 +31,53 @@ configuration files and infrastructure-as-code templates.
 ### Architecture Landscape
 
 ```mermaid
-graph TB
-    subgraph "Business Capabilities"
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
+flowchart TB
+    %% Style Definitions
+    classDef default fill:#FAFAFA,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level1 fill:#E3F2FD,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
+    classDef accent fill:#FFF3E0,stroke:#424242,stroke-width:2px,color:#212121
+
+    subgraph BC["Business Capabilities"]
         BC1["Developer Workstation Management"]
         BC2["Environment Provisioning"]
         BC3["Security & Access Control"]
         BC4["Project Portfolio Management"]
     end
-    subgraph "Business Processes"
+
+    subgraph BP["Business Processes"]
         BP1["Environment Setup Process"]
         BP2["User Onboarding Process"]
         BP3["Deployment Process"]
         BP4["Cleanup Process"]
     end
-    subgraph "Organization"
+
+    subgraph ORG["Organization"]
         ORG1["Contoso Enterprise"]
         ORG2["Platforms Division"]
         ORG3["DevExP Team"]
     end
-    subgraph "Business Actors"
+
+    subgraph ACT["Business Actors"]
         ACT1["Platform Engineering Team"]
         ACT2["eShop Developers"]
         ACT3["Backend Engineers"]
         ACT4["Frontend Engineers"]
     end
+
     BC1 -->|"enables"| BP1
     BC2 -->|"supports"| BP2
     BC3 -->|"governs"| BP3
     ORG3 -->|"performs"| BP1
     ACT1 -->|"manages"| BC1
     ACT2 -->|"consumes"| BC2
+
+    class BC level1
+    class BP level2
+    class ORG level3
+    class ACT accent
 ```
 
 **Source:** `infra/settings/workload/devcenter.yaml`,
@@ -93,11 +110,18 @@ with top-level capabilities decomposing into supporting sub-capabilities that
 together enable the complete developer experience platform.
 
 ```mermaid
-graph TB
-    subgraph "Core Business Capabilities"
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
+flowchart TB
+    %% Style Definitions
+    classDef default fill:#FAFAFA,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level1 fill:#E3F2FD,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
+
+    subgraph CORE["Core Business Capabilities"]
         CAP1["Developer Experience Platform"]
     end
-    subgraph "Supporting Capabilities"
+
+    subgraph SUPPORT["Supporting Capabilities"]
         CAP2["Workstation Provisioning"]
         CAP3["Environment Management"]
         CAP4["Catalog Management"]
@@ -105,12 +129,16 @@ graph TB
         CAP6["Security Management"]
         CAP7["Monitoring & Observability"]
     end
+
     CAP1 -->|"decomposed into"| CAP2
     CAP1 -->|"decomposed into"| CAP3
     CAP1 -->|"decomposed into"| CAP4
     CAP1 -->|"decomposed into"| CAP5
     CAP1 -->|"decomposed into"| CAP6
     CAP1 -->|"decomposed into"| CAP7
+
+    class CORE level1
+    class SUPPORT level2
 ```
 
 ### Developer Experience Platform Capability
@@ -235,21 +263,31 @@ actors are documented based on actual implementation code rather than
 assumptions.
 
 ```mermaid
-graph TB
-    subgraph "Setup Processes"
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
+flowchart TB
+    %% Style Definitions
+    classDef default fill:#FAFAFA,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level1 fill:#E3F2FD,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
+
+    subgraph SETUP["Setup Processes"]
         P1["Environment Initialization"]
         P2["Azure Authentication"]
         P3["Source Control Integration"]
     end
-    subgraph "Deployment Processes"
+
+    subgraph DEPLOY["Deployment Processes"]
         P4["Infrastructure Provisioning"]
         P5["Security Configuration"]
         P6["Workload Deployment"]
     end
-    subgraph "Operations Processes"
+
+    subgraph OPS["Operations Processes"]
         P7["User Role Assignment"]
         P8["Cleanup and Teardown"]
     end
+
     P1 -->|"triggers"| P2
     P2 -->|"enables"| P3
     P3 -->|"initiates"| P4
@@ -257,6 +295,10 @@ graph TB
     P5 -->|"deploys"| P6
     P7 -->|"supports"| P6
     P8 -->|"reverses"| P4
+
+    class SETUP level1
+    class DEPLOY level2
+    class OPS level3
 ```
 
 ### Environment Initialization Process
@@ -381,24 +423,41 @@ consistently applied across configuration files. Tags such as "owner,"
 that reflect the business structure within the Contoso enterprise.
 
 ```mermaid
-graph TB
-    subgraph "Enterprise"
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
+flowchart TB
+    %% Style Definitions
+    classDef default fill:#FAFAFA,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level1 fill:#E3F2FD,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
+    classDef accent fill:#FFF3E0,stroke:#424242,stroke-width:2px,color:#212121
+
+    subgraph ENT["Enterprise"]
         E1["Contoso Enterprise"]
     end
-    subgraph "Division"
+
+    subgraph DIV["Division"]
         D1["Platforms Division"]
     end
-    subgraph "Team"
+
+    subgraph TEAM["Team"]
         T1["DevExP Team"]
     end
-    subgraph "Projects"
+
+    subgraph PROJ["Projects"]
         PRJ1["ContosoDevExp-DevBox Project"]
         PRJ2["eShop Project"]
     end
+
     E1 -->|"contains"| D1
     D1 -->|"contains"| T1
     T1 -->|"manages"| PRJ1
     T1 -->|"manages"| PRJ2
+
+    class ENT level1
+    class DIV level2
+    class TEAM level3
+    class PROJ accent
 ```
 
 ### Contoso Enterprise
