@@ -1,0 +1,102 @@
+{
+  "session_id": "47e8a4c2-9b5d-4f1a-8e3c-2d6f7a8b9c0e",
+  "timestamp": "2026-02-03T00:00:00.000Z",
+  "inputs": {
+    "folder_paths": [
+      "z:\\dev"
+    ],
+    "target_layer": "Business",
+    "quality_level": "standard"
+  },
+  "statistics": {
+    "components_discovered": 8,
+    "relationships_mapped": 12,
+    "diagrams_generated": 6,
+    "execution_time_seconds": 420
+  },
+  "validation_scores": {
+    "completeness": 0.87,
+    "togaf_compliance": 0.92,
+    "quality": 0.88
+  },
+  "validation_passed": true,
+  "quality_level_thresholds": {
+    "standard": {
+      "completeness": 0.85,
+      "togaf_compliance": 0.90,
+      "quality": 0.85
+    }
+  },
+  "warnings": [
+    "GAP-001: Manual project onboarding process (9.5 hours) - Recommend automation",
+    "GAP-002: Limited catalog versioning - Implement GitOps with branch protection",
+    "GAP-006: No environment lifecycle management - Implement idle environment auto-shutdown"
+  ],
+  "recommendations": [
+    "Priority 1 (Q1 2026): Automate project onboarding to reduce time from 9.5 hours to <1 hour",
+    "Priority 2 (Q2 2026): Implement GitOps for catalog management with automated validation",
+    "Priority 3 (Q2 2026): Enhance audit logging for comprehensive compliance coverage",
+    "Establish Architecture Review Board with bi-weekly meeting cadence",
+    "Implement compliance dashboard for automated metric tracking"
+  ],
+  "components": {
+    "business_services": 4,
+    "business_capabilities": 4,
+    "business_processes": 2,
+    "business_roles": 3,
+    "architecture_decisions": 5,
+    "standards": 5,
+    "gaps_identified": 6
+  },
+  "source_files_analyzed": {
+    "total_files": 47,
+    "relevant_files": 18,
+    "primary_files": [
+      "infra/settings/workload/devcenter.yaml",
+      "infra/main.bicep",
+      "src/workload/workload.bicep",
+      "src/workload/core/devCenter.bicep",
+      "src/workload/project/project.bicep",
+      "infra/settings/security/security.yaml",
+      "infra/settings/resourceOrganization/azureResources.yaml"
+    ]
+  },
+  "architecture_layer_scope": {
+    "layer": "Business",
+    "togaf_adm_phase": "Phase B",
+    "primary_focus": "Business capabilities, processes, services, and organizational context",
+    "excluded_concerns": [
+      "Technical implementation details (Technology Layer)",
+      "Data schemas and models (Data Layer)",
+      "Application components (Application Layer)",
+      "Infrastructure details (Technology Layer)"
+    ]
+  },
+  "document_sections": {
+    "section_1": "Executive Summary",
+    "section_2": "Business Architecture Landscape",
+    "section_3": "Architecture Principles",
+    "section_4": "Current State (Baseline) Architecture",
+    "section_5": "Component Catalog",
+    "section_6": "Architecture Decisions",
+    "section_7": "Standards and Compliance",
+    "section_8": "Dependencies and Relationships",
+    "section_9": "Governance and Implementation"
+  },
+  "key_findings": {
+    "platform_name": "Contoso Developer Experience (DevExP) Platform",
+    "primary_technology": "Microsoft DevCenter and Dev Box",
+    "active_projects": 1,
+    "project_name": "eShop",
+    "developer_pools": 2,
+    "environment_types": 3,
+    "catalogs": 3,
+    "azure_ad_groups": 2,
+    "landing_zones": 3,
+    "maturity_level": "Level 2-3 (Repeatable to Defined)"
+  },
+  "next_review_date": "2026-08-03",
+  "document_version": "1.0.0",
+  "document_status": "Draft - Pending ARB Review",
+  "document_owner": "Platform Engineering Team"
+}
