@@ -105,63 +105,84 @@ The platform addresses critical challenges in modern software development:
 ### 2.2 Business Capability Map
 
 ```mermaid
-graph TB
-    subgraph "Level 1: Core Business Capabilities"
-        DEV_ENV[Developer Environment Management]
-        PROJ_MGT[Project Workspace Management]
-        ACCESS_MGT[Access & Identity Management]
+---
+title: Business Capability Map - Core Capabilities & Dependencies
+---
+flowchart TB
+    %% ===== LEVEL 1: CORE BUSINESS CAPABILITIES =====
+    subgraph coreCapabilities["Level 1: Core Business Capabilities"]
+        direction TB
+        devEnv["Developer Environment Management"]
+        projMgt["Project Workspace Management"]
+        accessMgt["Access & Identity Management"]
     end
 
-    subgraph "Level 2: Developer Environment Management"
-        ENV_PROV[Environment Provisioning]
-        ENV_CONFIG[Environment Configuration]
-        ENV_LIFECYCLE[Environment Lifecycle Management]
-        CATALOG_MGT[Template Catalog Management]
+    %% ===== LEVEL 2: DEVELOPER ENVIRONMENT MANAGEMENT =====
+    subgraph devEnvCapabilities["Level 2: Developer Environment Management"]
+        direction TB
+        envProv["Environment Provisioning"]
+        envConfig["Environment Configuration"]
+        envLifecycle["Environment Lifecycle Management"]
+        catalogMgt["Template Catalog Management"]
     end
 
-    subgraph "Level 3: Project Workspace Management"
-        PROJ_ONBOARD[Project Onboarding]
-        TEAM_CONFIG[Team Configuration]
-        ROLE_DEF[Role Definition & Assignment]
-        RESOURCE_ALLOC[Resource Pool Allocation]
+    %% ===== LEVEL 3: PROJECT WORKSPACE MANAGEMENT =====
+    subgraph projMgtCapabilities["Level 3: Project Workspace Management"]
+        direction TB
+        projOnboard["Project Onboarding"]
+        teamConfig["Team Configuration"]
+        roleDef["Role Definition & Assignment"]
+        resourceAlloc["Resource Pool Allocation"]
     end
 
-    subgraph "Level 4: Access & Identity Management"
-        USER_AUTH[User Authentication]
-        RBAC_MGT[Role-Based Access Control]
-        SECRET_MGT[Secrets Management]
-        AUDIT_LOG[Audit & Compliance Logging]
+    %% ===== LEVEL 4: ACCESS & IDENTITY MANAGEMENT =====
+    subgraph accessMgtCapabilities["Level 4: Access & Identity Management"]
+        direction TB
+        userAuth["User Authentication"]
+        rbacMgt["Role-Based Access Control"]
+        secretMgt["Secrets Management"]
+        auditLog["Audit & Compliance Logging"]
     end
 
-    DEV_ENV --> ENV_PROV
-    DEV_ENV --> ENV_CONFIG
-    DEV_ENV --> ENV_LIFECYCLE
-    DEV_ENV --> CATALOG_MGT
+    %% ===== PRIMARY RELATIONSHIPS =====
+    devEnv -->|provisions| envProv
+    devEnv -->|configures| envConfig
+    devEnv -->|manages| envLifecycle
+    devEnv -->|utilizes| catalogMgt
 
-    PROJ_MGT --> PROJ_ONBOARD
-    PROJ_MGT --> TEAM_CONFIG
-    PROJ_MGT --> ROLE_DEF
-    PROJ_MGT --> RESOURCE_ALLOC
+    projMgt -->|initiates| projOnboard
+    projMgt -->|organizes| teamConfig
+    projMgt -->|defines| roleDef
+    projMgt -->|allocates| resourceAlloc
 
-    ACCESS_MGT --> USER_AUTH
-    ACCESS_MGT --> RBAC_MGT
-    ACCESS_MGT --> SECRET_MGT
-    ACCESS_MGT --> AUDIT_LOG
+    accessMgt -->|authenticates| userAuth
+    accessMgt -->|enforces| rbacMgt
+    accessMgt -->|secures| secretMgt
+    accessMgt -->|tracks| auditLog
 
-    ENV_PROV -.depends on.-> SECRET_MGT
-    ENV_CONFIG -.depends on.-> CATALOG_MGT
-    TEAM_CONFIG -.depends on.-> RBAC_MGT
-    PROJ_ONBOARD -.depends on.-> RESOURCE_ALLOC
+    %% ===== DEPENDENCIES =====
+    envProv -.->|requires secrets from| secretMgt
+    envConfig -.->|depends on| catalogMgt
+    teamConfig -.->|requires| rbacMgt
+    projOnboard -.->|allocates from| resourceAlloc
 
-    classDef level1 fill:#4A90E2,stroke:#2E5C8A,color:#FFF
-    classDef level2 fill:#7ED321,stroke:#5A9B18,color:#000
-    classDef level3 fill:#F5A623,stroke:#C77D1A,color:#000
-    classDef level4 fill:#BD10E0,stroke:#8A0BA8,color:#FFF
+    %% ===== STYLING: NODE CLASSES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF,stroke-width:2px
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF,stroke-width:2px
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000,stroke-width:2px
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-width:2px
 
-    class DEV_ENV,PROJ_MGT,ACCESS_MGT level1
-    class ENV_PROV,ENV_CONFIG,ENV_LIFECYCLE,CATALOG_MGT level2
-    class PROJ_ONBOARD,TEAM_CONFIG,ROLE_DEF,RESOURCE_ALLOC level3
-    class USER_AUTH,RBAC_MGT,SECRET_MGT,AUDIT_LOG level4
+    %% ===== APPLY NODE CLASSES =====
+    class devEnv,projMgt,accessMgt primary
+    class envProv,envConfig,envLifecycle,catalogMgt secondary
+    class projOnboard,teamConfig,roleDef,resourceAlloc datastore
+    class userAuth,rbacMgt,secretMgt,auditLog external
+
+    %% ===== STYLING: SUBGRAPHS =====
+    style coreCapabilities fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style devEnvCapabilities fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style projMgtCapabilities fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style accessMgtCapabilities fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 **Capability Maturity Assessment:**
@@ -177,45 +198,64 @@ graph TB
 ### 2.3 Business Service Landscape
 
 ```mermaid
-graph LR
-    subgraph "External Actors"
-        DEV[Developer]
-        DEV_MGR[Dev Manager]
-        PLATFORM_ENG[Platform Engineer]
+---
+title: Business Service Landscape - Actors, Services & Dependencies
+---
+flowchart LR
+    %% ===== EXTERNAL ACTORS =====
+    subgraph externalActors["External Actors"]
+        direction TB
+        dev(["Developer"])
+        devMgr(["Dev Manager"])
+        platformEng(["Platform Engineer"])
     end
 
-    subgraph "Business Services"
-        DEV_ENV_SVC[Developer Environment Service]
-        PROJ_SVC[Project Management Service]
-        CATALOG_SVC[Catalog Management Service]
-        ACCESS_SVC[Access Management Service]
+    %% ===== BUSINESS SERVICES =====
+    subgraph businessServices["Business Services"]
+        direction TB
+        devEnvSvc["Developer Environment Service"]
+        projSvc["Project Management Service"]
+        catalogSvc["Catalog Management Service"]
+        accessSvc["Access Management Service"]
     end
 
-    subgraph "Supporting Services"
-        MONITOR_SVC[Monitoring Service]
-        SECURITY_SVC[Security Service]
+    %% ===== SUPPORTING SERVICES =====
+    subgraph supportingServices["Supporting Services"]
+        direction TB
+        monitorSvc["Monitoring Service"]
+        securitySvc["Security Service"]
     end
 
-    DEV -->|Request Environment| DEV_ENV_SVC
-    DEV -->|Access Project| PROJ_SVC
-    DEV_MGR -->|Configure Team| PROJ_SVC
-    DEV_MGR -->|Define Roles| ACCESS_SVC
-    PLATFORM_ENG -->|Manage Templates| CATALOG_SVC
-    PLATFORM_ENG -->|Configure Catalog| CATALOG_SVC
+    %% ===== ACTOR TO SERVICE INTERACTIONS =====
+    dev -->|requests environment| devEnvSvc
+    dev -->|accesses project| projSvc
+    devMgr -->|configures team| projSvc
+    devMgr -->|defines roles| accessSvc
+    platformEng -->|manages templates| catalogSvc
+    platformEng -->|configures catalog| catalogSvc
 
-    DEV_ENV_SVC -.uses.-> ACCESS_SVC
-    DEV_ENV_SVC -.uses.-> CATALOG_SVC
-    PROJ_SVC -.uses.-> ACCESS_SVC
-    DEV_ENV_SVC -.monitored by.-> MONITOR_SVC
-    ACCESS_SVC -.secured by.-> SECURITY_SVC
+    %% ===== SERVICE DEPENDENCIES =====
+    devEnvSvc -.->|uses| accessSvc
+    devEnvSvc -.->|uses| catalogSvc
+    projSvc -.->|requires| accessSvc
+    devEnvSvc -.->|monitored by| monitorSvc
+    accessSvc -.->|secured by| securitySvc
 
-    classDef actor fill:#95A5A6,stroke:#7F8C8D,color:#FFF
-    classDef businessService fill:#3498DB,stroke:#2980B9,color:#FFF
-    classDef supportService fill:#E74C3C,stroke:#C0392B,color:#FFF
+    %% ===== STYLING: NODE CLASSES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF,stroke-width:2px
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF,stroke-width:2px
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF,stroke-width:2px
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF,stroke-width:2px
 
-    class DEV,DEV_MGR,PLATFORM_ENG actor
-    class DEV_ENV_SVC,PROJ_SVC,CATALOG_SVC,ACCESS_SVC businessService
-    class MONITOR_SVC,SECURITY_SVC supportService
+    %% ===== APPLY NODE CLASSES =====
+    class dev,devMgr,platformEng trigger
+    class devEnvSvc,projSvc,catalogSvc,accessSvc primary
+    class monitorSvc,securitySvc secondary
+
+    %% ===== STYLING: SUBGRAPHS =====
+    style externalActors fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style businessServices fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style supportingServices fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 **Business Service Definitions:**
@@ -230,41 +270,57 @@ graph LR
 ### 2.4 Organizational Context
 
 ```mermaid
-graph TB
-    subgraph "Organizational Structure"
-        CTO[CTO / IT Leadership]
-        PLATFORM_TEAM[Platform Engineering Team]
-        DEV_TEAMS[Development Teams]
-        SECURITY_TEAM[IT Security Team]
+---
+title: Organizational Context - Structure & Relationships
+---
+flowchart TB
+    %% ===== ORGANIZATIONAL STRUCTURE =====
+    subgraph orgStructure["Organizational Structure"]
+        direction TB
+        cto(("CTO / IT Leadership"))
+        platformTeam["Platform Engineering Team"]
+        devTeams["Development Teams"]
+        securityTeam["IT Security Team"]
 
-        CTO --> PLATFORM_TEAM
-        CTO --> DEV_TEAMS
-        CTO --> SECURITY_TEAM
+        cto -->|oversees| platformTeam
+        cto -->|directs| devTeams
+        cto -->|governs| securityTeam
     end
 
-    subgraph "eShop Project Team"
-        ESHOP_MGR[eShop Dev Manager]
-        BACKEND_DEVS[Backend Engineers]
-        FRONTEND_DEVS[Frontend Engineers]
+    %% ===== ESHOP PROJECT TEAM =====
+    subgraph eShopTeam["eShop Project Team"]
+        direction TB
+        eShopMgr(["eShop Dev Manager"])
+        backendDevs["Backend Engineers"]
+        frontendDevs["Frontend Engineers"]
 
-        ESHOP_MGR --> BACKEND_DEVS
-        ESHOP_MGR --> FRONTEND_DEVS
+        eShopMgr -->|manages| backendDevs
+        eShopMgr -->|manages| frontendDevs
     end
 
-    PLATFORM_TEAM -.provides platform to.-> DEV_TEAMS
-    PLATFORM_TEAM -.provides platform to.-> ESHOP_MGR
-    DEV_TEAMS -.includes.-> ESHOP_MGR
-    SECURITY_TEAM -.governs access for.-> PLATFORM_TEAM
+    %% ===== CROSS-TEAM RELATIONSHIPS =====
+    platformTeam -.->|provides platform to| devTeams
+    platformTeam -.->|provides platform to| eShopMgr
+    devTeams -.->|includes| eShopMgr
+    securityTeam -.->|governs access for| platformTeam
 
-    classDef leadership fill:#34495E,stroke:#2C3E50,color:#FFF
-    classDef platform fill:#16A085,stroke:#138D75,color:#FFF
-    classDef devTeam fill:#2980B9,stroke:#21618C,color:#FFF
-    classDef security fill:#C0392B,stroke:#922B21,color:#FFF
+    %% ===== STYLING: NODE CLASSES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF,stroke-width:2px
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF,stroke-width:2px
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF,stroke-width:2px
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF,stroke-width:2px
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000,stroke-width:2px
 
-    class CTO leadership
-    class PLATFORM_TEAM,PLATFORM_ENG platform
-    class DEV_TEAMS,ESHOP_MGR,BACKEND_DEVS,FRONTEND_DEVS devTeam
-    class SECURITY_TEAM security
+    %% ===== APPLY NODE CLASSES =====
+    class cto trigger
+    class platformTeam primary
+    class devTeams,backendDevs,frontendDevs secondary
+    class securityTeam failed
+    class eShopMgr decision
+
+    %% ===== STYLING: SUBGRAPHS =====
+    style orgStructure fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style eShopTeam fill:#ECFDF5,stroke:#10B981,stroke-width:2px
 ```
 
 **Organizational Roles and Responsibilities:**
@@ -434,28 +490,45 @@ and [infra/main.bicep](infra/main.bicep#L1-L153)
 **Current Environment Provisioning Process:**
 
 ```mermaid
+---
+title: Current Environment Provisioning Process - Manual Workflow
+---
 sequenceDiagram
-    actor Dev as Developer
-    actor Mgr as Dev Manager
-    actor Plat as Platform Engineer
-    participant Azure as Azure Portal
-    participant DC as DevCenter
-    participant KV as Key Vault
+    actor dev as Developer
+    actor mgr as Dev Manager
+    actor plat as Platform Engineer
+    participant azure as Azure Portal
+    participant dc as DevCenter
+    participant kv as Key Vault
 
-    Dev->>Mgr: Request development environment
-    Mgr->>Plat: Submit environment request
-    Plat->>Azure: Access Azure Portal
-    Plat->>DC: Configure DevCenter project
-    Plat->>KV: Store secrets
-    DC->>DC: Provision DevBox
-    DC->>DC: Configure network connection
-    DC->>DC: Assign RBAC roles
-    DC-->>Plat: Environment ready notification
-    Plat-->>Mgr: Notify manager
-    Mgr-->>Dev: Provide access credentials
-    Dev->>DC: Access DevBox
+    %% ===== INITIAL REQUEST =====
+    Note over dev,mgr: Developer initiates request
+    dev->>mgr: Request development environment
+    mgr->>plat: Submit environment request
 
-    Note over Dev,DC: Total time: 2-4 hours (manual steps)
+    %% ===== MANUAL CONFIGURATION =====
+    Note over plat,azure: Manual provisioning begins
+    plat->>azure: Access Azure Portal
+    plat->>dc: Configure DevCenter project
+    plat->>kv: Store secrets
+
+    %% ===== AUTOMATED PROVISIONING =====
+    Note over dc: DevCenter automation
+    dc->>dc: Provision DevBox
+    dc->>dc: Configure network connection
+    dc->>dc: Assign RBAC roles
+
+    %% ===== NOTIFICATION CHAIN =====
+    Note over dc,plat: Success notification
+    dc-->>plat: Environment ready notification
+    plat-->>mgr: Notify manager
+    mgr-->>dev: Provide access credentials
+
+    %% ===== ACCESS =====
+    Note over dev,dc: Developer accesses environment
+    dev->>dc: Access DevBox
+
+    Note over dev,dc: Total time: 2-4 hours (manual steps)
 ```
 
 **Current State Components:**
@@ -515,6 +588,9 @@ sequenceDiagram
 **Gap Prioritization Matrix:**
 
 ```mermaid
+---
+title: Gap Impact vs Effort Assessment Matrix
+---
 quadrantChart
     title Gap Impact vs Effort Assessment
     x-axis Low Effort --> High Effort
@@ -523,12 +599,12 @@ quadrantChart
     quadrant-2 Strategic Investments
     quadrant-3 Low Priority
     quadrant-4 Reconsider
-    GAP-001 Project Onboarding: [0.7, 0.9]
-    GAP-002 Catalog Versioning: [0.5, 0.6]
-    GAP-003 Audit Logging: [0.4, 0.6]
-    GAP-004 Role Assignment: [0.6, 0.6]
-    GAP-005 Cost Visibility: [0.3, 0.4]
-    GAP-006 Lifecycle Management: [0.5, 0.7]
+    "GAP-001: Project Onboarding": [0.7, 0.9]
+    "GAP-002: Catalog Versioning": [0.5, 0.6]
+    "GAP-003: Audit Logging": [0.4, 0.6]
+    "GAP-004: Role Assignment": [0.6, 0.6]
+    "GAP-005: Cost Visibility": [0.3, 0.4]
+    "GAP-006: Lifecycle Management": [0.5, 0.7]
 ```
 
 **Critical Dependencies:**
@@ -1478,59 +1554,83 @@ comply with data residency requirements.
 **Business Layer Dependencies on Other Layers:**
 
 ```mermaid
-graph TB
-    subgraph "Business Layer"
-        BUS_SVC[Business Services]
-        BUS_CAP[Business Capabilities]
-        BUS_PROC[Business Processes]
+---
+title: Cross-Layer Dependencies - Business Layer Architecture
+---
+flowchart TB
+    %% ===== BUSINESS LAYER =====
+    subgraph businessLayer["Business Layer"]
+        direction TB
+        busSvc["Business Services"]
+        busCap["Business Capabilities"]
+        busProc["Business Processes"]
     end
 
-    subgraph "Application Layer (Downstream)"
-        APP_DEVCENTER[DevCenter Application]
-        APP_PORTAL[Azure Portal]
-        APP_API[DevCenter API]
+    %% ===== APPLICATION LAYER =====
+    subgraph applicationLayer["Application Layer (Downstream)"]
+        direction TB
+        appDevCenter["DevCenter Application"]
+        appPortal["Azure Portal"]
+        appAPI["DevCenter API"]
     end
 
-    subgraph "Data Layer (Downstream)"
-        DATA_KEYVAULT[Key Vault Secrets]
-        DATA_CONFIG[Configuration Store]
-        DATA_LOGS[Log Analytics Data]
+    %% ===== DATA LAYER =====
+    subgraph dataLayer["Data Layer (Downstream)"]
+        direction TB
+        dataKeyVault[("Key Vault Secrets")]
+        dataConfig[("Configuration Store")]
+        dataLogs[("Log Analytics Data")]
     end
 
-    subgraph "Technology Layer (Downstream)"
-        TECH_COMPUTE[Azure Compute]
-        TECH_NETWORK[Virtual Networks]
-        TECH_STORAGE[Storage Accounts]
+    %% ===== TECHNOLOGY LAYER =====
+    subgraph technologyLayer["Technology Layer (Downstream)"]
+        direction TB
+        techCompute["Azure Compute"]
+        techNetwork["Virtual Networks"]
+        techStorage["Storage Accounts"]
     end
 
-    subgraph "Security Layer (Cross-Cutting)"
-        SEC_AAD[Azure Active Directory]
-        SEC_RBAC[RBAC Engine]
-        SEC_IDENTITY[Managed Identities]
+    %% ===== SECURITY LAYER =====
+    subgraph securityLayer["Security Layer (Cross-Cutting)"]
+        direction TB
+        secAAD["Azure Active Directory"]
+        secRBAC["RBAC Engine"]
+        secIdentity["Managed Identities"]
     end
 
-    BUS_SVC -->|realized by| APP_DEVCENTER
-    BUS_SVC -->|consumes| DATA_KEYVAULT
-    BUS_SVC -->|secured by| SEC_RBAC
-    BUS_CAP -->|implemented via| APP_API
-    BUS_PROC -->|depends on| TECH_COMPUTE
-    BUS_PROC -->|uses| DATA_LOGS
+    %% ===== PRIMARY RELATIONSHIPS =====
+    busSvc -->|realized by| appDevCenter
+    busSvc -->|consumes| dataKeyVault
+    busSvc -->|secured by| secRBAC
+    busCap -->|implemented via| appAPI
+    busProc -->|depends on| techCompute
+    busProc -->|uses| dataLogs
 
-    APP_DEVCENTER -.depends on.-> TECH_COMPUTE
-    APP_DEVCENTER -.depends on.-> TECH_NETWORK
-    APP_PORTAL -.authenticates via.-> SEC_AAD
+    %% ===== DEPENDENCIES =====
+    appDevCenter -.->|depends on| techCompute
+    appDevCenter -.->|depends on| techNetwork
+    appPortal -.->|authenticates via| secAAD
 
-    classDef business fill:#3498DB,stroke:#2980B9,color:#FFF
-    classDef application fill:#2ECC71,stroke:#27AE60,color:#FFF
-    classDef data fill:#F39C12,stroke:#D68910,color:#000
-    classDef technology fill:#E74C3C,stroke:#C0392B,color:#FFF
-    classDef security fill:#9B59B6,stroke:#7D3C98,color:#FFF
+    %% ===== STYLING: NODE CLASSES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF,stroke-width:2px
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF,stroke-width:2px
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000,stroke-width:2px
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF,stroke-width:2px
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-width:2px,stroke-dasharray:5 5
 
-    class BUS_SVC,BUS_CAP,BUS_PROC business
-    class APP_DEVCENTER,APP_PORTAL,APP_API application
-    class DATA_KEYVAULT,DATA_CONFIG,DATA_LOGS data
-    class TECH_COMPUTE,TECH_NETWORK,TECH_STORAGE technology
-    class SEC_AAD,SEC_RBAC,SEC_IDENTITY security
+    %% ===== APPLY NODE CLASSES =====
+    class busSvc,busCap,busProc primary
+    class appDevCenter,appPortal,appAPI secondary
+    class dataKeyVault,dataConfig,dataLogs datastore
+    class techCompute,techNetwork,techStorage failed
+    class secAAD,secRBAC,secIdentity external
+
+    %% ===== STYLING: SUBGRAPHS =====
+    style businessLayer fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style applicationLayer fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style dataLayer fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style technologyLayer fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style securityLayer fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 ### 8.2 Upstream Dependencies (External)
@@ -1573,58 +1673,80 @@ graph TB
 **Components Dependent on Business Services:**
 
 ```mermaid
-graph TB
-    subgraph "Business Services"
-        DEV_ENV_SVC[Developer Environment Service]
-        PROJ_SVC[Project Management Service]
-        CATALOG_SVC[Catalog Management Service]
-        ACCESS_SVC[Access Management Service]
+---
+title: Downstream Dependencies - Component Relationships
+---
+flowchart TB
+    %% ===== BUSINESS SERVICES =====
+    subgraph businessServices["Business Services"]
+        direction TB
+        devEnvSvc["Developer Environment Service"]
+        projSvc["Project Management Service"]
+        catalogSvc["Catalog Management Service"]
+        accessSvc["Access Management Service"]
     end
 
-    subgraph "Application Components (Downstream)"
-        APP_DC[DevCenter Resource]
-        APP_PROJ[Project Resources]
-        APP_POOL[DevBox Pools]
-        APP_NETCONN[Network Connections]
+    %% ===== APPLICATION COMPONENTS =====
+    subgraph applicationComponents["Application Components (Downstream)"]
+        direction TB
+        appDC["DevCenter Resource"]
+        appProj["Project Resources"]
+        appPool["DevBox Pools"]
+        appNetConn["Network Connections"]
     end
 
-    subgraph "Infrastructure Components (Downstream)"
-        INFRA_VNET[Virtual Networks]
-        INFRA_SUBNET[Subnets]
-        INFRA_NSG[Network Security Groups]
+    %% ===== INFRASTRUCTURE COMPONENTS =====
+    subgraph infrastructureComponents["Infrastructure Components (Downstream)"]
+        direction TB
+        infraVNet["Virtual Networks"]
+        infraSubnet["Subnets"]
+        infraNSG["Network Security Groups"]
     end
 
-    subgraph "Security Components (Downstream)"
-        SEC_KV[Key Vault]
-        SEC_MI[Managed Identities]
-        SEC_RBAC[RBAC Assignments]
+    %% ===== SECURITY COMPONENTS =====
+    subgraph securityComponents["Security Components (Downstream)"]
+        direction TB
+        secKV[("Key Vault")]
+        secMI["Managed Identities"]
+        secRBAC["RBAC Assignments"]
     end
 
-    DEV_ENV_SVC -->|creates| APP_DC
-    DEV_ENV_SVC -->|provisions| APP_POOL
-    DEV_ENV_SVC -->|uses secrets from| SEC_KV
+    %% ===== SERVICE TO APPLICATION =====
+    devEnvSvc -->|creates| appDC
+    devEnvSvc -->|provisions| appPool
+    devEnvSvc -->|uses secrets from| secKV
 
-    PROJ_SVC -->|creates| APP_PROJ
-    PROJ_SVC -->|configures| APP_NETCONN
-    PROJ_SVC -->|assigns| SEC_RBAC
+    projSvc -->|creates| appProj
+    projSvc -->|configures| appNetConn
+    projSvc -->|assigns| secRBAC
 
-    CATALOG_SVC -->|syncs to| APP_DC
+    catalogSvc -->|syncs to| appDC
 
-    ACCESS_SVC -->|manages| SEC_MI
-    ACCESS_SVC -->|controls| SEC_RBAC
+    accessSvc -->|manages| secMI
+    accessSvc -->|controls| secRBAC
 
-    APP_NETCONN -->|attaches to| INFRA_VNET
-    APP_POOL -->|deploys to| INFRA_SUBNET
+    %% ===== APPLICATION TO INFRASTRUCTURE =====
+    appNetConn -->|attaches to| infraVNet
+    appPool -->|deploys to| infraSubnet
 
-    classDef businessService fill:#3498DB,stroke:#2980B9,color:#FFF
-    classDef application fill:#2ECC71,stroke:#27AE60,color:#FFF
-    classDef infrastructure fill:#E67E22,stroke:#CA6F1E,color:#FFF
-    classDef security fill:#9B59B6,stroke:#7D3C98,color:#FFF
+    %% ===== STYLING: NODE CLASSES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF,stroke-width:2px
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF,stroke-width:2px
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000,stroke-width:2px
+    classDef failed fill:#F44336,stroke:#C62828,color:#FFFFFF,stroke-width:2px
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-width:2px
 
-    class DEV_ENV_SVC,PROJ_SVC,CATALOG_SVC,ACCESS_SVC businessService
-    class APP_DC,APP_PROJ,APP_POOL,APP_NETCONN application
-    class INFRA_VNET,INFRA_SUBNET,INFRA_NSG infrastructure
-    class SEC_KV,SEC_MI,SEC_RBAC security
+    %% ===== APPLY NODE CLASSES =====
+    class devEnvSvc,projSvc,catalogSvc,accessSvc primary
+    class appDC,appProj,appPool,appNetConn secondary
+    class infraVNet,infraSubnet,infraNSG datastore
+    class secKV,secMI,secRBAC external
+
+    %% ===== STYLING: SUBGRAPHS =====
+    style businessServices fill:#EEF2FF,stroke:#4F46E5,stroke-width:2px
+    style applicationComponents fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style infrastructureComponents fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style securityComponents fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
 ```
 
 **Dependent Application Components:**
