@@ -125,6 +125,7 @@ flowchart TB
     classDef accent fill:#FFF3E0,stroke:#424242,stroke-width:2px,color:#212121
 
     subgraph BC["Business Capabilities"]
+        direction TB
         BC1["Developer Workstation Management"]
         BC2["Environment Provisioning"]
         BC3["Security & Access Control"]
@@ -132,6 +133,7 @@ flowchart TB
     end
 
     subgraph BP["Business Processes"]
+        direction TB
         BP1["Environment Setup Process"]
         BP2["User Onboarding Process"]
         BP3["Deployment Process"]
@@ -139,12 +141,14 @@ flowchart TB
     end
 
     subgraph ORG["Organization"]
+        direction TB
         ORG1["Contoso Enterprise"]
         ORG2["Platforms Division"]
         ORG3["DevExP Team"]
     end
 
     subgraph ACT["Business Actors"]
+        direction TB
         ACT1["Platform Engineering Team"]
         ACT2["eShop Developers"]
         ACT3["Backend Engineers"]
@@ -162,6 +166,11 @@ flowchart TB
     class BP level2
     class ORG level3
     class ACT accent
+
+    style BC fill:#E3F2FD,stroke:#424242,stroke-width:2px
+    style BP fill:#F3E5F5,stroke:#424242,stroke-width:2px
+    style ORG fill:#E8F5E9,stroke:#424242,stroke-width:2px
+    style ACT fill:#FFF3E0,stroke:#424242,stroke-width:2px
 ```
 
 **Sources**:
@@ -212,10 +221,12 @@ flowchart TB
     classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
 
     subgraph CORE["Core Business Capabilities"]
+        direction TB
         CAP1["Developer Experience Platform"]
     end
 
     subgraph SUPPORT["Supporting Capabilities"]
+        direction TB
         CAP2["Workstation Provisioning"]
         CAP3["Environment Management"]
         CAP4["Catalog Management"]
@@ -233,6 +244,9 @@ flowchart TB
 
     class CORE level1
     class SUPPORT level2
+
+    style CORE fill:#E3F2FD,stroke:#424242,stroke-width:2px
+    style SUPPORT fill:#F3E5F5,stroke:#424242,stroke-width:2px
 ```
 
 ### Developer Experience Platform Capability
@@ -395,18 +409,21 @@ flowchart TB
     classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
 
     subgraph SETUP["Setup Processes"]
+        direction TB
         P1["Environment Initialization"]
         P2["Azure Authentication"]
         P3["Source Control Integration"]
     end
 
     subgraph DEPLOY["Deployment Processes"]
+        direction TB
         P4["Infrastructure Provisioning"]
         P5["Security Configuration"]
         P6["Workload Deployment"]
     end
 
     subgraph OPS["Operations Processes"]
+        direction TB
         P7["User Role Assignment"]
         P8["Cleanup and Teardown"]
     end
@@ -422,6 +439,10 @@ flowchart TB
     class SETUP level1
     class DEPLOY level2
     class OPS level3
+
+    style SETUP fill:#E3F2FD,stroke:#424242,stroke-width:2px
+    style DEPLOY fill:#F3E5F5,stroke:#424242,stroke-width:2px
+    style OPS fill:#E8F5E9,stroke:#424242,stroke-width:2px
 ```
 
 ### Environment Initialization Process
@@ -597,18 +618,22 @@ flowchart TB
     classDef accent fill:#FFF3E0,stroke:#424242,stroke-width:2px,color:#212121
 
     subgraph ENT["Enterprise"]
+        direction TB
         E1["Contoso Enterprise"]
     end
 
     subgraph DIV["Division"]
+        direction TB
         D1["Platforms Division"]
     end
 
     subgraph TEAM["Team"]
+        direction TB
         T1["DevExP Team"]
     end
 
     subgraph PROJ["Projects"]
+        direction TB
         PRJ1["ContosoDevExp-DevBox Project"]
         PRJ2["eShop Project"]
     end
@@ -622,6 +647,11 @@ flowchart TB
     class DIV level2
     class TEAM level3
     class PROJ accent
+
+    style ENT fill:#E3F2FD,stroke:#424242,stroke-width:2px
+    style DIV fill:#F3E5F5,stroke:#424242,stroke-width:2px
+    style TEAM fill:#E8F5E9,stroke:#424242,stroke-width:2px
+    style PROJ fill:#FFF3E0,stroke:#424242,stroke-width:2px
 ```
 
 ### Contoso Enterprise
@@ -731,17 +761,20 @@ flowchart TB
     classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
 
     subgraph ADMIN["Administrative Actors"]
+        direction TB
         A1["Platform Engineering Team"]
         A2["Dev Managers"]
     end
 
     subgraph DEV["Developer Actors"]
+        direction TB
         A3["eShop Developers"]
         A4["Backend Engineers"]
         A5["Frontend Engineers"]
     end
 
     subgraph SYS["System Actors"]
+        direction TB
         A6["DevCenter Service Identity"]
         A7["Project Service Identity"]
     end
@@ -755,6 +788,10 @@ flowchart TB
     class ADMIN level1
     class DEV level2
     class SYS level3
+
+    style ADMIN fill:#E3F2FD,stroke:#424242,stroke-width:2px
+    style DEV fill:#F3E5F5,stroke:#424242,stroke-width:2px
+    style SYS fill:#E8F5E9,stroke:#424242,stroke-width:2px
 ```
 
 ### Platform Engineering Team
