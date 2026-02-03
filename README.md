@@ -31,6 +31,7 @@
   - [CI/CD Deployment](#cicd-deployment)
 - [Troubleshooting](#troubleshooting)
 - [FAQ](#faq)
+- [See Also](#see-also)
 - [License](#license)
 - [Authors](#authors)
 - [Acknowledgments](#acknowledgments)
@@ -57,9 +58,8 @@ identity management. The modular Bicep architecture ensures maintainability and
 extensibility, while the dual PowerShell/Bash setup scripts provide
 cross-platform deployment capabilities.
 
-Target audience includes DevOps engineers, platform teams, and enterprise
-architects responsible for developer experience infrastructure in Azure
-environments.
+**Target Audience**: DevOps engineers, platform teams, and enterprise architects
+responsible for developer experience infrastructure in Azure environments.
 
 ---
 
@@ -274,7 +274,7 @@ Deploy a complete DevCenter environment with default settings:
 #### Scenario 1: Multi-Project DevCenter with Custom Pools
 
 1. Edit
-   [`infra/settings/workload/devcenter.yaml`](infra/settings/workload/devcenter.yaml):
+   [infra/settings/workload/devcenter.yaml](infra/settings/workload/devcenter.yaml):
 
 ```yaml
 projects:
@@ -286,7 +286,7 @@ projects:
         vmSku: 'general_i_8c32gb256ssd_v2'
 ```
 
-2. Deploy:
+1. Deploy:
 
 ```powershell
 .\setUp.ps1 -EnvName "multi-project" -SourceControl "github"
@@ -306,6 +306,9 @@ The script will:
 - Deploy DevCenter with ADO catalog integration
 
 #### Scenario 3: Complete Environment Cleanup
+
+> ⚠️ **Warning**: This operation permanently deletes all resources. Ensure you
+> have backups before proceeding.
 
 ```powershell
 .\cleanSetUp.ps1 `
@@ -339,10 +342,10 @@ Provisions Azure DevCenter environment with all supporting infrastructure.
 **Exit Codes:**
 
 | Exit Code | Meaning                                                       |
-| :-------: | :------------------------------------------------------------ |
-|    `0`    | Success                                                       |
-|    `1`    | General error (authentication, validation, deployment failed) |
-|   `130`   | User interruption (Ctrl+C)                                    |
+| --------: | :------------------------------------------------------------ |
+|       `0` | Success                                                       |
+|       `1` | General error (authentication, validation, deployment failed) |
+|     `130` | User interruption (Ctrl+C)                                    |
 
 **Example:**
 
@@ -393,7 +396,7 @@ Orchestrates complete teardown of DevExp-DevBox infrastructure.
 #### Configuration Files
 
 **DevCenter Settings**
-([`infra/settings/workload/devcenter.yaml`](infra/settings/workload/devcenter.yaml)):
+([infra/settings/workload/devcenter.yaml](infra/settings/workload/devcenter.yaml)):
 
 ```yaml
 name: 'mydevcenter'
@@ -415,7 +418,7 @@ projects:
 ```
 
 **Resource Organization**
-([`infra/settings/resourceOrganization/resourceOrganization.yaml`](infra/settings/resourceOrganization/resourceOrganization.yaml)):
+([infra/settings/resourceOrganization/resourceOrganization.yaml](infra/settings/resourceOrganization/resourceOrganization.yaml)):
 
 ```yaml
 workloadName: 'devexp'
@@ -434,7 +437,7 @@ landingZones:
 
 ## Project Structure
 
-```
+```text
 .
 ├── infra/                              # Infrastructure as Code
 │   ├── main.bicep                      # Root deployment template
@@ -503,12 +506,12 @@ az bicep install
 az bicep upgrade
 ```
 
-2. Install recommended VS Code extensions:
+1. Install recommended VS Code extensions:
    - **Azure Bicep** (`ms-azuretools.vscode-bicep`) - Bicep language support
    - **PowerShell** (`ms-vscode.powershell`) - PowerShell script editing
    - **YAML** (`redhat.vscode-yaml`) - YAML syntax validation
 
-3. Validate Bicep templates locally:
+1. Validate Bicep templates locally:
 
 ```bash
 az bicep build --file infra/main.bicep
@@ -633,8 +636,6 @@ az login
 az account show  # Verify active subscription
 ```
 
----
-
 #### Issue: "Failed to retrieve GitHub token"
 
 **Solution:**
@@ -643,8 +644,6 @@ az account show  # Verify active subscription
 gh auth login
 gh auth status  # Verify authentication
 ```
-
----
 
 #### Issue: "Deployment failed with insufficient permissions"
 
@@ -657,8 +656,6 @@ gh auth status  # Verify authentication
 az role assignment list --assignee <your-user-id> --subscription <sub-id>
 ```
 
----
-
 #### Issue: "Resource group already exists"
 
 **Solution:** Use the cleanup script first:
@@ -666,8 +663,6 @@ az role assignment list --assignee <your-user-id> --subscription <sub-id>
 ```powershell
 .\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2" -AppDisplayName "MyApp" -GhSecretName "AZURE_CREDENTIALS"
 ```
-
----
 
 #### Issue: "Bicep compilation errors"
 
@@ -687,28 +682,33 @@ az bicep build --file infra/main.bicep
 
 ## FAQ
 
-**Q: Can I deploy to multiple regions simultaneously?**  
+**Q: Can I deploy to multiple regions simultaneously?**
+
 A: Yes. Edit
-[`infra/settings/resourceOrganization/resourceOrganization.yaml`](infra/settings/resourceOrganization/resourceOrganization.yaml)
+[infra/settings/resourceOrganization/resourceOrganization.yaml](infra/settings/resourceOrganization/resourceOrganization.yaml)
 to specify multiple locations, or run the setup script multiple times with
 different `-EnvName` values.
 
-**Q: How do I add a new project to an existing DevCenter?**  
+**Q: How do I add a new project to an existing DevCenter?**
+
 A: Edit
-[`infra/settings/workload/devcenter.yaml`](infra/settings/workload/devcenter.yaml),
+[infra/settings/workload/devcenter.yaml](infra/settings/workload/devcenter.yaml),
 add your project definition to the `projects` array, then re-run `azd up`.
 
 **Q: What's the difference between environment definitions and image
-definitions?**  
+definitions?**
+
 A: Environment definitions create Azure resources (VMs, storage, etc.) via
 Bicep/ARM templates. Image definitions define pre-configured VM images for
 DevBox pools.
 
-**Q: Can I use private GitHub repositories for catalogs?**  
+**Q: Can I use private GitHub repositories for catalogs?**
+
 A: Yes. The setup script stores GitHub PAT in Key Vault and configures the
 catalog with authentication. Ensure the PAT has `repo` scope.
 
-**Q: How do I update DevBox images?**  
+**Q: How do I update DevBox images?**
+
 A: Update the catalog repository (referenced in
 [devcenter.yaml](infra/settings/workload/devcenter.yaml)), and the DevCenter
 will sync automatically based on `catalogItemSyncEnableStatus` setting.
