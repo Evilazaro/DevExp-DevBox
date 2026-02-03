@@ -1361,8 +1361,6 @@ targets.
 
 ## Projects and Initiatives
 
-### Overview
-
 Projects within the TOGAF Business Architecture represent specific initiatives
 or workstreams that the organization undertakes. Projects consume business
 capabilities and are executed by organizational actors to deliver defined
@@ -1440,8 +1438,6 @@ environments and deployment capabilities for the eShop application team.
 ---
 
 ## Resource Groups and Landing Zones
-
-### Overview
 
 Resource groups and landing zones represent the organizational structure for
 Azure resources within the TOGAF framework. Landing zones provide standardized
@@ -1534,8 +1530,6 @@ workspace.
 ---
 
 ## Workstation Configurations
-
-### Overview
 
 Workstation configurations represent the standardized development environment
 specifications for different engineering roles. These configurations are defined
