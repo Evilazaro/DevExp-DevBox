@@ -170,12 +170,12 @@ flowchart LR
     classDef start fill:#818CF8,stroke:#4F46E5,color:#FFFFFF,stroke-width:2px
     classDef process fill:#10B981,stroke:#059669,color:#FFFFFF,stroke-width:2px
     classDef decision fill:#F59E0B,stroke:#D97706,color:#000000,stroke-width:2px
-    classDef end fill:#EF4444,stroke:#DC2626,color:#FFFFFF,stroke-width:2px
+    classDef terminal fill:#EF4444,stroke:#DC2626,color:#FFFFFF,stroke-width:2px
 
     class START,READY start
     class PROVISION,CONFIGURE,CONNECT,MONITOR,ACTIVE,DEALLOCATE process
     class VALIDATE,SHUTDOWN,RESTART,DELETE decision
-    class REJECT,CLEANUP end
+    class REJECT,CLEANUP terminal
 ```
 
 **Process Performance Metrics:**
@@ -2998,11 +2998,11 @@ graph TB
 
 **Document Approval:**
 
-| Role                          | Name                   | Signature              | Date                   |
-| ----------------------------- | ---------------------- | ---------------------- | ---------------------- |
-| **Platform Engineering Lead** | ********\_\_\_******** | ********\_\_\_******** | ********\_\_\_******** |
-| **CTO / VP Engineering**      | ********\_\_\_******** | ********\_\_\_******** | ********\_\_\_******** |
-| **Enterprise Architect**      | ********\_\_\_******** | ********\_\_\_******** | ********\_\_\_******** |
+| Role                          | Name                           | Signature                      | Date                           |
+| ----------------------------- | ------------------------------ | ------------------------------ | ------------------------------ |
+| **Platform Engineering Lead** | **\*\*\*\***\_\_\_**\*\*\*\*** | **\*\*\*\***\_\_\_**\*\*\*\*** | **\*\*\*\***\_\_\_**\*\*\*\*** |
+| **CTO / VP Engineering**      | **\*\*\*\***\_\_\_**\*\*\*\*** | **\*\*\*\***\_\_\_**\*\*\*\*** | **\*\*\*\***\_\_\_**\*\*\*\*** |
+| **Enterprise Architect**      | **\*\*\*\***\_\_\_**\*\*\*\*** | **\*\*\*\***\_\_\_**\*\*\*\*** | **\*\*\*\***\_\_\_**\*\*\*\*** |
 
 ---
 
