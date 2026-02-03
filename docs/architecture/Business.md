@@ -1301,59 +1301,73 @@ flowchart LR
 Access to DevCenter resources must be granted through Azure RBAC roles assigned
 at appropriate scopes (Subscription, ResourceGroup, Project).
 
-**Policy Implementation:**
+**Policy Implementation**:
 
-- RBAC roles defined with explicit scope assignments
-- Azure AD groups used for team-based access
-- Managed identities for service-level authentication
+| Implementation Element | Description                             |
+| :--------------------- | :-------------------------------------- |
+| RBAC roles             | Defined with explicit scope assignments |
+| Azure AD groups        | Used for team-based access              |
+| Managed identities     | Used for service-level authentication   |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (roleAssignments section)
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+(roleAssignments section)
 
 ### Resource Tagging Policy
 
 All Azure resources must include standardized tags for governance, cost
 management, and operational tracking.
 
-**Required Tags:**
+**Required Tags**:
 
-- environment: Deployment environment identifier
-- division: Organizational division
-- team: Responsible team
-- project: Project name for cost allocation
-- costCenter: Financial tracking designation
-- owner: Resource ownership
-- landingZone: Azure landing zone classification
-- resources: Resource type identifier
+| Tag           | Purpose                           |
+| :------------ | :-------------------------------- |
+| `environment` | Deployment environment identifier |
+| `division`    | Organizational division           |
+| `team`        | Responsible team                  |
+| `project`     | Project name for cost allocation  |
+| `costCenter`  | Financial tracking designation    |
+| `owner`       | Resource ownership                |
+| `landingZone` | Azure landing zone classification |
+| `resources`   | Resource type identifier          |
 
-**Source:** `infra/settings/resourceOrganization/azureResources.yaml`,
-`infra/settings/workload/devcenter.yaml` (tags sections)
+**Sources**:
+
+- [azureResources.yaml](../../infra/settings/resourceOrganization/azureResources.yaml)
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (tags sections)
 
 ### Secret Protection Policy
 
 Sensitive credentials must be stored in Azure Key Vault with purge protection
 and soft delete enabled.
 
-**Policy Settings:**
+**Policy Settings**:
 
-- Purge Protection: Enabled
-- Soft Delete: Enabled
-- Retention Period: 7 days
-- Authorization: RBAC-based
+| Setting          | Value      |
+| :--------------- | :--------- |
+| Purge Protection | ✅ Enabled |
+| Soft Delete      | ✅ Enabled |
+| Retention Period | 7 days     |
+| Authorization    | RBAC-based |
 
-**Source:** `infra/settings/security/security.yaml`
+**Source**: [security.yaml](../../infra/settings/security/security.yaml)
 
 ### Environment Lifecycle Policy
 
-Development environments must align with software development lifecycle stages
-with appropriate deployment targets.
+Development environments must align with SDLC stages with appropriate deployment
+targets.
 
-**Defined Environments:**
+**Defined Environments**:
 
-- dev: Active development
-- staging: Pre-production integration
-- UAT: User acceptance testing
+| Environment | Purpose                    |
+| :---------- | :------------------------- |
+| `dev`       | Active development         |
+| `staging`   | Pre-production integration |
+| `UAT`       | User acceptance testing    |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (environmentTypes section)
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+(environmentTypes section)
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
@@ -1405,27 +1419,35 @@ flowchart TB
 A development project within the ContosoDevExp DevCenter that provides Dev Box
 environments and deployment capabilities for the eShop application team.
 
-**Project Attributes:**
+**Project Attributes**:
 
-- Name: eShop
-- Description: "eShop project."
-- Division: Platforms
-- Team: DevExP
-- Cost Center: IT
+| Attribute   | Value         |
+| :---------- | :------------ |
+| Name        | eShop         |
+| Description | eShop project |
+| Division    | Platforms     |
+| Team        | DevExP        |
+| Cost Center | IT            |
 
-**Project Components:**
+**Project Components**:
 
-- Network: eShop VNet (10.0.0.0/16 with eShop-subnet 10.0.1.0/24)
-- Developer Pools: backend-engineer, frontend-engineer
-- Environment Types: dev, staging, UAT
-- Catalogs: environments (environment definitions), devboxImages (image
-  definitions)
+| Component         | Details                                                    |
+| :---------------- | :--------------------------------------------------------- |
+| Network           | eShop VNet (`10.0.0.0/16` with `eShop-subnet 10.0.1.0/24`) |
+| Developer Pools   | `backend-engineer`, `frontend-engineer`                    |
+| Environment Types | `dev`, `staging`, `UAT`                                    |
+| Catalogs          | `environments`, `devboxImages`                             |
 
-**Assigned Team:**
+**Assigned Team**:
 
-- Azure AD Group: "eShop Developers" (9d42a792-2d74-441d-8bcb-71009371725f)
+| Group Name       | Azure AD Group ID                      |
+| :--------------- | :------------------------------------- |
+| eShop Developers | `9d42a792-2d74-441d-8bcb-71009371725f` |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 86-184)
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+(lines 86-184)
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
@@ -1440,7 +1462,11 @@ Framework guidance. This organization enables governance, cost management, and
 operational clarity.
 
 The ContosoDevExp solution organizes resources into three distinct landing zones
-aligned with Azure Landing Zone principles: Workload, Security, and Monitoring.
+aligned with Azure Landing Zone principles:
+
+- **Workload**: Primary application resources
+- **Security**: Security-related resources
+- **Monitoring**: Observability resources
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
@@ -1475,33 +1501,47 @@ flowchart TB
 Contains the primary DevCenter workload resources including the DevCenter
 instance, projects, and pools.
 
-**Resource Group:** devexp-workload **Description:** Main application resources
-for Dev Box workloads **Landing Zone Type:** Workload
+| Attribute         | Value                                            |
+| :---------------- | :----------------------------------------------- |
+| Resource Group    | `devexp-workload`                                |
+| Description       | Main application resources for Dev Box workloads |
+| Landing Zone Type | Workload                                         |
 
-**Source:** `infra/settings/resourceOrganization/azureResources.yaml` (workload
-section)
+**Source**:
+[azureResources.yaml](../../infra/settings/resourceOrganization/azureResources.yaml)
+(workload section)
 
 ### Security Landing Zone
 
 Contains security-related resources including Azure Key Vault for secrets
 management.
 
-**Resource Group:** devexp-security **Description:** Security-related resources
-(Key Vaults, NSGs, Defender) **Landing Zone Type:** Workload
+| Attribute         | Value                                                   |
+| :---------------- | :------------------------------------------------------ |
+| Resource Group    | `devexp-security`                                       |
+| Description       | Security-related resources (Key Vaults, NSGs, Defender) |
+| Landing Zone Type | Workload                                                |
 
-**Source:** `infra/settings/resourceOrganization/azureResources.yaml` (security
-section)
+**Source**:
+[azureResources.yaml](../../infra/settings/resourceOrganization/azureResources.yaml)
+(security section)
 
 ### Monitoring Landing Zone
 
 Contains monitoring and observability resources including Log Analytics
 workspace.
 
-**Resource Group:** devexp-monitoring **Description:** Monitoring and
-observability resources **Landing Zone Type:** Workload
+| Attribute         | Value                                  |
+| :---------------- | :------------------------------------- |
+| Resource Group    | `devexp-monitoring`                    |
+| Description       | Monitoring and observability resources |
+| Landing Zone Type | Workload                               |
 
-**Source:** `infra/settings/resourceOrganization/azureResources.yaml`
+**Source**:
+[azureResources.yaml](../../infra/settings/resourceOrganization/azureResources.yaml)
 (monitoring section)
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
@@ -1511,7 +1551,7 @@ observability resources **Landing Zone Type:** Workload
 
 Workstation configurations represent the standardized development environment
 specifications for different engineering roles. These configurations are defined
-through DSC (Desired State Configuration) files that specify the tools,
+through Desired State Configuration (DSC) files that specify the tools,
 software, and settings required for each role.
 
 The ContosoDevExp solution provides multiple workstation configuration profiles
