@@ -1,5 +1,77 @@
 # Business Architecture
 
+---
+
+> 📋 **Document Information**:
+>
+> - **Last Updated**: 2026-02-02
+> - **Owner**: DevExP Team
+> - **Status**: Active
+
+---
+
+## Table of Contents
+
+- [Executive Summary](#executive-summary)
+  - [Overview](#overview)
+  - [Architecture Landscape](#architecture-landscape)
+- [Business Capabilities](#business-capabilities)
+  - [Developer Experience Platform Capability](#developer-experience-platform-capability)
+  - [Workstation Provisioning Capability](#workstation-provisioning-capability)
+  - [Environment Management Capability](#environment-management-capability)
+  - [Catalog Management Capability](#catalog-management-capability)
+  - [Identity and Access Management Capability](#identity-and-access-management-capability)
+  - [Security Management Capability](#security-management-capability)
+  - [Monitoring and Observability Capability](#monitoring-and-observability-capability)
+- [Business Processes](#business-processes)
+  - [Environment Initialization Process](#environment-initialization-process)
+  - [Azure Deployment Process](#azure-deployment-process)
+  - [Continuous Integration Process](#continuous-integration-process)
+  - [User Role Assignment Process](#user-role-assignment-process)
+  - [Cleanup and Teardown Process](#cleanup-and-teardown-process)
+- [Organization Structure](#organization-structure)
+  - [Contoso Enterprise](#contoso-enterprise)
+  - [Platforms Division](#platforms-division)
+  - [DevExP Team](#devexp-team)
+  - [IT Cost Center](#it-cost-center)
+- [Business Actors](#business-actors)
+  - [Platform Engineering Team](#platform-engineering-team)
+  - [eShop Developers](#eshop-developers)
+  - [Backend Engineers](#backend-engineers)
+  - [Frontend Engineers](#frontend-engineers)
+  - [DevCenter Service Identity](#devcenter-service-identity)
+  - [Project Service Identity](#project-service-identity)
+- [Business Services](#business-services)
+  - [Dev Box Provisioning Service](#dev-box-provisioning-service)
+  - [Environment Deployment Service](#environment-deployment-service)
+  - [Catalog Synchronization Service](#catalog-synchronization-service)
+  - [Identity Management Service](#identity-management-service)
+  - [Secrets Management Service](#secrets-management-service)
+  - [Monitoring and Observability Service](#monitoring-and-observability-service)
+  - [Network Connectivity Service](#network-connectivity-service)
+- [Business Goals and Objectives](#business-goals-and-objectives)
+  - [Developer Productivity Enhancement](#developer-productivity-enhancement)
+  - [Environment Standardization](#environment-standardization)
+  - [Security and Compliance](#security-and-compliance)
+- [Business Policies and Rules](#business-policies-and-rules)
+  - [Role-Based Access Control Policy](#role-based-access-control-policy)
+  - [Resource Tagging Policy](#resource-tagging-policy)
+  - [Secret Protection Policy](#secret-protection-policy)
+  - [Environment Lifecycle Policy](#environment-lifecycle-policy)
+- [Projects and Initiatives](#projects-and-initiatives)
+  - [eShop Project](#eshop-project)
+- [Resource Groups and Landing Zones](#resource-groups-and-landing-zones)
+  - [Workload Landing Zone](#workload-landing-zone)
+  - [Security Landing Zone](#security-landing-zone)
+  - [Monitoring Landing Zone](#monitoring-landing-zone)
+- [Workstation Configurations](#workstation-configurations)
+  - [Common Configuration](#common-configuration)
+  - [Backend Engineer Configuration](#backend-engineer-configuration)
+  - [Frontend Engineer Configuration](#frontend-engineer-configuration)
+- [References](#references)
+
+---
+
 ## Executive Summary
 
 ### Overview
