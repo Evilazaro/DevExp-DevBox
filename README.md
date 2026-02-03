@@ -9,6 +9,34 @@
 
 ---
 
+## Table of Contents
+
+- [Description](#description)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Quick Start](#quick-start)
+  - [Common Scenarios](#common-scenarios)
+  - [CLI Reference](#cli-reference)
+  - [Configuration](#configuration)
+- [Project Structure](#project-structure)
+- [Development](#development)
+  - [Setting Up Development Environment](#setting-up-development-environment)
+  - [Testing](#testing)
+  - [Building](#building)
+- [Deployment](#deployment)
+  - [Manual Deployment via Azure CLI](#manual-deployment-via-azure-cli)
+  - [Deployment via Azure Developer CLI](#deployment-via-azure-developer-cli-recommended)
+  - [CI/CD Deployment](#cicd-deployment)
+- [Troubleshooting](#troubleshooting)
+- [FAQ](#faq)
+- [License](#license)
+- [Authors](#authors)
+- [Acknowledgments](#acknowledgments)
+
+---
+
 ## Description
 
 **DevExp-DevBox** is an enterprise-grade Infrastructure as Code (IaC) solution
@@ -120,25 +148,36 @@ flowchart TB
 
 ## Prerequisites
 
+> ℹ️ **Note**: Ensure all requirements are met before starting the installation
+> process.
+
+### Software Requirements
+
 | Requirement               | Version | Purpose                                 |
-| ------------------------- | ------- | --------------------------------------- |
+| :------------------------ | :-----: | :-------------------------------------- |
 | Azure CLI                 | Latest  | Azure resource management               |
 | Azure Developer CLI (azd) | Latest  | Infrastructure provisioning             |
-| PowerShell                | 5.1+    | Windows automation (Windows users)      |
-| Bash                      | 4.0+    | Unix automation (Linux/macOS users)     |
+| PowerShell                |  5.1+   | Windows automation (Windows users)      |
+| Bash                      |  4.0+   | Unix automation (Linux/macOS users)     |
 | Azure Subscription        | Active  | Resource deployment target              |
 | GitHub CLI                | Latest  | GitHub integration (if using GitHub)    |
 | Azure DevOps CLI          | Latest  | ADO integration (if using Azure DevOps) |
 
-**Required Azure Permissions:**
+### Required Azure Permissions
 
-- Contributor role on target subscription
-- User Access Administrator role (for RBAC assignments)
+> 🔒 **Security**: The following permissions are required to deploy resources
+> and configure security:
+
+- **Contributor** role on target subscription
+- **User Access Administrator** role (for RBAC assignments)
 - Ability to create service principals and managed identities
 
 ---
 
 ## Installation
+
+> ⏱️ **Performance**: The complete installation takes approximately 15-20
+> minutes depending on Azure region and resource provisioning time.
 
 ### 1. Clone the Repository
 
@@ -153,6 +192,9 @@ cd DevExp-DevBox
 az login
 az account set --subscription <subscription-id>
 ```
+
+> ✅ **Success**: After successful authentication, you should see your
+> subscription details displayed in the terminal.
 
 ### 3. Authenticate with Source Control
 
@@ -169,16 +211,19 @@ az extension add --name azure-devops
 az devops configure --defaults organization=https://dev.azure.com/<your-org>
 ```
 
+> 💡 **Tip**: Your authentication token will be stored securely in Azure Key
+> Vault during deployment.
+
 ### 4. Configure Environment Settings
 
 Review and customize the configuration files in
-[`infra/settings/`](infra/settings/):
+[infra/settings/](infra/settings/):
 
-- [`workload/devcenter.yaml`](infra/settings/workload/devcenter.yaml) -
-  DevCenter configuration
-- [`resourceOrganization/resourceOrganization.yaml`](infra/settings/resourceOrganization/resourceOrganization.yaml) -
+- [workload/devcenter.yaml](infra/settings/workload/devcenter.yaml) - DevCenter
+  configuration
+- [resourceOrganization/resourceOrganization.yaml](infra/settings/resourceOrganization/resourceOrganization.yaml) -
   Resource group naming
-- [`security/security.yaml`](infra/settings/security/security.yaml) - Security
+- [security/security.yaml](infra/settings/security/security.yaml) - Security
   settings
 
 ### 5. Run Setup Script
@@ -203,7 +248,8 @@ azd env get-values
 az devcenter admin show --name <devcenter-name> --resource-group <rg-name>
 ```
 
-**Expected output:** DevCenter resource details with status "Succeeded"
+> ✅ **Success**: The deployment is complete when you see DevCenter resource
+> details with `provisioningState: "Succeeded"`.
 
 ---
 
@@ -285,16 +331,18 @@ Provisions Azure DevCenter environment with all supporting infrastructure.
 **Parameters:**
 
 | Parameter        | Alias | Required | Description                                   |
-| ---------------- | ----- | -------- | --------------------------------------------- |
-| `-EnvName`       | `-e`  | Yes      | Environment name (e.g., "dev", "prod")        |
-| `-SourceControl` | `-s`  | Yes      | Source control platform: "github" or "adogit" |
-| `-Help`          | `-h`  | No       | Display help message                          |
+| :--------------- | :---: | :------: | :-------------------------------------------- |
+| `-EnvName`       | `-e`  |   Yes    | Environment name (e.g., `dev`, `prod`)        |
+| `-SourceControl` | `-s`  |   Yes    | Source control platform: `github` or `adogit` |
+| `-Help`          | `-h`  |    No    | Display help message                          |
 
 **Exit Codes:**
 
-- `0` - Success
-- `1` - General error (authentication, validation, or deployment failure)
-- `130` - User interruption (Ctrl+C)
+| Exit Code | Meaning                                                       |
+| :-------: | :------------------------------------------------------------ |
+|    `0`    | Success                                                       |
+|    `1`    | General error (authentication, validation, deployment failed) |
+|   `130`   | User interruption (Ctrl+C)                                    |
 
 **Example:**
 
@@ -304,16 +352,19 @@ Provisions Azure DevCenter environment with all supporting infrastructure.
 
 #### cleanSetUp.ps1
 
+> ⚠️ **Warning**: This command permanently deletes all resources, service
+> principals, and secrets. This action cannot be undone.
+
 Orchestrates complete teardown of DevExp-DevBox infrastructure.
 
 **Parameters:**
 
 | Parameter         | Required | Description                  |
-| ----------------- | -------- | ---------------------------- |
-| `-AppDisplayName` | Yes      | Azure AD application name    |
-| `-GhSecretName`   | Yes      | GitHub secret name to delete |
-| `-EnvName`        | Yes      | Environment name             |
-| `-Location`       | Yes      | Azure region                 |
+| :---------------- | :------: | :--------------------------- |
+| `-AppDisplayName` |   Yes    | Azure AD application name    |
+| `-GhSecretName`   |   Yes    | GitHub secret name to delete |
+| `-EnvName`        |   Yes    | Environment name             |
+| `-Location`       |   Yes    | Azure region                 |
 
 **Example:**
 
@@ -329,14 +380,15 @@ Orchestrates complete teardown of DevExp-DevBox infrastructure.
 
 #### Environment Variables
 
-The setup scripts manage these environment variables automatically:
+> ℹ️ **Note**: The setup scripts manage these environment variables
+> automatically. Manual configuration is not required.
 
-| Variable                       | Description                               | Set By                                                                                                         |
-| ------------------------------ | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `AZURE_DEVOPS_EXT_PAT`         | Azure DevOps personal access token        | [`setUp.ps1`](setUp.ps1) / [`setUp.sh`](setUp.sh)                                                              |
-| `KEY_VAULT_SECRET`             | Secret identifier for repo authentication | [`setUp.ps1`](setUp.ps1)                                                                                       |
-| `SOURCE_CONTROL_PLATFORM`      | Selected platform (github/adogit)         | [`setUp.ps1`](setUp.ps1)                                                                                       |
-| `WINGET_DISABLE_INTERACTIVITY` | Non-interactive winget mode               | [`.configuration/devcenter/workloads/winget-update.ps1`](.configuration/devcenter/workloads/winget-update.ps1) |
+| Variable                       | Description                               | Set By                                                                                                       |
+| :----------------------------- | :---------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
+| `AZURE_DEVOPS_EXT_PAT`         | Azure DevOps personal access token        | [setUp.ps1](setUp.ps1) / [setUp.sh](setUp.sh)                                                                |
+| `KEY_VAULT_SECRET`             | Secret identifier for repo authentication | [setUp.ps1](setUp.ps1)                                                                                       |
+| `SOURCE_CONTROL_PLATFORM`      | Selected platform (github/adogit)         | [setUp.ps1](setUp.ps1)                                                                                       |
+| `WINGET_DISABLE_INTERACTIVITY` | Non-interactive winget mode               | [.configuration/devcenter/workloads/winget-update.ps1](.configuration/devcenter/workloads/winget-update.ps1) |
 
 #### Configuration Files
 
@@ -425,16 +477,22 @@ landingZones:
 
 **Key Directories:**
 
-| Path                                       | Purpose                                   |
-| ------------------------------------------ | ----------------------------------------- |
-| [`infra/`](infra/)                         | Bicep templates and configuration files   |
-| [`src/`](src/)                             | Reusable Bicep modules organized by layer |
-| [`.configuration/`](.configuration/)       | Automation scripts and setup utilities    |
-| [`.github/workflows/`](.github/workflows/) | CI/CD pipeline definitions                |
+| Path                                     | Purpose                                   |
+| :--------------------------------------- | :---------------------------------------- |
+| [infra/](infra/)                         | Bicep templates and configuration files   |
+| [src/](src/)                             | Reusable Bicep modules organized by layer |
+| [.configuration/](.configuration/)       | Automation scripts and setup utilities    |
+| [.github/workflows/](.github/workflows/) | CI/CD pipeline definitions                |
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
 ## Development
+
+> 💡 **Tip**: Use Visual Studio Code with the recommended extensions for the
+> best development experience with syntax highlighting, IntelliSense, and
+> validation.
 
 ### Setting Up Development Environment
 
@@ -446,15 +504,18 @@ az bicep upgrade
 ```
 
 2. Install recommended VS Code extensions:
-   - Azure Bicep (ms-azuretools.vscode-bicep)
-   - PowerShell (ms-vscode.powershell)
-   - YAML (redhat.vscode-yaml)
+   - **Azure Bicep** (`ms-azuretools.vscode-bicep`) - Bicep language support
+   - **PowerShell** (`ms-vscode.powershell`) - PowerShell script editing
+   - **YAML** (`redhat.vscode-yaml`) - YAML syntax validation
 
 3. Validate Bicep templates locally:
 
 ```bash
 az bicep build --file infra/main.bicep
 ```
+
+> ✅ **Success**: If the command completes without errors, your Bicep template
+> is syntactically correct.
 
 ### Testing
 
@@ -496,6 +557,9 @@ az bicep build --file infra/main.bicep --outfile dist/main.json
 
 ## Deployment
 
+> ℹ️ **Note**: Multiple deployment methods are available. The Azure Developer
+> CLI (azd) method is recommended for most scenarios.
+
 ### Manual Deployment via Azure CLI
 
 ```bash
@@ -511,6 +575,9 @@ az deployment sub create \
     --parameters envName=$ENV_NAME
 ```
 
+> ⏱️ **Performance**: Subscription-level deployments typically take 10-15
+> minutes to complete.
+
 ### Deployment via Azure Developer CLI (Recommended)
 
 ```bash
@@ -519,33 +586,45 @@ azd env new production
 azd up
 ```
 
+> 💡 **Tip**: The `azd up` command handles authentication, provisioning, and
+> deployment in a single step.
+
 ### CI/CD Deployment
 
 The repository includes GitHub Actions workflows:
 
-- **CI Pipeline** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) -
+- **CI Pipeline** ([.github/workflows/ci.yml](.github/workflows/ci.yml)) -
   Validates Bicep on pull requests
 - **Deploy Pipeline**
-  ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) - Deploys to
+  ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)) - Deploys to
   Azure on merge to main
 - **Release Pipeline**
-  ([`.github/workflows/release.yml`](.github/workflows/release.yml)) - Creates
+  ([.github/workflows/release.yml](.github/workflows/release.yml)) - Creates
   versioned releases
+
+> 🔒 **Security**: Configure these secrets in your GitHub repository settings
+> before enabling CI/CD pipelines.
 
 **Required GitHub Secrets:**
 
 | Secret                  | Description                          |
-| ----------------------- | ------------------------------------ |
+| :---------------------- | :----------------------------------- |
 | `AZURE_CREDENTIALS`     | Service principal credentials (JSON) |
 | `AZURE_SUBSCRIPTION_ID` | Target subscription ID               |
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
 ## Troubleshooting
 
+> 🔧 **Troubleshooting**: If you encounter issues not listed here, check the
+> [GitHub Issues](https://github.com/Evilazaro/DevExp-DevBox/issues) page or
+> create a new issue.
+
 ### Common Issues
 
-**Issue: "Not logged into Azure"**
+#### Issue: "Not logged into Azure"
 
 **Solution:**
 
@@ -556,7 +635,7 @@ az account show  # Verify active subscription
 
 ---
 
-**Issue: "Failed to retrieve GitHub token"**
+#### Issue: "Failed to retrieve GitHub token"
 
 **Solution:**
 
@@ -567,12 +646,12 @@ gh auth status  # Verify authentication
 
 ---
 
-**Issue: "Deployment failed with insufficient permissions"**
+#### Issue: "Deployment failed with insufficient permissions"
 
 **Solution:** Ensure your account has:
 
-- Contributor role on subscription
-- User Access Administrator role (for RBAC)
+- **Contributor** role on subscription
+- **User Access Administrator** role (for RBAC)
 
 ```bash
 az role assignment list --assignee <your-user-id> --subscription <sub-id>
@@ -580,7 +659,7 @@ az role assignment list --assignee <your-user-id> --subscription <sub-id>
 
 ---
 
-**Issue: "Resource group already exists"**
+#### Issue: "Resource group already exists"
 
 **Solution:** Use the cleanup script first:
 
@@ -590,7 +669,7 @@ az role assignment list --assignee <your-user-id> --subscription <sub-id>
 
 ---
 
-**Issue: "Bicep compilation errors"**
+#### Issue: "Bicep compilation errors"
 
 **Solution:**
 
@@ -601,6 +680,8 @@ az bicep upgrade
 # Validate specific file
 az bicep build --file infra/main.bicep
 ```
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
@@ -629,14 +710,25 @@ catalog with authentication. Ensure the PAT has `repo` scope.
 
 **Q: How do I update DevBox images?**  
 A: Update the catalog repository (referenced in
-[`devcenter.yaml`](infra/settings/workload/devcenter.yaml)), and the DevCenter
+[devcenter.yaml](infra/settings/workload/devcenter.yaml)), and the DevCenter
 will sync automatically based on `catalogItemSyncEnableStatus` setting.
+
+[↑ Back to Top](#table-of-contents)
+
+---
+
+## See Also
+
+- [Azure DevCenter Documentation](https://learn.microsoft.com/en-us/azure/dev-box/)
+- [Azure Bicep Documentation](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/)
+- [Azure Developer CLI Documentation](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/)
+- [GitHub Actions for Azure](https://github.com/Azure/actions)
 
 ---
 
 ## License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE)
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE)
 file for details.
 
 ---
@@ -653,3 +745,7 @@ file for details.
 - Azure Bicep team for IaC tooling
 - Contributors to the Azure Developer CLI (azd)
 - Microsoft Learn documentation resources
+
+---
+
+[↑ Back to Top](#table-of-contents)
