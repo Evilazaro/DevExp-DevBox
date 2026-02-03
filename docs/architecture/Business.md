@@ -545,25 +545,39 @@ Each actor type has associated RBAC roles that define their permissions and
 capabilities within the platform.
 
 ```mermaid
-graph TB
-    subgraph "Administrative Actors"
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
+flowchart TB
+    %% Style Definitions
+    classDef default fill:#FAFAFA,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level1 fill:#E3F2FD,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
+
+    subgraph ADMIN["Administrative Actors"]
         A1["Platform Engineering Team"]
         A2["Dev Managers"]
     end
-    subgraph "Developer Actors"
+
+    subgraph DEV["Developer Actors"]
         A3["eShop Developers"]
         A4["Backend Engineers"]
         A5["Frontend Engineers"]
     end
-    subgraph "System Actors"
+
+    subgraph SYS["System Actors"]
         A6["DevCenter Service Identity"]
         A7["Project Service Identity"]
     end
+
     A1 -->|"manages"| A3
     A2 -->|"administers"| A4
     A2 -->|"administers"| A5
     A6 -->|"authenticates"| A4
     A7 -->|"authorizes"| A5
+
+    class ADMIN level1
+    class DEV level2
+    class SYS level3
 ```
 
 ### Platform Engineering Team
@@ -688,26 +702,40 @@ characterized by their purpose, consumers, and the underlying capabilities that
 enable them.
 
 ```mermaid
-graph LR
-    subgraph "Developer Services"
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
+flowchart LR
+    %% Style Definitions
+    classDef default fill:#FAFAFA,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level1 fill:#E3F2FD,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
+
+    subgraph DEVSVC["Developer Services"]
         S1["Dev Box Provisioning Service"]
         S2["Environment Deployment Service"]
         S3["Catalog Synchronization Service"]
     end
-    subgraph "Platform Services"
+
+    subgraph PLATSVC["Platform Services"]
         S4["Identity Management Service"]
         S5["Secrets Management Service"]
         S6["Monitoring Service"]
     end
-    subgraph "Infrastructure Services"
+
+    subgraph INFRASVC["Infrastructure Services"]
         S7["Network Connectivity Service"]
         S8["Resource Organization Service"]
     end
+
     S1 -->|"depends on"| S4
     S2 -->|"depends on"| S5
     S3 -->|"depends on"| S4
     S6 -->|"monitors"| S1
     S7 -->|"supports"| S1
+
+    class DEVSVC level1
+    class PLATSVC level2
+    class INFRASVC level3
 ```
 
 ### Dev Box Provisioning Service
@@ -854,22 +882,33 @@ codebase. While some interpretation is required, all documented goals trace to
 explicit statements within the source files.
 
 ```mermaid
-graph TB
-    subgraph "Strategic Goals"
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
+flowchart TB
+    %% Style Definitions
+    classDef default fill:#FAFAFA,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level1 fill:#E3F2FD,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
+
+    subgraph STRATEGIC["Strategic Goals"]
         G1["Developer Productivity"]
         G2["Environment Standardization"]
         G3["Security Compliance"]
     end
-    subgraph "Operational Objectives"
+
+    subgraph OPERATIONAL["Operational Objectives"]
         O1["Reduce Setup Time"]
         O2["Role-Specific Configurations"]
         O3["Centralized Secret Management"]
         O4["Automated Provisioning"]
     end
+
     G1 -->|"achieved through"| O1
     G1 -->|"achieved through"| O4
     G2 -->|"achieved through"| O2
     G3 -->|"achieved through"| O3
+
+    class STRATEGIC level1
+    class OPERATIONAL level2
 ```
 
 ### Developer Productivity Enhancement
@@ -936,22 +975,36 @@ The architecture model extracts policy definitions from schema constraints,
 validation rules, and explicitly documented best practices within the codebase.
 
 ```mermaid
-graph LR
-    subgraph "Access Control Policies"
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
+flowchart LR
+    %% Style Definitions
+    classDef default fill:#FAFAFA,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level1 fill:#E3F2FD,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
+
+    subgraph ACCESS["Access Control Policies"]
         P1["RBAC-Based Authorization"]
         P2["Least Privilege Principle"]
     end
-    subgraph "Resource Policies"
+
+    subgraph RESOURCE["Resource Policies"]
         P3["Tagging Standards"]
         P4["Naming Conventions"]
     end
-    subgraph "Security Policies"
+
+    subgraph SECURITY["Security Policies"]
         P5["Secret Protection"]
         P6["Soft Delete Retention"]
     end
+
     P1 -->|"enforces"| P2
     P3 -->|"enables"| P4
     P5 -->|"implements"| P6
+
+    class ACCESS level1
+    class RESOURCE level2
+    class SECURITY level3
 ```
 
 ### Role-Based Access Control Policy
@@ -1031,20 +1084,31 @@ initiative with its own configurations, team assignments, and deployment
 environments.
 
 ```mermaid
-graph TB
-    subgraph "DevCenter Projects"
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
+flowchart TB
+    %% Style Definitions
+    classDef default fill:#FAFAFA,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level1 fill:#E3F2FD,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
+
+    subgraph DCPROJ["DevCenter Projects"]
         PRJ1["eShop Project"]
     end
-    subgraph "Project Components"
+
+    subgraph COMP["Project Components"]
         C1["Network Configuration"]
         C2["Developer Pools"]
         C3["Environment Types"]
         C4["Catalogs"]
     end
+
     PRJ1 -->|"contains"| C1
     PRJ1 -->|"contains"| C2
     PRJ1 -->|"contains"| C3
     PRJ1 -->|"contains"| C4
+
+    class DCPROJ level1
+    class COMP level2
 ```
 
 ### eShop Project
@@ -1090,20 +1154,31 @@ The ContosoDevExp solution organizes resources into three distinct landing zones
 aligned with Azure Landing Zone principles: Workload, Security, and Monitoring.
 
 ```mermaid
-graph TB
-    subgraph "Landing Zones"
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
+flowchart TB
+    %% Style Definitions
+    classDef default fill:#FAFAFA,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level1 fill:#E3F2FD,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
+
+    subgraph LZ["Landing Zones"]
         LZ1["Workload Landing Zone"]
         LZ2["Security Landing Zone"]
         LZ3["Monitoring Landing Zone"]
     end
-    subgraph "Resource Groups"
+
+    subgraph RG["Resource Groups"]
         RG1["devexp-workload-RG"]
         RG2["devexp-security-RG"]
         RG3["devexp-monitoring-RG"]
     end
+
     LZ1 -->|"contains"| RG1
     LZ2 -->|"contains"| RG2
     LZ3 -->|"contains"| RG3
+
+    class LZ level1
+    class RG level2
 ```
 
 ### Workload Landing Zone
