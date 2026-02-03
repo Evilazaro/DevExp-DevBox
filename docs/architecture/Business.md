@@ -1230,22 +1230,36 @@ designed for different engineering specializations. These configurations ensure
 consistency and productivity across development teams.
 
 ```mermaid
-graph TB
-    subgraph "Base Configurations"
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
+flowchart TB
+    %% Style Definitions
+    classDef default fill:#FAFAFA,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level1 fill:#E3F2FD,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
+    classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
+
+    subgraph BASE["Base Configurations"]
         CFG1["Common Configuration"]
     end
-    subgraph "Role Configurations"
+
+    subgraph ROLE["Role Configurations"]
         CFG2["Backend Engineer Config"]
         CFG3["Frontend Engineer Config"]
     end
-    subgraph "Platform Configurations"
+
+    subgraph PLATFORM["Platform Configurations"]
         CFG4["GitHub Platform Config"]
         CFG5["Azure DevOps Platform Config"]
     end
+
     CFG1 -->|"extended by"| CFG2
     CFG1 -->|"extended by"| CFG3
     CFG2 -->|"variant"| CFG4
     CFG2 -->|"variant"| CFG5
+
+    class BASE level1
+    class ROLE level2
+    class PLATFORM level3
 ```
 
 ### Common Configuration
