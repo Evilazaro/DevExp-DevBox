@@ -78,29 +78,39 @@
 
 This Business Architecture document provides a comprehensive analysis of the
 ContosoDevExp (Dev Box Accelerator) solution from a TOGAF 10 Business
-Architecture perspective. The solution is designed to establish a centralized
-developer workstation platform that enables organizations to provision and
-manage cloud-based development environments through Microsoft Dev Box. This
-document identifies and classifies all business-related components discovered
-within the codebase, including business capabilities, processes, organizational
-structures, actors, and business services.
+Architecture perspective. The solution establishes a centralized developer
+workstation platform that enables organizations to provision and manage
+cloud-based development environments through Microsoft Dev Box.
+
+This document identifies and classifies all business-related components
+discovered within the codebase, including:
+
+- Business capabilities
+- Processes
+- Organizational structures
+- Actors
+- Business services
 
 The scope of this architecture encompasses the complete developer experience
-platform, which supports multiple software development lifecycle stages (dev,
-staging, UAT) and provides role-specific workstation configurations for
-different engineering personas such as backend engineers and frontend engineers.
-The platform is designed to serve the Contoso organization's Platforms division,
+platform, which supports multiple Software Development Lifecycle (SDLC) stages
+(`dev`, `staging`, `UAT`) and provides role-specific workstation configurations
+for different engineering personas such as backend engineers and frontend
+engineers. The platform serves the Contoso organization's Platforms division,
 specifically the DevExP team, with a focus on delivering standardized, secure,
 and efficient development environments.
 
 The analysis reveals a well-structured business model centered on developer
 enablement, with clear organizational roles, defined business capabilities for
 workstation provisioning and management, and established processes for
-environment setup and security management. All documented components are derived
+environment setup and security management. All documented components derive
 exclusively from explicit definitions found within the provided codebase
 configuration files and infrastructure-as-code templates.
 
 ### Architecture Landscape
+
+The following diagram illustrates the high-level architecture landscape showing
+the relationships between business capabilities, processes, organization, and
+actors.
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
@@ -152,8 +162,12 @@ flowchart TB
     class ACT accent
 ```
 
-**Source:** `infra/settings/workload/devcenter.yaml`,
-`infra/settings/resourceOrganization/azureResources.yaml`
+**Sources**:
+
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+- [azureResources.yaml](../../infra/settings/resourceOrganization/azureResources.yaml)
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
@@ -164,7 +178,7 @@ flowchart TB
 Business capabilities represent the fundamental abilities an organization
 possesses to achieve specific business outcomes. Within the TOGAF 10 framework,
 business capabilities form the cornerstone of business architecture as they
-describe "what" the business does rather than "how" it does it. This abstraction
+describe _what_ the business does rather than _how_ it does it. This abstraction
 enables strategic alignment between business needs and technology solutions
 while providing stability against organizational changes.
 
@@ -176,10 +190,16 @@ distinct area of business function that the platform provides to its
 stakeholders.
 
 The architecture model extracts capability definitions from explicit
-configurations including DevCenter settings, project definitions, environment
-types, and resource groupings. These capabilities are organized hierarchically,
-with top-level capabilities decomposing into supporting sub-capabilities that
-together enable the complete developer experience platform.
+configurations including:
+
+- DevCenter settings
+- Project definitions
+- Environment types
+- Resource groupings
+
+These capabilities are organized hierarchically, with top-level capabilities
+decomposing into supporting sub-capabilities that together enable the complete
+developer experience platform.
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#FAFAFA', 'primaryBorderColor': '#424242', 'primaryTextColor': '#212121', 'lineColor': '#424242'}}}%%
@@ -220,7 +240,8 @@ management with role-specific configurations and appropriate access controls.
 This capability provides the overarching function of delivering standardized
 development environments to engineering teams across the organization.
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 1-15)
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+(lines 1-15)
 
 ### Workstation Provisioning Capability
 
@@ -229,27 +250,33 @@ pre-configured software, tools, and settings appropriate for specific
 engineering roles. Supports both backend and frontend engineering profiles with
 distinct VM SKUs and image definitions.
 
-**Configuration Elements:**
+**Configuration Elements**:
 
-- Pool-based workstation allocation
-- Role-specific image definitions (backend-engineer, frontend-engineer)
-- VM SKU configuration (general_i_32c128gb512ssd_v2, general_i_16c64gb256ssd_v2)
+| Element               | Description                                                 |
+| :-------------------- | :---------------------------------------------------------- |
+| Pool-based allocation | Workstations allocated through managed pools                |
+| Role-specific images  | `backend-engineer`, `frontend-engineer`                     |
+| VM SKU configuration  | `general_i_32c128gb512ssd_v2`, `general_i_16c64gb256ssd_v2` |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 143-150)
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+(lines 143-150)
 
 ### Environment Management Capability
 
 Provides the ability to manage multiple deployment environments aligned with the
-software development lifecycle. Explicitly defined environment types include
-development (dev), staging, and User Acceptance Testing (UAT) environments.
+Software Development Lifecycle (SDLC). Explicitly defined environment types
+include development, staging, and User Acceptance Testing (UAT) environments.
 
-**Environment Types:**
+**Environment Types**:
 
-- dev: Development environment for active development work
-- staging: Pre-production environment for integration testing
-- UAT: User Acceptance Testing environment for business validation
+| Environment | Purpose                                                     |
+| :---------- | :---------------------------------------------------------- |
+| `dev`       | Development environment for active development              |
+| `staging`   | Pre-production environment for integration testing          |
+| `UAT`       | User Acceptance Testing environment for business validation |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 73-81)
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+(lines 73-81)
 
 ### Catalog Management Capability
 
@@ -257,17 +284,20 @@ Enables centralized, version-controlled configuration management through
 Git-based catalog repositories. Supports both environment definitions and image
 definitions through GitHub and Azure DevOps Git integration.
 
-**Catalog Types:**
+**Catalog Types**:
 
-- customTasks: Shared task definitions from Microsoft DevCenter catalog
-- environments: Project-specific environment definitions
-- devboxImages: Project-specific image definitions for Dev Box configurations
+| Catalog Type   | Description                                                   |
+| :------------- | :------------------------------------------------------------ |
+| `customTasks`  | Shared task definitions from Microsoft DevCenter catalog      |
+| `environments` | Project-specific environment definitions                      |
+| `devboxImages` | Project-specific image definitions for Dev Box configurations |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 64-71, 170-184)
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+(lines 64-71, 170-184)
 
 ### Identity and Access Management Capability
 
-Provides role-based access control (RBAC) for DevCenter resources using Azure AD
+Provides Role-Based Access Control (RBAC) for DevCenter resources using Azure AD
 integration. Supports both system-assigned managed identities and Azure AD
 group-based role assignments.
 
