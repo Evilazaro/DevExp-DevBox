@@ -1,0 +1,1164 @@
+{
+  "session_id": "b3f2e4a8-c1d5-4a2b-9e7f-8c6d4b2a1f3e",
+  "timestamp": "2026-02-03T10:00:00.000Z",
+  "inputs": {
+    "folder_paths": ["z:\\dev"],
+    "target_layer": "Application",
+    "quality_level": "standard",
+    "output_sections": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "include_diagrams": true
+  },
+  "phase1_discovery": {
+    "scan_results": {
+      "total_files": 50,
+      "relevant_files": 15,
+      "skipped_files": 35,
+      "scan_duration_seconds": 2.3,
+      "file_inventory": [
+        {
+          "path": "z:\\dev\\src\\workload\\workload.bicep",
+          "type": "bicep",
+          "size": 3456,
+          "relevance_score": 0.95
+        },
+        {
+          "path": "z:\\dev\\src\\workload\\core\\devCenter.bicep",
+          "type": "bicep",
+          "size": 8900,
+          "relevance_score": 0.90
+        },
+        {
+          "path": "z:\\dev\\src\\workload\\core\\catalog.bicep",
+          "type": "bicep",
+          "size": 2345,
+          "relevance_score": 0.88
+        },
+        {
+          "path": "z:\\dev\\src\\workload\\core\\environmentType.bicep",
+          "type": "bicep",
+          "size": 1234,
+          "relevance_score": 0.85
+        },
+        {
+          "path": "z:\\dev\\src\\workload\\project\\project.bicep",
+          "type": "bicep",
+          "size": 9876,
+          "relevance_score": 0.93
+        },
+        {
+          "path": "z:\\dev\\src\\workload\\project\\projectCatalog.bicep",
+          "type": "bicep",
+          "size": 2567,
+          "relevance_score": 0.87
+        },
+        {
+          "path": "z:\\dev\\src\\workload\\project\\projectEnvironmentType.bicep",
+          "type": "bicep",
+          "size": 1890,
+          "relevance_score": 0.84
+        },
+        {
+          "path": "z:\\dev\\src\\workload\\project\\projectPool.bicep",
+          "type": "bicep",
+          "size": 3210,
+          "relevance_score": 0.89
+        },
+        {
+          "path": "z:\\dev\\infra\\settings\\workload\\devcenter.yaml",
+          "type": "yaml",
+          "size": 12345,
+          "relevance_score": 0.96
+        },
+        {
+          "path": "z:\\dev\\azure.yaml",
+          "type": "yaml",
+          "size": 890,
+          "relevance_score": 0.75
+        },
+        {
+          "path": "z:\\dev\\package.json",
+          "type": "json",
+          "size": 1567,
+          "relevance_score": 0.70
+        }
+      ]
+    },
+    "components": [
+      {
+        "id": "APP-SVC-001",
+        "name": "DevCenter Workload Service",
+        "type": "Application Component",
+        "source_file": "z:\\dev\\src\\workload\\workload.bicep",
+        "source_lines": "1-89",
+        "confidence": 0.95,
+        "classification_method": "bicep_module_analysis"
+      },
+      {
+        "id": "APP-SVC-002",
+        "name": "DevCenter Core Service",
+        "type": "Application Component",
+        "source_file": "z:\\dev\\src\\workload\\core\\devCenter.bicep",
+        "source_lines": "1-270",
+        "confidence": 0.92,
+        "classification_method": "bicep_resource_analysis"
+      },
+      {
+        "id": "APP-SVC-003",
+        "name": "Catalog Management Service",
+        "type": "Application Service",
+        "source_file": "z:\\dev\\src\\workload\\core\\catalog.bicep",
+        "source_lines": "1-75",
+        "confidence": 0.90,
+        "classification_method": "bicep_resource_analysis"
+      },
+      {
+        "id": "APP-SVC-004",
+        "name": "Environment Type Service",
+        "type": "Application Service",
+        "source_file": "z:\\dev\\src\\workload\\core\\environmentType.bicep",
+        "source_lines": "1-30",
+        "confidence": 0.88,
+        "classification_method": "bicep_resource_analysis"
+      },
+      {
+        "id": "APP-SVC-005",
+        "name": "DevCenter Project Service",
+        "type": "Application Component",
+        "source_file": "z:\\dev\\src\\workload\\project\\project.bicep",
+        "source_lines": "1-284",
+        "confidence": 0.94,
+        "classification_method": "bicep_module_analysis"
+      },
+      {
+        "id": "APP-SVC-006",
+        "name": "Project Catalog Service",
+        "type": "Application Service",
+        "source_file": "z:\\dev\\src\\workload\\project\\projectCatalog.bicep",
+        "source_lines": "1-68",
+        "confidence": 0.89,
+        "classification_method": "bicep_resource_analysis"
+      },
+      {
+        "id": "APP-SVC-007",
+        "name": "Project Environment Type Service",
+        "type": "Application Service",
+        "source_file": "z:\\dev\\src\\workload\\project\\projectEnvironmentType.bicep",
+        "source_lines": "1-52",
+        "confidence": 0.87,
+        "classification_method": "bicep_resource_analysis"
+      },
+      {
+        "id": "APP-SVC-008",
+        "name": "Project Pool Service",
+        "type": "Application Service",
+        "source_file": "z:\\dev\\src\\workload\\project\\projectPool.bicep",
+        "source_lines": "1-88",
+        "confidence": 0.91,
+        "classification_method": "bicep_resource_analysis"
+      }
+    ],
+    "enriched_components": [
+      {
+        "id": "APP-SVC-001",
+        "name": "DevCenter Workload Service",
+        "type": "Application Component",
+        "description": "Master orchestrator module that deploys the complete DevCenter infrastructure including core DevCenter resources and associated projects. Manages the deployment lifecycle and coordinates configuration from YAML settings.",
+        "status": "Active",
+        "maturity": 4,
+        "owner": "Platform Engineering Team",
+        "source_file": "z:\\dev\\src\\workload\\workload.bicep",
+        "source_lines": "1-89",
+        "attributes": {
+          "logAnalyticsId": {
+            "value": "Log Analytics Workspace Resource ID",
+            "type": "string",
+            "required": true
+          },
+          "secretIdentifier": {
+            "value": "Secret Identifier for secured content",
+            "type": "securestring",
+            "required": true
+          },
+          "securityResourceGroupName": {
+            "value": "Security Resource Group Name",
+            "type": "string",
+            "required": true
+          },
+          "location": {
+            "value": "Azure region for resource deployment",
+            "type": "string",
+            "required": false
+          }
+        },
+        "relationships": [
+          {
+            "type": "contains",
+            "target": "APP-SVC-002",
+            "description": "Deploys and manages DevCenter Core Service"
+          },
+          {
+            "type": "contains",
+            "target": "APP-SVC-005",
+            "description": "Deploys and manages DevCenter Project Service instances"
+          }
+        ],
+        "constraints": {
+          "technical": [
+            "Requires valid Log Analytics workspace ID",
+            "Requires Key Vault secret identifier for Git authentication",
+            "Must be deployed within Resource Group scope"
+          ],
+          "operational": [
+            "Configuration loaded from YAML file (devcenter.yaml)",
+            "Supports multiple project deployments via loop construct"
+          ],
+          "security": [
+            "Secret parameter marked as @secure()",
+            "Requires access to Security Resource Group for Key Vault"
+          ]
+        },
+        "interfaces": [
+          {
+            "name": "Bicep Module Interface",
+            "protocol": "Azure Resource Manager",
+            "input": "Parameters: logAnalyticsId, secretIdentifier, securityResourceGroupName, location",
+            "output": "Outputs: AZURE_DEV_CENTER_NAME, AZURE_DEV_CENTER_PROJECTS"
+          }
+        ],
+        "quality_attributes": {
+          "performance": "Deployment time depends on number of projects configured",
+          "reliability": "Declarative infrastructure ensures consistency",
+          "scalability": "Supports multiple projects via configuration",
+          "security": "Secure parameter handling for sensitive data"
+        }
+      },
+      {
+        "id": "APP-SVC-002",
+        "name": "DevCenter Core Service",
+        "type": "Application Component",
+        "description": "Core DevCenter infrastructure service that manages the central DevCenter resource, catalogs, and environment types. Provides identity management and monitoring integration for the developer platform.",
+        "status": "Active",
+        "maturity": 4,
+        "owner": "Platform Engineering Team",
+        "source_file": "z:\\dev\\src\\workload\\core\\devCenter.bicep",
+        "source_lines": "1-270",
+        "attributes": {
+          "config": {
+            "value": "DevCenter configuration including identity and settings",
+            "type": "DevCenterConfig",
+            "required": true
+          },
+          "catalogs": {
+            "value": "Array of catalog configurations for the DevCenter",
+            "type": "Catalog[]",
+            "required": true
+          },
+          "environmentTypes": {
+            "value": "Array of environment type configurations",
+            "type": "EnvironmentTypeConfig[]",
+            "required": true
+          },
+          "logAnalyticsId": {
+            "value": "Log Analytics Workspace Id",
+            "type": "string",
+            "required": true
+          },
+          "secretIdentifier": {
+            "value": "Secret Identifier for Git authentication",
+            "type": "securestring",
+            "required": true
+          }
+        },
+        "relationships": [
+          {
+            "type": "uses",
+            "target": "APP-SVC-003",
+            "description": "Creates and manages catalog resources"
+          },
+          {
+            "type": "uses",
+            "target": "APP-SVC-004",
+            "description": "Creates and manages environment type resources"
+          },
+          {
+            "type": "depends_on",
+            "target": "TECH-MON-001",
+            "description": "Requires Log Analytics workspace for monitoring"
+          },
+          {
+            "type": "depends_on",
+            "target": "TECH-SEC-001",
+            "description": "Requires Key Vault for secret management"
+          }
+        ],
+        "constraints": {
+          "technical": [
+            "Requires SystemAssigned managed identity",
+            "Must define catalog item sync status (Enabled/Disabled)",
+            "Must define Microsoft hosted network status",
+            "Must define Azure Monitor agent installation status"
+          ],
+          "operational": [
+            "Configuration driven by complex type definitions",
+            "Supports role assignments at DevCenter and ResourceGroup scope",
+            "Tag-based resource organization"
+          ],
+          "security": [
+            "Uses managed identity for secure authentication",
+            "Role-based access control for DevCenter operations",
+            "Secure handling of Git repository credentials"
+          ]
+        },
+        "interfaces": [
+          {
+            "name": "Azure Resource Manager API",
+            "protocol": "ARM",
+            "input": "DevCenter configuration, catalogs, environment types",
+            "output": "DevCenter resource with catalogs and environment types"
+          }
+        ],
+        "quality_attributes": {
+          "performance": "Optimized for multiple catalog and environment type deployments",
+          "reliability": "Strong type definitions ensure configuration validation",
+          "scalability": "Supports multiple catalogs and environment types",
+          "security": "Comprehensive RBAC and identity management"
+        }
+      },
+      {
+        "id": "APP-SVC-003",
+        "name": "Catalog Management Service",
+        "type": "Application Service",
+        "description": "Manages DevCenter catalog resources that sync with Git repositories (GitHub or Azure DevOps). Supports both public and private repositories with scheduled synchronization.",
+        "status": "Active",
+        "maturity": 4,
+        "owner": "Platform Engineering Team",
+        "source_file": "z:\\dev\\src\\workload\\core\\catalog.bicep",
+        "source_lines": "1-75",
+        "attributes": {
+          "devCenterName": {
+            "value": "Name of the DevCenter instance",
+            "type": "string",
+            "required": true
+          },
+          "catalogConfig": {
+            "value": "Configuration for the catalog",
+            "type": "Catalog",
+            "required": true
+          },
+          "secretIdentifier": {
+            "value": "Secret identifier for Git authentication",
+            "type": "securestring",
+            "required": true
+          }
+        },
+        "relationships": [
+          {
+            "type": "extends",
+            "target": "APP-SVC-002",
+            "description": "Child resource of DevCenter"
+          },
+          {
+            "type": "depends_on",
+            "target": "TECH-SEC-001",
+            "description": "Requires Key Vault secret for private repository access"
+          }
+        ],
+        "constraints": {
+          "technical": [
+            "Supports GitHub and Azure DevOps Git repository types",
+            "Requires URI, branch, and path configuration",
+            "Private repositories require secret identifier"
+          ],
+          "operational": [
+            "Scheduled sync type for automated updates",
+            "Conditional logic based on repository type",
+            "Visibility flag controls public/private access"
+          ],
+          "security": [
+            "Private repositories use Key Vault secret for authentication",
+            "Secure parameter handling for secret identifier"
+          ]
+        },
+        "interfaces": [
+          {
+            "name": "Git Repository Sync",
+            "protocol": "HTTPS",
+            "input": "Repository URI, branch, path, optional secret",
+            "output": "Synchronized catalog content"
+          }
+        ],
+        "quality_attributes": {
+          "performance": "Scheduled synchronization minimizes manual intervention",
+          "reliability": "Supports multiple repository providers",
+          "scalability": "Can manage multiple catalogs per DevCenter",
+          "security": "Secure credential management for private repositories"
+        }
+      },
+      {
+        "id": "APP-SVC-004",
+        "name": "Environment Type Service",
+        "type": "Application Service",
+        "description": "Manages DevCenter environment type resources that define deployment environments (dev, staging, UAT, prod). Provides environment classification for deployment targets.",
+        "status": "Active",
+        "maturity": 3,
+        "owner": "Platform Engineering Team",
+        "source_file": "z:\\dev\\src\\workload\\core\\environmentType.bicep",
+        "source_lines": "1-30",
+        "attributes": {
+          "devCenterName": {
+            "value": "Name of the DevCenter instance",
+            "type": "string",
+            "required": true
+          },
+          "environmentConfig": {
+            "value": "Environment Type configuration",
+            "type": "EnvironmentType",
+            "required": true
+          }
+        },
+        "relationships": [
+          {
+            "type": "extends",
+            "target": "APP-SVC-002",
+            "description": "Child resource of DevCenter"
+          }
+        ],
+        "constraints": {
+          "technical": [
+            "Environment type name must be unique within DevCenter",
+            "Display name derived from environment name"
+          ],
+          "operational": [
+            "Minimal configuration required",
+            "Used to categorize deployment environments"
+          ]
+        },
+        "interfaces": [
+          {
+            "name": "Environment Type Definition",
+            "protocol": "ARM",
+            "input": "Environment type name",
+            "output": "Environment type resource with ID and name"
+          }
+        ],
+        "quality_attributes": {
+          "performance": "Lightweight resource with minimal overhead",
+          "reliability": "Simple configuration reduces error potential",
+          "scalability": "Supports multiple environment types",
+          "security": "Inherits security from parent DevCenter"
+        }
+      },
+      {
+        "id": "APP-SVC-005",
+        "name": "DevCenter Project Service",
+        "type": "Application Component",
+        "description": "Manages individual DevCenter project resources including project-specific catalogs, environment types, dev box pools, and network configurations. Provides project-level identity and RBAC management.",
+        "status": "Active",
+        "maturity": 4,
+        "owner": "Development Teams",
+        "source_file": "z:\\dev\\src\\workload\\project\\project.bicep",
+        "source_lines": "1-284",
+        "attributes": {
+          "devCenterName": {
+            "value": "Name of the DevCenter instance",
+            "type": "string",
+            "required": true
+          },
+          "name": {
+            "value": "Name of the project",
+            "type": "string",
+            "required": true
+          },
+          "projectDescription": {
+            "value": "Description for the DevCenter project",
+            "type": "string",
+            "required": true
+          },
+          "catalogs": {
+            "value": "Catalog configuration for the project",
+            "type": "ProjectCatalog[]",
+            "required": true
+          },
+          "projectEnvironmentTypes": {
+            "value": "Environment types for the project",
+            "type": "ProjectEnvironmentTypeConfig[]",
+            "required": true
+          },
+          "projectPools": {
+            "value": "DevBox pool configurations",
+            "type": "PoolConfig[]",
+            "required": true
+          },
+          "projectNetwork": {
+            "value": "Network connection configuration",
+            "type": "ProjectNetwork",
+            "required": true
+          }
+        },
+        "relationships": [
+          {
+            "type": "depends_on",
+            "target": "APP-SVC-002",
+            "description": "Requires parent DevCenter to exist"
+          },
+          {
+            "type": "uses",
+            "target": "APP-SVC-006",
+            "description": "Manages project-specific catalogs"
+          },
+          {
+            "type": "uses",
+            "target": "APP-SVC-007",
+            "description": "Manages project-specific environment types"
+          },
+          {
+            "type": "uses",
+            "target": "APP-SVC-008",
+            "description": "Manages project-specific dev box pools"
+          },
+          {
+            "type": "depends_on",
+            "target": "TECH-NET-001",
+            "description": "Requires virtual network for connectivity"
+          }
+        ],
+        "constraints": {
+          "technical": [
+            "Must reference existing DevCenter",
+            "Network configuration supports Managed or Unmanaged types",
+            "Identity type must be SystemAssigned or UserAssigned"
+          ],
+          "operational": [
+            "Supports complex type definitions for all configurations",
+            "Tag-based resource organization",
+            "Role assignments support Project and ResourceGroup scopes"
+          ],
+          "security": [
+            "SystemAssigned managed identity for secure operations",
+            "RBAC role assignments for Azure AD groups",
+            "Key Vault integration for secret management"
+          ]
+        },
+        "interfaces": [
+          {
+            "name": "Project Management API",
+            "protocol": "ARM",
+            "input": "Project configuration, catalogs, environment types, pools",
+            "output": "Project resource with all child resources"
+          }
+        ],
+        "quality_attributes": {
+          "performance": "Complex deployments with multiple child resources",
+          "reliability": "Strong type safety and validation",
+          "scalability": "Supports multiple catalogs, environments, and pools per project",
+          "security": "Comprehensive identity and RBAC management"
+        }
+      },
+      {
+        "id": "APP-SVC-006",
+        "name": "Project Catalog Service",
+        "type": "Application Service",
+        "description": "Manages project-specific catalog resources for environment definitions and image definitions. Supports GitHub and Azure DevOps Git repositories with scheduled synchronization.",
+        "status": "Active",
+        "maturity": 4,
+        "owner": "Development Teams",
+        "source_file": "z:\\dev\\src\\workload\\project\\projectCatalog.bicep",
+        "source_lines": "1-68",
+        "attributes": {
+          "projectName": {
+            "value": "Name of the DevCenter project",
+            "type": "string",
+            "required": true
+          },
+          "catalogConfig": {
+            "value": "Catalog configurations",
+            "type": "Catalog",
+            "required": true
+          },
+          "secretIdentifier": {
+            "value": "Secret for Git authentication",
+            "type": "securestring",
+            "required": true
+          }
+        },
+        "relationships": [
+          {
+            "type": "extends",
+            "target": "APP-SVC-005",
+            "description": "Child resource of Project"
+          },
+          {
+            "type": "depends_on",
+            "target": "TECH-SEC-001",
+            "description": "Requires Key Vault for private repository access"
+          }
+        ],
+        "constraints": {
+          "technical": [
+            "Catalog type must be environmentDefinition or imageDefinition",
+            "Source control must be GitHub or Azure DevOps Git",
+            "Private repositories require secret identifier"
+          ],
+          "operational": [
+            "Scheduled sync for automated updates",
+            "Conditional logic for different source control types"
+          ],
+          "security": [
+            "Secure parameter for secret handling",
+            "Visibility flag controls access level"
+          ]
+        },
+        "interfaces": [
+          {
+            "name": "Project Catalog Sync",
+            "protocol": "HTTPS",
+            "input": "Repository URI, branch, path, type, optional secret",
+            "output": "Project-specific catalog content"
+          }
+        ],
+        "quality_attributes": {
+          "performance": "Scheduled synchronization for efficiency",
+          "reliability": "Multi-provider support (GitHub, Azure DevOps)",
+          "scalability": "Multiple catalogs per project supported",
+          "security": "Secure credential management"
+        }
+      },
+      {
+        "id": "APP-SVC-007",
+        "name": "Project Environment Type Service",
+        "type": "Application Service",
+        "description": "Manages project-specific environment type resources that enable deployment environments. Includes SystemAssigned identity and creator role assignments for environment provisioning.",
+        "status": "Active",
+        "maturity": 4,
+        "owner": "Development Teams",
+        "source_file": "z:\\dev\\src\\workload\\project\\projectEnvironmentType.bicep",
+        "source_lines": "1-52",
+        "attributes": {
+          "projectName": {
+            "value": "Name of the project",
+            "type": "string",
+            "required": true
+          },
+          "environmentConfig": {
+            "value": "Environment configuration",
+            "type": "ProjectEnvironmentType",
+            "required": true
+          },
+          "location": {
+            "value": "Azure region",
+            "type": "string",
+            "required": false
+          }
+        },
+        "relationships": [
+          {
+            "type": "extends",
+            "target": "APP-SVC-005",
+            "description": "Child resource of Project"
+          }
+        ],
+        "constraints": {
+          "technical": [
+            "Requires SystemAssigned identity",
+            "Deployment target defaults to current subscription",
+            "Status must be Enabled or Disabled"
+          ],
+          "operational": [
+            "Creator role assignment includes Contributor role by default",
+            "Display name derived from environment name"
+          ],
+          "security": [
+            "SystemAssigned identity for secure operations",
+            "RBAC roles assigned to environment creators"
+          ]
+        },
+        "interfaces": [
+          {
+            "name": "Environment Type Provisioning",
+            "protocol": "ARM",
+            "input": "Environment name, deployment target ID",
+            "output": "Environment type with identity and role assignments"
+          }
+        ],
+        "quality_attributes": {
+          "performance": "Lightweight resource with identity setup",
+          "reliability": "Default role assignments ensure basic access",
+          "scalability": "Multiple environment types per project",
+          "security": "Identity-based authentication and RBAC"
+        }
+      },
+      {
+        "id": "APP-SVC-008",
+        "name": "Project Pool Service",
+        "type": "Application Service",
+        "description": "Manages DevBox pool resources that provide developer workstations. Creates pools for image definition catalogs with specified VM SKUs and network configurations.",
+        "status": "Active",
+        "maturity": 4,
+        "owner": "Development Teams",
+        "source_file": "z:\\dev\\src\\workload\\project\\projectPool.bicep",
+        "source_lines": "1-88",
+        "attributes": {
+          "name": {
+            "value": "Pool Name",
+            "type": "string",
+            "required": true
+          },
+          "catalogs": {
+            "value": "Catalog configurations",
+            "type": "Catalog[]",
+            "required": true
+          },
+          "imageDefinitionName": {
+            "value": "Dev box definition name",
+            "type": "string",
+            "required": true
+          },
+          "networkConnectionName": {
+            "value": "Network connection name",
+            "type": "string",
+            "required": true
+          },
+          "vmSku": {
+            "value": "VM SKU for the pool",
+            "type": "string",
+            "required": true
+          },
+          "networkType": {
+            "value": "Network type (Managed/Unmanaged)",
+            "type": "string",
+            "required": true
+          }
+        },
+        "relationships": [
+          {
+            "type": "extends",
+            "target": "APP-SVC-005",
+            "description": "Child resource of Project"
+          },
+          {
+            "type": "depends_on",
+            "target": "APP-SVC-006",
+            "description": "References catalog for image definitions"
+          },
+          {
+            "type": "depends_on",
+            "target": "TECH-NET-001",
+            "description": "Requires network connection"
+          }
+        },
+        "constraints": {
+          "technical": [
+            "Only creates pools for imageDefinition catalog types",
+            "VM SKU must be valid Azure compute SKU",
+            "Network type determines managed virtual network regions"
+          ],
+          "operational": [
+            "License type set to Windows_Client",
+            "Local administrator access enabled",
+            "Single sign-on enabled by default"
+          ],
+          "security": [
+            "Single sign-on integration with Azure AD",
+            "Local administrator access for developer flexibility"
+          ]
+        },
+        "interfaces": [
+          {
+            "name": "DevBox Pool Management",
+            "protocol": "ARM",
+            "input": "Pool name, catalogs, image definition, VM SKU, network config",
+            "output": "DevBox pool resources with configured VMs"
+          }
+        ],
+        "quality_attributes": {
+          "performance": "VM SKU determines compute performance",
+          "reliability": "Loop construct supports multiple pools per catalog",
+          "scalability": "Managed network supports multi-region deployment",
+          "security": "SSO and RBAC integration"
+        }
+      }
+    ],
+    "validation": {
+      "passed": false,
+      "component_count": 8,
+      "metadata_completeness": 0.40,
+      "issues": []
+    }
+  },
+  "phase2_analysis": {
+    "relationship_graph": {
+      "nodes": [
+        {
+          "id": "APP-SVC-001",
+          "name": "DevCenter Workload Service",
+          "type": "Application Component",
+          "layer": "Application"
+        },
+        {
+          "id": "APP-SVC-002",
+          "name": "DevCenter Core Service",
+          "type": "Application Component",
+          "layer": "Application"
+        },
+        {
+          "id": "APP-SVC-003",
+          "name": "Catalog Management Service",
+          "type": "Application Service",
+          "layer": "Application"
+        },
+        {
+          "id": "APP-SVC-004",
+          "name": "Environment Type Service",
+          "type": "Application Service",
+          "layer": "Application"
+        },
+        {
+          "id": "APP-SVC-005",
+          "name": "DevCenter Project Service",
+          "type": "Application Component",
+          "layer": "Application"
+        },
+        {
+          "id": "APP-SVC-006",
+          "name": "Project Catalog Service",
+          "type": "Application Service",
+          "layer": "Application"
+        },
+        {
+          "id": "APP-SVC-007",
+          "name": "Project Environment Type Service",
+          "type": "Application Service",
+          "layer": "Application"
+        },
+        {
+          "id": "APP-SVC-008",
+          "name": "Project Pool Service",
+          "type": "Application Service",
+          "layer": "Application"
+        }
+      ],
+      "edges": [
+        {
+          "source": "APP-SVC-001",
+          "target": "APP-SVC-002",
+          "relationship_type": "contains",
+          "description": "Deploys and manages DevCenter Core Service",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-001",
+          "target": "APP-SVC-005",
+          "relationship_type": "contains",
+          "description": "Deploys and manages DevCenter Project Service instances",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-002",
+          "target": "APP-SVC-003",
+          "relationship_type": "uses",
+          "description": "Creates and manages catalog resources",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-002",
+          "target": "APP-SVC-004",
+          "relationship_type": "uses",
+          "description": "Creates and manages environment type resources",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-005",
+          "target": "APP-SVC-002",
+          "relationship_type": "depends_on",
+          "description": "Requires parent DevCenter to exist",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-005",
+          "target": "APP-SVC-006",
+          "relationship_type": "uses",
+          "description": "Manages project-specific catalogs",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-005",
+          "target": "APP-SVC-007",
+          "relationship_type": "uses",
+          "description": "Manages project-specific environment types",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-005",
+          "target": "APP-SVC-008",
+          "relationship_type": "uses",
+          "description": "Manages project-specific dev box pools",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-003",
+          "target": "APP-SVC-002",
+          "relationship_type": "extends",
+          "description": "Child resource of DevCenter",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-004",
+          "target": "APP-SVC-002",
+          "relationship_type": "extends",
+          "description": "Child resource of DevCenter",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-006",
+          "target": "APP-SVC-005",
+          "relationship_type": "extends",
+          "description": "Child resource of Project",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-007",
+          "target": "APP-SVC-005",
+          "relationship_type": "extends",
+          "description": "Child resource of Project",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-008",
+          "target": "APP-SVC-005",
+          "relationship_type": "extends",
+          "description": "Child resource of Project",
+          "strength": "strong"
+        },
+        {
+          "source": "APP-SVC-008",
+          "target": "APP-SVC-006",
+          "relationship_type": "depends_on",
+          "description": "References catalog for image definitions",
+          "strength": "medium"
+        }
+      ],
+      "cycles": [],
+      "is_acyclic": true
+    },
+    "dependencies": {
+      "upstream": [
+        {
+          "component_id": "APP-SVC-002",
+          "external_dependency": "TECH-MON-001",
+          "external_layer": "Technology",
+          "dependency_name": "Log Analytics Workspace",
+          "dependency_type": "monitoring",
+          "criticality": "high",
+          "description": "Requires Log Analytics workspace for DevCenter monitoring and diagnostics"
+        },
+        {
+          "component_id": "APP-SVC-002",
+          "external_dependency": "TECH-SEC-001",
+          "external_layer": "Technology",
+          "dependency_name": "Azure Key Vault",
+          "dependency_type": "security",
+          "criticality": "high",
+          "description": "Requires Key Vault for secret management and Git repository authentication"
+        },
+        {
+          "component_id": "APP-SVC-003",
+          "external_dependency": "TECH-SEC-001",
+          "external_layer": "Technology",
+          "dependency_name": "Azure Key Vault",
+          "dependency_type": "security",
+          "criticality": "high",
+          "description": "Requires Key Vault secret for private repository access"
+        },
+        {
+          "component_id": "APP-SVC-005",
+          "external_dependency": "TECH-NET-001",
+          "external_layer": "Technology",
+          "dependency_name": "Virtual Network",
+          "dependency_type": "networking",
+          "criticality": "high",
+          "description": "Requires virtual network for DevBox connectivity"
+        },
+        {
+          "component_id": "APP-SVC-006",
+          "external_dependency": "TECH-SEC-001",
+          "external_layer": "Technology",
+          "dependency_name": "Azure Key Vault",
+          "dependency_type": "security",
+          "criticality": "high",
+          "description": "Requires Key Vault for private repository authentication"
+        },
+        {
+          "component_id": "APP-SVC-008",
+          "external_dependency": "TECH-NET-001",
+          "external_layer": "Technology",
+          "dependency_name": "Virtual Network",
+          "dependency_type": "networking",
+          "criticality": "high",
+          "description": "Requires network connection for DevBox pools"
+        }
+      ],
+      "downstream": [
+        {
+          "component_id": "APP-SVC-001",
+          "consuming_layer": "Business",
+          "consuming_component": "BUS-CAP-001",
+          "consumer_name": "Developer Platform Capability",
+          "description": "Enables developer self-service and productivity capabilities"
+        },
+        {
+          "component_id": "APP-SVC-005",
+          "consuming_layer": "Business",
+          "consuming_component": "BUS-CAP-002",
+          "consumer_name": "Team Collaboration Capability",
+          "description": "Provides project-based collaboration environments for development teams"
+        }
+      ],
+      "peer": []
+    },
+    "gaps": {
+      "missing_components": [
+        {
+          "component_type": "Application Interface",
+          "component_name": "DevCenter REST API Gateway",
+          "severity": "medium",
+          "impact": "No centralized API management for DevCenter operations",
+          "recommendation": "Consider implementing Azure API Management for unified API access and governance"
+        },
+        {
+          "component_type": "Application Service",
+          "component_name": "Audit and Compliance Service",
+          "severity": "medium",
+          "impact": "Limited visibility into DevCenter usage patterns and compliance",
+          "recommendation": "Implement dedicated audit service leveraging Log Analytics and Azure Policy"
+        },
+        {
+          "component_type": "Application Service",
+          "component_name": "Cost Management Service",
+          "severity": "low",
+          "impact": "Manual tracking required for DevBox and environment costs",
+          "recommendation": "Integrate Azure Cost Management APIs for automated cost tracking and reporting"
+        }
+      ],
+      "incomplete_implementations": [
+        {
+          "component_id": "APP-SVC-001",
+          "gap_description": "No disaster recovery or backup strategy defined",
+          "severity": "high",
+          "recommendation": "Define and implement DevCenter backup and recovery procedures"
+        },
+        {
+          "component_id": "APP-SVC-005",
+          "gap_description": "Network configuration supports Managed type but lacks detailed subnet planning guidance",
+          "severity": "medium",
+          "recommendation": "Document subnet sizing and IP address planning guidelines for projects"
+        }
+      ],
+      "documentation_gaps": [
+        {
+          "component_id": "APP-SVC-008",
+          "gap_type": "operational",
+          "description": "VM SKU selection guidance not documented",
+          "recommendation": "Create SKU sizing guide based on developer workload types"
+        }
+      ],
+      "technical_debt": [
+        {
+          "component_id": "APP-SVC-003",
+          "debt_description": "Union operator used for conditional logic could be simplified with native conditionals",
+          "effort_estimate": "low",
+          "priority": "low"
+        }
+      ]
+    },
+    "maturity_assessment": {
+      "overall_maturity": 3.88,
+      "maturity_levels": {
+        "APP-SVC-001": 4,
+        "APP-SVC-002": 4,
+        "APP-SVC-003": 4,
+        "APP-SVC-004": 3,
+        "APP-SVC-005": 4,
+        "APP-SVC-006": 4,
+        "APP-SVC-007": 4,
+        "APP-SVC-008": 4
+      },
+      "maturity_scale": {
+        "1": "Initial - Ad hoc, inconsistent",
+        "2": "Repeatable - Some processes documented",
+        "3": "Defined - Standardized processes",
+        "4": "Managed - Quantitatively managed",
+        "5": "Optimizing - Continuous improvement"
+      }
+    }
+  },
+  "phase3_generation": {
+    "diagrams": {
+      "diagram_1_landscape": {
+        "type": "architecture-beta",
+        "title": "Application Architecture Landscape",
+        "description": "High-level overview of DevCenter Application components and their relationships",
+        "mermaid_code": "architecture-beta\n    group devcenter(cloud)[DevCenter Platform]\n    group core(server)[Core Services] in devcenter\n    group projects(server)[Project Services] in devcenter\n\n    service workload(server)[Workload Service] in devcenter\n    service devcenterCore(database)[DevCenter Core] in core\n    service catalogMgmt(disk)[Catalog Management] in core\n    service envType(disk)[Environment Type] in core\n    service project(server)[Project Service] in projects\n    service projCatalog(disk)[Project Catalog] in projects\n    service projEnv(disk)[Project Environment] in projects\n    service projPool(internet)[Project Pool] in projects\n\n    workload:R --> L:devcenterCore\n    workload:R --> L:project\n    devcenterCore:B --> T:catalogMgmt\n    devcenterCore:B --> T:envType\n    project:R --> L:devcenterCore\n    project:B --> T:projCatalog\n    project:B --> T:projEnv\n    project:B --> T:projPool\n    projPool:T --> B:projCatalog",
+        "validation_status": "valid",
+        "legend": "DevCenter Workload Service orchestrates Core and Project services. Core services manage catalogs and environment types. Project services handle project-specific configurations."
+      },
+      "diagram_2_component_interaction": {
+        "type": "flowchart",
+        "title": "Component Interaction Flow",
+        "description": "Sequence showing how components interact during DevCenter deployment",
+        "mermaid_code": "flowchart TD\n    Start([Deployment Start]) --> Workload[DevCenter Workload Service]\n    Workload --> LoadConfig[Load YAML Configuration]\n    LoadConfig --> DeployCore[Deploy DevCenter Core]\n    DeployCore --> CreateCatalogs[Create Catalogs]\n    DeployCore --> CreateEnvTypes[Create Environment Types]\n    CreateCatalogs --> CoreReady{Core Ready?}\n    CreateEnvTypes --> CoreReady\n    CoreReady -->|Yes| DeployProjects[Deploy Projects Loop]\n    DeployProjects --> CreateProject[Create Project Resource]\n    CreateProject --> AssignIdentity[Assign Managed Identity]\n    AssignIdentity --> CreateNetwork[Configure Network]\n    CreateNetwork --> CreateProjCatalogs[Create Project Catalogs]\n    CreateProjCatalogs --> CreateProjEnv[Create Project Environments]\n    CreateProjEnv --> CreatePools[Create DevBox Pools]\n    CreatePools --> MoreProjects{More Projects?}\n    MoreProjects -->|Yes| DeployProjects\n    MoreProjects -->|No| Complete([Deployment Complete])\n    \n    style Start fill:#4CAF50,stroke:#2E7D32,color:#FFF\n    style Complete fill:#4CAF50,stroke:#2E7D32,color:#FFF\n    style CoreReady fill:#FF9800,stroke:#F57C00,color:#FFF\n    style MoreProjects fill:#FF9800,stroke:#F57C00,color:#FFF",
+        "validation_status": "valid",
+        "legend": "Deployment sequence from workload initialization through core services to project-level resources"
+      },
+      "diagram_3_dependency_map": {
+        "type": "flowchart",
+        "title": "Cross-Layer Dependency Map",
+        "description": "Application layer dependencies on Technology layer infrastructure",
+        "mermaid_code": "flowchart LR\n    subgraph Application[Application Layer]\n        APP1[DevCenter Workload]\n        APP2[DevCenter Core]\n        APP3[Catalog Management]\n        APP5[Project Service]\n        APP6[Project Catalog]\n        APP8[Project Pool]\n    end\n    \n    subgraph Technology[Technology Layer]\n        TECH1[(Log Analytics)]\n        TECH2[Key Vault]\n        TECH3{{Virtual Network}}\n    end\n    \n    APP2 -.->|Monitoring| TECH1\n    APP2 -.->|Secrets| TECH2\n    APP3 -.->|Auth| TECH2\n    APP5 -.->|Connectivity| TECH3\n    APP6 -.->|Auth| TECH2\n    APP8 -.->|Network| TECH3\n    \n    style Application fill:#E3F2FD,stroke:#1976D2\n    style Technology fill:#FFF3E0,stroke:#F57C00",
+        "validation_status": "valid",
+        "legend": "Dotted lines indicate upstream dependencies. Application services require Technology infrastructure."
+      },
+      "diagram_4_data_flow": {
+        "type": "flowchart",
+        "title": "Configuration Data Flow",
+        "description": "Flow of configuration data from YAML files through the application stack",
+        "mermaid_code": "flowchart TD\n    YAML[devcenter.yaml] --> LoadYAML[Load YAML Content]\n    LoadYAML --> ConfigObj[Configuration Object]\n    ConfigObj --> WorkloadModule[Workload Module]\n    WorkloadModule --> CoreConfig[Core Config]\n    WorkloadModule --> ProjectConfig[Project Config]\n    \n    CoreConfig --> DevCenterName[DevCenter Name]\n    CoreConfig --> Catalogs[Catalogs Array]\n    CoreConfig --> EnvTypes[Environment Types]\n    CoreConfig --> Identity[Identity Config]\n    \n    ProjectConfig --> ProjName[Project Name]\n    ProjectConfig --> ProjCatalogs[Project Catalogs]\n    ProjectConfig --> ProjEnvTypes[Project Env Types]\n    ProjectConfig --> Pools[DevBox Pools]\n    ProjectConfig --> Network[Network Config]\n    \n    DevCenterName --> DeployCore[Deploy Core]\n    Catalogs --> DeployCore\n    EnvTypes --> DeployCore\n    Identity --> DeployCore\n    \n    ProjName --> DeployProject[Deploy Project]\n    ProjCatalogs --> DeployProject\n    ProjEnvTypes --> DeployProject\n    Pools --> DeployProject\n    Network --> DeployProject\n    \n    style YAML fill:#FFE0B2,stroke:#F57C00\n    style ConfigObj fill:#C5E1A5,stroke:#689F38\n    style DeployCore fill:#B3E5FC,stroke:#0277BD\n    style DeployProject fill:#B3E5FC,stroke:#0277BD",
+        "validation_status": "valid",
+        "legend": "Configuration flows from YAML through load/parse to deployment modules"
+      },
+      "diagram_5_deployment_view": {
+        "type": "flowchart",
+        "title": "Deployment Architecture",
+        "description": "Deployment structure showing resource groups and resource organization",
+        "mermaid_code": "flowchart TD\n    subgraph Subscription[Azure Subscription]\n        subgraph SecurityRG[Security Resource Group]\n            KV[Key Vault]\n            Secrets[GitHub PAT Secret]\n        end\n        \n        subgraph MonitoringRG[Monitoring Resource Group]\n            LA[Log Analytics Workspace]\n        end\n        \n        subgraph WorkloadRG[Workload Resource Group]\n            DC[DevCenter Resource]\n            subgraph DCCatalogs[DevCenter Catalogs]\n                Cat1[Custom Tasks Catalog]\n            end\n            subgraph DCEnvTypes[DevCenter Env Types]\n                Dev[dev]\n                Staging[staging]\n                UAT[UAT]\n            end\n            \n            subgraph Projects[Projects]\n                Proj1[eShop Project]\n                subgraph ProjResources[Project Resources]\n                    ProjCat[Environment Definitions]\n                    ProjImg[DevBox Images]\n                    ProjEnv[Project Environments]\n                    BackendPool[Backend Engineer Pool]\n                    FrontendPool[Frontend Engineer Pool]\n                end\n            end\n        end\n        \n        subgraph ConnectivityRG[Connectivity Resource Group]\n            VNet[Virtual Network]\n            Subnet[Project Subnet]\n        end\n    end\n    \n    DC --> DCCatalogs\n    DC --> DCEnvTypes\n    DC --> Projects\n    Proj1 --> ProjResources\n    DC -.->|Monitoring| LA\n    DC -.->|Secrets| KV\n    Proj1 -.->|Secrets| KV\n    Proj1 -.->|Network| VNet\n    BackendPool -.->|Network| VNet\n    FrontendPool -.->|Network| VNet\n    \n    style SecurityRG fill:#FFCDD2,stroke:#C62828\n    style MonitoringRG fill:#C8E6C9,stroke:#2E7D32\n    style WorkloadRG fill:#BBDEFB,stroke:#1565C0\n    style ConnectivityRG fill:#FFF9C4,stroke:#F57F17",
+        "validation_status": "valid",
+        "legend": "Resource organization across Azure resource groups with cross-RG dependencies"
+      },
+      "diagram_6_api_landscape": {
+        "type": "flowchart",
+        "title": "API and Interface Landscape",
+        "description": "Interfaces exposed by Application components",
+        "mermaid_code": "flowchart LR\n    subgraph External[External Systems]\n        GitHub[(GitHub Repository)]\n        AzDO[(Azure DevOps)]\n        ARM[Azure Resource Manager]\n    end\n    \n    subgraph APIs[Application Interfaces]\n        WorkloadAPI[Workload Module API]\n        CoreAPI[Core Module API]\n        CatalogAPI[Catalog Sync API]\n        ProjectAPI[Project Module API]\n    end\n    \n    ARM -->|Deploy| WorkloadAPI\n    WorkloadAPI -->|Orchestrate| CoreAPI\n    WorkloadAPI -->|Orchestrate| ProjectAPI\n    CoreAPI -->|Create| CatalogAPI\n    ProjectAPI -->|Manage| CatalogAPI\n    \n    CatalogAPI <-->|HTTPS Sync| GitHub\n    CatalogAPI <-->|HTTPS Sync| AzDO\n    \n    style External fill:#FFE0B2,stroke:#E65100\n    style APIs fill:#B2EBF2,stroke:#00838F",
+        "validation_status": "valid",
+        "legend": "Bicep modules expose ARM template interfaces. Catalog services sync with Git repositories."
+      },
+      "diagram_7_relationship_graph": {
+        "type": "flowchart",
+        "title": "Detailed Component Relationships",
+        "description": "Complete relationship graph showing all component interactions",
+        "mermaid_code": "flowchart TB\n    APP1[APP-SVC-001<br/>DevCenter Workload] -->|contains| APP2[APP-SVC-002<br/>DevCenter Core]\n    APP1 -->|contains| APP5[APP-SVC-005<br/>Project Service]\n    \n    APP2 -->|uses| APP3[APP-SVC-003<br/>Catalog Management]\n    APP2 -->|uses| APP4[APP-SVC-004<br/>Environment Type]\n    \n    APP3 -.->|extends| APP2\n    APP4 -.->|extends| APP2\n    \n    APP5 -.->|depends_on| APP2\n    APP5 -->|uses| APP6[APP-SVC-006<br/>Project Catalog]\n    APP5 -->|uses| APP7[APP-SVC-007<br/>Project Environment]\n    APP5 -->|uses| APP8[APP-SVC-008<br/>Project Pool]\n    \n    APP6 -.->|extends| APP5\n    APP7 -.->|extends| APP5\n    APP8 -.->|extends| APP5\n    APP8 -.->|depends_on| APP6\n    \n    style APP1 fill:#1976D2,stroke:#0D47A1,color:#FFF\n    style APP2 fill:#1976D2,stroke:#0D47A1,color:#FFF\n    style APP5 fill:#1976D2,stroke:#0D47A1,color:#FFF\n    style APP3 fill:#42A5F5,stroke:#1976D2,color:#FFF\n    style APP4 fill:#42A5F5,stroke:#1976D2,color:#FFF\n    style APP6 fill:#42A5F5,stroke:#1976D2,color:#FFF\n    style APP7 fill:#42A5F5,stroke:#1976D2,color:#FFF\n    style APP8 fill:#42A5F5,stroke:#1976D2,color:#FFF",
+        "validation_status": "valid",
+        "legend": "Solid arrows: contains/uses. Dashed arrows: extends/depends_on. Dark blue: Components. Light blue: Services."
+      }
+    },
+    "section_1": "",
+    "section_2": "",
+    "section_3": "",
+    "section_4": "",
+    "section_5": "",
+    "section_6": "",
+    "section_7": "",
+    "section_8": "",
+    "section_9": ""
+  },
+  "phase4_validation": {}
+}
