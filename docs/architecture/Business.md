@@ -301,18 +301,22 @@ Provides Role-Based Access Control (RBAC) for DevCenter resources using Azure AD
 integration. Supports both system-assigned managed identities and Azure AD
 group-based role assignments.
 
-**Supported Roles:**
+**Supported Roles**:
 
-- DevCenter Project Admin
-- Dev Box User
-- Deployment Environment User
-- Key Vault Secrets User
-- Key Vault Secrets Officer
-- Contributor
-- User Access Administrator
+| Role                        | Scope                |
+| :-------------------------- | :------------------- |
+| DevCenter Project Admin     | Project              |
+| Dev Box User                | Project              |
+| Deployment Environment User | Project              |
+| Key Vault Secrets User      | ResourceGroup        |
+| Key Vault Secrets Officer   | ResourceGroup        |
+| Contributor                 | Subscription/Project |
+| User Access Administrator   | Subscription         |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 24-62),
-`src/identity/orgRoleAssignment.bicep`
+**Sources**:
+
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (lines 24-62)
+- [orgRoleAssignment.bicep](../../src/identity/orgRoleAssignment.bicep)
 
 ### Security Management Capability
 
@@ -320,14 +324,16 @@ Centralizes secrets, keys, and certificate management for the development
 platform through Azure Key Vault integration. Implements security best practices
 including purge protection, soft delete, and RBAC-based authorization.
 
-**Security Features:**
+**Security Features**:
 
-- Purge protection enabled
-- Soft delete with 7-day retention
-- RBAC authorization model
-- GitHub Actions token storage
+| Feature          | Value/Status                 |
+| :--------------- | :--------------------------- |
+| Purge protection | ✅ Enabled                   |
+| Soft delete      | ✅ Enabled (7-day retention) |
+| Authorization    | RBAC model                   |
+| Token storage    | GitHub Actions tokens        |
 
-**Source:** `infra/settings/security/security.yaml`
+**Source**: [security.yaml](../../infra/settings/security/security.yaml)
 
 ### Monitoring and Observability Capability
 
@@ -335,8 +341,12 @@ Provides centralized logging and monitoring through Log Analytics integration.
 Enables diagnostic settings for all deployed resources to support operational
 visibility and compliance requirements.
 
-**Source:** `infra/main.bicep` (lines 88-102),
-`src/management/logAnalytics.bicep`
+**Sources**:
+
+- [main.bicep](../../infra/main.bicep) (lines 88-102)
+- [logAnalytics.bicep](../../src/management/logAnalytics.bicep)
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
@@ -346,17 +356,22 @@ visibility and compliance requirements.
 
 Business processes in the TOGAF 10 framework represent the sequence of
 activities that accomplish specific business objectives. These processes
-describe "how" the organization delivers its business capabilities through
+describe _how_ the organization delivers its business capabilities through
 structured workflows involving various actors, systems, and decision points.
 Well-defined business processes ensure consistency, repeatability, and
 governance across the enterprise.
 
 The ContosoDevExp solution implements several automated and semi-automated
-business processes for environment provisioning, user management, and
-infrastructure deployment. These processes were identified through analysis of
-setup scripts, workflow definitions, and infrastructure-as-code templates within
-the codebase. Each process aligns with specific business capabilities and
-involves defined organizational actors.
+business processes for:
+
+- Environment provisioning
+- User management
+- Infrastructure deployment
+
+These processes were identified through analysis of setup scripts, workflow
+definitions, and infrastructure-as-code templates within the codebase. Each
+process aligns with specific business capabilities and involves defined
+organizational actors.
 
 The architecture model extracts process definitions from explicit workflow
 files, PowerShell scripts, and shell scripts that orchestrate the platform setup
@@ -405,50 +420,62 @@ flowchart TB
 
 ### Environment Initialization Process
 
-A semi-automated process that establishes the Azure Developer CLI (azd)
+A semi-automated process that establishes the Azure Developer CLI (`azd`)
 environment for Dev Box deployment. This process validates prerequisites,
 configures authentication, and prepares the deployment context.
 
-**Process Steps:**
+**Process Steps**:
 
-1. Validate required command availability (az, azd, gh/azure-devops)
+1. Validate required command availability (`az`, `azd`, `gh`/`azure-devops`)
 2. Test Azure authentication status
 3. Configure source control platform (GitHub or Azure DevOps)
-4. Initialize azd environment with specified name
+4. Initialize `azd` environment with specified name
 5. Provision Azure infrastructure
 
-**Trigger:** Manual execution via setUp.ps1 or setUp.sh **Input Parameters:**
-EnvName, SourceControl **Output:** Configured azd environment ready for
-provisioning
+**Process Details**:
 
-**Source:** `setUp.ps1`, `setUp.sh`
+| Attribute   | Value                                               |
+| :---------- | :-------------------------------------------------- |
+| **Trigger** | Manual execution via `setUp.ps1` or `setUp.sh`      |
+| **Input**   | `EnvName`, `SourceControl`                          |
+| **Output**  | Configured `azd` environment ready for provisioning |
+
+**Sources**:
+
+- [setUp.ps1](../../setUp.ps1)
+- [setUp.sh](../../setUp.sh)
 
 ### Azure Deployment Process
 
-An automated CI/CD process that provisions infrastructure to Azure using OIDC
-authentication and the Azure Developer CLI. This process is triggered manually
-through GitHub Actions workflow dispatch.
+An automated CI/CD process that provisions infrastructure to Azure using OpenID
+Connect (OIDC) authentication and the Azure Developer CLI. This process is
+triggered manually through GitHub Actions workflow dispatch.
 
-**Process Steps:**
+**Process Steps**:
 
-1. Validate required Azure variables (CLIENT_ID, TENANT_ID, SUBSCRIPTION_ID)
+1. Validate required Azure variables (`CLIENT_ID`, `TENANT_ID`,
+   `SUBSCRIPTION_ID`)
 2. Checkout repository code
 3. Install Azure Developer CLI
 4. Build Bicep templates
 5. Deploy infrastructure to specified environment
 
-**Trigger:** Manual workflow dispatch **Input Parameters:** AZURE_ENV_NAME,
-AZURE_LOCATION **Concurrency Control:** Prevents concurrent deployments to same
-environment
+**Process Details**:
 
-**Source:** `.github/workflows/deploy.yml`
+| Attribute       | Value                                               |
+| :-------------- | :-------------------------------------------------- |
+| **Trigger**     | Manual workflow dispatch                            |
+| **Input**       | `AZURE_ENV_NAME`, `AZURE_LOCATION`                  |
+| **Concurrency** | Prevents concurrent deployments to same environment |
+
+**Source**: `.github/workflows/deploy.yml`
 
 ### Continuous Integration Process
 
 An automated process that builds and validates Bicep templates on feature and
 fix branches, ensuring code quality before merging to main branch.
 
-**Process Steps:**
+**Process Steps**:
 
 1. Generate semantic version tag
 2. Checkout repository
@@ -456,17 +483,21 @@ fix branches, ensuring code quality before merging to main branch.
 4. Validate template syntax and structure
 5. Publish artifacts (if applicable)
 
-**Trigger:** Push to feature/** and fix/** branches, Pull requests to main
-**Output:** Validated Bicep artifacts
+**Process Details**:
 
-**Source:** `.github/workflows/ci.yml`
+| Attribute   | Value                                                     |
+| :---------- | :-------------------------------------------------------- |
+| **Trigger** | Push to `feature/**` and `fix/**` branches, PRs to `main` |
+| **Output**  | Validated Bicep artifacts                                 |
+
+**Source**: `.github/workflows/ci.yml`
 
 ### User Role Assignment Process
 
 A process that creates DevCenter role assignments for users, enabling access to
 Dev Box resources with appropriate permissions based on organizational roles.
 
-**Process Steps:**
+**Process Steps**:
 
 1. Retrieve current signed-in Azure user
 2. Check existing role assignments
@@ -476,17 +507,21 @@ Dev Box resources with appropriate permissions based on organizational roles.
    - Deployment Environments Reader
    - Deployment Environments User
 
-**Trigger:** Manual script execution **Scope:** Subscription-level role
-assignments
+**Process Details**:
 
-**Source:** `.configuration/setup/powershell/Azure/createUsersAndAssignRole.ps1`
+| Attribute   | Value                               |
+| :---------- | :---------------------------------- |
+| **Trigger** | Manual script execution             |
+| **Scope**   | Subscription-level role assignments |
+
+**Source**: `.configuration/setup/powershell/Azure/createUsersAndAssignRole.ps1`
 
 ### Cleanup and Teardown Process
 
 A process that orchestrates complete cleanup of DevExp-DevBox infrastructure
 including deployments, role assignments, credentials, and resource groups.
 
-**Process Steps:**
+**Process Steps**:
 
 1. Delete Azure subscription deployments
 2. Remove user role assignments
@@ -494,10 +529,16 @@ including deployments, role assignments, credentials, and resource groups.
 4. Remove GitHub secrets for Azure credentials
 5. Clean up Azure resource groups
 
-**Trigger:** Manual script execution via cleanSetUp.ps1 **Input Parameters:**
-EnvName, Location, AppDisplayName, GhSecretName
+**Process Details**:
 
-**Source:** `cleanSetUp.ps1`
+| Attribute   | Value                                                   |
+| :---------- | :------------------------------------------------------ |
+| **Trigger** | Manual script execution via `cleanSetUp.ps1`            |
+| **Input**   | `EnvName`, `Location`, `AppDisplayName`, `GhSecretName` |
+
+**Source**: [cleanSetUp.ps1](../../cleanSetUp.ps1)
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
@@ -507,10 +548,14 @@ EnvName, Location, AppDisplayName, GhSecretName
 
 The organizational structure within TOGAF 10 Business Architecture defines the
 entities, units, and hierarchies that execute business capabilities and
-processes. Understanding the organization structure is essential for mapping
-responsibilities, identifying stakeholders, and ensuring appropriate governance
-across the enterprise architecture. Organization units represent logical
-groupings of resources and people with shared objectives.
+processes. Understanding the organization structure is essential for:
+
+- Mapping responsibilities
+- Identifying stakeholders
+- Ensuring appropriate governance across the enterprise architecture
+
+Organization units represent logical groupings of resources and people with
+shared objectives.
 
 The ContosoDevExp solution explicitly defines organizational entities through
 resource tagging conventions and configuration settings. These tags reveal the
@@ -520,8 +565,8 @@ governance enforcement, and operational clarity across the deployed
 infrastructure.
 
 The architecture model extracts organizational information from resource tags
-consistently applied across configuration files. Tags such as "owner,"
-"division," "team," and "costCenter" provide explicit organizational mappings
+consistently applied across configuration files. Tags such as `owner`,
+`division`, `team`, and `costCenter` provide explicit organizational mappings
 that reflect the business structure within the Contoso enterprise.
 
 ```mermaid
@@ -568,14 +613,18 @@ The top-level organizational entity representing the enterprise owner of all
 resources deployed by the DevExp-DevBox accelerator. Contoso serves as the
 primary stakeholder and resource owner across all infrastructure components.
 
-**Organizational Attributes:**
+**Organizational Attributes**:
 
-- Owner designation: "Contoso"
-- Enterprise-wide resource governance
-- Cost center responsibility
+| Attribute      | Value                  |
+| :------------- | :--------------------- |
+| Owner          | Contoso                |
+| Governance     | Enterprise-wide        |
+| Responsibility | Cost center management |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (tags section),
-`infra/settings/resourceOrganization/azureResources.yaml`
+**Sources**:
+
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (tags section)
+- [azureResources.yaml](../../infra/settings/resourceOrganization/azureResources.yaml)
 
 ### Platforms Division
 
@@ -583,22 +632,79 @@ The business division within Contoso responsible for platform engineering and
 developer experience initiatives. This division owns the DevExp-DevBox
 accelerator and related infrastructure.
 
-**Organizational Attributes:**
+**Organizational Attributes**:
 
-- Division: "Platforms"
-- Focus area: Platform engineering
-- Reporting structure: Enterprise IT
+| Attribute           | Value                |
+| :------------------ | :------------------- |
+| Division            | Platforms            |
+| Focus area          | Platform engineering |
+| Reporting structure | Enterprise IT        |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (tags section, line:
-"division: Platforms")
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (tags
+section: `division: Platforms`)
 
 ### DevExP Team
 
 The operational team responsible for implementing and managing the Dev Box
-accelerator platform. This team executes the day-to-day operations and maintains
-the infrastructure.
+accelerator platform. This team executes day-to-day operations and maintains the
+infrastructure.
 
-**Organizational Attributes:**
+**Organizational Attributes**:
+
+| Attribute             | Value                            |
+| :-------------------- | :------------------------------- |
+| Team name             | DevExP                           |
+| Responsibility        | Developer Experience Platform    |
+| Operational ownership | Platform maintenance and support |
+
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (tags
+section: `team: DevExP`)
+
+### IT Cost Center
+
+The financial allocation center responsible for tracking and managing costs
+associated with the developer experience platform.
+
+**Organizational Attributes**:
+
+| Attribute             | Value                               |
+| :-------------------- | :---------------------------------- |
+| Cost Center           | IT                                  |
+| Budget responsibility | Platform infrastructure costs       |
+| Financial tracking    | Resource consumption and allocation |
+
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (tags
+section: `costCenter: IT`)
+
+[↑ Back to Top](#table-of-contents)
+
+---
+
+## Business Actors
+
+### Overview
+
+Business actors in TOGAF 10 represent individuals, groups, or external entities
+that interact with the business architecture. Actors are responsible for:
+
+- Executing processes
+- Consuming services
+- Fulfilling roles within the organization
+
+Identifying and documenting actors enables proper authorization, access control,
+and responsibility assignment across the enterprise architecture.
+
+The ContosoDevExp solution defines several actor types through Azure AD group
+configurations, role assignments, and persona-specific workstation
+configurations. These actors represent the stakeholders who either manage the
+platform or consume its services. Actor definitions include both administrative
+roles (platform managers) and end-user roles (developers with specific
+specializations).
+
+The architecture model extracts actor definitions from explicit Azure AD group
+references, role type configurations, and pool-based workstation allocations.
+Each actor type has associated RBAC roles that define their permissions and
+capabilities within the platform.
 
 - Team name: "DevExP"
 - Responsibility: Developer Experience Platform
