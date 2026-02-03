@@ -953,18 +953,21 @@ flowchart LR
     classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
 
     subgraph DEVSVC["Developer Services"]
+        direction TB
         S1["Dev Box Provisioning Service"]
         S2["Environment Deployment Service"]
         S3["Catalog Synchronization Service"]
     end
 
     subgraph PLATSVC["Platform Services"]
+        direction TB
         S4["Identity Management Service"]
         S5["Secrets Management Service"]
         S6["Monitoring Service"]
     end
 
     subgraph INFRASVC["Infrastructure Services"]
+        direction TB
         S7["Network Connectivity Service"]
         S8["Resource Organization Service"]
     end
@@ -978,6 +981,10 @@ flowchart LR
     class DEVSVC level1
     class PLATSVC level2
     class INFRASVC level3
+
+    style DEVSVC fill:#E3F2FD,stroke:#424242,stroke-width:2px
+    style PLATSVC fill:#F3E5F5,stroke:#424242,stroke-width:2px
+    style INFRASVC fill:#E8F5E9,stroke:#424242,stroke-width:2px
 ```
 
 ### Dev Box Provisioning Service
@@ -1171,12 +1178,14 @@ flowchart TB
     classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
 
     subgraph STRATEGIC["Strategic Goals"]
+        direction TB
         G1["Developer Productivity"]
         G2["Environment Standardization"]
         G3["Security Compliance"]
     end
 
     subgraph OPERATIONAL["Operational Objectives"]
+        direction TB
         O1["Reduce Setup Time"]
         O2["Role-Specific Configurations"]
         O3["Centralized Secret Management"]
@@ -1190,6 +1199,9 @@ flowchart TB
 
     class STRATEGIC level1
     class OPERATIONAL level2
+
+    style STRATEGIC fill:#E3F2FD,stroke:#424242,stroke-width:2px
+    style OPERATIONAL fill:#F3E5F5,stroke:#424242,stroke-width:2px
 ```
 
 ### Developer Productivity Enhancement
@@ -1273,16 +1285,19 @@ flowchart LR
     classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
 
     subgraph ACCESS["Access Control Policies"]
+        direction TB
         P1["RBAC-Based Authorization"]
         P2["Least Privilege Principle"]
     end
 
     subgraph RESOURCE["Resource Policies"]
+        direction TB
         P3["Tagging Standards"]
         P4["Naming Conventions"]
     end
 
     subgraph SECURITY["Security Policies"]
+        direction TB
         P5["Secret Protection"]
         P6["Soft Delete Retention"]
     end
@@ -1294,6 +1309,10 @@ flowchart LR
     class ACCESS level1
     class RESOURCE level2
     class SECURITY level3
+
+    style ACCESS fill:#E3F2FD,stroke:#424242,stroke-width:2px
+    style RESOURCE fill:#F3E5F5,stroke:#424242,stroke-width:2px
+    style SECURITY fill:#E8F5E9,stroke:#424242,stroke-width:2px
 ```
 
 ### Role-Based Access Control Policy
@@ -1393,10 +1412,12 @@ flowchart TB
     classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
 
     subgraph DCPROJ["DevCenter Projects"]
+        direction TB
         PRJ1["eShop Project"]
     end
 
     subgraph COMP["Project Components"]
+        direction TB
         C1["Network Configuration"]
         C2["Developer Pools"]
         C3["Environment Types"]
@@ -1410,6 +1431,9 @@ flowchart TB
 
     class DCPROJ level1
     class COMP level2
+
+    style DCPROJ fill:#E3F2FD,stroke:#424242,stroke-width:2px
+    style COMP fill:#F3E5F5,stroke:#424242,stroke-width:2px
 ```
 
 ### eShop Project
@@ -1473,12 +1497,14 @@ flowchart TB
     classDef level2 fill:#F3E5F5,stroke:#424242,stroke-width:2px,color:#212121
 
     subgraph LZ["Landing Zones"]
+        direction TB
         LZ1["Workload Landing Zone"]
         LZ2["Security Landing Zone"]
         LZ3["Monitoring Landing Zone"]
     end
 
     subgraph RG["Resource Groups"]
+        direction TB
         RG1["devexp-workload-RG"]
         RG2["devexp-security-RG"]
         RG3["devexp-monitoring-RG"]
@@ -1490,6 +1516,9 @@ flowchart TB
 
     class LZ level1
     class RG level2
+
+    style LZ fill:#E3F2FD,stroke:#424242,stroke-width:2px
+    style RG fill:#F3E5F5,stroke:#424242,stroke-width:2px
 ```
 
 ### Workload Landing Zone
@@ -1562,15 +1591,18 @@ flowchart TB
     classDef level3 fill:#E8F5E9,stroke:#424242,stroke-width:2px,color:#212121
 
     subgraph BASE["Base Configurations"]
+        direction TB
         CFG1["Common Configuration"]
     end
 
     subgraph ROLE["Role Configurations"]
+        direction TB
         CFG2["Backend Engineer Config"]
         CFG3["Frontend Engineer Config"]
     end
 
     subgraph PLATFORM["Platform Configurations"]
+        direction TB
         CFG4["GitHub Platform Config"]
         CFG5["Azure DevOps Platform Config"]
     end
@@ -1583,6 +1615,10 @@ flowchart TB
     class BASE level1
     class ROLE level2
     class PLATFORM level3
+
+    style BASE fill:#E3F2FD,stroke:#424242,stroke-width:2px
+    style ROLE fill:#F3E5F5,stroke:#424242,stroke-width:2px
+    style PLATFORM fill:#E8F5E9,stroke:#424242,stroke-width:2px
 ```
 
 ### Common Configuration
