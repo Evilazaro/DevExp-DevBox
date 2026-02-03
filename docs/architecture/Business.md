@@ -1059,61 +1059,80 @@ both GitHub and Azure DevOps Git repositories.
 A service that provides identity and access management for DevCenter resources
 through Azure AD integration and RBAC role assignments.
 
-**Service Characteristics:**
+**Service Characteristics**:
 
-- Service Name: Identity Management
-- Consumers: All Platform Users
-- Delivery Mechanism: Azure AD, RBAC
-- Identity Types: SystemAssigned Managed Identity, Azure AD Groups
+| Attribute          | Value                                            |
+| :----------------- | :----------------------------------------------- |
+| Service Name       | Identity Management                              |
+| Consumers          | All Platform Users                               |
+| Delivery Mechanism | Azure AD, RBAC                                   |
+| Identity Types     | SystemAssigned Managed Identity, Azure AD Groups |
 
-**Source:** `src/identity/orgRoleAssignment.bicep`,
-`src/identity/devCenterRoleAssignment.bicep`
+**Sources**:
+
+- [orgRoleAssignment.bicep](../../src/identity/orgRoleAssignment.bicep)
+- [devCenterRoleAssignment.bicep](../../src/identity/devCenterRoleAssignment.bicep)
 
 ### Secrets Management Service
 
 A service that provides secure storage and access to sensitive credentials
 including GitHub tokens and other secrets required for platform operations.
 
-**Service Characteristics:**
+**Service Characteristics**:
 
-- Service Name: Secrets Management
-- Consumers: DevCenter, Catalogs
-- Delivery Mechanism: Azure Key Vault
-- Security Features: Purge protection, Soft delete, RBAC authorization
+| Attribute          | Value                                             |
+| :----------------- | :------------------------------------------------ |
+| Service Name       | Secrets Management                                |
+| Consumers          | DevCenter, Catalogs                               |
+| Delivery Mechanism | Azure Key Vault                                   |
+| Security Features  | Purge protection, Soft delete, RBAC authorization |
 
-**Source:** `infra/settings/security/security.yaml`,
-`src/security/keyVault.bicep`
+**Sources**:
+
+- [security.yaml](../../infra/settings/security/security.yaml)
+- [keyVault.bicep](../../src/security/keyVault.bicep)
 
 ### Monitoring and Observability Service
 
 A service that provides centralized logging, diagnostics, and operational
 visibility across all platform resources through Log Analytics integration.
 
-**Service Characteristics:**
+**Service Characteristics**:
 
-- Service Name: Monitoring and Observability
-- Consumers: Operations Team, DevExP Team
-- Delivery Mechanism: Azure Log Analytics
-- Capabilities: Diagnostic settings, Activity logs, Metrics collection
+| Attribute          | Value                                                  |
+| :----------------- | :----------------------------------------------------- |
+| Service Name       | Monitoring and Observability                           |
+| Consumers          | Operations Team, DevExP Team                           |
+| Delivery Mechanism | Azure Log Analytics                                    |
+| Capabilities       | Diagnostic settings, Activity logs, Metrics collection |
 
-**Source:** `src/management/logAnalytics.bicep`, `infra/main.bicep` (monitoring
-module)
+**Sources**:
+
+- [logAnalytics.bicep](../../src/management/logAnalytics.bicep)
+- [main.bicep](../../infra/main.bicep) (monitoring module)
 
 ### Network Connectivity Service
 
 A service that provides network infrastructure for Dev Box connectivity,
 supporting both managed and unmanaged virtual network configurations.
 
-**Service Characteristics:**
+**Service Characteristics**:
 
-- Service Name: Network Connectivity
-- Consumers: Dev Box Pools
-- Delivery Mechanism: Azure Virtual Networks
-- Network Types: Managed, Unmanaged
-- Configuration: Address prefixes, Subnets
+| Attribute          | Value                     |
+| :----------------- | :------------------------ |
+| Service Name       | Network Connectivity      |
+| Consumers          | Dev Box Pools             |
+| Delivery Mechanism | Azure Virtual Networks    |
+| Network Types      | Managed, Unmanaged        |
+| Configuration      | Address prefixes, Subnets |
 
-**Source:** `src/connectivity/vnet.bicep`,
-`infra/settings/workload/devcenter.yaml` (network section)
+**Sources**:
+
+- [vnet.bicep](../../src/connectivity/vnet.bicep)
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (network
+  section)
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
@@ -1129,8 +1148,12 @@ organizational strategy and delivers intended value.
 
 The ContosoDevExp solution's business goals are inferred from the platform's
 documented purpose, configuration comments, and resource descriptions found
-within the codebase. These goals focus on developer productivity,
-standardization, security, and operational efficiency.
+within the codebase. These goals focus on:
+
+- Developer productivity
+- Standardization
+- Security
+- Operational efficiency
 
 The architecture model extracts goal-related information from file headers,
 configuration comments, and purpose statements explicitly documented in the
@@ -1172,15 +1195,18 @@ flowchart TB
 Establish a centralized developer workstation platform that reduces environment
 setup time and provides consistent, pre-configured development environments.
 
-**Supporting Evidence:**
+**Supporting Evidence**:
 
-- "This configuration establishes a centralized developer workstation platform
-  with role-specific configurations and appropriate access controls."
-- Dev Drive configuration for "optimized filesystem performance for development
-  workloads"
+> "This configuration establishes a centralized developer workstation platform
+> with role-specific configurations and appropriate access controls."
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 6-8),
-`.configuration/devcenter/workloads/common-config.dsc.yaml` (lines 26-35)
+> "Dev Drive configuration for optimized filesystem performance for development
+> workloads."
+
+**Sources**:
+
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (lines 6-8)
+- `.configuration/devcenter/workloads/common-config.dsc.yaml` (lines 26-35)
 
 ### Environment Standardization
 
@@ -1188,27 +1214,34 @@ Provide standardized development environments through version-controlled
 configurations and catalog-based image definitions, ensuring consistency across
 development teams.
 
-**Supporting Evidence:**
+**Supporting Evidence**:
 
-- "Best practice: Use Git repositories for configuration-as-code approach"
-- "Best practice: Create role-specific pools with appropriate tools and
-  settings"
+> "Best practice: Use Git repositories for configuration-as-code approach."
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 64-67, 136-139)
+> "Best practice: Create role-specific pools with appropriate tools and
+> settings."
+
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+(lines 64-67, 136-139)
 
 ### Security and Compliance
 
 Implement security best practices including centralized secrets management,
 RBAC-based authorization, and principle of least privilege for access control.
 
-**Supporting Evidence:**
+**Supporting Evidence**:
 
-- "The following roles follow the principle of least privilege and best
-  practices"
-- Key Vault configuration with purge protection and RBAC authorization
+> "The following roles follow the principle of least privilege and best
+> practices."
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 33-35),
-`infra/settings/security/security.yaml`
+Key Vault configuration includes purge protection and RBAC authorization.
+
+**Sources**:
+
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (lines 33-35)
+- [security.yaml](../../infra/settings/security/security.yaml)
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
