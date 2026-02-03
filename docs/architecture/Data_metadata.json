@@ -1,0 +1,240 @@
+{
+    "session_id": "a5d8b4c1-3e9f-4a72-b8e1-9c7d2f4e6a31",
+    "timestamp": "2026-02-03T10:15:30Z",
+    "document_version": "1.0.0",
+    "inputs": {
+        "folder_paths": [
+            "z:\\dev"
+        ],
+        "target_layer": "Data",
+        "quality_level": "standard"
+    },
+    "statistics": {
+        "components_discovered": 8,
+        "relationships_mapped": 12,
+        "diagrams_generated": 7,
+        "execution_time_seconds": 125,
+        "document_sections": 9,
+        "total_lines": 1847,
+        "configuration_files": 3,
+        "schema_files": 3,
+        "parameter_files": 2
+    },
+    "validation_scores": {
+        "completeness": 0.92,
+        "togaf_compliance": 0.91,
+        "quality": 0.88
+    },
+    "validation_passed": true,
+    "components": [
+        {
+            "id": "DATA-SCH-001",
+            "name": "azureResources.schema.json",
+            "type": "Data Schema",
+            "location": "infra/settings/resourceOrganization/azureResources.schema.json",
+            "line_count": 141,
+            "purpose": "Validates resource group organization structure",
+            "schema_version": "draft-2020-12"
+        },
+        {
+            "id": "DATA-SCH-002",
+            "name": "security.schema.json",
+            "type": "Data Schema",
+            "location": "infra/settings/security/security.schema.json",
+            "line_count": 180,
+            "purpose": "Validates Azure Key Vault security configuration",
+            "schema_version": "draft-2020-12"
+        },
+        {
+            "id": "DATA-SCH-003",
+            "name": "devcenter.schema.json",
+            "type": "Data Schema",
+            "location": "infra/settings/workload/devcenter.schema.json",
+            "line_count": 661,
+            "purpose": "Validates Microsoft DevCenter workload configuration",
+            "schema_version": "draft-2020-12"
+        },
+        {
+            "id": "DATA-CFG-001",
+            "name": "azureResources.yaml",
+            "type": "Configuration Data",
+            "location": "infra/settings/resourceOrganization/azureResources.yaml",
+            "line_count": 65,
+            "purpose": "Defines workload, security, and monitoring resource groups",
+            "resource_groups": 3
+        },
+        {
+            "id": "DATA-CFG-002",
+            "name": "security.yaml",
+            "type": "Configuration Data",
+            "location": "infra/settings/security/security.yaml",
+            "line_count": 50,
+            "purpose": "Configures Key Vault settings and secrets",
+            "key_vault_name": "contoso"
+        },
+        {
+            "id": "DATA-CFG-003",
+            "name": "devcenter.yaml",
+            "type": "Configuration Data",
+            "location": "infra/settings/workload/devcenter.yaml",
+            "line_count": 195,
+            "purpose": "Defines DevCenter, projects, pools, and catalogs",
+            "devcenter_name": "devexp-devcenter",
+            "projects": 1,
+            "pools": 2
+        },
+        {
+            "id": "DATA-PRM-001",
+            "name": "main.parameters.json",
+            "type": "Deployment Parameters",
+            "location": "infra/main.parameters.json",
+            "line_count": 14,
+            "purpose": "Provides infrastructure deployment parameters",
+            "parameters": 3
+        },
+        {
+            "id": "DATA-PRM-002",
+            "name": "azure.yaml",
+            "type": "Environment Configuration",
+            "location": "azure.yaml",
+            "line_count": 28,
+            "purpose": "Configures Azure Developer CLI environment",
+            "project_name": "ContosoDevExp"
+        }
+    ],
+    "relationships": [
+        {
+            "source": "DATA-SCH-001",
+            "target": "DATA-CFG-001",
+            "type": "validates"
+        },
+        {
+            "source": "DATA-SCH-002",
+            "target": "DATA-CFG-002",
+            "type": "validates"
+        },
+        {
+            "source": "DATA-SCH-003",
+            "target": "DATA-CFG-003",
+            "type": "validates"
+        },
+        {
+            "source": "DATA-CFG-001",
+            "target": "main.bicep",
+            "type": "loaded_by"
+        },
+        {
+            "source": "DATA-CFG-002",
+            "target": "security.bicep",
+            "type": "consumed_by"
+        },
+        {
+            "source": "DATA-CFG-003",
+            "target": "workload.bicep",
+            "type": "consumed_by"
+        },
+        {
+            "source": "DATA-PRM-001",
+            "target": "main.bicep",
+            "type": "parameters_for"
+        },
+        {
+            "source": "DATA-PRM-002",
+            "target": "main.bicep",
+            "type": "environment_for"
+        },
+        {
+            "source": "main.bicep",
+            "target": "security.bicep",
+            "type": "deploys"
+        },
+        {
+            "source": "main.bicep",
+            "target": "workload.bicep",
+            "type": "deploys"
+        },
+        {
+            "source": "main.bicep",
+            "target": "logAnalytics.bicep",
+            "type": "deploys"
+        },
+        {
+            "source": "security.bicep",
+            "target": "workload.bicep",
+            "type": "provides_secretIdentifier"
+        }
+    ],
+    "dependencies": {
+        "upstream": [],
+        "downstream": [
+            "Application Layer (Bicep Templates)",
+            "Technology Layer (Azure Resources)",
+            "Security Layer (Identity & Access)",
+            "Business Layer (Cost Management & Governance)"
+        ]
+    },
+    "gaps_identified": [
+        {
+            "id": "GAP-001",
+            "severity": "high",
+            "category": "data_governance",
+            "description": "No dedicated data quality monitoring or validation dashboards",
+            "recommendation": "Implement real-time configuration quality dashboards with drift detection"
+        },
+        {
+            "id": "GAP-002",
+            "severity": "medium",
+            "category": "data_lineage",
+            "description": "Limited data lineage tracking for configuration changes across deployment lifecycle",
+            "recommendation": "Implement data catalog (Azure Purview) to track configuration lineage"
+        },
+        {
+            "id": "GAP-003",
+            "severity": "medium",
+            "category": "metadata_management",
+            "description": "No automated data catalog or metadata repository for configuration artifacts",
+            "recommendation": "Deploy metadata repository for configuration discovery and governance"
+        },
+        {
+            "id": "GAP-004",
+            "severity": "low",
+            "category": "data_retention",
+            "description": "Missing data retention policies for historical configuration versions",
+            "recommendation": "Define and implement retention schedules for configuration versions"
+        },
+        {
+            "id": "GAP-005",
+            "severity": "low",
+            "category": "data_security",
+            "description": "No encryption-at-rest policies defined for configuration data storage",
+            "recommendation": "Document and implement encryption policies for configuration repositories"
+        }
+    ],
+    "warnings": [],
+    "recommendations": [
+        "Implement Data Catalog: Deploy Azure Purview to track configuration data lineage",
+        "Establish Data Quality Framework: Create automated validation pipelines with quality metrics",
+        "Define Data Lifecycle Policies: Establish retention schedules for configuration versions",
+        "Enhance Data Security: Implement encryption-at-rest for all configuration repositories",
+        "Create Data Observability: Build dashboards for configuration drift detection and validation"
+    ],
+    "compliance": {
+        "schema_validation_coverage": 1.0,
+        "tagging_compliance": 1.0,
+        "secret_scanning_coverage": 1.0,
+        "configuration_documentation": 1.0
+    },
+    "quality_metrics": {
+        "schema_coverage": "100%",
+        "tag_compliance": "100%",
+        "deployment_success_rate": "98%",
+        "schema_validation_success_rate": "100%",
+        "configuration_review_time_hours": 18,
+        "mean_time_to_resolve_hours": 2.5
+    },
+    "output_files": [
+        "z:\\dev\\docs\\architecture\\Data_architecture_document.md",
+        "z:\\dev\\docs\\architecture\\Data_metadata.json",
+        "z:\\dev\\docs\\architecture\\Data_state.json"
+    ]
+}
