@@ -794,14 +794,17 @@ An administrative actor responsible for managing Dev Box deployments and
 DevCenter configuration. This team has DevCenter Project Admin privileges and
 oversees the platform infrastructure.
 
-**Actor Attributes:**
+**Actor Attributes**:
 
-- Azure AD Group ID: 5a1d1455-e771-4c19-aa03-fb4a08418f22
-- Azure AD Group Name: "Platform Engineering Team"
-- Role Type: DevManager
-- Assigned RBAC Role: DevCenter Project Admin (at ResourceGroup scope)
+| Attribute           | Value                                         |
+| :------------------ | :-------------------------------------------- |
+| Azure AD Group ID   | `5a1d1455-e771-4c19-aa03-fb4a08418f22`        |
+| Azure AD Group Name | Platform Engineering Team                     |
+| Role Type           | DevManager                                    |
+| Assigned RBAC Role  | DevCenter Project Admin (ResourceGroup scope) |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 52-62)
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+(lines 52-62)
 
 ### eShop Developers
 
@@ -809,18 +812,25 @@ A developer actor group representing the development team for the eShop project.
 Members of this group consume Dev Box resources and have access to deployment
 environments.
 
-**Actor Attributes:**
+**Actor Attributes**:
 
-- Azure AD Group ID: 9d42a792-2d74-441d-8bcb-71009371725f
-- Azure AD Group Name: "eShop Developers"
-- Assigned RBAC Roles:
-  - Contributor (Project scope)
-  - Dev Box User (Project scope)
-  - Deployment Environment User (Project scope)
-  - Key Vault Secrets User (ResourceGroup scope)
-  - Key Vault Secrets Officer (ResourceGroup scope)
+| Attribute           | Value                                  |
+| :------------------ | :------------------------------------- |
+| Azure AD Group ID   | `9d42a792-2d74-441d-8bcb-71009371725f` |
+| Azure AD Group Name | eShop Developers                       |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 113-132)
+**Assigned RBAC Roles**:
+
+| Role                        | Scope         |
+| :-------------------------- | :------------ |
+| Contributor                 | Project       |
+| Dev Box User                | Project       |
+| Deployment Environment User | Project       |
+| Key Vault Secrets User      | ResourceGroup |
+| Key Vault Secrets Officer   | ResourceGroup |
+
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+(lines 113-132)
 
 ### Backend Engineers
 
@@ -828,15 +838,19 @@ A specialized developer actor representing engineers who work on backend
 services. These engineers receive dedicated workstation configurations optimized
 for backend development.
 
-**Actor Attributes:**
+**Actor Attributes**:
 
-- Pool Name: "backend-engineer"
-- Image Definition: "eShop-backend-engineer"
-- VM SKU: general_i_32c128gb512ssd_v2 (32 cores, 128GB RAM, 512GB SSD)
-- Workstation Configuration: Backend-specific tooling and environments
+| Attribute        | Value                                                          |
+| :--------------- | :------------------------------------------------------------- |
+| Pool Name        | `backend-engineer`                                             |
+| Image Definition | `eShop-backend-engineer`                                       |
+| VM SKU           | `general_i_32c128gb512ssd_v2` (32 cores, 128GB RAM, 512GB SSD) |
+| Configuration    | Backend-specific tooling and environments                      |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 144-146),
-`.configuration/devcenter/workloads/common-backend-config.dsc.yaml`
+**Sources**:
+
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (lines 144-146)
+- `.configuration/devcenter/workloads/common-backend-config.dsc.yaml`
 
 ### Frontend Engineers
 
@@ -844,15 +858,19 @@ A specialized developer actor representing engineers who work on frontend
 applications. These engineers receive dedicated workstation configurations
 optimized for frontend development.
 
-**Actor Attributes:**
+**Actor Attributes**:
 
-- Pool Name: "frontend-engineer"
-- Image Definition: "eShop-frontend-engineer"
-- VM SKU: general_i_16c64gb256ssd_v2 (16 cores, 64GB RAM, 256GB SSD)
-- Workstation Configuration: Frontend-specific tooling and environments
+| Attribute        | Value                                                        |
+| :--------------- | :----------------------------------------------------------- |
+| Pool Name        | `frontend-engineer`                                          |
+| Image Definition | `eShop-frontend-engineer`                                    |
+| VM SKU           | `general_i_16c64gb256ssd_v2` (16 cores, 64GB RAM, 256GB SSD) |
+| Configuration    | Frontend-specific tooling and environments                   |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 147-149),
-`.configuration/devcenter/workloads/common-frontend-usertasks-config.dsc.yaml`
+**Sources**:
+
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (lines 147-149)
+- `.configuration/devcenter/workloads/common-frontend-usertasks-config.dsc.yaml`
 
 ### DevCenter Service Identity
 
@@ -860,16 +878,23 @@ A system actor representing the managed identity assigned to the DevCenter
 resource. This identity authenticates and authorizes DevCenter operations across
 Azure resources.
 
-**Actor Attributes:**
+**Actor Attributes**:
 
-- Identity Type: SystemAssigned
-- Assigned RBAC Roles:
-  - Contributor (Subscription scope)
-  - User Access Administrator (Subscription scope)
-  - Key Vault Secrets User (ResourceGroup scope)
-  - Key Vault Secrets Officer (ResourceGroup scope)
+| Attribute     | Value          |
+| :------------ | :------------- |
+| Identity Type | SystemAssigned |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (lines 24-51)
+**Assigned RBAC Roles**:
+
+| Role                      | Scope         |
+| :------------------------ | :------------ |
+| Contributor               | Subscription  |
+| User Access Administrator | Subscription  |
+| Key Vault Secrets User    | ResourceGroup |
+| Key Vault Secrets Officer | ResourceGroup |
+
+**Source**: [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+(lines 24-51)
 
 ### Project Service Identity
 
@@ -877,13 +902,18 @@ A system actor representing the managed identity assigned to individual
 DevCenter projects. This identity enables project-level authentication and
 resource access.
 
-**Actor Attributes:**
+**Actor Attributes**:
 
-- Identity Type: SystemAssigned
-- Scope: Project-level operations
-- Purpose: Project catalog synchronization and resource access
+| Attribute     | Value                                               |
+| :------------ | :-------------------------------------------------- |
+| Identity Type | SystemAssigned                                      |
+| Scope         | Project-level operations                            |
+| Purpose       | Project catalog synchronization and resource access |
 
-**Source:** `src/workload/project/project.bicep` (lines 146-155)
+**Source**: [project.bicep](../../src/workload/project/project.bicep) (lines
+146-155)
+
+[↑ Back to Top](#table-of-contents)
 
 ---
 
@@ -899,9 +929,9 @@ Understanding business services enables service-oriented architecture alignment
 and stakeholder value delivery.
 
 The ContosoDevExp solution provides several distinct business services to its
-developer community. These services are derived from the platform's capabilities
-and are configured through infrastructure-as-code definitions. Each service
-supports specific developer workflows and contributes to the overall developer
+developer community. These services derive from the platform's capabilities and
+are configured through infrastructure-as-code definitions. Each service supports
+specific developer workflows and contributes to the overall developer
 experience.
 
 The architecture model extracts service definitions from resource
@@ -952,20 +982,26 @@ A service that provides on-demand provisioning of cloud-based developer
 workstations with role-specific configurations. Developers can access
 pre-configured virtual machines through the Azure DevCenter portal.
 
-**Service Characteristics:**
+**Service Characteristics**:
 
-- Service Name: Dev Box Provisioning
-- Consumers: Backend Engineers, Frontend Engineers, eShop Developers
-- Delivery Mechanism: Azure DevCenter Pools
-- Configuration: Role-specific image definitions and VM SKUs
+| Attribute          | Value                                                   |
+| :----------------- | :------------------------------------------------------ |
+| Service Name       | Dev Box Provisioning                                    |
+| Consumers          | Backend Engineers, Frontend Engineers, eShop Developers |
+| Delivery Mechanism | Azure DevCenter Pools                                   |
+| Configuration      | Role-specific image definitions and VM SKUs             |
 
-**Service Offerings:**
+**Service Offerings**:
 
-- Backend Engineer Dev Box (32 cores, 128GB RAM)
-- Frontend Engineer Dev Box (16 cores, 64GB RAM)
+| Offering                  | Specifications      |
+| :------------------------ | :------------------ |
+| Backend Engineer Dev Box  | 32 cores, 128GB RAM |
+| Frontend Engineer Dev Box | 16 cores, 64GB RAM  |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (pools section),
-`src/workload/project/projectPool.bicep`
+**Sources**:
+
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (pools section)
+- [projectPool.bicep](../../src/workload/project/projectPool.bicep)
 
 ### Environment Deployment Service
 
@@ -973,15 +1009,20 @@ A service that enables developers to deploy application environments for
 development, testing, and validation purposes. Supports multiple lifecycle
 stages through defined environment types.
 
-**Service Characteristics:**
+**Service Characteristics**:
 
-- Service Name: Environment Deployment
-- Consumers: Development Teams
-- Delivery Mechanism: Azure Deployment Environments
-- Environment Types: dev, staging, UAT
+| Attribute          | Value                         |
+| :----------------- | :---------------------------- |
+| Service Name       | Environment Deployment        |
+| Consumers          | Development Teams             |
+| Delivery Mechanism | Azure Deployment Environments |
+| Environment Types  | `dev`, `staging`, `UAT`       |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (environmentTypes section),
-`src/workload/core/environmentType.bicep`
+**Sources**:
+
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml)
+  (environmentTypes section)
+- [environmentType.bicep](../../src/workload/core/environmentType.bicep)
 
 ### Catalog Synchronization Service
 
@@ -989,22 +1030,29 @@ A service that maintains synchronized access to versioned configuration
 repositories containing environment definitions and image definitions. Supports
 both GitHub and Azure DevOps Git repositories.
 
-**Service Characteristics:**
+**Service Characteristics**:
 
-- Service Name: Catalog Synchronization
-- Consumers: DevCenter, Projects
-- Delivery Mechanism: Git-based catalog sync
-- Sync Type: Scheduled
-- Visibility Options: Public, Private (with secret authentication)
+| Attribute          | Value                                        |
+| :----------------- | :------------------------------------------- |
+| Service Name       | Catalog Synchronization                      |
+| Consumers          | DevCenter, Projects                          |
+| Delivery Mechanism | Git-based catalog sync                       |
+| Sync Type          | Scheduled                                    |
+| Visibility Options | Public, Private (with secret authentication) |
 
-**Catalog Types:**
+**Catalog Types**:
 
-- customTasks: Shared Microsoft DevCenter catalog
-- environments: Project-specific environment definitions
-- devboxImages: Project-specific image definitions
+| Catalog        | Description                              |
+| :------------- | :--------------------------------------- |
+| `customTasks`  | Shared Microsoft DevCenter catalog       |
+| `environments` | Project-specific environment definitions |
+| `devboxImages` | Project-specific image definitions       |
 
-**Source:** `infra/settings/workload/devcenter.yaml` (catalogs section),
-`src/workload/core/catalog.bicep`
+**Sources**:
+
+- [devcenter.yaml](../../infra/settings/workload/devcenter.yaml) (catalogs
+  section)
+- [catalog.bicep](../../src/workload/core/catalog.bicep)
 
 ### Identity Management Service
 
