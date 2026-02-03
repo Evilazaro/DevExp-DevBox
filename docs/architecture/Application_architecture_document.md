@@ -82,11 +82,16 @@ This Application Architecture aligns with:
 The Application Architecture consists of three tiers:
 
 ```mermaid
+---
+title: Application Landscape - DevCenter Platform Architecture
+---
 architecture-beta
+    %% ===== PLATFORM LAYER =====
     group devcenter(cloud)[DevCenter Platform]
     group core(server)[Core Services] in devcenter
     group projects(server)[Project Services] in devcenter
 
+    %% ===== SERVICES =====
     service workload(server)[Workload Service] in devcenter
     service devcenterCore(database)[DevCenter Core] in core
     service catalogMgmt(disk)[Catalog Management] in core
@@ -96,6 +101,7 @@ architecture-beta
     service projEnv(disk)[Project Environment] in projects
     service projPool(internet)[Project Pool] in projects
 
+    %% ===== RELATIONSHIPS =====
     workload:R --> L:devcenterCore
     workload:R --> L:project
     devcenterCore:B --> T:catalogMgmt
@@ -261,61 +267,101 @@ access.
 #### 4.1.2 Current State Diagram
 
 ```mermaid
+---
+title: Current State Diagram - Azure Subscription Resource Organization
+---
 flowchart TD
-    subgraph Subscription[Azure Subscription]
-        subgraph SecurityRG[Security Resource Group]
-            KV[Key Vault]
-            Secrets[GitHub PAT Secret]
+    %% ===== AZURE SUBSCRIPTION =====
+    subgraph azureSubscription["Azure Subscription"]
+        direction TB
+
+        %% ===== SECURITY RESOURCE GROUP =====
+        subgraph securityRG["Security Resource Group"]
+            direction TB
+            keyVault["Key Vault"]
+            githubSecret["GitHub PAT Secret"]
         end
 
-        subgraph MonitoringRG[Monitoring Resource Group]
-            LA[Log Analytics Workspace]
+        %% ===== MONITORING RESOURCE GROUP =====
+        subgraph monitoringRG["Monitoring Resource Group"]
+            direction TB
+            logAnalytics["Log Analytics Workspace"]
         end
 
-        subgraph WorkloadRG[Workload Resource Group]
-            DC[DevCenter Resource]
-            subgraph DCCatalogs[DevCenter Catalogs]
-                Cat1[Custom Tasks Catalog]
-            end
-            subgraph DCEnvTypes[DevCenter Env Types]
-                Dev[dev]
-                Staging[staging]
-                UAT[UAT]
+        %% ===== WORKLOAD RESOURCE GROUP =====
+        subgraph workloadRG["Workload Resource Group"]
+            direction TB
+            devCenter["DevCenter Resource"]
+
+            subgraph devCenterCatalogs["DevCenter Catalogs"]
+                direction LR
+                customTasksCatalog["Custom Tasks Catalog"]
             end
 
-            subgraph Projects[Projects]
-                Proj1[eShop Project]
-                subgraph ProjResources[Project Resources]
-                    ProjCat[Environment Definitions]
-                    ProjImg[DevBox Images]
-                    ProjEnv[Project Environments]
-                    BackendPool[Backend Engineer Pool]
-                    FrontendPool[Frontend Engineer Pool]
+            subgraph devCenterEnvTypes["DevCenter Environment Types"]
+                direction LR
+                devEnv["dev"]
+                stagingEnv["staging"]
+                uatEnv["UAT"]
+            end
+
+            subgraph projectsGroup["Projects"]
+                direction TB
+                eShopProject["eShop Project"]
+
+                subgraph projectResources["Project Resources"]
+                    direction TB
+                    envDefinitions["Environment Definitions"]
+                    devBoxImages["DevBox Images"]
+                    projEnvironments["Project Environments"]
+                    backendPool["Backend Engineer Pool"]
+                    frontendPool["Frontend Engineer Pool"]
                 end
             end
         end
 
-        subgraph ConnectivityRG[Connectivity Resource Group]
-            VNet[Virtual Network]
-            Subnet[Project Subnet]
+        %% ===== CONNECTIVITY RESOURCE GROUP =====
+        subgraph connectivityRG["Connectivity Resource Group"]
+            direction TB
+            vnet["Virtual Network"]
+            subnet["Project Subnet"]
         end
     end
 
-    DC --> DCCatalogs
-    DC --> DCEnvTypes
-    DC --> Projects
-    Proj1 --> ProjResources
-    DC -.->|Monitoring| LA
-    DC -.->|Secrets| KV
-    Proj1 -.->|Secrets| KV
-    Proj1 -.->|Network| VNet
-    BackendPool -.->|Network| VNet
-    FrontendPool -.->|Network| VNet
+    %% ===== PRIMARY RELATIONSHIPS =====
+    devCenter -->|contains| devCenterCatalogs
+    devCenter -->|contains| devCenterEnvTypes
+    devCenter -->|contains| projectsGroup
+    eShopProject -->|contains| projectResources
 
-    style SecurityRG fill:#FFCDD2,stroke:#C62828
-    style MonitoringRG fill:#C8E6C9,stroke:#2E7D32
-    style WorkloadRG fill:#BBDEFB,stroke:#1565C0
-    style ConnectivityRG fill:#FFF9C4,stroke:#F57F17
+    %% ===== DEPENDENCIES =====
+    devCenter -.->|monitors via| logAnalytics
+    devCenter -.->|retrieves secrets from| keyVault
+    eShopProject -.->|uses secrets from| keyVault
+    eShopProject -.->|connects to| vnet
+    backendPool -.->|uses network| vnet
+    frontendPool -.->|uses network| vnet
+
+    %% ===== STYLING: NODE CLASSES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF,stroke-width:2px
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000,stroke-width:2px
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-width:2px
+
+    %% ===== APPLY NODE CLASSES =====
+    class devCenter,eShopProject primary
+    class keyVault,logAnalytics,vnet datastore
+    class githubSecret,customTasksCatalog,devEnv,stagingEnv,uatEnv,envDefinitions,devBoxImages,projEnvironments,backendPool,frontendPool,subnet external
+
+    %% ===== STYLING: SUBGRAPHS =====
+    style azureSubscription fill:#EEF2FF,stroke:#4F46E5,stroke-width:3px
+    style securityRG fill:#FEE2E2,stroke:#F44336,stroke-width:2px
+    style monitoringRG fill:#ECFDF5,stroke:#10B981,stroke-width:2px
+    style workloadRG fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style connectivityRG fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+    style devCenterCatalogs fill:#F3F4F6,stroke:#6B7280,stroke-width:1px
+    style devCenterEnvTypes fill:#F3F4F6,stroke:#6B7280,stroke-width:1px
+    style projectsGroup fill:#D1FAE5,stroke:#059669,stroke-width:1px
+    style projectResources fill:#F3F4F6,stroke:#6B7280,stroke-width:1px
 ```
 
 **Legend:** Resource organization across Azure resource groups with cross-RG
@@ -753,29 +799,66 @@ for image definition catalogs with specified VM SKUs and network configurations.
 ### 5.2 Component Interaction Flow
 
 ```mermaid
+---
+title: Component Interaction Flow - Deployment Sequence
+---
 flowchart TD
-    Start([Deployment Start]) --> Workload[DevCenter Workload Service]
-    Workload --> LoadConfig[Load YAML Configuration]
-    LoadConfig --> DeployCore[Deploy DevCenter Core]
-    DeployCore --> CreateCatalogs[Create Catalogs]
-    DeployCore --> CreateEnvTypes[Create Environment Types]
-    CreateCatalogs --> CoreReady{Core Ready?}
-    CreateEnvTypes --> CoreReady
-    CoreReady -->|Yes| DeployProjects[Deploy Projects Loop]
-    DeployProjects --> CreateProject[Create Project Resource]
-    CreateProject --> AssignIdentity[Assign Managed Identity]
-    AssignIdentity --> CreateNetwork[Configure Network]
-    CreateNetwork --> CreateProjCatalogs[Create Project Catalogs]
-    CreateProjCatalogs --> CreateProjEnv[Create Project Environments]
-    CreateProjEnv --> CreatePools[Create DevBox Pools]
-    CreatePools --> MoreProjects{More Projects?}
-    MoreProjects -->|Yes| DeployProjects
-    MoreProjects -->|No| Complete([Deployment Complete])
+    %% ===== START =====
+    startNode(["Deployment Start"])
 
-    style Start fill:#4CAF50,stroke:#2E7D32,color:#FFF
-    style Complete fill:#4CAF50,stroke:#2E7D32,color:#FFF
-    style CoreReady fill:#FF9800,stroke:#F57C00,color:#FFF
-    style MoreProjects fill:#FF9800,stroke:#F57C00,color:#FFF
+    %% ===== WORKLOAD INITIALIZATION =====
+    workloadService["DevCenter Workload Service"]
+    loadConfig["Load YAML Configuration"]
+    deployCore["Deploy DevCenter Core"]
+
+    %% ===== CORE SERVICES DEPLOYMENT =====
+    createCatalogs["Create Catalogs"]
+    createEnvTypes["Create Environment Types"]
+    coreReady{"Core Ready?"}
+
+    %% ===== PROJECT DEPLOYMENT LOOP =====
+    deployProjects["Deploy Projects Loop"]
+    createProject["Create Project Resource"]
+    assignIdentity["Assign Managed Identity"]
+    configureNetwork["Configure Network"]
+    createProjCatalogs["Create Project Catalogs"]
+    createProjEnv["Create Project Environments"]
+    createPools["Create DevBox Pools"]
+    moreProjects{"More Projects?"}
+
+    %% ===== COMPLETION =====
+    completeNode(["Deployment Complete"])
+
+    %% ===== FLOW CONNECTIONS =====
+    startNode --> workloadService
+    workloadService -->|initializes| loadConfig
+    loadConfig -->|parses YAML| deployCore
+    deployCore -->|provisions| createCatalogs
+    deployCore -->|provisions| createEnvTypes
+    createCatalogs --> coreReady
+    createEnvTypes --> coreReady
+    coreReady -->|Yes| deployProjects
+    deployProjects -->|iterates| createProject
+    createProject -->|generates| assignIdentity
+    assignIdentity -->|establishes| configureNetwork
+    configureNetwork -->|deploys| createProjCatalogs
+    createProjCatalogs -->|creates| createProjEnv
+    createProjEnv -->|initializes| createPools
+    createPools --> moreProjects
+    moreProjects -->|Yes| deployProjects
+    moreProjects -->|No| completeNode
+
+    %% ===== STYLING: NODE CLASSES =====
+    classDef trigger fill:#818CF8,stroke:#4F46E5,color:#FFFFFF,stroke-width:2px
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF,stroke-width:2px
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF,stroke-width:2px
+    classDef decision fill:#FFFBEB,stroke:#F59E0B,color:#000000,stroke-width:2px
+
+    %% ===== APPLY NODE CLASSES =====
+    class startNode,completeNode trigger
+    class workloadService,loadConfig,deployCore primary
+    class createCatalogs,createEnvTypes,deployProjects,createProject,assignIdentity,configureNetwork,createProjCatalogs,createProjEnv,createPools secondary
+    class coreReady,moreProjects decision
 ```
 
 **Legend:** Deployment sequence from workload initialization through core
@@ -1308,31 +1391,48 @@ resource catalog 'Microsoft.DevCenter/devcenters/catalogs' = {
 ### 8.1 Cross-Layer Dependencies
 
 ```mermaid
+---
+title: Cross-Layer Dependencies - Application and Technology Layers
+---
 flowchart LR
-    subgraph Application[Application Layer]
-        APP1[DevCenter Workload]
-        APP2[DevCenter Core]
-        APP3[Catalog Management]
-        APP5[Project Service]
-        APP6[Project Catalog]
-        APP8[Project Pool]
+    %% ===== APPLICATION LAYER =====
+    subgraph applicationLayer["Application Layer"]
+        direction TB
+        appWorkload["DevCenter Workload"]
+        appCore["DevCenter Core"]
+        appCatalog["Catalog Management"]
+        appProject["Project Service"]
+        appProjCatalog["Project Catalog"]
+        appProjPool["Project Pool"]
     end
 
-    subgraph Technology[Technology Layer]
-        TECH1[(Log Analytics)]
-        TECH2[Key Vault]
-        TECH3{{Virtual Network}}
+    %% ===== TECHNOLOGY LAYER =====
+    subgraph technologyLayer["Technology Layer"]
+        direction TB
+        techLogAnalytics[("Log Analytics")]
+        techKeyVault["Key Vault"]
+        techVNet{{"Virtual Network"}}
     end
 
-    APP2 -.->|Monitoring| TECH1
-    APP2 -.->|Secrets| TECH2
-    APP3 -.->|Auth| TECH2
-    APP5 -.->|Connectivity| TECH3
-    APP6 -.->|Auth| TECH2
-    APP8 -.->|Network| TECH3
+    %% ===== DEPENDENCIES =====
+    appCore -.->|sends diagnostics to| techLogAnalytics
+    appCore -.->|retrieves secrets from| techKeyVault
+    appCatalog -.->|authenticates with| techKeyVault
+    appProject -.->|connects via| techVNet
+    appProjCatalog -.->|authenticates with| techKeyVault
+    appProjPool -.->|uses network from| techVNet
 
-    style Application fill:#E3F2FD,stroke:#1976D2
-    style Technology fill:#FFF3E0,stroke:#F57C00
+    %% ===== STYLING: NODE CLASSES =====
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF,stroke-width:2px
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000,stroke-width:2px
+
+    %% ===== APPLY NODE CLASSES =====
+    class appWorkload,appCore,appCatalog,appProject,appProjCatalog,appProjPool primary
+    class techLogAnalytics,techKeyVault,techVNet datastore
+
+    %% ===== STYLING: SUBGRAPHS =====
+    style applicationLayer fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
+    style technologyLayer fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
 ```
 
 **Legend:** Dotted lines indicate upstream dependencies. Application services
@@ -1412,31 +1512,49 @@ gitHub: {
 ### 8.5 API and Interface Specifications
 
 ```mermaid
+---
+title: API and Interface Specifications - External Integrations
+---
 flowchart LR
-    subgraph External[External Systems]
-        GitHub[(GitHub Repository)]
-        AzDO[(Azure DevOps)]
-        ARM[Azure Resource Manager]
+    %% ===== EXTERNAL SYSTEMS =====
+    subgraph externalSystems["External Systems"]
+        direction TB
+        github[("GitHub Repository")]
+        azureDevOps[("Azure DevOps")]
+        azureARM["Azure Resource Manager"]
     end
 
-    subgraph APIs[Application Interfaces]
-        WorkloadAPI[Workload Module API]
-        CoreAPI[Core Module API]
-        CatalogAPI[Catalog Sync API]
-        ProjectAPI[Project Module API]
+    %% ===== APPLICATION INTERFACES =====
+    subgraph applicationAPIs["Application Interfaces"]
+        direction TB
+        workloadAPI["Workload Module API"]
+        coreAPI["Core Module API"]
+        catalogAPI["Catalog Sync API"]
+        projectAPI["Project Module API"]
     end
 
-    ARM -->|Deploy| WorkloadAPI
-    WorkloadAPI -->|Orchestrate| CoreAPI
-    WorkloadAPI -->|Orchestrate| ProjectAPI
-    CoreAPI -->|Create| CatalogAPI
-    ProjectAPI -->|Manage| CatalogAPI
+    %% ===== DEPLOYMENT & ORCHESTRATION =====
+    azureARM -->|deploys via| workloadAPI
+    workloadAPI -->|orchestrates| coreAPI
+    workloadAPI -->|orchestrates| projectAPI
+    coreAPI -->|creates| catalogAPI
+    projectAPI -->|manages| catalogAPI
 
-    CatalogAPI <-->|HTTPS Sync| GitHub
-    CatalogAPI <-->|HTTPS Sync| AzDO
+    %% ===== GIT SYNCHRONIZATION =====
+    catalogAPI <-->|syncs via HTTPS| github
+    catalogAPI <-->|syncs via HTTPS| azureDevOps
 
-    style External fill:#FFE0B2,stroke:#E65100
-    style APIs fill:#B2EBF2,stroke:#00838F
+    %% ===== STYLING: NODE CLASSES =====
+    classDef external fill:#6B7280,stroke:#4B5563,color:#FFFFFF,stroke-width:2px,stroke-dasharray:5 5
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF,stroke-width:2px
+
+    %% ===== APPLY NODE CLASSES =====
+    class github,azureDevOps,azureARM external
+    class workloadAPI,coreAPI,catalogAPI,projectAPI primary
+
+    %% ===== STYLING: SUBGRAPHS =====
+    style externalSystems fill:#F3F4F6,stroke:#6B7280,stroke-width:2px
+    style applicationAPIs fill:#E0E7FF,stroke:#4F46E5,stroke-width:2px
 ```
 
 **Legend:** Bicep modules expose ARM template interfaces. Catalog services sync
@@ -1445,39 +1563,75 @@ with Git repositories.
 ### 8.6 Data Flows
 
 ```mermaid
+---
+title: Data Flows - Configuration to Deployment Pipeline
+---
 flowchart TD
-    YAML[devcenter.yaml] --> LoadYAML[Load YAML Content]
-    LoadYAML --> ConfigObj[Configuration Object]
-    ConfigObj --> WorkloadModule[Workload Module]
-    WorkloadModule --> CoreConfig[Core Config]
-    WorkloadModule --> ProjectConfig[Project Config]
+    %% ===== SOURCE CONFIGURATION =====
+    yamlConfig["devcenter.yaml"]
 
-    CoreConfig --> DevCenterName[DevCenter Name]
-    CoreConfig --> Catalogs[Catalogs Array]
-    CoreConfig --> EnvTypes[Environment Types]
-    CoreConfig --> Identity[Identity Config]
+    %% ===== CONFIGURATION PROCESSING =====
+    loadYAML["Load YAML Content"]
+    configObject["Configuration Object"]
+    workloadModule["Workload Module"]
 
-    ProjectConfig --> ProjName[Project Name]
-    ProjectConfig --> ProjCatalogs[Project Catalogs]
-    ProjectConfig --> ProjEnvTypes[Project Env Types]
-    ProjectConfig --> Pools[DevBox Pools]
-    ProjectConfig --> Network[Network Config]
+    %% ===== CORE CONFIGURATION =====
+    coreConfig["Core Config"]
+    devCenterName["DevCenter Name"]
+    catalogsArray["Catalogs Array"]
+    envTypesArray["Environment Types"]
+    identityConfig["Identity Config"]
+    deployCoreModule["Deploy Core"]
 
-    DevCenterName --> DeployCore[Deploy Core]
-    Catalogs --> DeployCore
-    EnvTypes --> DeployCore
-    Identity --> DeployCore
+    %% ===== PROJECT CONFIGURATION =====
+    projectConfig["Project Config"]
+    projName["Project Name"]
+    projCatalogs["Project Catalogs"]
+    projEnvTypes["Project Env Types"]
+    poolsArray["DevBox Pools"]
+    networkConfig["Network Config"]
+    deployProjectModule["Deploy Project"]
 
-    ProjName --> DeployProject[Deploy Project]
-    ProjCatalogs --> DeployProject
-    ProjEnvTypes --> DeployProject
-    Pools --> DeployProject
-    Network --> DeployProject
+    %% ===== CONFIGURATION FLOW =====
+    yamlConfig -->|reads| loadYAML
+    loadYAML -->|parses| configObject
+    configObject -->|splits| workloadModule
+    workloadModule -->|extracts| coreConfig
+    workloadModule -->|extracts| projectConfig
 
-    style YAML fill:#FFE0B2,stroke:#F57C00
-    style ConfigObj fill:#C5E1A5,stroke:#689F38
-    style DeployCore fill:#B3E5FC,stroke:#0277BD
-    style DeployProject fill:#B3E5FC,stroke:#0277BD
+    %% ===== CORE CONFIG FLOW =====
+    coreConfig -->|provides| devCenterName
+    coreConfig -->|provides| catalogsArray
+    coreConfig -->|provides| envTypesArray
+    coreConfig -->|provides| identityConfig
+    devCenterName -->|configures| deployCoreModule
+    catalogsArray -->|configures| deployCoreModule
+    envTypesArray -->|configures| deployCoreModule
+    identityConfig -->|configures| deployCoreModule
+
+    %% ===== PROJECT CONFIG FLOW =====
+    projectConfig -->|provides| projName
+    projectConfig -->|provides| projCatalogs
+    projectConfig -->|provides| projEnvTypes
+    projectConfig -->|provides| poolsArray
+    projectConfig -->|provides| networkConfig
+    projName -->|configures| deployProjectModule
+    projCatalogs -->|configures| deployProjectModule
+    projEnvTypes -->|configures| deployProjectModule
+    poolsArray -->|configures| deployProjectModule
+    networkConfig -->|configures| deployProjectModule
+
+    %% ===== STYLING: NODE CLASSES =====
+    classDef datastore fill:#F59E0B,stroke:#D97706,color:#000000,stroke-width:2px
+    classDef secondary fill:#10B981,stroke:#059669,color:#FFFFFF,stroke-width:2px
+    classDef primary fill:#4F46E5,stroke:#3730A3,color:#FFFFFF,stroke-width:2px
+    classDef input fill:#F3F4F6,stroke:#6B7280,color:#000000,stroke-width:2px
+
+    %% ===== APPLY NODE CLASSES =====
+    class yamlConfig datastore
+    class loadYAML,configObject,workloadModule secondary
+    class deployCoreModule,deployProjectModule primary
+    class coreConfig,devCenterName,catalogsArray,envTypesArray,identityConfig,projectConfig,projName,projCatalogs,projEnvTypes,poolsArray,networkConfig input
 ```
 
 **Legend:** Configuration flows from YAML through load/parse to deployment
