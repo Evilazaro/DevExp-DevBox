@@ -120,17 +120,21 @@ flowchart TB
         end
 
         %% Resource flow: Dev Center orchestrates projects, which provision Dev Box pools
-        devCenter --> projects
-        projects --> devBoxPools
+        devCenter -->|"orchestrates"| projects
+        projects -->|"provisions"| devBoxPools
 
         %% Network connectivity: Dev Boxes connect through dedicated network connection to VNet
-        devBoxPools --> networkConnection
-        networkConnection --> vnet
+        devBoxPools -->|"connects via"| networkConnection
+        networkConnection -->|"secured by"| vnet
 
         %% Cross-cutting concerns: Security and monitoring integrate with Dev Center
-        devCenter --> keyVault
-        devCenter --> rbac
-        devCenter --> logAnalytics
+        devCenter -->|"stores secrets in"| keyVault
+        devCenter -->|"enforces"| rbac
+        devCenter -->|"sends logs to"| logAnalytics
+
+        %% Architectural note explaining landing zone design
+        note1["ℹ️ **Azure Landing Zone Pattern**<br/>Separates workload, connectivity, security,<br/>and monitoring into distinct layers<br/>for independent scaling and management"]:::mdGrey
+        note1 -.->|"applies to"| system
     end
 
     %% Apply hierarchical styling
