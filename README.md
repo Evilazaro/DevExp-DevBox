@@ -46,12 +46,21 @@ flowchart TB
     %% ============================================
     %% STANDARD COLOR SCHEME (Material Design)
     %% ============================================
+    %% Main Group (Neutral background - MANDATORY)
     classDef mainGroup fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
+
+    %% Sub Group (Nested sub-layers)
+    classDef subGroup fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
+
+    %% Content (Semantic colors)
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
+    classDef mdRed fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#000
+    classDef mdYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
     classDef mdPurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
     classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
+    classDef mdGrey fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#000
     %% ============================================
 
     subgraph system["Azure DevCenter Infrastructure"]
@@ -65,13 +74,13 @@ flowchart TB
 
         %% Security and secrets management
         subgraph security["Security Layer"]
-            kv["Key Vault"]:::mdOrange
+            kv("Key Vault"):::mdOrange
             secrets["Secrets"]:::mdOrange
         end
 
         %% Observability and monitoring
         subgraph monitoring["Monitoring Layer"]
-            la["Log Analytics"]:::mdTeal
+            la[("Log Analytics")]:::mdTeal
         end
 
         %% Access control and permissions
@@ -82,30 +91,30 @@ flowchart TB
 
         %% Core DevCenter workload resources
         subgraph workload["Workload Layer"]
-            dc["DevCenter"]:::mdGreen
+            dc("DevCenter"):::mdGreen
             proj["Projects"]:::mdGreen
             catalog["Catalogs"]:::mdGreen
             envtype["Environment Types"]:::mdGreen
-            pools["Dev Box Pools"]:::mdGreen
+            pools(["Dev Box Pools"]):::mdGreen
         end
 
         %% Network connectivity flow
-        vnet --> netconn
-        netconn --> dc
+        vnet ==> netconn
+        netconn ==> dc
 
         %% Security integration
-        kv --> secrets
-        secrets --> dc
+        kv ==> secrets
+        secrets ==> dc
 
         %% Monitoring integration
-        la --> dc
+        la ==> dc
 
-        %% Identity and access control
+        %% Identity and access control (RBAC)
         rbac --> dc
         devid --> dc
 
         %% DevCenter resource hierarchy
-        dc --> proj
+        dc ==> proj
         proj --> catalog
         proj --> envtype
         proj --> pools
