@@ -27,35 +27,60 @@ with modular Bicep templates organized by Azure Landing Zone principles.
 ```mermaid
 %%{init: {"flowchart": {"htmlLabels": false}} }%%
 flowchart TB
+    %% ============================================
+    %% Azure DevCenter Infrastructure Architecture
+    %% ============================================
+    %% This diagram illustrates the complete infrastructure deployment
+    %% following Azure Landing Zone principles with modular Bicep templates.
+    %% Architecture includes: Connectivity, Security, Monitoring, Identity, and Workload layers.
+    %%
+    %% Color Scheme: Material Design with WCAG AA compliance
+    %% - Main Container (Indigo 50): #E8EAF6 - Neutral system boundary
+    %% - Blue: Connectivity/Network resources
+    %% - Orange: Security resources (Key Vault, Secrets)
+    %% - Teal: Monitoring/Observability resources
+    %% - Purple: Identity/RBAC resources
+    %% - Green: DevCenter workload resources
+    %% ============================================
+
+    %% ============================================
+    %% STANDARD COLOR SCHEME (Material Design)
+    %% ============================================
     classDef mainGroup fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
     classDef mdPurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
     classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
+    %% ============================================
 
     subgraph system["Azure DevCenter Infrastructure"]
         direction TB
 
+        %% Network foundation layer
         subgraph connectivity["Connectivity Layer"]
             vnet["Virtual Network"]:::mdBlue
             netconn["Network Connection"]:::mdBlue
         end
 
+        %% Security and secrets management
         subgraph security["Security Layer"]
             kv["Key Vault"]:::mdOrange
             secrets["Secrets"]:::mdOrange
         end
 
+        %% Observability and monitoring
         subgraph monitoring["Monitoring Layer"]
             la["Log Analytics"]:::mdTeal
         end
 
+        %% Access control and permissions
         subgraph identity["Identity Layer"]
             rbac["RBAC Assignments"]:::mdPurple
             devid["DevCenter Identity"]:::mdPurple
         end
 
+        %% Core DevCenter workload resources
         subgraph workload["Workload Layer"]
             dc["DevCenter"]:::mdGreen
             proj["Projects"]:::mdGreen
@@ -64,19 +89,29 @@ flowchart TB
             pools["Dev Box Pools"]:::mdGreen
         end
 
+        %% Network connectivity flow
         vnet --> netconn
         netconn --> dc
+
+        %% Security integration
         kv --> secrets
         secrets --> dc
+
+        %% Monitoring integration
         la --> dc
+
+        %% Identity and access control
         rbac --> dc
         devid --> dc
+
+        %% DevCenter resource hierarchy
         dc --> proj
         proj --> catalog
         proj --> envtype
         proj --> pools
     end
 
+    %% Apply main container styling
     class system mainGroup
 ```
 
