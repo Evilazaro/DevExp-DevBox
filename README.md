@@ -106,32 +106,32 @@ flowchart TB
         direction TB
 
         %% Security layer: Manages secrets and access tokens (Level 2)
-        subgraph security["Security Layer"]
-            kv["Key Vault<br/>(Secrets & Tokens)"]:::mdOrange
+        subgraph security["🔒 Security Layer"]
+            kv["🔐 Key Vault<br/>(Secrets & Tokens)"]:::mdOrange
         end
 
         %% Monitoring layer: Centralized logging and diagnostics (Level 2)
-        subgraph monitoring["Monitoring Layer"]
-            logs["Log Analytics<br/>(Centralized Logging)"]:::mdYellow
+        subgraph monitoring["📊 Monitoring Layer"]
+            logs["📈 Log Analytics<br/>(Centralized Logging)"]:::mdYellow
         end
 
         %% Workload layer: Core Dev Center services (Level 2)
-        subgraph workload["Workload Layer"]
-            dc["Dev Center"]:::mdGreen
-            proj["Projects"]:::mdGreen
-            cat["Catalogs"]:::mdGreen
+        subgraph workload["⚙️ Workload Layer"]
+            dc["🏢 Dev Center"]:::mdGreen
+            proj["📦 Projects"]:::mdGreen
+            cat["📚 Catalogs"]:::mdGreen
         end
 
         %% Identity layer: RBAC and service identities (Level 2)
-        subgraph identity["Identity Layer"]
-            rbac["RBAC Roles"]:::mdPurple
-            mi["Managed Identity"]:::mdPurple
+        subgraph identity["👤 Identity Layer"]
+            rbac["🎫 RBAC Roles"]:::mdPurple
+            mi["🔑 Managed Identity"]:::mdPurple
         end
 
         %% Connectivity layer: Network infrastructure (Level 2)
-        subgraph connectivity["Connectivity Layer"]
-            vnet["Virtual Network"]:::mdBlue
-            nsg["Network Security"]:::mdBlue
+        subgraph connectivity["🌐 Connectivity Layer"]
+            vnet["🔗 Virtual Network"]:::mdBlue
+            nsg["🛡️ Network Security"]:::mdBlue
         end
 
         %% Service dependencies and data flow
