@@ -60,6 +60,15 @@ platform.
 ```mermaid
 %%{init: {"flowchart": {"htmlLabels": false}} }%%
 flowchart TB
+    %% ============================================
+    %% MATERIAL DESIGN COLOR SCHEME - STANDARD v2.1
+    %% Level 1 (Main): #E8EAF6 - Top-level platform container
+    %% Level 2 (Functional): Semantic colors per layer purpose
+    %%   - Security: #F3E5F5 (Purple tint)
+    %%   - Monitoring: #FFFDE7 (Yellow tint)
+    %%   - Workload: #E3F2FD (Blue tint)
+    %% Level 3 (Nested): #FFF3E0 - Projects subgroup
+    %% ============================================
     classDef mainGroup fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
@@ -67,26 +76,26 @@ flowchart TB
     classDef mdPurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
     classDef mdYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#000
 
-    subgraph platform["Dev Box Platform Architecture"]
+    subgraph platform["🏗️ Dev Box Platform Architecture"]
         direction TB
 
-        subgraph security["Security Resource Group"]
-            kv["Azure Key Vault<br/>Secrets Management"]:::mdPurple
+        subgraph security["🔐 Security Resource Group"]
+            kv["🔑 Azure Key Vault<br/>Secrets Management"]:::mdPurple
         end
 
-        subgraph monitoring["Monitoring Resource Group"]
-            la["Log Analytics<br/>Centralized Logging"]:::mdYellow
+        subgraph monitoring["📊 Monitoring Resource Group"]
+            la["📈 Log Analytics<br/>Centralized Logging"]:::mdYellow
         end
 
-        subgraph workload["Workload Resource Group"]
-            dc["Dev Center<br/>Core Platform"]:::mdBlue
-            cat["Catalogs<br/>Image & Environment Definitions"]:::mdGreen
-            envTypes["Environment Types<br/>Dev, Staging, UAT"]:::mdGreen
+        subgraph workload["⚙️ Workload Resource Group"]
+            dc["🖥️ Dev Center<br/>Core Platform"]:::mdBlue
+            cat["📦 Catalogs<br/>Image & Environment Definitions"]:::mdGreen
+            envTypes["🏷️ Environment Types<br/>Dev, Staging, UAT"]:::mdGreen
 
-            subgraph projects["Projects"]
-                proj["Project<br/>eShop"]:::mdOrange
-                pools["Dev Box Pools<br/>Backend, Frontend"]:::mdOrange
-                net["Virtual Network<br/>Project Connectivity"]:::mdOrange
+            subgraph projects["📁 Projects"]
+                proj["🛒 Project<br/>eShop"]:::mdOrange
+                pools["💻 Dev Box Pools<br/>Backend, Frontend"]:::mdOrange
+                net["🌐 Virtual Network<br/>Project Connectivity"]:::mdOrange
             end
         end
 
