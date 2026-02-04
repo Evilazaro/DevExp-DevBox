@@ -65,11 +65,35 @@ maintain environment-specific settings without altering deployment code.
 ```mermaid
 %%{init: {"flowchart": {"htmlLabels": false}} }%%
 flowchart TB
+    %% ============================================
+    %% STANDARD COLOR SCHEME - DO NOT MODIFY
+    %% ============================================
+    %% Level 1: Main Group (Neutral background)
+    %% Used for: Top-level architecture container
+    %% Color: Indigo 50 (#E8EAF6)
+    %%
+    %% Level 2: Sub Groups (Nested containers)
+    %% Used for: Layer groupings (Security, Monitoring, Workload, Network)
+    %% Color: Indigo 100 (#C5CAE9)
+    %%
+    %% Level 3: Content Nodes (Individual components)
+    %% Used for: Specific services and resources
+    %% Colors: Material Design semantic colors (Blue, Green, Orange)
+    %% ============================================
+
+    %% Main Group Level (Neutral background)
     classDef mainGroup fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
+
+    %% Sub Group Level (Slightly darker for hierarchy)
+    classDef subGroup fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
+
+    %% Content Level (Semantic colors)
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
 
+    %% Architecture: Hub-and-spoke model with layered concerns
+    %% Complexity: 3 levels (Main → Layers → Components)
     subgraph system["Azure Dev Box Architecture"]
         direction TB
 
@@ -94,18 +118,25 @@ flowchart TB
             nc["Network Connection"]:::mdBlue
         end
 
+        %% Component relationships
         dc --> proj
         dc --> cat
         proj --> pools
         pools --> nc
         nc --> vnet
 
+        %% Cross-layer dependencies
         dc -.->|"Monitoring"| la
         dc -.->|"Secrets"| kv
         dc -.->|"Access Control"| rbac
     end
 
+    %% Apply hierarchical styling
     style system fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
+    style security fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
+    style monitoring fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
+    style workload fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
+    style connectivity fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
 ```
 
 ## 🚀 Quick Start
