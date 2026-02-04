@@ -50,11 +50,51 @@ clear data flow and access control boundaries.
 ```mermaid
 %%{init: {"flowchart": {"htmlLabels": false}} }%%
 flowchart TB
+    %% ============================================
+    %% STANDARD COLOR SCHEME - DO NOT MODIFY
+    %% ============================================
+    %% Main Group Level (Neutral background)
     classDef mainGroup fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
+
+    %% Sub Group Level (Hierarchical progression)
+    classDef subGroup fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
+
+    %% Content Level (Semantic colors)
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
-    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdRed fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#000
     classDef mdYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#000
+    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdPurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
+    classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
+    classDef mdGrey fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#000
+    %% ============================================
+
+    %% ============================================
+    %% COLOR SCHEME DOCUMENTATION
+    %% ============================================
+    %% Level 1 (Main Group - system): Indigo 50 (#E8EAF6)
+    %%   - Used for: Top-level architecture container
+    %%   - Purpose: Visual separation and hierarchy
+    %%   - Stroke: Indigo 500 (#3F51B5), 3px
+    %%
+    %% Level 2 (Sub Groups - layers): Indigo 100 (#C5CAE9)
+    %%   - Used for: Workload, Network, Security, Monitoring layers
+    %%   - Purpose: Group related Azure resources by concern
+    %%   - Stroke: Indigo 500 (#3F51B5), 2px
+    %%
+    %% Level 3 (Content - resources): Material Design semantic colors
+    %%   - Blue: Core workload components (Dev Center, Projects, Pools)
+    %%   - Green: Network infrastructure (VNet, Connections)
+    %%   - Orange: Security components (Key Vault, RBAC)
+    %%   - Yellow: Monitoring & observability (Log Analytics)
+    %% ============================================
+
+    %% Architecture follows Azure landing zone design with clear separation of concerns:
+    %% - Workload Layer: Developer-facing resources (Dev Center orchestration)
+    %% - Connectivity Layer: Network isolation and secure communication
+    %% - Security Layer: Identity, access control, and secrets management
+    %% - Monitoring Layer: Centralized logging and diagnostics
 
     subgraph system["Azure Dev Box Architecture"]
         direction TB
@@ -79,16 +119,23 @@ flowchart TB
             logAnalytics["Log Analytics<br/>(Telemetry)"]:::mdYellow
         end
 
+        %% Resource flow: Dev Center orchestrates projects, which provision Dev Box pools
         devCenter --> projects
         projects --> devBoxPools
+
+        %% Network connectivity: Dev Boxes connect through dedicated network connection to VNet
         devBoxPools --> networkConnection
         networkConnection --> vnet
+
+        %% Cross-cutting concerns: Security and monitoring integrate with Dev Center
         devCenter --> keyVault
         devCenter --> rbac
         devCenter --> logAnalytics
     end
 
+    %% Apply hierarchical styling
     class system mainGroup
+    class workload,network,security,monitoring subGroup
 ```
 
 ## 🚀 Quick Start
