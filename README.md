@@ -128,23 +128,75 @@ The solution follows Azure landing zone best practices with separate resource
 groups for security, monitoring, and workload isolation:
 
 ```mermaid
-graph TB
-    A[Azure Subscription] --> B[Security RG]
-    A --> C[Monitoring RG]
-    A --> D[Workload RG]
+%%{init: {"flowchart": {"htmlLabels": false}} }%%
+flowchart TB
+    %% ============================================
+    %% Azure DevCenter Architecture
+    %% Purpose: Visualize resource organization and dependencies
+    %% ============================================
 
-    B --> E[Key Vault]
-    C --> F[Log Analytics]
-    D --> G[DevCenter]
+    %% ============================================
+    %% STANDARD COLOR SCHEME
+    %% ============================================
+    %% Main Group (Neutral background - MANDATORY)
+    classDef mainGroup fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
 
-    G --> H[Project 1]
-    G --> I[Project 2]
+    %% Sub Group
+    classDef subGroup fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
 
-    H --> J[Dev Box Pool]
-    I --> K[Dev Box Pool]
+    %% Content (Semantic colors)
+    classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
+    classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
+    classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
+    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdPurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
+    %% ============================================
 
-    E -.Secrets.-> G
-    F -.Diagnostics.-> G
+    %% Root subscription (entry point)
+    AzureSubscription["Azure Subscription"]:::mdBlue
+
+    %% ============================================
+    %% Resource Groups (Main organizational units)
+    %% ============================================
+    subgraph SecurityRG["Security RG"]
+        KeyVault["Key Vault"]:::mdOrange
+    end
+
+    subgraph MonitoringRG["Monitoring RG"]
+        LogAnalytics["Log Analytics"]:::mdTeal
+    end
+
+    subgraph WorkloadRG["Workload RG"]
+        DevCenter["DevCenter"]:::mdPurple
+
+        %% Projects within DevCenter
+        subgraph Projects["Projects"]
+            Project1["Project 1"]:::mdGreen
+            Project2["Project 2"]:::mdGreen
+        end
+
+        DevCenter --> Projects
+    end
+
+    %% Apply main group styling
+    class SecurityRG,MonitoringRG,WorkloadRG mainGroup
+    class Projects subGroup
+
+    %% ============================================
+    %% Relationships
+    %% ============================================
+    %% Subscription to Resource Groups (organizational hierarchy)
+    AzureSubscription --> SecurityRG
+    AzureSubscription --> MonitoringRG
+    AzureSubscription --> WorkloadRG
+
+    %% Project to Dev Box Pool dependencies
+    Project1 --> DevBoxPool1["Dev Box Pool"]:::mdGreen
+    Project2 --> DevBoxPool2["Dev Box Pool"]:::mdGreen
+
+    %% Cross-RG service dependencies (dotted = runtime dependencies)
+    KeyVault -.Secrets.-> DevCenter
+    LogAnalytics -.Diagnostics.-> DevCenter
 ```
 
 ## 🔧 Configuration
