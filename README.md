@@ -147,11 +147,11 @@ flowchart TB
 
     %% Apply hierarchical styling (MANDATORY for nested subgraphs)
     style system fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
-    style security fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
-    style monitoring fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
-    style workload fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
-    style identity fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
-    style connectivity fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
+    style security fill:#FFE0B2,stroke:#E64A19,stroke-width:2px
+    style monitoring fill:#FFF9C4,stroke:#F57F17,stroke-width:2px
+    style workload fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+    style identity fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px
+    style connectivity fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
 ```
 
 ---
