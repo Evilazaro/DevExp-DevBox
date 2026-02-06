@@ -301,43 +301,13 @@ az devcenter admin devcenter list --output table
 
 **Overview**
 
-Once deployed, the Dev Center provides developer workstations through Dev Box
-pools configured for specific roles. Developers access their Dev Boxes through
-the [Microsoft Dev Box portal](https://devbox.microsoft.com/) or the Azure CLI,
-selecting from pools that match their role (for example, backend engineer or
-frontend engineer).
+Day-to-day usage of DevExp-DevBox centers on editing YAML configuration files and redeploying with `azd up`. Platform engineers add projects, adjust pools, or change environment types by updating the declarative configuration under `infra/settings/` — the Bicep modules pick up those changes automatically on the next provisioning run.
 
-Platform administrators manage the environment by updating YAML configuration
-files and redeploying. Adding a new project, changing pool VM SKUs, or
-introducing new environment types requires only a configuration change and a
-redeployment pass.
-
-### Accessing Dev Boxes
-
-After deployment, developers can create and connect to Dev Boxes:
-
-```bash
-# List available pools for a project
-az devcenter dev pool list --project-name "eShop" --dev-center-name "devexp-devcenter" --output table
-
-# Create a Dev Box from a pool
-az devcenter dev dev-box create \
-  --name "my-devbox" \
-  --pool-name "backend-engineer" \
-  --project-name "eShop" \
-  --dev-center-name "devexp-devcenter"
-
-# Expected output:
-# {
-#   "name": "my-devbox",
-#   "poolName": "backend-engineer",
-#   "provisioningState": "Succeeded"
-# }
-```
+This workflow keeps infrastructure management inside version control, so every change is reviewable, reversible, and auditable. The sections below walk through the most common operations.
 
 ### Adding a New Project
 
-Define a new project entry in `infra/settings/workload/devcenter.yaml`:
+Add a project entry to `infra/settings/workload/devcenter.yaml`, then redeploy:
 
 ```yaml
 projects:
@@ -358,9 +328,50 @@ projects:
       - name: 'developer'
         imageDefinitionName: 'myNewProject-developer'
         vmSku: general_i_16c64gb256ssd_v2
+    environmentTypes:
+      - name: 'dev'
+        deploymentTargetId: ''
+    catalogs: []
+    tags:
+      environment: dev
+      team: MyTeam
 ```
 
-Then redeploy with `azd up` to provision the new project resources.
+```bash
+# Apply the new project
+azd up
+
+# Expected output:
+# SUCCESS: Your Azure Dev Box environment has been provisioned.
+```
+
+### Modifying Dev Box Pools
+
+Change VM sizes or add new role-specific pools by editing the `pools` array for any project in `infra/settings/workload/devcenter.yaml`:
+
+```yaml
+pools:
+  - name: 'backend-engineer'
+    imageDefinitionName: 'eShop-backend-engineer'
+    vmSku: general_i_32c128gb512ssd_v2    # 32 vCPU, 128 GB RAM
+  - name: 'frontend-engineer'
+    imageDefinitionName: 'eShop-frontend-engineer'
+    vmSku: general_i_16c64gb256ssd_v2     # 16 vCPU, 64 GB RAM
+```
+
+### Tearing Down Resources
+
+Remove all provisioned infrastructure when an environment is no longer needed:
+
+```powershell
+# Windows (PowerShell)
+.\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2"
+```
+
+```bash
+# Or destroy via azd
+azd down --purge
+```
 
 ## 🔧 Configuration
 
