@@ -6,29 +6,31 @@
 ![IaC](https://img.shields.io/badge/IaC-Bicep-orange)
 ![Status](https://img.shields.io/badge/status-Production%20Ready-brightgreen)
 
-DevExp-DevBox is an Azure Infrastructure-as-Code accelerator that automates the
-provisioning and configuration of Microsoft Dev Box environments using Azure
-Developer CLI and Bicep templates.
+DevExp-DevBox is an **Azure Infrastructure-as-Code accelerator** that automates
+the provisioning and configuration of **Microsoft Dev Box environments** using
+Azure Developer CLI and Bicep templates.
 
 **Overview**
 
 Enterprise development teams face significant challenges when setting up
 consistent, secure, and scalable developer workstations. Manual provisioning
-leads to configuration drift, security gaps, and wasted engineering hours.
-DevExp-DevBox solves this by providing a fully automated, configuration-driven
-approach to deploying Microsoft Dev Box infrastructure on Azure.
+leads to **configuration drift, security gaps, and wasted engineering hours**.
+DevExp-DevBox solves this by providing a **fully automated,
+configuration-driven** approach to deploying Microsoft Dev Box infrastructure on
+Azure.
 
-This accelerator targets platform engineering teams and IT administrators who
-need to deliver self-service developer environments at scale. It provisions the
-complete Azure resource hierarchy — from resource groups and networking through
-security (Key Vault) and monitoring (Log Analytics) to the Dev Center, projects,
-pools, and catalogs — using a single deployment command.
+This accelerator targets **platform engineering teams and IT administrators**
+who need to deliver **self-service developer environments at scale**. It
+provisions the complete Azure resource hierarchy — from resource groups and
+networking through security (Key Vault) and monitoring (Log Analytics) to the
+Dev Center, projects, pools, and catalogs — using a **single deployment
+command**.
 
-The project follows Azure Landing Zone principles for resource organization,
-separating concerns into workload, security, and monitoring resource groups. All
-configuration is externalized into YAML files, enabling teams to customize Dev
-Center settings, project definitions, pool sizes, network topologies, and RBAC
-role assignments without modifying any Bicep templates.
+The project follows **Azure Landing Zone principles** for resource organization,
+separating concerns into **workload, security, and monitoring resource groups**.
+All configuration is **externalized into YAML files**, enabling teams to
+customize Dev Center settings, project definitions, pool sizes, network
+topologies, and RBAC role assignments **without modifying any Bicep templates**.
 
 ## Table of Contents
 
@@ -46,17 +48,17 @@ role assignments without modifying any Bicep templates.
 
 **Overview**
 
-DevExp-DevBox uses a modular Bicep architecture organized around Azure Landing
-Zone principles. The infrastructure separates concerns into three resource group
-layers — security, monitoring, and workload — each deployed through dedicated
-Bicep modules. The main orchestrator (`infra/main.bicep`) coordinates all module
-deployments at the subscription scope.
+DevExp-DevBox uses a **modular Bicep architecture** organized around **Azure
+Landing Zone principles**. The infrastructure separates concerns into **three
+resource group layers — security, monitoring, and workload** — each deployed
+through dedicated Bicep modules. The main orchestrator (`infra/main.bicep`)
+coordinates all module deployments at the **subscription scope**.
 
 The deployment pipeline starts with setup scripts (`setUp.ps1` or `setUp.sh`)
 that configure the Azure Developer CLI environment, authenticate with the chosen
-source control platform (GitHub or Azure DevOps), and invoke `azd provision` to
-deploy all resources. Configuration is loaded at deploy time from YAML files in
-`infra/settings/`, eliminating hard-coded values and enabling
+source control platform (GitHub or Azure DevOps), and invoke **`azd provision`**
+to deploy all resources. Configuration is **loaded at deploy time from YAML
+files** in `infra/settings/`, eliminating hard-coded values and enabling
 environment-specific customization.
 
 ```mermaid
@@ -137,10 +139,10 @@ capabilities designed to eliminate manual provisioning of developer
 environments. These features address the core needs of platform engineering
 teams: consistency, security, scalability, and self-service.
 
-Each feature operates through declarative YAML configuration, enabling teams to
-define their desired state and let the Bicep modules handle the provisioning
-logic. This configuration-driven approach means new projects, pools, and
-environments can be added by editing YAML files rather than writing new
+Each feature operates through **declarative YAML configuration**, enabling teams
+to define their desired state and let the Bicep modules handle the provisioning
+logic. This configuration-driven approach means **new projects, pools, and
+environments can be added by editing YAML files** rather than writing new
 infrastructure code.
 
 | Feature                          | Description                                                                                                | Benefits                                                                                                |
@@ -157,15 +159,19 @@ infrastructure code.
 
 **Overview**
 
-DevExp-DevBox requires specific Azure platform access and CLI tooling to deploy
-infrastructure successfully. These prerequisites ensure the setup scripts can
-authenticate, provision resources, and configure role assignments without
+DevExp-DevBox requires **specific Azure platform access and CLI tooling** to
+deploy infrastructure successfully. These prerequisites ensure the setup scripts
+can authenticate, provision resources, and configure role assignments without
 interruption.
 
-Meeting these requirements before starting deployment prevents common failure
-scenarios such as insufficient permissions, missing CLI tools, or incompatible
-runtime versions. The setup scripts validate tool availability at runtime and
-report clear error messages if any prerequisite is missing.
+**Meeting these requirements before starting deployment** prevents common
+failure scenarios such as insufficient permissions, missing CLI tools, or
+incompatible runtime versions. The setup scripts **validate tool availability at
+runtime** and report clear error messages if any prerequisite is missing.
+
+> ⚠️ **Warning**: Ensure your Azure subscription has both **Contributor** and
+> **User Access Administrator** roles assigned before deployment. Insufficient
+> permissions are the most common cause of provisioning failures.
 
 | Category          | Requirement                                                             | More Information                                                                                                                      |
 | ----------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
@@ -185,8 +191,8 @@ The fastest path to deploying a Dev Box environment uses the Azure Developer CLI
 with the included setup scripts. The scripts handle authentication, environment
 configuration, and resource provisioning in a single workflow.
 
-This Quick Start assumes you have all prerequisites installed and an Azure
-subscription with appropriate permissions. For detailed step-by-step
+This Quick Start assumes you have **all prerequisites installed** and an Azure
+subscription with **appropriate permissions**. For detailed step-by-step
 instructions, see the [Deployment](#-deployment) section.
 
 ```bash
@@ -209,15 +215,15 @@ cd DevExp-DevBox
 
 **Overview**
 
-Deployment uses the Azure Developer CLI (`azd`) to orchestrate the full
+Deployment uses the **Azure Developer CLI (`azd`)** to orchestrate the full
 infrastructure provisioning lifecycle. The setup scripts serve as the entry
 point, configuring the `azd` environment and triggering the Bicep template
-deployment at the subscription scope.
+deployment at the **subscription scope**.
 
-The deployment process creates three resource groups (security, monitoring,
-workload), provisions all infrastructure modules, configures RBAC assignments,
-and establishes network connectivity. All resource names are generated
-dynamically using the environment name and Azure region.
+The deployment process creates **three resource groups (security, monitoring,
+workload)**, provisions all infrastructure modules, configures RBAC assignments,
+and establishes network connectivity. All **resource names are generated
+dynamically** using the environment name and Azure region.
 
 ### Step 1: Authenticate with Azure
 
@@ -251,11 +257,11 @@ The setup scripts accept two parameters:
 
 The script performs these actions:
 
-1. Validates all CLI tool dependencies (`az`, `azd`, `gh`)
+1. **Validates all CLI tool dependencies** (`az`, `azd`, `gh`)
 2. Creates a new `azd` environment with the specified name
-3. Authenticates with the selected source control platform
-4. Stores the source control token in the `azd` environment
-5. Runs `azd provision` to deploy all Bicep infrastructure
+3. **Authenticates with the selected source control platform**
+4. **Stores the source control token** in the `azd` environment
+5. Runs **`azd provision`** to deploy all Bicep infrastructure
 
 ### Step 4: Verify Deployment
 
@@ -283,7 +289,10 @@ and redeploying.
 
 Day-to-day operations involve adding new team projects, adjusting pool VM SKUs,
 updating catalog references, and managing RBAC group assignments — all through
-YAML configuration changes followed by `azd provision` to apply updates.
+**YAML configuration changes followed by `azd provision`** to apply updates.
+
+> 💡 **Tip**: No Bicep code changes are required for routine operations. All
+> project, pool, and RBAC modifications are made entirely through YAML files.
 
 ### Adding a New Project
 
@@ -355,17 +364,20 @@ Use the cleanup script to remove all deployed infrastructure:
 
 **Overview**
 
-DevExp-DevBox externalizes all infrastructure settings into YAML configuration
-files stored in `infra/settings/`. Each configuration file has a companion JSON
-Schema that provides validation and editor intellisense. This approach separates
-infrastructure logic (Bicep templates) from environment-specific values (YAML
-files).
+DevExp-DevBox **externalizes all infrastructure settings** into YAML
+configuration files stored in `infra/settings/`. Each configuration file has a
+**companion JSON Schema** that provides validation and editor intellisense. This
+approach **separates infrastructure logic (Bicep templates) from
+environment-specific values** (YAML files).
 
-The configuration hierarchy follows Azure Landing Zone principles: resource
+The configuration hierarchy follows **Azure Landing Zone principles**: resource
 organization defines the resource group structure, security settings control Key
 Vault behavior, and workload settings define the Dev Center, projects, pools,
-and catalogs. Teams can modify any YAML file to customize their deployment
+and catalogs. Teams can **modify any YAML file to customize their deployment**
 without touching the Bicep modules.
+
+> 📌 **Important**: The three configuration files below control the entire
+> deployment. Review and customize them before running `azd provision`.
 
 ### Configuration Files
 
@@ -419,8 +431,8 @@ The project includes two `azd` configuration files:
 | `azure.yaml`     | Linux/macOS | Bash       |
 | `azure-pwh.yaml` | Windows     | PowerShell |
 
-Both configure a preprovision hook that runs the appropriate setup script before
-`azd provision` deploys the Bicep templates.
+Both configure a **preprovision hook** that runs the appropriate setup script
+before `azd provision` deploys the Bicep templates.
 
 ### Environment Parameters
 
@@ -462,11 +474,11 @@ improve the deployment experience for platform engineering teams. Whether adding
 support for new VM SKUs, extending the YAML configuration schema, or improving
 the setup scripts, every contribution strengthens the project.
 
-The project follows a standard GitHub fork-and-pull-request workflow. All
-infrastructure changes should be validated by running `azd provision` in a test
-environment before submitting a pull request. Bicep best practices — including
-parameter validation, resource tagging, and descriptive output variables — are
-expected in all submissions.
+The project follows a standard GitHub fork-and-pull-request workflow. **All
+infrastructure changes should be validated** by running `azd provision` in a
+test environment before submitting a pull request. Bicep best practices —
+including **parameter validation, resource tagging, and descriptive output
+variables** — are expected in all submissions.
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/my-change`
