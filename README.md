@@ -87,7 +87,6 @@ flowchart TB
     %%   Orange=#FFE0B2 (Security) | Teal=#B2DFDB (Connectivity)
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef level1Group fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
