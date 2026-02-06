@@ -377,26 +377,36 @@ azd down --purge
 
 **Overview**
 
-DevExp-DevBox uses a layered YAML configuration approach where each aspect of
-the infrastructure is defined in its own file under `infra/settings/`. JSON
-schemas accompany each configuration file, providing validation and editor
-autocompletion to catch errors before deployment. This design separates what you
-deploy from how you deploy it—the Bicep templates define the resource structure
-while YAML files control the values.
+DevExp-DevBox uses a layered YAML configuration approach where each aspect of the infrastructure is defined in its own file under `infra/settings/`. JSON schemas accompany each configuration file, providing validation and editor autocompletion to catch errors before deployment. This design separates what you deploy from how you deploy it — the Bicep templates define the resource structure while YAML files control the values.
 
-The three configuration domains (resource organization, security, and workload)
-map directly to the architectural layers. Changes to any configuration file take
-effect on the next `azd up` run, making iterative refinement straightforward
-without risk of drift between documentation and deployed state.
+The three configuration domains (resource organization, security, and workload) map directly to the architectural layers. Changes to any configuration file take effect on the next `azd up` run, making iterative refinement straightforward without risk of drift between documentation and deployed state.
+
+### Configuration File Structure
+
+```text
+infra/settings/
+├── resourceOrganization/
+│   ├── azureResources.yaml          # Resource group names, tags, create flags
+│   └── azureResources.schema.json   # JSON schema for validation
+├── security/
+│   ├── security.yaml                # Key Vault settings
+│   └── security.schema.json         # JSON schema for validation
+└── workload/
+    ├── devcenter.yaml               # Dev Center, projects, pools, catalogs, RBAC
+    └── devcenter.schema.json        # JSON schema for validation
+```
+
+> 💡 **Tip**: Each YAML file references its JSON schema via the `# yaml-language-server: $schema=` directive. Editors with YAML language server support (such as VS Code with the [YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)) provide autocompletion and inline validation automatically.
 
 ### Resource Organization (`infra/settings/resourceOrganization/azureResources.yaml`)
 
-Defines resource group naming and tagging strategy:
+Defines the three resource groups (workload, security, monitoring), their naming conventions, and tagging strategy. Set `create: false` to reference an existing resource group instead of creating a new one.
 
 ```yaml
 workload:
   create: true
   name: devexp-workload
+  description: prodExp
   tags:
     environment: dev
     division: Platforms
@@ -404,55 +414,208 @@ workload:
     project: Contoso-DevExp-DevBox
     costCenter: IT
     owner: Contoso
+    landingZone: Workload
+    resources: ResourceGroup
 
 security:
   create: true
   name: devexp-security
+  tags:
+    environment: dev
+    division: Platforms
+    team: DevExP
+    # ... same tag structure
 
 monitoring:
   create: true
   name: devexp-monitoring
+  tags:
+    environment: dev
+    division: Platforms
+    team: DevExP
+    # ... same tag structure
 ```
+
+Resource group names are suffixed at deploy time with `<environmentName>-<location>-RG` (for example, `devexp-workload-dev-eastus2-RG`).
 
 ### Security (`infra/settings/security/security.yaml`)
 
-Configures Key Vault settings and secret management:
+Configures the Azure Key Vault instance used to store source control tokens and other secrets. The top-level `create` flag controls whether a new Key Vault is provisioned or an existing one is referenced.
 
 ```yaml
+create: true
+
 keyVault:
-  name: contoso
-  secretName: gha-token
-  enablePurgeProtection: true
-  enableSoftDelete: true
-  softDeleteRetentionInDays: 7
-  enableRbacAuthorization: true
+  name: contoso                      # Globally unique Key Vault name
+  description: Development Environment Key Vault
+  secretName: gha-token              # Secret holding the GitHub/ADO PAT
+
+  # Security settings
+  enablePurgeProtection: true        # Prevent permanent deletion
+  enableSoftDelete: true             # Allow recovery of deleted secrets
+  softDeleteRetentionInDays: 7       # Retention period (7-90 days)
+  enableRbacAuthorization: true      # Use Azure RBAC instead of access policies
+
+  tags:
+    environment: dev
+    division: Platforms
+    team: DevExP
+    project: Contoso-DevExp-DevBox
+    costCenter: IT
+    owner: Contoso
+    landingZone: security
+    resources: ResourceGroup
 ```
 
 ### Dev Center (`infra/settings/workload/devcenter.yaml`)
 
-Defines the Dev Center, projects, pools, catalogs, and environment types:
+This is the primary configuration file. It defines the Dev Center resource, its identity and RBAC assignments, catalogs, environment types, and one or more projects with their pools, networking, and permissions.
+
+#### Core Settings
 
 ```yaml
-name: 'devexp-devcenter'
-catalogItemSyncEnableStatus: 'Enabled'
-microsoftHostedNetworkEnableStatus: 'Enabled'
+name: "devexp-devcenter"
+catalogItemSyncEnableStatus: "Enabled"
+microsoftHostedNetworkEnableStatus: "Enabled"
+installAzureMonitorAgentEnableStatus: "Enabled"
+```
 
+#### Identity and RBAC
+
+The Dev Center uses a system-assigned managed identity. Role assignments follow the [least-privilege guidance](https://learn.microsoft.com/en-us/azure/dev-box/concept-dev-box-deployment-guide#organizational-roles-and-responsibilities):
+
+```yaml
+identity:
+  type: "SystemAssigned"
+  roleAssignments:
+    devCenter:
+      - id: "b24988ac-6180-42a0-ab88-20f7382dd24c"
+        name: "Contributor"
+        scope: "Subscription"
+      - id: "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9"
+        name: "User Access Administrator"
+        scope: "Subscription"
+      - id: "4633458b-17de-408a-b874-0445c86b69e6"
+        name: "Key Vault Secrets User"
+        scope: "ResourceGroup"
+      - id: "b86a8fe4-44ce-4948-aee5-eccb2c155cd7"
+        name: "Key Vault Secrets Officer"
+        scope: "ResourceGroup"
+
+    orgRoleTypes:
+      - type: DevManager
+        azureADGroupId: "<your-azure-ad-group-id>"
+        azureADGroupName: "Platform Engineering Team"
+        azureRBACRoles:
+          - name: "DevCenter Project Admin"
+            id: "331c37c6-af14-46d9-b9f4-e1909e1b95a0"
+            scope: ResourceGroup
+```
+
+> ⚠️ **Important**: Replace the `azureADGroupId` values with your own Microsoft Entra ID group IDs. The defaults are sample GUIDs from the Contoso example.
+
+#### Catalogs
+
+Catalogs link Git repositories containing Dev Box image definitions or environment definitions:
+
+```yaml
 catalogs:
-  - name: 'customTasks'
+  - name: "customTasks"
     type: gitHub
-    uri: 'https://github.com/microsoft/devcenter-catalog.git'
-    branch: 'main'
-    path: './Tasks'
+    visibility: public
+    uri: "https://github.com/microsoft/devcenter-catalog.git"
+    branch: "main"
+    path: "./Tasks"
+```
 
+Set `visibility: private` for repositories that require the Key Vault secret for authentication.
+
+#### Environment Types
+
+Define SDLC stages available to all projects. Leave `deploymentTargetId` empty to use the current subscription:
+
+```yaml
 environmentTypes:
-  - name: 'dev'
-  - name: 'staging'
-  - name: 'UAT'
+  - name: "dev"
+    deploymentTargetId: ""
+  - name: "staging"
+    deploymentTargetId: ""
+  - name: "UAT"
+    deploymentTargetId: ""
+```
+
+#### Projects
+
+Each project contains its own network, identity, pools, catalogs, environment types, and tags:
+
+```yaml
+projects:
+  - name: "eShop"
+    description: "eShop project."
+
+    network:
+      name: eShop
+      create: true
+      resourceGroupName: "eShop-connectivity-RG"
+      virtualNetworkType: Managed        # "Managed" or "Unmanaged"
+      addressPrefixes:
+        - 10.0.0.0/16
+      subnets:
+        - name: eShop-subnet
+          properties:
+            addressPrefix: 10.0.1.0/24
+
+    identity:
+      type: SystemAssigned
+      roleAssignments:
+        - azureADGroupId: "<your-azure-ad-group-id>"
+          azureADGroupName: "eShop Developers"
+          azureRBACRoles:
+            - name: "Dev Box User"
+              id: "45d50f46-0b78-4001-a660-4198cbe8cd05"
+              scope: Project
+            - name: "Deployment Environment User"
+              id: "18e40d4e-8d2e-438d-97e1-9528336e149c"
+              scope: Project
+
+    pools:
+      - name: "backend-engineer"
+        imageDefinitionName: "eShop-backend-engineer"
+        vmSku: general_i_32c128gb512ssd_v2
+      - name: "frontend-engineer"
+        imageDefinitionName: "eShop-frontend-engineer"
+        vmSku: general_i_16c64gb256ssd_v2
+
+    catalogs:
+      - name: "environments"
+        type: environmentDefinition
+        sourceControl: gitHub
+        visibility: private
+        uri: "https://github.com/Evilazaro/eShop.git"
+        branch: "main"
+        path: "/.devcenter/environments"
+      - name: "devboxImages"
+        type: imageDefinition
+        sourceControl: gitHub
+        visibility: private
+        uri: "https://github.com/Evilazaro/eShop.git"
+        branch: "main"
+        path: "/.devcenter/imageDefinitions"
+
+    environmentTypes:
+      - name: "dev"
+      - name: "staging"
+      - name: "UAT"
+
+    tags:
+      environment: "dev"
+      team: "DevExP"
+      project: "DevExP-DevBox"
 ```
 
 ### Deployment Parameters (`infra/main.parameters.json`)
 
-Environment-specific values injected by `azd`:
+Environment-specific values injected by `azd` at provisioning time:
 
 ```json
 {
@@ -464,13 +627,18 @@ Environment-specific values injected by `azd`:
 }
 ```
 
-### Cleanup
+### Configuration Reference
 
-To tear down all provisioned resources:
-
-```powershell
-.\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2"
-```
+| Setting | File | Description |
+|---|---|---|
+| `create` | `azureResources.yaml`, `security.yaml` | Controls whether the resource is created or an existing one is referenced |
+| `name` | All files | Base name for the resource (suffixed automatically for resource groups) |
+| `tags` | All files | Azure resource tags for governance and cost tracking |
+| `identity.type` | `devcenter.yaml` | Managed identity type (`SystemAssigned`) |
+| `identity.roleAssignments` | `devcenter.yaml` | RBAC bindings for Dev Center and project-level security |
+| `virtualNetworkType` | `devcenter.yaml` (per project) | `Managed` (Microsoft-hosted) or `Unmanaged` (bring your own VNet) |
+| `visibility` | `devcenter.yaml` (catalogs) | `public` or `private` — private catalogs use the Key Vault secret |
+| `vmSku` | `devcenter.yaml` (pools) | VM size for Dev Box instances (e.g., `general_i_16c64gb256ssd_v2`) |
 
 ## 🤝 Contributing
 
