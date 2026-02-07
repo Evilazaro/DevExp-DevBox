@@ -79,16 +79,31 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
     %% HIERARCHICAL (structural nesting):
     %%   Level 1: #E8EAF6 (Indigo 50) - Main container
+    %%   Level 2: #C5CAE9 (Indigo 100) - Sub-containers
+    %%   Level 3: #9FA8DA (Indigo 200) - Nested sections
+    %%   Level 4: #7986CB (Indigo 300) - Deep nested
     %% SEMANTIC (functional purpose):
-    %%   Blue=#BBDEFB (Platform), Green=#C8E6C9 (Workload)
-    %%   Orange=#FFE0B2 (Security), Teal=#B2DFDB (Data/Monitoring)
+    %%   Blue=#BBDEFB (Platform/Info), Green=#C8E6C9 (Workload/Success)
+    %%   Orange=#FFE0B2 (Security/Process), Teal=#B2DFDB (Data/Monitoring)
+    %%   Red=#FFCDD2 (Error/Critical), Yellow=#FFF9C4 (Warning/Attention)
+    %%   Purple=#E1BEE7 (Optional/Feature), Grey=#F5F5F5 (Inactive/Disabled)
     %% ═══════════════════════════════════════════════════════════════════════════
 
+    %% Full classDef palette (14 required)
     classDef level1Group fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
+    classDef level2Group fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
+    classDef level3Group fill:#9FA8DA,stroke:#3F51B5,stroke-width:2px,color:#000
+    classDef level4Group fill:#7986CB,stroke:#3F51B5,stroke-width:1px,color:#000
+    classDef mainGroup fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
+    classDef subGroup fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
+    classDef mdYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#000
+    classDef mdRed fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdPurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
     classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
+    classDef mdGrey fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#000
 
     subgraph system["🏢 Azure DevCenter Infrastructure"]
         direction TB
