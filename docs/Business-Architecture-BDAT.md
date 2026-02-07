@@ -126,7 +126,7 @@ flowchart TD
 
     subgraph vision["🎯 Business Vision"]
         direction TB
-        v1["🎯 Enterprise Cloud-Native Development Platform"]:::mdBlue
+        v1["🎯 Enterprise Cloud-Native Platform"]:::mdBlue
     end
 
     subgraph goals["📊 Strategic Goals"]
@@ -138,11 +138,11 @@ flowchart TD
 
     subgraph capabilities["⚙️ Core Business Capabilities"]
         direction TB
-        c1["🤖 Automated Infrastructure Provisioning"]:::mdTeal
-        c2["🛡️ Security & Compliance Management"]:::mdOrange
-        c3["👥 Multi-Project Developer Environments"]:::mdTeal
-        c4["🔑 Integrated Source Control Authentication"]:::mdTeal
-        c5["📊 Centralized Monitoring & Observability"]:::mdTeal
+        c1["🤖 Automated Infra Provisioning"]:::mdTeal
+        c2["🛡️ Security & Compliance Mgmt"]:::mdOrange
+        c3["👥 Multi-Project Dev Environments"]:::mdTeal
+        c4["🔑 Source Control Integration"]:::mdTeal
+        c5["📊 Centralized Monitoring"]:::mdTeal
     end
 
     v1 --> g1
@@ -331,30 +331,30 @@ flowchart TB
 
     subgraph platform["🏗️ Platform Engineering Capabilities"]
         direction TB
-        infra["🤖 Infrastructure Provisioning (Maturity: 4)"]:::mdBlue
-        config["⚙️ Configuration Management (Maturity: 3)"]:::mdBlue
-        monitor["📊 Monitoring & Observability (Maturity: 3)"]:::mdBlue
+        infra["🤖 Infra Provisioning (L4)"]:::mdBlue
+        config["⚙️ Config Management (L3)"]:::mdBlue
+        monitor["📊 Monitoring & Observability (L3)"]:::mdBlue
     end
 
     subgraph security["🔒 Security & Compliance Capabilities"]
         direction TB
-        secrets["🔐 Secrets Management (Maturity: 4)"]:::mdOrange
-        rbac["🛡️ Identity & Access Control (Maturity: 4)"]:::mdOrange
-        compliance["✅ Compliance Validation (Maturity: 4)"]:::mdOrange
+        secrets["🔐 Secrets Management (L4)"]:::mdOrange
+        rbac["🛡️ Identity & Access Control (L4)"]:::mdOrange
+        compliance["✅ Compliance Validation (L4)"]:::mdOrange
     end
 
     subgraph developer["👨‍💻 Developer Experience Capabilities"]
         direction TB
-        onboard["🚀 Developer Onboarding (Maturity: 3)"]:::mdGreen
-        source["🔗 Source Control Integration (Maturity: 3)"]:::mdGreen
-        workspace["💻 Workspace Provisioning (Maturity: 3)"]:::mdGreen
+        onboard["🚀 Developer Onboarding (L3)"]:::mdGreen
+        source["🔗 Source Control Integration (L3)"]:::mdGreen
+        workspace["💻 Workspace Provisioning (L3)"]:::mdGreen
     end
 
     subgraph governance["📊 Governance Capabilities"]
         direction TB
-        multi["📁 Multi-Project Management (Maturity: 3)"]:::mdTeal
-        cost["💰 Cost Allocation (Maturity: 3)"]:::mdTeal
-        audit["📝 Audit & Traceability (Maturity: 3)"]:::mdTeal
+        multi["📁 Multi-Project Mgmt (L3)"]:::mdTeal
+        cost["💰 Cost Allocation (L3)"]:::mdTeal
+        audit["📝 Audit & Traceability (L3)"]:::mdTeal
     end
 
     infra --> secrets
@@ -568,7 +568,7 @@ flowchart TD
 
     subgraph operational["⚙️ Operational Principles"]
         direction TB
-        p5["🛠️ P-005 Self-Service with Guardrails"]:::mdBlue
+        p5["🛠️ P-005 Self-Service w/ Guardrails"]:::mdBlue
         p6["👁️ P-006 Centralized Observability"]:::mdBlue
     end
 
@@ -722,11 +722,11 @@ flowchart LR
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
 
-    start([👥 Platform Team Initiates Deployment]):::mdBlue
-    auth["🔐 Authentication Validation (2-3 min)"]:::mdBlue
-    init["⚙️ Environment Initialization (1-2 min)"]:::mdBlue
+    start([👥 Platform Team Initiates Deploy]):::mdBlue
+    auth["🔐 Authentication (2-3 min)"]:::mdBlue
+    init["⚙️ Environment Init (1-2 min)"]:::mdBlue
     provision["🏗️ Resource Provisioning (20-28 min)"]:::mdOrange
-    config["📋 Post-Deployment Configuration (2-5 min)"]:::mdBlue
+    config["📋 Post-Deploy Config (2-5 min)"]:::mdBlue
     complete([👨‍💻 Developer Dev Box Access]):::mdBlue
 
     start --> auth
