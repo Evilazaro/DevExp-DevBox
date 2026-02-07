@@ -70,27 +70,44 @@ config:
   theme: base
   flowchart:
     htmlLabels: false
+    nodeSpacing: 50
+    rankSpacing: 50
 ---
 flowchart TB
     accTitle: Azure DevCenter Infrastructure Architecture
-    accDescr: Shows security, monitoring, and workload layers with DevCenter projects and pools
+    accDescr: Three-layer architecture showing security isolation, centralized monitoring, and workload orchestration for Azure DevCenter with projects and pools
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% DIAGRAM METADATA
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% Title: Azure DevCenter Infrastructure Architecture
+    %% Purpose: Illustrate landing zone pattern with security, monitoring, workload layers
+    %% Version: 2.0.0
+    %% Updated: 2026-02-07
+    %% Complexity: 4 subgraphs, 6 nodes, 5 edges
+    %% Accessibility: WCAG AA compliant (4.5:1+ contrast ratios)
+    %% ═══════════════════════════════════════════════════════════════════════════
 
     %% ═══════════════════════════════════════════════════════════════════════════
     %% STANDARD COLOR SCHEME v2.1 - Material Design Compliant
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% HIERARCHICAL (structural nesting):
+    %% HIERARCHICAL (structural nesting - 50-level for subgraphs):
     %%   Level 1: #E8EAF6 (Indigo 50) - Main container
     %%   Level 2: #C5CAE9 (Indigo 100) - Sub-containers
     %%   Level 3: #9FA8DA (Indigo 200) - Nested sections
-    %%   Level 4: #7986CB (Indigo 300) - Deep nested
-    %% SEMANTIC (functional purpose):
-    %%   Blue=#BBDEFB (Platform/Info), Green=#C8E6C9 (Workload/Success)
-    %%   Orange=#FFE0B2 (Security/Process), Teal=#B2DFDB (Data/Monitoring)
-    %%   Red=#FFCDD2 (Error/Critical), Yellow=#FFF9C4 (Warning/Attention)
+    %%   Level 4: #7986CB (Indigo 300) - Deep nested sections
+    %% SEMANTIC (functional purpose - 100-level for content nodes):
+    %%   Blue=#BBDEFB (Platform/Infrastructure), Green=#C8E6C9 (Workload/Success)
+    %%   Orange=#FFE0B2 (Security/Critical), Teal=#B2DFDB (Data/Monitoring)
+    %%   Red=#FFCDD2 (Error/Alert), Yellow=#FFF9C4 (Warning/Attention)
     %%   Purple=#E1BEE7 (Optional/Feature), Grey=#F5F5F5 (Inactive/Disabled)
+    %% SUBGRAPH FILLS (50-level matching content node families per MRM-C005):
+    %%   Orange family: #FFF3E0 (Orange 50) for security layer
+    %%   Teal family: #E0F2F1 (Teal 50) for monitoring layer
+    %%   Green family: #E8F5E9 (Green 50) for workload layer
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    %% Full classDef palette (14 required)
+    %% Complete classDef palette (14 definitions)
     classDef level1Group fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
     classDef level2Group fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
     classDef level3Group fill:#9FA8DA,stroke:#3F51B5,stroke-width:2px,color:#000
@@ -131,13 +148,15 @@ flowchart TB
         pools -->|"connect via"| net
     end
 
-    %% SUBGRAPH STYLING (4 subgraphs = 4 style directives)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% SUBGRAPH STYLING - 4 subgraphs = 4 style directives (MRM-S001 compliant)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% Main container: Level 1 hierarchical color
     style system fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
-    style security fill:#FFE0B2,stroke:#E64A19,stroke-width:2px
-    style monitoring fill:#B2DFDB,stroke:#00796B,stroke-width:2px
-    style workload fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
-
-    %% Accessibility: WCAG AA verified (4.5:1 contrast ratio)
+    %% Semantic layers: 50-level fills matching content node families (MRM-C005)
+    style security fill:#FFF3E0,stroke:#E64A19,stroke-width:2px
+    style monitoring fill:#E0F2F1,stroke:#00796B,stroke-width:2px
+    style workload fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
 ```
 
 ## ✨ Features
