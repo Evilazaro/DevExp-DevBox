@@ -121,23 +121,23 @@ flowchart TD
 
     subgraph vision["🎯 Business Vision"]
         direction TB
-        v1["Enterprise Cloud-Native<br/>Development Platform"]:::mdBlue
+        v1["🎯 Enterprise Cloud-Native<br/>Development Platform"]:::mdBlue
     end
 
     subgraph goals["📊 Strategic Goals"]
         direction TB
-        g1["70% Reduction in<br/>Provisioning Time"]:::mdGreen
-        g2["100% SOC 2<br/>Compliance"]:::mdGreen
-        g3["Scale 1-100+<br/>Projects"]:::mdGreen
+        g1["⚡ 70% Reduction in<br/>Provisioning Time"]:::mdGreen
+        g2["🔒 100% SOC 2<br/>Compliance"]:::mdGreen
+        g3["📈 Scale 1-100+<br/>Projects"]:::mdGreen
     end
 
     subgraph capabilities["⚙️ Core Business Capabilities"]
         direction TB
-        c1["Automated<br/>Infrastructure<br/>Provisioning"]:::mdTeal
-        c2["Security &<br/>Compliance<br/>Management"]:::mdOrange
-        c3["Multi-Project<br/>Developer<br/>Environments"]:::mdTeal
-        c4["Integrated<br/>Source Control<br/>Authentication"]:::mdTeal
-        c5["Centralized<br/>Monitoring &<br/>Observability"]:::mdTeal
+        c1["🤖 Automated<br/>Infrastructure<br/>Provisioning"]:::mdTeal
+        c2["🛡️ Security &<br/>Compliance<br/>Management"]:::mdOrange
+        c3["👥 Multi-Project<br/>Developer<br/>Environments"]:::mdTeal
+        c4["🔑 Integrated<br/>Source Control<br/>Authentication"]:::mdTeal
+        c5["📊 Centralized<br/>Monitoring &<br/>Observability"]:::mdTeal
     end
 
     v1 --> g1
@@ -321,30 +321,30 @@ flowchart TB
 
     subgraph platform["🏗️ Platform Engineering Capabilities"]
         direction TB
-        infra["Infrastructure<br/>Provisioning<br/>(Maturity: 4)"]:::mdBlue
-        config["Configuration<br/>Management<br/>(Maturity: 3)"]:::mdBlue
-        monitor["Monitoring &<br/>Observability<br/>(Maturity: 3)"]:::mdTeal
+        infra["🤖 Infrastructure<br/>Provisioning<br/>(Maturity: 4)"]:::mdBlue
+        config["⚙️ Configuration<br/>Management<br/>(Maturity: 3)"]:::mdBlue
+        monitor["📊 Monitoring &<br/>Observability<br/>(Maturity: 3)"]:::mdBlue
     end
 
     subgraph security["🔒 Security & Compliance Capabilities"]
         direction TB
-        secrets["Secrets<br/>Management<br/>(Maturity: 4)"]:::mdOrange
-        rbac["Identity &<br/>Access Control<br/>(Maturity: 4)"]:::mdOrange
-        compliance["Compliance<br/>Validation<br/>(Maturity: 4)"]:::mdOrange
+        secrets["🔐 Secrets<br/>Management<br/>(Maturity: 4)"]:::mdOrange
+        rbac["🛡️ Identity &<br/>Access Control<br/>(Maturity: 4)"]:::mdOrange
+        compliance["✅ Compliance<br/>Validation<br/>(Maturity: 4)"]:::mdOrange
     end
 
     subgraph developer["👨‍💻 Developer Experience Capabilities"]
         direction TB
-        onboard["Developer<br/>Onboarding<br/>(Maturity: 3)"]:::mdGreen
-        source["Source Control<br/>Integration<br/>(Maturity: 3)"]:::mdGreen
-        workspace["Workspace<br/>Provisioning<br/>(Maturity: 3)"]:::mdGreen
+        onboard["🚀 Developer<br/>Onboarding<br/>(Maturity: 3)"]:::mdGreen
+        source["🔗 Source Control<br/>Integration<br/>(Maturity: 3)"]:::mdGreen
+        workspace["💻 Workspace<br/>Provisioning<br/>(Maturity: 3)"]:::mdGreen
     end
 
     subgraph governance["📊 Governance Capabilities"]
         direction TB
-        multi["Multi-Project<br/>Management<br/>(Maturity: 3)"]:::mdTeal
-        cost["Cost<br/>Allocation<br/>(Maturity: 3)"]:::mdTeal
-        audit["Audit &<br/>Traceability<br/>(Maturity: 3)"]:::mdTeal
+        multi["📁 Multi-Project<br/>Management<br/>(Maturity: 3)"]:::mdTeal
+        cost["💰 Cost<br/>Allocation<br/>(Maturity: 3)"]:::mdTeal
+        audit["📝 Audit &<br/>Traceability<br/>(Maturity: 3)"]:::mdTeal
     end
 
     infra --> secrets
@@ -540,20 +540,20 @@ flowchart TD
 
     subgraph foundation["🏛️ Foundation Principles"]
         direction TB
-        p1["P-001<br/>Capability-Driven<br/>Design"]:::principle
-        p2["P-002<br/>Value Stream<br/>Optimization"]:::principle
+        p1["🎯 P-001<br/>Capability-Driven<br/>Design"]:::principle
+        p2["📈 P-002<br/>Value Stream<br/>Optimization"]:::principle
     end
 
     subgraph governance["📋 Governance Principles"]
         direction TB
-        p3["P-003<br/>Least-Privilege<br/>Security"]:::principle
-        p4["P-004<br/>Configuration<br/>as Code"]:::principle
+        p3["🔒 P-003<br/>Least-Privilege<br/>Security"]:::principle
+        p4["📝 P-004<br/>Configuration<br/>as Code"]:::principle
     end
 
     subgraph operational["⚙️ Operational Principles"]
         direction TB
-        p5["P-005<br/>Self-Service with<br/>Guardrails"]:::principle
-        p6["P-006<br/>Centralized<br/>Observability"]:::principle
+        p5["🛠️ P-005<br/>Self-Service with<br/>Guardrails"]:::principle
+        p6["👁️ P-006<br/>Centralized<br/>Observability"]:::principle
     end
 
     p1 --> p5
@@ -625,17 +625,17 @@ flowchart LR
 
     subgraph measured["Level 4: Measured"]
         direction TB
-        c1["Automated<br/>Provisioning<br/>(SLA: 25-35m)"]:::level4
-        c2["Security<br/>Management<br/>(SOC 2 Compliant)"]:::level4
+        c1["🤖 Automated<br/>Provisioning<br/>(SLA: 25-35m)"]:::level4
+        c2["🔒 Security<br/>Management<br/>(SOC 2 Compliant)"]:::level4
     end
 
     subgraph defined["Level 3: Defined"]
         direction TB
-        c3["Multi-Project<br/>Support<br/>(1-100+ projects)"]:::level3
-        c4["Source Control<br/>Integration<br/>(GitHub/ADO)"]:::level3
-        c5["Centralized<br/>Monitoring<br/>(Log Analytics)"]:::level3
-        c6["Cross-Platform<br/>Deployment<br/>(PS + Bash)"]:::level3
-        c7["Landing Zone<br/>Architecture<br/>(3 RG Separation)"]:::level3
+        c3["📁 Multi-Project<br/>Support<br/>(1-100+ projects)"]:::level3
+        c4["🔗 Source Control<br/>Integration<br/>(GitHub/ADO)"]:::level3
+        c5["📊 Centralized<br/>Monitoring<br/>(Log Analytics)"]:::level3
+        c6["🌐 Cross-Platform<br/>Deployment<br/>(PS + Bash)"]:::level3
+        c7["🏗️ Landing Zone<br/>Architecture<br/>(3 RG Separation)"]:::level3
     end
 
     measured -.->|"Target: Level 5"| c1
