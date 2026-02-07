@@ -5,17 +5,18 @@
 ![Azure](https://img.shields.io/badge/cloud-Azure-0078D4)
 ![Status](https://img.shields.io/badge/status-production-success)
 
-Automated Infrastructure as Code deployment accelerator for Azure Developer
+**Automated Infrastructure as Code deployment accelerator** for Azure Developer
 Center (DevBox) with integrated GitHub and Azure DevOps support.
 
-**Overview**
+## Overview
 
-DevExp-DevBox streamlines the provisioning of enterprise developer workstations
-in Azure by automating the deployment of Azure Developer Center infrastructure.
-This accelerator eliminates manual configuration steps, reduces deployment time
-from days to hours, and ensures consistent, secure developer environments across
-teams. Built with Bicep and Azure best practices, it provides a production-ready
-foundation for organizations adopting cloud-based development environments.
+DevExp-DevBox streamlines the provisioning of **enterprise developer
+workstations in Azure** by automating the deployment of Azure Developer Center
+infrastructure. This accelerator **eliminates manual configuration steps**,
+**reduces deployment time from days to hours**, and ensures **consistent, secure
+developer environments** across teams. Built with Bicep and Azure best
+practices, it provides a **production-ready foundation** for organizations
+adopting cloud-based development environments.
 
 The solution addresses the complexity of coordinating multiple Azure
 resources—DevCenter, projects, pools, networking, security, and monitoring—into
@@ -46,21 +47,21 @@ architecture aligned with Azure Well-Architected Framework principles.
 
 ## 🏗️ Architecture
 
-**Overview**
+The architecture follows **Azure landing zone patterns** with **separation of
+concerns across three resource groups**: security, monitoring, and workload.
+This design ensures clear boundaries for access control, cost management, and
+lifecycle management. **Security resources (Key Vault) are isolated** from
+workload resources (DevCenter) to enforce **least-privilege principles**, while
+centralized monitoring provides unified observability across all components.
 
-The architecture follows Azure landing zone patterns with separation of concerns
-across three resource groups: security, monitoring, and workload. This design
-ensures clear boundaries for access control, cost management, and lifecycle
-management. Security resources (Key Vault) are isolated from workload resources
-(DevCenter) to enforce least-privilege principles, while centralized monitoring
-provides unified observability across all components.
+> 📌 **Key Design Decision**: The deployment pipeline orchestrates Bicep modules
+> that provision Azure resources in **dependency order**: monitoring foundations
+> first, security vault next, and workload resources last.
 
-The deployment pipeline orchestrates Bicep modules that provision Azure
-resources in dependency order: monitoring foundations first, security vault
-next, and workload resources last. DevCenter projects inherit network
-connectivity and security configurations from their assigned pools, enabling
-teams to customize developer workstations through YAML-defined catalogs and
-environment types without modifying infrastructure code.
+DevCenter projects **inherit network connectivity and security configurations**
+from their assigned pools, enabling teams to **customize developer workstations
+through YAML-defined catalogs** and environment types **without modifying
+infrastructure code**.
 
 ```mermaid
 ---
@@ -182,17 +183,17 @@ creation and environment management, while GitHub CLI enables automated token
 provisioning for repository access. All tools support credential caching for
 subsequent deployments.
 
-| Category              | Requirements                                                                                            | More Information                                                                                                                                                         |
-| --------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Runtime**           | Azure CLI 2.50+, Azure Developer CLI (azd) 1.5+, GitHub CLI 2.40+ (if using GitHub)                     | [Install Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli), [Install azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) |
-| **System**            | Windows 10+ (PowerShell 5.1+) OR Linux/macOS (Bash 4.0+)                                                | Scripts support cross-platform execution with identical functionality                                                                                                    |
-| **Azure Permissions** | Subscription Contributor role, ability to create resource groups, permission to assign Azure RBAC roles | [Azure RBAC documentation](https://learn.microsoft.com/azure/role-based-access-control/)                                                                                 |
-| **Source Control**    | Active GitHub account (for GitHub integration) OR Azure DevOps organization (for ADO integration)       | Personal Access Token required for repository authentication                                                                                                             |
-| **Network**           | Internet connectivity for Azure resource provisioning, GitHub API access                                | Firewall rules may require allowlisting Azure and GitHub endpoints                                                                                                       |
+| Category              | Requirements                                                                                                    | More Information                                                                                                                                                         |
+| --------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Runtime**           | Azure CLI 2.50+, Azure Developer CLI (azd) 1.5+, GitHub CLI 2.40+ (if using GitHub)                             | [Install Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli), [Install azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) |
+| **System**            | **Azure CLI 2.50+**, **Azure Developer CLI (azd) 1.5+**, **GitHub CLI 2.40+** (if using GitHub)                 | [Install Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli), [Install azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) |
+| **System**            | **Windows 10+** (PowerShell 5.1+) OR **Linux/macOS** (Bash 4.0+)                                                | Scripts support cross-platform execution with identical functionality                                                                                                    |
+| **Azure Permissions** | **Subscription Contributor role**, ability to create resource groups, **permission to assign Azure RBAC roles** | [Azure RBAC documentation](https://learn.microsoft.com/azure/role-based-access-control/)                                                                                 |
+| **Source Control**    | Active GitHub account (for GitHub integration) OR Azure DevOps organization (for ADO integration)               | **Personal Access Token required** for repository authentication                                                                                                         |
+| **Network**           | Internet connectivity for Azure resource provisioning, GitHub API access                                        | Firewall rules may require allowlisting Azure and GitHub endpoints                                                                                                       |
 
-> ⚠️ **Important**: Deployments fail if the executing identity lacks
-> `User Access Administrator` role for assigning DevCenter managed identity
-> permissions.
+> ⚠️ **Critical Requirement**: Deployments **WILL FAIL** if the executing
+> identity lacks **`User Access Administrator` role**
 
 ## 🚀 Quick Start
 
@@ -214,21 +215,26 @@ cd DevExp-DevBox
 # ✓ SUCCESS: DevCenter deployed - Access at https://portal.azure.com
 ```
 
-> 💡 **Tip**: Use `dev` environment name for non-production testing to avoid
+> 💡 **Tip**: Use **`dev`** environment name for non-production testing to avoid
 > naming conflicts.
+>
+> ⚠️ **Prerequisites**: Ensure you've completed
+> [Azure CLI authentication](#step-1-prerequisites) before running deployment
+> commands.
 
-## 📦 Deployment
+The deployment process executes in **four phases**: **authentication
+validation**, **Azure Developer CLI environment initialization**, **resource
+provisioning via Bicep**, and **post-deployment configuration**. Each phase
+includes **error handling and retry logic** to handle transient network issues
+or API throttling. The entire workflow is **idempotent**—running it multiple
+times produces identical results.
 
-**Overview**
+> 💡 **Best Practice**: Organizations typically deploy once per environment
+> (dev, test, prod) with different configurations. The scripts **validate all
+> prerequisites before provisioning begins**, preventing partial deployments
+> that require manual cleanup.
 
-The deployment process executes in four phases: authentication validation, Azure
-Developer CLI environment initialization, resource provisioning via Bicep, and
-post-deployment configuration. Each phase includes error handling and retry
-logic to handle transient network issues or API throttling. The entire workflow
-is idempotent—running it multiple times produces identical results.
-
-Organizations typically deploy once per environment (dev, test, prod) with
-different configurations. The scripts validate all prerequisites before
+Upon completion, the DevCenter is **immediately accessible**quisites before
 provisioning begins, preventing partial deployments that require manual cleanup.
 Upon completion, the DevCenter is immediately accessible through the Azure
 portal with all RBAC assignments active.
@@ -266,23 +272,26 @@ Create an Azure Developer CLI environment:
 .\setUp.ps1 -EnvName <environment-name> -SourceControl <github|adogit>
 ```
 
-**Parameters**:
+Required Parameters\*\*:
 
-- `-e` / `-EnvName`: Environment identifier (e.g., `dev`, `test`, `prod`)
+- **`-e` / `-EnvName`**: Environment identifier (e.g., `dev`, `test`, `prod`)
+- **`-s` / `-SourceControl`**: Source control platform (**`github`** or
+  **`adogit`**)
 - `-s` / `-SourceControl`: Source control platform (`github` or `adogit`)
 
 ### Step 3: Provision Resources
 
-The script automatically:
+**automatically executes** these steps:
 
-1. Authenticates to source control platform
-2. Creates Azure Developer CLI environment
-3. Provisions resource groups (security, monitoring, workload)
-4. Deploys Key Vault and stores access tokens
-5. Sets up Log Analytics workspace
-6. Creates DevCenter with configured projects and pools
+1. **Authenticates** to source control platform
+2. **Creates** Azure Developer CLI environment
+3. **Provisions** resource groups (security, monitoring, workload)
+4. **Deploys** Key Vault and stores access tokens
+5. **Sets up** Log Analytics workspace
+6. **Creates** DevCenter with configured projects and pools
 
-**Estimated Time**: 25-35 minutes
+> ⏱️ **Estimated Time**: **25-35 minutes** for complete deployment **Estimated
+> Time**: 25-35 minutes
 
 ### Step 4: Verify Deployment
 
@@ -297,22 +306,26 @@ az devcenter admin project list --dev-center <devcenter-name> --output table
 ```
 
 > ⚠️ **Troubleshooting**: If deployment fails with RBAC errors, verify your
-> account has `User Access Administrator` role at subscription scope.
+> account has `User Access Administrator` role at s**RBAC errors**, verify your
+> account has **`User Access Administrator` role** at subscription scope.
+>
+> 💡 **Verification**: All projects should show **status "Succeeded"** within
+> 2-3 minutes after deployment completion
 
 ## 💻 Usage
 
-**Overview**
+After deployment, developers **access Dev Box workstations** through the **Azure
+portal or Azure CLI**. The DevCenter **automatically provisions virtual machines
+based on pool configurations** when developers create new Dev Boxes.
+Administrators **manage the platform through YAML configuration files** and
+redeploy infrastructure to apply changes.
 
-After deployment, developers access Dev Box workstations through the Azure
-portal or Azure CLI. The DevCenter automatically provisions virtual machines
-based on pool configurations when developers create new Dev Boxes.
-Administrators manage the platform through YAML configuration files and redeploy
-infrastructure to apply changes.
-
-Typical workflows include creating project-specific catalogs for standardized
-tooling, adjusting pool sizes based on team growth, and monitoring resource
-utilization through Log Analytics. The infrastructure remains version-controlled
-in the repository, enabling GitOps workflows for infrastructure changes.
+> 💡 **Typical Workflows**: Creating project-specific catalogs for standardized
+> tooling, adjusting pool sizes based on team growth, and monitoring resource
+> utilization through Log Analytics. The infrastructure remains
+> **version-controlled in the repository**, enabling **GitOps
+> workflows**structure remains version-controlled in the repository, enabling
+> GitOps workflows for infrastructure changes.
 
 ### For Developers: Creating a Dev Box
 
@@ -336,7 +349,8 @@ az devcenter dev dev-box show-remote-connection \
 
 ### For Administrators: Updating Configuration
 
-Modify YAML files in `infra/settings/workload/devcenter.yaml`:
+**Modify YAML files** in
+[`infra/settings/workload/devcenter.yaml`](infra/settings/workload/devcenter.yaml):
 
 ```yaml
 # Example: Add a new project
@@ -351,12 +365,15 @@ projects:
         adoGitUri: 'https://dev.azure.com/org/project/_git/catalog'
 ```
 
-Redeploy infrastructure to apply changes:
+**Redeploy infrastructure** to apply changes:
 
 ```bash
 azd provision
 # Expected: Incremental deployment updates only changed resources
 ```
+
+> 💡 **Incremental Updates**: Changes trigger **only necessary resource
+> modifications**, not full redeployment.
 
 ### Monitoring and Observability
 
@@ -371,34 +388,42 @@ az monitor log-analytics query \
 # Expected: JSON output with recent DevCenter operations and errors
 ```
 
-## 🔧 Configuration
+All infrastructure behavior is **controlled through YAML configuration files**
+in [`infra/settings/`](infra/settings/). This **declarative approach separates
+configuration from code**, enabling non-developers to **customize deployments
+without modifying Bicep templates**. Changes to YAML files **trigger
+infrastructure updates** during the next **`azd provision` execution**, applying
+**only the necessary resource modifications**.
 
-**Overview**
+> 📌 **Configuration Structure**: The configuration structure **mirrors Azure
+> resource hierarchy**: resource organization defines landing zones, workload
+> settings define DevCenter resources, and security settings control Key Vault
+> behavior.
 
-All infrastructure behavior is controlled through YAML configuration files in
-`infra/settings/`. This declarative approach separates configuration from code,
-enabling non-developers to customize deployments without modifying Bicep
-templates. Changes to YAML files trigger infrastructure updates during the next
-`azd provision` execution, applying only the necessary resource modifications.
-
-The configuration structure mirrors Azure resource hierarchy: resource
-organization defines landing zones, workload settings define DevCenter
-resources, and security settings control Key Vault behavior. Organizations
-typically maintain environment-specific configuration files (e.g.,
+Organizations typically **maintain environment-specific configuration files**e
+DevCenter resources, and security settings control Key Vault behavior.
+Organizations typically maintain environment-specific configuration files (e.g.,
 `devcenter.dev.yaml`, `devcenter.prod.yaml`) and select the appropriate file
 during deployment.
 
 ### Key Configuration Files
 
-| File                                                      | Purpose                                         | Key Settings                                               |
-| --------------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------------------- |
-| `infra/settings/resourceOrganization/azureResources.yaml` | Defines resource group structure and naming     | Landing zone names, tags, creation flags                   |
-| `infra/settings/workload/devcenter.yaml`                  | Configures DevCenter, projects, pools, catalogs | Project definitions, pool configurations, network settings |
-| `infra/settings/security/security.yaml`                   | Controls Key Vault settings and access policies | Secret names, retention policies, RBAC assignments         |
+| File | Purpose | Key Settings | |
+[`infra/settings/resourceOrganization/azureResources.yaml`](infra/settings/resourceOrganization/azureResources.yaml)
+| Defines resource group structure and naming | Landing zone names, tags,
+creation flags | |
+[`infra/settings/workload/devcenter.yaml`](infra/settings/workload/devcenter.yaml)
+| **Configures DevCenter**, projects, pools, catalogs | **Project definitions**,
+**pool configurations**, network settings | |
+[`infra/settings/security/security.yaml`](infra/settings/security/security.yaml)
+| Controls Key Vault settings and access policies | **Secret names**, retention
+policies, **RBAC assignments**settings | |
+`infra/settings/security/security.yaml` | Controls Key Vault settings and access
+policies | Secret names, retention policies, RBAC assignments |
 
 ### Environment Variables
 
-Set before running deployment scripts:
+**Set before running deployment scripts**:
 
 ```bash
 # Required
@@ -410,16 +435,19 @@ export AZURE_LOCATION="eastus2"                      # Override default region
 export AZURE_SUBSCRIPTION_ID="<subscription-guid>"   # Explicit subscription selection
 ```
 
-Windows PowerShell equivalent:
+**Windows PowerShell equivalent**:
 
 ```powershell
 $env:AZURE_ENV_NAME = "prod"
 $env:SOURCE_CONTROL_PLATFORM = "github"
 ```
 
-### Bicep Parameters
+> ⚠️ **Required Variables**: **`AZURE_ENV_NAME`** and
+> **`SOURCE_CONTROL_PLATFORM`** must be set before
+> deployment.v:SOURCE_CONTROL_PLATFORM = "github"
 
-Override default parameters in `infra/main.parameters.json`:
+````
+[`infra/main.parameters.json`](infra/main.parameters.json):
 
 ```json
 {
@@ -434,49 +462,53 @@ Override default parameters in `infra/main.parameters.json`:
     }
   }
 }
-```
+````
+
+> ⚠️ **Security Best Practice**: **Store sensitive values** (like personal
+> access tokens) in **Azure Key Vault or environment variables**—**NEVER commit
+> them to version control**
 
 > 💡 **Best Practice**: Store sensitive values (like personal access tokens) in
 > Azure Key Vault or environment variables—never commit them to version control.
 
 ## 🤝 Contributing
 
-**Overview**
-
-Contributions are welcome from the community to enhance functionality, improve
-documentation, or fix issues. We value all types of contributions, from bug
+Contributions are welcome** from the community to enhance functionality, improve
+documentation, or fix issues. We value **all types of contributions**, from bug
 reports and feature requests to code submissions and documentation improvements.
-Following the guidelines below ensures smooth collaboration and maintains code
-quality standards.
+**Following the guidelines below\*\* ensures smooth collaboration and maintains
+code quality standards.
 
-The project uses GitHub pull requests for all changes. Maintainers review
-submissions within 3-5 business days, providing feedback or approval. By
-contributing, you agree that your submissions will be licensed under the MIT
+The project uses **GitHub pull requests** for all changes. Maintainers **review
+submissions within 3-5 business days**, providing feedback or approval. By
+contributing, you agree that your submissions will be **licensed under the MIT
+License**uting, you agree that your submissions will be licensed under the MIT
 License, matching the project's licensing terms.
 
 ### Contribution Process
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature-name`
-3. Make changes following
+2. **Fork the repository**
+3. **Create a feature branch**: `git checkout -b feature/your-feature-name`
+4. **Make changes** following
    [Azure Bicep best practices](https://learn.microsoft.com/azure/azure-resource-manager/bicep/best-practices)
-4. Test deployments in a non-production environment
-5. Submit a pull request with:
+5. **Test deployments** in a non-production environment
+6. **Submit a pull request** with:
    - Clear description of changes
    - Test results (deployment logs or screenshots)
    - Updated documentation if applicable
 
 ### Code Standards
 
-- Bicep files: Use consistent naming (`camelCase` for parameters, `PascalCase`
-  for resources)
-- Scripts: Follow shell script best practices (set `-e`, input validation, error
-  handling)
-- YAML: Validate against included schemas before committing
-- Documentation: Update README.md for user-facing changes
+- **Bicep files**: Use consistent naming (**`camelCase`** for parameters,
+  **`PascalCase`** for resources)
+- **Scripts**: Follow shell script best practices (**set `-e`**, input
+  validation, error handling)
+- **YAML**: **Validate against included schemas** before committing
+- **Documentation**: **Update README.md** for user-facing changes
 
-> ℹ️ **Note**: All pull requests trigger automated Bicep linting and validation
-> checks. Ensure your changes pass these checks before requesting review.
+> ℹ️ **Automated Checks**: All pull requests trigger **automated Bicep linting
+> and validation checks**. **Ensure your changes pass these checks**
 
 ## 📝 License
 
