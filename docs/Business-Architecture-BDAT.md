@@ -111,13 +111,30 @@ flowchart TD
     accTitle: Business Strategy Map showing strategic objectives and enabling capabilities
     accDescr: Hierarchical view of business vision, strategic goals, and operational capabilities for DevExp-DevBox platform
 
+    %% DIAGRAM STRUCTURE:
+    %% - Level 1 (Vision): Single strategic vision statement
+    %% - Level 2 (Goals): 3 measurable strategic goals
+    %% - Level 3 (Capabilities): 5 core business capabilities enabling goals
+    %%
+    %% RELATIONSHIPS:
+    %% - Vision "Drives" Goals (strategic direction)
+    %% - Goals "Require" Capabilities (resource dependencies)
+    %% - Goals "Enabled by" Capabilities (supporting functions)
+
     %% STANDARD COLOR SCHEME v2.1 - Material Design 3
     %% Hierarchical Colors (Structural Nesting)
+    %% - Level 1 (Vision): #E8EAF6 (Indigo 50) - Lightest
+    %% - Level 2 (Goals): #C5CAE9 (Indigo 100) - Medium
+    %% - Level 3 (Capabilities): #9FA8DA (Indigo 200) - Darker
     classDef level1Group fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
     classDef level2Group fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
     classDef level3Group fill:#9FA8DA,stroke:#3F51B5,stroke-width:2px,color:#000
 
     %% Semantic Colors (Functional Content - 100-level shades)
+    %% - Blue: Strategic/Vision elements
+    %% - Green: Efficiency/Performance outcomes
+    %% - Orange: Security/Compliance functions
+    %% - Teal: Operational capabilities
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
@@ -317,6 +334,18 @@ config:
 flowchart TB
     accTitle: Business Capability Map showing hierarchical capabilities
     accDescr: Structured view of core business capabilities organized by functional domain
+
+    %% DIAGRAM STRUCTURE:
+    %% - 4 functional domains (siblings): Platform, Security, Developer, Governance
+    %% - Each domain contains 3 related capabilities
+    %% - Cross-domain dependencies shown via labeled edges
+    %%
+    %% COLOR RATIONALE:
+    %% - Using SEMANTIC colors for functional siblings (MRM-C001)
+    %% - Platform = Blue (infrastructure)
+    %% - Security = Orange (compliance/safety)
+    %% - Developer = Green (growth/productivity)
+    %% - Governance = Teal (control/oversight)
 
     %% STANDARD COLOR SCHEME v2.1 - Material Design 3
     %% Hierarchical Colors (Structural Nesting)
@@ -545,6 +574,17 @@ flowchart TD
     accTitle: Principles Hierarchy showing relationships between architectural principles
     accDescr: Hierarchical structure of business architecture principles with dependencies
 
+    %% DIAGRAM STRUCTURE:
+    %% - 3 levels of principles (parent-child-grandchild nesting)
+    %% - Foundation principles inform operational principles
+    %% - Governance principles enforce and enable other principles
+    %%
+    %% COLOR RATIONALE:
+    %% - Using HIERARCHICAL colors for structural nesting (not functional siblings)
+    %% - Level 1 (Foundation): #E8EAF6 (Indigo 50)
+    %% - Level 2 (Governance): #C5CAE9 (Indigo 100)
+    %% - Level 3 (Operational): #9FA8DA (Indigo 200)
+
     %% STANDARD COLOR SCHEME v2.1 - Material Design 3
     %% Hierarchical Colors (Structural Nesting)
     classDef level1Group fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
@@ -717,8 +757,20 @@ flowchart LR
     accTitle: Developer Onboarding Value Stream showing process phases and durations
     accDescr: End-to-end workflow from initiation to Dev Box access with time metrics
 
+    %% DIAGRAM STRUCTURE:
+    %% - Linear left-to-right workflow (5 sequential phases)
+    %% - Orange = bottleneck phase requiring optimization
+    %% - Blue = standard process phases
+    %% - Dotted line annotation highlights performance bottleneck
+    %%
+    %% NODE ID CONVENTION:
+    %% - start/complete: Terminal events (rounded stadium)
+    %% - Other nodes: Process steps (square brackets)
+
     %% STANDARD COLOR SCHEME v2.1 - Material Design 3
     %% Semantic Colors (Functional Content - 100-level shades)
+    %% - Blue: Standard process phases
+    %% - Orange: Bottleneck/attention-required phase
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
 
