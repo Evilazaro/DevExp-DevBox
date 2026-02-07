@@ -145,14 +145,14 @@ flowchart TD
         c5["📊 Centralized Monitoring"]:::mdTeal
     end
 
-    v1 --> g1
-    v1 --> g2
-    v1 --> g3
-    g1 --> c1
-    g2 --> c2
-    g3 --> c3
-    g1 --> c4
-    g2 --> c5
+    v1 -->|"Drives"| g1
+    v1 -->|"Drives"| g2
+    v1 -->|"Drives"| g3
+    g1 -->|"Requires"| c1
+    g2 -->|"Requires"| c2
+    g3 -->|"Requires"| c3
+    g1 -->|"Enabled by"| c4
+    g2 -->|"Enabled by"| c5
 
     style vision fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
     style goals fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
@@ -357,13 +357,13 @@ flowchart TB
         audit["📝 Audit & Traceability (L3)"]:::mdTeal
     end
 
-    infra --> secrets
-    infra --> rbac
-    config --> multi
-    secrets --> onboard
-    rbac --> workspace
-    monitor --> audit
-    source --> workspace
+    infra -->|"Enables"| secrets
+    infra -->|"Enables"| rbac
+    config -->|"Supports"| multi
+    secrets -->|"Secures"| onboard
+    rbac -->|"Authorizes"| workspace
+    monitor -->|"Tracks"| audit
+    source -->|"Integrates"| workspace
 
     style platform fill:#BBDEFB,stroke:#1976D2,stroke-width:3px
     style security fill:#FFE0B2,stroke:#E64A19,stroke-width:3px
@@ -572,11 +572,11 @@ flowchart TD
         p6["👁️ P-006 Centralized Observability"]:::mdBlue
     end
 
-    p1 --> p5
-    p2 --> p5
-    p3 --> p4
-    p4 --> p5
-    p4 --> p6
+    p1 -->|"Informs"| p5
+    p2 -->|"Informs"| p5
+    p3 -->|"Enforces"| p4
+    p4 -->|"Enables"| p5
+    p4 -->|"Enables"| p6
 
     style foundation fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
     style governance fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
@@ -729,11 +729,11 @@ flowchart LR
     config["📋 Post-Deploy Config (2-5 min)"]:::mdBlue
     complete([👨‍💻 Developer Dev Box Access]):::mdBlue
 
-    start --> auth
-    auth --> init
-    init --> provision
-    provision --> config
-    config --> complete
+    start -->|"Triggers"| auth
+    auth -->|"Proceeds to"| init
+    init -->|"Proceeds to"| provision
+    provision -->|"Completes"| config
+    config -->|"Grants"| complete
 
     %% Annotations
     provision -.->|"⚠️ Bottleneck: RBAC Propagation"| provision
