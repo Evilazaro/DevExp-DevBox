@@ -409,6 +409,203 @@ flowchart TB
     %% Accessibility: WCAG AA verified (4.5:1 contrast ratio)
 ```
 
+### 2.13 Business Capability Map
+
+#### 2.13.1 Overview
+
+The Business Capability Map defines **what the organization can do** to deliver
+value, independent of how it's implemented. This section provides a
+comprehensive catalog of capabilities organized into four functional domains,
+with maturity assessments and strategic alignment indicators.
+
+> 💡 **Strategic Value**: This capability map enables **gap analysis**,
+> **roadmap planning**, and **investment prioritization** for the DevExp-DevBox
+> platform.
+
+#### 2.13.2 Capability Taxonomy
+
+The following hierarchy organizes capabilities from **Level 1 (strategic
+domains)** to **Level 3 (operational capabilities)**:
+
+```
+DevExp-DevBox Business Capabilities
+├── Platform Engineering (Domain)
+│   ├── Infrastructure Provisioning
+│   ├── Configuration Management
+│   └── Monitoring & Observability
+├── Security & Compliance (Domain)
+│   ├── Secrets Management
+│   ├── Identity & Access Control
+│   └── Compliance Validation
+├── Developer Experience (Domain)
+│   ├── Developer Onboarding
+│   ├── Source Control Integration
+│   └── Workspace Provisioning
+└── Governance (Domain)
+    ├── Multi-Project Management
+    ├── Cost Allocation
+    └── Audit & Traceability
+```
+
+#### 2.13.3 Capability Catalog
+
+##### Platform Engineering Capabilities
+
+| Capability Name                 | Description                                                                                                                            | Maturity | Strategic Priority | Dependencies                                | Key Metrics               |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------ | ------------------------------------------- | ------------------------- |
+| **Infrastructure Provisioning** | Automated deployment of complete DevCenter infrastructure including projects, catalogs, pools, and network connections using Bicep IaC | Level 4  | Critical           | Azure CLI, Bicep runtime, Identity & Access | 25-35 min deployment time |
+| **Configuration Management**    | YAML-driven declarative configuration with schema validation and Git-based version control for all platform settings                   | Level 3  | High               | Infrastructure Provisioning, Source Control | Configuration drift rate  |
+| **Monitoring & Observability**  | Centralized logging to Log Analytics with diagnostic settings, query capabilities, and operational dashboards                          | Level 3  | High               | Log Analytics workspace, Identity & Access  | MTTR, alert response time |
+
+**Domain Characteristics**:
+
+- **Strategic Focus**: Operational efficiency and automation
+- **Target State**: Level 4 (Measured) for all capabilities by Q3 2026
+- **Investment Priority**: Maintain current automation; enhance observability
+
+##### Security & Compliance Capabilities
+
+| Capability Name               | Description                                                                                                                   | Maturity | Strategic Priority | Dependencies                          | Key Metrics                    |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------ | ------------------------------------- | ------------------------------ |
+| **Secrets Management**        | Azure Key Vault integration for secure storage and retrieval of credentials, tokens, and certificates with automated rotation | Level 4  | Critical           | Key Vault service, Managed Identities | Zero credential commits        |
+| **Identity & Access Control** | RBAC assignments with least-privilege principles, system-assigned managed identities, and Azure AD integration                | Level 4  | Critical           | Azure AD, Azure RBAC                  | 100% managed identity adoption |
+| **Compliance Validation**     | Automated compliance checks against SOC 2 / ISO 27001 frameworks with policy enforcement and audit trail generation           | Level 4  | Critical           | Azure Policy, Log Analytics           | 100% compliance score          |
+
+**Domain Characteristics**:
+
+- **Strategic Focus**: Zero-trust security and regulatory compliance
+- **Target State**: Maintain Level 4 (Measured); add automated threat detection
+- **Investment Priority**: Continuous compliance monitoring and automated
+  remediation
+
+##### Developer Experience Capabilities
+
+| Capability Name                | Description                                                                                                               | Maturity | Strategic Priority | Dependencies                                | Key Metrics                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------ | ------------------------------------------- | ---------------------------------- |
+| **Developer Onboarding**       | End-to-end workflow from account provisioning to Dev Box access with pre-configured tooling and repository authentication | Level 3  | High               | Infrastructure Provisioning, Secrets Mgmt   | Time to first commit (< 2 hours)   |
+| **Source Control Integration** | Automated GitHub and Azure DevOps authentication with token management and repository access configuration                | Level 3  | High               | Secrets Management, Identity & Access       | Authentication success rate (>99%) |
+| **Workspace Provisioning**     | Self-service Dev Box creation from project pools with customizable images, VM SKUs, and network connectivity              | Level 3  | High               | Infrastructure Provisioning, Network Config | Provisioning success rate (>95%)   |
+
+**Domain Characteristics**:
+
+- **Strategic Focus**: Developer velocity and time-to-productivity
+- **Target State**: Level 4 (Measured) with automated feedback collection
+- **Investment Priority**: Reduce onboarding friction; expand pre-configured
+  images
+
+##### Governance Capabilities
+
+| Capability Name              | Description                                                                                                                        | Maturity | Strategic Priority | Dependencies                            | Key Metrics                   |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------ | --------------------------------------- | ----------------------------- |
+| **Multi-Project Management** | Support for 1-100+ projects with isolated configurations, dedicated networks, and independent catalog/environment type assignments | Level 3  | High               | Configuration Management, RBAC          | Projects managed (current: 3) |
+| **Cost Allocation**          | Azure resource tagging and cost center assignment enabling charge-back/show-back models per project                                | Level 3  | Medium             | Azure Cost Management, Tagging strategy | Cost visibility (% tagged)    |
+| **Audit & Traceability**     | Immutable audit logs for all configuration changes, RBAC modifications, and resource provisioning activities                       | Level 3  | High               | Log Analytics, Git history              | Audit completeness (>99%)     |
+
+**Domain Characteristics**:
+
+- **Strategic Focus**: Scalability and operational governance
+- **Target State**: Level 4 (Measured) with predictive cost analytics
+- **Investment Priority**: Automated cost optimization recommendations
+
+#### 2.13.4 Maturity Evolution Roadmap
+
+The following timeline shows planned capability maturity progression:
+
+| Capability Domain        | Current (Q1 2026) | Target (Q3 2026) | Target (Q1 2027) |
+| ------------------------ | ----------------- | ---------------- | ---------------- |
+| Platform Engineering     | Level 3.7         | Level 4.0        | Level 4.5        |
+| Security & Compliance    | Level 4.0         | Level 4.0        | Level 5.0        |
+| Developer Experience     | Level 3.0         | Level 3.7        | Level 4.0        |
+| Governance               | Level 3.0         | Level 3.5        | Level 4.0        |
+| **Overall Weighted Avg** | **Level 3.6**     | **Level 3.8**    | **Level 4.2**    |
+
+**Maturity Level Definitions**:
+
+- **Level 3 (Defined)**: Processes documented, standardized, and repeatable
+- **Level 4 (Measured)**: Quantitative metrics tracked; performance predictable
+- **Level 5 (Optimized)**: Continuous improvement with feedback loops and
+  automation
+
+#### 2.13.5 Cross-Domain Dependencies
+
+Key capability dependencies that drive implementation sequencing:
+
+```mermaid
+---
+title: Cross-Domain Capability Dependencies
+config:
+  theme: base
+  flowchart:
+    htmlLabels: false
+---
+flowchart LR
+    accTitle: Capability dependency graph showing prerequisite relationships
+    accDescr: Network diagram of capability dependencies across functional domains
+
+    %% STANDARD COLOR SCHEME v2.1 - Material Design 3
+    classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
+    classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
+    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
+
+    infra["Infrastructure<br/>Provisioning"]:::mdBlue
+    secrets["Secrets<br/>Management"]:::mdOrange
+    rbac["Identity &<br/>Access Control"]:::mdOrange
+    onboard["Developer<br/>Onboarding"]:::mdGreen
+    source["Source Control<br/>Integration"]:::mdGreen
+    workspace["Workspace<br/>Provisioning"]:::mdGreen
+    monitor["Monitoring &<br/>Observability"]:::mdBlue
+    audit["Audit &<br/>Traceability"]:::mdTeal
+    multi["Multi-Project<br/>Management"]:::mdTeal
+
+    infra -->|"Prerequisite"| secrets
+    infra -->|"Prerequisite"| rbac
+    secrets -->|"Enables"| source
+    rbac -->|"Enables"| workspace
+    secrets -->|"Secures"| onboard
+    rbac -->|"Authorizes"| onboard
+    source -->|"Integrates"| workspace
+    monitor -->|"Tracks"| audit
+    infra -->|"Supports"| multi
+    rbac -->|"Isolates"| multi
+```
+
+**Critical Path Analysis**:
+
+1. **Infrastructure Provisioning** → Foundation for all other capabilities
+2. **Identity & Access Control** → Gates access to all platform resources
+3. **Secrets Management** → Secures integration points
+4. **Developer Onboarding** → Delivers end-user value
+
+> ⚠️ **Implementation Note**: Capabilities with **Level 4+ maturity** are
+> production-ready and can support 100+ projects. Level 3 capabilities require
+> monitoring during scale-up.
+
+#### 2.13.6 Capability Heat Map
+
+Strategic importance vs. current maturity:
+
+| Capability                  | Strategic Importance | Current Maturity | Investment Action |
+| --------------------------- | -------------------- | ---------------- | ----------------- |
+| Infrastructure Provisioning | 🔴 Critical          | ✅ Level 4       | **Maintain**      |
+| Secrets Management          | 🔴 Critical          | ✅ Level 4       | **Maintain**      |
+| Identity & Access Control   | 🔴 Critical          | ✅ Level 4       | **Maintain**      |
+| Compliance Validation       | 🔴 Critical          | ✅ Level 4       | **Maintain**      |
+| Configuration Management    | 🟡 High              | ⚠️ Level 3       | **Enhance** → L4  |
+| Monitoring & Observability  | 🟡 High              | ⚠️ Level 3       | **Enhance** → L4  |
+| Developer Onboarding        | 🟡 High              | ⚠️ Level 3       | **Enhance** → L4  |
+| Source Control Integration  | 🟡 High              | ⚠️ Level 3       | **Enhance** → L4  |
+| Workspace Provisioning      | 🟡 High              | ⚠️ Level 3       | **Enhance** → L4  |
+| Multi-Project Management    | 🟡 High              | ⚠️ Level 3       | **Enhance** → L4  |
+| Audit & Traceability        | 🟡 High              | ⚠️ Level 3       | **Enhance** → L4  |
+| Cost Allocation             | 🟢 Medium            | ⚠️ Level 3       | **Monitor**       |
+
+**Investment Strategy**:
+
+- **Maintain**: Capabilities meeting maturity and performance targets
+- **Enhance**: High-value capabilities requiring maturity progression
+- **Monitor**: Lower-priority capabilities with acceptable current state
+
 ---
 
 ## 3. Architecture Principles
