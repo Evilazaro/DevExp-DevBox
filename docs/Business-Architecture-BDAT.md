@@ -111,33 +111,38 @@ flowchart TD
     accTitle: Business Strategy Map showing strategic objectives and enabling capabilities
     accDescr: Hierarchical view of business vision, strategic goals, and operational capabilities for DevExp-DevBox platform
 
-    %% Color scheme - Material Design compliant
+    %% STANDARD COLOR SCHEME v2.1 - Material Design 3
+    %% Hierarchical Colors (Structural Nesting)
     classDef level1Group fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
     classDef level2Group fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
+    classDef level3Group fill:#9FA8DA,stroke:#3F51B5,stroke-width:2px,color:#000
+
+    %% Semantic Colors (Functional Content - 100-level shades)
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
     classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
+    classDef mdYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#000
 
     subgraph vision["🎯 Business Vision"]
         direction TB
-        v1["🎯 Enterprise Cloud-Native<br/>Development Platform"]:::mdBlue
+        v1["🎯 Enterprise Cloud-Native Development Platform"]:::mdBlue
     end
 
     subgraph goals["📊 Strategic Goals"]
         direction TB
-        g1["⚡ 70% Reduction in<br/>Provisioning Time"]:::mdGreen
-        g2["🔒 100% SOC 2<br/>Compliance"]:::mdGreen
-        g3["📈 Scale 1-100+<br/>Projects"]:::mdGreen
+        g1["⚡ 70% Reduction in Provisioning Time"]:::mdGreen
+        g2["🔒 100% SOC 2 Compliance"]:::mdGreen
+        g3["📈 Scale 1-100+ Projects"]:::mdGreen
     end
 
     subgraph capabilities["⚙️ Core Business Capabilities"]
         direction TB
-        c1["🤖 Automated<br/>Infrastructure<br/>Provisioning"]:::mdTeal
-        c2["🛡️ Security &<br/>Compliance<br/>Management"]:::mdOrange
-        c3["👥 Multi-Project<br/>Developer<br/>Environments"]:::mdTeal
-        c4["🔑 Integrated<br/>Source Control<br/>Authentication"]:::mdTeal
-        c5["📊 Centralized<br/>Monitoring &<br/>Observability"]:::mdTeal
+        c1["🤖 Automated Infrastructure Provisioning"]:::mdTeal
+        c2["🛡️ Security & Compliance Management"]:::mdOrange
+        c3["👥 Multi-Project Developer Environments"]:::mdTeal
+        c4["🔑 Integrated Source Control Authentication"]:::mdTeal
+        c5["📊 Centralized Monitoring & Observability"]:::mdTeal
     end
 
     v1 --> g1
@@ -152,6 +157,8 @@ flowchart TD
     style vision fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
     style goals fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
     style capabilities fill:#9FA8DA,stroke:#3F51B5,stroke-width:2px
+
+    %% Accessibility: WCAG AA verified (4.5:1 contrast ratio)
 ```
 
 ---
@@ -311,9 +318,12 @@ flowchart TB
     accTitle: Business Capability Map showing hierarchical capabilities
     accDescr: Structured view of core business capabilities organized by functional domain
 
-    %% Color scheme
+    %% STANDARD COLOR SCHEME v2.1 - Material Design 3
+    %% Hierarchical Colors (Structural Nesting)
     classDef level1Group fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
     classDef level2Group fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
+
+    %% Semantic Colors (Functional Content - 100-level shades)
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
@@ -321,30 +331,30 @@ flowchart TB
 
     subgraph platform["🏗️ Platform Engineering Capabilities"]
         direction TB
-        infra["🤖 Infrastructure<br/>Provisioning<br/>(Maturity: 4)"]:::mdBlue
-        config["⚙️ Configuration<br/>Management<br/>(Maturity: 3)"]:::mdBlue
-        monitor["📊 Monitoring &<br/>Observability<br/>(Maturity: 3)"]:::mdBlue
+        infra["🤖 Infrastructure Provisioning (Maturity: 4)"]:::mdBlue
+        config["⚙️ Configuration Management (Maturity: 3)"]:::mdBlue
+        monitor["📊 Monitoring & Observability (Maturity: 3)"]:::mdBlue
     end
 
     subgraph security["🔒 Security & Compliance Capabilities"]
         direction TB
-        secrets["🔐 Secrets<br/>Management<br/>(Maturity: 4)"]:::mdOrange
-        rbac["🛡️ Identity &<br/>Access Control<br/>(Maturity: 4)"]:::mdOrange
-        compliance["✅ Compliance<br/>Validation<br/>(Maturity: 4)"]:::mdOrange
+        secrets["🔐 Secrets Management (Maturity: 4)"]:::mdOrange
+        rbac["🛡️ Identity & Access Control (Maturity: 4)"]:::mdOrange
+        compliance["✅ Compliance Validation (Maturity: 4)"]:::mdOrange
     end
 
     subgraph developer["👨‍💻 Developer Experience Capabilities"]
         direction TB
-        onboard["🚀 Developer<br/>Onboarding<br/>(Maturity: 3)"]:::mdGreen
-        source["🔗 Source Control<br/>Integration<br/>(Maturity: 3)"]:::mdGreen
-        workspace["💻 Workspace<br/>Provisioning<br/>(Maturity: 3)"]:::mdGreen
+        onboard["🚀 Developer Onboarding (Maturity: 3)"]:::mdGreen
+        source["🔗 Source Control Integration (Maturity: 3)"]:::mdGreen
+        workspace["💻 Workspace Provisioning (Maturity: 3)"]:::mdGreen
     end
 
     subgraph governance["📊 Governance Capabilities"]
         direction TB
-        multi["📁 Multi-Project<br/>Management<br/>(Maturity: 3)"]:::mdTeal
-        cost["💰 Cost<br/>Allocation<br/>(Maturity: 3)"]:::mdTeal
-        audit["📝 Audit &<br/>Traceability<br/>(Maturity: 3)"]:::mdTeal
+        multi["📁 Multi-Project Management (Maturity: 3)"]:::mdTeal
+        cost["💰 Cost Allocation (Maturity: 3)"]:::mdTeal
+        audit["📝 Audit & Traceability (Maturity: 3)"]:::mdTeal
     end
 
     infra --> secrets
@@ -355,10 +365,12 @@ flowchart TB
     monitor --> audit
     source --> workspace
 
-    style platform fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
-    style security fill:#FFE0B2,stroke:#E64A19,stroke-width:2px
-    style developer fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
-    style governance fill:#B2DFDB,stroke:#00796B,stroke-width:2px
+    style platform fill:#BBDEFB,stroke:#1976D2,stroke-width:3px
+    style security fill:#FFE0B2,stroke:#E64A19,stroke-width:3px
+    style developer fill:#C8E6C9,stroke:#388E3C,stroke-width:3px
+    style governance fill:#B2DFDB,stroke:#00796B,stroke-width:3px
+
+    %% Accessibility: WCAG AA verified (4.5:1 contrast ratio)
 ```
 
 ---
@@ -533,27 +545,31 @@ flowchart TD
     accTitle: Principles Hierarchy showing relationships between architectural principles
     accDescr: Hierarchical structure of business architecture principles with dependencies
 
-    %% Color scheme
-    classDef level1 fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
-    classDef level2 fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
-    classDef principle fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
+    %% STANDARD COLOR SCHEME v2.1 - Material Design 3
+    %% Hierarchical Colors (Structural Nesting)
+    classDef level1Group fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
+    classDef level2Group fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px,color:#000
+    classDef level3Group fill:#9FA8DA,stroke:#3F51B5,stroke-width:2px,color:#000
+
+    %% Semantic Colors (Functional Content)
+    classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
 
     subgraph foundation["🏛️ Foundation Principles"]
         direction TB
-        p1["🎯 P-001<br/>Capability-Driven<br/>Design"]:::principle
-        p2["📈 P-002<br/>Value Stream<br/>Optimization"]:::principle
+        p1["🎯 P-001 Capability-Driven Design"]:::mdBlue
+        p2["📈 P-002 Value Stream Optimization"]:::mdBlue
     end
 
     subgraph governance["📋 Governance Principles"]
         direction TB
-        p3["🔒 P-003<br/>Least-Privilege<br/>Security"]:::principle
-        p4["📝 P-004<br/>Configuration<br/>as Code"]:::principle
+        p3["🔒 P-003 Least-Privilege Security"]:::mdBlue
+        p4["📝 P-004 Configuration as Code"]:::mdBlue
     end
 
     subgraph operational["⚙️ Operational Principles"]
         direction TB
-        p5["🛠️ P-005<br/>Self-Service with<br/>Guardrails"]:::principle
-        p6["👁️ P-006<br/>Centralized<br/>Observability"]:::principle
+        p5["🛠️ P-005 Self-Service with Guardrails"]:::mdBlue
+        p6["👁️ P-006 Centralized Observability"]:::mdBlue
     end
 
     p1 --> p5
@@ -565,6 +581,8 @@ flowchart TD
     style foundation fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
     style governance fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
     style operational fill:#9FA8DA,stroke:#3F51B5,stroke-width:2px
+
+    %% Accessibility: WCAG AA verified (4.5:1 contrast ratio)
 ```
 
 ---
@@ -699,16 +717,17 @@ flowchart LR
     accTitle: Developer Onboarding Value Stream showing process phases and durations
     accDescr: End-to-end workflow from initiation to Dev Box access with time metrics
 
-    %% Color scheme
-    classDef phase fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
-    classDef bottleneck fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    %% STANDARD COLOR SCHEME v2.1 - Material Design 3
+    %% Semantic Colors (Functional Content - 100-level shades)
+    classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
+    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
 
-    start([Platform Team<br/>Initiates Deployment]):::phase
-    auth["🔐 Authentication<br/>Validation<br/>(2-3 min)"]:::phase
-    init["⚙️ Environment<br/>Initialization<br/>(1-2 min)"]:::phase
-    provision["🏗️ Resource<br/>Provisioning<br/>(20-28 min)"]:::bottleneck
-    config["📋 Post-Deployment<br/>Configuration<br/>(2-5 min)"]:::phase
-    complete([Developer<br/>Dev Box Access]):::phase
+    start([👥 Platform Team Initiates Deployment]):::mdBlue
+    auth["🔐 Authentication Validation (2-3 min)"]:::mdBlue
+    init["⚙️ Environment Initialization (1-2 min)"]:::mdBlue
+    provision["🏗️ Resource Provisioning (20-28 min)"]:::mdOrange
+    config["📋 Post-Deployment Configuration (2-5 min)"]:::mdBlue
+    complete([👨‍💻 Developer Dev Box Access]):::mdBlue
 
     start --> auth
     auth --> init
@@ -717,7 +736,9 @@ flowchart LR
     config --> complete
 
     %% Annotations
-    provision -.->|"Bottleneck:<br/>RBAC Propagation"| provision
+    provision -.->|"⚠️ Bottleneck: RBAC Propagation"| provision
+
+    %% Accessibility: WCAG AA verified (4.5:1 contrast ratio)
 ```
 
 ### 4.7 Key Findings
