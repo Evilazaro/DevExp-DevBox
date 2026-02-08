@@ -1,5 +1,11 @@
 # DevExp-DevBox
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Azure DevBox](https://img.shields.io/badge/Azure-Dev%20Box-0078D4?logo=microsoft-azure)](https://azure.microsoft.com/services/dev-box/)
+[![Bicep](https://img.shields.io/badge/IaC-Bicep-00BCF2?logo=microsoft)](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
+[![azd](https://img.shields.io/badge/Azure%20Developer%20CLI-azd-0078D4)](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
+[![Status](https://img.shields.io/badge/Status-Stable-success)]()
+
 **Azure Dev Box Infrastructure Accelerator** - Automated deployment of
 enterprise-grade developer workstation environments using Infrastructure as
 Code.
@@ -9,6 +15,38 @@ Dev Box with automated provisioning, role-based access control, and
 configuration-as-code principles. It reduces deployment time from weeks to hours
 while ensuring consistency, security, and compliance across development
 environments.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+- [Deployment](#deployment)
+  - [Prerequisites](#prerequisites)
+  - [Step-by-Step Deployment](#step-by-step-deployment)
+  - [Deployment Outputs](#deployment-outputs)
+  - [Troubleshooting Deployment](#troubleshooting-deployment)
+- [Usage](#usage)
+  - [Accessing Dev Box Environment](#accessing-dev-box-environment)
+  - [Managing Projects and Pools](#managing-projects-and-pools)
+  - [Adding Custom Catalogs](#adding-custom-catalogs)
+- [Features](#features)
+- [Requirements](#requirements)
+  - [Azure Subscription Requirements](#azure-subscription-requirements)
+  - [Network Requirements](#network-requirements)
+  - [Authentication Requirements](#authentication-requirements)
+  - [Development Machine Requirements](#development-machine-requirements)
+- [Configuration](#configuration)
+  - [Configuration Files](#configuration-files)
+  - [Customizing Dev Center Configuration](#customizing-dev-center-configuration)
+  - [Environment Variables](#environment-variables)
+  - [Bicep Parameters](#bicep-parameters)
+  - [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
+- [Contributing](#contributing)
+  - [How to Contribute](#how-to-contribute)
+  - [Reporting Issues](#reporting-issues)
+  - [Code Review Process](#code-review-process)
+- [License](#license)
 
 ## Overview
 
