@@ -334,18 +334,18 @@ Azure Developer CLI (azd) hooks for pre/post-provisioning automation, while
 runtime operations leverage Azure managed identities for passwordless
 authentication.
 
-| Feature                        | Description                                                                                      | Status    | Module                                                                             |
-| ------------------------------ | ------------------------------------------------------------------------------------------------ | --------- | ---------------------------------------------------------------------------------- |
-| **Landing Zone Organization**  | Creates separate resource groups for security, monitoring, and workload following CAF principles | ✅ Stable | [`main.bicep`](infra/main.bicep)                                                   |
-| **DevCenter Provisioning**     | Deploys core DevCenter resource with system-assigned managed identity and RBAC                   | ✅ Stable | [`src/workload/core/devCenter.bicep`](src/workload/core/devCenter.bicep)           |
-| **Project Management**         | Creates DevCenter projects with environment types and catalog associations                       | ✅ Stable | [`src/workload/project/project.bicep`](src/workload/project/project.bicep)         |
-| **Compute Pool Configuration** | Provisions Dev Box compute pools with SKU and capacity management                                | ✅ Stable | [`src/workload/project/projectPool.bicep`](src/workload/project/projectPool.bicep) |
-| **Network Connectivity**       | Configures virtual networks and network connections for Dev Box isolation                        | ✅ Stable | [`src/connectivity/`](src/connectivity/)                                           |
-| **Key Vault Integration**      | Manages secrets (GitHub/ADO tokens) with managed identity access                                 | ✅ Stable | [`src/security/keyVault.bicep`](src/security/keyVault.bicep)                       |
-| **Log Analytics Monitoring**   | Centralized logging and diagnostics for compliance and troubleshooting                           | ✅ Stable | [`src/management/logAnalytics.bicep`](src/management/logAnalytics.bicep)           |
-| **Catalog Integration**        | Syncs environment definitions from GitHub or Azure DevOps repositories                           | ✅ Stable | [`src/workload/core/catalog.bicep`](src/workload/core/catalog.bicep)               |
-| **RBAC Automation**            | Assigns built-in Azure roles to managed identities at subscription/RG scope                      | ✅ Stable | [`src/identity/`](src/identity/)                                                   |
-| **YAML-Driven Configuration**  | Declarative resource definitions with schema validation                                          | ✅ Stable | [`infra/settings/`](infra/settings/)                                               |
+| Feature                           | Description                                                                                      | Status    | Module                                                                             |
+| --------------------------------- | ------------------------------------------------------------------------------------------------ | --------- | ---------------------------------------------------------------------------------- |
+| 🏗️ **Landing Zone Organization**  | Creates separate resource groups for security, monitoring, and workload following CAF principles | ✅ Stable | [`main.bicep`](infra/main.bicep)                                                   |
+| 🔧 **DevCenter Provisioning**     | Deploys core DevCenter resource with system-assigned managed identity and RBAC                   | ✅ Stable | [`src/workload/core/devCenter.bicep`](src/workload/core/devCenter.bicep)           |
+| 📦 **Project Management**         | Creates DevCenter projects with environment types and catalog associations                       | ✅ Stable | [`src/workload/project/project.bicep`](src/workload/project/project.bicep)         |
+| 💻 **Compute Pool Configuration** | Provisions Dev Box compute pools with SKU and capacity management                                | ✅ Stable | [`src/workload/project/projectPool.bicep`](src/workload/project/projectPool.bicep) |
+| 🌐 **Network Connectivity**       | Configures virtual networks and network connections for Dev Box isolation                        | ✅ Stable | [`src/connectivity/`](src/connectivity/)                                           |
+| 🔐 **Key Vault Integration**      | Manages secrets (GitHub/ADO tokens) with managed identity access                                 | ✅ Stable | [`src/security/keyVault.bicep`](src/security/keyVault.bicep)                       |
+| 📊 **Log Analytics Monitoring**   | Centralized logging and diagnostics for compliance and troubleshooting                           | ✅ Stable | [`src/management/logAnalytics.bicep`](src/management/logAnalytics.bicep)           |
+| 📚 **Catalog Integration**        | Syncs environment definitions from GitHub or Azure DevOps repositories                           | ✅ Stable | [`src/workload/core/catalog.bicep`](src/workload/core/catalog.bicep)               |
+| 👤 **RBAC Automation**            | Assigns built-in Azure roles to managed identities at subscription/RG scope                      | ✅ Stable | [`src/identity/`](src/identity/)                                                   |
+| ⚙️ **YAML-Driven Configuration**  | Declarative resource definitions with schema validation                                          | ✅ Stable | [`infra/settings/`](infra/settings/)                                               |
 
 ## Requirements
 
