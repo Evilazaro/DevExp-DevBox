@@ -1,0 +1,137 @@
+# .github/ISSUE_TEMPLATE/feature.yml
+name: '🚀 Feature request'
+description:
+  'Propose a new capability or enhancement (problem-first, outcome-driven).'
+title: 'feat: <short description>'
+labels: ['type:feature', 'status:triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Product-first request**: focus on the *problem*, *users*, and *outcomes*.
+        If you’re unsure this is a feature, consider using **Question** or **Docs** instead.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What recurring problem are we solving? Who is impacted?
+      placeholder: 'Describe the pain point observed in customer engagements.'
+    validations:
+      required: true
+
+  - type: textarea
+    id: users
+    attributes:
+      label: Target persona(s) / users
+      description: Who benefits? List roles and teams.
+      placeholder:
+        "- Developer\n- Platform Engineer\n- Security/Compliance\n- IT Admin"
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcomes
+    attributes:
+      label: Desired outcomes
+      description:
+        What measurable success looks like (time-to-value, consistency, risk
+        reduction, etc.).
+      placeholder:
+        "- Reduce Dev Box provisioning time from X to Y\n- Enforce baseline
+        security controls\n- Standardize configuration across projects"
+    validations:
+      required: true
+
+  - type: textarea
+    id: jtbd
+    attributes:
+      label: Jobs To Be Done (optional)
+      description: Use JTBD format if helpful.
+      placeholder:
+        'When <situation>, I want to <motivation>, so I can <outcome>.'
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Product priority signal (can be revised during triage).
+      options:
+        - P0 - critical / blocking
+        - P1 - high
+        - P2 - medium
+        - P3 - low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mvp_fit
+    attributes:
+      label: MVP fit
+      description: Should this be part of MVP?
+      options:
+        - MVP candidate (strong)
+        - MVP candidate (weak)
+        - Post-MVP / roadmap
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: alignment
+    attributes:
+      label: Architecture alignment
+      description: Select what applies (validate during triage).
+      options:
+        - label: Aligns with Azure Landing Zone design principles
+        - label: Aligns with Azure Well-Architected Framework pillars
+        - label: Enables multi-project / multi-team adoption
+        - label: Requires an ADR (architecture decision record)
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope boundaries
+      description: Define in-scope and out-of-scope to prevent feature creep.
+      placeholder: |
+        In scope:
+        - ...
+        Out of scope:
+        - ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Clear, testable conditions of satisfaction (feature-level).
+      placeholder: |
+        - Given ..., when ..., then ...
+        - Must ...
+        - Must not ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: assumptions
+    attributes:
+      label: Assumptions / dependencies / constraints (optional)
+      description:
+        List assumptions (validated/unvalidated), dependencies, compliance
+        constraints, etc.
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References (optional)
+      description:
+        Link to Microsoft docs, customer notes (sanitized), or related
+        issues/PRs.
+      placeholder: "- Microsoft Learn: ...\n- Related issue: #123"
+    validations:
+      required: false

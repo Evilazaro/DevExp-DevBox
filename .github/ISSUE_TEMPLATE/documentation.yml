@@ -1,0 +1,50 @@
+# .github/ISSUE_TEMPLATE/documentation.yml
+name: '📚 Documentation'
+description:
+  'Report missing/incorrect/unclear documentation or request improvements.'
+title: 'docs: <short description>'
+labels: ['type:documentation', 'status:triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Docs are part of the product. Please include the exact page/section and what’s confusing.
+
+  - type: input
+    id: doc_location
+    attributes:
+      label: Documentation location
+      description: Link to the file, page, or section.
+      placeholder: 'docs/getting-started/overview.md#prerequisites'
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue
+    attributes:
+      label: What’s wrong or missing?
+      description: Describe the problem and why it matters.
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested fix (optional)
+      description: Provide proposed wording, examples, or structure.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Primary audience
+      options:
+        - Developers
+        - Platform Engineers
+        - Security / Compliance
+        - IT Admins
+        - Product / Program stakeholders
+        - Other
+    validations:
+      required: true

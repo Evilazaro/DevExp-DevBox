@@ -1,0 +1,34 @@
+# .github/ISSUE_TEMPLATE/question.yml
+name: '❓ Question'
+description: 'Ask a focused question for clarification or decision-making.'
+title: 'question: <short topic>'
+labels: ['type:question', 'status:triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for **focused questions**. For open-ended discussion, use **Discussions**.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Ask one clear question. Include context below.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context (optional)
+      description: Provide background, constraints, and what you’ve tried.
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References (optional)
+      description: Links to docs, related issues, PRs, or decisions.
+    validations:
+      required: false
