@@ -224,8 +224,8 @@ flowchart TB
     MPS -->|"Facilitates"| ZTD
     GCS -->|"Provides"| MI
 
-    style CoreCapabilities fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
-    style SupportingCapabilities fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
+    style CoreCapabilities fill:#BBDEFB,stroke:#1976D2,stroke-width:3px
+    style SupportingCapabilities fill:#C8E6C9,stroke:#388E3C,stroke-width:3px
 ```
 
 ### 2.3 Value Streams
@@ -583,8 +583,8 @@ flowchart LR
     MOD -->|"Supports"| CDD
     POM -->|"Validates"| VSF
 
-    style StrategicPrinciples fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
-    style ExecutionPrinciples fill:#C5CAE9,stroke:#3F51B5,stroke-width:2px
+    style StrategicPrinciples fill:#BBDEFB,stroke:#1976D2,stroke-width:3px
+    style ExecutionPrinciples fill:#FFE0B2,stroke:#E64A19,stroke-width:3px
 ```
 
 ---
@@ -1117,7 +1117,7 @@ flowchart TD
     ARP -->|"Layered Sequence"| SA
     DMS -->|"Graph API"| AAD
 
-    style AAD fill:#FFEBEE,stroke:#D32F2F,stroke-width:3px
+    style AAD fill:#FFCDD2,stroke:#D32F2F,stroke-width:3px
 ```
 
 ### 8.2 External System Integrations
