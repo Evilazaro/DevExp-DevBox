@@ -5,9 +5,9 @@
 [![Bicep](https://img.shields.io/badge/IaC-Bicep-3178C6)](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
 [![GitHub](https://img.shields.io/badge/Integration-GitHub-181717?logo=github)](https://github.com)
 
-An enterprise-ready Azure DevCenter deployment accelerator that automates
+An enterprise-ready Azure DevCenter deployment accelerator that automates the
 provisioning of cloud-based developer workstations with infrastructure-as-code,
-centralized YAML configuration, and seamless GitHub catalog integration.
+centralized configuration management, and seamless GitHub integration.
 
 ## Overview
 
@@ -63,7 +63,7 @@ Bash setup scripts handle authentication and orchestrate the Azure Developer CLI
   - [Cost Considerations](#cost-considerations)
 - [Configuration](#configuration)
   - [Configuration Files](#configuration-files)
-  - [Primary Configuration: devcenter.yaml](#primary-configuration-devcenter.yaml)
+  - [Primary Configuration: devcenter.yaml](#primary-configuration-devcenteryaml)
   - [Modifying Configuration](#modifying-configuration)
   - [Environment Variables](#environment-variables)
 - [Deployment](#deployment)
@@ -94,9 +94,25 @@ independent resource group with specific security boundaries and lifecycle
 management policies.
 
 ```mermaid
+---
+config:
+  flowchart:
+    htmlLabels: false
+---
 flowchart TB
     accTitle: DevExp-DevBox Architecture
     accDescr: Four-layer architecture showing security, monitoring, connectivity, and workload components
+
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.1 - Material Design Compliant
+    %% ============================================
+    %% HIERARCHICAL (structural nesting):
+    %%   Level 1: #E8EAF6 (Indigo 50) - Main container
+    %% SEMANTIC (functional purpose):
+    %%   Blue=#BBDEFB (Info), Green=#C8E6C9 (Success),
+    %%   Orange=#FFE0B2 (Validate), Teal=#B2DFDB (Data),
+    %%   Yellow=#FFF9C4 (Config)
+    %% ============================================
 
     subgraph Security["🔐 Security Layer"]
         kv["🔑 Key Vault<br/>Secrets Management"]:::mdOrange
@@ -112,11 +128,11 @@ flowchart TB
     end
 
     subgraph Workload["⚙️ Workload Layer"]
-        dc["🏢 DevCenter<br/>Central Resource"]:::mdPurple
-        cat["📚 Catalog<br/>GitHub Integration"]:::mdPurple
-        et["🌍 Environment Types<br/>Dev/Staging/UAT"]:::mdPurple
-        proj["📁 Project: eShop<br/>Team Workspace"]:::mdPurple
-        pool["💻 Dev Box Pool<br/>VM Definitions"]:::mdPurple
+        dc["🏢 DevCenter<br/>Central Resource"]:::mdTeal
+        cat["📚 Catalog<br/>GitHub Integration"]:::mdTeal
+        et["🌍 Environment Types<br/>Dev/Staging/UAT"]:::mdTeal
+        proj["📁 Project: eShop<br/>Team Workspace"]:::mdTeal
+        pool["💻 Dev Box Pool<br/>VM Definitions"]:::mdTeal
     end
 
     subgraph Identity["👤 Identity Layer"]
@@ -136,28 +152,35 @@ flowchart TB
     proj -->|"Provisions"| pool
     proj -->|"Applies"| et
 
-    classDef mdOrange fill:#ff6b35,stroke:#c44d29,stroke-width:2px,color:#fff
-    classDef mdBlue fill:#4a90e2,stroke:#357abd,stroke-width:2px,color:#fff
-    classDef mdGreen fill:#50c878,stroke:#3a9b5c,stroke-width:2px,color:#fff
-    classDef mdPurple fill:#9b59b6,stroke:#7d3c98,stroke-width:2px,color:#fff
-    classDef mdYellow fill:#f39c12,stroke:#c87f0a,stroke-width:2px,color:#000
+    classDef level1Group fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
+    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
+    classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
+    classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
+    classDef mdYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#000
+
+    style Security fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
+    style Monitoring fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
+    style Connectivity fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
+    style Workload fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
+    style Identity fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
 ```
 
 **Component Roles:**
 
-| Layer        | Component               | Purpose                                                     | Azure Service                   |
-| ------------ | ----------------------- | ----------------------------------------------------------- | ------------------------------- |
-| Security     | Key Vault               | Stores GitHub tokens, secrets, and credentials              | `Microsoft.KeyVault`            |
-| Monitoring   | Log Analytics Workspace | Centralizes diagnostic logs and performance metrics         | `Microsoft.OperationalInsights` |
-| Connectivity | Virtual Network         | Provides private network connectivity for Dev Boxes         | `Microsoft.Network`             |
-| Connectivity | Network Connection      | Attaches VNet to DevCenter for resource access              | `Microsoft.DevCenter`           |
-| Workload     | DevCenter               | Central management plane for all developer resources        | `Microsoft.DevCenter`           |
-| Workload     | Catalog                 | Git repository with reusable environment definitions        | `Microsoft.DevCenter`           |
-| Workload     | Environment Types       | Deployment targets for dev/staging/UAT environments         | `Microsoft.DevCenter`           |
-| Workload     | Project                 | Team-specific workspace with isolated configurations        | `Microsoft.DevCenter`           |
-| Workload     | Dev Box Pool            | Pre-configured VM images and compute specifications         | `Microsoft.DevCenter`           |
-| Identity     | Managed Identity        | Password-less authentication for Azure resources            | `Microsoft.ManagedIdentity`     |
-| Identity     | RBAC Assignments        | Fine-grained permissions using principle of least privilege | `Microsoft.Authorization`       |
+| Layer           | Component                  | Purpose                                                     | Azure Service                   |
+| --------------- | -------------------------- | ----------------------------------------------------------- | ------------------------------- |
+| 🔐 Security     | 🔑 Key Vault               | Stores GitHub tokens, secrets, and credentials              | `Microsoft.KeyVault`            |
+| 📊 Monitoring   | 📈 Log Analytics Workspace | Centralizes diagnostic logs and performance metrics         | `Microsoft.OperationalInsights` |
+| 🌐 Connectivity | 🔗 Virtual Network         | Provides private network connectivity for Dev Boxes         | `Microsoft.Network`             |
+| 🌐 Connectivity | 🔌 Network Connection      | Attaches VNet to DevCenter for resource access              | `Microsoft.DevCenter`           |
+| ⚙️ Workload     | 🏢 DevCenter               | Central management plane for all developer resources        | `Microsoft.DevCenter`           |
+| ⚙️ Workload     | 📚 Catalog                 | Git repository with reusable environment definitions        | `Microsoft.DevCenter`           |
+| ⚙️ Workload     | 🌍 Environment Types       | Deployment targets for dev/staging/UAT environments         | `Microsoft.DevCenter`           |
+| ⚙️ Workload     | 📁 Project                 | Team-specific workspace with isolated configurations        | `Microsoft.DevCenter`           |
+| ⚙️ Workload     | 💻 Dev Box Pool            | Pre-configured VM images and compute specifications         | `Microsoft.DevCenter`           |
+| 👤 Identity     | 🔐 Managed Identity        | Password-less authentication for Azure resources            | `Microsoft.ManagedIdentity`     |
+| 👤 Identity     | 🛡️ RBAC Assignments        | Fine-grained permissions using principle of least privilege | `Microsoft.Authorization`       |
 
 > **⚠️ Note**: Virtual networks must be pre-created or set `create: true` in
 > `devcenter.yaml` configuration before deploying projects.
@@ -280,15 +303,15 @@ compliance with organizational policies through automated guardrails.
 with declarative YAML configuration, enabling infrastructure-as-code workflows
 with Git-based change management and automated validation before deployment.
 
-| Feature                              | Description                                                                                          | Status    |
-|--------------------------------------|------------------------------------------------------------------------------------------------------|-----------|
-| 🚀 **Automated Infrastructure**      | Single-command deployment (`azd up`) provisions all Azure resources with zero manual configuration   | ✅ Stable |
-| 📝 **YAML-Driven Configuration**     | Declarative settings in `devcenter.yaml` define projects, catalogs, networks, and permissions        | ✅ Stable |
-| 💻 **Multi-Platform Support**        | Cross-platform setup scripts for Windows (PowerShell 7+) and Linux/macOS (Bash 4+)                   | ✅ Stable |
-| 🔒 **Security by Default**           | Key Vault integration, managed identities, and RBAC assignments follow Azure security baselines      | ✅ Stable |
-| 🧩 **Modular Bicep Templates**       | Composable modules for security, monitoring, connectivity, and workload layers enable customization  | ✅ Stable |
-| 🔗 **GitHub Catalog Integration**    | Automatic sync with GitHub repositories containing reusable environment definitions and custom tasks | ✅ Stable |
-| 🌍 **Multi-Environment Support**     | Pre-configured dev/staging/UAT environment types with isolated deployment targets                    | ✅ Stable |
+| Feature                           | Description                                                                                          | Status    |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------- | --------- |
+| 🚀 **Automated Infrastructure**   | Single-command deployment (`azd up`) provisions all Azure resources with zero manual configuration   | ✅ Stable |
+| 📋 **YAML-Driven Configuration**  | Declarative settings in `devcenter.yaml` define projects, catalogs, networks, and permissions        | ✅ Stable |
+| 💻 **Multi-Platform Support**     | Cross-platform setup scripts for Windows (PowerShell 7+) and Linux/macOS (Bash 4+)                   | ✅ Stable |
+| 🔒 **Security by Default**        | Key Vault integration, managed identities, and RBAC assignments follow Azure security baselines      | ✅ Stable |
+| 🧩 **Modular Bicep Templates**    | Composable modules for security, monitoring, connectivity, and workload layers enable customization  | ✅ Stable |
+| 🔗 **GitHub Catalog Integration** | Automatic sync with GitHub repositories containing reusable environment definitions and custom tasks | ✅ Stable |
+| 🌍 **Multi-Environment Support**  | Pre-configured dev/staging/UAT environment types with isolated deployment targets                    | ✅ Stable |
 
 ### Feature Deep Dive: YAML Configuration
 
@@ -335,19 +358,19 @@ authentication requirements.
 perform automated pre-flight checks for CLI tools and authentication status,
 failing fast with actionable error messages when requirements are not met.
 
-| Category                      | Requirement                    | Minimum Version | Purpose                                  | Validation Command                  |
-|-------------------------------|--------------------------------|-----------------|------------------------------------------|-------------------------------------|
-| ☁️ **Azure Subscription**     | Active Azure subscription      | N/A             | Target for resource deployment           | `az account show`                   |
-| 🔑 **Azure Permissions**      | Subscription Contributor role  | N/A             | Create resource groups and resources     | `az role assignment list`           |
-| 🔑 **Azure Permissions**      | User Access Administrator role | N/A             | Assign RBAC roles to managed identities  | `az role assignment list`           |
-| 🛠️ **CLI Tools**              | Azure CLI                      | 2.50.0          | Authenticate and interact with Azure     | `az --version`                      |
-| 🛠️ **CLI Tools**              | Azure Developer CLI (azd)      | 1.5.0           | Orchestrate infrastructure deployment    | `azd version`                       |
-| 🛠️ **CLI Tools**              | GitHub CLI                     | 2.20.0          | Authenticate and manage GitHub tokens    | `gh --version`                      |
-| ⚙️ **Runtime**                | PowerShell Core (Windows)      | 7.2             | Execute Windows setup script             | `pwsh -v`                           |
-| ⚙️ **Runtime**                | Bash (Linux/macOS)             | 4.0             | Execute Unix setup script                | `bash --version`                    |
-| 🔗 **Source Control**         | GitHub account                 | N/A             | Catalog repository authentication        | `gh auth status`                    |
-| 🌐 **Network Access**         | HTTPS access to Azure APIs     | N/A             | Resource provisioning and authentication | `curl https://management.azure.com` |
-| 🌐 **Network Access**         | HTTPS access to GitHub APIs    | N/A             | Catalog synchronization                  | `curl https://api.github.com`       |
+| Category                  | Requirement                    | Minimum Version | Purpose                                  | Validation Command                  |
+| ------------------------- | ------------------------------ | --------------- | ---------------------------------------- | ----------------------------------- |
+| ☁️ **Azure Subscription** | Active Azure subscription      | N/A             | Target for resource deployment           | `az account show`                   |
+| 🔑 **Azure Permissions**  | Subscription Contributor role  | N/A             | Create resource groups and resources     | `az role assignment list`           |
+| 🔑 **Azure Permissions**  | User Access Administrator role | N/A             | Assign RBAC roles to managed identities  | `az role assignment list`           |
+| 🛠️ **CLI Tools**          | Azure CLI                      | 2.50.0          | Authenticate and interact with Azure     | `az --version`                      |
+| 🛠️ **CLI Tools**          | Azure Developer CLI (azd)      | 1.5.0           | Orchestrate infrastructure deployment    | `azd version`                       |
+| 🛠️ **CLI Tools**          | GitHub CLI                     | 2.20.0          | Authenticate and manage GitHub tokens    | `gh --version`                      |
+| ⚡ **Runtime**            | PowerShell Core (Windows)      | 7.2             | Execute Windows setup script             | `pwsh -v`                           |
+| ⚡ **Runtime**            | Bash (Linux/macOS)             | 4.0             | Execute Unix setup script                | `bash --version`                    |
+| 🔗 **Source Control**     | GitHub account                 | N/A             | Catalog repository authentication        | `gh auth status`                    |
+| 🌐 **Network Access**     | HTTPS access to Azure APIs     | N/A             | Resource provisioning and authentication | `curl https://management.azure.com` |
+| 🌐 **Network Access**     | HTTPS access to GitHub APIs    | N/A             | Catalog synchronization                  | `curl https://api.github.com`       |
 
 ### Azure Service Limits
 
@@ -365,13 +388,13 @@ Ensure your subscription has sufficient quota for:
 
 Estimated monthly costs for default configuration:
 
-| Resource                  | SKU/Size        | Monthly Cost (USD) | Notes                                   |
-|---------------------------|-----------------|--------------------|-----------------------------------------|
-| 🏢 DevCenter              | Standard        | $0                 | Management plane - no direct charges    |
-| 💻 Dev Box (2 vCPU, 8GB)  | Standard_D2s_v3 | ~$150/box          | Per developer workstation (24/7 uptime) |
-| 🌐 Virtual Network        | Standard        | ~$5                | Data transfer charges apply             |
-| 🔒 Key Vault              | Standard        | ~$3                | Secrets and operations charges          |
-| 📊 Log Analytics          | Pay-as-you-go   | ~$10               | Based on data ingestion volume          |
+| Resource                 | SKU/Size        | Monthly Cost (USD) | Notes                                   |
+| ------------------------ | --------------- | ------------------ | --------------------------------------- |
+| 🏢 DevCenter             | Standard        | $0                 | Management plane - no direct charges    |
+| 💻 Dev Box (2 vCPU, 8GB) | Standard_D2s_v3 | ~$150/box          | Per developer workstation (24/7 uptime) |
+| 🌐 Virtual Network       | Standard        | ~$5                | Data transfer charges apply             |
+| 🔑 Key Vault             | Standard        | ~$3                | Secrets and operations charges          |
+| 📊 Log Analytics         | Pay-as-you-go   | ~$10               | Based on data ingestion volume          |
 
 **Total**: ~$168/month for 1 developer + $150/additional developer
 
@@ -399,11 +422,11 @@ through standard Git workflows with automated validation.
 
 ### Configuration Files
 
-| File Path                                                 | Purpose                                                      | Schema Validation |
-| --------------------------------------------------------- | ------------------------------------------------------------ | ----------------- |
-| `infra/settings/resourceOrganization/azureResources.yaml` | Defines resource groups and organizational structure         | ✅ Yes            |
-| `infra/settings/security/security.yaml`                   | Configures Key Vault, secrets, and security policies         | ✅ Yes            |
-| `infra/settings/workload/devcenter.yaml`                  | Defines DevCenter, projects, catalogs, and environment types | ✅ Yes            |
+| File Path                                                    | Purpose                                                      | Schema Validation |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ----------------- |
+| 📁 `infra/settings/resourceOrganization/azureResources.yaml` | Defines resource groups and organizational structure         | ✅ Yes            |
+| 🔒 `infra/settings/security/security.yaml`                   | Configures Key Vault, secrets, and security policies         | ✅ Yes            |
+| ⚙️ `infra/settings/workload/devcenter.yaml`                  | Defines DevCenter, projects, catalogs, and environment types | ✅ Yes            |
 
 ### Primary Configuration: `devcenter.yaml`
 
@@ -552,12 +575,12 @@ az devcenter admin devcenter show \
 
 The setup scripts use the following environment variables:
 
-| Variable                  | Required | Default  | Description                                 |
-| ------------------------- | -------- | -------- | ------------------------------------------- |
-| `AZURE_ENV_NAME`          | Yes      | N/A      | Environment identifier (dev, staging, prod) |
-| `SOURCE_CONTROL_PLATFORM` | No       | `github` | Source control platform (github or adogit)  |
-| `AZURE_LOCATION`          | No       | `eastus` | Azure region for resource deployment        |
-| `AZURE_SUBSCRIPTION_ID`   | No       | Default  | Target Azure subscription ID                |
+| Variable                     | Required | Default  | Description                                 |
+| ---------------------------- | -------- | -------- | ------------------------------------------- |
+| 🌍 `AZURE_ENV_NAME`          | Yes      | N/A      | Environment identifier (dev, staging, prod) |
+| 🔗 `SOURCE_CONTROL_PLATFORM` | No       | `github` | Source control platform (github or adogit)  |
+| 📍 `AZURE_LOCATION`          | No       | `eastus` | Azure region for resource deployment        |
+| 🆔 `AZURE_SUBSCRIPTION_ID`   | No       | Default  | Target Azure subscription ID                |
 
 **Setting Environment Variables**:
 
@@ -737,13 +760,13 @@ hooks:
 
 ### Troubleshooting Deployment Issues
 
-| Error Message                               | Cause                             | Resolution                                        |
-| ------------------------------------------- | --------------------------------- | ------------------------------------------------- |
-| `ERROR: Insufficient quota`                 | VM quota exhausted in region      | Request quota increase or change region           |
-| `ERROR: Network connection creation failed` | VNet not found                    | Verify VNet created with `create: true` in config |
-| `ERROR: GitHub authentication failed`       | Invalid or expired GitHub token   | Run `gh auth login` to refresh                    |
-| `ERROR: Key Vault access denied`            | Missing RBAC permissions          | Ensure User Access Administrator role assigned    |
-| `ERROR: Catalog sync failed`                | Private repository without access | Change `visibility: public` or configure auth     |
+| Error Message                                  | Cause                             | Resolution                                        |
+| ---------------------------------------------- | --------------------------------- | ------------------------------------------------- |
+| ❌ `ERROR: Insufficient quota`                 | VM quota exhausted in region      | Request quota increase or change region           |
+| ❌ `ERROR: Network connection creation failed` | VNet not found                    | Verify VNet created with `create: true` in config |
+| ❌ `ERROR: GitHub authentication failed`       | Invalid or expired GitHub token   | Run `gh auth login` to refresh                    |
+| ❌ `ERROR: Key Vault access denied`            | Missing RBAC permissions          | Ensure User Access Administrator role assigned    |
+| ❌ `ERROR: Catalog sync failed`                | Private repository without access | Change `visibility: public` or configure auth     |
 
 > **💡 Tip**: Enable debug logging with `azd config set defaults.debug true` for
 > detailed troubleshooting information.
@@ -1129,4 +1152,5 @@ SOFTWARE.
 
 ---
 
-**Built with ❤️ by the DevExp Team | Powered by Azure DevCenter**
+**Built with ❤️ by the Evilazaro Alves | Principal Cloud Solution Architect |
+Cloud Platform & AI Apps | Microsoft**
