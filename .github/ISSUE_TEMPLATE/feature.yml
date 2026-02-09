@@ -1,137 +1,138 @@
 # .github/ISSUE_TEMPLATE/feature.yml
-name: '🚀 Feature request'
-description:
-  'Propose a new capability or enhancement (problem-first, outcome-driven).'
-title: 'feat: <short description>'
-labels: ['type:feature', 'status:triage']
+name: ✨ Feature
+description: Deliverable capability within an Epic (may include multiple tasks)
+title: "✨ FEATURE — <Short Name>"
+labels:
+  - "type:feature"
+assignees: []
+
 body:
   - type: markdown
     attributes:
       value: |
-        **Product-first request**: focus on the *problem*, *users*, and *outcomes*.
-        If you’re unsure this is a feature, consider using **Question** or **Docs** instead.
+        # FEATURE — <Short Name>
+        A concrete deliverable within an Epic. Prefer outcome-oriented scope and clear acceptance criteria.
 
-  - type: textarea
-    id: problem
+  - type: input
+    id: epic_link
     attributes:
-      label: Problem statement
-      description: What recurring problem are we solving? Who is impacted?
-      placeholder: 'Describe the pain point observed in customer engagements.'
+      label: 🔗 Parent Epic
+      description: Link the Epic issue (e.g., #101)
+      placeholder: "#<epic-issue-number>"
     validations:
       required: true
 
   - type: textarea
-    id: users
+    id: feature_description
     attributes:
-      label: Target persona(s) / users
-      description: Who benefits? List roles and teams.
-      placeholder:
-        "- Developer\n- Platform Engineer\n- Security/Compliance\n- IT Admin"
+      label: 📝 Feature Description
+      description: What are we delivering?
+      placeholder: >
+        Deploy Dev Center baseline via Bicep with parameterized inputs and standard tags.
     validations:
       required: true
 
   - type: textarea
-    id: outcomes
+    id: problem_statement
     attributes:
-      label: Desired outcomes
-      description:
-        What measurable success looks like (time-to-value, consistency, risk
-        reduction, etc.).
-      placeholder:
-        "- Reduce Dev Box provisioning time from X to Y\n- Enforce baseline
-        security controls\n- Standardize configuration across projects"
+      label: ❓ Problem Statement
+      description: What problem does this solve?
+      placeholder: >
+        Manual provisioning is slow and inconsistent, leading to drift and delays.
     validations:
       required: true
 
   - type: textarea
-    id: jtbd
+    id: proposed_solution
     attributes:
-      label: Jobs To Be Done (optional)
-      description: Use JTBD format if helpful.
-      placeholder:
-        'When <situation>, I want to <motivation>, so I can <outcome>.'
+      label: 💡 Proposed Solution
+      description: High-level approach. Avoid unnecessary implementation detail.
+      placeholder: >
+        Provide Bicep modules + examples + docs to deploy consistently.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternative_solutions
+    attributes:
+      label: 🔀 Alternative Solutions
+      description: Other approaches considered.
+      placeholder: >
+        Manual portal setup; ad-hoc scripts; one-off templates.
     validations:
       required: false
-
-  - type: dropdown
-    id: priority
-    attributes:
-      label: Priority
-      description: Product priority signal (can be revised during triage).
-      options:
-        - P0 - critical / blocking
-        - P1 - high
-        - P2 - medium
-        - P3 - low
-    validations:
-      required: true
-
-  - type: dropdown
-    id: mvp_fit
-    attributes:
-      label: MVP fit
-      description: Should this be part of MVP?
-      options:
-        - MVP candidate (strong)
-        - MVP candidate (weak)
-        - Post-MVP / roadmap
-        - Not sure
-    validations:
-      required: true
 
   - type: checkboxes
-    id: alignment
+    id: dev_box_component
     attributes:
-      label: Architecture alignment
-      description: Select what applies (validate during triage).
+      label: 🔧 Dev Box Component
+      description: Which components does this feature relate to?
       options:
-        - label: Aligns with Azure Landing Zone design principles
-        - label: Aligns with Azure Well-Architected Framework pillars
-        - label: Enables multi-project / multi-team adoption
-        - label: Requires an ADR (architecture decision record)
+        - label: Infrastructure/Bicep Templates
+        - label: PowerShell Scripts
+        - label: Bash scripts
+        - label: Configuration Management
+        - label: Networking
+        - label: Identity & Access
+        - label: Monitoring & Diagnostics
+        - label: Dev Box
+        - label: Documentation
+        - label: Other (specify below)
 
   - type: textarea
-    id: scope
+    id: use_case
     attributes:
-      label: Scope boundaries
-      description: Define in-scope and out-of-scope to prevent feature creep.
-      placeholder: |
-        In scope:
-        - ...
-        Out of scope:
-        - ...
+      label: 👤 Use Case
+      description: Scenario where this feature is beneficial.
+      placeholder: >
+        Platform team deploys Dev Center baseline across dev/test/prod subscriptions.
     validations:
       required: true
 
   - type: textarea
-    id: acceptance
+    id: expected_benefits
     attributes:
-      label: Acceptance criteria
-      description: Clear, testable conditions of satisfaction (feature-level).
+      label: ✨ Expected Benefits
+      description: What value or improvements will this bring?
       placeholder: |
-        - Given ..., when ..., then ...
-        - Must ...
-        - Must not ...
+        - Repeatable deployment
+        - Faster rollout
+        - Reduced drift
     validations:
       required: true
 
   - type: textarea
-    id: assumptions
+    id: acceptance_criteria
     attributes:
-      label: Assumptions / dependencies / constraints (optional)
-      description:
-        List assumptions (validated/unvalidated), dependencies, compliance
-        constraints, etc.
+      label: Acceptance Criteria
+      description: Testable conditions that must be met.
+      placeholder: |
+        - Deploys successfully via IaC
+        - Idempotent re-runs
+        - Outputs documented
+        - Example parameters provided
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Preconditions, decisions, or upstream work.
+      placeholder: >
+        Landing Zone subscription/resource group strategy defined; naming/tagging standards agreed.
     validations:
       required: false
 
   - type: textarea
-    id: references
+    id: definition_of_done
     attributes:
-      label: References (optional)
-      description:
-        Link to Microsoft docs, customer notes (sanitized), or related
-        issues/PRs.
-      placeholder: "- Microsoft Learn: ...\n- Related issue: #123"
+      label: Definition of Done
+      description: What must be true to close this Feature?
+      placeholder: |
+        - Code merged
+        - Tests/validations pass
+        - Docs updated
+        - Minimal example verified
     validations:
-      required: false
+      required: true

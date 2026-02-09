@@ -1,8 +1,8 @@
 # .github/ISSUE_TEMPLATE/question.yml
-name: '❓ Question'
-description: 'Ask a focused question for clarification or decision-making.'
-title: 'question: <short topic>'
-labels: ['type:question', 'status:triage']
+name: "❓ Question"
+description: "Ask a focused question for clarification or decision-making."
+title: "question: <short topic>"
+labels: ["type:question", "status:triage"]
 body:
   - type: markdown
     attributes:
@@ -12,7 +12,7 @@ body:
   - type: textarea
     id: question
     attributes:
-      label: Question
+      label: 💭 Question
       description: Ask one clear question. Include context below.
     validations:
       required: true
@@ -20,7 +20,7 @@ body:
   - type: textarea
     id: context
     attributes:
-      label: Context (optional)
+      label: 📋 Context (optional)
       description: Provide background, constraints, and what you’ve tried.
     validations:
       required: false
@@ -28,7 +28,7 @@ body:
   - type: textarea
     id: references
     attributes:
-      label: References (optional)
+      label: 🔗 References (optional)
       description: Links to docs, related issues, PRs, or decisions.
     validations:
       required: false

@@ -1,0 +1,164 @@
+name: 🎯 Epic
+description: High-level capability or outcome spanning multiple features and tasks
+title: "🎯 EPIC X — <Epic Name>"
+labels:
+  - "type:epic"
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # EPIC — <Epic Name>
+        This Epic represents a high-level DevEx / Dev Box capability that delivers a measurable platform outcome.
+
+  - type: textarea
+    id: epic_objective
+    attributes:
+      label: 🎯 Epic Objective
+      description: One or two sentences describing the outcome this Epic delivers.
+      placeholder: >
+        Enable fast, secure, and repeatable Dev Box adoption aligned with enterprise landing zones.
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature_description
+    attributes:
+      label: 📝 Feature Description
+      description: High-level description of the capability delivered by this Epic.
+      placeholder: >
+        This Epic delivers a production-ready Dev Box adoption path with secure defaults, automation, and governance.
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem_statement
+    attributes:
+      label: ❓ Problem Statement
+      description: Describe the problem this Epic solves.
+      placeholder: >
+        Dev Box adoption is slow and inconsistent due to fragmented identity, networking, and governance decisions.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: 💡 Proposed Solution
+      description: Describe the high-level solution approach. Avoid implementation details.
+      placeholder: >
+        Provide opinionated architecture, automation, and documentation to standardize Dev Box deployments.
+    validations:
+      required: true
+
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: 🚫 Out of Scope / Non-Goals
+      description: Explicitly list what this Epic will not address.
+      placeholder: >
+        Custom per-team pipelines, bespoke networking designs, non-Dev Box workloads.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: components
+    attributes:
+      label: 🔧 Dev Box / DevEx Components
+      description: Select all components impacted by this Epic.
+      options:
+        - label: Infrastructure / Bicep Templates
+        - label: PowerShell Scripts
+        - label: Bash Scripts
+        - label: Configuration Management
+        - label: Networking
+        - label: Identity & Access
+        - label: Monitoring & Diagnostics
+        - label: Dev Box
+        - label: CI/CD
+        - label: Documentation
+        - label: Other (specify in comments)
+
+  - type: textarea
+    id: use_cases
+    attributes:
+      label: 👤 Use Cases
+      description: Who benefits from this Epic and how?
+      placeholder: |
+        Platform Team: Deploy Dev Box quickly with guardrails.
+        Developers: Self-serve Dev Boxes with minimal friction.
+        Security/Ops: Maintain visibility and control.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_benefits
+    attributes:
+      label: ✨ Expected Benefits
+      description: List the key outcomes or improvements.
+      placeholder: |
+        - Reduced time to Dev Box adoption
+        - Secure-by-default deployments
+        - Repeatable rollout across environments
+    validations:
+      required: true
+
+  - type: textarea
+    id: success_metrics
+    attributes:
+      label: Success Metrics (Exit Criteria)
+      description: How do we know this Epic is successful?
+      placeholder: |
+        - Time to deploy Dev Box < 1 day
+        - Developer onboarding < 1 hour
+        - Near-zero manual steps
+        - 100% tagged resources
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies & Assumptions
+      description: Preconditions or assumptions for this Epic.
+      placeholder: >
+        Landing Zone available; Entra ID groups defined; network topology chosen.
+    validations:
+      required: false
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks & Mitigations
+      description: High-level risks and how they will be mitigated.
+      placeholder: |
+        Risk: Network constraints delay deployment
+        Mitigation: Provide default topology with documented alternatives
+    validations:
+      required: false
+
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: Definition of Done (Epic-Level)
+      description: When is this Epic considered complete?
+      placeholder: |
+        - All child issues completed
+        - End-to-end Dev Box adoption validated
+        - Documentation published
+        - Adoption path demonstrably works
+    validations:
+      required: true
+
+  - type: textarea
+    id: child_issues
+    attributes:
+      label: Child Issues (Tracking)
+      description: Link related Feature and Task issues.
+      placeholder: |
+        - #123 Dev Center baseline
+        - #124 RBAC automation
+        - #125 Network baseline
+    validations:
+      required: false

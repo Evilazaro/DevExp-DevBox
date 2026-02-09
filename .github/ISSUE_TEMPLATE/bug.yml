@@ -1,8 +1,8 @@
 # .github/ISSUE_TEMPLATE/bug.yml
-name: '🐞 Bug report'
-description: 'Report something that is broken or not working as expected.'
-title: 'bug: <short description>'
-labels: ['type:bug', 'status:triage']
+name: "🐞 Bug report"
+description: "Report something that is broken or not working as expected."
+title: "bug: <short description>"
+labels: ["type:bug", "status:triage"]
 body:
   - type: markdown
     attributes:
@@ -12,7 +12,7 @@ body:
   - type: textarea
     id: what_happened
     attributes:
-      label: What happened?
+      label: 🔍 What happened?
       description: A clear and concise description of the bug.
     validations:
       required: true
@@ -20,14 +20,14 @@ body:
   - type: textarea
     id: expected
     attributes:
-      label: What did you expect to happen?
+      label: ✅ What did you expect to happen?
     validations:
       required: true
 
   - type: textarea
     id: repro
     attributes:
-      label: Steps to reproduce
+      label: 🔄 Steps to reproduce
       description: Provide exact steps so we can reproduce.
       placeholder: |
         1. Deploy ...
@@ -40,9 +40,8 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: Relevant logs / screenshots (redact secrets)
-      description:
-        Paste logs or error output. Remove tokens, secrets, IDs if sensitive.
+      label: 📋 Relevant logs / screenshots (redact secrets)
+      description: Paste logs or error output. Remove tokens, secrets, IDs if sensitive.
       render: shell
     validations:
       required: false
@@ -50,7 +49,7 @@ body:
   - type: textarea
     id: environment
     attributes:
-      label: Environment
+      label: 🖥️ Environment
       description: Provide environment details to reproduce.
       placeholder: |
         - OS:
@@ -65,19 +64,19 @@ body:
   - type: dropdown
     id: severity
     attributes:
-      label: Severity
+      label: 🚨 Severity
       options:
-        - S0 - outage / data loss / security impact
-        - S1 - major functionality broken
-        - S2 - minor functionality broken
-        - S3 - cosmetic / non-blocking
+        - 🔴 S0 - outage / data loss / security impact
+        - 🟠 S1 - major functionality broken
+        - 🟡 S2 - minor functionality broken
+        - 🟢 S3 - cosmetic / non-blocking
     validations:
       required: true
 
   - type: checkboxes
     id: checks
     attributes:
-      label: Triage checks
+      label: ✔️ Triage checks
       options:
         - label: I verified this is not a duplicate issue
           required: true
