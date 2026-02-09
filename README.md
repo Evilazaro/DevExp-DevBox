@@ -104,14 +104,15 @@ flowchart TB
     accDescr: Four-layer architecture showing security, monitoring, connectivity, and workload components
 
     %% ============================================
-    %% STANDARD COLOR SCHEME v2.1 - Material Design Compliant
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
     %% ============================================
-    %% HIERARCHICAL (structural nesting):
-    %%   Level 1: #E8EAF6 (Indigo 50) - Main container
-    %% SEMANTIC (functional purpose):
-    %%   Blue=#BBDEFB (Info), Green=#C8E6C9 (Success),
-    %%   Orange=#FFE0B2 (Validate), Teal=#B2DFDB (Data),
-    %%   Yellow=#FFF9C4 (Config)
+    %% SEMANTIC COLORS (functional siblings - different purposes):
+    %%   Orange=#FFE0B2 (Security Layer)
+    %%   Blue=#BBDEFB (Monitoring Layer)
+    %%   Green=#C8E6C9 (Connectivity Layer)
+    %%   Teal=#B2DFDB (Workload Layer)
+    %%   Yellow=#FFF9C4 (Identity Layer)
+    %% Material Design 100-level palette with WCAG AA compliance
     %% ============================================
 
     subgraph Security["🔐 Security Layer"]
@@ -159,11 +160,11 @@ flowchart TB
     classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
     classDef mdYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#000
 
-    style Security fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
-    style Monitoring fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
-    style Connectivity fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
-    style Workload fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
-    style Identity fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px
+    style Security fill:#FFE0B2,stroke:#E64A19,stroke-width:3px
+    style Monitoring fill:#BBDEFB,stroke:#1976D2,stroke-width:3px
+    style Connectivity fill:#C8E6C9,stroke:#388E3C,stroke-width:3px
+    style Workload fill:#B2DFDB,stroke:#00796B,stroke-width:3px
+    style Identity fill:#FFF9C4,stroke:#F57F17,stroke-width:3px
 ```
 
 **Component Roles:**
