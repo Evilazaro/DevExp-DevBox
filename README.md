@@ -158,14 +158,14 @@ flowchart TB
 
 > 📌 **Critical Architecture Components**:
 
-- **Security Layer**: **Stores sensitive credentials** (GitHub/Azure DevOps tokens)
-  in Key Vault with **access controlled via RBAC**
+- **Security Layer**: **Stores sensitive credentials** (GitHub/Azure DevOps
+  tokens) in Key Vault with **access controlled via RBAC**
 - **Monitoring Layer**: **Aggregates diagnostic logs** from all resources for
   **centralized observability and compliance auditing**
 - **Workload Layer**: **Hosts DevCenter core resources**, projects, and compute
   pools with **catalog-based environment definitions**
-- **Network Layer**: **Provides secure network connectivity** for Dev Box instances
-  with **optional private endpoints**
+- **Network Layer**: **Provides secure network connectivity** for Dev Box
+  instances with **optional private endpoints**
 
 ## Quick Start
 
