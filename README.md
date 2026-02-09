@@ -49,6 +49,41 @@ Bash setup scripts handle authentication and orchestrate the Azure Developer CLI
 > and Azure Well-Architected Framework principles for production-ready
 > infrastructure.
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [First Dev Box Provisioning](#first-dev-box-provisioning)
+- [Features](#features)
+- [Requirements](#requirements)
+  - [Azure Service Limits](#azure-service-limits)
+  - [Cost Considerations](#cost-considerations)
+- [Configuration](#configuration)
+  - [Configuration Files](#configuration-files)
+  - [Primary Configuration: devcenter.yaml](#primary-configuration-devcenter.yaml)
+  - [Modifying Configuration](#modifying-configuration)
+  - [Environment Variables](#environment-variables)
+- [Deployment](#deployment)
+  - [Step-by-Step Deployment](#step-by-step-deployment)
+  - [Deployment Lifecycle Hooks](#deployment-lifecycle-hooks)
+  - [Troubleshooting Deployment Issues](#troubleshooting-deployment-issues)
+  - [Deployment Rollback](#deployment-rollback)
+- [Usage](#usage)
+  - [Provisioning a Dev Box](#provisioning-a-dev-box)
+  - [Managing Dev Boxes](#managing-dev-boxes)
+  - [Creating Custom Dev Box Definitions](#creating-custom-dev-box-definitions)
+  - [Using Environment Definitions](#using-environment-definitions)
+- [Contributing](#contributing)
+  - [How to Contribute](#how-to-contribute)
+  - [Contribution Guidelines](#contribution-guidelines)
+  - [Reporting Issues](#reporting-issues)
+  - [Community Guidelines](#community-guidelines)
+- [License](#license)
+- [Related Resources](#related-resources)
+
 ## Architecture
 
 **Overview**
@@ -245,15 +280,15 @@ compliance with organizational policies through automated guardrails.
 with declarative YAML configuration, enabling infrastructure-as-code workflows
 with Git-based change management and automated validation before deployment.
 
-| Feature                        | Description                                                                                          | Status    |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------- | --------- |
-| **Automated Infrastructure**   | Single-command deployment (`azd up`) provisions all Azure resources with zero manual configuration   | ✅ Stable |
-| **YAML-Driven Configuration**  | Declarative settings in `devcenter.yaml` define projects, catalogs, networks, and permissions        | ✅ Stable |
-| **Multi-Platform Support**     | Cross-platform setup scripts for Windows (PowerShell 7+) and Linux/macOS (Bash 4+)                   | ✅ Stable |
-| **Security by Default**        | Key Vault integration, managed identities, and RBAC assignments follow Azure security baselines      | ✅ Stable |
-| **Modular Bicep Templates**    | Composable modules for security, monitoring, connectivity, and workload layers enable customization  | ✅ Stable |
-| **GitHub Catalog Integration** | Automatic sync with GitHub repositories containing reusable environment definitions and custom tasks | ✅ Stable |
-| **Multi-Environment Support**  | Pre-configured dev/staging/UAT environment types with isolated deployment targets                    | ✅ Stable |
+| Feature                              | Description                                                                                          | Status    |
+|--------------------------------------|------------------------------------------------------------------------------------------------------|-----------|
+| 🚀 **Automated Infrastructure**      | Single-command deployment (`azd up`) provisions all Azure resources with zero manual configuration   | ✅ Stable |
+| 📝 **YAML-Driven Configuration**     | Declarative settings in `devcenter.yaml` define projects, catalogs, networks, and permissions        | ✅ Stable |
+| 💻 **Multi-Platform Support**        | Cross-platform setup scripts for Windows (PowerShell 7+) and Linux/macOS (Bash 4+)                   | ✅ Stable |
+| 🔒 **Security by Default**           | Key Vault integration, managed identities, and RBAC assignments follow Azure security baselines      | ✅ Stable |
+| 🧩 **Modular Bicep Templates**       | Composable modules for security, monitoring, connectivity, and workload layers enable customization  | ✅ Stable |
+| 🔗 **GitHub Catalog Integration**    | Automatic sync with GitHub repositories containing reusable environment definitions and custom tasks | ✅ Stable |
+| 🌍 **Multi-Environment Support**     | Pre-configured dev/staging/UAT environment types with isolated deployment targets                    | ✅ Stable |
 
 ### Feature Deep Dive: YAML Configuration
 
