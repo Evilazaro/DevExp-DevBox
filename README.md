@@ -365,13 +365,13 @@ Ensure your subscription has sufficient quota for:
 
 Estimated monthly costs for default configuration:
 
-| Resource              | SKU/Size        | Monthly Cost (USD) | Notes                                   |
-| --------------------- | --------------- | ------------------ | --------------------------------------- |
-| DevCenter             | Standard        | $0                 | Management plane - no direct charges    |
-| Dev Box (2 vCPU, 8GB) | Standard_D2s_v3 | ~$150/box          | Per developer workstation (24/7 uptime) |
-| Virtual Network       | Standard        | ~$5                | Data transfer charges apply             |
-| Key Vault             | Standard        | ~$3                | Secrets and operations charges          |
-| Log Analytics         | Pay-as-you-go   | ~$10               | Based on data ingestion volume          |
+| Resource                  | SKU/Size        | Monthly Cost (USD) | Notes                                   |
+|---------------------------|-----------------|--------------------|-----------------------------------------|
+| 🏢 DevCenter              | Standard        | $0                 | Management plane - no direct charges    |
+| 💻 Dev Box (2 vCPU, 8GB)  | Standard_D2s_v3 | ~$150/box          | Per developer workstation (24/7 uptime) |
+| 🌐 Virtual Network        | Standard        | ~$5                | Data transfer charges apply             |
+| 🔒 Key Vault              | Standard        | ~$3                | Secrets and operations charges          |
+| 📊 Log Analytics          | Pay-as-you-go   | ~$10               | Based on data ingestion volume          |
 
 **Total**: ~$168/month for 1 developer + $150/additional developer
 
