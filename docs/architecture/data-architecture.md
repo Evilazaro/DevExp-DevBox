@@ -218,6 +218,18 @@ flowchart TB
     accTitle: Data Layer Architecture Landscape
     accDescr: Shows the three primary data domains in DevExp-DevBox with their storage locations and data flows. Configuration data flows from YAML files through Bicep deployment to Azure resources. Security data flows from Key Vault to deployed resources via secure parameter injection. Observability data flows from resources through diagnostic settings to Log Analytics.
 
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (data domains - functional purpose):
+    %%   Blue=#BBDEFB (Configuration Domain)
+    %%   Orange=#FFCC80 (Security Domain - Orange 200 for distinction)
+    %%   Teal=#80CBC4 (Observability Domain - Teal 200 for distinction)
+    %%   Green=#C8E6C9 (Governance Layer)
+    %%   Indigo=#3F51B5 (Special emphasis nodes)
+    %% Material Design palette with WCAG AA compliance
+    %% ============================================
+
     classDef mdIndigoDark fill:#3F51B5,stroke:#1A237E,stroke-width:3px,color:#FFF
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
@@ -831,6 +843,17 @@ flowchart LR
     accTitle: Current State Data Architecture Baseline
     accDescr: Documents the as-deployed data architecture showing three primary storage tiers with data flows and governance controls. Git repository contains configuration files flowing to Azure Key Vault for secrets and Log Analytics for observability data. All data stores implement encryption at rest and RBAC-based access controls.
 
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (storage tiers - functional purpose):
+    %%   Blue=#BBDEFB (Git Storage Tier)
+    %%   Orange=#FFCC80 (Azure Key Vault - Security)
+    %%   Teal=#80CBC4 (Log Analytics - Observability)
+    %%   Purple=#CE93D8 (Azure RM - Resource Management)
+    %% Material Design palette with WCAG AA compliance
+    %% ============================================
+
     classDef mdIndigoDark fill:#3F51B5,stroke:#1A237E,stroke-width:3px,color:#FFF
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
@@ -1018,6 +1041,16 @@ flowchart LR
     accTitle: GitHub Access Token Data Lineage
     accDescr: Shows the complete lifecycle of GitHub access token from creation in GitHub through storage in Key Vault to consumption by DevCenter services. Token is manually created by engineer, stored via Bicep deployment with secure parameters, and retrieved by DevCenter for catalog synchronization.
 
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (data flow stages):
+    %%   Orange=#FFCC80 (Creation/Storage - Security)
+    %%   Blue=#BBDEFB (Transformation/Deployment)
+    %%   Teal=#80CBC4 (Consumption/Usage)
+    %% Material Design palette with WCAG AA compliance
+    %% ============================================
+
     classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdTeal fill:#80CBC4,stroke:#00695C,stroke-width:2px,color:#000
@@ -1171,6 +1204,16 @@ specifications:_
 flowchart LR
     accTitle: Diagnostic Settings Data Flow
     accDescr: Real-time streaming flow from Azure resources through diagnostic settings and Azure Monitor to Log Analytics workspace. Shows 5-minute buffering and automatic metadata enrichment by Azure Monitor before batch ingestion.
+
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (data flow stages):
+    %%   Teal=#80CBC4 (Diagnostic Settings/Log Analytics)
+    %%   Blue=#BBDEFB (Azure Resources)
+    %%   Purple=#CE93D8 (Azure Monitor - Processing)
+    %% Material Design palette with WCAG AA compliance
+    %% ============================================
 
     classDef mdTeal fill:#80CBC4,stroke:#00695C,stroke-width:2px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
