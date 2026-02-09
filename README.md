@@ -70,50 +70,50 @@ separation of concerns across multiple resource groups and identity boundaries.
 ```mermaid
 flowchart TB
     accTitle: DevExp-DevBox Architecture
-    accDescr: Multi-tier Azure DevCenter deployment with modular Bicep infrastructure
+    accDescr: Multi-tier Azure DevCenter deployment with modular Bicep infrastructure across security, connectivity, identity, workload, and monitoring layers
 
-    subgraph main["DevExp-DevBox Solution"]
+    subgraph main["🏗️ DevExp-DevBox Solution"]
         direction TB
 
-        subgraph setup["Setup & Deployment"]
-            azd["Azure Developer CLI<br/>(azd)"]:::mdBlue
-            ps1["setUp.ps1<br/>(Windows)"]:::mdGreen
-            sh["setUp.sh<br/>(Linux/macOS)"]:::mdGreen
+        subgraph setup["🚀 Setup & Deployment"]
+            azd["🔧 Azure Developer CLI<br/>(azd)"]
+            ps1["💻 setUp.ps1<br/>(Windows)"]
+            sh["🐧 setUp.sh<br/>(Linux/macOS)"]
         end
 
-        subgraph config["Configuration Layer"]
-            yamlSec["security.yaml<br/>(Key Vault)"]:::mdPurple
-            yamlDC["devcenter.yaml<br/>(Dev Center)"]:::mdPurple
-            yamlOrg["azureResources.yaml<br/>(Landing Zones)"]:::mdPurple
+        subgraph config["⚙️ Configuration Layer"]
+            yamlSec["🔐 security.yaml<br/>(Key Vault)"]
+            yamlDC["📦 devcenter.yaml<br/>(Dev Center)"]
+            yamlOrg["🗂️ azureResources.yaml<br/>(Landing Zones)"]
         end
 
-        subgraph infra["Bicep Infrastructure"]
-            mainBicep["main.bicep<br/>(Orchestrator)"]:::mdOrange
+        subgraph infra["📋 Bicep Infrastructure"]
+            mainBicep["🎯 main.bicep<br/>(Orchestrator)"]
 
-            subgraph modules["Bicep Modules"]
-                sec["Security<br/>(Key Vault)"]:::mdRed
-                conn["Connectivity<br/>(VNet, Network)"]:::mdTeal
-                ident["Identity<br/>(RBAC, Access)"]:::mdIndigo
-                work["Workload<br/>(Dev Center)"]:::mdYellow
-                mon["Management<br/>(Log Analytics)"]:::mdGray
+            subgraph modules["📦 Bicep Modules"]
+                sec["🔒 Security<br/>(Key Vault)"]
+                conn["🌐 Connectivity<br/>(VNet, Network)"]
+                ident["👤 Identity<br/>(RBAC, Access)"]
+                work["💼 Workload<br/>(Dev Center)"]
+                mon["📊 Management<br/>(Log Analytics)"]
             end
         end
 
-        subgraph azure["Azure Resources"]
+        subgraph azure["☁️ Azure Resources"]
             direction LR
 
-            subgraph azLz["Landing Zones"]
-                rgSec["Security RG"]:::azSec
-                rgMon["Monitoring RG"]:::azMon
-                rgWork["Workload RG"]:::azWork
+            subgraph azLz["🗂️ Landing Zones"]
+                rgSec["🔐 Security RG"]
+                rgMon["📊 Monitoring RG"]
+                rgWork["💼 Workload RG"]
             end
 
-            subgraph azRes["Deployed Resources"]
-                kv["Key Vault"]:::azSec
-                la["Log Analytics"]:::azMon
-                dc["DevCenter"]:::azWork
-                proj["Projects"]:::azWork
-                pools["Dev Box Pools"]:::azWork
+            subgraph azRes["🎯 Deployed Resources"]
+                kv["🔑 Key Vault"]
+                la["📈 Log Analytics"]
+                dc["🖥️ DevCenter"]
+                proj["📁 Projects"]
+                pools["🗄️ Dev Box Pools"]
             end
         end
     end
@@ -143,18 +143,37 @@ flowchart TB
     rgWork --> proj
     rgWork --> pools
 
-    classDef mdBlue fill:#2196F3,stroke:#1976D2,color:#fff
-    classDef mdGreen fill:#4CAF50,stroke:#388E3C,color:#fff
-    classDef mdPurple fill:#9C27B0,stroke:#7B1FA2,color:#fff
-    classDef mdOrange fill:#FF9800,stroke:#F57C00,color:#000
-    classDef mdRed fill:#F44336,stroke:#D32F2F,color:#fff
-    classDef mdTeal fill:#009688,stroke:#00796B,color:#fff
-    classDef mdIndigo fill:#3F51B5,stroke:#303F9F,color:#fff
-    classDef mdYellow fill:#FFC107,stroke:#FFA000,color:#000
-    classDef mdGray fill:#607D8B,stroke:#455A64,color:#fff
-    classDef azSec fill:#DC143C,stroke:#8B0000,color:#fff
-    classDef azMon fill:#4682B4,stroke:#1E3A5F,color:#fff
-    classDef azWork fill:#32CD32,stroke:#228B22,color:#000
+    %% Main container - Indigo 100 (hierarchical level 1)
+    style main fill:#C5CAE9,stroke:#3F51B5,stroke-width:3px,color:#000
+
+    %% Setup & Deployment - Blue 100 (semantic: deployment/tooling)
+    style setup fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
+
+    %% Configuration Layer - Amber 100 (semantic: configuration)
+    style config fill:#FFECB3,stroke:#F57C00,stroke-width:2px,color:#000
+
+    %% Bicep Infrastructure - Purple 100 (semantic: infrastructure-as-code)
+    style infra fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
+
+    %% Bicep Modules - Purple 50 (hierarchical level 3)
+    style modules fill:#F3E5F5,stroke:#9C27B0,stroke-width:2px,color:#000
+
+    %% Azure Resources - Cyan 100 (semantic: cloud resources)
+    style azure fill:#B2EBF2,stroke:#00796B,stroke-width:2px,color:#000
+
+    %% Landing Zones - Cyan 50 (hierarchical level 3)
+    style azLz fill:#E0F7FA,stroke:#0097A7,stroke-width:2px,color:#000
+
+    %% Deployed Resources - Light Blue 50 (hierarchical level 3)
+    style azRes fill:#E1F5FE,stroke:#0288D1,stroke-width:2px,color:#000
+
+    %% Color Documentation Block
+    %% Material Design 100-level palette (WCAG AA compliant)
+    %% Blue 100 (#BBDEFB): Deployment tools and automation
+    %% Amber 100 (#FFECB3): Configuration and settings
+    %% Purple 100 (#E1BEE7): Infrastructure-as-code templates
+    %% Cyan 100 (#B2EBF2): Cloud resources and services
+    %% Indigo 100 (#C5CAE9): Main container hierarchy
 ```
 
 **Component Roles:**
