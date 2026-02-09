@@ -267,7 +267,7 @@ Create or update `infra/main.parameters.json`:
     "secretValue": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.KeyVault/vaults/{vault-name}"
+          "id": "/subscriptions/12345678-1234-1234-1234-123456789abc/resourceGroups/devexp-security-prod-eastus-RG/providers/Microsoft.KeyVault/vaults/kv-devexp-prod"
         },
         "secretName": "github-token"
       }
@@ -401,6 +401,10 @@ attempting deployment to avoid provisioning failures.
 > tokens to source control. The setup scripts automatically configure Key Vault
 > references.
 
+> 💡 **Tip**: Generate GitHub PATs at
+> [github.com/settings/tokens](https://github.com/settings/tokens) with minimum
+> required scopes to follow least-privilege principles.
+
 ## Configuration
 
 **Overview**
@@ -489,7 +493,7 @@ Set deployment parameters in `infra/main.parameters.json`:
     "secretValue": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/{sub-id}/resourceGroups/{rg}/providers/Microsoft.KeyVault/vaults/{vault}"
+          "id": "/subscriptions/12345678-1234-1234-1234-123456789abc/resourceGroups/devexp-security-prod-eastus-RG/providers/Microsoft.KeyVault/vaults/kv-devexp-prod"
         },
         "secretName": "github-token"
       }
@@ -531,7 +535,7 @@ projects:
     displayName: 'Data Science Team'
     environmentTypes:
       - name: 'Development'
-        deploymentTargetId: '/subscriptions/{sub-id}'
+        deploymentTargetId: '/subscriptions/12345678-1234-1234-1234-123456789abc'
         status: 'Enabled'
 ```
 
@@ -549,7 +553,7 @@ Modify pool definitions in `devcenter.yaml`:
 pools:
   - name: 'high-compute-pool'
     devBoxDefinitionName: 'DataScience-GPU'
-    networkConnectionResourceId: '/subscriptions/{sub-id}/resourceGroups/{rg}/providers/Microsoft.DevCenter/networkConnections/{nc-name}'
+    networkConnectionResourceId: '/subscriptions/12345678-1234-1234-1234-123456789abc/resourceGroups/devexp-workload-prod-eastus-RG/providers/Microsoft.DevCenter/networkConnections/devexp-network-connection'
     licenseType: 'Windows_Client'
     localAdministrator: 'Enabled'
 ```
@@ -563,13 +567,13 @@ Grant users DevCenter access by assigning Azure RBAC roles:
 az role assignment create \
   --assignee user@contoso.com \
   --role "DevCenter Project Admin" \
-  --scope /subscriptions/{sub-id}/resourceGroups/{rg}/providers/Microsoft.DevCenter/projects/{project-name}
+  --scope /subscriptions/12345678-1234-1234-1234-123456789abc/resourceGroups/devexp-workload-prod-eastus-RG/providers/Microsoft.DevCenter/projects/Platform-Engineers
 
 # Assign DevCenter Dev Box User role
 az role assignment create \
   --assignee user@contoso.com \
   --role "DevCenter Dev Box User" \
-  --scope /subscriptions/{sub-id}/resourceGroups/{rg}/providers/Microsoft.DevCenter/projects/{project-name}
+  --scope /subscriptions/12345678-1234-1234-1234-123456789abc/resourceGroups/devexp-workload-prod-eastus-RG/providers/Microsoft.DevCenter/projects/Platform-Engineers
 ```
 
 ### Monitoring and Diagnostics
@@ -595,7 +599,7 @@ catalogs:
     gitHub:
       uri: 'https://github.com/contoso/devcenter-catalog'
       branch: 'main'
-      secretIdentifier: '{key-vault-secret-id}'
+      secretIdentifier: 'https://kv-devexp-prod.vault.azure.net/secrets/github-token/abc123def456'
       path: '/environments'
 ```
 
@@ -704,6 +708,9 @@ to report bugs or request features. Include:
 - Expected vs. actual behavior
 - Relevant error messages or logs
 - Environment details (Azure region, azd version, OS)
+
+> 📝 **Note**: For security vulnerabilities, please report privately via GitHub
+> Security Advisories instead of public issues.
 
 ## License
 
