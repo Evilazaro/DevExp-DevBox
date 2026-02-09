@@ -1374,6 +1374,18 @@ flowchart TB
     accTitle: Data Layer Integration Topology
     accDescr: Shows data layer dependencies and integration patterns with Business, Application, and Technology layers. Key Vault acts as security hub providing secrets to all layers. Log Analytics acts as observability hub collecting diagnostics from all resources. Configuration data flows unidirectionally from Git repository through Bicep deployment to Azure resources.
 
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (architectural layers - functional purpose):
+    %%   Blue=#BBDEFB (Business/Configuration)
+    %%   Orange=#FFCC80 (Security - Key Vault)
+    %%   Teal=#80CBC4 (Observability - Log Analytics)
+    %%   Green=#C8E6C9 (Application Layer)
+    %%   Indigo=#3F51B5 (Technology Layer)
+    %% Material Design palette with WCAG AA compliance
+    %% ============================================
+
     classDef mdIndigoDark fill:#3F51B5,stroke:#1A237E,stroke-width:3px,color:#FFF
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
@@ -1473,6 +1485,17 @@ flowchart TD
     accTitle: Internal Data Layer Dependencies
     accDescr: Shows dependencies between data components within the Data layer. YAML configuration files are validated by JSON schemas before loading into Bicep deployment. Key Vault depends on Log Analytics for audit logging. All Azure resources depend on Resource Group metadata for organization.
 
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (component types - functional purpose):
+    %%   Blue=#BBDEFB (Configuration/Schema)
+    %%   Orange=#FFCC80 (Security - Key Vault/Secrets)
+    %%   Teal=#80CBC4 (Observability - Logs/Diagnostics)
+    %%   Purple=#CE93D8 (Resource Management)
+    %% Material Design palette with WCAG AA compliance
+    %% ============================================
+
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
     classDef mdTeal fill:#80CBC4,stroke:#00695C,stroke-width:2px,color:#000
@@ -1520,6 +1543,16 @@ flowchart TD
 flowchart LR
     accTitle: GitHub Token End-to-End Data Lineage
     accDescr: Complete lifecycle of GitHub token from creation to consumption showing all transformation and storage points. Token created in GitHub, manually input by engineer, validated by schema, deployed through Bicep, stored in Key Vault, and retrieved by DevCenter for catalog synchronization.
+
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (lifecycle stages - functional purpose):
+    %%   Orange=#FFCC80 (Creation/Storage - Security)
+    %%   Blue=#BBDEFB (Validation/Transformation)
+    %%   Teal=#80CBC4 (Consumption/Audit)
+    %% Material Design palette with WCAG AA compliance
+    %% ============================================
 
     classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
@@ -1616,6 +1649,15 @@ sequenceDiagram
     accTitle: Configuration Deployment Data Flow
     accDescr: Sequence diagram showing the configuration deployment process from Git repository through Bicep compilation and Azure Resource Manager deployment to final resource provisioning with diagnostic settings.
 
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (participants - functional purpose):
+    %%   Note: Sequence diagrams use default styling
+    %%   Colors applied via box grouping if needed
+    %% Material Design palette with WCAG AA compliance
+    %% ============================================
+
     participant Git as 📦 Git Repo
     participant Bicep as ⚙️ Bicep CLI
     participant ARM as ☁️ Azure RM
@@ -1637,6 +1679,15 @@ sequenceDiagram
 sequenceDiagram
     accTitle: Secret Access Data Flow
     accDescr: Sequence diagram showing the secret retrieval process from DevCenter through Azure AD authentication to Key Vault secret access with audit logging to Log Analytics.
+
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (participants - functional purpose):
+    %%   Note: Sequence diagrams use default styling
+    %%   Colors applied via box grouping if needed
+    %% Material Design palette with WCAG AA compliance
+    %% ============================================
 
     participant DC as 🖥️ DevCenter
     participant AAD as 🔐 Azure AD
