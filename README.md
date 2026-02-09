@@ -146,6 +146,7 @@ flowchart TB
     %% Main container - Indigo 100 (hierarchical level 1)
     style main fill:#C5CAE9,stroke:#3F51B5,stroke-width:3px,color:#000
 
+    %% Level 2: Functional siblings with distinct semantic colors
     %% Setup & Deployment - Blue 100 (semantic: deployment/tooling)
     style setup fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
 
@@ -155,25 +156,29 @@ flowchart TB
     %% Bicep Infrastructure - Purple 100 (semantic: infrastructure-as-code)
     style infra fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
 
-    %% Bicep Modules - Purple 50 (hierarchical level 3)
-    style modules fill:#F3E5F5,stroke:#9C27B0,stroke-width:2px,color:#000
-
     %% Azure Resources - Cyan 100 (semantic: cloud resources)
     style azure fill:#B2EBF2,stroke:#00796B,stroke-width:2px,color:#000
 
-    %% Landing Zones - Cyan 50 (hierarchical level 3)
-    style azLz fill:#E0F7FA,stroke:#0097A7,stroke-width:2px,color:#000
+    %% Level 3: Nested subgraphs (distinct 100-level colors)
+    %% Bicep Modules - Deep Purple 100 (nested under Bicep Infrastructure)
+    style modules fill:#D1C4E9,stroke:#512DA8,stroke-width:2px,color:#000
 
-    %% Deployed Resources - Light Blue 50 (hierarchical level 3)
-    style azRes fill:#E1F5FE,stroke:#0288D1,stroke-width:2px,color:#000
+    %% Landing Zones - Teal 100 (nested under Azure Resources)
+    style azLz fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
+
+    %% Deployed Resources - Light Blue 100 (nested under Azure Resources)
+    style azRes fill:#B3E5FC,stroke:#0277BD,stroke-width:2px,color:#000
 
     %% Color Documentation Block
-    %% Material Design 100-level palette (WCAG AA compliant)
+    %% Material Design 100-level palette (WCAG AA compliant - 4.5:1 contrast ratio)
+    %% Indigo 100 (#C5CAE9): Main container (hierarchical level 1)
     %% Blue 100 (#BBDEFB): Deployment tools and automation
     %% Amber 100 (#FFECB3): Configuration and settings
     %% Purple 100 (#E1BEE7): Infrastructure-as-code templates
     %% Cyan 100 (#B2EBF2): Cloud resources and services
-    %% Indigo 100 (#C5CAE9): Main container hierarchy
+    %% Deep Purple 100 (#D1C4E9): Bicep modules (nested)
+    %% Teal 100 (#B2DFDB): Landing zones (nested)
+    %% Light Blue 100 (#B3E5FC): Deployed resources (nested)
 ```
 
 **Component Roles:**
