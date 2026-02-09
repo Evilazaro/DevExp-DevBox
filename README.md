@@ -86,8 +86,8 @@ flowchart TB
     %% SUBGRAPH HIERARCHY (Indigo progression):
     %%   Level 1: #E8EAF6 | Level 2: #C5CAE9 | Level 3: #9FA8DA | Level 4: #7986CB
     %% SEMANTIC COLORS (functional purpose):
-    %%   Blue=#BBDEFB (API) | Green=#C8E6C9 (Workload) | Orange=#FFE0B2 (Security)
-    %%   Teal=#B2DFDB (Data) | Yellow=#FFF9C4 (Monitoring) | Purple=#E1BEE7 (Optional)
+    %%   Blue=#BBDEFB (Monitoring/API) | Green=#C8E6C9 (Workload) | Orange=#FFE0B2 (Security)
+    %%   Teal=#B2DFDB (Data) | Yellow=#FFF9C4 (Analytics) | Purple=#E1BEE7 (Network)
     %% ═══════════════════════════════════════════════════════════════════════════
 
     %% Complete classDef palette (8 semantic + 4 hierarchical)
@@ -105,22 +105,22 @@ flowchart TB
 
         subgraph SecurityRG["🛡️ Security Resource Group"]
             direction LR
-            kv["🔐 Key Vault<br/>secretValue storage"]:::mdOrange
-            secrets["🔑 Secrets<br/>GitHub/ADO tokens"]:::mdOrange
+            kv["🔐 Key Vault<br/>Secret Value Storage"]:::mdOrange
+            secrets["🔑 Secrets<br/>GitHub/ADO Tokens"]:::mdOrange
         end
 
         subgraph MonitoringRG["📊 Monitoring Resource Group"]
             direction LR
-            la["📈 Log Analytics<br/>Centralized logs"]:::mdBlue
+            la["📈 Log Analytics<br/>Centralized Logs"]:::mdBlue
         end
 
         subgraph WorkloadRG["⚙️ Workload Resource Group"]
             direction TB
-            dc["🏢 Dev Center<br/>Central management"]:::mdGreen
-            proj["📦 Projects<br/>Team workspaces"]:::mdGreen
-            pool["💻 Dev Box Pools<br/>Compute resources"]:::mdGreen
-            env["🌐 Environment Types<br/>dev/test/prod"]:::mdGreen
-            cat["📚 Catalogs<br/>GitHub integration"]:::mdGreen
+            dc["🏢 Dev Center<br/>Central Management"]:::mdGreen
+            proj["📦 Projects<br/>Team Workspaces"]:::mdGreen
+            pool["💻 Dev Box Pools<br/>Compute Resources"]:::mdGreen
+            env["🌐 Environment Types<br/>Dev/Test/Prod"]:::mdGreen
+            cat["📚 Catalogs<br/>GitHub Integration"]:::mdGreen
 
             dc -->|"manages"| proj
             proj -->|"provisions"| pool
@@ -131,7 +131,7 @@ flowchart TB
         subgraph Connectivity["🔌 Network Layer"]
             direction LR
             vnet["🌐 Virtual Network<br/>10.0.0.0/16"]:::mdPurple
-            nc["🔗 Network Connection<br/>Managed networking"]:::mdPurple
+            nc["🔗 Network Connection<br/>Managed Networking"]:::mdPurple
             vnet -->|"provides"| nc
         end
     end
