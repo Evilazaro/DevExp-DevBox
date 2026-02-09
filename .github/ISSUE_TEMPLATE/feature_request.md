@@ -28,10 +28,12 @@ assignees: ""
 
 - [ ] Infrastructure/Bicep Templates
 - [ ] PowerShell Scripts
+- [ ] Bash scripts
 - [ ] Configuration Management
 - [ ] Networking
 - [ ] Identity & Access
 - [ ] Monitoring & Diagnostics
+- [ ] Dev Box
 - [ ] Documentation
 - [ ] Other (please specify)
 
@@ -42,11 +44,3 @@ assignees: ""
 ## Expected Benefits
 
 <!-- What value or improvements would this feature bring? -->
-
-## Additional Context
-
-<!-- Add any other context, screenshots, or examples about the feature request -->
-
-## Implementation Notes
-
-<!-- Optional: If you have technical suggestions for implementation, include them here -->
