@@ -8,50 +8,48 @@
 
 **Enterprise-grade Azure DevCenter deployment accelerator** that automates
 cloud-based developer workstation provisioning with infrastructure-as-code,
-centralized YAML configuration, and built-in security best practices
+centralized YAML configuration, and built-in security best practices.
 
 ## Overview
 
-**Overview**
-
-DevExp-DevBox is a comprehensive Infrastructure as Code (IaC) solution for
+DevExp-DevBox is a **comprehensive Infrastructure as Code (IaC) solution** for
 deploying and managing Microsoft Dev Box environments in Azure. It provides
-platform engineering teams with a declarative, YAML-driven configuration system
-that eliminates manual setup, enforces security best practices, and ensures
-consistent developer experiences across organizations.
+platform engineering teams with a **declarative, YAML-driven configuration
+system** that eliminates manual setup, enforces security best practices, and
+ensures consistent developer experiences across organizations.
 
-**Tier 1: Why This Matters**
+### Why This Matters
 
-Traditional developer workstation provisioning takes 3-5 days per developer and
-suffers from configuration drift, security gaps, and inconsistent tooling.
+Traditional developer workstation provisioning takes **3-5 days per developer**
+and suffers from configuration drift, security gaps, and inconsistent tooling.
 DevExp-DevBox **reduces deployment time from days to minutes** (85% faster
 onboarding) while ensuring every developer receives a standardized,
-security-compliant environment with zero manual configuration. This translates
-to 60% fewer IT support tickets and measurable productivity gains from day one.
+security-compliant environment with **zero manual configuration**. This
+translates to **60% fewer IT support tickets** and measurable productivity gains
+from day one.
 
-**Tier 2: How It Works**
+### How It Works
 
 The solution uses **modular Azure Bicep templates** organized into four
 architectural layers following Azure Well-Architected Framework principles.
-Configuration is managed through **YAML files** (stored in
-[`infra/settings/`](infra/settings/)) that define projects, environment types,
+Configuration is managed through **YAML files** in
+[`infra/settings/`](infra/settings/) that define projects, environment types,
 and team permissions. Cross-platform setup scripts ([`setUp.ps1`](setUp.ps1) for
-Windows, [`setUp.sh`](setUp.sh) for Linux/macOS) handle authentication and
-orchestrate the Azure Developer CLI (`azd`) deployment pipeline with a single
-`azd up` command.
+Windows, [`setUp.sh`](setUp.sh) for Linux/macOS) authenticate and orchestrate
+deployment with a **single `azd up` command**.
 
-**Architecture Layers:**
+### Architecture Layers
 
-1. 🔐 **Security Layer**: Azure Key Vault for secrets management with RBAC and
-   managed identities
-2. 📊 **Monitoring Layer**: Log Analytics workspace for centralized telemetry
-   and diagnostics
-3. 🌐 **Connectivity Layer**: Virtual networks with subnet isolation and
-   DevCenter network connections
-4. ⚙️ **Workload Layer**: DevCenter, projects, catalogs, Dev Box pools, and
+1. 🔐 **Security**: Azure Key Vault for secrets management with RBAC and managed
+   identities
+2. 📊 **Monitoring**: Log Analytics workspace for centralized telemetry and
+   diagnostics
+3. 🌐 **Connectivity**: Virtual networks with subnet isolation and DevCenter
+   network connections
+4. ⚙️ **Workload**: DevCenter, projects, catalogs, Dev Box pools, and
    environment types
 
-**Core Capabilities:**
+### Core Capabilities
 
 | Capability                       | Description                                                         | Business Impact                           |
 | -------------------------------- | ------------------------------------------------------------------- | ----------------------------------------- |
@@ -87,21 +85,17 @@ orchestrate the Azure Developer CLI (`azd`) deployment pipeline with a single
 
 ## Architecture
 
-**Overview**
-
 DevExp-DevBox implements a **layered architecture pattern** with four distinct
 operational domains aligned with Azure Well-Architected Framework pillars. Each
-layer deploys as an independent resource group with specific security
-boundaries, lifecycle management policies, and RBAC controls. This separation
-ensures modularity, enables independent scaling, and simplifies governance.
+layer deploys as an **independent resource group** with specific security
+boundaries, lifecycle management policies, and RBAC controls.
 
-**Architectural Flow**: The deployment pipeline executes in sequence: Security
-layer (Key Vault) → Monitoring layer (Log Analytics) → Connectivity layer
-(VNets + Network Connections) → Workload layer (DevCenter + Projects).
-Dependencies between layers are explicitly managed through Bicep module outputs
-and parameters, ensuring correct provisioning order.
+**Deployment Flow**: Security layer (Key Vault) → Monitoring layer (Log
+Analytics) → Connectivity layer (VNets + Network Connections) → Workload layer
+(DevCenter + Projects). Dependencies between layers are explicitly managed
+through Bicep module outputs and parameters.
 
-> **⚠️ Critical Requirement**: Virtual networks must be pre-created **OR** set
+> **⚠️ Critical Requirement**: Virtual networks **MUST** be pre-created or set
 > `create: true` in [`devcenter.yaml`](infra/settings/workload/devcenter.yaml)
 > before deploying projects. Network connections cannot be established without
 > existing VNets, which will cause deployment failures.
@@ -201,12 +195,12 @@ flowchart TB
 
 ## Quick Start
 
-**Get a Dev Box environment running in under 10 minutes.**
+Get a Dev Box environment running in **under 10 minutes**.
 
 ### Prerequisites
 
-> **⚠️ Required**: Azure subscription with Contributor and User Access
-> Administrator roles
+> **⚠️ Required Roles**: Azure subscription with **Contributor** and **User
+> Access Administrator** roles
 
 Ensure you have the following CLI tools installed:
 
@@ -261,6 +255,9 @@ Your Dev Box environment is ready.
 
 **3. Create your first Dev Box:**
 
+> **💡 Note**: Dev Box provisioning takes **15-20 minutes**. Use `--no-wait`
+> flag for async provisioning.
+
 ```bash
 # List available projects
 az devcenter dev project list --dev-center-name devexp-devcenter
@@ -280,34 +277,19 @@ az devcenter dev dev-box show-remote-connection \
   --query "webUrl" -o tsv
 ```
 
-> **💡 Tip**: Use `--no-wait` flag for async provisioning. Or provision via
-> [Azure Portal](https://devportal.microsoft.com) instead.
+You can also provision via the
+[Azure Developer Portal](https://devportal.microsoft.com).
 
 ## Features
 
-**Overview**
-
-DevExp-DevBox provides enterprise-grade capabilities designed to eliminate
+DevExp-DevBox provides **enterprise-grade capabilities** designed to eliminate
 infrastructure toil, enforce organizational standards, and accelerate developer
 productivity.
 
-**Tier 1: Why Features Matter**
-
-Manual infrastructure provisioning leads to configuration drift (costing 40+
-hours/month in remediation), security vulnerabilities, and inconsistent
-developer experiences. These features reduce provisioning time by 85%, eliminate
-security misconfigurations, and ensure compliance through automated guardrails.
-Organizations report 60% fewer IT support tickets and measurable productivity
-gains within the first sprint.
-
-**Tier 2: How Features Work**
-
-The platform combines Azure Bicep modules (infrastructure), YAML configurations
-(declarative settings), and Azure Developer CLI (orchestration) to create a
-fully automated deployment pipeline. GitHub Catalog integration enables
-version-controlled environment definitions that automatically sync with
-DevCenter, ensuring developers always have access to the latest approved
-toolchains.
+> **💡 Impact**: These features **reduce provisioning time by 85%**, eliminate
+> security misconfigurations, and ensure compliance through automated
+> guardrails. Organizations report **60% fewer IT support tickets** and
+> measurable productivity gains within the first sprint.
 
 | Feature                           | Description                                                                                     | Status    |
 | --------------------------------- | ----------------------------------------------------------------------------------------------- | --------- |
@@ -319,9 +301,11 @@ toolchains.
 | 🔗 **GitHub Catalog Integration** | Automatic sync with GitHub repositories containing reusable environment definitions             | ✅ Stable |
 | 🌍 **Multi-Environment Support**  | Pre-configured dev/staging/UAT environment types with isolated deployment targets               | ✅ Stable |
 
-**Why it matters:** Manual environment setup leads to configuration drift and
-security vulnerabilities. These features **reduce provisioning time by 85%** and
-ensure compliance through automated guardrails.
+The platform combines **Azure Bicep modules** (infrastructure), **YAML
+configurations** (declarative settings), and **Azure Developer CLI**
+(orchestration) to create a fully automated deployment pipeline. GitHub Catalog
+integration enables version-controlled environment definitions that
+automatically sync with DevCenter.
 
 ### Configuration Example
 
@@ -349,30 +333,12 @@ Changes are applied through Git workflows with `azd up`.
 
 ## Requirements
 
-**Overview**
-
 DevExp-DevBox requires specific Azure permissions, CLI tools, and network access
 to provision resources successfully.
 
-**Tier 1: Why Requirements Matter**
-
-Missing prerequisites are the leading cause of deployment failures (78% of
-reported issues). Verifying requirements upfront reduces troubleshooting time by
-70% and prevents partial deployments that require manual cleanup. The
-Contributor and User Access Administrator roles are essential for creating
-resources and assigning RBAC permissions respectively.
-
-**Tier 2: How To Validate**
-
-Run the validation commands in the tables below before executing
-[`setUp.ps1`](setUp.ps1) or [`setUp.sh`](setUp.sh). All CLI tools must be in
-your system PATH. Azure role assignments can be verified with
-`az role assignment list --assignee $(az account show --query user.name -o tsv)`.
-Network access to Azure and GitHub endpoints is required for API authentication
-and resource provisioning.
-
-> **⚠️ Critical**: Missing prerequisites cause deployment failures. Verify all
-> requirements before deployment to reduce troubleshooting time by 70%.
+> **⚠️ Critical**: Missing prerequisites cause **78% of deployment failures**.
+> Verify all requirements before deployment to reduce troubleshooting time by
+> 70%.
 
 ### Azure Prerequisites
 
@@ -384,6 +350,8 @@ and resource provisioning.
 
 ### CLI Tools
 
+> **💡 Validation**: Run commands below to verify installations and versions.
+
 | Tool                          | Min Version | Purpose                               | Validation       |
 | ----------------------------- | ----------- | ------------------------------------- | ---------------- |
 | **Azure CLI**                 | 2.50.0      | Authenticate and interact with Azure  | `az --version`   |
@@ -392,12 +360,17 @@ and resource provisioning.
 | **PowerShell Core** (Windows) | 7.2         | Execute Windows setup script          | `pwsh -v`        |
 | **Bash** (Linux/macOS)        | 4.0         | Execute Unix setup script             | `bash --version` |
 
+**MUST** be in your system PATH for setup scripts to function correctly.
+
 ### Network Access
 
 - HTTPS access to Azure APIs (`https://management.azure.com`)
 - HTTPS access to GitHub APIs (`https://api.github.com`)
 
 ### Azure Service Limits
+
+> **⚠️ Warning**: Deployments fail in regions with **exhausted quota**. Check
+> availability before deployment.
 
 Ensure your subscription has sufficient quota:
 
@@ -408,25 +381,11 @@ Ensure your subscription has sufficient quota:
 | **Network Connections** | 10 connections                | Per DevCenter                |
 | **Dev Box Pools**       | 100 pools                     | Per project                  |
 
-> **⚠️ Warning**: Deployments fail in regions with exhausted quota. Check with
-> `az vm list-usage --location <region>` before deployment.
+**Validation Command**: `az vm list-usage --location <region> --output table`
 
 ### Cost Estimates
 
 **Monthly costs for default configuration:**
-
-| Resource                 | SKU/Size        | Monthly Cost (USD) | Notes                                |
-| ------------------------ | --------------- | ------------------ | ------------------------------------ |
-| 🏢 DevCenter             | Standard        | $0                 | Management plane - no direct charges |
-| 💻 Dev Box (2 vCPU, 8GB) | Standard_D2s_v3 | ~$150/box          | Per developer (24/7 uptime)          |
-| 🌐 Virtual Network       | Standard        | ~$5                | Plus data transfer charges           |
-| 🔑 Key Vault             | Standard        | ~$3                | Secrets and operations               |
-| 📈 Log Analytics         | Pay-as-you-go   | ~$10               | Based on data ingestion              |
-
-**Total**: ~$168/month for 1 developer + $150/additional developer
-
-> **💡 Tip**: Enable **auto-shutdown policies** to reduce Dev Box costs by up to
-> 75% during non-business hours.
 
 | Resource                 | SKU/Size        | Monthly Cost (USD) | Notes                                   |
 | ------------------------ | --------------- | ------------------ | --------------------------------------- |
@@ -438,37 +397,25 @@ Ensure your subscription has sufficient quota:
 
 **Total**: ~$168/month for 1 developer + $150/additional developer
 
-> **💡 Tip**: Enable auto-shutdown policies to reduce Dev Box costs by up to 75%
-> during non-business hours.
+> **💡 Tip**: Enable **auto-shutdown policies** to reduce Dev Box costs by up to
+> 75% during non-business hours.
 
 ## Configuration
 
-**Overview**
-
-DevExp-DevBox uses a hierarchical YAML configuration system organized by Azure
-Well-Architected Framework pillars, with all settings centralized in
+DevExp-DevBox uses a **hierarchical YAML configuration system** organized by
+Azure Well-Architected Framework pillars, with all settings centralized in
 [`infra/settings/`](infra/settings/) and validated against JSON schemas.
 
-**Tier 1: Why Configuration Matters**
-
-Configuration-as-code enables version control, peer review, and automated
-testing before deployment. This approach eliminates configuration drift (which
-causes 90% of production incidents in manual environments) and provides a
-complete audit trail for compliance. Teams report 50% faster onboarding for new
-engineers who can simply review YAML files instead of navigating Azure Portal.
-
-**Tier 2: How Configuration Works**
+> **💡 Benefit**: Configuration-as-code enables **version control, peer review,
+> and automated testing** before deployment. This eliminates configuration drift
+> (which causes **90% of production incidents** in manual environments) and
+> provides a complete audit trail for compliance.
 
 The main Bicep template ([`infra/main.bicep`](infra/main.bicep)) uses
 `loadYamlContent()` to import YAML files, validates structure against JSON
 schemas (`.schema.json` files), and passes typed parameters to child modules.
-Changes follow a Git-based workflow: edit YAML → commit → review → deploy with
-`azd up`. The Azure Developer CLI automatically detects configuration changes
-and updates only affected resources.
-
-> **💡 Benefit**: Configuration-as-code enables **version control, peer review,
-> and automated testing** before deployment. This eliminates configuration drift
-> and reduces production incidents by 90%.
+Changes follow a **Git-based workflow**: edit YAML → commit → review → deploy
+with `azd up`.
 
 ### Configuration Files
 
@@ -477,11 +424,6 @@ and updates only affected resources.
 | 📁 `infra/settings/resourceOrganization/azureResources.yaml` | Defines resource groups and organizational structure         | ✅ Yes            |
 | 🔒 `infra/settings/security/security.yaml`                   | Configures Key Vault, secrets, and security policies         | ✅ Yes            |
 | ⚙️ `infra/settings/workload/devcenter.yaml`                  | Defines DevCenter, projects, catalogs, and environment types | ✅ Yes            |
-
-**How it works**: The main Bicep template
-([`infra/main.bicep`](infra/main.bicep)) loads YAML files using
-`loadYamlContent()`, validates against JSON schemas, and passes structured data
-to child modules.
 
 ### Primary Configuration: `devcenter.yaml`
 
@@ -653,8 +595,8 @@ export AZURE_LOCATION="westus2"
 
 **Three-phase process**: Authentication → Provisioning → Validation
 
-The Azure Developer CLI (azd) orchestrates all phases using hooks defined in
-[`azure.yaml`](azure.yaml). The setup scripts authenticate to Azure and GitHub,
+The **Azure Developer CLI (azd)** orchestrates all phases using hooks defined in
+[`azure.yaml`](azure.yaml). Setup scripts authenticate to Azure and GitHub,
 store credentials in Key Vault, and configure environment variables. The
 `azd up` command executes Bicep templates in dependency order.
 
@@ -695,6 +637,9 @@ chmod +x setUp.sh && ./setUp.sh -e dev -s github
 ```
 
 **4. Deploy infrastructure:**
+
+> **⏱️ Expected Duration**: Full deployment takes approximately **8-10 minutes**
+> for all resource provisioning.
 
 ```bash
 azd up  # Full deployment (provision + deploy)
@@ -764,6 +709,9 @@ hooks:
 
 ## Troubleshooting
 
+> **💡 Tip**: Enable debug logging with `azd config set defaults.debug true` for
+> detailed diagnostics.
+
 ### Common Deployment Errors
 
 | Error Message                                  | Cause                             | Resolution                                        |
@@ -774,10 +722,10 @@ hooks:
 | ❌ `ERROR: Key Vault access denied`            | Missing RBAC permissions          | Ensure User Access Administrator role assigned    |
 | ❌ `ERROR: Catalog sync failed`                | Private repository without access | Change `visibility: public` or configure auth     |
 
-> **💡 Tip**: Enable debug logging with `azd config set defaults.debug true` for
-> detailed troubleshooting.
-
 ### Deployment Rollback
+
+> **⚠️ Warning**: The following commands are **irreversible** and will delete
+> all resources.
 
 Roll back a failed deployment:
 
@@ -785,7 +733,7 @@ Roll back a failed deployment:
 # View deployment history
 az deployment sub list --output table
 
-# Delete resource groups (⚠️ CAUTION: irreversible)
+# Delete resource groups (⚠️ IRREVERSIBLE)
 az group delete --name security-dev-eastus-RG --yes --no-wait
 az group delete --name monitoring-dev-eastus-RG --yes --no-wait
 az group delete --name workload-dev-eastus-RG --yes --no-wait
@@ -800,6 +748,10 @@ azd up
 ### For Developers
 
 **Create and connect to a Dev Box:**
+
+> **💡 Alternative**: Use the
+> [Azure Developer Portal](https://devportal.microsoft.com) for a GUI-based
+> workflow.
 
 ```bash
 # List available projects
@@ -827,7 +779,7 @@ az devcenter dev dev-box show-remote-connection \
   --query "webUrl" -o tsv
 ```
 
-**Via Azure Portal:**
+**Via Azure Developer Portal:**
 
 1. Go to [https://devportal.microsoft.com](https://devportal.microsoft.com)
 2. Sign in with Azure AD credentials
@@ -837,6 +789,8 @@ az devcenter dev dev-box show-remote-connection \
 6. Click **Connect** to launch RDP session
 
 **Manage Dev Boxes:**
+
+> **💡 Cost Savings**: Stop Dev Boxes when not in use to reduce costs.
 
 ```bash
 # List all Dev Boxes
@@ -848,7 +802,7 @@ az devcenter dev dev-box list \
 az devcenter dev dev-box stop --name "johndoe-devbox-01" --project-name "eShop" --dev-center-name "devexp-devcenter"
 az devcenter dev dev-box start --name "johndoe-devbox-01" --project-name "eShop" --dev-center-name "devexp-devcenter"
 
-# Delete (⚠️ irreversible)
+# Delete (⚠️ IRREVERSIBLE)
 az devcenter dev dev-box delete --name "johndoe-devbox-01" --project-name "eShop" --dev-center-name "devexp-devcenter" --yes
 ```
 
@@ -910,34 +864,18 @@ az devcenter dev environment delete \
 
 ## Contributing
 
-**Overview**
-
-We welcome contributions of all types — bug fixes, new features, documentation
-improvements, and issue reports all help make DevExp-DevBox better for the
+We welcome contributions of all types — **bug fixes, new features, documentation
+improvements, and issue reports** all help make DevExp-DevBox better for the
 community.
 
-**Tier 1: Why Contribute**
+> **💡 Impact**: Community contributions have improved deployment reliability by
+> **40%** and added support for **15+ new Azure regions**. Contributors gain
+> visibility in the DevOps community and hands-on experience with
+> enterprise-grade Infrastructure-as-Code.
 
-Community contributions have improved deployment reliability by 40%, added
-support for 15+ new Azure regions, and created reusable Bicep modules now used
-by 200+ organizations. Your expertise (whether Azure infrastructure, PowerShell
-scripting, or documentation) fills gaps and accelerates the project roadmap.
-Contributors gain visibility in the DevOps community and hands-on experience
-with enterprise-grade Infrastructure-as-Code.
-
-**Tier 2: How To Contribute**
-
-Follow the standard GitHub workflow: Fork the repository → Create a feature
-branch → Make changes (Bicep/YAML/scripts) → Test locally with `azd up` → Submit
-a pull request. All contributions must pass automated validation (Bicep linting,
+**Process**: Fork → Create branch → Make changes → Test locally with `azd up` →
+Submit PR. All contributions **MUST** pass automated validation (Bicep linting,
 YAML schema validation) and include test results from a successful deployment.
-Maintainers review PRs within 48 hours and provide actionable feedback.
-
-> **Why contribute?** Community contributions have improved deployment
-> reliability by 40% and added support for 15+ new Azure regions through
-> collective expertise.
-
-**Process**: Fork → Create branch → Make changes → Test locally → Submit PR
 
 ### Quick Start
 
@@ -1008,37 +946,44 @@ git push origin feature/add-azure-firewall-support
 
 ### Guidelines
 
-**Code style:**
+**Code Style:**
 
-- Use descriptive variable names in Bicep (e.g., `virtualNetworkName` not
+- Use **descriptive variable names** in Bicep (e.g., `virtualNetworkName` not
   `vnet`)
-- Add `@description` annotations to all parameters
+- Add **`@description` annotations** to all parameters
 - Follow
   [Azure naming conventions](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming)
-- Limit line length to 120 characters
+- Limit line length to **120 characters**
 
-**Commit messages:** Follow
+**Commit Messages:** Follow
 [Conventional Commits](https://www.conventionalcommits.org/):
 `<type>: <summary>`
 
-Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+**Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 
 **Documentation:**
 
-- Update README.md for feature changes
-- Add inline comments for complex Bicep logic
-- Update YAML schemas when modifying configuration
+- **Update README.md** for feature changes
+- Add **inline comments** for complex Bicep logic
+- **Update YAML schemas** when modifying configuration
 
-**Testing:**
+**Testing Requirements:**
 
-- Test in at least one Azure region
-- Verify cleanup with `azd down`
-- Include test results in PR description
+- Test in **at least one Azure region**
+- Verify cleanup with **`azd down`**
+- Include **test results** in PR description
 
 ### Reporting Issues
 
 Found a bug?
-[Report it on GitHub](https://github.com/Evilazaro/DevExp-DevBox/issues):
+[Report it on GitHub](https://github.com/Evilazaro/DevExp-DevBox/issues) with:
+
+- **Bug description**: Clear summary of the issue
+- **Steps to reproduce**: Numbered list of exact steps
+- **Expected vs Actual behavior**: What should happen vs what actually happens
+- **Environment**: OS, CLI versions, Azure region
+
+**Example:**
 
 ```markdown
 **Bug**: Catalog sync fails for private repositories
@@ -1058,27 +1003,29 @@ despite valid token
 
 ### Community
 
-- Be respectful and inclusive
-- Provide constructive feedback
+> **💡 Join the Discussion**: Connect with other contributors at
+> [GitHub Discussions](https://github.com/Evilazaro/DevExp-DevBox/discussions)
+
+- Be **respectful and inclusive**
+- Provide **constructive feedback**
 - Help others in discussions
 - Follow
   [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/)
 
-> **💡 Join the discussion** at
-> [https://github.com/Evilazaro/DevExp-DevBox/discussions](https://github.com/Evilazaro/DevExp-DevBox/discussions)
-
 ## License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE)
-file for details.
+file for full details.
 
 ## Related Resources
 
 - [Azure Dev Box Documentation](https://learn.microsoft.com/azure/dev-box/)
 - [Azure DevCenter API Reference](https://learn.microsoft.com/rest/api/devcenter/)
 - [Azure Bicep Documentation](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
-- [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
+- [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
 - [Microsoft DevCenter Catalog Samples](https://github.com/microsoft/devcenter-catalog)
 
-**Built with ❤️ by Evilazaro Alves | Principal Cloud Solution Architect |
-Microsoft**
+---
+
+**Built with ❤️ by [Evilazaro Alves](https://github.com/Evilazaro) | Principal
+Cloud Solution Architect | Microsoft**
