@@ -8,11 +8,11 @@
 
 **Azure Developer Experience Platform with Microsoft Dev Box**
 
-DevExp-DevBox is an enterprise-ready infrastructure-as-code solution for
-deploying and managing Azure DevCenter and Microsoft Dev Box environments. It
-provides a comprehensive platform for developer experience teams to deliver
-standardized, cloud-based development workstations with role-based access
-control, automated provisioning, and integrated security.
+DevExp-DevBox is an **enterprise-ready infrastructure-as-code solution** for
+deploying and managing **Azure DevCenter and Microsoft Dev Box environments**.
+It provides a comprehensive platform for developer experience teams to deliver
+**standardized, cloud-based development workstations** with **role-based access
+control, automated provisioning, and integrated security**.
 
 ## Table of Contents
 
@@ -33,25 +33,29 @@ control, automated provisioning, and integrated security.
 **Overview**
 
 DevExp-DevBox accelerates the deployment of Microsoft Dev Box environments by
-providing pre-configured Bicep modules, YAML-based settings, and automated setup
-scripts. This solution is designed for platform engineering teams who need to
-provision secure, compliant, and scalable developer workstations across their
-organization.
+providing **pre-configured Bicep modules, YAML-based settings, and automated
+setup scripts**. This solution is designed for **platform engineering teams**
+who need to provision **secure, compliant, and scalable developer workstations**
+across their organization.
 
-**Tier 1 (Why This Matters)**: Traditional developer workstation management is
-time-consuming, inconsistent, and difficult to scale. DevExp-DevBox reduces
-setup time from days to hours, ensures configuration consistency across teams,
-and provides centralized governance through Azure DevCenter. Organizations can
-onboard new developers in minutes rather than days, while maintaining security
-and compliance standards.
+> 💡 **Value Proposition**: DevExp-DevBox **reduces setup time from days to
+> hours**, ensures **configuration consistency across teams**, and provides
+> **centralized governance** through Azure DevCenter. Organizations can
+> **onboard new developers in minutes rather than days**, while maintaining
+> security and compliance standards.
 
-**Tier 2 (How It Works)**: The solution uses Azure Bicep modules to deploy Azure
-DevCenter infrastructure across multiple landing zones (security, monitoring,
-connectivity, workload). YAML configuration files define Dev Center settings,
-projects, catalogs, and environment types. Automated PowerShell and Bash setup
-scripts handle authentication, resource provisioning, and GitHub integration.
-The modular architecture allows teams to customize networking, identity, and
-security configurations while maintaining a consistent deployment pattern.
+> 💡 **Value & Architecture**: The solution follows **Azure Landing Zone best
+> practices** with clear **separation of concerns** across multiple resource
+> groups and identity boundaries.
+
+**Tier 2 (How It Works)**: The solution uses **Azure Bicep modules** to deploy
+Azure DevCenter infrastructure across **multiple landing zones** (security,
+monitoring, connectivity, workload). **YAML configuration files** define Dev
+Center settings, projects, catalogs, and environment types. **Automated
+PowerShell and Bash setup scripts** handle authentication, resource
+provisioning, and GitHub integration. The **modular architecture** allows teams
+to customize networking, identity, and security configurations while maintaining
+a consistent deployment pattern.
 
 This project is ideal for:
 
@@ -203,7 +207,8 @@ settings.
 
 ### Prerequisites Check
 
-Verify you have the required tools installed:
+> 📌 **Required Tools**: Verify you have the **required tools installed** before
+> proceeding:
 
 ```bash
 # Check Azure CLI
@@ -252,11 +257,11 @@ DevCenter Name: devexp-devcenter
 Resource Group: workload-dev-eastus-RG
 ```
 
-> ⚠️ **First Deployment**: Initial deployment takes approximately 15-20 minutes
-> to provision all Azure resources. Subsequent deployments are faster due to
-> incremental changes.
+> ⚠️ **First Deployment**: Initial deployment takes **approximately 15-20
+> minutes** to provision all Azure resources. Subsequent deployments are faster
+> due to incremental changes.
 
-> 💡 **Tip**: Use `azd monitor` to track resource deployment progress in the
+> 💡 **Tip**: Use **`azd monitor`** to track resource deployment progress in the
 > Azure portal.
 
 ## Deployment
@@ -295,7 +300,8 @@ winget install --id GitHub.cli
 
 ### Step 2: Authentication
 
-Authenticate with Azure and your source control platform:
+> 📌 **Authentication Required**: **Authenticate with Azure and your source
+> control platform** before deployment:
 
 ```bash
 # Authenticate with Azure
@@ -359,8 +365,8 @@ Run the setup script for your platform:
 
 | Parameter               | Description             | Required | Values                               |
 | ----------------------- | ----------------------- | -------- | ------------------------------------ |
-| `-e` / `-EnvName`       | Environment name        | Yes      | Any alphanumeric string (2-10 chars) |
-| `-s` / `-SourceControl` | Source control platform | Yes      | `github` or `adogit`                 |
+| `-e` / `-EnvName`       | Environment name        | **Yes**  | Any alphanumeric string (2-10 chars) |
+| `-s` / `-SourceControl` | Source control platform | **Yes**  | `github` or `adogit`                 |
 
 ### Step 5: Verify Deployment
 
@@ -456,23 +462,29 @@ infrastructure.
 
 ### System Requirements
 
-| Requirement                   | Version  | Purpose                                                 | Installation                                                                                     |
-| ----------------------------- | -------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| **Azure CLI**                 | ≥ 2.50.0 | Azure resource management                               | [Install Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)               |
-| **Azure Developer CLI (azd)** | ≥ 1.5.0  | Infrastructure deployment orchestration                 | [Install azd](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd) |
-| **GitHub CLI**                | ≥ 2.30.0 | GitHub authentication and integration (if using GitHub) | [Install GitHub CLI](https://cli.github.com/)                                                    |
-| **PowerShell**                | ≥ 5.1    | Windows setup script execution                          | Pre-installed on Windows                                                                         |
-| **Bash**                      | ≥ 4.0    | Linux/macOS setup script execution                      | Pre-installed on Linux/macOS                                                                     |
+> 📌 **Prerequisites**: The following tools **MUST be installed** before
+> deployment:
+
+| Requirement                   | Version      | Purpose                                                 | Installation                                                                                     |
+| ----------------------------- | ------------ | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **Azure CLI**                 | **≥ 2.50.0** | Azure resource management                               | [Install Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)               |
+| **Azure Developer CLI (azd)** | **≥ 1.5.0**  | Infrastructure deployment orchestration                 | [Install azd](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd) |
+| **GitHub CLI**                | **≥ 2.30.0** | GitHub authentication and integration (if using GitHub) | [Install GitHub CLI](https://cli.github.com/)                                                    |
+| **PowerShell**                | **≥ 5.1**    | Windows setup script execution                          | Pre-installed on Windows                                                                         |
+| **Bash**                      | **≥ 4.0**    | Linux/macOS setup script execution                      | Pre-installed on Linux/macOS                                                                     |
 
 ### Azure Requirements
 
-| Requirement             | Details                                                                                                                 |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| **Azure Subscription**  | Active subscription with Owner or Contributor + User Access Administrator roles                                         |
-| **Service Principals**  | AAD permissions to create and assign service principals (for automation scenarios)                                      |
-| **Resource Providers**  | Registered providers: `Microsoft.DevCenter`, `Microsoft.KeyVault`, `Microsoft.Network`, `Microsoft.OperationalInsights` |
-| **Quota Availability**  | Sufficient quota for VM SKUs used by Dev Box definitions                                                                |
-| **Region Availability** | Target region must support Azure DevCenter (see supported regions)                                                      |
+> ⚠️ **Critical Requirements**: Ensure the following Azure prerequisites are
+> met:
+
+| Requirement             | Details                                                                                                                     |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **Azure Subscription**  | **Active subscription** with **Owner** or **Contributor + User Access Administrator** roles                                 |
+| **Service Principals**  | **AAD permissions** to create and assign service principals (for automation scenarios)                                      |
+| **Resource Providers**  | **Registered providers**: `Microsoft.DevCenter`, `Microsoft.KeyVault`, `Microsoft.Network`, `Microsoft.OperationalInsights` |
+| **Quota Availability**  | **Sufficient quota** for VM SKUs used by Dev Box definitions                                                                |
+| **Region Availability** | **Target region MUST support Azure DevCenter** (see supported regions)                                                      |
 
 **Register required resource providers:**
 
@@ -485,44 +497,47 @@ az provider register --namespace Microsoft.OperationalInsights
 
 ### Permissions Required
 
-The user or service principal running deployment must have:
+> 📌 **Required Permissions**: The user or service principal running deployment
+> **MUST have**:
 
 - **Subscription Level**:
-  - `Contributor` role (to create resources)
-  - `User Access Administrator` role (to assign RBAC permissions)
+  - **`Contributor` role** (to create resources)
+  - **`User Access Administrator` role** (to assign RBAC permissions)
 - **Azure Active Directory**:
-  - Permissions to create service principals and app registrations
-  - Permissions to assign directory roles (if using AAD integration)
+  - **Permissions to create service principals and app registrations**
+  - **Permissions to assign directory roles** (if using AAD integration)
 
 ### Source Control Requirements
 
-For GitHub integration:
+> 📌 **Source Control Integration**:
 
-- GitHub account with appropriate repository access
-- Personal Access Token (PAT) with `repo` and `admin:org` scopes
-- GitHub organization (for catalog integration)
+**For GitHub integration:**
 
-For Azure DevOps Git integration:
+- **GitHub account** with appropriate repository access
+- **Personal Access Token (PAT)** with **`repo` and `admin:org` scopes**
+- **GitHub organization** (for catalog integration)
 
-- Azure DevOps organization and project
-- Personal Access Token with Code Read/Write permissions
+**For Azure DevOps Git integration:**
+
+- **Azure DevOps organization and project**
+- **Personal Access Token** with **Code Read/Write permissions**
 
 ### Network Requirements
 
-For custom VNet scenarios:
+> 🔌 **Network Configuration** (for custom VNet scenarios):
 
-- Address space planning for Dev Box subnets (minimum `/24` subnet)
-- Network connectivity to corporate resources (if required)
-- DNS configuration for custom domains
-- Firewall rules allowing DevCenter management traffic
+- **Address space planning** for Dev Box subnets (**minimum `/24` subnet**)
+- **Network connectivity** to corporate resources (if required)
+- **DNS configuration** for custom domains
+- **Firewall rules** allowing DevCenter management traffic
 
 ## Configuration
 
 **Overview**
 
-Customize DevExp-DevBox deployments through YAML configuration files located in
-`infra/settings/`. Each file is validated against JSON schemas to ensure
-correctness.
+> 📌 **Configuration Management**: Customize DevExp-DevBox deployments through
+> **YAML configuration files** located in `infra/settings/`. **Each file is
+> validated against JSON schemas** to ensure correctness.
 
 ### Configuration Files Structure
 
@@ -541,7 +556,8 @@ infra/settings/
 
 ### Key Vault Configuration (`security.yaml`)
 
-Controls Azure Key Vault deployment for secrets management:
+> 🔒 **Security Configuration**: Controls **Azure Key Vault deployment** for
+> secrets management:
 
 ```yaml
 # Enable/disable Key Vault creation
@@ -571,14 +587,14 @@ keyVault:
     project: DevExp-DevBox
 ```
 
-**Key settings explained:**
-
-- `enablePurgeProtection`: Protection against accidental permanent deletion
-  (cannot be disabled once enabled)
-- `enableRbacAuthorization`: Use Azure RBAC instead of vault access policies
-  (recommended for modern deployments)
-- `softDeleteRetentionInDays`: Number of days to retain deleted secrets
-  (default: 7, max: 90)
+> ⚠️ **Critical Settings**:
+>
+> - **`enablePurgeProtection`**: Protection against accidental permanent
+>   deletion (**cannot be disabled once enabled**)
+> - **`enableRbacAuthorization`**: **Use Azure RBAC** instead of vault access
+>   policies (**recommended for modern deployments**)
+> - **`softDeleteRetentionInDays`**: Number of days to retain deleted secrets
+>   (**default: 7, max: 90**)
 
 ### DevCenter Configuration (`devcenter.yaml`)
 
@@ -623,11 +639,14 @@ projects:
 
 **Important settings:**
 
-- `maxDevBoxesPerUser`: Limit number of Dev Boxes per user (cost control)
-- `catalogItemSyncEnableStatus`: Enable automatic synchronization of environment
-  definitions from catalogs
-- `microsoftHostedNetworkEnableStatus`: Use Microsoft-managed networking
-  (simpler) vs custom VNet (more control)
+> 📌 **Key Configuration Options**:
+>
+> - **`maxDevBoxesPerUser`**: **Limit number of Dev Boxes per user** (cost
+>   control)
+> - **`catalogItemSyncEnableStatus`**: **Enable automatic synchronization** of
+>   environment definitions from catalogs
+> - **`microsoftHostedNetworkEnableStatus`**: Use **Microsoft-managed
+>   networking** (simpler) vs **custom VNet** (more control)
 
 ### Resource Organization (`azureResources.yaml`)
 
@@ -661,10 +680,12 @@ workload:
 
 **Best practices:**
 
-- Keep `create: true` for new deployments
-- Set `create: false` and specify existing resource group names to deploy into
-  pre-existing resource groups
-- Use consistent tagging strategy across all landing zones
+> 💡 **Resource Organization Best Practices**:
+>
+> - **Keep `create: true` for new deployments**
+> - **Set `create: false`** and specify existing resource group names to deploy
+>   into pre-existing resource groups
+> - **Use consistent tagging strategy** across all landing zones
 
 ### Environment Variables
 
@@ -798,7 +819,7 @@ az monitor diagnostic-settings list \
 
 ### Cleanup and Teardown
 
-Remove deployed resources:
+> ⚠️ **Destructive Operation**: Remove deployed resources:
 
 ```bash
 # Clean up environment and all resources
@@ -809,8 +830,8 @@ azd down
 ./cleanSetUp.sh   # Linux/macOS
 ```
 
-> ⚠️ **Warning**: `azd down` permanently deletes all resources. Ensure you have
-> backups of any important configurations or data.
+> ⚠️ **Warning**: **`azd down` permanently deletes all resources**. **Ensure you
+> have backups** of any important configurations or data.
 
 ## Project Structure
 
@@ -937,12 +958,15 @@ gh pr create --title "Add custom network support" --body "Description of changes
 
 ### Contribution Guidelines
 
-- **Code Style**: Follow existing Bicep and YAML conventions
-- **Documentation**: Update README.md and inline comments for significant
-  changes
-- **Testing**: Test deployments end-to-end before submitting PR
-- **Security**: Never commit secrets, tokens, or sensitive data
-- **Schemas**: Update JSON schemas when adding new YAML configuration properties
+> 📌 **Contribution Standards**:
+>
+> - **Code Style**: **Follow existing Bicep and YAML conventions**
+> - **Documentation**: **Update README.md and inline comments** for significant
+>   changes
+> - **Testing**: **Test deployments end-to-end** before submitting PR
+> - **Security**: **Never commit secrets, tokens, or sensitive data**
+> - **Schemas**: **Update JSON schemas** when adding new YAML configuration
+>   properties
 
 ### Reporting Issues
 
