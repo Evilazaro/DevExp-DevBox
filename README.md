@@ -335,19 +335,19 @@ authentication requirements.
 perform automated pre-flight checks for CLI tools and authentication status,
 failing fast with actionable error messages when requirements are not met.
 
-| Category               | Requirement                    | Minimum Version | Purpose                                  | Validation Command                  |
-| ---------------------- | ------------------------------ | --------------- | ---------------------------------------- | ----------------------------------- |
-| **Azure Subscription** | Active Azure subscription      | N/A             | Target for resource deployment           | `az account show`                   |
-| **Azure Permissions**  | Subscription Contributor role  | N/A             | Create resource groups and resources     | `az role assignment list`           |
-| **Azure Permissions**  | User Access Administrator role | N/A             | Assign RBAC roles to managed identities  | `az role assignment list`           |
-| **CLI Tools**          | Azure CLI                      | 2.50.0          | Authenticate and interact with Azure     | `az --version`                      |
-| **CLI Tools**          | Azure Developer CLI (azd)      | 1.5.0           | Orchestrate infrastructure deployment    | `azd version`                       |
-| **CLI Tools**          | GitHub CLI                     | 2.20.0          | Authenticate and manage GitHub tokens    | `gh --version`                      |
-| **Runtime**            | PowerShell Core (Windows)      | 7.2             | Execute Windows setup script             | `pwsh -v`                           |
-| **Runtime**            | Bash (Linux/macOS)             | 4.0             | Execute Unix setup script                | `bash --version`                    |
-| **Source Control**     | GitHub account                 | N/A             | Catalog repository authentication        | `gh auth status`                    |
-| **Network Access**     | HTTPS access to Azure APIs     | N/A             | Resource provisioning and authentication | `curl https://management.azure.com` |
-| **Network Access**     | HTTPS access to GitHub APIs    | N/A             | Catalog synchronization                  | `curl https://api.github.com`       |
+| Category                      | Requirement                    | Minimum Version | Purpose                                  | Validation Command                  |
+|-------------------------------|--------------------------------|-----------------|------------------------------------------|-------------------------------------|
+| ☁️ **Azure Subscription**     | Active Azure subscription      | N/A             | Target for resource deployment           | `az account show`                   |
+| 🔑 **Azure Permissions**      | Subscription Contributor role  | N/A             | Create resource groups and resources     | `az role assignment list`           |
+| 🔑 **Azure Permissions**      | User Access Administrator role | N/A             | Assign RBAC roles to managed identities  | `az role assignment list`           |
+| 🛠️ **CLI Tools**              | Azure CLI                      | 2.50.0          | Authenticate and interact with Azure     | `az --version`                      |
+| 🛠️ **CLI Tools**              | Azure Developer CLI (azd)      | 1.5.0           | Orchestrate infrastructure deployment    | `azd version`                       |
+| 🛠️ **CLI Tools**              | GitHub CLI                     | 2.20.0          | Authenticate and manage GitHub tokens    | `gh --version`                      |
+| ⚙️ **Runtime**                | PowerShell Core (Windows)      | 7.2             | Execute Windows setup script             | `pwsh -v`                           |
+| ⚙️ **Runtime**                | Bash (Linux/macOS)             | 4.0             | Execute Unix setup script                | `bash --version`                    |
+| 🔗 **Source Control**         | GitHub account                 | N/A             | Catalog repository authentication        | `gh auth status`                    |
+| 🌐 **Network Access**         | HTTPS access to Azure APIs     | N/A             | Resource provisioning and authentication | `curl https://management.azure.com` |
+| 🌐 **Network Access**         | HTTPS access to GitHub APIs    | N/A             | Catalog synchronization                  | `curl https://api.github.com`       |
 
 ### Azure Service Limits
 
