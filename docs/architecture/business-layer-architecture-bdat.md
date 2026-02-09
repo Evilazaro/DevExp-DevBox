@@ -950,28 +950,36 @@ management and reduces attack surface.
 | **Source**                | README.md:63-64                                                    |
 | **Confidence**            | 0.93                                                               |
 
-**Capability Description**: Configuration as Code enables declarative definition
-of all DevCenter resources (projects, catalogs, environment types, role
-assignments) in YAML format with JSON schema validation. This supports Git-based
-workflows, peer review, and immutable audit trails.
+**Capability Description**: Configuration as Code enables **declarative
+definition** of all DevCenter resources (projects, catalogs, environment types,
+role assignments) in **YAML format with JSON schema validation**. This supports
+Git-based workflows, peer review, and immutable audit trails.
+
+> 💡 **Advancement Opportunity**: This capability is a prime candidate for
+> maturity advancement from Level 3 (Defined) to Level 4 (Measured) through
+> drift detection and telemetry implementation.
 
 **Key Components**:
 
 1. **YAML Configuration**:
-   [`devcenter.yaml`](infra/settings/workload/devcenter.yaml) defines all
-   business-relevant settings
-2. **Schema Validation**: JSON schemas prevent invalid configurations at
+   [`devcenter.yaml`](infra/settings/workload/devcenter.yaml) **defines all
+   business-relevant settings**
+2. **Schema Validation**: **JSON schemas prevent invalid configurations** at
    authoring time
-3. **Git Workflows**: Changes follow branch → review → merge → deploy lifecycle
-4. **Audit Trail**: Version control provides immutable history for compliance
+3. **Git Workflows**: Changes **follow branch → review → merge → deploy**
+   lifecycle
+4. **Audit Trail**: Version control provides **immutable history** for
+   compliance
 
 **Maturity Roadmap** (3 → 4: Measured):
 
-- [ ] Implement drift detection comparing deployed state vs. configured state
-- [ ] Add telemetry for configuration change frequency and deployment impact
-- [ ] Create dashboard tracking configuration error rate and remediation time
-- [ ] Establish KPIs for configuration quality (e.g., merge conflicts, rollback
-      rate)
+- [ ] Implement **drift detection** comparing deployed state vs. configured
+      state
+- [ ] Add **telemetry for configuration change frequency** and deployment impact
+- [ ] Create **dashboard tracking configuration error rate** and remediation
+      time
+- [ ] Establish **KPIs for configuration quality** (e.g., merge conflicts,
+      rollback rate)
 
 ### 5.3 Value Streams Specifications
 
