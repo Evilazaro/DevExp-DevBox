@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/Evilazaro/DevExp-DevBox/discussions
+    about: For general questions and community discussions about Microsoft Dev Box
+  - name: 📚 Microsoft Dev Box Documentation
+    url: https://learn.microsoft.com/azure/dev-box/
+    about: Official Microsoft Dev Box documentation and resources
+  - name: 🆘 Azure Support
+    url: https://azure.microsoft.com/support/
+    about: For Azure-specific support issues requiring Microsoft assistance
