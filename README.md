@@ -18,25 +18,21 @@ platform engineering teams with a **declarative, YAML-driven configuration
 system** that eliminates manual setup, enforces security best practices, and
 ensures consistent developer experiences across organizations.
 
-### Why This Matters
+> 💡 **Why This Matters**: Traditional developer workstation provisioning takes
+> **3-5 days per developer** and suffers from configuration drift, security
+> gaps, and inconsistent tooling. DevExp-DevBox **reduces deployment time from
+> days to minutes** (85% faster onboarding) while ensuring every developer
+> receives a standardized, security-compliant environment with **zero manual
+> configuration**. This translates to **60% fewer IT support tickets** and
+> measurable productivity gains from day one.
 
-Traditional developer workstation provisioning takes **3-5 days per developer**
-and suffers from configuration drift, security gaps, and inconsistent tooling.
-DevExp-DevBox **reduces deployment time from days to minutes** (85% faster
-onboarding) while ensuring every developer receives a standardized,
-security-compliant environment with **zero manual configuration**. This
-translates to **60% fewer IT support tickets** and measurable productivity gains
-from day one.
-
-### How It Works
-
-The solution uses **modular Azure Bicep templates** organized into four
-architectural layers following Azure Well-Architected Framework principles.
-Configuration is managed through **YAML files** in
-[`infra/settings/`](infra/settings/) that define projects, environment types,
-and team permissions. Cross-platform setup scripts ([`setUp.ps1`](setUp.ps1) for
-Windows, [`setUp.sh`](setUp.sh) for Linux/macOS) authenticate and orchestrate
-deployment with a **single `azd up` command**.
+> 📌 **How It Works**: The solution uses **modular Azure Bicep templates**
+> organized into four architectural layers following Azure Well-Architected
+> Framework principles. Configuration is managed through **YAML files** in
+> [`infra/settings/`](infra/settings/) that define projects, environment types,
+> and team permissions. Cross-platform setup scripts ([`setUp.ps1`](setUp.ps1)
+> for Windows, [`setUp.sh`](setUp.sh) for Linux/macOS) authenticate and
+> orchestrate deployment with a **single `azd up` command**.
 
 ### Architecture Layers
 
