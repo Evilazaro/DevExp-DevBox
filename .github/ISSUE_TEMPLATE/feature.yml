@@ -1,9 +1,9 @@
 # .github/ISSUE_TEMPLATE/feature.yml
 name: ✨ Feature
 description: Deliverable capability within an Epic (may include multiple tasks)
-title: "✨ FEATURE — <Short Name>"
+title: '✨ FEATURE — <Short Name>'
 labels:
-  - "type:feature"
+  - 'type:feature'
 assignees: []
 
 body:
@@ -13,22 +13,14 @@ body:
         # FEATURE — <Short Name>
         A concrete deliverable within an Epic. Prefer outcome-oriented scope and clear acceptance criteria.
 
-  - type: input
-    id: epic_link
-    attributes:
-      label: 🔗 Parent Epic
-      description: Link the Epic issue (e.g., #101)
-      placeholder: "#<epic-issue-number>"
-    validations:
-      required: true
-
   - type: textarea
     id: feature_description
     attributes:
       label: 📝 Feature Description
       description: What are we delivering?
       placeholder: >
-        Deploy Dev Center baseline via Bicep with parameterized inputs and standard tags.
+        Deploy Dev Center baseline via Bicep with parameterized inputs and
+        standard tags.
     validations:
       required: true
 
@@ -38,7 +30,8 @@ body:
       label: ❓ Problem Statement
       description: What problem does this solve?
       placeholder: >
-        Manual provisioning is slow and inconsistent, leading to drift and delays.
+        Manual provisioning is slow and inconsistent, leading to drift and
+        delays.
     validations:
       required: true
 
@@ -85,7 +78,8 @@ body:
       label: 👤 Use Case
       description: Scenario where this feature is beneficial.
       placeholder: >
-        Platform team deploys Dev Center baseline across dev/test/prod subscriptions.
+        Platform team deploys Dev Center baseline across dev/test/prod
+        subscriptions.
     validations:
       required: true
 
@@ -120,7 +114,8 @@ body:
       label: Dependencies
       description: Preconditions, decisions, or upstream work.
       placeholder: >
-        Landing Zone subscription/resource group strategy defined; naming/tagging standards agreed.
+        Landing Zone subscription/resource group strategy defined;
+        naming/tagging standards agreed.
     validations:
       required: false
 
