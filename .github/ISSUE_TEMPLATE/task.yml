@@ -1,9 +1,9 @@
 # .github/ISSUE_TEMPLATE/task.yml
 name: ✅ Task
 description: Concrete unit of work to implement part of a Feature
-title: "✅ TASK — <Short Name>"
+title: '✅ TASK — <Short Name>'
 labels:
-  - "type:task"
+  - 'type:task'
 assignees: []
 
 body:
@@ -13,22 +13,14 @@ body:
         # TASK — <Short Name>
         A concrete unit of work. Keep scope tight and verifiable.
 
-  - type: input
-    id: feature_link
-    attributes:
-      label: 🔗 Parent Feature
-      description: Link the Feature issue (e.g., #202)
-      placeholder: "#<feature-issue-number>"
-    validations:
-      required: true
-
   - type: textarea
     id: task_description
     attributes:
       label: 📝 Task Description
       description: What exactly needs to be done?
       placeholder: >
-        Add Bicep parameters for tags and implement consistent tagging across resources.
+        Add Bicep parameters for tags and implement consistent tagging across
+        resources.
     validations:
       required: true
 
