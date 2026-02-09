@@ -223,17 +223,17 @@ flowchart TB
     %% ============================================
     %% SEMANTIC COLORS (data domains - functional purpose):
     %%   Blue=#BBDEFB (Configuration Domain)
-    %%   Orange=#FFCC80 (Security Domain - Orange 200 for distinction)
-    %%   Teal=#80CBC4 (Observability Domain - Teal 200 for distinction)
+    %%   Orange=#FFE0B2 (Security Domain)
+    %%   Teal=#B2DFDB (Observability Domain)
     %%   Green=#C8E6C9 (Governance Layer)
     %%   Indigo=#3F51B5 (Special emphasis nodes)
-    %% Material Design palette with WCAG AA compliance
+    %% Material Design 100-level palette with WCAG AA compliance
     %% ============================================
 
     classDef mdIndigoDark fill:#3F51B5,stroke:#1A237E,stroke-width:3px,color:#FFF
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
-    classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
-    classDef mdTeal fill:#80CBC4,stroke:#00695C,stroke-width:2px,color:#000
+    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
 
     subgraph ConfigDomain["🔧 Configuration Domain"]
@@ -855,17 +855,17 @@ flowchart LR
     %% ============================================
     %% SEMANTIC COLORS (storage tiers - functional purpose):
     %%   Blue=#BBDEFB (Git Storage Tier)
-    %%   Orange=#FFCC80 (Azure Key Vault - Security)
-    %%   Teal=#80CBC4 (Log Analytics - Observability)
-    %%   Purple=#CE93D8 (Azure RM - Resource Management)
-    %% Material Design palette with WCAG AA compliance
+    %%   Orange=#FFE0B2 (Azure Key Vault - Security)
+    %%   Teal=#B2DFDB (Log Analytics - Observability)
+    %%   Purple=#E1BEE7 (Azure RM - Resource Management)
+    %% Material Design 100-level palette with WCAG AA compliance
     %% ============================================
 
     classDef mdIndigoDark fill:#3F51B5,stroke:#1A237E,stroke-width:3px,color:#FFF
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
-    classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
-    classDef mdTeal fill:#80CBC4,stroke:#00695C,stroke-width:2px,color:#000
-    classDef mdPurple fill:#CE93D8,stroke:#6A1B9A,stroke-width:2px,color:#000
+    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
+    classDef mdPurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
 
     subgraph GitStorage["📦 Git Storage Tier"]
         direction TB
@@ -1052,15 +1052,15 @@ flowchart LR
     %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
     %% ============================================
     %% SEMANTIC COLORS (data flow stages):
-    %%   Orange=#FFCC80 (Creation/Storage - Security)
+    %%   Orange=#FFE0B2 (Creation/Storage - Security)
     %%   Blue=#BBDEFB (Transformation/Deployment)
-    %%   Teal=#80CBC4 (Consumption/Usage)
-    %% Material Design palette with WCAG AA compliance
+    %%   Teal=#B2DFDB (Consumption/Usage)
+    %% Material Design 100-level palette with WCAG AA compliance
     %% ============================================
 
-    classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
-    classDef mdTeal fill:#80CBC4,stroke:#00695C,stroke-width:2px,color:#000
+    classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
 
     GitHub["👤 GitHub PAT Generation"]:::mdOrange
     Engineer["⌨️ Deploy Engineer<br/>(Manual Input)"]:::mdBlue
@@ -1217,15 +1217,15 @@ flowchart LR
     %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
     %% ============================================
     %% SEMANTIC COLORS (data flow stages):
-    %%   Teal=#80CBC4 (Diagnostic Settings/Log Analytics)
+    %%   Teal=#B2DFDB (Diagnostic Settings/Log Analytics)
     %%   Blue=#BBDEFB (Azure Resources)
-    %%   Purple=#CE93D8 (Azure Monitor - Processing)
-    %% Material Design palette with WCAG AA compliance
+    %%   Purple=#E1BEE7 (Azure Monitor - Processing)
+    %% Material Design 100-level palette with WCAG AA compliance
     %% ============================================
 
-    classDef mdTeal fill:#80CBC4,stroke:#00695C,stroke-width:2px,color:#000
+    classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
-    classDef mdPurple fill:#CE93D8,stroke:#6A1B9A,stroke-width:2px,color:#000
+    classDef mdPurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
 
     Resources["☁️ Azure Resources"]:::mdBlue
     DiagSettings["🩺 Diagnostic Settings<br/>(Filter)"]:::mdTeal
@@ -1387,17 +1387,17 @@ flowchart TB
     %% ============================================
     %% SEMANTIC COLORS (architectural layers - functional purpose):
     %%   Blue=#BBDEFB (Business/Configuration)
-    %%   Orange=#FFCC80 (Security - Key Vault)
-    %%   Teal=#80CBC4 (Observability - Log Analytics)
+    %%   Orange=#FFE0B2 (Security - Key Vault)
+    %%   Teal=#B2DFDB (Observability - Log Analytics)
     %%   Green=#C8E6C9 (Application Layer)
     %%   Indigo=#3F51B5 (Technology Layer)
-    %% Material Design palette with WCAG AA compliance
+    %% Material Design 100-level palette with WCAG AA compliance
     %% ============================================
 
     classDef mdIndigoDark fill:#3F51B5,stroke:#1A237E,stroke-width:3px,color:#FFF
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
-    classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
-    classDef mdTeal fill:#80CBC4,stroke:#00695C,stroke-width:2px,color:#000
+    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
 
     subgraph BusinessLayer["🏢 Business Layer"]
@@ -1498,16 +1498,16 @@ flowchart TD
     %% ============================================
     %% SEMANTIC COLORS (component types - functional purpose):
     %%   Blue=#BBDEFB (Configuration/Schema)
-    %%   Orange=#FFCC80 (Security - Key Vault/Secrets)
-    %%   Teal=#80CBC4 (Observability - Logs/Diagnostics)
-    %%   Purple=#CE93D8 (Resource Management)
-    %% Material Design palette with WCAG AA compliance
+    %%   Orange=#FFE0B2 (Security - Key Vault/Secrets)
+    %%   Teal=#B2DFDB (Observability - Logs/Diagnostics)
+    %%   Purple=#E1BEE7 (Resource Management)
+    %% Material Design 100-level palette with WCAG AA compliance
     %% ============================================
 
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
-    classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
-    classDef mdTeal fill:#80CBC4,stroke:#00695C,stroke-width:2px,color:#000
-    classDef mdPurple fill:#CE93D8,stroke:#6A1B9A,stroke-width:2px,color:#000
+    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
+    classDef mdPurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
 
     YAML["📄 YAML Config<br/>Files"]:::mdBlue
     Schema["📋 JSON Schemas"]:::mdBlue
@@ -1556,15 +1556,15 @@ flowchart LR
     %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
     %% ============================================
     %% SEMANTIC COLORS (lifecycle stages - functional purpose):
-    %%   Orange=#FFCC80 (Creation/Storage - Security)
+    %%   Orange=#FFE0B2 (Creation/Storage - Security)
     %%   Blue=#BBDEFB (Validation/Transformation)
-    %%   Teal=#80CBC4 (Consumption/Audit)
-    %% Material Design palette with WCAG AA compliance
+    %%   Teal=#B2DFDB (Consumption/Audit)
+    %% Material Design 100-level palette with WCAG AA compliance
     %% ============================================
 
-    classDef mdOrange fill:#FFCC80,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
-    classDef mdTeal fill:#80CBC4,stroke:#00695C,stroke-width:2px,color:#000
+    classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
 
     GitHub["👤 GitHub<br/>(Origin)"]:::mdOrange
     Schema["📋 Schema Validation<br/>(Quality Gate)"]:::mdBlue
