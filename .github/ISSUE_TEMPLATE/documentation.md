@@ -1,58 +1,42 @@
----
-name: Documentation
-about: Suggest improvements or report issues with documentation
-title: "[DOCS] "
-labels: documentation
-assignees: ""
----
+name: 📚 Documentation
+description: Request documentation updates, fixes, or improvements
+title: "[Docs]: "
+labels: ["type:documentation"]
+body:
 
-## Documentation Issue
+- type: markdown
+  attributes:
+  value: | ## 📚 Documentation Issue
+  Documentation is part of the product. Clarity and accuracy matter.
 
-<!-- Describe the documentation issue or improvement -->
+- type: textarea
+  id: area
+  attributes:
+  label: Documentation Area
+  description: Which document or section is affected?
+  validations:
+  required: true
 
-## Location
+- type: textarea
+  id: issue
+  attributes:
+  label: Issue Description
+  description: What is unclear, missing, or incorrect?
+  validations:
+  required: true
 
-<!-- Where is the documentation that needs attention? -->
+- type: textarea
+  id: improvement
+  attributes:
+  label: Suggested Improvement
+  description: What would make this clearer or more useful?
+  validations:
+  required: false
 
-- **File/Page**: [e.g., README.md, docs/deployment-guide.md]
-- **Section**: [e.g., "Getting Started", "Configuration"]
-- **URL**: [if applicable]
-
-## Type of Documentation Issue
-
-<!-- Check all that apply -->
-
-- [ ] Missing documentation
-- [ ] Incorrect or outdated information
-- [ ] Unclear or confusing content
-- [ ] Typos or grammar issues
-- [ ] Missing code examples
-- [ ] Broken links
-- [ ] Missing screenshots/diagrams
-- [ ] Other (please specify)
-
-## Current Content
-
-<!-- If applicable, quote the current documentation that needs improvement -->
-
-## Suggested Improvement
-
-<!-- Describe what should be added, changed, or clarified -->
-
-## Audience
-
-<!-- Who is the primary audience for this documentation? -->
-
-- [ ] New users/Getting started
-- [ ] Administrators/Operators
-- [ ] Developers/Contributors
-- [ ] Enterprise architects
-- [ ] All users
-
-## Additional Context
-
-<!-- Add any other context, examples, or screenshots -->
-
-## Related Issues
-
-<!-- Link to any related issues or PRs -->
+- type: textarea
+  id: audience
+  attributes:
+  label: Target Audience
+  placeholder: Developer, Platform Engineer, Security, Product Manager
+  validations:
+  required: false
