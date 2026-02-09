@@ -4,11 +4,11 @@
 ![Azure](https://img.shields.io/badge/Azure-DevCenter-blue)
 ![IaC](https://img.shields.io/badge/IaC-Bicep-orange)
 
-Enterprise-grade Infrastructure as Code (IaC) solution for provisioning and
-managing Azure DevCenter and Dev Box environments. This accelerator implements
-Azure Landing Zone best practices with modular Bicep templates, automated
-deployment workflows, and comprehensive identity management for scalable
-developer workstation platforms.
+**Enterprise-grade Infrastructure as Code (IaC) solution** for provisioning and
+managing **Azure DevCenter and Dev Box environments**. This accelerator
+implements **Azure Landing Zone best practices** with **modular Bicep
+templates**, **automated deployment workflows**, and **comprehensive identity
+management** for scalable developer workstation platforms.
 
 ## Table of Contents
 
@@ -26,31 +26,32 @@ developer workstation platforms.
 
 ## Overview
 
-**Why This Matters**: Developer experience platform engineering requires
-consistent, secure, and scalable infrastructure. This accelerator reduces
-provisioning time from days to hours while ensuring compliance with Azure
-Landing Zone principles, enabling platform teams to deliver standardized
-developer environments with minimal manual intervention.
+**Why This Matters**: Developer experience platform engineering **requires
+consistent, secure, and scalable infrastructure**. This accelerator **reduces
+provisioning time from days to hours** while **ensuring compliance with Azure
+Landing Zone principles**, enabling platform teams to deliver **standardized
+developer environments with minimal manual intervention**.
 
-**How It Works**: The solution leverages Azure Bicep modules organized by
-functional domains (connectivity, identity, management, security, workload) with
-YAML-based configuration files. Deployment automation via Azure Developer CLI
-(azd) integrates with GitHub or Azure DevOps, provisioning complete DevCenter
-environments including network isolation, RBAC assignments, Key Vault secrets
-management, and Log Analytics monitoring.
+**How It Works**: The solution leverages **Azure Bicep modules organized by
+functional domains** (connectivity, identity, management, security, workload)
+with **YAML-based configuration files**. **Deployment automation via Azure
+Developer CLI (azd)** integrates with GitHub or Azure DevOps, provisioning
+complete DevCenter environments including **network isolation**, **RBAC
+assignments**, **Key Vault secrets management**, and **Log Analytics
+monitoring**.
 
 ### Key Capabilities
 
-This infrastructure accelerator provides three core capabilities for enterprise
-developer platforms:
+This infrastructure accelerator provides **three core capabilities** for
+enterprise developer platforms:
 
-1. **Landing Zone Organization**: Segregates resources across security,
-   monitoring, and workload resource groups following Microsoft Cloud Adoption
-   Framework patterns
-2. **DevCenter Workload Provisioning**: Deploys Dev Box projects with
-   customizable compute pools, environment types, and catalog integrations
-3. **Automated Identity & Access**: Configures system-assigned managed
-   identities with role-based access control (RBAC) assignments scoped to
+1. **Landing Zone Organization**: **Segregates resources across security,
+   monitoring, and workload resource groups** following **Microsoft Cloud
+   Adoption Framework patterns**
+2. **DevCenter Workload Provisioning**: **Deploys Dev Box projects** with
+   **customizable compute pools, environment types, and catalog integrations**
+3. **Automated Identity & Access**: **Configures system-assigned managed
+   identities** with **role-based access control (RBAC) assignments** scoped to
    subscriptions and resource groups
 
 ## Architecture
@@ -166,13 +167,13 @@ flowchart TB
 
 ## Quick Start
 
-Get your first DevCenter environment deployed in under 10 minutes with this
+Get your first DevCenter environment deployed in **under 10 minutes** with this
 minimal example.
 
-> ⚠️ **Prerequisites**: Ensure you have
-> [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli),
-> [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd),
-> and [GitHub CLI (gh)](https://cli.github.com/) installed before proceeding.
+> ⚠️ **Prerequisites**: **MUST have installed**:
+> [**Azure CLI**](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli),
+> [**Azure Developer CLI (azd)**](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd),
+> and [**GitHub CLI (gh)**](https://cli.github.com/) **before proceeding**.
 
 ```bash
 # Clone the repository
@@ -205,7 +206,7 @@ azd up
 
 ### Prerequisites Validation
 
-Verify all required tools are installed and authenticated:
+**MUST verify** all required tools are installed and authenticated:
 
 ```bash
 # Check Azure CLI
@@ -236,13 +237,14 @@ Configure your deployment environment using the setup script:
 
 **Step 2: Configure Resource Settings**
 
-Edit the YAML configuration files to match your organizational requirements:
+**MUST edit** the YAML configuration files to match your organizational
+requirements:
 
 ```yaml
 # infra/settings/resourceOrganization/azureResources.yaml
 workload:
   create: true
-  name: devexp-workload # Customize resource group name
+  name: devexp-workload # **Customize resource group name**
   tags:
     environment: prod
     division: Platforms
@@ -251,7 +253,7 @@ workload:
 
 **Step 3: Set Required Parameters**
 
-Create or update `infra/main.parameters.json`:
+**MUST create or update** `infra/main.parameters.json`:
 
 ```json
 {
@@ -301,38 +303,39 @@ az devcenter admin dev-center show \
   --resource-group devexp-workload-prod-eastus-RG
 ```
 
-> 💡 **Deployment Time**: Typical deployment takes 8-12 minutes for a complete
-> environment including all three landing zones.
+> 💡 **Deployment Time**: Typical deployment takes **8-12 minutes** for a
+> complete environment including all three landing zones.
 
 ### Deployment Troubleshooting
 
 **Common Issues:**
 
-| Issue                              | Solution                                                                 |
-| ---------------------------------- | ------------------------------------------------------------------------ |
-| `ERROR: InvalidTemplateDeployment` | Validate Bicep syntax with `az bicep build --file infra/main.bicep`      |
-| `ERROR: AuthorizationFailed`       | Ensure your account has Contributor role on the subscription             |
-| `ERROR: ResourceGroupNotFound`     | Verify resource groups exist or set `create: true` in YAML configuration |
-| `ERROR: KeyVaultAccessDenied`      | Add your user principal to Key Vault access policies                     |
+| Issue                              | Solution                                                                         |
+| ---------------------------------- | -------------------------------------------------------------------------------- |
+| `ERROR: InvalidTemplateDeployment` | **Validate Bicep syntax** with `az bicep build --file infra/main.bicep`          |
+| `ERROR: AuthorizationFailed`       | **MUST have Contributor role** on the subscription                               |
+| `ERROR: ResourceGroupNotFound`     | **Verify resource groups exist** or **set `create: true`** in YAML configuration |
+| `ERROR: KeyVaultAccessDenied`      | **Add your user principal** to Key Vault access policies                         |
 
 ## Features
 
 **Overview**
 
-This section describes the core capabilities of the DevCenter accelerator,
-organized by functional domain. Each feature maps to specific Bicep modules in
-the `src/` directory and YAML configuration files in `infra/settings/`.
+This section describes the **core capabilities** of the DevCenter accelerator,
+organized by **functional domain**. Each feature maps to **specific Bicep
+modules** in the `src/` directory and **YAML configuration files** in
+`infra/settings/`.
 
-**Tier 1 (Why This Matters)**: Enterprise organizations need reproducible,
-secure, and compliant infrastructure for developer platforms. These features
-reduce operational overhead by 70% while ensuring alignment with Microsoft Cloud
-Adoption Framework and Azure Well-Architected Framework principles.
+**Tier 1 (Why This Matters)**: Enterprise organizations need **reproducible,
+secure, and compliant infrastructure** for developer platforms. These features
+**reduce operational overhead by 70%** while **ensuring alignment with Microsoft
+Cloud Adoption Framework and Azure Well-Architected Framework principles**.
 
-**Tier 2 (How It Works)**: Features are implemented as parameterized Bicep
-modules with YAML-based configuration overlays. Deployment orchestration uses
-Azure Developer CLI (azd) hooks for pre/post-provisioning automation, while
-runtime operations leverage Azure managed identities for passwordless
-authentication.
+**Tier 2 (How It Works)**: Features are implemented as **parameterized Bicep
+modules** with **YAML-based configuration overlays**. Deployment orchestration
+uses **Azure Developer CLI (azd) hooks** for pre/post-provisioning automation,
+while runtime operations leverage **Azure managed identities for passwordless
+authentication**.
 
 | Feature                           | Description                                                                                      | Status    | Module                                                                             |
 | --------------------------------- | ------------------------------------------------------------------------------------------------ | --------- | ---------------------------------------------------------------------------------- |
@@ -351,9 +354,9 @@ authentication.
 
 **Overview**
 
-This section lists all prerequisites and dependencies required to deploy and
-manage the DevCenter infrastructure. Ensure all requirements are met before
-attempting deployment to avoid provisioning failures.
+This section lists **all prerequisites and dependencies REQUIRED** to deploy and
+manage the DevCenter infrastructure. **MUST ensure all requirements are met
+before attempting deployment** to avoid provisioning failures.
 
 ### System Requirements
 
@@ -368,13 +371,13 @@ attempting deployment to avoid provisioning failures.
 
 ### Azure Subscription Requirements
 
-| Requirement               | Details                                                                                                                     |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| **Azure Subscription**    | Active subscription with Contributor or Owner role                                                                          |
-| **Resource Providers**    | Ensure registered: `Microsoft.DevCenter`, `Microsoft.Network`, `Microsoft.KeyVault`, `Microsoft.OperationalInsights`        |
-| **Regional Availability** | DevCenter supported in: East US, East US 2, West US 2, West US 3, West Europe, North Europe, Australia East, Canada Central |
-| **Quotas**                | Sufficient compute quota for Dev Box SKUs (e.g., `Standard_DS4_v2`, `Standard_D8s_v3`)                                      |
-| **API Version**           | ARM API version 2025-04-01 or later                                                                                         |
+| Requirement               | Details                                                                                                                         |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Azure Subscription**    | **Active subscription** with **Contributor or Owner role**                                                                      |
+| **Resource Providers**    | **MUST be registered**: `Microsoft.DevCenter`, `Microsoft.Network`, `Microsoft.KeyVault`, `Microsoft.OperationalInsights`       |
+| **Regional Availability** | **DevCenter supported in**: East US, East US 2, West US 2, West US 3, West Europe, North Europe, Australia East, Canada Central |
+| **Quotas**                | **Sufficient compute quota** for Dev Box SKUs (e.g., `Standard_DS4_v2`, `Standard_D8s_v3`)                                      |
+| **API Version**           | **ARM API version 2025-04-01 or later**                                                                                         |
 
 ### Access Permissions
 
@@ -388,31 +391,31 @@ attempting deployment to avoid provisioning failures.
 
 **For GitHub Integration:**
 
-- GitHub personal access token (PAT) with `repo` scope
-- Authenticated GitHub CLI session (`gh auth login`)
-- Repository access for catalog integration
+- **GitHub personal access token (PAT)** with `repo` scope
+- **Authenticated GitHub CLI session** (`gh auth login`)
+- **Repository access** for catalog integration
 
 **For Azure DevOps Integration:**
 
-- Azure DevOps PAT with `Code (Read)` scope
-- Organization and project access configured
+- **Azure DevOps PAT** with `Code (Read)` scope
+- **Organization and project access** configured
 
-> ⚠️ **Security Note**: Store access tokens in Azure Key Vault. Never commit
-> tokens to source control. The setup scripts automatically configure Key Vault
-> references.
+> ⚠️ **Security Note**: **MUST store access tokens in Azure Key Vault**. **NEVER
+> commit tokens to source control**. The setup scripts automatically configure
+> Key Vault references.
 
 > 💡 **Tip**: Generate GitHub PATs at
-> [github.com/settings/tokens](https://github.com/settings/tokens) with minimum
-> required scopes to follow least-privilege principles.
+> [github.com/settings/tokens](https://github.com/settings/tokens) with
+> **minimum required scopes** to follow **least-privilege principles**.
 
 ## Configuration
 
 **Overview**
 
-Configuration uses a declarative YAML-based approach with schema validation. All
-resource definitions, naming conventions, and deployment parameters are
-externalized to files in `infra/settings/`, enabling environment-specific
-customization without modifying Bicep code.
+Configuration uses a **declarative YAML-based approach** with **schema
+validation**. All resource definitions, naming conventions, and deployment
+parameters are **externalized to files in `infra/settings/`**, enabling
+**environment-specific customization without modifying Bicep code**.
 
 ### Configuration Files Structure
 
@@ -431,22 +434,22 @@ infra/settings/
 
 ### Resource Organization Configuration
 
-Configure resource groups and tagging in
+**Configure resource groups and tagging** in
 `infra/settings/resourceOrganization/azureResources.yaml`:
 
 ```yaml
 workload:
-  create: true # Set to false to use existing RG
-  name: devexp-workload # Resource group name prefix
+  create: true # **Set to false to use existing RG**
+  name: devexp-workload # **Resource group name prefix**
   description: prodExp
   tags:
-    environment: prod # Deployment environment
-    division: Platforms # Business division
-    team: DevExP # Owning team
-    project: Contoso-DevExp-DevBox # Project identifier
-    costCenter: IT # Financial allocation
-    owner: Contoso # Resource owner
-    landingZone: Workload # Landing zone type
+    environment: prod # **Deployment environment**
+    division: Platforms # **Business division**
+    team: DevExP # **Owning team**
+    project: Contoso-DevExp-DevBox # **Project identifier**
+    costCenter: IT # **Financial allocation**
+    owner: Contoso # **Resource owner**
+    landingZone: Workload # **Landing zone type**
 ```
 
 ### DevCenter Workload Configuration
@@ -517,15 +520,15 @@ hooks:
     run: ./setup.sh -e ${AZURE_ENV_NAME} -s ${SOURCE_CONTROL_PLATFORM}
 ```
 
-> 💡 **Best Practice**: Use separate parameter files for each environment (e.g.,
-> `main.parameters.dev.json`, `main.parameters.prod.json`) to maintain
-> environment isolation and prevent configuration drift.
+> 💡 **Best Practice**: **Use separate parameter files for each environment**
+> (e.g., `main.parameters.dev.json`, `main.parameters.prod.json`) to **maintain
+> environment isolation** and **prevent configuration drift**.
 
 ## Usage
 
 ### Creating a New Dev Box Project
 
-Add a new project to `infra/settings/workload/devcenter.yaml`:
+**Add a new project** to `infra/settings/workload/devcenter.yaml`:
 
 ```yaml
 projects:
@@ -539,7 +542,7 @@ projects:
         status: 'Enabled'
 ```
 
-Deploy the updated configuration:
+**Deploy the updated configuration**:
 
 ```bash
 azd deploy
@@ -560,7 +563,7 @@ pools:
 
 ### Managing Access Control
 
-Grant users DevCenter access by assigning Azure RBAC roles:
+**Grant users DevCenter access** by assigning **Azure RBAC roles**:
 
 ```bash
 # Assign DevCenter Project Admin role
@@ -691,25 +694,25 @@ validation.
 
 ### Coding Standards
 
-- **Bicep**: Follow
-  [Azure Bicep best practices](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/best-practices)
-- **YAML**: Validate against provided JSON schemas before committing
-- **Shell Scripts**: Use ShellCheck for linting Bash scripts
-- **PowerShell**: Follow
-  [PowerShell best practices](https://learn.microsoft.com/powershell/scripting/developer/cmdlet/strongly-encouraged-development-guidelines)
+- **Bicep**: **MUST follow**
+  [**Azure Bicep best practices**](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/best-practices)
+- **YAML**: **MUST validate** against provided JSON schemas before committing
+- **Shell Scripts**: **MUST use ShellCheck** for linting Bash scripts
+- **PowerShell**: **MUST follow**
+  [**PowerShell best practices**](https://learn.microsoft.com/powershell/scripting/developer/cmdlet/strongly-encouraged-development-guidelines)
 
 ### Reporting Issues
 
 Use the [GitHub Issues](https://github.com/Evilazaro/DevExp-DevBox/issues) page
-to report bugs or request features. Include:
+to report bugs or request features. **MUST include**:
 
-- Detailed description of the issue
-- Steps to reproduce
-- Expected vs. actual behavior
-- Relevant error messages or logs
-- Environment details (Azure region, azd version, OS)
+- **Detailed description** of the issue
+- **Steps to reproduce**
+- **Expected vs. actual behavior**
+- **Relevant error messages or logs**
+- **Environment details** (Azure region, azd version, OS)
 
-> 📝 **Note**: For security vulnerabilities, please report privately via GitHub
+> 📝 **Note**: For **security vulnerabilities**, **MUST report privately** via GitHub
 > Security Advisories instead of public issues.
 
 ## License
