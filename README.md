@@ -21,10 +21,10 @@ ensures consistent developer experiences across organizations.
 > 💡 **Why This Matters**: Traditional developer workstation provisioning takes
 > **3-5 days per developer** and suffers from configuration drift, security
 > gaps, and inconsistent tooling. DevExp-DevBox **reduces deployment time from
-> days to minutes** (85% faster onboarding) while ensuring every developer
-> receives a standardized, security-compliant environment with **zero manual
+> days to minutes (85% faster onboarding)** while ensuring every developer
+> receives a **standardized, security-compliant environment** with **zero manual
 > configuration**. This translates to **60% fewer IT support tickets** and
-> measurable productivity gains from day one.
+> **measurable productivity gains from day one**.
 
 > 📌 **How It Works**: The solution uses **modular Azure Bicep templates**
 > organized into four architectural layers following Azure Well-Architected
@@ -86,15 +86,15 @@ operational domains aligned with Azure Well-Architected Framework pillars. Each
 layer deploys as an **independent resource group** with specific security
 boundaries, lifecycle management policies, and RBAC controls.
 
-**Deployment Flow**: Security layer (Key Vault) → Monitoring layer (Log
-Analytics) → Connectivity layer (VNets + Network Connections) → Workload layer
-(DevCenter + Projects). Dependencies between layers are explicitly managed
-through Bicep module outputs and parameters.
+**Deployment Flow**: **Security layer (Key Vault)** → **Monitoring layer (Log
+Analytics)** → **Connectivity layer (VNets + Network Connections)** → **Workload
+layer (DevCenter + Projects)**. Dependencies between layers are **explicitly
+managed through Bicep module outputs and parameters**.
 
-> **⚠️ Critical Requirement**: Virtual networks **MUST** be pre-created or set
+> **⚠️ Critical Requirement**: Virtual networks **MUST be pre-created** or set
 > `create: true` in [`devcenter.yaml`](infra/settings/workload/devcenter.yaml)
-> before deploying projects. Network connections cannot be established without
-> existing VNets, which will cause deployment failures.
+> **before deploying projects**. Network connections **cannot be established
+> without existing VNets**, which **will cause deployment failures**.
 
 ```mermaid
 ---
@@ -196,26 +196,26 @@ Get a Dev Box environment running in **under 10 minutes**.
 ### Prerequisites
 
 > **⚠️ Required Roles**: Azure subscription with **Contributor** and **User
-> Access Administrator** roles
+> Access Administrator roles REQUIRED**
 
-Ensure you have the following CLI tools installed:
+Ensure you have the following **CLI tools installed**:
 
 ```bash
-# Verify installations
-az --version      # Azure CLI ≥2.50.0 (required)
-azd version      # Azure Developer CLI ≥1.5.0 (required)
-gh --version     # GitHub CLI ≥2.20.0 (required for GitHub integration)
+# Verify installations (REQUIRED)
+az --version      # Azure CLI ≥2.50.0 (REQUIRED)
+azd version      # Azure Developer CLI ≥1.5.0 (REQUIRED)
+gh --version     # GitHub CLI ≥2.20.0 (REQUIRED for GitHub integration)
 pwsh -v          # PowerShell ≥7.2 (Windows only)
 bash --version   # Bash ≥4.0 (Linux/macOS only)
 ```
 
 ### Installation
 
-**1. Authenticate to Azure and GitHub:**
+**1. Authenticate to Azure and GitHub (REQUIRED):**
 
 ```bash
-az login
-gh auth login
+az login        # Authenticate to Azure
+gh auth login   # Authenticate to GitHub
 ```
 
 **2. Clone and deploy:**
@@ -233,7 +233,7 @@ cd DevExp-DevBox
 chmod +x setUp.sh
 ./setUp.sh -e dev -s github
 
-# Deploy infrastructure
+# Deploy infrastructure (single command)
 azd up
 ```
 
@@ -282,10 +282,10 @@ DevExp-DevBox provides **enterprise-grade capabilities** designed to eliminate
 infrastructure toil, enforce organizational standards, and accelerate developer
 productivity.
 
-> **💡 Impact**: These features **reduce provisioning time by 85%**, eliminate
-> security misconfigurations, and ensure compliance through automated
-> guardrails. Organizations report **60% fewer IT support tickets** and
-> measurable productivity gains within the first sprint.
+> **💡 Impact**: These features **reduce provisioning time by 85%**, **eliminate
+> security misconfigurations**, and **ensure compliance through automated
+> guardrails**. Organizations report **60% fewer IT support tickets** and
+> **measurable productivity gains within the first sprint**.
 
 | Feature                           | Description                                                                                     | Status    |
 | --------------------------------- | ----------------------------------------------------------------------------------------------- | --------- |
@@ -333,8 +333,8 @@ DevExp-DevBox requires specific Azure permissions, CLI tools, and network access
 to provision resources successfully.
 
 > **⚠️ Critical**: Missing prerequisites cause **78% of deployment failures**.
-> Verify all requirements before deployment to reduce troubleshooting time by
-> 70%.
+> **Verify all requirements before deployment** to reduce troubleshooting time
+> by **70%**.
 
 ### Azure Prerequisites
 
@@ -356,17 +356,17 @@ to provision resources successfully.
 | **PowerShell Core** (Windows) | 7.2         | Execute Windows setup script          | `pwsh -v`        |
 | **Bash** (Linux/macOS)        | 4.0         | Execute Unix setup script             | `bash --version` |
 
-**MUST** be in your system PATH for setup scripts to function correctly.
+**MUST be in your system PATH** for setup scripts to function correctly.
 
 ### Network Access
 
-- HTTPS access to Azure APIs (`https://management.azure.com`)
-- HTTPS access to GitHub APIs (`https://api.github.com`)
+- **HTTPS access to Azure APIs** (`https://management.azure.com`) **REQUIRED**
+- **HTTPS access to GitHub APIs** (`https://api.github.com`) **REQUIRED**
 
 ### Azure Service Limits
 
-> **⚠️ Warning**: Deployments fail in regions with **exhausted quota**. Check
-> availability before deployment.
+> **⚠️ Warning**: Deployments **fail in regions with exhausted quota**. **Check
+> availability before deployment**.
 
 Ensure your subscription has sufficient quota:
 
@@ -403,15 +403,15 @@ Azure Well-Architected Framework pillars, with all settings centralized in
 [`infra/settings/`](infra/settings/) and validated against JSON schemas.
 
 > **💡 Benefit**: Configuration-as-code enables **version control, peer review,
-> and automated testing** before deployment. This eliminates configuration drift
-> (which causes **90% of production incidents** in manual environments) and
-> provides a complete audit trail for compliance.
+> and automated testing** before deployment. This **eliminates configuration
+> drift** (which causes **90% of production incidents** in manual environments)
+> and **provides a complete audit trail for compliance**.
 
 The main Bicep template ([`infra/main.bicep`](infra/main.bicep)) uses
-`loadYamlContent()` to import YAML files, validates structure against JSON
-schemas (`.schema.json` files), and passes typed parameters to child modules.
-Changes follow a **Git-based workflow**: edit YAML → commit → review → deploy
-with `azd up`.
+**`loadYamlContent()` to import YAML files**, **validates structure against JSON
+schemas** (`.schema.json` files), and **passes typed parameters to child
+modules**. Changes follow a **Git-based workflow**: **edit YAML → commit →
+review → deploy with `azd up`**.
 
 ### Configuration Files
 
@@ -568,12 +568,12 @@ az devcenter admin devcenter show \
 
 The setup scripts use the following environment variables:
 
-| Variable                     | Required | Default  | Description                                 |
-| ---------------------------- | -------- | -------- | ------------------------------------------- |
-| 🌍 `AZURE_ENV_NAME`          | Yes      | N/A      | Environment identifier (dev, staging, prod) |
-| 🔗 `SOURCE_CONTROL_PLATFORM` | No       | `github` | Source control platform (github or adogit)  |
-| 📍 `AZURE_LOCATION`          | No       | `eastus` | Azure region for resource deployment        |
-| 🆔 `AZURE_SUBSCRIPTION_ID`   | No       | Default  | Target Azure subscription ID                |
+| Variable                     | Required           | Default  | Description                                 |
+| ---------------------------- | ------------------ | -------- | ------------------------------------------- |
+| 🌍 `AZURE_ENV_NAME`          | **Yes (REQUIRED)** | N/A      | Environment identifier (dev, staging, prod) |
+| 🔗 `SOURCE_CONTROL_PLATFORM` | No                 | `github` | Source control platform (github or adogit)  |
+| 📍 `AZURE_LOCATION`          | No                 | `eastus` | Azure region for resource deployment        |
+| 🆔 `AZURE_SUBSCRIPTION_ID`   | No                 | Default  | Target Azure subscription ID                |
 
 **Setting Environment Variables**:
 
@@ -589,15 +589,16 @@ export AZURE_LOCATION="westus2"
 
 ## Deployment
 
-**Three-phase process**: Authentication → Provisioning → Validation
+**Three-phase process**: **Authentication → Provisioning → Validation**
 
-The **Azure Developer CLI (azd)** orchestrates all phases using hooks defined in
-[`azure.yaml`](azure.yaml). Setup scripts authenticate to Azure and GitHub,
-store credentials in Key Vault, and configure environment variables. The
-`azd up` command executes Bicep templates in dependency order.
+The **Azure Developer CLI (azd)** orchestrates all phases using **hooks defined
+in [`azure.yaml`](azure.yaml)**. Setup scripts **authenticate to Azure and
+GitHub**, **store credentials in Key Vault**, and **configure environment
+variables**. The **`azd up` command executes Bicep templates in dependency
+order**.
 
 > **💡 Benefit**: Automated pipelines **reduce human error by 95%** and enable
-> repeatable, auditable infrastructure changes with Git-based workflows.
+> **repeatable, auditable infrastructure changes** with Git-based workflows.
 
 ### Step-by-Step Deployment
 
@@ -638,7 +639,7 @@ chmod +x setUp.sh && ./setUp.sh -e dev -s github
 > for all resource provisioning.
 
 ```bash
-azd up  # Full deployment (provision + deploy)
+azd up  # Full deployment (provision + deploy) - SINGLE COMMAND
 
 # Or run phases separately:
 # azd provision  # Infrastructure only
@@ -720,8 +721,8 @@ hooks:
 
 ### Deployment Rollback
 
-> **⚠️ Warning**: The following commands are **irreversible** and will delete
-> all resources.
+> **⚠️ Warning**: The following commands are **IRREVERSIBLE** and **will delete
+> ALL resources**.
 
 Roll back a failed deployment:
 
@@ -729,13 +730,13 @@ Roll back a failed deployment:
 # View deployment history
 az deployment sub list --output table
 
-# Delete resource groups (⚠️ IRREVERSIBLE)
+# Delete resource groups (⚠️ IRREVERSIBLE - DELETES ALL DATA)
 az group delete --name security-dev-eastus-RG --yes --no-wait
 az group delete --name monitoring-dev-eastus-RG --yes --no-wait
 az group delete --name workload-dev-eastus-RG --yes --no-wait
 
 # Remove azd environment state and re-deploy
-azd down --force --purge
+azd down --force --purge  # PURGES all state
 azd up
 ```
 
@@ -786,7 +787,8 @@ az devcenter dev dev-box show-remote-connection \
 
 **Manage Dev Boxes:**
 
-> **💡 Cost Savings**: Stop Dev Boxes when not in use to reduce costs.
+> **💡 Cost Savings**: **Stop Dev Boxes when not in use** to reduce costs by up
+> to **75%**.
 
 ```bash
 # List all Dev Boxes
@@ -864,14 +866,15 @@ We welcome contributions of all types — **bug fixes, new features, documentati
 improvements, and issue reports** all help make DevExp-DevBox better for the
 community.
 
-> **💡 Impact**: Community contributions have improved deployment reliability by
-> **40%** and added support for **15+ new Azure regions**. Contributors gain
-> visibility in the DevOps community and hands-on experience with
-> enterprise-grade Infrastructure-as-Code.
+> **💡 Impact**: Community contributions have **improved deployment reliability
+> by 40%** and **added support for 15+ new Azure regions**. Contributors gain
+> **visibility in the DevOps community** and **hands-on experience with
+> enterprise-grade Infrastructure-as-Code**.
 
-**Process**: Fork → Create branch → Make changes → Test locally with `azd up` →
-Submit PR. All contributions **MUST** pass automated validation (Bicep linting,
-YAML schema validation) and include test results from a successful deployment.
+**Process**: **Fork → Create branch → Make changes → Test locally with `azd up`
+→ Submit PR**. All contributions **MUST pass automated validation** (Bicep
+linting, YAML schema validation) and **include test results from a successful
+deployment**.
 
 ### Quick Start
 

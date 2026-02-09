@@ -34,8 +34,8 @@ provisioning.
 
 > 💡 **Key Achievement**: DevExp-DevBox transforms traditional developer
 > onboarding from a **3-5 day manual process** into a **sub-10-minute automated
-> workflow**, achieving **85% faster time-to-productivity** while reducing IT
-> support burden by **60%**.
+> workflow**, achieving **85% faster time-to-productivity** while **reducing IT
+> support burden by 60%**.
 
 The solution implements a **capability-driven architecture** with **six core
 capabilities** organized across security, infrastructure, and developer
@@ -48,17 +48,17 @@ Transformation** and **Developer Experience Excellence** strategic objectives
 by:
 
 - **Accelerating Innovation**: Reducing developer onboarding from days to
-  minutes enables faster project startup and experimentation
-- **Reducing Operational Costs**: **60% reduction** in IT support tickets
-  translates to measurable **cost savings ($500K annually** for 50-developer
+  minutes enables **faster project startup and experimentation**
+- **Reducing Operational Costs**: **60% reduction in IT support tickets**
+  translates to **measurable cost savings ($500K annually** for 50-developer
   organization)
-- **Ensuring Security Compliance**: **Security-by-default** approach with Azure
+- **Ensuring Security Compliance**: **Security-by-default approach** with Azure
   Key Vault, RBAC, and managed identities ensures **zero security incidents**
   from configuration drift
-- **Enabling Scalability**: **Infrastructure-as-Code (IaC)** approach supports
-  rapid scaling across projects and teams without manual intervention
-- **Improving Developer Satisfaction**: **Self-service** Dev Box provisioning
-  eliminates waiting queues and empowers developer autonomy
+- **Enabling Scalability**: **Infrastructure-as-Code (IaC) approach** supports
+  **rapid scaling** across projects and teams **without manual intervention**
+- **Improving Developer Satisfaction**: **Self-service Dev Box provisioning**
+  eliminates waiting queues and **empowers developer autonomy**
 
 ### Capability Maturity Overview
 
@@ -79,9 +79,9 @@ by:
 **Improvement Opportunities**:
 
 - GitHub Catalog Synchronization (Level 3 → Level 4: **Add telemetry and
-  performance monitoring**)
+  performance monitoring REQUIRED**)
 - Configuration Management (Level 3 → Level 4: **Implement drift detection and
-  automated remediation**)
+  automated remediation REQUIRED**)
 
 ### Value Stream Performance
 
@@ -128,14 +128,14 @@ by:
 
 #### Risks
 
-> ⚠️ **Critical Dependencies**: Be aware of manual prerequisites and deployment
-> dependencies that may impact rollout timelines.
+> ⚠️ **Critical Dependencies**: Be aware of **manual prerequisites** and
+> **deployment dependencies** that **may impact rollout timelines**.
 
 - 🔴 **Manual Prerequisites**: Azure AD group creation **remains manual**,
-  creating potential **bottleneck for large-scale rollouts**
+  creating **potential bottleneck for large-scale rollouts**
 - 🟡 **VNet Dependency**: Projects **MUST have pre-existing VNets** or
-  `create: true` flag, which **can cause deployment failures** if misconfigured
-- 🟡 **Catalog Sync Troubleshooting**: **Manual intervention required** for
+  `create: true` flag, which **can cause deployment failures if misconfigured**
+- 🟡 **Catalog Sync Troubleshooting**: **Manual intervention REQUIRED** for
   private repository authentication failures
 
 ### Document Structure
@@ -410,11 +410,11 @@ capabilities** (what the organization can do) rather than organizational
 structure (how it's organized).
 
 **Rationale**: Capabilities remain stable as organizational structures change,
-providing a durable foundation for strategic planning. DevExp-DevBox
+providing a **durable foundation for strategic planning**. DevExp-DevBox
 demonstrates this through **six core capabilities** (Zero-Touch Deployment,
 Security Automation, Configuration as Code, Modular Infrastructure,
-Multi-Platform Support, GitHub Catalog Sync) that persist independently of team
-reorganizations.
+Multi-Platform Support, GitHub Catalog Sync) that **persist independently of
+team reorganizations**.
 
 **Implications**:
 
@@ -443,17 +443,18 @@ mappings.
 delivery** from customer trigger to outcome, not local efficiency.
 
 **Rationale**: Sub-optimization occurs when individual steps are optimized
-without considering total cycle time. DevExp-DevBox's Developer Onboarding value
-stream demonstrates this principle by **measuring total flow** (3-5 days → <10
-minutes) rather than individual task durations.
+without considering **total cycle time**. DevExp-DevBox's Developer Onboarding
+value stream demonstrates this principle by **measuring total flow (3-5 days →
+<10 minutes)** rather than individual task durations.
 
 **Implications**:
 
-- Performance metrics **measure value stream cycle time**, not departmental
+- Performance metrics **MUST measure value stream cycle time**, not departmental
   productivity
-- Handoffs between stages are **automated or eliminated** to reduce wait time
-- Process improvements **prioritize reducing total lead time** over local task
-  optimization
+- Handoffs between stages **MUST be automated or eliminated** to reduce wait
+  time
+- Process improvements **MUST prioritize reducing total lead time** over local
+  task optimization
 
 **Evidence in Implementation**: Developer Onboarding value stream achieves **85%
 cycle time reduction** through automation of all handoffs between stages (access
@@ -469,22 +470,22 @@ request → provisioning → configuration → productivity).
 
 ### 3.3 Security as Foundation
 
-**Principle Statement**: Security controls **must be embedded in architecture**,
+**Principle Statement**: Security controls **MUST be embedded in architecture**,
 not added as afterthoughts.
 
 **Rationale**: Retrofitting security introduces complexity, delays, and
 potential gaps. DevExp-DevBox implements **security-by-default** through
 automated Key Vault provisioning, managed identities, and RBAC enforcement,
-achieving **zero security incidents** over 12 months.
+achieving **zero security incidents over 12 months**.
 
 **Implications**:
 
-- **All infrastructure provisioning includes security controls** (Key Vault,
+- **All infrastructure provisioning MUST include security controls** (Key Vault,
   managed identities, RBAC)
 - **Security decisions are architectural**, not operational (e.g.,
-  SystemAssigned identity type is **mandatory**)
-- **Zero-trust principles** guide access control design (principle of least
-  privilege)
+  SystemAssigned identity type is **MANDATORY**)
+- **Zero-trust principles REQUIRED** guide access control design (principle of
+  least privilege)
 
 **Evidence in Implementation**: Security Automation capability (**Level 4 -
 Measured**) with automated RBAC enforcement and **100% managed identity
@@ -492,21 +493,21 @@ adoption**.
 
 **Enforcement**:
 
-- Identity Type Standard business rule (BR-001) **mandates SystemAssigned**
+- Identity Type Standard business rule (BR-001) **MANDATES SystemAssigned**
   managed identities
-- RBAC reviews **validate principle of least privilege** compliance before
+- RBAC reviews **MUST validate principle of least privilege** compliance before
   deployment
-- Azure Policy integration **prevents non-compliant resource creation**
+- Azure Policy integration **PREVENTS non-compliant resource creation**
 
 ### 3.4 Configuration as Code
 
-**Principle Statement**: All business-relevant configurations **must be
+**Principle Statement**: All business-relevant configurations **MUST be
 declarative, version-controlled, and auditable**.
 
 **Rationale**: Manual configuration creates drift, lacks audit trails, and
 prevents repeatable deployments. DevExp-DevBox uses **YAML-based configuration
-with JSON schema validation**, enabling Git-based workflows, peer review, and
-compliance evidence.
+with JSON schema validation**, enabling **Git-based workflows, peer review, and
+compliance evidence**.
 
 **Implications**:
 
@@ -833,13 +834,9 @@ reduces support burden and allows IT staff to focus on strategic initiatives.
 > 50-developer organization, with support staff redirecting 60% of time from
 > reactive troubleshooting to proactive innovation.
 
-**Business Impact**:
-
-- **Cost Savings**: **$500K annual savings** (50-developer organization)
-- **Resource Reallocation**: IT staff **redirect 60% of time** to innovation vs.
-  support
-- **Scalability**: Support overhead **doesn't increase linearly** with developer
-  headcount
+> 💡 **Business Impact**: This strategy delivers **$500K annual savings** for a
+> 50-developer organization, with support staff **redirecting 60% of time** from
+> reactive troubleshooting to proactive innovation.
 
 #### 5.1.3 Security Compliance Strategy
 
@@ -890,8 +887,8 @@ intervention.
 | **Source**                | README.md:55-58                                                            |
 | **Confidence**            | 0.96                                                                       |
 
-> 🎯 **Strategic Differentiator**: Zero-Touch Deployment is the core capability
-> enabling 85% onboarding time reduction with single-command provisioning.
+> 🞯 **Strategic Differentiator**: Zero-Touch Deployment is the **core capability
+> enabling 85% onboarding time reduction** with **single-command provisioning**.
 
 **Capability Description**: Zero-Touch Deployment enables provisioning of
 Security, Monitoring, Connectivity, and Workload architectural layers through
@@ -988,9 +985,9 @@ definition** of all DevCenter resources (projects, catalogs, environment types,
 role assignments) in **YAML format with JSON schema validation**. This supports
 Git-based workflows, peer review, and immutable audit trails.
 
-> 💡 **Advancement Opportunity**: This capability is a prime candidate for
-> maturity advancement from Level 3 (Defined) to Level 4 (Measured) through
-> drift detection and telemetry implementation.
+> 💡 **Advancement Opportunity**: This capability is a **prime candidate for
+> maturity advancement** from Level 3 (Defined) to Level 4 (Measured) through
+> **drift detection and telemetry implementation**.
 
 **Key Components**:
 
@@ -1230,8 +1227,8 @@ dependency management**.
 **Components Involved**: Zero-Touch Deployment → Security → Monitoring →
 Connectivity → Workload
 
-> 📌 **Pattern Benefits**: Clear separation of concerns, explicit dependency
-> contracts, and independent testing per layer.
+> 📌 **Pattern Benefits**: Clear **separation of concerns**, **explicit
+> dependency contracts**, and **independent testing per layer**.
 
 **Flow**:
 
@@ -1250,8 +1247,9 @@ parameterization**.
 **Components Involved**: Configuration as Code → Modular Infrastructure → Azure
 Resources
 
-> 💡 **Pattern Benefits**: Business-readable YAML configuration with validation
-> at authoring time and version-controlled audit trail via Git.
+> 💡 **Pattern Benefits**: **Business-readable YAML configuration** with
+> **validation at authoring time** and **version-controlled audit trail via
+> Git**.
 
 **Flow**:
 
@@ -1283,32 +1281,33 @@ Repository
 
 ### 8.4 Critical Dependencies
 
-> ⚠️ **Critical Failure Points**: These high-impact dependencies can cause
-> cascading deployment failures if not properly validated.
+> ⚠️ **Critical Failure Points**: These **high-impact dependencies** can cause
+> **cascading deployment failures** if not properly validated.
 
 **High-Impact Dependencies** (failure causes cascading errors):
 
-1. **Azure Active Directory → DevCenter**: RBAC assignments **require valid
+1. **Azure Active Directory → DevCenter**: RBAC assignments **REQUIRE valid
    Azure AD group IDs**. If groups don't exist, **deployment fails with
    authorization error**.
 
-2. **Virtual Network → Project**: Projects **require existing VNet or
+2. **Virtual Network → Project**: Projects **REQUIRE existing VNet or
    `create: true` flag**. Missing VNet **causes network connection creation
    failure**.
 
 3. **Key Vault → GitHub Token**: Catalog sync for private repositories
-   **requires GitHub token in Key Vault**. Missing token **causes 403 Forbidden
+   **REQUIRES GitHub token in Key Vault**. Missing token **causes 403 Forbidden
    errors**.
 
-> 💡 **Mitigation Best Practices**: Pre-flight validation and schema validation
-> catch most dependency issues before deployment begins.
+> 💡 **Mitigation Best Practices**: **Pre-flight validation** and **schema
+> validation** catch most dependency issues **before deployment begins**.
 
 **Mitigation Strategies**:
 
-- **Pre-flight validation checks** Azure AD groups existence before deployment
+- **Pre-flight validation checks** Azure AD groups existence **before
+  deployment**
 - **Schema validation ensures** `create: true` or existing VNet reference
-  specified
-- **Setup scripts verify** GitHub token stored in Key Vault before `azd up`
+  **specified**
+- **Setup scripts verify** GitHub token **stored in Key Vault before `azd up`**
 
 ---
 

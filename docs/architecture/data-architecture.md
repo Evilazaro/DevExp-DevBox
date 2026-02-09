@@ -34,8 +34,8 @@ developer environment provisioning.
 
 > 💡 **Key Achievement**: DevExp-DevBox implements a **security-first data
 > architecture** with **100% of sensitive data encrypted at rest**, **zero-trust
-> access controls**, and **automated compliance monitoring** through centralized
-> logging and auditing infrastructure.
+> access controls**, and **automated compliance monitoring** through
+> **centralized logging and auditing infrastructure**.
 
 The solution implements a **configuration-as-code approach** with **38 data
 components** organized across configuration management, secrets management, and
@@ -112,14 +112,14 @@ Compliance** and **Operational Excellence** strategic objectives by:
 
 **Critical Gaps Requiring Remediation**:
 
-1. **Secret Rotation**: No automated rotation policy for GitHub tokens (Risk:
-   Credential exposure)
+1. **Secret Rotation**: No automated rotation policy for GitHub tokens **(Risk:
+   Credential exposure) - P0 PRIORITY**
 2. **Data Lineage**: Partial documentation of configuration propagation flows
-   (Risk: Impact analysis gaps)
+   **(Risk: Impact analysis gaps) - P1 PRIORITY**
 3. **Backup & Recovery**: No automated backup of configuration files to
-   versioned storage (Risk: Data loss)
-4. **Data Classification**: Missing automated PII detection in logs (Risk:
-   Compliance violation)
+   versioned storage **(Risk: Data loss) - P0 PRIORITY**
+4. **Data Classification**: Missing automated PII detection in logs **(Risk:
+   Compliance violation) - P0 PRIORITY**
 
 ### Key Findings & Recommendations
 
@@ -136,30 +136,30 @@ Compliance** and **Operational Excellence** strategic objectives by:
 
 **Risks & Mitigation**:
 
-| Risk                                 | Likelihood | Impact | Mitigation Strategy                                             | Priority |
-| ------------------------------------ | ---------- | ------ | --------------------------------------------------------------- | -------- |
-| GitHub token stored indefinitely     | High       | High   | Implement automated 90-day secret rotation policy               | 🔴 P0    |
-| No backup for configuration files    | Medium     | High   | Enable Git-based backup to Azure Repos with branch protection   | 🔴 P0    |
-| Log Analytics data retention limited | Low        | Medium | Archive logs to Azure Storage for 7-year retention (compliance) | 🟡 P1    |
-| No PII detection in diagnostic logs  | Medium     | High   | Implement Azure Purview data classification scanning            | 🔴 P0    |
-| Configuration drift undetected       | Medium     | Medium | Enable Azure Policy for conformance scanning with drift alerts  | 🟡 P1    |
+| Risk                                 | Likelihood | Impact | Mitigation Strategy                                             | Priority  |
+| ------------------------------------ | ---------- | ------ | --------------------------------------------------------------- | --------- |
+| GitHub token stored indefinitely     | High       | High   | Implement automated 90-day secret rotation policy               | 🔴 **P0** |
+| No backup for configuration files    | Medium     | High   | Enable Git-based backup to Azure Repos with branch protection   | 🔴 **P0** |
+| Log Analytics data retention limited | Low        | Medium | Archive logs to Azure Storage for 7-year retention (compliance) | 🟡 P1     |
+| No PII detection in diagnostic logs  | Medium     | High   | Implement Azure Purview data classification scanning            | 🔴 **P0** |
+| Configuration drift undetected       | Medium     | Medium | Enable Azure Policy for conformance scanning with drift alerts  | 🟡 P1     |
 
 **Recommendations**:
 
-1. **Immediate (0-30 days)**:
-   - Implement GitHub token rotation using Azure Key Vault rotation policy
-   - Enable Azure Policy for configuration drift detection
-   - Add PII detection rules to Log Analytics workspace
+1. **Immediate (0-30 days) - CRITICAL**:
+   - **Implement GitHub token rotation** using Azure Key Vault rotation policy
+   - **Enable Azure Policy** for configuration drift detection
+   - **Add PII detection rules** to Log Analytics workspace
 
 2. **Near-term (30-90 days)**:
-   - Implement automated backup of configuration files to Azure Storage
-   - Extend log retention to 7 years using cold tier storage
-   - Deploy Azure Purview for data catalog and lineage tracking
+   - **Implement automated backup** of configuration files to Azure Storage
+   - **Extend log retention** to 7 years using cold tier storage
+   - **Deploy Azure Purview** for data catalog and lineage tracking
 
 3. **Long-term (90+ days)**:
-   - Transition from batch to event-driven configuration propagation
-   - Implement real-time data quality monitoring with automated remediation
-   - Deploy Master Data Management hub for centralized resource metadata
+   - **Transition from batch** to event-driven configuration propagation
+   - **Implement real-time data quality monitoring** with automated remediation
+   - **Deploy Master Data Management hub** for centralized resource metadata
 
 ---
 
@@ -581,14 +581,15 @@ detection.
 
 ---
 
-## 3. Architecture Principles
+### 3. Architecture Principles
 
 ### Overview
 
 The Data layer architecture adheres to **7 foundational principles** that guide
 design decisions, technology selection, and operational practices. These
 principles establish the **data-as-a-product mindset** with emphasis on
-security-first design, schema-driven quality, and observable data flows.
+**security-first design**, **schema-driven quality**, and **observable data
+flows**.
 
 **Principle Hierarchy**:
 
@@ -602,9 +603,9 @@ security-first design, schema-driven quality, and observable data flows.
 
 ### Principle 1: Security First
 
-**Statement**: _All sensitive data MUST be encrypted at rest and in transit,
-with access controlled through Azure AD RBAC and audited through centralized
-logging._
+**Statement**: _All sensitive data **MUST be encrypted at rest and in transit**,
+with access controlled through **Azure AD RBAC REQUIRED** and **audited through
+centralized logging MANDATORY**._
 
 **Rationale**:  
 DevExp-DevBox handles Confidential data (GitHub tokens, Azure credentials)
@@ -613,13 +614,14 @@ access, or compliance violations.
 
 **Implications**:
 
-- ✅ Azure Key Vault mandatory for ALL secrets (no environment variables, config
-  files, or code)
-- ✅ All Key Vault operations logged to Log Analytics (100% audit coverage)
-- ✅ RBAC authorization required (no access policies fallback)
-- ✅ Purge protection enabled permanently (cannot be disabled)
-- ❌ Plain-text secrets in configuration files blocked at schema validation
-- ❌ Shared access keys or API tokens prohibited
+- ✅ Azure Key Vault **MANDATORY for ALL secrets** (no environment variables,
+  config files, or code)
+- ✅ All Key Vault operations **MUST be logged** to Log Analytics (100% audit
+  coverage REQUIRED)
+- ✅ RBAC authorization **REQUIRED** (no access policies fallback)
+- ✅ Purge protection **MUST be enabled permanently** (cannot be disabled)
+- ❌ Plain-text secrets in configuration files **BLOCKED at schema validation**
+- ❌ Shared access keys or API tokens **PROHIBITED**
 
 **Evidence**: `src/security/keyVault.bicep:45-60`,
 `infra/settings/security/security.yaml:17-19`
@@ -635,9 +637,9 @@ access, or compliance violations.
 
 ### Principle 2: Schema-Driven Quality
 
-**Statement**: _All configuration data MUST be validated against versioned JSON
-schemas at authoring time, enforcing structure, types, and constraints before
-deployment._
+**Statement**: _All configuration data **MUST be validated** against **versioned
+JSON schemas at authoring time**, enforcing structure, types, and constraints
+**BEFORE deployment**._
 
 **Rationale**:  
 Configuration errors are the leading cause of deployment failures (historically
@@ -647,13 +649,13 @@ deployment.
 
 **Implications**:
 
-- ✅ 100% of YAML configuration files have corresponding JSON schemas
-- ✅ Visual Studio Code schema validation provides real-time feedback
-- ✅ Deployment pipeline validates schema compliance before infrastructure
-  provisioning
-- ✅ Schema versioning (JSON Schema Draft 2020-12) prevents breaking changes
-- ❌ Ad-hoc configuration changes without schema updates blocked
-- ❌ Deployment proceeds only if all schemas validate successfully
+- ✅ **100% of YAML configuration files MUST have** corresponding JSON schemas
+- ✅ Visual Studio Code schema validation **MUST provide** real-time feedback
+- ✅ Deployment pipeline **MUST validate** schema compliance before
+  infrastructure provisioning
+- ✅ Schema versioning (JSON Schema Draft 2020-12) **PREVENTS breaking changes**
+- ❌ Ad-hoc configuration changes without schema updates **BLOCKED**
+- ❌ Deployment **ONLY proceeds** if all schemas validate successfully
 
 **Evidence**: `infra/settings/**/*.schema.json`, YAML `$schema` declarations
 
@@ -711,13 +713,14 @@ performance analysis.
 
 **Implications**:
 
-- ✅ Single Log Analytics workspace for entire DevExp-DevBox deployment
-- ✅ Diagnostic settings mandatory for all Azure resources
-- ✅ Structured logging (JSON) for queryability
-- ✅ 30-day retention in hot tier (configurable for compliance requirements)
-- ❌ Direct resource logging (e.g., storage account logs) bypassing Log
-  Analytics prohibited
-- ❌ Multiple Log Analytics workspaces per environment prohibited
+- ✅ Single Log Analytics workspace **MANDATORY** for entire DevExp-DevBox
+  deployment
+- ✅ Diagnostic settings **MANDATORY** for all Azure resources
+- ✅ Structured logging (JSON) **REQUIRED** for queryability
+- ✅ 30-day retention in hot tier **MINIMUM** (configurable for compliance
+  requirements)
+- ❌ Direct resource logging bypassing Log Analytics **PROHIBITED**
+- ❌ Multiple Log Analytics workspaces per environment **PROHIBITED**
 
 **Evidence**: `src/management/logAnalytics.bicep:1-96`, diagnostic settings in
 all modules
@@ -743,13 +746,14 @@ simplifies access reviews.
 
 **Implications**:
 
-- ✅ RBAC roles assigned at narrowest scope (Project > ResourceGroup >
-  Subscription)
-- ✅ Service principals and managed identities preferred over user accounts
-- ✅ "Read" roles default, "Write" roles require business justification
-- ✅ Access reviews quarterly (manually triggered)
-- ❌ Subscription-wide Contributor roles prohibited for application identities
-- ❌ Permanent access without expiration date discouraged
+- ✅ RBAC roles **MUST be assigned** at narrowest scope (Project >
+  ResourceGroup > Subscription)
+- ✅ Service principals and managed identities **PREFERRED** over user accounts
+- ✅ "Read" roles **DEFAULT**, "Write" roles **REQUIRE business justification**
+- ✅ Access reviews **MANDATORY quarterly** (manually triggered)
+- ❌ Subscription-wide Contributor roles **PROHIBITED** for application
+  identities
+- ❌ Permanent access without expiration date **DISCOURAGED**
 
 **Evidence**: `infra/settings/workload/devcenter.yaml:47-61` (role assignments
 scoped to Project/ResourceGroup)
@@ -775,14 +779,15 @@ Classification-based retention balances operational needs with risk management.
 
 **Implications**:
 
-- ✅ Confidential data (secrets): 90-day maximum retention, automated rotation
-  recommended
-- ✅ Internal data (logs): 30-day hot tier, archive to cold tier for compliance
-  (7-year)
-- ✅ Configuration data: Indefinite retention (version controlled in Git)
-- ✅ Soft delete recovery window: 7 days (Key Vault)
-- ❌ Retaining secrets beyond rotation period prohibited
-- ❌ PII in logs without anonymization prohibited
+- ✅ Confidential data (secrets): **90-day maximum retention REQUIRED**,
+  **automated rotation RECOMMENDED**
+- ✅ Internal data (logs): **30-day hot tier MINIMUM**, **archive to cold tier
+  for compliance (7-year) REQUIRED**
+- ✅ Configuration data: **Indefinite retention REQUIRED** (version controlled
+  in Git)
+- ✅ Soft delete recovery window: **7 days MINIMUM** (Key Vault)
+- ❌ Retaining secrets beyond rotation period **PROHIBITED**
+- ❌ PII in logs without anonymization **PROHIBITED**
 
 **Evidence**: `infra/settings/security/security.yaml:18`, Log Analytics
 retention settings
@@ -808,12 +813,14 @@ remediation, and confident redeployment.
 
 **Implications**:
 
-- ✅ Bicep modules use declarative syntax (Azure RM enforces idempotency)
-- ✅ Resource names include unique suffixes (prevents conflicts)
-- ✅ Conditional resource creation (if statements) for optional components
-- ✅ Safe to run deployment pipeline multiple times without manual cleanup
-- ❌ Imperative scripts (Azure CLI loops) that create resources prohibited
-- ❌ Deployment logic that depends on previous state prohibited
+- ✅ Bicep modules **MUST use** declarative syntax (Azure RM enforces
+  idempotency)
+- ✅ Resource names **MUST include** unique suffixes (prevents conflicts)
+- ✅ Conditional resource creation **REQUIRED** (if statements) for optional
+  components
+- ✅ **Safe to run** deployment pipeline multiple times without manual cleanup
+- ❌ Imperative scripts (Azure CLI loops) that create resources **PROHIBITED**
+- ❌ Deployment logic that depends on previous state **PROHIBITED**
 
 **Evidence**: `src/security/keyVault.bicep:42` (unique suffix), Bicep resource
 definitions
@@ -943,11 +950,11 @@ flowchart LR
 **Critical Compliance Gaps**:
 
 1. **GDPR Right to be Forgotten**: No automated secret deletion after user
-   departure
+   departure **- P0 REMEDIATION REQUIRED**
 2. **SOX 7-Year Retention**: Log Analytics only retains 30 days (archive tier
-   required)
+   required) **- P1 REMEDIATION REQUIRED**
 3. **PCI DSS Network Isolation**: Key Vault accessible from public internet
-   (private endpoints required)
+   (private endpoints required) **- P0 REMEDIATION REQUIRED**
 
 ### Baseline Data Flows Bandwidth
 
@@ -963,16 +970,16 @@ flowchart LR
 
 **Top 5 Gaps Requiring Immediate Action**:
 
-1. **🔴 P0**: Secret Rotation - Implement 90-day automated rotation for GitHub
-   tokens
-2. **🔴 P0**: Network Isolation - Deploy private endpoints for Key Vault to
-   eliminate public access
-3. **🔴 P0**: PII Detection - Enable automated PII scanning in Log Analytics
-   workspace
-4. **🔴 P0**: Configuration Backup - Implement automated backup of YAML files to
-   Azure Storage
-5. **🟡 P1**: Log Archival - Enable cold tier storage for 7-year log retention
-   (SOX compliance)
+1. **🔴 P0**: **Secret Rotation** - Implement **90-day automated rotation** for
+   GitHub tokens **REQUIRED**
+2. **🔴 P0**: **Network Isolation** - Deploy **private endpoints for Key Vault**
+   to **eliminate public access MANDATORY**
+3. **🔴 P0**: **PII Detection** - Enable **automated PII scanning** in Log
+   Analytics workspace **REQUIRED**
+4. **🔴 P0**: **Configuration Backup** - Implement **automated backup of YAML
+   files** to Azure Storage **MANDATORY**
+5. **🟡 P1**: **Log Archival** - Enable **cold tier storage for 7-year log
+   retention** (SOX compliance)
 
 **Roadmap to Target State (6 months)**:
 
@@ -1076,8 +1083,9 @@ _[Additional 9 entities documented with same level of detail - abbreviated here
 for space]_
 
 **Key Finding**: GitHub Access Token lacks automated rotation policy despite
-Confidential classification and 90-day retention recommendation. Risk:
-Credential exposure window extends indefinitely without manual intervention.
+Confidential classification and 90-day retention recommendation. **Risk:
+Credential exposure window extends indefinitely without manual intervention (P0
+CRITICAL GAP)**.
 
 ### 5.2 Data Models
 
