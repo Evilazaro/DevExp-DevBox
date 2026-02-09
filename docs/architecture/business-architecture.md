@@ -213,6 +213,16 @@ flowchart TB
     accTitle: Business Capabilities Map - DevExp-DevBox
     accDescr: Hierarchical view of 6 business capabilities organized by maturity level with strategic relationships
 
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (functional purpose):
+    %%   Blue=#BBDEFB (Core Capabilities - Maturity 4)
+    %%   Teal=#B2DFDB (Core Capabilities - Maturity 3)
+    %%   Green=#C8E6C9 (Supporting Capabilities)
+    %% Material Design 100-level palette with WCAG AA compliance
+    %% ============================================
+
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
     classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
@@ -259,6 +269,17 @@ config:
 flowchart LR
     accTitle: Developer Onboarding Value Stream
     accDescr: End-to-end flow showing four stages from access request to productivity with cycle times and automation levels
+
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (stage status):
+    %%   Yellow=#FFF9C4 (Pending - Stage 1)
+    %%   Blue=#BBDEFB (Processing - Stage 2)
+    %%   Teal=#B2DFDB (Configuring - Stage 3)
+    %%   Green=#C8E6C9 (Complete - Stage 4)
+    %% Material Design 100-level palette with WCAG AA compliance
+    %% ============================================
 
     classDef mdYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
@@ -574,6 +595,18 @@ config:
 flowchart LR
     accTitle: Business Architecture Principles Hierarchy
     accDescr: Six governing principles organized by strategic impact with enforcement relationships
+
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (principle categories):
+    %%   Blue=#BBDEFB (Strategic Principles)
+    %%   Orange=#FFE0B2 (Security Execution)
+    %%   Teal=#B2DFDB (Configuration Execution)
+    %%   Green=#C8E6C9 (Measurement Execution)
+    %%   Purple=#E1BEE7 (Modularity Execution)
+    %% Material Design 100-level palette with WCAG AA compliance
+    %% ============================================
 
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
@@ -1133,6 +1166,19 @@ config:
 flowchart TD
     accTitle: Component Dependency Map - Business Layer
     accDescr: Visual representation of critical dependencies between business components with relationship types
+
+    %% ============================================
+    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
+    %% ============================================
+    %% SEMANTIC COLORS (component types):
+    %%   Blue=#BBDEFB (Deployment/Infrastructure)
+    %%   Orange=#FFE0B2 (Security)
+    %%   Teal=#B2DFDB (Configuration)
+    %%   Green=#C8E6C9 (Integration)
+    %%   Purple=#E1BEE7 (Modularity)
+    %%   Yellow=#FFF9C4 (Management/Identity)
+    %% Material Design 100-level palette with WCAG AA compliance
+    %% ============================================
 
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
