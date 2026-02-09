@@ -95,29 +95,29 @@ flowchart TB
             env["🌐 Environment Types<br/>dev/test/prod"]:::workload
             cat["📚 Catalogs<br/>GitHub integration"]:::workload
 
-            dc --> proj
-            proj --> pool
-            proj --> env
-            dc --> cat
+            dc -->|"manages"| proj
+            proj -->|"provisions"| pool
+            proj -->|"defines"| env
+            dc -->|"syncs"| cat
         end
 
         subgraph Connectivity["🔌 Network Layer"]
             direction LR
             vnet["🌐 Virtual Network<br/>10.0.0.0/16"]:::network
             nc["🔗 Network Connection<br/>Managed networking"]:::network
-            vnet --> nc
+            vnet -->|"provides"| nc
         end
     end
 
-    dc -.->|managed identity| kv
-    dc -.->|diagnostic logs| la
-    pool -.->|network attachment| nc
-    proj -.->|diagnostic logs| la
+    dc -.->|"authenticates via"| kv
+    dc -.->|"sends logs to"| la
+    pool -.->|"attaches to"| nc
+    proj -.->|"streams metrics to"| la
 
-    classDef security fill:#e74c3c,stroke:#c0392b,color:#fff
-    classDef monitoring fill:#3498db,stroke:#2980b9,color:#fff
-    classDef workload fill:#2ecc71,stroke:#27ae60,color:#fff
-    classDef network fill:#9b59b6,stroke:#8e44ad,color:#fff
+    classDef security fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
+    classDef monitoring fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
+    classDef workload fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
+    classDef network fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
 ```
 
 **Component Roles:**
