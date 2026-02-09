@@ -32,12 +32,14 @@ Business Architecture** standards and focuses on strategic capabilities, value
 streams, and business processes that enable zero-touch developer workstation
 provisioning.
 
-DevExp-DevBox transforms traditional developer onboarding from a **3-5 day
-manual process** into a **sub-10-minute automated workflow**, achieving **85%
-faster time-to-productivity** while reducing IT support burden by **60%**. The
-solution implements a **capability-driven architecture** with six core
-capabilities organized across security, infrastructure, and developer experience
-domains.
+> 💡 **Key Achievement**: DevExp-DevBox transforms traditional developer
+> onboarding from a **3-5 day manual process** into a **sub-10-minute automated
+> workflow**, achieving **85% faster time-to-productivity** while reducing IT
+> support burden by **60%**.
+
+The solution implements a **capability-driven architecture** with **six core
+capabilities** organized across security, infrastructure, and developer
+experience domains.
 
 ### Strategic Context
 
@@ -47,20 +49,22 @@ by:
 
 - **Accelerating Innovation**: Reducing developer onboarding from days to
   minutes enables faster project startup and experimentation
-- **Reducing Operational Costs**: 60% reduction in IT support tickets translates
-  to measurable cost savings ($500K annually for 50-developer organization)
-- **Ensuring Security Compliance**: Security-by-default approach with Azure Key
-  Vault, RBAC, and managed identities ensures zero security incidents from
-  configuration drift
-- **Enabling Scalability**: Infrastructure-as-Code (IaC) approach supports rapid
-  scaling across projects and teams without manual intervention
-- **Improving Developer Satisfaction**: Self-service Dev Box provisioning
+- **Reducing Operational Costs**: **60% reduction** in IT support tickets
+  translates to measurable **cost savings ($500K annually** for 50-developer
+  organization)
+- **Ensuring Security Compliance**: **Security-by-default** approach with Azure
+  Key Vault, RBAC, and managed identities ensures **zero security incidents**
+  from configuration drift
+- **Enabling Scalability**: **Infrastructure-as-Code (IaC)** approach supports
+  rapid scaling across projects and teams without manual intervention
+- **Improving Developer Satisfaction**: **Self-service** Dev Box provisioning
   eliminates waiting queues and empowers developer autonomy
 
 ### Capability Maturity Overview
 
-The analysis identified **6 primary business capabilities** with an average
-maturity of **3.5 (between Defined and Measured)**:
+> 📌 **Maturity Assessment**: Analysis identified **6 primary business
+> capabilities** with an average maturity of **3.5 (between Defined and
+> Measured)**.
 
 | Capability Domain        | Capabilities | Avg Maturity | Strategic Priority |
 | ------------------------ | ------------ | ------------ | ------------------ |
@@ -69,20 +73,20 @@ maturity of **3.5 (between Defined and Measured)**:
 
 **Highest Maturity Capabilities**:
 
-- Zero-Touch Deployment (Level 4 - Measured)
-- Security Automation (Level 4 - Measured)
+- **Zero-Touch Deployment** (Level 4 - Measured)
+- **Security Automation** (Level 4 - Measured)
 
 **Improvement Opportunities**:
 
-- GitHub Catalog Synchronization (Level 3 → Level 4: Add telemetry and
-  performance monitoring)
-- Configuration Management (Level 3 → Level 4: Implement drift detection and
-  automated remediation)
+- GitHub Catalog Synchronization (Level 3 → Level 4: **Add telemetry and
+  performance monitoring**)
+- Configuration Management (Level 3 → Level 4: **Implement drift detection and
+  automated remediation**)
 
 ### Value Stream Performance
 
-The **Developer Onboarding** value stream demonstrates **industry-leading
-performance**:
+> 💡 **Performance Highlight**: The **Developer Onboarding** value stream
+> demonstrates **industry-leading performance** across all metrics.
 
 | Metric                     | Baseline    | Current     | Improvement |
 | -------------------------- | ----------- | ----------- | ----------- |
@@ -93,24 +97,25 @@ performance**:
 
 **Critical Success Factors**:
 
-- Pre-configured Dev Box images eliminate tool installation delays
-- Automated GitHub catalog synchronization ensures latest environment
+- **Pre-configured Dev Box images** eliminate tool installation delays
+- **Automated GitHub catalog synchronization** ensures latest environment
   definitions
-- Role-based access control (RBAC) enforcement provides secure, immediate access
+- **Role-based access control (RBAC)** enforcement provides secure, immediate
+  access
 
 ### Key Findings
 
 #### Strengths
 
-- ✅ **Mature Security Posture**: Security capabilities at Level 4 with
-  comprehensive RBAC, Key Vault integration, and zero security incidents over 12
-  months
-- ✅ **Measurable Business Impact**: Quantified KPIs (85% faster onboarding, 60%
-  fewer tickets, $500K annual savings) support clear ROI justification
+- ✅ **Mature Security Posture**: Security capabilities at **Level 4** with
+  comprehensive RBAC, Key Vault integration, and **zero security incidents**
+  over 12 months
+- ✅ **Measurable Business Impact**: **Quantified KPIs** (85% faster onboarding,
+  60% fewer tickets, $500K annual savings) support clear ROI justification
 - ✅ **Strong Strategic Alignment**: All business capabilities directly map to
   organizational digital transformation goals
-- ✅ **Proven Scalability**: Architecture supports 100+ concurrent developers
-  without performance degradation
+- ✅ **Proven Scalability**: Architecture supports **100+ concurrent
+  developers** without performance degradation
 
 #### Improvement Opportunities
 
@@ -123,12 +128,15 @@ performance**:
 
 #### Risks
 
-- 🔴 **Manual Prerequisites**: Azure AD group creation remains manual, creating
-  potential bottleneck for large-scale rollouts
-- 🟡 **VNet Dependency**: Projects require pre-existing VNets or `create: true`
-  flag, which can cause deployment failures if misconfigured
-- 🟡 **Catalog Sync Troubleshooting**: Manual intervention required for private
-  repository authentication failures
+> ⚠️ **Critical Dependencies**: Be aware of manual prerequisites and deployment
+> dependencies that may impact rollout timelines.
+
+- 🔴 **Manual Prerequisites**: Azure AD group creation **remains manual**,
+  creating potential **bottleneck for large-scale rollouts**
+- 🟡 **VNet Dependency**: Projects **MUST have pre-existing VNets** or
+  `create: true` flag, which **can cause deployment failures** if misconfigured
+- 🟡 **Catalog Sync Troubleshooting**: **Manual intervention required** for
+  private repository authentication failures
 
 ### Document Structure
 
@@ -157,6 +165,10 @@ components identified in the DevExp-DevBox solution. Each component is
 classified by type, confidence level, maturity stage, and source traceability.
 This section serves as the **component catalog** with summary tables; detailed
 specifications are in Section 5.
+
+> 📋 **Inventory Overview**: This landscape catalogs **52 components** across
+> **11 Business component types** with an average confidence of **0.89** and
+> maturity of **3.4** (Defined to Measured).
 
 **Analysis Summary**:
 
@@ -314,13 +326,13 @@ This subsection documents people/systems participating in processes.
 
 This subsection documents policies, constraints, and decision logic.
 
-| Name                              | Description                                                                                   | Source                                       | Confidence | Maturity     |
-| --------------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------- | ---------- | ------------ |
-| Identity Type Standard            | **Policy rule**: All DevCenter and project identities MUST use SystemAssigned managed type    | infra/settings/workload/devcenter.yaml:25-30 | 0.96       | 4 - Measured |
-| RBAC Principle of Least Privilege | **Security rule**: Role assignments follow minimum necessary permissions for function         | infra/settings/workload/devcenter.yaml:30-60 | 0.95       | 4 - Measured |
-| Environment Type Mapping          | **Configuration rule**: Projects define which environment types (dev/staging/UAT) are enabled | infra/settings/workload/devcenter.yaml:70-83 | 0.93       | 3 - Defined  |
-| Catalog Sync Frequency            | **Operational rule**: GitHub catalogs sync every 15 minutes when `Enabled` status             | infra/settings/workload/devcenter.yaml:20    | 0.92       | 3 - Defined  |
-| VNet Pre-Creation Requirement     | **Deployment rule**: Projects MUST have existing VNet or `create: true` flag before deploy    | README.md:150-180                            | 0.90       | 3 - Defined  |
+| Name                              | Description                                                                                       | Source                                       | Confidence | Maturity     |
+| --------------------------------- | ------------------------------------------------------------------------------------------------- | -------------------------------------------- | ---------- | ------------ |
+| Identity Type Standard            | **Policy rule**: All DevCenter and project identities **MUST use SystemAssigned** managed type    | infra/settings/workload/devcenter.yaml:25-30 | 0.96       | 4 - Measured |
+| RBAC Principle of Least Privilege | **Security rule**: Role assignments **follow minimum necessary permissions** for function         | infra/settings/workload/devcenter.yaml:30-60 | 0.95       | 4 - Measured |
+| Environment Type Mapping          | **Configuration rule**: Projects **define which environment types** (dev/staging/UAT) are enabled | infra/settings/workload/devcenter.yaml:70-83 | 0.93       | 3 - Defined  |
+| Catalog Sync Frequency            | **Operational rule**: GitHub catalogs **sync every 15 minutes** when `Enabled` status             | infra/settings/workload/devcenter.yaml:20    | 0.92       | 3 - Defined  |
+| VNet Pre-Creation Requirement     | **Deployment rule**: Projects **MUST have existing VNet** or `create: true` flag before deploy    | README.md:150-180                            | 0.90       | 3 - Defined  |
 
 ### 2.9 Business Events
 
@@ -372,24 +384,24 @@ decisions and ensure alignment with organizational standards.
 
 ### 3.1 Capability-Driven Design
 
-**Principle Statement**: Business architecture must organize around
-**capabilities** (what the organization can do) rather than organizational
+**Principle Statement**: Business architecture **must organize around
+capabilities** (what the organization can do) rather than organizational
 structure (how it's organized).
 
 **Rationale**: Capabilities remain stable as organizational structures change,
 providing a durable foundation for strategic planning. DevExp-DevBox
-demonstrates this through six core capabilities (Zero-Touch Deployment, Security
-Automation, Configuration as Code, Modular Infrastructure, Multi-Platform
-Support, GitHub Catalog Sync) that persist independently of team
+demonstrates this through **six core capabilities** (Zero-Touch Deployment,
+Security Automation, Configuration as Code, Modular Infrastructure,
+Multi-Platform Support, GitHub Catalog Sync) that persist independently of team
 reorganizations.
 
 **Implications**:
 
-- Architecture documentation focuses on **what** the organization can achieve
+- Architecture documentation **focuses on what the organization can achieve**
   (capabilities) rather than **who** performs the work (org charts)
-- Capability maturity assessments drive investment decisions and improvement
+- **Capability maturity assessments drive investment decisions** and improvement
   roadmaps
-- New projects inherit proven capabilities through standardized patterns and
+- New projects **inherit proven capabilities** through standardized patterns and
   reusable modules
 
 **Evidence in Implementation**: README.md features capability-centric
@@ -398,86 +410,89 @@ mappings.
 
 **Enforcement**:
 
-- Architecture reviews validate capability definitions against TOGAF standards
-- Quarterly capability maturity assessments track progression toward strategic
-  goals
-- Investment decisions require capability impact analysis
+- Architecture reviews **validate capability definitions** against TOGAF
+  standards
+- **Quarterly capability maturity assessments** track progression toward
+  strategic goals
+- Investment decisions **require capability impact analysis**
 
 ### 3.2 Value Stream Focus
 
-**Principle Statement**: Business processes must optimize **end-to-end value
+**Principle Statement**: Business processes **must optimize end-to-end value
 delivery** from customer trigger to outcome, not local efficiency.
 
 **Rationale**: Sub-optimization occurs when individual steps are optimized
 without considering total cycle time. DevExp-DevBox's Developer Onboarding value
-stream demonstrates this principle by measuring total flow (3-5 days → <10
+stream demonstrates this principle by **measuring total flow** (3-5 days → <10
 minutes) rather than individual task durations.
 
 **Implications**:
 
-- Performance metrics measure value stream cycle time, not departmental
+- Performance metrics **measure value stream cycle time**, not departmental
   productivity
-- Handoffs between stages are automated or eliminated to reduce wait time
-- Process improvements prioritize reducing total lead time over local task
+- Handoffs between stages are **automated or eliminated** to reduce wait time
+- Process improvements **prioritize reducing total lead time** over local task
   optimization
 
-**Evidence in Implementation**: Developer Onboarding value stream achieves 85%
-cycle time reduction through automation of all handoffs between stages (access
+**Evidence in Implementation**: Developer Onboarding value stream achieves **85%
+cycle time reduction** through automation of all handoffs between stages (access
 request → provisioning → configuration → productivity).
 
 **Enforcement**:
 
-- KPIs track end-to-end value stream performance (onboarding time, deployment
-  success rate)
-- Process changes require value stream impact analysis before approval
+- KPIs **track end-to-end value stream performance** (onboarding time,
+  deployment success rate)
+- Process changes **require value stream impact analysis** before approval
 - Bottleneck analysis identifies constraints in end-to-end flow, not
   departmental backlogs
 
 ### 3.3 Security as Foundation
 
-**Principle Statement**: Security controls must be **embedded in architecture**,
+**Principle Statement**: Security controls **must be embedded in architecture**,
 not added as afterthoughts.
 
 **Rationale**: Retrofitting security introduces complexity, delays, and
-potential gaps. DevExp-DevBox implements security-by-default through automated
-Key Vault provisioning, managed identities, and RBAC enforcement, achieving zero
-security incidents over 12 months.
+potential gaps. DevExp-DevBox implements **security-by-default** through
+automated Key Vault provisioning, managed identities, and RBAC enforcement,
+achieving **zero security incidents** over 12 months.
 
 **Implications**:
 
-- All infrastructure provisioning includes security controls (Key Vault, managed
-  identities, RBAC)
-- Security decisions are architectural, not operational (e.g., SystemAssigned
-  identity type is mandatory)
-- Zero-trust principles guide access control design (principle of least
+- **All infrastructure provisioning includes security controls** (Key Vault,
+  managed identities, RBAC)
+- **Security decisions are architectural**, not operational (e.g.,
+  SystemAssigned identity type is **mandatory**)
+- **Zero-trust principles** guide access control design (principle of least
   privilege)
 
-**Evidence in Implementation**: Security Automation capability (Level 4 -
-Measured) with automated RBAC enforcement and 100% managed identity adoption.
+**Evidence in Implementation**: Security Automation capability (**Level 4 -
+Measured**) with automated RBAC enforcement and **100% managed identity
+adoption**.
 
 **Enforcement**:
 
-- Identity Type Standard business rule (BR-001) mandates SystemAssigned managed
-  identities
-- RBAC reviews validate principle of least privilege compliance before
+- Identity Type Standard business rule (BR-001) **mandates SystemAssigned**
+  managed identities
+- RBAC reviews **validate principle of least privilege** compliance before
   deployment
-- Azure Policy integration prevents non-compliant resource creation
+- Azure Policy integration **prevents non-compliant resource creation**
 
 ### 3.4 Configuration as Code
 
-**Principle Statement**: All business-relevant configurations must be
-**declarative, version-controlled, and auditable**.
+**Principle Statement**: All business-relevant configurations **must be
+declarative, version-controlled, and auditable**.
 
 **Rationale**: Manual configuration creates drift, lacks audit trails, and
-prevents repeatable deployments. DevExp-DevBox uses YAML-based configuration
-with JSON schema validation, enabling Git-based workflows, peer review, and
+prevents repeatable deployments. DevExp-DevBox uses **YAML-based configuration
+with JSON schema validation**, enabling Git-based workflows, peer review, and
 compliance evidence.
 
 **Implications**:
 
-- Configuration changes follow Git workflows (branch → review → merge → deploy)
-- JSON schema validation prevents invalid configurations at authoring time
-- Version control provides immutable audit trail for compliance and
+- Configuration changes **follow Git workflows** (branch → review → merge →
+  deploy)
+- **JSON schema validation prevents invalid configurations** at authoring time
+- Version control provides **immutable audit trail** for compliance and
   troubleshooting
 
 **Evidence in Implementation**:
@@ -487,39 +502,41 @@ with inline documentation.
 
 **Enforcement**:
 
-- Pre-commit hooks validate YAML against JSON schemas before Git commit
-- Pull request reviews require approval from Platform Engineering Team
-- Deployment automation (`azd up`) rejects configurations that fail schema
-  validation
+- **Pre-commit hooks validate YAML** against JSON schemas before Git commit
+- Pull request reviews **require approval** from Platform Engineering Team
+- Deployment automation (`azd up`) **rejects configurations that fail schema
+  validation**
 
 ### 3.5 Process Optimization Through Measurement
 
-**Principle Statement**: Business processes must evolve based on **quantified
+**Principle Statement**: Business processes **must evolve based on quantified
 KPI measurements**, not assumptions.
 
 **Rationale**: Data-driven improvement requires baseline measurements and
-continuous monitoring. DevExp-DevBox establishes clear metrics (85% onboarding
-time reduction, 60% ticket reduction, zero security incidents) to justify ROI
-and guide optimization efforts.
+continuous monitoring. DevExp-DevBox establishes **clear metrics** (85%
+onboarding time reduction, 60% ticket reduction, zero security incidents) to
+justify ROI and guide optimization efforts.
 
 **Implications**:
 
-- All strategic capabilities have defined maturity levels with measurement
+- All strategic capabilities **have defined maturity levels** with measurement
   criteria
-- KPIs are tracked at value stream level (end-to-end onboarding time, not
+- KPIs are **tracked at value stream level** (end-to-end onboarding time, not
   individual step durations)
-- Process changes require quantifiable impact prediction and post-deployment
+- Process changes **require quantifiable impact prediction** and post-deployment
   validation
 
-**Evidence in Implementation**: Four KPIs tracked at Level 4 (Measured)
+**Evidence in Implementation**: **Four KPIs tracked at Level 4 (Measured)**
 maturity: Onboarding Time Reduction (85%), IT Support Ticket Reduction (60%),
 Security Incident Rate (zero), Deployment Success Rate (99.2%).
 
 **Enforcement**:
 
-- Quarterly capability maturity assessments validate measurement instrumentation
-- Improvement initiatives require baseline metric capture before implementation
-- Post-deployment reviews compare actual vs. predicted KPI impacts
+- **Quarterly capability maturity assessments** validate measurement
+  instrumentation
+- Improvement initiatives **require baseline metric capture** before
+  implementation
+- Post-deployment reviews **compare actual vs. predicted KPI impacts**
 
 ### 3.6 Modular Composability
 
@@ -602,8 +619,8 @@ capability gap identification.
 
 DevExp-DevBox demonstrates **strong overall maturity** with an average of **3.5
 (between Defined and Measured)** across six business capabilities. The
-distribution skews toward higher maturity levels, with 67% of capabilities at
-Level 3 or above.
+distribution skews toward higher maturity levels, with **67% of capabilities at
+Level 3 or above**.
 
 | Capability             | Current Maturity | Evidence                                                   | Target (12 months) |
 | ---------------------- | ---------------- | ---------------------------------------------------------- | ------------------ |
@@ -614,27 +631,30 @@ Level 3 or above.
 | Multi-Platform Support | **3 - Defined**  | PowerShell/Bash scripts tested on Windows/Linux/macOS      | 3 - Defined        |
 | GitHub Catalog Sync    | **3 - Defined**  | Automated sync enabled, manual troubleshooting for private | 4 - Measured       |
 
+> 📌 **Improvement Roadmap**: Focus on advancing Configuration as Code and
+> GitHub Catalog Sync to Level 4 (Measured) maturity within 12 months.
+
 **Maturity Progression Plan**:
 
 **Zero-Touch Deployment (4 → 5)**:
 
-- [ ] Implement predictive analytics for deployment time estimation
-- [ ] Add automated optimization suggestions (e.g., SKU right-sizing)
-- [ ] Enable A/B testing of deployment strategies for continuous improvement
+- [ ] Implement **predictive analytics** for deployment time estimation
+- [ ] Add **automated optimization suggestions** (e.g., SKU right-sizing)
+- [ ] Enable **A/B testing of deployment strategies** for continuous improvement
 
 **Configuration as Code (3 → 4)**:
 
-- [ ] Implement automated drift detection comparing deployed vs. configured
+- [ ] Implement **automated drift detection** comparing deployed vs. configured
       state
-- [ ] Add telemetry for configuration change frequency and error rates
-- [ ] Create dashboard tracking configuration change impact on deployment
+- [ ] Add **telemetry for configuration change frequency** and error rates
+- [ ] Create **dashboard tracking configuration change impact** on deployment
       success rate
 
 **GitHub Catalog Sync (3 → 4)**:
 
-- [ ] Add performance monitoring for sync duration and error rate
-- [ ] Implement alerting for sync failures with automated retry logic
-- [ ] Track catalog update frequency and rollback events
+- [ ] Add **performance monitoring** for sync duration and error rate
+- [ ] Implement **alerting for sync failures** with automated retry logic
+- [ ] Track **catalog update frequency** and rollback events
 
 ### 4.2 Value Stream Performance Baseline
 
@@ -648,21 +668,26 @@ performance**:
 | Configuration Error Rate   | 15-20%                | <1%           | **94%**     | <0.5%             |
 | IT Support Hours/Developer | 8-12 hours            | 0.5-1 hour    | **60%**     | <0.25 hours       |
 
+> ⚠️ **Bottleneck Analysis**: While most bottlenecks are resolved, Azure AD
+> group provisioning and Dev Box image customization remain manual processes
+> requiring attention.
+
 **Bottleneck Analysis**:
 
 **Resolved Bottlenecks**:
 
-- ✅ Manual Azure resource creation (Security layer) - now automated via Bicep
-- ✅ VNet configuration errors - JSON schema validation prevents
-  misconfigurations
-- ✅ Secret management overhead - automated Key Vault provisioning with RBAC
+- ✅ Manual Azure resource creation (Security layer) - now **automated via
+  Bicep**
+- ✅ VNet configuration errors - **JSON schema validation prevents
+  misconfigurations**
+- ✅ Secret management overhead - **automated Key Vault provisioning** with RBAC
 
 **Remaining Bottlenecks**:
 
-- 🟡 Azure AD group creation for role assignments - requires manual
-  pre-provisioning (impact: 0-4 hours in Stage 1)
-- 🟡 Dev Box image customization - requires separate image definition workflow
-  (impact: 30-60 minutes for custom images)
+- 🟡 **Azure AD group creation** for role assignments - requires manual
+  pre-provisioning (impact: **0-4 hours in Stage 1**)
+- 🟡 **Dev Box image customization** - requires separate image definition
+  workflow (impact: **30-60 minutes for custom images**)
 
 **Optimization Initiatives**:
 
@@ -767,16 +792,20 @@ single-command provisioning with 99.2% success rate.
 | **Maturity**            | 4 - Measured                                           |
 
 **Strategic Rationale**: Manual developer workstation provisioning generates
-8-12 support hours per developer for troubleshooting configuration errors, tool
-installation failures, and permission problems. Automating these tasks reduces
-support burden and allows IT staff to focus on strategic initiatives.
+**8-12 support hours per developer** for troubleshooting configuration errors,
+tool installation failures, and permission problems. Automating these tasks
+reduces support burden and allows IT staff to focus on strategic initiatives.
+
+> 💡 **Business Impact**: This strategy delivers $500K annual savings for a
+> 50-developer organization, with support staff redirecting 60% of time from
+> reactive troubleshooting to proactive innovation.
 
 **Business Impact**:
 
-- **Cost Savings**: $500K annual savings (50-developer organization)
-- **Resource Reallocation**: IT staff redirect 60% of time to innovation vs.
+- **Cost Savings**: **$500K annual savings** (50-developer organization)
+- **Resource Reallocation**: IT staff **redirect 60% of time** to innovation vs.
   support
-- **Scalability**: Support overhead doesn't increase linearly with developer
+- **Scalability**: Support overhead **doesn't increase linearly** with developer
   headcount
 
 #### 5.1.3 Security Compliance Strategy
@@ -796,15 +825,20 @@ support burden and allows IT staff to focus on strategic initiatives.
 
 **Strategic Rationale**: Manual security configuration introduces human error,
 inconsistent RBAC enforcement, and compliance gaps. DevExp-DevBox automates
-Azure Key Vault provisioning, managed identity assignments, and role-based
-access control, ensuring every Dev Box meets security standards without manual
+**Azure Key Vault provisioning, managed identity assignments, and role-based
+access control**, ensuring every Dev Box meets security standards without manual
 intervention.
+
+> 🔒 **Security Achievement**: Zero security incidents over 12 months
+> demonstrates the effectiveness of automated security controls embedded in the
+> architecture.
 
 **Business Impact**:
 
-- **Compliance Efficiency**: 90% reduction in audit preparation time
-- **Risk Mitigation**: Eliminated configuration drift as attack surface
-- **Audit Trail**: Version-controlled IaC provides immutable compliance evidence
+- **Compliance Efficiency**: **90% reduction** in audit preparation time
+- **Risk Mitigation**: **Eliminated configuration drift** as attack surface
+- **Audit Trail**: Version-controlled IaC provides **immutable compliance
+  evidence**
 
 ### 5.2 Business Capabilities Specifications
 
@@ -823,28 +857,31 @@ intervention.
 | **Source**                | README.md:55-58                                                            |
 | **Confidence**            | 0.96                                                                       |
 
+> 🎯 **Strategic Differentiator**: Zero-Touch Deployment is the core capability
+> enabling 85% onboarding time reduction with single-command provisioning.
+
 **Capability Description**: Zero-Touch Deployment enables provisioning of
 Security, Monitoring, Connectivity, and Workload architectural layers through
-single `azd up` command execution. The capability abstracts complex Azure
+**single `azd up` command execution**. The capability abstracts complex Azure
 resource orchestration behind declarative YAML configuration interface.
 
 **Key Capability Components**:
 
 1. **Pre-Flight Validation**: [`setUp.ps1`](setUp.ps1)/[`setUp.sh`](setUp.sh)
-   scripts verify prerequisites (Azure CLI, permissions, GitHub token)
-2. **Layered Provisioning**: Sequential deployment across four layers with
+   scripts **verify prerequisites** (Azure CLI, permissions, GitHub token)
+2. **Layered Provisioning**: **Sequential deployment** across four layers with
    explicit dependency management
-3. **Idempotent Execution**: Re-running `azd up` updates resources without
-   duplication (state managed by Bicep)
-4. **Error Recovery**: Automated rollback on deployment failure with detailed
-   error logging to Log Analytics
+3. **Idempotent Execution**: Re-running `azd up` **updates resources without
+   duplication** (state managed by Bicep)
+4. **Error Recovery**: **Automated rollback** on deployment failure with
+   detailed error logging to Log Analytics
 
 **Maturity Evidence** (Level 4 - Measured):
 
-- Quantified performance: 5-10 minute average provisioning time
-- Success rate tracking: 99.2% deployments complete without manual intervention
-  (Q4 2025)
-- Baseline comparison: 85% time reduction vs. manual baseline (3-5 days)
+- Quantified performance: **5-10 minute average** provisioning time
+- Success rate tracking: **99.2% deployments** complete without manual
+  intervention (Q4 2025)
+- Baseline comparison: **85% time reduction** vs. manual baseline (3-5 days)
 
 **Maturity Roadmap** (4 → 5: Optimized):
 
@@ -873,34 +910,30 @@ resource orchestration behind declarative YAML configuration interface.
 | **Confidence**            | 0.95                                                                  |
 
 **Capability Description**: Security Automation embeds security controls in
-infrastructure provisioning through automated Key Vault creation, managed
-identity assignment, and RBAC enforcement. This eliminates manual secret
+infrastructure provisioning through **automated Key Vault creation, managed
+identity assignment, and RBAC enforcement**. This eliminates manual secret
 management and reduces attack surface.
 
 **Key Security Controls Automated**:
 
-1. **Secrets Management**: Key Vault provisioned with RBAC for DevCenter and
+1. **Secrets Management**: Key Vault **provisioned with RBAC** for DevCenter and
    project identities
-2. **Identity Management**: SystemAssigned managed identities for password-less
-   authentication
-3. **Access Control**: Principle of least privilege enforced through role-based
-   permissions
-4. **Audit Logging**: Log Analytics workspace captures all security events for
-   compliance
+2. **Identity Management**: **SystemAssigned managed identities** for
+   password-less authentication
+3. **Access Control**: **Principle of least privilege enforced** through
+   role-based permissions
+4. **Audit Logging**: Log Analytics workspace **captures all security events**
+   for compliance
+
+> 🔒 **Compliance Mappings**: This capability directly supports SOC 2 (CC6.1,
+> CC6.2), ISO 27001 (A.10.1.1, A.10.1.2), and Azure Well-Architected Framework
+> security pillar requirements.
 
 **Maturity Evidence** (Level 4 - Measured):
 
-- Zero security incidents tracked over 12-month period
-- 100% RBAC compliance (no manual role assignments, all via IaC)
-- 100% managed identity adoption (no service principals with passwords)
-
-**Compliance Mappings**:
-
-- **SOC 2**: Automated RBAC satisfies access control requirements (CC6.1, CC6.2)
-- **ISO 27001**: Key Vault encryption meets information security controls
-  (A.10.1.1, A.10.1.2)
-- **Azure Well-Architected**: Security pillar best practices embedded (identity,
-  network security)
+- **Zero security incidents** tracked over 12-month period
+- **100% RBAC compliance** (no manual role assignments, all via IaC)
+- **100% managed identity adoption** (no service principals with passwords)
 
 #### 5.2.3 Configuration as Code Capability
 
@@ -956,6 +989,10 @@ workflows, peer review, and immutable audit trails.
 | **Source**            | README.md:15-30                                                |
 | **Confidence**        | 0.94                                                           |
 
+> 🚀 **Value Proposition**: Immediate productivity without waiting for IT
+> provisioning — developers can start coding within 10 minutes instead of
+> waiting 3-5 days.
+
 **Value Stream Stages**:
 
 | Stage                 | Activities                                                            | Cycle Time          | Bottlenecks                  | Automation |
@@ -967,16 +1004,16 @@ workflows, peer review, and immutable audit trails.
 
 **Performance Metrics** (Q4 2025):
 
-- **End-to-End Cycle Time**: 8.5 minutes average (target: <10 minutes)
-- **Success Rate**: 99.2% (target: >99%)
-- **Developer Satisfaction**: 4.5/5 (survey-based, target: >4.0)
+- **End-to-End Cycle Time**: **8.5 minutes average** (target: <10 minutes)
+- **Success Rate**: **99.2%** (target: >99%)
+- **Developer Satisfaction**: **4.5/5** (survey-based, target: >4.0)
 
 **Improvement Initiatives**:
 
-1. **Automate Stage 1**: Integrate Azure AD Graph API to create groups during
-   `azd up` (eliminate 0-4 hour manual step)
-2. **Reduce Stage 2 Time**: Parallelize layer provisioning where dependencies
-   allow (target: 3-5 minutes)
+1. **Automate Stage 1**: Integrate Azure AD Graph API to **create groups during
+   `azd up`** (eliminate 0-4 hour manual step)
+2. **Reduce Stage 2 Time**: **Parallelize layer provisioning** where
+   dependencies allow (target: 3-5 minutes)
 
 ### 5.4 Business Processes Specifications
 
@@ -992,29 +1029,27 @@ workflows, peer review, and immutable audit trails.
 | **Source**       | README.md:250-300                                              |
 | **Confidence**   | 0.95                                                           |
 
-**Process Description**: Automated Resource Provisioning executes layered
-deployment of Azure resources following Security → Monitoring → Connectivity →
-Workload sequence. Each layer is an independent Bicep module with explicit
+**Process Description**: Automated Resource Provisioning executes **layered
+deployment** of Azure resources following **Security → Monitoring → Connectivity
+→ Workload sequence**. Each layer is an independent Bicep module with explicit
 input/output contracts.
 
 **Process Steps**:
 
-1. **Pre-Flight Validation** → Verify Azure CLI authenticated, GitHub token
+1. **Pre-Flight Validation** → **Verify Azure CLI authenticated**, GitHub token
    stored, prerequisites met
-2. **Layer 1: Security** → Provision Key Vault, store GitHub token, assign RBAC
-3. **Layer 2: Monitoring** → Provision Log Analytics workspace, configure
+2. **Layer 1: Security** → **Provision Key Vault**, store GitHub token, assign
+   RBAC
+3. **Layer 2: Monitoring** → **Provision Log Analytics** workspace, configure
    diagnostic settings
-4. **Layer 3: Connectivity** → Create VNets, subnets, DevCenter network
+4. **Layer 3: Connectivity** → **Create VNets**, subnets, DevCenter network
    connections
-5. **Layer 4: Workload** → Provision DevCenter, projects, catalogs, environment
-   types, Dev Box pools
+5. **Layer 4: Workload** → **Provision DevCenter**, projects, catalogs,
+   environment types, Dev Box pools
 
-**Business Rules Applied**:
-
-- **Identity Type Standard**: All resources use SystemAssigned managed
-  identities
-- **RBAC Principle**: Minimum necessary permissions assigned per role
-- **VNet Pre-Creation**: Projects validate VNet existence before deployment
+> 📌 **Business Rules Applied**: All resources use SystemAssigned managed
+> identities, minimum permissions enforced via RBAC, VNet existence validated
+> before deployment.
 
 **Process Metrics**:
 
@@ -1135,91 +1170,91 @@ flowchart TD
 
 #### Pattern 1: Layered Deployment
 
-**Description**: Sequential provisioning of architectural layers with explicit
-dependency management.
+**Description**: Sequential provisioning of architectural layers with **explicit
+dependency management**.
 
 **Components Involved**: Zero-Touch Deployment → Security → Monitoring →
 Connectivity → Workload
 
+> 📌 **Pattern Benefits**: Clear separation of concerns, explicit dependency
+> contracts, and independent testing per layer.
+
 **Flow**:
 
-1. Security layer provisions Key Vault, outputs Key Vault ID
-2. Monitoring layer consumes Key Vault ID, provisions Log Analytics, outputs
-   workspace ID
-3. Connectivity layer provisions VNets, outputs network connection ID
-4. Workload layer consumes all previous outputs, provisions DevCenter and
+1. **Security layer** provisions Key Vault, **outputs Key Vault ID**
+2. **Monitoring layer** consumes Key Vault ID, provisions Log Analytics,
+   **outputs workspace ID**
+3. **Connectivity layer** provisions VNets, **outputs network connection ID**
+4. **Workload layer** consumes all previous outputs, provisions DevCenter and
    projects
-
-**Pattern Benefits**:
-
-- Clear separation of concerns across layers
-- Explicit dependency contracts through Bicep outputs
-- Independent testing and troubleshooting per layer
 
 #### Pattern 2: Configuration-Driven Provisioning
 
-**Description**: Declarative YAML configuration drives Bicep template
-parameterization.
+**Description**: Declarative YAML configuration **drives Bicep template
+parameterization**.
 
 **Components Involved**: Configuration as Code → Modular Infrastructure → Azure
 Resources
 
+> 💡 **Pattern Benefits**: Business-readable YAML configuration with validation
+> at authoring time and version-controlled audit trail via Git.
+
 **Flow**:
 
-1. Platform Engineer edits
-   [`devcenter.yaml`](infra/settings/workload/devcenter.yaml)
-2. JSON schema validates configuration at save time
-3. Bicep templates load YAML via `loadYamlContent()`
-4. Typed parameters passed to child modules
-5. Azure resources provisioned per configuration
-
-**Pattern Benefits**:
-
-- Business-readable configuration (YAML not Bicep)
-- Validation at authoring time (JSON schema)
-- Version-controlled audit trail (Git)
+1. Platform Engineer **edits
+   [`devcenter.yaml`](infra/settings/workload/devcenter.yaml)**
+2. **JSON schema validates** configuration at save time
+3. Bicep templates **load YAML** via `loadYamlContent()`
+4. **Typed parameters** passed to child modules
+5. Azure resources **provisioned per configuration**
 
 #### Pattern 3: Event-Driven Catalog Sync
 
-**Description**: Scheduled event triggers GitHub repository synchronization with
-DevCenter catalogs.
+**Description**: Scheduled event **triggers GitHub repository synchronization**
+with DevCenter catalogs.
 
 **Components Involved**: Catalog Sync Timer → DevCenter Catalog → GitHub
 Repository
 
+> 🔄 **Pattern Benefits**: Automatic propagation of catalog updates to all
+> projects without manual synchronization, with Git-based version control.
+
 **Flow**:
 
-1. Timer event fires every 15 minutes (when `Enabled` status)
-2. DevCenter Catalog sync service fetches latest commit from GitHub
-3. Environment definitions compared with current catalog state
-4. Delta changes applied to DevCenter catalog
-5. Projects receive updated environment definitions
-
-**Pattern Benefits**:
-
-- Automatic propagation of catalog updates to all projects
-- No manual synchronization required
-- Git-based version control for environment definitions
+1. **Timer event fires every 15 minutes** (when `Enabled` status)
+2. DevCenter Catalog sync service **fetches latest commit** from GitHub
+3. Environment definitions **compared with current catalog state**
+4. **Delta changes applied** to DevCenter catalog
+5. Projects **receive updated environment definitions**
 
 ### 8.4 Critical Dependencies
 
+> ⚠️ **Critical Failure Points**: These high-impact dependencies can cause
+> cascading deployment failures if not properly validated.
+
 **High-Impact Dependencies** (failure causes cascading errors):
 
-1. **Azure Active Directory → DevCenter**: RBAC assignments require valid Azure
-   AD group IDs. If groups don't exist, deployment fails with authorization
-   error.
+1. **Azure Active Directory → DevCenter**: RBAC assignments **require valid
+   Azure AD group IDs**. If groups don't exist, **deployment fails with
+   authorization error**.
 
-2. **Virtual Network → Project**: Projects require existing VNet or
-   `create: true` flag. Missing VNet causes network connection creation failure.
+2. **Virtual Network → Project**: Projects **require existing VNet or
+   `create: true` flag**. Missing VNet **causes network connection creation
+   failure**.
 
-3. **Key Vault → GitHub Token**: Catalog sync for private repositories requires
-   GitHub token in Key Vault. Missing token causes 403 Forbidden errors.
+3. **Key Vault → GitHub Token**: Catalog sync for private repositories
+   **requires GitHub token in Key Vault**. Missing token **causes 403 Forbidden
+   errors**.
+
+> 💡 **Mitigation Best Practices**: Pre-flight validation and schema validation
+> catch most dependency issues before deployment begins.
 
 **Mitigation Strategies**:
 
-- Pre-flight validation checks Azure AD groups existence before deployment
-- Schema validation ensures `create: true` or existing VNet reference specified
-- Setup scripts verify GitHub token stored in Key Vault before `azd up`
+- **Pre-flight validation checks** Azure AD groups existence before deployment
+- **Schema validation ensures** `create: true` or existing VNet reference
+  specified
+- **Setup scripts verify** GitHub token stored in Key Vault before `azd up`
 
 ---
 
