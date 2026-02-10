@@ -1,0 +1,111 @@
+name: Set Project Priority from Issue Label
+
+on:
+  projects_v2_item:
+    types:
+      - created
+
+permissions:
+  issues: read
+  projects: write
+
+jobs:
+  set-priority:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extract issue labels
+        id: labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const item = context.payload.projects_v2_item;
+            if (!item.content || item.content.type !== "Issue") {
+              core.info("Not an issue. Skipping.");
+              return;
+            }
+
+            const issue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: item.content.number
+            });
+
+            const priorityLabel = issue.data.labels
+              .map(l => l.name)
+              .find(name => name.startsWith("priority:p"));
+
+            if (!priorityLabel) {
+              core.info("No priority label found.");
+              return;
+            }
+
+            core.setOutput("priority", priorityLabel.replace("priority:", "").toUpperCase());
+
+      - name: Set Priority field in Project
+        if: steps.labels.outputs.priority != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const priority = "${{ steps.labels.outputs.priority }}";
+            const projectId = context.payload.projects_v2_item.project_node_id;
+            const itemId = context.payload.projects_v2_item.id;
+
+            const fields = await github.graphql(`
+              query($projectId: ID!) {
+                node(id: $projectId) {
+                  ... on ProjectV2 {
+                    fields(first: 20) {
+                      nodes {
+                        ... on ProjectV2SingleSelectField {
+                          id
+                          name
+                          options {
+                            id
+                            name
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `, { projectId });
+
+            const priorityField = fields.node.fields.nodes.find(
+              f => f.name === "Priority"
+            );
+
+            if (!priorityField) {
+              throw new Error("Priority field not found in project");
+            }
+
+            const option = priorityField.options.find(
+              o => o.name.toUpperCase() === priority
+            );
+
+            if (!option) {
+              throw new Error(`Priority option ${priority} not found`);
+            }
+
+            await github.graphql(`
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(
+                  input: {
+                    projectId: $projectId
+                    itemId: $itemId
+                    fieldId: $fieldId
+                    value: { singleSelectOptionId: $optionId }
+                  }
+                ) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }
+            `, {
+              projectId,
+              itemId,
+              fieldId: priorityField.id,
+              optionId: option.id
+            });
