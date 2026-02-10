@@ -12,6 +12,7 @@ on:
 permissions:
   issues: read
   contents: read
+  projects: read
 
 jobs:
   sync-priorities:
@@ -25,41 +26,90 @@ jobs:
           script: |
             const projectNumber = "${{ github.event.inputs.project_number }}" || null;
             
-            // Get all repository projects or specific project
-            const projectsQuery = `
-              query($owner: String!, $repo: String!) {
-                repository(owner: $owner, name: $repo) {
-                  projectsV2(first: 20) {
+            // Get organization/user and repository info
+            const repoInfo = await github.rest.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            
+            const isOrgRepo = repoInfo.data.owner.type === 'Organization';
+            
+            // Get all organization/user projects linked to this repository
+            const projectsQuery = isOrgRepo ? `
+              query($org: String!) {
+                organization(login: $org) {
+                  projectsV2(first: 100) {
                     nodes {
                       id
                       number
                       title
+                      repositories(first: 100) {
+                        nodes {
+                          name
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ` : `
+              query($owner: String!) {
+                user(login: $owner) {
+                  projectsV2(first: 100) {
+                    nodes {
+                      id
+                      number
+                      title
+                      repositories(first: 100) {
+                        nodes {
+                          name
+                        }
+                      }
                     }
                   }
                 }
               }
             `;
             
-            const projectsResult = await github.graphql(projectsQuery, {
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            });
+            const projectsResult = await github.graphql(projectsQuery, 
+              isOrgRepo 
+                ? { org: context.repo.owner }
+                : { owner: context.repo.owner }
+            );
             
-            let projects = projectsResult.repository.projectsV2.nodes;
+            // Get all projects and filter those linked to this repository
+            const allProjects = isOrgRepo 
+              ? projectsResult.organization?.projectsV2?.nodes || []
+              : projectsResult.user?.projectsV2?.nodes || [];
+            
+            let projects = allProjects.filter(p => 
+              p.repositories?.nodes?.some(r => r.name === context.repo.repo)
+            );
+            
+            core.info(`Found ${projects.length} projects linked to this repository`);
             
             // Filter to specific project if requested
             if (projectNumber) {
-              projects = projects.filter(p => p.number === parseInt(projectNumber));
+              const filtered = projects.filter(p => p.number === parseInt(projectNumber));
+              if (filtered.length === 0) {
+                core.warning(`Project #${projectNumber} not found. Available projects: ${projects.map(p => `#${p.number} (${p.title})`).join(', ')}`);
+              }
+              projects = filtered;
             }
             
             if (projects.length === 0) {
-              core.info('No projects found');
+              core.info('No projects found linked to this repository');
+              if (allProjects.length > 0) {
+                core.info(`Total projects in ${isOrgRepo ? 'organization' : 'user account'}: ${allProjects.length}`);
+                core.info('Make sure the projects are linked to this repository in project settings');
+              }
               return;
             }
             
             // Process each project
+            let totalUpdated = 0;
             for (const project of projects) {
-              core.info(`Processing project: ${project.title} (#${project.number})`);
+              core.info(`\n=== Processing project: ${project.title} (#${project.number}) ===`);
               
               // Get Priority field configuration
               const fieldsQuery = `
@@ -87,9 +137,15 @@ jobs:
               const priorityField = fieldsResult.node.fields.nodes.find(f => f.name === "Priority");
               
               if (!priorityField) {
-                core.warning(`No Priority field found in project ${project.title}`);
+                const availableFields = fieldsResult.node.fields.nodes
+                  .map(f => f.name)
+                  .filter(name => name)
+                  .join(', ');
+                core.warning(`No Priority field found in project ${project.title}. Available single-select fields: ${availableFields || 'none'}`);
                 continue;
               }
+              
+              core.info(`Found Priority field with options: ${priorityField.options?.map(o => o.name).join(', ') || 'none'}`);
               
               // Get all items in the project
               const itemsQuery = `
@@ -157,8 +213,8 @@ jobs:
                   if (currentPriority === desiredPriority) continue;
                   
                   // Find the priority option
-                  const priorityOption = priorityField.options.find(
-                    o => o.name.toUpperCase() === desiredPriority
+                  const priorityOption = priorityField.options?.find(
+                    o => o.name?.toUpperCase() === desiredPriority
                   );
                   
                   if (!priorityOption) {
@@ -199,4 +255,7 @@ jobs:
               }
               
               core.info(`Project ${project.title}: Updated ${updatedCount} items`);
+              totalUpdated += updatedCount;
             }
+            
+            core.info(`\n✅ Summary: Updated ${totalUpdated} total items across ${projects.length} project(s)`);
