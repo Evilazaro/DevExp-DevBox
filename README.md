@@ -102,72 +102,67 @@ config:
   flowchart:
     htmlLabels: false
 ---
+---
+config:
+  flowchart:
+    htmlLabels: false
+---
 flowchart TB
-    accTitle: DevExp-DevBox Architecture
-    accDescr: Four-layer architecture showing security, monitoring, connectivity, and workload components
+ subgraph Security["🔐 Security Layer"]
+        kv["🔑 Key Vault<br>Secrets Management"]
+  end
+ subgraph Monitoring["📊 Monitoring Layer"]
+        law["📈 Log Analytics<br>Workspace"]
+  end
+ subgraph Connectivity["🌐 Connectivity Layer"]
+        vnet["🔗 Virtual Network<br>10.0.0.0/16"]
+        nc["🔌 Network Connection<br>DevCenter Attachment"]
+  end
+ subgraph Workload["⚙️ Workload Layer"]
+        dc["🏢 DevCenter<br>Central Resource"]
+        cat["📚 Catalog<br>GitHub Integration"]
+        et["🌍 Environment Types<br>Dev/Staging/UAT"]
+        proj["📁 Project: eShop<br>Team Workspace"]
+        pool["💻 Dev Box Pool<br>VM Definitions"]
+  end
+ subgraph Identity["👤 Identity Layer"]
+        mi["🔐 Managed Identity<br>System Assigned"]
+        rbac["🛡️ RBAC Assignments<br>Role Permissions"]
+  end
+    kv -- Stores Credentials --> dc
+    law -- Collects Telemetry --> dc
+    mi -- Authenticates --> dc
+    rbac -- Authorizes --> dc
+    dc -- Configures --> cat
+    dc -- Defines --> et
+    dc -- Creates --> proj
+    proj -- Uses --> nc
+    nc -- Connects to --> vnet
+    proj -- Provisions --> pool
+    proj -- Applies --> et
 
-    %% ============================================
-    %% STANDARD COLOR SCHEME v2.8.0 - Material Design Compliant
-    %% ============================================
-    %% SEMANTIC COLORS (functional siblings - different purposes):
-    %%   Orange=#FFE0B2 (Security Layer)
-    %%   Blue=#BBDEFB (Monitoring Layer)
-    %%   Green=#C8E6C9 (Connectivity Layer)
-    %%   Teal=#B2DFDB (Workload Layer)
-    %%   Yellow=#FFF9C4 (Identity Layer)
-    %% Material Design 100-level palette with WCAG AA compliance
-    %% ============================================
-
-    subgraph Security["🔐 Security Layer"]
-        kv["🔑 Key Vault<br/>Secrets Management"]:::mdOrange
-    end
-
-    subgraph Monitoring["📊 Monitoring Layer"]
-        law["📈 Log Analytics<br/>Workspace"]:::mdBlue
-    end
-
-    subgraph Connectivity["🌐 Connectivity Layer"]
-        vnet["🔗 Virtual Network<br/>10.0.0.0/16"]:::mdGreen
-        nc["🔌 Network Connection<br/>DevCenter Attachment"]:::mdGreen
-    end
-
-    subgraph Workload["⚙️ Workload Layer"]
-        dc["🏢 DevCenter<br/>Central Resource"]:::mdTeal
-        cat["📚 Catalog<br/>GitHub Integration"]:::mdTeal
-        et["🌍 Environment Types<br/>Dev/Staging/UAT"]:::mdTeal
-        proj["📁 Project: eShop<br/>Team Workspace"]:::mdTeal
-        pool["💻 Dev Box Pool<br/>VM Definitions"]:::mdTeal
-    end
-
-    subgraph Identity["👤 Identity Layer"]
-        mi["🔐 Managed Identity<br/>System Assigned"]:::mdYellow
-        rbac["🛡️ RBAC Assignments<br/>Role Permissions"]:::mdYellow
-    end
-
-    kv -->|"Stores Credentials"| dc
-    law -->|"Collects Telemetry"| dc
-    mi -->|"Authenticates"| dc
-    rbac -->|"Authorizes"| dc
-    dc -->|"Configures"| cat
-    dc -->|"Defines"| et
-    dc -->|"Creates"| proj
-    proj -->|"Uses"| nc
-    nc -->|"Connects to"| vnet
-    proj -->|"Provisions"| pool
-    proj -->|"Applies"| et
-
+     kv:::mdOrange
+     law:::mdBlue
+     vnet:::mdGreen
+     nc:::mdGreen
+     dc:::mdTeal
+     cat:::mdTeal
+     et:::mdTeal
+     proj:::mdTeal
+     pool:::mdTeal
+     mi:::mdYellow
+     rbac:::mdYellow
     classDef level1Group fill:#E8EAF6,stroke:#3F51B5,stroke-width:3px,color:#000
     classDef mdOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#000
     classDef mdBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     classDef mdGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
     classDef mdTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#000
     classDef mdYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#000
-
-    style Security fill:#FFE0B2,stroke:#E64A19,stroke-width:3px
-    style Monitoring fill:#BBDEFB,stroke:#1976D2,stroke-width:3px
-    style Connectivity fill:#C8E6C9,stroke:#388E3C,stroke-width:3px
-    style Workload fill:#B2DFDB,stroke:#00796B,stroke-width:3px
-    style Identity fill:#FFF9C4,stroke:#F57F17,stroke-width:3px
+    style Security fill:transparent,stroke:#E64A19,stroke-width:3px
+    style Monitoring fill:transparent,stroke:#1976D2,stroke-width:3px
+    style Connectivity fill:transparent,stroke:#388E3C,stroke-width:3px
+    style Workload fill:transparent,stroke:#00796B,stroke-width:3px
+    style Identity fill:transparent,stroke:#F57F17,stroke-width:3px
 ```
 
 **Component Roles:**
