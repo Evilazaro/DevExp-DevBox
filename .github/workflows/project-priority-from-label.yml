@@ -1,6 +1,8 @@
 name: Set Project Priority from Issue Label
 
 on:
+  projects_v2_item:
+    types: [created]
   workflow_dispatch:
     inputs:
       project_id:
@@ -16,21 +18,54 @@ on:
 permissions:
   issues: read
   contents: read
+  organization-projects: read
 
 jobs:
   set-priority:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Get issue and project details
+        id: get-details
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let issueNumber, projectId, itemId;
+
+            if (context.eventName === 'projects_v2_item') {
+              // Automatic trigger from project item creation
+              const item = context.payload.projects_v2_item;
+              projectId = context.payload.projects_v2_item.project_node_id;
+              itemId = context.payload.projects_v2_item.node_id;
+              
+              // Extract issue number from content URL
+              if (item.content_type === 'Issue' && item.content_url) {
+                issueNumber = item.content_url.split('/').pop();
+              } else {
+                core.info('Item is not an issue, skipping.');
+                return;
+              }
+            } else {
+              // Manual trigger via workflow_dispatch
+              issueNumber = "${{ github.event.inputs.issue_number }}";
+              projectId = "${{ github.event.inputs.project_id }}";
+              itemId = "${{ github.event.inputs.item_id }}";
+            }
+
+            core.setOutput("issue_number", issueNumber);
+            core.setOutput("project_id", projectId);
+            core.setOutput("item_id", itemId);
+
       - name: Extract issue labels
         id: labels
+        if: steps.get-details.outputs.issue_number != ''
         uses: actions/github-script@v7
         with:
           script: |
             const issue = await github.rest.issues.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: ${{ github.event.inputs.issue_number }}
+              issue_number: ${{ steps.get-details.outputs.issue_number }}
             });
 
             const priorityLabel = issue.data.labels
@@ -50,8 +85,8 @@ jobs:
         with:
           script: |
             const priority = "${{ steps.labels.outputs.priority }}";
-            const projectId = "${{ github.event.inputs.project_id }}";
-            const itemId = "${{ github.event.inputs.item_id }}";
+            const projectId = "${{ steps.get-details.outputs.project_id }}";
+            const itemId = "${{ steps.get-details.outputs.item_id }}";
 
             const fields = await github.graphql(`
               query($projectId: ID!) {
