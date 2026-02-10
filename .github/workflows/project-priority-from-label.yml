@@ -1,8 +1,8 @@
 name: Set Project Priority from Issue Label
 
 on:
-  projects_v2_item:
-    types: [created]
+  issues:
+    types: [opened, labeled, assigned]
   workflow_dispatch:
     inputs:
       project_id:
@@ -18,7 +18,6 @@ on:
 permissions:
   issues: read
   contents: read
-  organization-projects: read
 
 jobs:
   set-priority:
@@ -32,19 +31,47 @@ jobs:
           script: |
             let issueNumber, projectId, itemId;
 
-            if (context.eventName === 'projects_v2_item') {
-              // Automatic trigger from project item creation
-              const item = context.payload.projects_v2_item;
-              projectId = context.payload.projects_v2_item.project_node_id;
-              itemId = context.payload.projects_v2_item.node_id;
+            if (context.eventName === 'issues') {
+              // Automatic trigger from issue event
+              issueNumber = context.payload.issue.number;
               
-              // Extract issue number from content URL
-              if (item.content_type === 'Issue' && item.content_url) {
-                issueNumber = item.content_url.split('/').pop();
-              } else {
-                core.info('Item is not an issue, skipping.');
+              // Query to find projects this issue is associated with
+              const query = `
+                query($owner: String!, $repo: String!, $issueNumber: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    issue(number: $issueNumber) {
+                      projectItems(first: 10) {
+                        nodes {
+                          id
+                          project {
+                            id
+                            title
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              `;
+
+              const result = await github.graphql(query, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issueNumber: issueNumber
+              });
+
+              const projectItems = result.repository.issue.projectItems.nodes;
+              
+              if (projectItems.length === 0) {
+                core.info('Issue is not associated with any project, skipping.');
                 return;
               }
+
+              // Use the first project (you can modify this logic as needed)
+              projectId = projectItems[0].project.id;
+              itemId = projectItems[0].id;
+              
+              core.info(`Found issue in project: ${projectItems[0].project.title}`);
             } else {
               // Manual trigger via workflow_dispatch
               issueNumber = "${{ github.event.inputs.issue_number }}";
