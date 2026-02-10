@@ -102,11 +102,6 @@ config:
   flowchart:
     htmlLabels: false
 ---
----
-config:
-  flowchart:
-    htmlLabels: false
----
 flowchart TB
  subgraph Security["🔐 Security Layer"]
         kv["🔑 Key Vault<br>Secrets Management"]
