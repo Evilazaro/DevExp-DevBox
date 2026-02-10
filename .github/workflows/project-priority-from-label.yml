@@ -1,51 +1,80 @@
 name: Set Project Priority from Issue Label
 
 on:
-  issues:
-    types: [opened, labeled, assigned]
+  schedule:
+    - cron: '*/15 * * * *'  # Run every 15 minutes
   workflow_dispatch:
     inputs:
-      project_id:
-        description: 'Project Node ID'
-        required: true
-      item_id:
-        description: 'Item ID'
-        required: true
-      issue_number:
-        description: 'Issue number'
-        required: true
+      project_number:
+        description: 'Project number (optional, will process all projects if not specified)'
+        required: false
 
 permissions:
   issues: read
   contents: read
 
 jobs:
-  set-priority:
+  sync-priorities:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get issue and project details
-        id: get-details
+      - name: Sync issue priorities to project
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            let issueNumber, projectId, itemId;
-
-            if (context.eventName === 'issues') {
-              // Automatic trigger from issue event
-              issueNumber = context.payload.issue.number;
+            const projectNumber = "${{ github.event.inputs.project_number }}" || null;
+            
+            // Get all repository projects or specific project
+            const projectsQuery = `
+              query($owner: String!, $repo: String!) {
+                repository(owner: $owner, name: $repo) {
+                  projectsV2(first: 20) {
+                    nodes {
+                      id
+                      number
+                      title
+                    }
+                  }
+                }
+              }
+            `;
+            
+            const projectsResult = await github.graphql(projectsQuery, {
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            
+            let projects = projectsResult.repository.projectsV2.nodes;
+            
+            // Filter to specific project if requested
+            if (projectNumber) {
+              projects = projects.filter(p => p.number === parseInt(projectNumber));
+            }
+            
+            if (projects.length === 0) {
+              core.info('No projects found');
+              return;
+            }
+            
+            // Process each project
+            for (const project of projects) {
+              core.info(`Processing project: ${project.title} (#${project.number})`);
               
-              // Query to find projects this issue is associated with
-              const query = `
-                query($owner: String!, $repo: String!, $issueNumber: Int!) {
-                  repository(owner: $owner, name: $repo) {
-                    issue(number: $issueNumber) {
-                      projectItems(first: 10) {
+              // Get Priority field configuration
+              const fieldsQuery = `
+                query($projectId: ID!) {
+                  node(id: $projectId) {
+                    ... on ProjectV2 {
+                      fields(first: 20) {
                         nodes {
-                          id
-                          project {
+                          ... on ProjectV2SingleSelectField {
                             id
-                            title
+                            name
+                            options {
+                              id
+                              name
+                            }
                           }
                         }
                       }
@@ -53,123 +82,121 @@ jobs:
                   }
                 }
               `;
-
-              const result = await github.graphql(query, {
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issueNumber: issueNumber
-              });
-
-              const projectItems = result.repository.issue.projectItems.nodes;
               
-              if (projectItems.length === 0) {
-                core.info('Issue is not associated with any project, skipping.');
-                return;
+              const fieldsResult = await github.graphql(fieldsQuery, { projectId: project.id });
+              const priorityField = fieldsResult.node.fields.nodes.find(f => f.name === "Priority");
+              
+              if (!priorityField) {
+                core.warning(`No Priority field found in project ${project.title}`);
+                continue;
               }
-
-              // Use the first project (you can modify this logic as needed)
-              projectId = projectItems[0].project.id;
-              itemId = projectItems[0].id;
               
-              core.info(`Found issue in project: ${projectItems[0].project.title}`);
-            } else {
-              // Manual trigger via workflow_dispatch
-              issueNumber = "${{ github.event.inputs.issue_number }}";
-              projectId = "${{ github.event.inputs.project_id }}";
-              itemId = "${{ github.event.inputs.item_id }}";
-            }
-
-            core.setOutput("issue_number", issueNumber);
-            core.setOutput("project_id", projectId);
-            core.setOutput("item_id", itemId);
-
-      - name: Extract issue labels
-        id: labels
-        if: steps.get-details.outputs.issue_number != ''
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const issue = await github.rest.issues.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: ${{ steps.get-details.outputs.issue_number }}
-            });
-
-            const priorityLabel = issue.data.labels
-              .map(l => l.name)
-              .find(name => name.startsWith("priority:p"));
-
-            if (!priorityLabel) {
-              core.info("No priority label found.");
-              return;
-            }
-
-            core.setOutput("priority", priorityLabel.replace("priority:", "").toUpperCase());
-
-      - name: Set Priority field in Project
-        if: steps.labels.outputs.priority != ''
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const priority = "${{ steps.labels.outputs.priority }}";
-            const projectId = "${{ steps.get-details.outputs.project_id }}";
-            const itemId = "${{ steps.get-details.outputs.item_id }}";
-
-            const fields = await github.graphql(`
-              query($projectId: ID!) {
-                node(id: $projectId) {
-                  ... on ProjectV2 {
-                    fields(first: 20) {
-                      nodes {
-                        ... on ProjectV2SingleSelectField {
+              // Get all items in the project
+              const itemsQuery = `
+                query($projectId: ID!, $after: String) {
+                  node(id: $projectId) {
+                    ... on ProjectV2 {
+                      items(first: 100, after: $after) {
+                        pageInfo {
+                          hasNextPage
+                          endCursor
+                        }
+                        nodes {
                           id
-                          name
-                          options {
-                            id
-                            name
+                          content {
+                            ... on Issue {
+                              number
+                              labels(first: 20) {
+                                nodes {
+                                  name
+                                }
+                              }
+                            }
+                          }
+                          fieldValueByName(name: "Priority") {
+                            ... on ProjectV2ItemFieldSingleSelectValue {
+                              name
+                            }
                           }
                         }
                       }
                     }
                   }
                 }
-              }
-            `, { projectId });
-
-            const priorityField = fields.node.fields.nodes.find(
-              f => f.name === "Priority"
-            );
-
-            if (!priorityField) {
-              throw new Error("Priority field not found in project");
-            }
-
-            const option = priorityField.options.find(
-              o => o.name.toUpperCase() === priority
-            );
-
-            if (!option) {
-              throw new Error(`Priority option ${priority} not found`);
-            }
-
-            await github.graphql(`
-              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
-                updateProjectV2ItemFieldValue(
-                  input: {
-                    projectId: $projectId
-                    itemId: $itemId
-                    fieldId: $fieldId
-                    value: { singleSelectOptionId: $optionId }
+              `;
+              
+              let hasNextPage = true;
+              let afterCursor = null;
+              let updatedCount = 0;
+              
+              while (hasNextPage) {
+                const itemsResult = await github.graphql(itemsQuery, {
+                  projectId: project.id,
+                  after: afterCursor
+                });
+                
+                const items = itemsResult.node.items;
+                hasNextPage = items.pageInfo.hasNextPage;
+                afterCursor = items.pageInfo.endCursor;
+                
+                // Process each item
+                for (const item of items.nodes) {
+                  if (!item.content || !item.content.labels) continue;
+                  
+                  // Find priority label on the issue
+                  const priorityLabel = item.content.labels.nodes
+                    .map(l => l.name)
+                    .find(name => name.startsWith("priority:p"));
+                  
+                  if (!priorityLabel) continue;
+                  
+                  const desiredPriority = priorityLabel.replace("priority:", "").toUpperCase();
+                  const currentPriority = item.fieldValueByName?.name?.toUpperCase();
+                  
+                  // Skip if already set correctly
+                  if (currentPriority === desiredPriority) continue;
+                  
+                  // Find the priority option
+                  const priorityOption = priorityField.options.find(
+                    o => o.name.toUpperCase() === desiredPriority
+                  );
+                  
+                  if (!priorityOption) {
+                    core.warning(`Priority option ${desiredPriority} not found for issue #${item.content.number}`);
+                    continue;
                   }
-                ) {
-                  projectV2Item {
-                    id
+                  
+                  // Update the priority
+                  try {
+                    await github.graphql(`
+                      mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+                        updateProjectV2ItemFieldValue(
+                          input: {
+                            projectId: $projectId
+                            itemId: $itemId
+                            fieldId: $fieldId
+                            value: { singleSelectOptionId: $optionId }
+                          }
+                        ) {
+                          projectV2Item {
+                            id
+                          }
+                        }
+                      }
+                    `, {
+                      projectId: project.id,
+                      itemId: item.id,
+                      fieldId: priorityField.id,
+                      optionId: priorityOption.id
+                    });
+                    
+                    core.info(`✓ Updated issue #${item.content.number} to ${desiredPriority}`);
+                    updatedCount++;
+                  } catch (error) {
+                    core.error(`Failed to update issue #${item.content.number}: ${error.message}`);
                   }
                 }
               }
-            `, {
-              projectId,
-              itemId,
-              fieldId: priorityField.id,
-              optionId: option.id
-            });
+              
+              core.info(`Project ${project.title}: Updated ${updatedCount} items`);
+            }
