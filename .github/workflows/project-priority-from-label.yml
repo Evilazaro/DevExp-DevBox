@@ -1,13 +1,21 @@
 name: Set Project Priority from Issue Label
 
 on:
-  projects_v2_item:
-    types:
-      - created
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: 'Project Node ID'
+        required: true
+      item_id:
+        description: 'Item ID'
+        required: true
+      issue_number:
+        description: 'Issue number'
+        required: true
 
 permissions:
   issues: read
-  projects: write
+  contents: read
 
 jobs:
   set-priority:
@@ -19,16 +27,10 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const item = context.payload.projects_v2_item;
-            if (!item.content || item.content.type !== "Issue") {
-              core.info("Not an issue. Skipping.");
-              return;
-            }
-
             const issue = await github.rest.issues.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: item.content.number
+              issue_number: ${{ github.event.inputs.issue_number }}
             });
 
             const priorityLabel = issue.data.labels
@@ -48,8 +50,8 @@ jobs:
         with:
           script: |
             const priority = "${{ steps.labels.outputs.priority }}";
-            const projectId = context.payload.projects_v2_item.project_node_id;
-            const itemId = context.payload.projects_v2_item.id;
+            const projectId = "${{ github.event.inputs.project_id }}";
+            const itemId = "${{ github.event.inputs.item_id }}";
 
             const fields = await github.graphql(`
               query($projectId: ID!) {
