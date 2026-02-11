@@ -77,15 +77,11 @@ enterprise-wide rollouts.
 title: Dev Box Accelerator Architecture
 config:
   theme: base
-  themeVariables:
-    primaryColor: "#0078D4"
-    primaryTextColor: "#000"
-    primaryBorderColor: "#0078D4"
-    lineColor: "#666"
-    secondaryColor: "#50E6FF"
-    tertiaryColor: "#F3F2F1"
 ---
 flowchart TB
+    accTitle: Dev Box Accelerator Architecture Diagram
+    accDescr: A comprehensive architecture diagram showing the modular structure of the Dev Box Adoption & Deployment Accelerator, including orchestration, workload, security, monitoring, connectivity, and identity layers with their relationships and dependencies.
+
     subgraph main["🎯 Orchestration Layer"]
         azd["⚙️ Azure Developer CLI (azd)"]
         mainBicep["📄 main.bicep (Subscription Scope)"]
@@ -143,11 +139,22 @@ flowchart TB
     managedId -->|"enforces"| rbac
 
     style main fill:#FFFFFF,stroke:#0078D4,stroke-width:2px
-    style workload fill:#E8F4FD,stroke:#0078D4,stroke-width:2px
-    style security fill:#FFF4E5,stroke:#D83B01,stroke-width:2px
-    style monitoring fill:#E5F5E8,stroke:#107C10,stroke-width:2px
+    style workload fill:#E3F2FD,stroke:#0078D4,stroke-width:2px
+    style security fill:#FFF3E0,stroke:#D83B01,stroke-width:2px
+    style monitoring fill:#E8F5E9,stroke:#107C10,stroke-width:2px
     style connectivity fill:#F3E5F5,stroke:#8764B8,stroke-width:2px
-    style identity fill:#FFF0F5,stroke:#E3008C,stroke-width:2px
+    style identity fill:#FFCDD2,stroke:#E3008C,stroke-width:2px
+
+    %% Color Documentation (Microsoft Fluent UI / Azure Palette - 100-level)
+    %% ─────────────────────────────────────────────────────────────────────
+    %% Main Container:      #FFFFFF (White - Level 1 required)
+    %% Workload Layer:      #E3F2FD (Azure Blue Light - Azure services)
+    %% Security Layer:      #FFF3E0 (Orange Light - Security focus)
+    %% Monitoring Layer:    #E8F5E9 (Green Light - Operational health)
+    %% Connectivity Layer:  #F3E5F5 (Purple Light - Network infrastructure)
+    %% Identity Layer:      #FFCDD2 (Red Light - Access control)
+    %%
+    %% All colors comply with WCAG AA (4.5:1 contrast ratio with text)
 ```
 
 **Component Responsibilities**
