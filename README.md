@@ -150,7 +150,15 @@ az devcenter admin devcenter show --name dc-prod-eastus --resource-group Contoso
 ### Deployment Architecture Flow
 
 ```mermaid
+---
+title: Deployment Architecture Flow
+config:
+  theme: base
+---
 flowchart TB
+    accTitle: Azure DevBox Deployment Process Flow
+    accDescr: Sequential flowchart showing the Azure DevBox deployment workflow from authentication through final validation, including landing zone creation and service configuration
+    
     start([🚀 Start Deployment]):::startEnd
     
     start --> auth[🔐 Authentication]
@@ -176,11 +184,11 @@ flowchart TB
     pools --> validate[✅ Post-Deployment Validation]
     validate --> complete([✨ Deployment Complete]):::startEnd
     
-    classDef startEnd fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
-    classDef security fill:#F44336,stroke:#C62828,stroke-width:2px,color:#fff
-    classDef monitoring fill:#FF9800,stroke:#E65100,stroke-width:2px,color:#fff
-    classDef workload fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
-    classDef config fill:#9C27B0,stroke:#6A1B9A,stroke-width:2px,color:#fff
+    classDef startEnd fill:#E8F5E9,stroke:#2E7D32,stroke-width:3px,color:#000
+    classDef security fill:#FFCDD2,stroke:#C62828,stroke-width:2px,color:#000
+    classDef monitoring fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#000
+    classDef workload fill:#BBDEFB,stroke:#1565C0,stroke-width:2px,color:#000
+    classDef config fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px,color:#000
     
     class security,kv security
     class monitoring,la monitoring
@@ -195,7 +203,15 @@ flowchart TB
 The solution implements a multi-landing zone architecture based on Microsoft Cloud Adoption Framework (CAF) principles, separating concerns across security, monitoring, connectivity, identity, and workload domains. Each landing zone is deployed as an isolated resource group with dedicated lifecycle management and RBAC boundaries.
 
 ```mermaid
+---
+title: Azure Multi-Landing Zone Architecture
+config:
+  theme: base
+---
 flowchart LR
+    accTitle: Azure DevBox Multi-Landing Zone Architecture
+    accDescr: Architecture diagram showing the separation of concerns across security, monitoring, identity, workload, and connectivity landing zones with their key resources and external integrations
+    
     subgraph Azure["☁️ Azure Subscription"]
         subgraph Security["🔒 Security Landing Zone"]
             kv[🔑 Key Vault]
@@ -240,19 +256,27 @@ flowchart LR
     github -.->|Catalog| dc
     ado -.->|Catalog| dc
     
-    classDef security fill:#F44336,stroke:#C62828,stroke-width:2px,color:#fff
-    classDef monitoring fill:#FF9800,stroke:#E65100,stroke-width:2px,color:#fff
-    classDef identity fill:#9C27B0,stroke:#6A1B9A,stroke-width:2px,color:#fff
-    classDef workload fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
-    classDef connectivity fill:#4CAF50,stroke:#2E7D32,stroke-width:2px,color:#fff
-    classDef external fill:#607D8B,stroke:#37474F,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
+    style Azure fill:#FFFFFF,stroke:#0078D4,stroke-width:3px
+    style Security fill:#FFCDD2,stroke:#C62828,stroke-width:2px
+    style Monitoring fill:#FFF3E0,stroke:#E65100,stroke-width:2px
+    style Identity fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
+    style Workload fill:#BBDEFB,stroke:#1565C0,stroke-width:2px
+    style Connectivity fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
+    style External fill:#E0E0E0,stroke:#37474F,stroke-width:2px,stroke-dasharray: 5 5
     
-    class Security,kv,secrets security
-    class Monitoring,la,insights monitoring
-    class Identity,mi,rbac identity
-    class Workload,dc,projects,pools workload
-    class Connectivity,vnet,nc connectivity
-    class External,github,ado external
+    classDef security fill:#FFCDD2,stroke:#C62828,stroke-width:2px,color:#000
+    classDef monitoring fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#000
+    classDef identity fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px,color:#000
+    classDef workload fill:#BBDEFB,stroke:#1565C0,stroke-width:2px,color:#000
+    classDef connectivity fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#000
+    classDef external fill:#E0E0E0,stroke:#37474F,stroke-width:2px,color:#000,stroke-dasharray: 5 5
+    
+    class kv,secrets security
+    class la,insights monitoring
+    class mi,rbac identity
+    class dc,projects,pools workload
+    class vnet,nc connectivity
+    class github,ado external
 ```
 
 **Component Roles:**
