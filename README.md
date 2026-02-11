@@ -47,15 +47,11 @@ management.
 ---
 config:
   theme: base
-  themeVariables:
-    primaryColor: "#0078D4"
-    primaryTextColor: "#fff"
-    primaryBorderColor: "#106EBE"
-    lineColor: "#5E5E5E"
-    secondaryColor: "#50E6FF"
-    tertiaryColor: "#FFB900"
 ---
 flowchart TB
+    accTitle: Azure Dev Box Architecture Diagram
+    accDescr: Three-tier architecture showing Security Resource Group with Key Vault, Monitoring Resource Group with Log Analytics, and Workload Resource Group containing DevCenter managing multiple projects. External actors include developers, setup scripts, and Bicep templates.
+
     subgraph Azure["☁️ Azure Subscription"]
         direction TB
 
@@ -86,15 +82,21 @@ flowchart TB
     Setup["⚙️ Setup Scripts<br/>(PowerShell/Bash)"] -->|Provision| Azure
     Bicep["📄 Bicep Templates"] -->|Deploy| Azure
 
-    style Security fill:#8B0000,stroke:#333,stroke-width:2px,color:#fff
-    style Monitoring fill:#FFB900,stroke:#333,stroke-width:2px
-    style Workload fill:#0078D4,stroke:#333,stroke-width:2px,color:#fff
-    style KV fill:#A4373A,stroke:#333,stroke-width:2px,color:#fff
-    style LA fill:#E3B000,stroke:#333,stroke-width:2px
-    style DC fill:#0063B1,stroke:#333,stroke-width:2px,color:#fff
-    style P1 fill:#50E6FF,stroke:#333,stroke-width:2px
-    style P2 fill:#50E6FF,stroke:#333,stroke-width:2px
-    style PN fill:#50E6FF,stroke:#333,stroke-width:2px
+    %% Main container (Level 1) - Always white
+    style Azure fill:#FFFFFF,stroke:#3F51B5,stroke-width:3px
+
+    %% Functional siblings (Level 2) - Different semantic colors
+    style Security fill:#FFCDD2,stroke:#C62828,stroke-width:2px
+    style Monitoring fill:#FFF9C4,stroke:#F57F17,stroke-width:2px
+    style Workload fill:#BBDEFB,stroke:#1565C0,stroke-width:2px
+
+    %% Content nodes - Semantic colors matching parent
+    style KV fill:#FFCDD2,stroke:#C62828,stroke-width:2px
+    style LA fill:#FFF9C4,stroke:#F57F17,stroke-width:2px
+    style DC fill:#BBDEFB,stroke:#1565C0,stroke-width:2px
+    style P1 fill:#BBDEFB,stroke:#1565C0,stroke-width:1px
+    style P2 fill:#BBDEFB,stroke:#1565C0,stroke-width:1px
+    style PN fill:#BBDEFB,stroke:#1565C0,stroke-width:1px
 ```
 
 **Component Roles**:
@@ -209,17 +211,17 @@ The accelerator follows a three-phase deployment model:
 ---
 config:
   theme: base
-  themeVariables:
-    primaryColor: "#0078D4"
-    primaryTextColor: "#fff"
 ---
 flowchart LR
+    accTitle: Deployment Phases Workflow
+    accDescr: Three-phase deployment process showing Pre-Provision validation, Resource provisioning, and Post-Provision configuration steps in sequence.
+
     A["1️⃣ Pre-Provision<br/>(Validation)"] --> B["2️⃣ Provision<br/>(Resource Creation)"]
     B --> C["3️⃣ Post-Provision<br/>(Configuration)"]
 
-    style A fill:#FFB900,stroke:#333,stroke-width:2px
-    style B fill:#0078D4,stroke:#333,stroke-width:2px,color:#fff
-    style C fill:#107C10,stroke:#333,stroke-width:2px,color:#fff
+    style A fill:#FFF9C4,stroke:#F57F17,stroke-width:2px
+    style B fill:#BBDEFB,stroke:#1565C0,stroke-width:2px
+    style C fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px
 ```
 
 ### Phase 1: Pre-Provision Validation
