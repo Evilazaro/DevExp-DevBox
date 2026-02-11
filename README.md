@@ -175,12 +175,22 @@ az devcenter admin devcenter show --name dc-prod-eastus --resource-group Contoso
 title: Deployment Architecture Flow
 config:
   theme: base
+  themeVariables:
+    fontSize: '16px'
 ---
 flowchart TB
     accTitle: Azure DevBox Deployment Process Flow
     accDescr: Sequential flowchart showing the Azure DevBox deployment workflow from authentication through final validation, including landing zone creation and service configuration
 
-    start([🚀 Start Deployment]):::startEnd
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════
+    %% Neutral-first structure: Process flow uses neutral surfaces
+    %% Semantic colors reserved for: success states only
+    %% All process nodes use consistent neutral styling
+    %% ═══════════════════════════════════════════════════════════════
+
+    start([🚀 Start Deployment]):::success
 
     start --> auth[🔐 Authentication]
     auth --> prereq[✅ Validate Prerequisites]
@@ -203,21 +213,10 @@ flowchart TB
     projects --> pools[🎯 Compute Pools]
 
     pools --> validate[✅ Post-Deployment Validation]
-    validate --> complete([✨ Deployment Complete]):::startEnd
+    validate --> complete([✨ Deployment Complete]):::success
 
-    %% Color Taxonomy: Microsoft Fluent UI / Azure Design System
-    %% Security (Red): #FFCDD2 | Monitoring (Orange): #FFF3E0 | Workload (Blue): #BBDEFB
-    %% Identity/Config (Purple): #F3E5F5 | Success/Start-End (Green): #E8F5E9
-    classDef startEnd fill:#E8F5E9,stroke:#2E7D32,stroke-width:3px,color:#000
-    classDef security fill:#FFCDD2,stroke:#C62828,stroke-width:2px,color:#000
-    classDef monitoring fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#000
-    classDef workload fill:#BBDEFB,stroke:#1565C0,stroke-width:2px,color:#000
-    classDef config fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px,color:#000
-
-    class security,kv security
-    class monitoring,la monitoring
-    class workload,devcenter,catalog,envtypes,projects,pools workload
-    class auth,prereq,config,validate config
+    %% Centralized styling - neutral surfaces with semantic success indicators
+    classDef success fill:#E8F5E9,stroke:#2E7D32,stroke-width:3px,color:#000
 ```
 
 ## Architecture
@@ -235,10 +234,20 @@ RBAC boundaries.
 title: Azure Multi-Landing Zone Architecture
 config:
   theme: base
+  themeVariables:
+    fontSize: '16px'
 ---
 flowchart LR
     accTitle: Azure DevBox Multi-Landing Zone Architecture
     accDescr: Architecture diagram showing the separation of concerns across security, monitoring, identity, workload, and connectivity landing zones with their key resources and external integrations
+
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════
+    %% Neutral-first structure: All landing zones use neutral surfaces
+    %% Semantic discipline: Core (Azure platform), External (third-party)
+    %% Structural clarity: Functional separation via neutral hierarchy
+    %% ═══════════════════════════════════════════════════════════════
 
     subgraph Azure["☁️ Azure Subscription"]
         subgraph Security["🔒 Security Landing Zone"]
@@ -269,8 +278,8 @@ flowchart LR
     end
 
     subgraph External["🌍 External Services"]
-        github[🐙 GitHub]
-        ado[📦 Azure DevOps]
+        github[🐙 GitHub]:::external
+        ado[📦 Azure DevOps]:::external
     end
 
     kv -->|Stores| secrets
@@ -284,29 +293,16 @@ flowchart LR
     github -.->|Catalog| dc
     ado -.->|Catalog| dc
 
-    %% Subgraph Styling: Main container (#FFFFFF), functional landing zones use semantic colors
+    %% Centralized styling - neutral hierarchy with semantic distinction for external services
     style Azure fill:#FFFFFF,stroke:#0078D4,stroke-width:3px
-    style Security fill:#FFCDD2,stroke:#C62828,stroke-width:2px
-    style Monitoring fill:#FFF3E0,stroke:#E65100,stroke-width:2px
-    style Identity fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px
-    style Workload fill:#BBDEFB,stroke:#1565C0,stroke-width:2px
-    style Connectivity fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
-    style External fill:#E0E0E0,stroke:#37474F,stroke-width:2px,stroke-dasharray: 5 5
+    style Security fill:#F3F2F1,stroke:#A19F9D,stroke-width:2px
+    style Monitoring fill:#F3F2F1,stroke:#A19F9D,stroke-width:2px
+    style Identity fill:#F3F2F1,stroke:#A19F9D,stroke-width:2px
+    style Workload fill:#F3F2F1,stroke:#A19F9D,stroke-width:2px
+    style Connectivity fill:#F3F2F1,stroke:#A19F9D,stroke-width:2px
+    style External fill:#FAF9F8,stroke:#8A8886,stroke-width:2px,stroke-dasharray: 5 5
 
-    %% Node Styling: Matches subgraph colors for visual consistency (MRM-C005)
-    classDef security fill:#FFCDD2,stroke:#C62828,stroke-width:2px,color:#000
-    classDef monitoring fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#000
-    classDef identity fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px,color:#000
-    classDef workload fill:#BBDEFB,stroke:#1565C0,stroke-width:2px,color:#000
-    classDef connectivity fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#000
-    classDef external fill:#E0E0E0,stroke:#37474F,stroke-width:2px,color:#000,stroke-dasharray: 5 5
-
-    class kv,secrets security
-    class la,insights monitoring
-    class mi,rbac identity
-    class dc,projects,pools workload
-    class vnet,nc connectivity
-    class github,ado external
+    classDef external fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#000
 ```
 
 **Component Roles:**
