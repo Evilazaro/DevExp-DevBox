@@ -83,6 +83,17 @@ flowchart TB
     accTitle: Azure Dev Box Accelerator System Architecture
     accDescr: Three-tier Azure architecture with security, monitoring, and workload resource groups. DevCenter provisions Dev Boxes, integrates with GitHub/Azure DevOps, stores secrets in Key Vault, and logs to Log Analytics.
 
+    %% ============================================
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ============================================
+    %% Semantic discipline: 5/5 classes used (Yellow=Security, Blue=Monitoring, Teal=Workload, Green=SCM, Grey=Neutral)
+    %% Structural: 8 subgraphs with style directives (MRM-S001 compliant)
+    %% Font: Icons on all 14 content nodes (MRM-I001 compliant)
+    %% Accessibility: accTitle + accDescr declarations (MRM-A002 compliant)
+    %% Color Mapping: Yellow=#FFF9C4 (Security), Blue=#BBDEFB (Monitoring), Teal=#B2DFDB (Workload), Green=#C8E6C9 (SCM), Grey=#F3F2F1 (Neutral)
+    %% ============================================
+
     subgraph users["👥 Users & Authentication"]
         devs["👨‍💻 Developers<br/>(Azure AD)"]:::neutralGrey
         admins["👨‍💼 Administrators<br/>(Azure AD)"]:::neutralGrey
@@ -145,13 +156,6 @@ flowchart TB
     proj2 -->|"Send Logs"| la
     dc -->|"Send Audit Logs"| la
 
-    %% Color Mapping Documentation
-    %% Yellow (#FFF9C4): Security - Key Vault, secrets management
-    %% Blue (#BBDEFB): Monitoring & Networking - Log Analytics, VNet, connections
-    %% Teal (#B2DFDB): Workload - DevCenter control plane, projects
-    %% Green (#C8E6C9): Source Control - GitHub, Azure DevOps catalogs
-    %% Neutral (#F3F2F1): Non-semantic - User groups, Dev Box pools
-
     %% Subgraph Styling (MRM-S001 compliant)
     style users fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
     style azureCloud fill:#FFFFFF,stroke:#605E5C,stroke-width:3px
@@ -161,16 +165,6 @@ flowchart TB
     style networking fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
     style pools fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
     style scm fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
-
-    %% ============================================
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
-    %% (Semantic + Structural + Font + Accessibility Governance)
-    %% ============================================
-    %% Semantic discipline: 5/5 classes used (Yellow=Security, Blue=Monitoring, Teal=Workload, Green=SCM, Grey=Neutral)
-    %% Structural: 8 subgraphs with style directives (MRM-S001 compliant)
-    %% Font: Icons on all 14 content nodes (MRM-I001 compliant)
-    %% Accessibility: accTitle + accDescr declarations (MRM-A002 compliant)
-    %% ============================================
 
     %% Required classDef Palette (14 declarations - MRM-D002 compliant)
     classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
