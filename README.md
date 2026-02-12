@@ -87,11 +87,10 @@ flowchart TB
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ============================================
-    %% Semantic discipline: 5/5 classes used (Yellow=Security, Blue=Monitoring, Teal=Workload, Green=SCM, Grey=Neutral)
+    %% Semantic discipline: 5/5 colors (Orange=Security, Blue=Process, Teal=Data, Yellow=Config, Grey=Neutral)
     %% Structural: 8 subgraphs with style directives (MRM-S001 compliant)
     %% Font: Icons on all 14 content nodes (MRM-I001 compliant)
     %% Accessibility: accTitle + accDescr declarations (MRM-A002 compliant)
-    %% Color Mapping: Yellow=#FFF9C4 (Security), Blue=#BBDEFB (Monitoring), Teal=#B2DFDB (Workload), Green=#C8E6C9 (SCM), Grey=#F3F2F1 (Neutral)
     %% ============================================
 
     subgraph users["👥 Users & Authentication"]
@@ -101,7 +100,7 @@ flowchart TB
 
     subgraph azureCloud["☁️ Azure Cloud"]
         subgraph securityRG["🔒 Security Resource Group"]
-            kv["🔐 Key Vault<br/>(Secrets Management)"]:::azureYellow
+            kv["🔐 Key Vault<br/>(Secrets Management)"]:::warningOrange
         end
 
         subgraph monitoringRG["📊 Monitoring Resource Group"]
@@ -109,9 +108,9 @@ flowchart TB
         end
 
         subgraph workloadRG["⚙️ Workload Resource Group"]
-            dc["⚙️ DevCenter<br/>(Control Plane)"]:::azureTeal
-            proj1["📁 Project 1<br/>(Dev Team A)"]:::azureTeal
-            proj2["📁 Project 2<br/>(Dev Team B)"]:::azureTeal
+            dc["⚙️ DevCenter<br/>(Control Plane)"]:::azureBlue
+            proj1["📁 Project 1<br/>(Dev Team A)"]:::azureBlue
+            proj2["📁 Project 2<br/>(Dev Team B)"]:::azureBlue
 
             subgraph networking["🌐 Networking"]
                 vnet["🌐 Virtual Network"]:::azureBlue
@@ -125,8 +124,8 @@ flowchart TB
         end
 
         subgraph scm["📦 Source Control"]
-            gh["🐙 GitHub<br/>(Catalogs & Repos)"]:::azureGreen
-            ado["🔷 Azure DevOps<br/>(Optional)"]:::azureGreen
+            gh["🐙 GitHub<br/>(Catalogs & Repos)"]:::presenceTeal
+            ado["🔷 Azure DevOps<br/>(Optional)"]:::presenceTeal
         end
     end
 
@@ -159,12 +158,12 @@ flowchart TB
     %% Subgraph Styling (MRM-S001 compliant)
     style users fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
     style azureCloud fill:#FFFFFF,stroke:#605E5C,stroke-width:3px
-    style securityRG fill:#FFF9C4,stroke:#F57F17,stroke-width:2px
-    style monitoringRG fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
-    style workloadRG fill:#B2DFDB,stroke:#00796B,stroke-width:2px
-    style networking fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
+    style securityRG fill:#FDE7E9,stroke:#8A3707,stroke-width:2px
+    style monitoringRG fill:#DEECF9,stroke:#004578,stroke-width:2px
+    style workloadRG fill:#DEECF9,stroke:#004578,stroke-width:2px
+    style networking fill:#DEECF9,stroke:#004578,stroke-width:2px
     style pools fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style scm fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+    style scm fill:#C8F0E7,stroke:#005B4E,stroke-width:2px
 
     %% Required classDef Palette (14 declarations - MRM-D002 compliant)
     classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
@@ -173,13 +172,13 @@ flowchart TB
     classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
     classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
     classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
-    classDef azureBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#323130
-    classDef azureGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#323130
-    classDef azureRed fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#323130
-    classDef azureYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#323130
-    classDef azureOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#323130
-    classDef azurePurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#323130
-    classDef azureTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#002440
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#063206
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#410D12
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#3D2C05
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#341403
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#25265E
+    classDef presenceTeal fill:#C8F0E7,stroke:#005B4E,stroke-width:2px,color:#002D26
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Accessibility: WCAG AA verified (4.5:1 contrast ratio)
