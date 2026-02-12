@@ -79,47 +79,47 @@ flowchart TB
     accTitle: Azure Dev Box Deployment Architecture
     accDescr: Enterprise-grade infrastructure deployment showing Azure Landing Zone layers with deployment orchestration, IaC modules, security, monitoring, workload, connectivity, and source control integration
 
-    subgraph deployment["🚀 Deployment Layer"]
-        azd["🎯 Azure Developer CLI<br/>(azd)"]:::azureBlue
-        scripts["🔧 Automation Scripts<br/>(PowerShell + Bash)"]:::azureBlue
-        config["📝 YAML Configuration<br/>(Settings)"]:::azureBlue
+    subgraph deployment["Deployment Layer"]
+        azd["Azure Developer CLI"]:::azureBlue
+        scripts["Automation Scripts"]:::azureBlue
+        config["YAML Configuration"]:::azureBlue
     end
 
-    subgraph iac["📦 Infrastructure as Code Layer"]
-        main["📋 main.bicep<br/>(Orchestration)"]:::azureTeal
-        security["🔐 Security Module"]:::azureTeal
-        monitoring["📊 Monitoring Module"]:::azureTeal
-        workload["💼 Workload Module"]:::azureTeal
-        connectivity["🌐 Connectivity Module"]:::azureTeal
-        identity["🔑 Identity Module"]:::azureTeal
+    subgraph iac["Infrastructure as Code Layer"]
+        main["main.bicep"]:::azureTeal
+        security["Security Module"]:::azureTeal
+        monitoring["Monitoring Module"]:::azureTeal
+        workload["Workload Module"]:::azureTeal
+        connectivity["Connectivity Module"]:::azureTeal
+        identity["Identity Module"]:::azureTeal
     end
 
-    subgraph azure["☁️ Azure Landing Zones"]
-        subgraph securityLZ["🛡️ Security Landing Zone"]
-            kv["🔒 Key Vault<br/>(Secrets)"]:::warningOrange
-            rbac["👥 RBAC Roles"]:::warningOrange
+    subgraph azure["Azure Landing Zones"]
+        subgraph securityLZ["Security Landing Zone"]
+            kv["Key Vault"]:::warningOrange
+            rbac["RBAC Roles"]:::warningOrange
         end
 
-        subgraph monitoringLZ["📈 Monitoring Landing Zone"]
-            la["📝 Log Analytics<br/>(Workspace)"]:::successGreen
-            monitor["🔍 Azure Monitor"]:::successGreen
+        subgraph monitoringLZ["Monitoring Landing Zone"]
+            la["Log Analytics"]:::successGreen
+            monitor["Azure Monitor"]:::successGreen
         end
 
-        subgraph workloadLZ["🎨 Workload Landing Zone"]
-            dc["🏢 Dev Center<br/>(Core)"]:::azurePurple
-            projects["📁 Dev Box Projects<br/>(Multi-tenant)"]:::azurePurple
-            pools["🖥️ Dev Box Pools<br/>(VM Definitions)"]:::azurePurple
+        subgraph workloadLZ["Workload Landing Zone"]
+            dc["Dev Center"]:::azurePurple
+            projects["Dev Box Projects"]:::azurePurple
+            pools["Dev Box Pools"]:::azurePurple
         end
 
-        subgraph connectivityLZ["🔗 Connectivity Landing Zone"]
-            vnet["🌐 Virtual Network"]:::azureCyan
-            nc["🔌 Network Connection"]:::azureCyan
+        subgraph connectivityLZ["Connectivity Landing Zone"]
+            vnet["Virtual Network"]:::azureCyan
+            nc["Network Connection"]:::azureCyan
         end
     end
 
-    subgraph sourceControl["📂 Source Control Integration"]
-        gh["🐙 GitHub<br/>(Catalogs)"]:::criticalRed
-        ado["🔷 Azure DevOps<br/>(Optional)"]:::criticalRed
+    subgraph sourceControl["Source Control Integration"]
+        gh["GitHub"]:::criticalRed
+        ado["Azure DevOps"]:::criticalRed
     end
 
     azd --> scripts
