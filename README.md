@@ -84,8 +84,8 @@ flowchart TB
     accDescr: Three-tier Azure architecture with security, monitoring, and workload resource groups. DevCenter provisions Dev Boxes, integrates with GitHub/Azure DevOps, stores secrets in Key Vault, and logs to Log Analytics.
 
     subgraph users["👥 Users & Authentication"]
-        devs["👨‍💻 Developers<br/>(Azure AD)"]:::neutral
-        admins["👨‍💼 Administrators<br/>(Azure AD)"]:::neutral
+        devs["👨‍💻 Developers<br/>(Azure AD)"]:::neutralGrey
+        admins["👨‍💼 Administrators<br/>(Azure AD)"]:::neutralGrey
     end
 
     subgraph azureCloud["☁️ Azure Cloud"]
@@ -108,8 +108,8 @@ flowchart TB
             end
 
             subgraph pools["💻 Dev Box Pools"]
-                pool1["🖥️ Windows 11 Pool"]:::neutral
-                pool2["🖥️ Custom Image Pool"]:::neutral
+                pool1["🖥️ Windows 11 Pool"]:::neutralGrey
+                pool2["🖥️ Custom Image Pool"]:::neutralGrey
             end
         end
 
@@ -162,12 +162,21 @@ flowchart TB
     style pools fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
     style scm fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
 
-    %% Semantic Color Classes (MRM-C001, MRM-C004 compliant)
-    classDef azureYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#323130
+    %% Required classDef Palette (14 declarations - MRM-D002 compliant)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
     classDef azureBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#323130
-    classDef azureTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#323130
     classDef azureGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#323130
-    classDef neutral fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureRed fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#323130
+    classDef azureYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#323130
+    classDef azureOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#323130
+    classDef azurePurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#323130
+    classDef azureTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 **Component Roles:**
