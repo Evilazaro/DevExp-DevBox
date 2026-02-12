@@ -74,66 +74,80 @@ organizing resources into three logical zones:
 title: "DevExp-DevBox Architecture - Azure DevCenter Deployment"
 config:
   theme: base
+  flowchart:
+    htmlLabels: false
+    curve: cardinal
   themeVariables:
-    primaryColor: "#0078D4"
-    primaryTextColor: "#FFFFFF"
-    primaryBorderColor: "#005A9E"
-    lineColor: "#323130"
-    secondaryColor: "#50E6FF"
-    tertiaryColor: "#008272"
+    primaryColor: "#DEECF9"
+    primaryTextColor: "#323130"
+    primaryBorderColor: "#004578"
+    lineColor: "#1976D2"
+    secondaryColor: "#DFF6DD"
+    tertiaryColor: "#C8F0E7"
 ---
 flowchart TB
-    %% Accessibility
+    %% Accessibility (WCAG AA Compliant)
     accTitle: DevExp-DevBox Azure DevCenter Architecture Diagram
-    accDescr: Multi-tier architecture showing user interaction with Azure Control Plane, deploying resources across three landing zones Security Monitoring and Workload with DevCenter projects and Dev Box pools
+    accDescr: Multi-tier architecture showing user interaction with Azure Control Plane deploying resources across three landing zones Security Monitoring and Workload with DevCenter projects and Dev Box pools
+
+    %% ============================================
+    %% COLOR SCHEME (Microsoft Fluent UI / Azure)
+    %% Hierarchical: #FFFFFF (main) → #F3F2F1 (sub)
+    %% Semantic: Orange=Security, Grey=Monitoring, Blue=Workload/Process
+    %% Teal=Data/Storage, Green=DevCenter Core
+    %% ============================================
 
     %% External Actors
-    User["👤 Platform Engineer"]
+    User["👤 Platform Engineer"]:::azureBlue
 
     %% Control Plane Layer
     subgraph ControlPlane["🔧 Azure Control Plane"]
-        azd["📦 azd up<br/>(Azure Developer CLI)"]
-        setUp["⚙️ setUp.ps1<br/>(PowerShell Automation)"]
-        bicep["📜 main.bicep<br/>(Subscription Scope)"]
+        direction TB
+        azd["📦 azd up<br/>(Azure Developer CLI)"]:::azureBlue
+        setUp["⚙️ setUp.ps1<br/>(PowerShell Automation)"]:::azureBlue
+        bicep["📜 main.bicep<br/>(Subscription Scope)"]:::azureBlue
     end
 
     %% Security Landing Zone
     subgraph SecurityZone["🔐 Security Landing Zone"]
         direction TB
-        securityRG["📁 Security Resource Group"]
-        keyVault["🔑 Azure Key Vault<br/>(GitHub/ADO Tokens)"]
-        rbacSecurity["👥 RBAC Assignments<br/>(Contributor + UAA)"]
+        securityRG["📁 Security Resource Group"]:::warningOrange
+        keyVault["🔑 Azure Key Vault<br/>(GitHub/ADO Tokens)"]:::warningOrange
+        rbacSecurity["👥 RBAC Assignments<br/>(Contributor + UAA)"]:::warningOrange
     end
 
     %% Monitoring Landing Zone
     subgraph MonitoringZone["📊 Monitoring Landing Zone"]
         direction TB
-        monitoringRG["📁 Monitoring Resource Group"]
-        logAnalytics["📈 Log Analytics<br/>(Centralized Telemetry)"]
+        monitoringRG["📁 Monitoring Resource Group"]:::neutralGrey
+        logAnalytics["📈 Log Analytics<br/>(Centralized Telemetry)"]:::neutralGrey
     end
 
     %% Workload Landing Zone
     subgraph WorkloadZone["💼 Workload Landing Zone"]
         direction TB
-        workloadRG["📁 Workload Resource Group"]
+        workloadRG["📁 Workload Resource Group"]:::azureBlue
 
         subgraph DevCenterCore["🏢 DevCenter Core"]
-            devCenter["🎯 Azure DevCenter<br/>(devexp-devcenter)"]
-            catalog["📚 Catalog<br/>(IaC Templates)"]
-            envType["🌍 Environment Types<br/>(dev/test/prod)"]
+            direction TB
+            devCenter["🎯 Azure DevCenter<br/>(devexp-devcenter)"]:::successGreen
+            catalog["📚 Catalog<br/>(IaC Templates)"]:::successGreen
+            envType["🌍 Environment Types<br/>(dev/test/prod)"]:::successGreen
         end
 
         subgraph Projects["📂 DevCenter Projects"]
-            project1["🗂️ Project 1<br/>(Team A)"]
-            project2["🗂️ Project 2<br/>(Team B)"]
+            direction TB
+            project1["🗂️ Project 1<br/>(Team A)"]:::presenceTeal
+            project2["🗂️ Project 2<br/>(Team B)"]:::presenceTeal
         end
 
         subgraph DevBoxPools["💻 Dev Box Pools"]
-            pool1["🖥️ Pool 1<br/>(Windows 11 Pro)"]
-            pool2["🖥️ Pool 2<br/>(Custom Image)"]
+            direction TB
+            pool1["🖥️ Pool 1<br/>(Windows 11 Pro)"]:::sharedYellow
+            pool2["🖥️ Pool 2<br/>(Custom Image)"]:::sharedYellow
         end
 
-        networkConn["🌐 Network Connection<br/>(VNet + Subnet)"]
+        networkConn["🌐 Network Connection<br/>(VNet + Subnet)"]:::presenceTeal
     end
 
     %% Relationships
@@ -162,23 +176,30 @@ flowchart TB
     keyVault -.->|"secrets used by"| devCenter
     rbacSecurity -.->|"grants access to"| devCenter
 
-    %% Styling for Landing Zones
-    style SecurityZone fill:#FFF4CE,stroke:#D83B01,stroke-width:3px
-    style MonitoringZone fill:#E1DFDD,stroke:#605E5C,stroke-width:3px
-    style WorkloadZone fill:#DEECF9,stroke:#0078D4,stroke-width:3px
+    %% SUBGRAPH STYLING (7 subgraphs = 7 style directives) - MRM-S001 compliant
+    style ControlPlane fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    style SecurityZone fill:#FFE0B2,stroke:#E64A19,stroke-width:3px
+    style MonitoringZone fill:#F3F2F1,stroke:#605E5C,stroke-width:3px
+    style WorkloadZone fill:#DEECF9,stroke:#004578,stroke-width:3px
+    style DevCenterCore fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px
+    style Projects fill:#C8F0E7,stroke:#005B4E,stroke-width:2px
+    style DevBoxPools fill:#FFF4CE,stroke:#986F0B,stroke-width:2px
 
-    %% Styling for Core Components
-    style ControlPlane fill:#F3F2F1,stroke:#323130,stroke-width:2px
-    style DevCenterCore fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
-    style Projects fill:#F1F8E9,stroke:#689F38,stroke-width:2px
-    style DevBoxPools fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
-
-    %% Styling for Key Resources
-    style azd fill:#0078D4,stroke:#005A9E,stroke-width:2px,color:#FFFFFF
-    style bicep fill:#0078D4,stroke:#005A9E,stroke-width:2px,color:#FFFFFF
-    style keyVault fill:#FFBA08,stroke:#D83B01,stroke-width:2px
-    style devCenter fill:#50E6FF,stroke:#0078D4,stroke-width:2px
-    style logAnalytics fill:#A4262C,stroke:#D13438,stroke-width:2px,color:#FFFFFF
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1 (Required classDef Palette - 14 declarations)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#005B4E,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 **Component Interaction Flow:**
@@ -819,23 +840,51 @@ We welcome contributions! Please follow the structured workflow defined in
 title: "Contribution Workflow"
 config:
   theme: base
+  flowchart:
+    htmlLabels: false
+    curve: cardinal
+  themeVariables:
+    primaryColor: "#DEECF9"
+    primaryTextColor: "#323130"
+    primaryBorderColor: "#004578"
 ---
 flowchart LR
     accTitle: DevExp-DevBox Contribution Workflow
     accDescr: Development flow from issue creation through PR merge with testing and validation gates
 
-    Issue["📋 Create Issue<br/>(Epic/Feature/Task)"] --> Branch["🌿 Create Branch<br/>(feature/*)"]
-    Branch --> Code["💻 Write Code<br/>(Bicep + PS1)"]
-    Code --> Test["🧪 Test Locally<br/>(azd up)"]
-    Test --> Lint["🔍 Lint & Validate<br/>(az bicep lint)"]
-    Lint --> Commit["📝 Commit Changes<br/>(conventional commits)"]
-    Commit --> PR["🔄 Create PR<br/>(link to issue)"]
-    PR --> Review["👥 Code Review<br/>(2 approvals)"]
-    Review --> Merge["✅ Merge to main"]
+    %% ============================================
+    %% COLOR SCHEME (Microsoft Fluent UI / Azure)
+    %% Blue=Input/Planning, Green=Success/Output
+    %% Yellow=Warning/Validation, Teal=Process
+    %% ============================================
 
-    style Issue fill:#E1DFDD,stroke:#605E5C,stroke-width:2px
-    style Test fill:#FFF4CE,stroke:#D83B01,stroke-width:2px
-    style Merge fill:#DFF6DD,stroke:#107C10,stroke-width:2px
+    Issue["📋 Create Issue<br/>(Epic/Feature/Task)"]:::azureBlue
+    Branch["🌿 Create Branch<br/>(feature/*)"]:::presenceTeal
+    Code["💻 Write Code<br/>(Bicep + PS1)"]:::presenceTeal
+    Test["🧪 Test Locally<br/>(azd up)"]:::sharedYellow
+    Lint["🔍 Lint & Validate<br/>(az bicep lint)"]:::sharedYellow
+    Commit["📝 Commit Changes<br/>(conventional commits)"]:::presenceTeal
+    PR["🔄 Create PR<br/>(link to issue)"]:::azureBlue
+    Review["👥 Code Review<br/>(2 approvals)"]:::presenceTeal
+    Merge["✅ Merge to main"]:::successGreen
+
+    Issue --> Branch --> Code --> Test --> Lint --> Commit --> PR --> Review --> Merge
+
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1 (Required classDef Palette - 14 declarations)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#005B4E,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 **Issue Labels** (required for all contributions):
