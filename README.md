@@ -103,6 +103,9 @@ config:
     tertiaryColor: "#FFD43B"
 ---
 flowchart TB
+    accTitle: DevExp-DevBox Architecture Diagram
+    accDescr: Azure Landing Zone architecture showing subscription-level deployment with four resource group layers - Security (Key Vault), Monitoring (Log Analytics), Workload (DevCenter with projects and pools), and optional Connectivity (Virtual Network). Developer initiates deployment via azd CLI, Key Vault provides secrets to DevCenter, and Log Analytics collects diagnostics from all resources.
+
     subgraph azure["☁️ Azure Subscription"]
         direction TB
 
@@ -145,10 +148,10 @@ flowchart TB
     pool -.->|Network| subnet
 
     style azure fill:#F0F0F0,stroke:#8A8886,stroke-width:2px
-    style security fill:#FFF4CE,stroke:#FFB900,stroke-width:2px
-    style monitoring fill:#E3F2FD,stroke:#0078D4,stroke-width:2px
-    style workload fill:#F3E5F5,stroke:#5E5E5E,stroke-width:2px
-    style connectivity fill:#E8F5E9,stroke:#107C10,stroke-width:2px
+    style security fill:#FFF9C4,stroke:#FFB900,stroke-width:2px
+    style monitoring fill:#BBDEFB,stroke:#0078D4,stroke-width:2px
+    style workload fill:#E1BEE7,stroke:#5E5E5E,stroke-width:2px
+    style connectivity fill:#C8E6C9,stroke:#107C10,stroke-width:2px
 ```
 
 **Component Roles:**
