@@ -149,28 +149,22 @@ flowchart TB
     logAnalytics -.logs.-> devCenter
     rbacRoles -.permissions.-> devCenter
 
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1 (Semantic + Font Governance)
-    %% Color Scheme: Semantic colors for functional layers
-    %% Blue (#BBDEFB) → Deployment/orchestration | Teal (#B2DFDB) → IaC modules
-    %% Orange (#FFE0B2) → Security | Green (#C8E6C9) → Monitoring
-    %% Purple (#E1BEE7) → Workload | Cyan (#B2EBF2) → Connectivity | Red (#FFCDD2) → Source Control
+    classDef azureBlue fill:#0078D4,stroke:#004578,stroke-width:2px,color:#fff
+    classDef azureTeal fill:#00B294,stroke:#008272,stroke-width:2px,color:#fff
+    classDef warningOrange fill:#FFB900,stroke:#CA8F00,stroke-width:2px,color:#000
+    classDef successGreen fill:#107C10,stroke:#0B5A0B,stroke-width:2px,color:#fff
+    classDef azurePurple fill:#8661C5,stroke:#6B4C9A,stroke-width:2px,color:#fff
+    classDef azureCyan fill:#00B7C3,stroke:#008B94,stroke-width:2px,color:#fff
+    classDef criticalRed fill:#E81123,stroke:#A4262C,stroke-width:2px,color:#fff
 
-    classDef azureBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#004578
-    classDef azureTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#004D40
-    classDef warningOrange fill:#FFE0B2,stroke:#E64A19,stroke-width:2px,color:#4D3806
-    classDef successGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#004B04
-    classDef azurePurple fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#4A0072
-    classDef azureCyan fill:#B2EBF2,stroke:#0097A7,stroke-width:2px,color:#004D56
-    classDef criticalRed fill:#FFCDD2,stroke:#C62828,stroke-width:2px,color:#5F0016
-
-    style deployment fill:#E3F2FD,stroke:#1976D2,stroke-width:3px
-    style iac fill:#E0F2F1,stroke:#00796B,stroke-width:2px
-    style azure fill:#FFFFFF,stroke:#8A8886,stroke-width:2px
-    style securityLZ fill:#FFF3E0,stroke:#E64A19,stroke-width:2px
-    style monitoringLZ fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
-    style workloadLZ fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
-    style connectivityLZ fill:#E0F7FA,stroke:#0097A7,stroke-width:2px
-    style sourceControl fill:#FFEBEE,stroke:#C62828,stroke-width:2px
+    style deployment fill:#0078D4,stroke:#004578,stroke-width:3px,color:#fff
+    style iac fill:#50E6FF,stroke:#00B7C3,stroke-width:2px,color:#000
+    style azure fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#000
+    style securityLZ fill:#FFB900,stroke:#CA8F00,stroke-width:2px,color:#000
+    style monitoringLZ fill:#00B294,stroke:#008272,stroke-width:2px,color:#fff
+    style workloadLZ fill:#8661C5,stroke:#6B4C9A,stroke-width:2px,color:#fff
+    style connectivityLZ fill:#00B7C3,stroke:#008B94,stroke-width:2px,color:#fff
+    style sourceControl fill:#E3008C,stroke:#B30070,stroke-width:2px,color:#fff
 ```
 
 ### Component Responsibilities
