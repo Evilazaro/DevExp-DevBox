@@ -78,17 +78,10 @@ network isolation and data protection.
 title: "Azure Dev Box Accelerator - System Architecture"
 config:
   theme: base
-  themeVariables:
-    primaryColor: "#0078D4"
-    primaryTextColor: "#fff"
-    primaryBorderColor: "#004578"
-    lineColor: "#605E5C"
-    secondaryColor: "#50E6FF"
-    tertiaryColor: "#D83B01"
 ---
 flowchart TB
     accTitle: Azure Dev Box Accelerator System Architecture
-    accDescr: Architecture diagram showing the three-tier resource group design with Users/Authentication connecting to Azure Cloud containing Security, Monitoring, Workload resource groups, and Source Control integration. DevCenter provisions Dev Boxes from pools, reads secrets from Key Vault, syncs catalogs with GitHub/Azure DevOps, and sends logs to Log Analytics.
+    accDescr: Three-tier Azure architecture with security, monitoring, and workload resource groups. DevCenter provisions Dev Boxes, integrates with GitHub/Azure DevOps, stores secrets in Key Vault, and logs to Log Analytics.
 
     subgraph users["👥 Users & Authentication"]
         devs["👨‍💻 Developers<br/>(Azure AD)"]:::neutral
@@ -126,26 +119,38 @@ flowchart TB
         end
     end
 
+    %% User Authentication & Access Control
     devs -->|"Authenticate & Request"| dc
     admins -->|"Configure & Manage"| dc
 
+    %% Dev Box Provisioning Flow
     dc -->|"Provision Dev Boxes"| proj1
     dc -->|"Provision Dev Boxes"| proj2
 
     proj1 --> pool1
     proj2 --> pool2
 
+    %% Network Connectivity
     pool1 --> vnet
     pool2 --> vnet
     vnet --> netconn
 
+    %% Security & Source Control Integration
     dc -->|"Read Secrets"| kv
     dc -->|"Sync Catalogs"| gh
     dc -->|"Optional Integration"| ado
 
+    %% Monitoring & Audit Logging
     proj1 -->|"Send Logs"| la
     proj2 -->|"Send Logs"| la
     dc -->|"Send Audit Logs"| la
+
+    %% Color Mapping Documentation
+    %% Yellow (#FFF9C4): Security - Key Vault, secrets management
+    %% Blue (#BBDEFB): Monitoring & Networking - Log Analytics, VNet, connections
+    %% Teal (#B2DFDB): Workload - DevCenter control plane, projects
+    %% Green (#C8E6C9): Source Control - GitHub, Azure DevOps catalogs
+    %% Neutral (#F3F2F1): Non-semantic - User groups, Dev Box pools
 
     %% Subgraph Styling (MRM-S001 compliant)
     style users fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
