@@ -87,39 +87,42 @@ config:
     tertiaryColor: "#D83B01"
 ---
 flowchart TB
+    accTitle: Azure Dev Box Accelerator System Architecture
+    accDescr: Architecture diagram showing the three-tier resource group design with Users/Authentication connecting to Azure Cloud containing Security, Monitoring, Workload resource groups, and Source Control integration. DevCenter provisions Dev Boxes from pools, reads secrets from Key Vault, syncs catalogs with GitHub/Azure DevOps, and sends logs to Log Analytics.
+
     subgraph users["👥 Users & Authentication"]
-        devs["Developers<br/>(Azure AD)"]
-        admins["Administrators<br/>(Azure AD)"]
+        devs["👨‍💻 Developers<br/>(Azure AD)"]:::neutral
+        admins["👨‍💼 Administrators<br/>(Azure AD)"]:::neutral
     end
 
     subgraph azureCloud["☁️ Azure Cloud"]
         subgraph securityRG["🔒 Security Resource Group"]
-            kv["Key Vault<br/>(Secrets Management)"]
+            kv["🔐 Key Vault<br/>(Secrets Management)"]:::azureYellow
         end
 
         subgraph monitoringRG["📊 Monitoring Resource Group"]
-            la["Log Analytics<br/>(Centralized Logging)"]
+            la["📈 Log Analytics<br/>(Centralized Logging)"]:::azureBlue
         end
 
         subgraph workloadRG["⚙️ Workload Resource Group"]
-            dc["DevCenter<br/>(Control Plane)"]
-            proj1["Project 1<br/>(Dev Team A)"]
-            proj2["Project 2<br/>(Dev Team B)"]
+            dc["⚙️ DevCenter<br/>(Control Plane)"]:::azureTeal
+            proj1["📁 Project 1<br/>(Dev Team A)"]:::azureTeal
+            proj2["📁 Project 2<br/>(Dev Team B)"]:::azureTeal
 
             subgraph networking["🌐 Networking"]
-                vnet["Virtual Network"]
-                netconn["Network Connection"]
+                vnet["🌐 Virtual Network"]:::azureBlue
+                netconn["🔗 Network Connection"]:::azureBlue
             end
 
             subgraph pools["💻 Dev Box Pools"]
-                pool1["Windows 11 Pool"]
-                pool2["Custom Image Pool"]
+                pool1["🖥️ Windows 11 Pool"]:::neutral
+                pool2["🖥️ Custom Image Pool"]:::neutral
             end
         end
 
         subgraph scm["📦 Source Control"]
-            gh["GitHub<br/>(Catalogs & Repos)"]
-            ado["Azure DevOps<br/>(Optional)"]
+            gh["🐙 GitHub<br/>(Catalogs & Repos)"]:::azureGreen
+            ado["🔷 Azure DevOps<br/>(Optional)"]:::azureGreen
         end
     end
 
@@ -144,14 +147,22 @@ flowchart TB
     proj2 -->|"Send Logs"| la
     dc -->|"Send Audit Logs"| la
 
-    style users fill:#E1DFDD,stroke:#8A8886,stroke-width:2px
-    style azureCloud fill:#F3F2F1,stroke:#605E5C,stroke-width:3px
-    style securityRG fill:#FFF4CE,stroke:#F7630C,stroke-width:2px
-    style monitoringRG fill:#DEECF9,stroke:#0078D4,stroke-width:2px
-    style workloadRG fill:#FFFFFF,stroke:#0078D4,stroke-width:2px
-    style networking fill:#E5F1FB,stroke:#004578,stroke-width:2px
-    style pools fill:#F2F2F2,stroke:#605E5C,stroke-width:2px
-    style scm fill:#D0E7A0,stroke:#498205,stroke-width:2px
+    %% Subgraph Styling (MRM-S001 compliant)
+    style users fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    style azureCloud fill:#FFFFFF,stroke:#0078D4,stroke-width:3px
+    style securityRG fill:#FFF9C4,stroke:#F57F17,stroke-width:2px
+    style monitoringRG fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
+    style workloadRG fill:#B2DFDB,stroke:#00796B,stroke-width:2px
+    style networking fill:#BBDEFB,stroke:#1565C0,stroke-width:2px
+    style pools fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    style scm fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
+
+    %% Semantic Color Classes (MRM-C001, MRM-C004 compliant)
+    classDef azureYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#323130
+    classDef azureTeal fill:#B2DFDB,stroke:#00796B,stroke-width:2px,color:#323130
+    classDef azureGreen fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#323130
+    classDef neutral fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 **Component Roles:**
