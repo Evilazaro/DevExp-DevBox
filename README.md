@@ -80,74 +80,74 @@ flowchart TB
     accDescr: Enterprise-grade infrastructure deployment showing Azure Landing Zone layers with deployment orchestration, IaC modules, security, monitoring, workload, connectivity, and source control integration
 
     subgraph deployment["Deployment Layer"]
-        azd["Azure Developer CLI"]:::azureBlue
-        scripts["Automation Scripts"]:::azureBlue
-        config["YAML Configuration"]:::azureBlue
+        azdCLI["Azure Developer CLI"]:::azureBlue
+        scriptsPSH["Automation Scripts"]:::azureBlue
+        configYAML["YAML Configuration"]:::azureBlue
     end
 
     subgraph iac["Infrastructure as Code Layer"]
-        main["main.bicep"]:::azureTeal
-        security["Security Module"]:::azureTeal
-        monitoring["Monitoring Module"]:::azureTeal
-        workload["Workload Module"]:::azureTeal
-        connectivity["Connectivity Module"]:::azureTeal
-        identity["Identity Module"]:::azureTeal
+        mainBicep["main.bicep"]:::azureTeal
+        securityMod["Security Module"]:::azureTeal
+        monitoringMod["Monitoring Module"]:::azureTeal
+        workloadMod["Workload Module"]:::azureTeal
+        connectivityMod["Connectivity Module"]:::azureTeal
+        identityMod["Identity Module"]:::azureTeal
     end
 
     subgraph azure["Azure Landing Zones"]
         subgraph securityLZ["Security Landing Zone"]
-            kv["Key Vault"]:::warningOrange
-            rbac["RBAC Roles"]:::warningOrange
+            keyVault["Key Vault"]:::warningOrange
+            rbacRoles["RBAC Roles"]:::warningOrange
         end
 
         subgraph monitoringLZ["Monitoring Landing Zone"]
-            la["Log Analytics"]:::successGreen
-            monitor["Azure Monitor"]:::successGreen
+            logAnalytics["Log Analytics"]:::successGreen
+            azureMonitor["Azure Monitor"]:::successGreen
         end
 
         subgraph workloadLZ["Workload Landing Zone"]
-            dc["Dev Center"]:::azurePurple
-            projects["Dev Box Projects"]:::azurePurple
-            pools["Dev Box Pools"]:::azurePurple
+            devCenter["Dev Center"]:::azurePurple
+            devProjects["Dev Box Projects"]:::azurePurple
+            devPools["Dev Box Pools"]:::azurePurple
         end
 
         subgraph connectivityLZ["Connectivity Landing Zone"]
-            vnet["Virtual Network"]:::azureCyan
-            nc["Network Connection"]:::azureCyan
+            virtualNet["Virtual Network"]:::azureCyan
+            netConnection["Network Connection"]:::azureCyan
         end
     end
 
     subgraph sourceControl["Source Control Integration"]
-        gh["GitHub"]:::criticalRed
-        ado["Azure DevOps"]:::criticalRed
+        github["GitHub"]:::criticalRed
+        azureDevOps["Azure DevOps"]:::criticalRed
     end
 
-    azd --> scripts
-    scripts --> config
-    config --> main
-    main --> security
-    main --> monitoring
-    main --> workload
-    main --> connectivity
-    main --> identity
+    azdCLI --> scriptsPSH
+    scriptsPSH --> configYAML
+    configYAML --> mainBicep
+    mainBicep --> securityMod
+    mainBicep --> monitoringMod
+    mainBicep --> workloadMod
+    mainBicep --> connectivityMod
+    mainBicep --> identityMod
 
-    security --> kv
-    security --> rbac
-    monitoring --> la
-    monitoring --> monitor
-    workload --> dc
-    workload --> projects
-    workload --> pools
-    connectivity --> vnet
-    connectivity --> nc
+    securityMod --> keyVault
+    securityMod --> rbacRoles
+    monitoringMod --> logAnalytics
+    monitoringMod --> azureMonitor
+    workloadMod --> devCenter
+    workloadMod --> devProjects
+    workloadMod --> devPools
+    connectivityMod --> virtualNet
+    connectivityMod --> netConnection
 
-    dc --> gh
-    dc --> ado
-    projects --> pools
-    pools --> vnet
-    kv -.secrets.-> dc
-    la -.logs.-> dc
-    rbac -.permissions.-> dc
+    devCenter --> github
+    devCenter --> azureDevOps
+    devProjects --> devPools
+    devPools --> virtualNet
+    keyVault -.secrets.-> devCenter
+    logAnalytics -.logs.-> devCenter
+    rbacRoles -.permissions.-> devCenter
 
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1 (Semantic + Font Governance)
     %% Color Scheme: Semantic colors for functional layers
