@@ -154,11 +154,11 @@ flowchart TB
 
     %% Subgraph Styling (MRM-S001 compliant)
     style users fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style azureCloud fill:#FFFFFF,stroke:#0078D4,stroke-width:3px
+    style azureCloud fill:#FFFFFF,stroke:#605E5C,stroke-width:3px
     style securityRG fill:#FFF9C4,stroke:#F57F17,stroke-width:2px
     style monitoringRG fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
     style workloadRG fill:#B2DFDB,stroke:#00796B,stroke-width:2px
-    style networking fill:#BBDEFB,stroke:#1565C0,stroke-width:2px
+    style networking fill:#BBDEFB,stroke:#1976D2,stroke-width:2px
     style pools fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
     style scm fill:#C8E6C9,stroke:#388E3C,stroke-width:2px
 
