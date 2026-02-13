@@ -1055,14 +1055,14 @@ flowchart LR
     end
 
 %% Authentication flows (emphasized solid lines)
-    DEV e10@==>|"🔐 OAuth 2.0<br/>(Managed ID)"| AAD
-    DC e11@==>|"🔐 Managed ID<br/>(RBAC)"| KV
+    DEV e10@==>|"🔐 OAuth 2.0<br/>(Mgd ID)"| AAD
+    DC e11@==>|"🔐 Mgd ID<br/>(RBAC)"| KV
 
     %% Integration flows (emphasized solid lines)
-    DC e12@==>|"📦 HTTPS/REST<br/>(PAT from KV)"| GH
-    DC e13@==>|"📦 HTTPS/REST<br/>(PAT from KV)"| ADO
-    DC e14@==>|"⚙️ HTTPS/ARM<br/>(Managed ID)"| ARM
-    DC e15@==>|"📊 HTTPS/REST<br/>(Managed ID)"| MON
+    DC e12@==>|"📦 REST<br/>(PAT)"| GH
+    DC e13@==>|"📦 REST<br/>(PAT)"| ADO
+    DC e14@==>|"⚙️ ARM<br/>(Mgd ID)"| ARM
+    DC e15@==>|"📊 REST<br/>(Mgd ID)"| MON
 
     %% Critical integration edge styling (P3 feature)
     linkStyle 0 stroke:#A4262C,stroke-width:3px
