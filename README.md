@@ -62,12 +62,12 @@ graph TB
 
     subgraph AZSUB["☁️ Azure Subscription"]
         subgraph SECLZ["🔒 Security Landing Zone"]
-            KV["🔐 Key Vault<br/>Secrets Management"]:::azureOrange
-            LA["📊 Log Analytics<br/>Centralized Logging"]:::azureOrange
+            KV["🔐 Key Vault"]:::azureOrange
+            LA["📊 Log Analytics"]:::azureOrange
         end
 
         subgraph WKLZ["💼 Workload Landing Zone"]
-            DC["🏢 Dev Center<br/>Central Management"]:::azureBlue
+            DC["🏢 Dev Center"]:::azureBlue
 
             subgraph PROJ["📁 Projects"]
                 P1["🎯 Project: eShop"]:::azureGreen
@@ -85,8 +85,8 @@ graph TB
         LA -.->|Diagnostics| KV
 
         subgraph EXTINT["🔗 External Integration"]
-            GH["📦 GitHub<br/>Source Control"]:::neutralGrey
-            ADO["🚀 Azure DevOps<br/>Source Control"]:::neutralGrey
+            GH["📦 GitHub"]:::neutralGrey
+            ADO["🚀 Azure DevOps"]:::neutralGrey
         end
 
         DC -.->|Catalog Sync| GH
