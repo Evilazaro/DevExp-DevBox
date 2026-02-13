@@ -165,20 +165,22 @@ flowchart TB
     style pools fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
     style scm fill:#C8F0E7,stroke:#005B4E,stroke-width:2px
 
-    %% Required classDef Palette (14 declarations - MRM-D002 compliant)
+    %% Semantic Color Palette (5/5 limit - MRM-C006 compliant)
+    %% Used: azureBlue (process), warningOrange (security), presenceTeal (data)
+    %% Reserved: successGreen (success states), errorRed (error states)
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#002440
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#341403
+    classDef presenceTeal fill:#C8F0E7,stroke:#005B4E,stroke-width:2px,color:#002D26
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#063206
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#410D12
+
+    %% Structural & Neutral Colors (excluded from MRM-C006 count)
     classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
     classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
     classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
     classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
     classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
     classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
-    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#002440
-    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#063206
-    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#410D12
-    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#3D2C05
-    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#341403
-    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#25265E
-    classDef presenceTeal fill:#C8F0E7,stroke:#005B4E,stroke-width:2px,color:#002D26
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Accessibility: WCAG AA verified (4.5:1 contrast ratio)
