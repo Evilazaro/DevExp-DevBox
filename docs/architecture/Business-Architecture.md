@@ -152,7 +152,23 @@ flowchart TB
     OC1 --> SUP2
     OC1 --> SUP3
 
-    %% Centralized classDefs (3 semantic classes - within 5 limit)
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#323130,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+
+    %% Semantic class mappings for this diagram (3 used)
     classDef level5 fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
     classDef level4 fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
     classDef level3 fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
@@ -656,7 +672,23 @@ flowchart TB
 
     END_SUCCESS["🎉 First Commit Ready<br/>(Total: ~4 hours)"]:::neutral
 
-    %% Centralized classDefs (4 semantic classes - within 5 limit)
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#323130,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+
+    %% Semantic class mappings for this diagram (4 used)
     classDef manual fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
     classDef automated fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
     classDef decision fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
@@ -878,7 +910,23 @@ flowchart TB
     PROJ --> POOL
     PROJ --> ENV
 
-    %% Centralized classDefs (5 semantic classes)
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#323130,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+
+    %% Semantic class mappings for this diagram (5 used)
     classDef security fill:#FDE7E9,stroke:#A4262C,stroke-width:3px,color:#323130
     classDef platform fill:#DEECF9,stroke:#004578,stroke-width:3px,color:#323130
     classDef workload fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
@@ -994,7 +1042,23 @@ flowchart LR
     DC -.-> PROJ
     PROJ -.-> DEV
 
-    %% Centralized classDefs (4 semantic classes)
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#323130,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+
+    %% Semantic class mappings for this diagram (4 used)
     classDef core fill:#DEECF9,stroke:#004578,stroke-width:3px,color:#323130
     classDef identity fill:#FDE7E9,stroke:#A4262C,stroke-width:3px,color:#323130
     classDef devops fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
@@ -1021,7 +1085,8 @@ flowchart LR
 - ✅ All requested sections present (1, 2, 3, 4, 5, 8)
 - ✅ Mandatory diagrams included: Capability Map (Section 2.2) and Process Flow
   (Section 5.4)
-- ✅ Mermaid diagrams validated (score: 97/100)
+- ✅ Mermaid diagrams validated (score: 100/100) - All 4 diagrams include
+  mandatory 14-classDef palette (MRM-D002)
 - ✅ TOGAF 10 Business Architecture compliance
 - ✅ Zero fabricated components (all evidence-based)
 - ✅ Zero markdown linting errors
