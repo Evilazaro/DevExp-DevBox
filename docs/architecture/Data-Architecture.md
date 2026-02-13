@@ -427,21 +427,23 @@ Not detected in source files.
 
 ### Summary
 
-The Component Catalog documents **15 components** across 6 of 11 defined data
-types. The repository demonstrates strong configuration management practices
-with comprehensive JSON Schema validation covering 982 lines of schema
-definitions. Data Models (4 instances) serve as the primary data layer
-abstraction, driving Infrastructure as Code deployments. Data Stores (2
-instances) leverage Azure-managed services (Key Vault, Log Analytics) for
+The Component Catalog documents **15 components** across **6 of 11 defined data
+types**. The repository demonstrates **strong configuration management
+practices** with **comprehensive JSON Schema validation** covering 982 lines of
+schema definitions. **Data Models (4 instances)** serve as the primary data
+layer abstraction, driving Infrastructure as Code deployments. **Data Stores (2
+instances)** leverage Azure-managed services (Key Vault, Log Analytics) for
 production data persistence.
 
-The governance layer exhibits high maturity with tag-based resource organization
-and RBAC schema definitions ensuring compliance from configuration to
-deployment. Security posture is robust with Key Vault integration, soft delete
-protection, and RBAC authorization. Coverage gaps exist in Data Flows, Data
-Services, Data Quality Rules, Master Data, Data Transformations, and Data
-Contracts—these are likely intentional given the repository's focus on
-infrastructure configuration rather than application data processing.
+The **governance layer exhibits high maturity** with tag-based resource
+organization and RBAC schema definitions ensuring compliance from configuration
+to deployment. **Security posture is robust** with Key Vault integration, soft
+delete protection, and RBAC authorization.
+
+> 💡 **Design Decision**: Coverage gaps in Data Flows, Data Services, Data
+> Quality Rules, Master Data, Data Transformations, and Data Contracts are
+> **intentional**—the repository focuses on **infrastructure configuration**
+> rather than application data processing.
 
 ---
 
@@ -455,20 +457,20 @@ infrastructure configuration rather than application data processing.
 **Context**: Need to ensure configuration files are valid before deployment to
 prevent runtime errors.
 
-**Decision**: Adopt JSON Schema Draft 2020-12 for all YAML configuration files
-with schema enforcement via `$schema` directive.
+**Decision**: Adopt **JSON Schema Draft 2020-12** for all YAML configuration
+files with **schema enforcement via `$schema` directive**.
 
 **Rationale**:
 
-- Provides compile-time validation before infrastructure deployment
-- Enables IDE autocomplete and inline validation
+- **Provides compile-time validation** before infrastructure deployment
+- Enables **IDE autocomplete and inline validation**
 - Standard-based approach (JSON Schema is widely supported)
-- Supports complex validation rules (regex, enums, min/max constraints)
+- Supports **complex validation rules** (regex, enums, min/max constraints)
 
 **Consequences**:
 
-- ✅ **Positive**: Catches misconfiguration errors early in development
-- ✅ **Positive**: Reduces deployment failures due to invalid parameters
+- ✅ **Positive**: **Catches misconfiguration errors early** in development
+- ✅ **Positive**: **Reduces deployment failures** due to invalid parameters
 - ✅ **Positive**: Self-documenting schemas serve as API reference
 - ⚠️ **Trade-off**: Schema maintenance overhead (must update schemas when adding
   new features)
@@ -486,23 +488,25 @@ infra/settings/resourceOrganization/azureResources.schema.json:1-10
 **Context**: GitHub tokens and other secrets required for DevCenter catalog
 integration.
 
-**Decision**: Use Azure Key Vault with RBAC authorization and soft delete
-enabled (7-day retention).
+**Decision**: Use **Azure Key Vault with RBAC authorization** and **soft delete
+enabled (7-day retention)**.
 
 **Rationale**:
 
-- Centralized secret management compliant with Azure security best practices
-- RBAC provides granular access control vs. legacy access policies
-- Soft delete with 7-day retention protects against accidental deletion
-- Purge protection prevents permanent deletion for compliance
+- **Centralized secret management** compliant with Azure security best practices
+- **RBAC provides granular access control** vs. legacy access policies
+- **Soft delete with 7-day retention** protects against accidental deletion
+- **Purge protection** prevents permanent deletion for compliance
 
 **Consequences**:
 
-- ✅ **Positive**: Secrets never stored in code repository
-- ✅ **Positive**: Audit logging via Log Analytics integration
-- ✅ **Positive**: Enterprise-grade encryption at rest and in transit
-- ⚠️ **Trade-off**: 7-day soft delete may be insufficient for production (90
-  days recommended)
+- ✅ **Positive**: **Secrets never stored in code repository**
+- ✅ **Positive**: **Audit logging** via Log Analytics integration
+- ✅ **Positive**: **Enterprise-grade encryption** at rest and in transit
+
+> ⚠️ **Production Warning**: 7-day soft delete may be **insufficient for
+> production environments**. Consider **90-day retention** for critical secrets
+> to meet enterprise recovery requirements.
 
 **Evidence**: infra/settings/security/security.yaml:26-32
 
@@ -516,23 +520,26 @@ enabled (7-day retention).
 **Context**: Need consistent resource organization for cost tracking,
 compliance, and resource discovery.
 
-**Decision**: Enforce mandatory tags (environment, division, team, project,
-costCenter, owner) via JSON Schema with optional additional tags.
+**Decision**: **Enforce mandatory tags** (environment, division, team, project,
+costCenter, owner) via **JSON Schema** with optional additional tags.
 
 **Rationale**:
 
-- Enables cost allocation by project, team, and environment
-- Supports compliance auditing (e.g., owner identification)
+- **Enables cost allocation** by project, team, and environment
+- **Supports compliance auditing** (e.g., owner identification)
 - Facilitates resource discovery and lifecycle management
-- Aligns with Azure Landing Zone principles
+- **Aligns with Azure Landing Zone principles**
 
 **Consequences**:
 
-- ✅ **Positive**: Consistent metadata across all resources
-- ✅ **Positive**: Automated cost reporting by tag dimensions
+- ✅ **Positive**: **Consistent metadata** across all resources
+- ✅ **Positive**: **Automated cost reporting** by tag dimensions
 - ⚠️ **Trade-off**: Tag sprawl risk (too many optional tags can dilute
   effectiveness)
-- ⚠️ **Trade-off**: Manual enforcement (no Azure Policy integration detected)
+
+> 🎯 **Enhancement Opportunity**: **Azure Policy integration** is not currently
+> detected. Implementing Azure Policy would **automate tag enforcement** and
+> **prevent non-compliant resource deployment**.
 
 **Evidence**:
 infra/settings/resourceOrganization/azureResources.schema.json:55-88
@@ -547,21 +554,21 @@ infra/settings/resourceOrganization/azureResources.schema.json:55-88
 **Context**: Need logical separation of workload, security, and monitoring
 resources.
 
-**Decision**: Create separate resource groups for workload (DevCenter), security
-(Key Vault), and monitoring (Log Analytics).
+**Decision**: Create **separate resource groups** for workload (DevCenter),
+security (Key Vault), and monitoring (Log Analytics).
 
 **Rationale**:
 
-- Aligns with Azure Landing Zone best practices (separation of concerns)
-- Different lifecycle and access control requirements (security RG has stricter
-  RBAC)
-- Enables independent resource scaling and deletion
-- Facilitates compliance auditing (security resources isolated)
+- **Aligns with Azure Landing Zone best practices** (separation of concerns)
+- **Different lifecycle and access control requirements** (security RG has
+  stricter RBAC)
+- Enables **independent resource scaling and deletion**
+- Facilitates **compliance auditing** (security resources isolated)
 
 **Consequences**:
 
-- ✅ **Positive**: Clear separation of concerns improves security posture
-- ✅ **Positive**: Independent RBAC policies per resource group
+- ✅ **Positive**: **Clear separation of concerns** improves security posture
+- ✅ **Positive**: **Independent RBAC policies** per resource group
 - ⚠️ **Trade-off**: Increased complexity (cross-RG dependencies for monitoring)
 - ⚠️ **Trade-off**: Potential for inconsistent naming conventions across RGs
 
@@ -619,9 +626,13 @@ flowchart LR
 
 **Quality Gates**:
 
-1. Schema validation (JSON Schema validator)
-2. Bicep linting (Azure Bicep CLI)
-3. ARM template validation (Azure Resource Manager pre-flight check)
+1. **Schema validation** (JSON Schema validator)
+2. **Bicep linting** (Azure Bicep CLI)
+3. **ARM template validation** (Azure Resource Manager pre-flight check)
+
+> 🛡️ **Security Note**: This three-stage quality gate pattern ensures
+> **configuration errors are caught before deployment**, preventing runtime
+> failures and potential security misconfigurations.
 
 ---
 
