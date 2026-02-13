@@ -127,16 +127,12 @@ graph TB
 
 ### Prerequisites
 
-Before you begin, ensure you have:
+> ⚠️ **Before you begin**, ensure you have:
 
-- **Azure Subscription** with appropriate permissions (Contributor + User Access
-  Administrator)
-- **Azure CLI**
-  [`v2.50.0+`](https://learn.microsoft.com/cli/azure/install-azure-cli)
-- **Azure Developer CLI (azd)**
-  [`v1.0.0+`](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)
-- **GitHub CLI (gh)** [`v2.0.0+`](https://cli.github.com/) (if using GitHub
-  integration)
+- **Azure Subscription** with **appropriate permissions** (Contributor + User Access Administrator)
+- **Azure CLI** [`v2.50.0+`](https://learn.microsoft.com/cli/azure/install-azure-cli)
+- **Azure Developer CLI (azd)** [`v1.0.0+`](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)
+- **GitHub CLI (gh)** [`v2.0.0+`](https://cli.github.com/) (if using GitHub integration)
 - **PowerShell 7+** (Windows) or **Bash** (Linux/macOS)
 
 ### Installation
@@ -154,7 +150,7 @@ Before you begin, ensure you have:
    # Login to Azure
    az login
 
-   # Set your subscription
+   # Set your subscription (REQUIRED)
    az account set --subscription "<your-subscription-id>"
    ```
 
@@ -280,13 +276,13 @@ src/
    azd up
    ```
 
-   This will:
-   - Provision resource groups (workload, security, monitoring)
-   - Deploy Key Vault and secrets
-   - Create Log Analytics workspace
-   - Deploy DevCenter with specified configuration
-   - Create projects and dev box pools
-   - Configure RBAC and managed identities
+   > 💡 **What happens**: This command will:
+   > - Provision **resource groups** (workload, security, monitoring)
+   > - Deploy **Key Vault** and secrets
+   > - Create **Log Analytics workspace**
+   > - Deploy **DevCenter** with specified configuration
+   > - Create **projects and dev box pools**
+   > - Configure **RBAC and managed identities**
 
 ### Access Deployed Resources
 
@@ -325,8 +321,7 @@ azd down
 
 ### Landing Zone Organization
 
-The accelerator implements Azure Landing Zone principles with resource
-segregation:
+The accelerator implements **Azure Landing Zone principles** with resource segregation:
 
 - **Workload Landing Zone** - DevCenter and project resources
 - **Security Landing Zone** - Key Vault, secrets, and security policies
@@ -350,11 +345,12 @@ Configured via the `identity.roleAssignments` section in
 
 ### Security Best Practices
 
-- ✅ Secrets stored in Azure Key Vault (never in code)
-- ✅ Managed identities for service-to-service authentication
-- ✅ Network security with private endpoints support
-- ✅ Diagnostic logging enabled on all resources
-- ✅ Resource tagging for governance and cost management
+> 🔒 **Security-first approach**:
+> - **Secrets stored in Azure Key Vault** (never in code)
+> - **Managed identities** for service-to-service authentication
+> - **Network security** with private endpoints support
+> - **Diagnostic logging** enabled on all resources
+> - **Resource tagging** for governance and cost management
 
 ---
 
