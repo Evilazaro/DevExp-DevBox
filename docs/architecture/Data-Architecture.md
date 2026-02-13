@@ -45,11 +45,11 @@ governance structures.
 The Data layer exhibits **strong governance maturity** (Level 3-4:
 Defined/Measured):
 
-- Centralized schema validation using JSON Schema
-- Tag-based resource organization for cost tracking and compliance
-- Secrets management via Azure Key Vault with RBAC authorization
-- Infrastructure as Code with Bicep for reproducible deployments
-- Monitoring data centralized in Log Analytics Workspace
+- **Centralized schema validation** using JSON Schema
+- **Tag-based resource organization** for cost tracking and compliance
+- **Secrets management** via Azure Key Vault with RBAC authorization
+- **Infrastructure as Code** with Bicep for reproducible deployments
+- **Monitoring data centralized** in Log Analytics Workspace
 
 ---
 
@@ -140,12 +140,14 @@ flowchart TB
 
 The Data Architecture Landscape demonstrates a **well-structured,
 governance-first approach** with clear separation between configuration,
-security, and monitoring domains. The use of JSON Schema validation ensures data
-quality at the configuration layer, while Azure Key Vault and RBAC provide
-enterprise-grade security. The three-tier storage architecture (Configuration →
-Azure → Governance) enables both flexibility and control. The primary gap is the
-lack of explicit data lineage tracking between configuration changes and
-deployed resources.
+security, and monitoring domains. The **three-tier storage architecture**
+(Configuration → Azure → Governance) enables both flexibility and control
+through **JSON Schema validation** at the configuration layer and **Azure Key
+Vault with RBAC** for enterprise-grade security.
+
+> ⚠️ **Gap Identified**: Lack of explicit **data lineage tracking** between
+> configuration changes and deployed resources may impact drift detection and
+> compliance auditing.
 
 ---
 
@@ -172,14 +174,18 @@ data-related decisions from schema design through runtime operations.
 ### Data Schema Design Standards
 
 1. **JSON Schema Draft 2020-12** - All schemas use the latest standard
-2. **Mandatory Fields** - `create`, `name`, `description`, `tags` required for
-   all resources
+2. **Mandatory Fields** - `create`, `name`, `description`, `tags` **required for
+   all resources**
 3. **Pattern Validation** - Regex patterns for names (e.g.,
    `^[a-zA-Z0-9-]{3,24}$` for Key Vault)
 4. **Enumeration Controls** - Limited choices for environments
    (dev/test/staging/prod)
 5. **Length Constraints** - Min/max length validation (1-90 chars for resource
    groups)
+
+> 💡 **Best Practice**: These standards ensure **configuration-as-code
+> consistency** and prevent deployment failures through **compile-time
+> validation**.
 
 ### 3.2 Data Classification Taxonomy
 
@@ -307,12 +313,12 @@ flowchart LR
 
 ### 4.3 Quality Baseline
 
-| Quality Dimension      | Current Score | Target Score | Gap                              |
-| ---------------------- | ------------- | ------------ | -------------------------------- |
-| Schema Coverage        | 100%          | 100%         | ✅ Met                           |
-| Validation Enforcement | 95%           | 100%         | 5% (CI/CD integration needed)    |
-| Data Lineage           | 60%           | 90%          | 30% (automated lineage tracking) |
-| Security Compliance    | 98%           | 100%         | 2% (audit logging enhancement)   |
+| Quality Dimension          | Current Score | Target Score | Gap                                  |
+| -------------------------- | ------------- | ------------ | ------------------------------------ |
+| Schema Coverage            | 100%          | 100%         | ✅ Met                               |
+| **Validation Enforcement** | 95%           | 100%         | **5% (CI/CD integration needed)**    |
+| **Data Lineage**           | **60%**       | 90%          | **30% (automated lineage tracking)** |
+| Security Compliance        | 98%           | 100%         | 2% (audit logging enhancement)       |
 
 ### 4.4 Governance Maturity
 
@@ -338,15 +344,22 @@ flowchart LR
 ### Summary
 
 The Current State Baseline reveals a **mature configuration-as-code foundation**
-with JSON Schema validation, secure secrets management, and comprehensive
-tagging. The repository demonstrates Level 3 governance maturity (Defined) with
-clear schema standards and automated validation. Primary gaps include: (1) lack
-of automated data lineage tracking between configuration changes and deployed
-resources, (2) absence of real-time data quality dashboards, and (3) manual
-reconciliation between configuration files and Azure state. Recommended next
-steps: implement Azure Policy for schema validation enforcement, integrate data
-catalog for lineage tracking, and add automated compliance scanning in CI/CD
-pipeline.
+with **JSON Schema validation**, **secure secrets management**, and
+**comprehensive tagging**. The repository demonstrates **Level 3 governance
+maturity (Defined)** with clear schema standards and automated validation.
+
+**Primary gaps identified:**
+
+1. Lack of **automated data lineage tracking** between configuration changes and
+   deployed resources (30% gap)
+2. Absence of **real-time data quality dashboards**
+3. **Manual reconciliation** between configuration files and Azure state
+
+> 🎯 **Recommended Actions**:
+>
+> - **Implement Azure Policy** for schema validation enforcement
+> - **Integrate data catalog** for automated lineage tracking
+> - **Add automated compliance scanning** in CI/CD pipeline
 
 ---
 
