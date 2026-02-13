@@ -40,7 +40,7 @@ deployments.
 
 ## 🏗️ Architecture
 
-````mermaid
+```mermaid
 graph TB
     accTitle: Dev Box Architecture
     accDescr: Azure Dev Box infrastructure showing Security Landing Zone with Key Vault and Log Analytics, Workload Landing Zone with DevCenter and Projects, and External Integration with GitHub and Azure DevOps. WCAG AA compliant with 4.5:1 contrast ratios.
@@ -106,6 +106,11 @@ graph TB
     style AZSUB fill:#FFFFFF,stroke:#0078D4,stroke-width:3px
     style SECLZ fill:#FDE7E9,stroke:#A4262C,stroke-width:2px
     style WKLZ fill:#DEECF9,stroke:#004578,stroke-width:2px
+    style PROJ fill:#DFF6DD,stroke:#107C10,stroke-width:2px
+    style EXTINT fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+```
+
+### Component Overview
 
 | Component      | Purpose                                           | Location                                         |
 | -------------- | ------------------------------------------------- | ------------------------------------------------ |
@@ -141,7 +146,7 @@ Before you begin, ensure you have:
    ```bash
    git clone https://github.com/Evilazaro/DevExp-DevBox.git
    cd DevExp-DevBox
-````
+   ```
 
 2. **Authenticate with Azure**
 
@@ -428,3 +433,7 @@ Well-Architected Framework principles.
 
 If this accelerator helps your organization, please consider giving it a ⭐ on
 GitHub!
+
+```
+
+```
