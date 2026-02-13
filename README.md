@@ -62,16 +62,16 @@ graph TB
     subgraph AZSUB["☁️ Azure Subscription"]
         subgraph SECLZ["🔒 Security Landing Zone"]
             KV["🔐 Key Vault"]:::security
-            LA["📊 Log Analytics"]
+            LA["📊 Log Analytics Workspace"]
         end
 
         subgraph WKLZ["💼 Workload Landing Zone"]
-            DC["🏢 Dev Center"]:::core
+            DC["🏢 DevCenter"]:::core
 
-            subgraph PROJ["📁 Projects"]
-                P1["🎯 Project: eShop"]:::core
-                POOL1["🖥️ Dev Box Pools"]
-                NET1["🌐 Virtual Network"]
+            subgraph PROJ["📁 Dev Box Projects"]
+                P1["🎯 eShop Project"]:::core
+                POOL1["🖥️ Compute Pools"]
+                NET1["🌐 VNet"]
                 P1 --> POOL1
                 P1 --> NET1
             end
@@ -79,20 +79,20 @@ graph TB
             DC --> P1
         end
 
-        KV -.->|secrets| DC
-        LA -.->|logs| DC
-        LA -.->|logs| KV
+        KV -.->|Secrets & Certificates| DC
+        LA -.->|Diagnostics| DC
+        LA -.->|Audit Logs| KV
 
-        subgraph EXTINT["🔗 External Integration"]
-            GH["📦 GitHub"]:::external
-            ADO["🚀 Azure DevOps"]:::external
+        subgraph EXTINT["🔗 Source Control Integration"]
+            GH["📦 GitHub Catalog"]:::external
+            ADO["🚀 Azure DevOps Catalog"]:::external
         end
 
-        DC -.->|sync| GH
-        DC -.->|sync| ADO
+        DC -.->|Catalog Sync| GH
+        DC -.->|Catalog Sync| ADO
     end
 
-    DEV["👥 Developers"] -->|access| P1
+    DEV["👥 Developer Users"] -->|Provision & Access| P1
 
     %% Centralized classDefs (3 semantic classes - reduced from 5)
     classDef security fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
