@@ -87,7 +87,7 @@ flowchart TB
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ============================================
-    %% Semantic discipline: 5/5 colors (Orange=Security, Blue=Process, Teal=Data, Yellow=Config, Grey=Neutral)
+    %% Semantic discipline: 5/5 colors (Orange=Security, Blue=Workload, Yellow=Monitoring, Teal=Data, Grey=Neutral)
     %% Structural: 8 subgraphs with style directives (MRM-S001 compliant)
     %% Font: Icons on all 14 content nodes (MRM-I001 compliant)
     %% Accessibility: accTitle + accDescr declarations (MRM-A002 compliant)
@@ -104,7 +104,7 @@ flowchart TB
         end
 
         subgraph monitoringRG["📊 Monitoring Resource Group"]
-            la["📈 Log Analytics<br/>(Centralized Logging)"]:::azureBlue
+            la["📈 Log Analytics<br/>(Centralized Logging)"]:::sharedYellow
         end
 
         subgraph workloadRG["⚙️ Workload Resource Group"]
@@ -158,21 +158,21 @@ flowchart TB
     %% Subgraph Styling (MRM-S001 compliant)
     style users fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
     style azureCloud fill:#FFFFFF,stroke:#605E5C,stroke-width:3px
-    style securityRG fill:#FDE7E9,stroke:#8A3707,stroke-width:2px
-    style monitoringRG fill:#DEECF9,stroke:#004578,stroke-width:2px
-    style workloadRG fill:#DEECF9,stroke:#004578,stroke-width:2px
-    style networking fill:#DEECF9,stroke:#004578,stroke-width:2px
+    style securityRG fill:#FFE0B2,stroke:#E65100,stroke-width:2px
+    style monitoringRG fill:#FFF9C4,stroke:#F57F17,stroke-width:2px
+    style workloadRG fill:#E3F2FD,stroke:#004578,stroke-width:2px
+    style networking fill:#E3F2FD,stroke:#004578,stroke-width:2px
     style pools fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style scm fill:#C8F0E7,stroke:#005B4E,stroke-width:2px
+    style scm fill:#B2DFDB,stroke:#004D40,stroke-width:2px
 
     %% Semantic Color Palette (5/5 limit - MRM-C006 compliant)
-    %% Used: azureBlue (process), warningOrange (security), presenceTeal (data)
-    %% Reserved: successGreen (success states), errorRed (error states)
-    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#002440
-    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#341403
-    classDef presenceTeal fill:#C8F0E7,stroke:#005B4E,stroke-width:2px,color:#002D26
-    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#063206
-    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#410D12
+    %% Active: azureBlue (workload), warningOrange (security), presenceTeal (data), sharedYellow (monitoring)
+    %% Reserved: successGreen (success states)
+    classDef azureBlue fill:#E3F2FD,stroke:#004578,stroke-width:2px,color:#002440
+    classDef warningOrange fill:#FFE0B2,stroke:#E65100,stroke-width:2px,color:#341403
+    classDef presenceTeal fill:#B2DFDB,stroke:#004D40,stroke-width:2px,color:#002D26
+    classDef sharedYellow fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#3D2C05
+    classDef successGreen fill:#C8E6C9,stroke:#1B5E20,stroke-width:2px,color:#063206
 
     %% Structural & Neutral Colors (excluded from MRM-C006 count)
     classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
