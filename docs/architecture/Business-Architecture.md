@@ -926,8 +926,8 @@ flowchart TB
     linkStyle 4 stroke:#A4262C,stroke-width:3px
 
     %% Medium Impact Dependencies (dashed lines)
-    DC -.->|"Monitoring<br/>(MEDIUM)"| LA
-    ENV -.->|"Deployment<br/>(MEDIUM)"| ARM
+    DC -.->|"Monitoring<br/>(MED)"| LA
+    ENV -.->|"Deployment<br/>(MED)"| ARM
 
     %% Component relationships
     DC --> PROJ
