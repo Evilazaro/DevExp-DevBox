@@ -42,19 +42,33 @@ deployments.
 
 ```mermaid
 graph TB
-    subgraph "Azure Subscription"
-        subgraph "Security Landing Zone"
-            KV[Key Vault<br/>Secrets Management]
-            LA[Log Analytics<br/>Centralized Logging]
+    accTitle: Dev Box Architecture
+    accDescr: Azure Dev Box infrastructure showing Security Landing Zone with Key Vault and Log Analytics, Workload Landing Zone with DevCenter and Projects, and External Integration with GitHub and Azure DevOps
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified by function - Security=orange, Workload=blue, External=neutral
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, style directives for all subgraphs
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph AZSUB["☁️ Azure Subscription"]
+        subgraph SECLZ["🔒 Security Landing Zone"]
+            KV["🔐 Key Vault<br/>Secrets Management"]
+            LA["📊 Log Analytics<br/>Centralized Logging"]
         end
 
-        subgraph "Workload Landing Zone"
-            DC[Dev Center<br/>Central Management]
+        subgraph WKLZ["💼 Workload Landing Zone"]
+            DC["🏢 Dev Center<br/>Central Management"]
 
-            subgraph "Projects"
-                P1[Project: eShop]
-                P1 --> POOL1[Dev Box Pools]
-                P1 --> NET1[Virtual Network]
+            subgraph PROJ["📁 Projects"]
+                P1["🎯 Project: eShop"]
+                P1 --> POOL1["🖥️ Dev Box Pools"]
+                P1 --> NET1["🌐 Virtual Network"]
             end
 
             DC --> P1
@@ -64,20 +78,23 @@ graph TB
         LA -.->|Diagnostics| DC
         LA -.->|Diagnostics| KV
 
-        subgraph "External Integration"
-            GH[GitHub<br/>Source Control]
-            ADO[Azure DevOps<br/>Source Control]
+        subgraph EXTINT["🔗 External Integration"]
+            GH["📦 GitHub<br/>Source Control"]
+            ADO["🚀 Azure DevOps<br/>Source Control"]
         end
 
         DC -.->|Catalog Sync| GH
         DC -.->|Catalog Sync| ADO
     end
 
-    DEV[Developers] -->|Access| P1
+    DEV["👥 Developers"] -->|Access| P1
 
-    style Security Landing Zone fill:#fff4e6
-    style Workload Landing Zone fill:#e6f3ff
-    style External Integration fill:#f0f0f0
+    %% Subgraph styling (6 subgraphs = 6 style directives)
+    style AZSUB fill:#FFFFFF,stroke:#0078D4,stroke-width:3px
+    style SECLZ fill:#FDE7E9,stroke:#C239B3,stroke-width:2px
+    style WKLZ fill:#DEECF9,stroke:#0078D4,stroke-width:2px
+    style PROJ fill:#DFF6DD,stroke:#107C10,stroke-width:2px
+    style EXTINT fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
 ```
 
 ### Component Overview
