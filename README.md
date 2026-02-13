@@ -80,20 +80,20 @@ graph TB
             DC --> P1
         end
 
-        KV -.->|Secrets| DC
-        LA -.->|Diagnostics| DC
-        LA -.->|Diagnostics| KV
+        KV -.->|secrets| DC
+        LA -.->|logs| DC
+        LA -.->|logs| KV
 
         subgraph EXTINT["🔗 External Integration"]
             GH["📦 GitHub"]:::neutralGrey
             ADO["🚀 Azure DevOps"]:::neutralGrey
         end
 
-        DC -.->|Catalog Sync| GH
-        DC -.->|Catalog Sync| ADO
+        DC -.->|sync| GH
+        DC -.->|sync| ADO
     end
 
-    DEV["👥 Developers"]:::azureTeal -->|Access| P1
+    DEV["👥 Developers"]:::azureTeal -->|access| P1
 
     %% Centralized classDefs (5 semantic classes)
     classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
