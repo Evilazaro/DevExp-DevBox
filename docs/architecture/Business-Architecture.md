@@ -938,6 +938,75 @@ flowchart TB
 **Interface Security**: All interfaces use managed identities or Key
 Vault-stored secrets; zero hardcoded credentials.
 
+#### Integration Architecture Diagram
+
+```mermaid
+---
+title: Integration Architecture - External System Interfaces
+config:
+  theme: base
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: false
+---
+flowchart LR
+    accTitle: Integration Architecture - External System Interfaces
+    accDescr: High-level integration architecture showing DevCenter platform connections to external systems with protocols and authentication methods. WCAG AA compliant with 4.5:1 contrast ratios.
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph CORE["🏢 DevExp-DevBox Platform"]
+        DC["🏢 DevCenter<br/>(Primary Service)"]:::core
+        PROJ["📁 Projects<br/>(Multi-Tenant)"]:::core
+        DEV["👨‍💻 Developers<br/>(End Users)"]:::core
+    end
+
+    subgraph IDENTITY["🔐 Identity & Access"]
+        AAD["👤 Azure AD<br/>(OAuth 2.0)<br/>SLA: 99.99%"]:::identity
+        KV["🔐 Key Vault<br/>(Secrets)<br/>SLA: 99.99%"]:::identity
+    end
+
+    subgraph DEVOPS["📦 DevOps & Source Control"]
+        GH["📦 GitHub<br/>(REST API)<br/>SLA: 99.95%"]:::devops
+        ADO["📦 Azure DevOps<br/>(REST API)<br/>SLA: 99.9%"]:::devops
+    end
+
+    subgraph AZURE["⚙️ Azure Services"]
+        ARM["⚙️ Azure ARM<br/>(Deployment)<br/>SLA: 99.99%"]:::azure
+        MON["📊 Azure Monitor<br/>(Observability)<br/>SLA: 99.9%"]:::azure
+    end
+
+    %% Authentication flows (solid lines)
+    DEV -->|"🔐 OAuth 2.0<br/>(Managed Identity)"| AAD
+    DC -->|"🔐 Managed Identity<br/>(RBAC)"| KV
+
+    %% Integration flows (solid lines)
+    DC -->|"📦 HTTPS/REST<br/>(PAT from KV)"| GH
+    DC -->|"📦 HTTPS/REST<br/>(PAT from KV)"| ADO
+    DC -->|"⚙️ HTTPS/ARM<br/>(Managed Identity)"| ARM
+    DC -->|"📊 HTTPS/REST<br/>(Managed Identity)"| MON
+
+    %% User and project relationships (dashed lines)
+    AAD -.->|"Group<br/>Membership"| DEV
+    DC -.-> PROJ
+    PROJ -.-> DEV
+
+    %% Centralized classDefs (4 semantic classes)
+    classDef core fill:#DEECF9,stroke:#004578,stroke-width:3px,color:#323130
+    classDef identity fill:#FDE7E9,stroke:#A4262C,stroke-width:3px,color:#323130
+    classDef devops fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
+    classDef azure fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+
+    %% Subgraph styling (4 subgraphs)
+    style CORE fill:#FAFAFA,stroke:#004578,stroke-width:2px
+    style IDENTITY fill:#F3F2F1,stroke:#A4262C,stroke-width:2px
+    style DEVOPS fill:#FAFAFA,stroke:#00666B,stroke-width:2px
+    style AZURE fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+```
+
 ---
 
 ## Document Metadata
