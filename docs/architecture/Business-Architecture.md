@@ -885,12 +885,12 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph SECURITY["🔒 Security Layer"]
-        KV["🔐 Key Vault<br/>(Managed Identity)"]:::security
+        KV["🔐 Key Vault<br/>(Managed ID)"]:::security
         AAD["👤 Azure AD<br/>(OAuth 2.0)"]:::security
     end
 
     subgraph PLATFORM["🏢 Platform Layer"]
-        DC["🏢 DevCenter<br/>(Primary Service)"]:::platform
+        DC["🏢 DevCenter<br/>(Core Service)"]:::platform
         LA["📊 Log Analytics<br/>(Monitoring)"]:::platform
     end
 
@@ -1034,35 +1034,35 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph CORE["🏢 DevExp-DevBox Platform"]
-        DC["🏢 DevCenter<br/>(Primary Service)"]:::core
+        DC["🏢 DevCenter<br/>(Core Service)"]:::core
         PROJ["📁 Projects<br/>(Multi-Tenant)"]:::core
         DEV["👨‍💻 Developers<br/>(End Users)"]:::core
     end
 
     subgraph IDENTITY["🔐 Identity & Access"]
-        AAD["👤 Azure AD<br/>(OAuth 2.0)<br/>SLA: 99.99%"]:::identity
-        KV["🔐 Key Vault<br/>(Secrets)<br/>SLA: 99.99%"]:::identity
+        AAD["👤 Azure AD<br/>(OAuth 2.0)<br/>SLA 99.99%"]:::identity
+        KV["🔐 Key Vault<br/>(Secrets)<br/>SLA 99.99%"]:::identity
     end
 
     subgraph DEVOPS["📦 DevOps & Source Control"]
-        GH["📦 GitHub<br/>(REST API)<br/>SLA: 99.95%"]:::devops
-        ADO["📦 Azure DevOps<br/>(REST API)<br/>SLA: 99.9%"]:::devops
+        GH["📦 GitHub<br/>(REST API)<br/>SLA 99.95%"]:::devops
+        ADO["📦 Azure DevOps<br/>(REST API)<br/>SLA 99.9%"]:::devops
     end
 
     subgraph AZURE["⚙️ Azure Services"]
-        ARM["⚙️ Azure ARM<br/>(Deployment)<br/>SLA: 99.99%"]:::azure
-        MON["📊 Azure Monitor<br/>(Observability)<br/>SLA: 99.9%"]:::azure
+        ARM["⚙️ Azure ARM<br/>(Deployment)<br/>SLA 99.99%"]:::azure
+        MON["📊 Azure Monitor<br/>(Observability)<br/>SLA 99.9%"]:::azure
     end
 
 %% Authentication flows (emphasized solid lines)
-    DEV e10@==>|"🔐 OAuth 2.0<br/>(Managed Identity)"| AAD
-    DC e11@==>|"🔐 Managed Identity<br/>(RBAC)"| KV
+    DEV e10@==>|"🔐 OAuth 2.0<br/>(Managed ID)"| AAD
+    DC e11@==>|"🔐 Managed ID<br/>(RBAC)"| KV
 
     %% Integration flows (emphasized solid lines)
     DC e12@==>|"📦 HTTPS/REST<br/>(PAT from KV)"| GH
     DC e13@==>|"📦 HTTPS/REST<br/>(PAT from KV)"| ADO
-    DC e14@==>|"⚙️ HTTPS/ARM<br/>(Managed Identity)"| ARM
-    DC e15@==>|"📊 HTTPS/REST<br/>(Managed Identity)"| MON
+    DC e14@==>|"⚙️ HTTPS/ARM<br/>(Managed ID)"| ARM
+    DC e15@==>|"📊 HTTPS/REST<br/>(Managed ID)"| MON
 
     %% Critical integration edge styling (P3 feature)
     linkStyle 0 stroke:#A4262C,stroke-width:3px
