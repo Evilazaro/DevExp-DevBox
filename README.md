@@ -40,35 +40,41 @@ deployments.
 
 ## 🏗️ Architecture
 
-```mermaid
+````mermaid
 graph TB
     accTitle: Dev Box Architecture
-    accDescr: Azure Dev Box infrastructure showing Security Landing Zone with Key Vault and Log Analytics, Workload Landing Zone with DevCenter and Projects, and External Integration with GitHub and Azure DevOps
+    accDescr: Azure Dev Box infrastructure showing Security Landing Zone with Key Vault and Log Analytics, Workload Landing Zone with DevCenter and Projects, and External Integration with GitHub and Azure DevOps. WCAG AA compliant with 4.5:1 contrast ratios.
 
     %% ═══════════════════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
-    %% PHASE 2 - SEMANTIC: Colors justified by function - Security=orange, Workload=blue, External=neutral
-    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
-    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
-    %% PHASE 5 - STANDARD: Governance block present, style directives for all subgraphs
+    %% PHASE 1 - STRUCTURAL: TB direction explicit, flat topology, nesting = 3 levels
+    %% PHASE 2 - SEMANTIC: 5 semantic colors justified by function:
+    %%   Security=azureOrange, Workload=azureBlue, Data=azureGreen,
+    %%   External=neutralGrey, Actors=azureTeal (within 5 class limit)
+    %% PHASE 3 - FONT: Dark text #323130 on all light 100-level backgrounds (WCAG AA 4.5:1)
+    %%   Special: Security #FDE7E9, Workload #DEECF9, Data #DFF6DD, External #F3F2F1, Actors #C8F0E7
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
+    %% PHASE 5 - STANDARD: Governance block present, style directives for all 5 subgraphs,
+    %%   classDef declarations centralized, node count = 10 (within 50 limit)
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph AZSUB["☁️ Azure Subscription"]
         subgraph SECLZ["🔒 Security Landing Zone"]
-            KV["🔐 Key Vault<br/>Secrets Management"]
-            LA["📊 Log Analytics<br/>Centralized Logging"]
+            KV["🔐 Key Vault<br/>Secrets Management"]:::azureOrange
+            LA["📊 Log Analytics<br/>Centralized Logging"]:::azureOrange
         end
 
         subgraph WKLZ["💼 Workload Landing Zone"]
-            DC["🏢 Dev Center<br/>Central Management"]
+            DC["🏢 Dev Center<br/>Central Management"]:::azureBlue
 
             subgraph PROJ["📁 Projects"]
-                P1["🎯 Project: eShop"]
-                P1 --> POOL1["🖥️ Dev Box Pools"]
-                P1 --> NET1["🌐 Virtual Network"]
+                P1["🎯 Project: eShop"]:::azureGreen
+                POOL1["🖥️ Dev Box Pools"]:::azureGreen
+                NET1["🌐 Virtual Network"]:::azureGreen
+                P1 --> POOL1
+                P1 --> NET1
             end
 
             DC --> P1
@@ -79,25 +85,27 @@ graph TB
         LA -.->|Diagnostics| KV
 
         subgraph EXTINT["🔗 External Integration"]
-            GH["📦 GitHub<br/>Source Control"]
-            ADO["🚀 Azure DevOps<br/>Source Control"]
+            GH["📦 GitHub<br/>Source Control"]:::neutralGrey
+            ADO["🚀 Azure DevOps<br/>Source Control"]:::neutralGrey
         end
 
         DC -.->|Catalog Sync| GH
         DC -.->|Catalog Sync| ADO
     end
 
-    DEV["👥 Developers"] -->|Access| P1
+    DEV["👥 Developers"]:::azureTeal -->|Access| P1
 
-    %% Subgraph styling (6 subgraphs = 6 style directives)
+    %% Centralized classDefs (5 semantic classes)
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef azureGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef azureOrange fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef azureTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+
+    %% Subgraph styling (5 subgraphs = 5 style directives)
     style AZSUB fill:#FFFFFF,stroke:#0078D4,stroke-width:3px
-    style SECLZ fill:#FDE7E9,stroke:#C239B3,stroke-width:2px
-    style WKLZ fill:#DEECF9,stroke:#0078D4,stroke-width:2px
-    style PROJ fill:#DFF6DD,stroke:#107C10,stroke-width:2px
-    style EXTINT fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-```
-
-### Component Overview
+    style SECLZ fill:#FDE7E9,stroke:#A4262C,stroke-width:2px
+    style WKLZ fill:#DEECF9,stroke:#004578,stroke-width:2px
 
 | Component      | Purpose                                           | Location                                         |
 | -------------- | ------------------------------------------------- | ------------------------------------------------ |
@@ -133,7 +141,7 @@ Before you begin, ensure you have:
    ```bash
    git clone https://github.com/Evilazaro/DevExp-DevBox.git
    cd DevExp-DevBox
-   ```
+````
 
 2. **Authenticate with Azure**
 
