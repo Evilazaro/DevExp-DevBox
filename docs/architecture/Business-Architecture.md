@@ -122,22 +122,22 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph STRATEGIC["🎯 Strategic Capabilities"]
-        SC1["🏛️ Platform Governance<br/>(Level 5 - Optimized)"]:::level5
-        SC2["🔒 Security & Compliance<br/>(Level 5 - Optimized)"]:::level5
+        SC1["🏛️ Platform Governance<br/>(L5 Optimized)"]:::level5
+        SC2["🔒 Security & Compliance<br/>(L5 Optimized)"]:::level5
     end
 
     subgraph CORE["💼 Core Operational Capabilities"]
-        OC1["🏢 Centralized Platform Management<br/>(Level 5 - Optimized)"]:::level5
-        OC2["🔐 Role-Based Access Control<br/>(Level 5 - Optimized)"]:::level5
-        OC3["🔧 Developer Self-Service Provisioning<br/>(Level 4 - Measured)"]:::level4
-        OC4["🌍 Multi-Environment Lifecycle<br/>(Level 4 - Measured)"]:::level4
-        OC5["⚙️ Configuration Management<br/>(Level 4 - Measured)"]:::level4
+        OC1["🏢 Platform Management<br/>(L5 Optimized)"]:::level5
+        OC2["🔐 Access Control<br/>(L5 Optimized)"]:::level5
+        OC3["🔧 Self-Service Provisioning<br/>(L4 Measured)"]:::level4
+        OC4["🌍 Multi-Environment Lifecycle<br/>(L4 Measured)"]:::level4
+        OC5["⚙️ Configuration Management<br/>(L4 Measured)"]:::level4
     end
 
     subgraph SUPPORT["🛠️ Supporting Capabilities"]
-        SUP1["📊 Monitoring & Observability<br/>(Level 3 - Defined)"]:::level3
-        SUP2["📈 Cost Management<br/>(Level 3 - Defined)"]:::level3
-        SUP3["📚 Catalog Management<br/>(Level 4 - Measured)"]:::level4
+        SUP1["📊 Monitoring & Observability<br/>(L3 Defined)"]:::level3
+        SUP2["📈 Cost Management<br/>(L3 Defined)"]:::level3
+        SUP3["📚 Catalog Management<br/>(L4 Measured)"]:::level4
     end
 
     %% Strategic drives Operational (animated critical paths)
@@ -649,42 +649,42 @@ flowchart TB
     %% PHASE 5 - STANDARD: Flat structure, semantic colors only on content nodes
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    START["🎬 Developer Joins<br/>Organization"]:::neutral
+    START["🎬 Developer Joins Org"]:::neutral
     START --> STEP1
 
-    STEP1["📝 Access Request<br/>(Manual - 15 min)"]:::manual
+    STEP1["📝 Access Request<br/>(Manual 15m)"]:::manual
     STEP1 --> DEC1
 
-    DEC1{"🔐 Manager Approval<br/>(Manual - 45 min)"}:::decision
+    DEC1{"🔐 Manager Approval<br/>(Manual 45m)"}:::decision
     DEC1 -->|Approved| STEP2
     DEC1 -->|Rejected| END_REJECT["❌ Access Denied"]:::neutral
 
-    STEP2["👥 AAD Group Assignment<br/>(Automated - 5 min)"]:::automated
+    STEP2["👥 AAD Group Assignment<br/>(Auto 5m)"]:::automated
     STEP2 --> STEP3
 
-    STEP3["🏢 DevCenter Authorization<br/>(Automated - 2 min)"]:::automated
+    STEP3["🏢 DevCenter Authorization<br/>(Auto 2m)"]:::automated
     STEP3 --> STEP4
 
-    STEP4["🖥️ Dev Box Provisioning<br/>(Automated - 60 min)"]:::automated
+    STEP4["🖥️ Dev Box Provisioning<br/>(Auto 60m)"]:::automated
     STEP4 e3@==> STEP5
 
-    STEP5["🌐 Network Configuration<br/>(Automated - 15 min)"]:::automated
+    STEP5["🌐 Network Configuration<br/>(Auto 15m)"]:::automated
     STEP5 --> STEP6
 
-    STEP6["📚 Catalog Sync<br/>(Automated - 30 min)"]:::automated
+    STEP6["📚 Catalog Sync<br/>(Auto 30m)"]:::automated
     STEP6 --> STEP7
 
-    STEP7["⚙️ Tool Installation<br/>(Automated - 20 min)"]:::automated
+    STEP7["⚙️ Tool Installation<br/>(Auto 20m)"]:::automated
     STEP7 --> STEP8
 
-    STEP8["✅ Developer Notification<br/>(Automated - 1 min)"]:::automated
+    STEP8["✅ Developer Notification<br/>(Auto 1m)"]:::automated
     STEP8 e4@==> END_SUCCESS
 
     %% Edge styling for critical path (P3 feature)
     linkStyle 5 stroke:#00666B,stroke-width:3px
     linkStyle 9 stroke:#00666B,stroke-width:3px
 
-    END_SUCCESS["🎉 First Commit Ready<br/>(Total: ~4 hours)"]:::neutral
+    END_SUCCESS["🎉 First Commit Ready<br/>(Total ~4hrs)"]:::neutral
 
     %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
     classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
