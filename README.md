@@ -49,30 +49,29 @@ graph TB
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% PHASE 1 - STRUCTURAL: TB direction explicit, flat topology, nesting = 3 levels
-    %% PHASE 2 - SEMANTIC: 5 semantic colors justified by function:
-    %%   Security=azureOrange, Workload=azureBlue, Data=azureGreen,
-    %%   External=neutralGrey, Actors=azureTeal (within 5 class limit)
-    %% PHASE 3 - FONT: Dark text #323130 on all light 100-level backgrounds (WCAG AA 4.5:1)
-    %%   Special: Security #FDE7E9, Workload #DEECF9, Data #DFF6DD, External #F3F2F1, Actors #C8F0E7
+    %% PHASE 1 - STRUCTURAL: TB direction explicit, neutral containers, nesting = 3 levels
+    %% PHASE 2 - SEMANTIC: 3 semantic classes with architectural justification:
+    %%   Security nodes (orange) = access control components (Key Vault, secrets)
+    %%   Core workload nodes (blue) = primary infrastructure (DevCenter, Projects)
+    %%   External nodes (neutral grey) = third-party integrations (GitHub, Azure DevOps)
+    %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
     %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
-    %% PHASE 5 - STANDARD: Governance block present, style directives for all 5 subgraphs,
-    %%   classDef declarations centralized, node count = 10 (within 50 limit)
+    %% PHASE 5 - STANDARD: Neutral-first containers, semantic colors only on content nodes
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph AZSUB["☁️ Azure Subscription"]
         subgraph SECLZ["🔒 Security Landing Zone"]
-            KV["🔐 Key Vault"]:::azureOrange
-            LA["📊 Log Analytics"]:::azureOrange
+            KV["🔐 Key Vault"]:::security
+            LA["📊 Log Analytics"]
         end
 
         subgraph WKLZ["💼 Workload Landing Zone"]
-            DC["🏢 Dev Center"]:::azureBlue
+            DC["🏢 Dev Center"]:::core
 
             subgraph PROJ["📁 Projects"]
-                P1["🎯 Project: eShop"]:::azureGreen
-                POOL1["🖥️ Dev Box Pools"]:::azureGreen
-                NET1["🌐 Virtual Network"]:::azureGreen
+                P1["🎯 Project: eShop"]:::core
+                POOL1["🖥️ Dev Box Pools"]
+                NET1["🌐 Virtual Network"]
                 P1 --> POOL1
                 P1 --> NET1
             end
@@ -85,29 +84,27 @@ graph TB
         LA -.->|logs| KV
 
         subgraph EXTINT["🔗 External Integration"]
-            GH["📦 GitHub"]:::neutralGrey
-            ADO["🚀 Azure DevOps"]:::neutralGrey
+            GH["📦 GitHub"]:::external
+            ADO["🚀 Azure DevOps"]:::external
         end
 
         DC -.->|sync| GH
         DC -.->|sync| ADO
     end
 
-    DEV["👥 Developers"]:::azureTeal -->|access| P1
+    DEV["👥 Developers"] -->|access| P1
 
-    %% Centralized classDefs (5 semantic classes)
-    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
-    classDef azureGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
-    classDef azureOrange fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
-    classDef azureTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
-    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    %% Centralized classDefs (3 semantic classes - reduced from 5)
+    classDef security fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef core fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
-    %% Subgraph styling (5 subgraphs = 5 style directives)
-    style AZSUB fill:#FFFFFF,stroke:#0078D4,stroke-width:3px
-    style SECLZ fill:#FDE7E9,stroke:#A4262C,stroke-width:2px
-    style WKLZ fill:#DEECF9,stroke:#004578,stroke-width:2px
-    style PROJ fill:#DFF6DD,stroke:#107C10,stroke-width:2px
-    style EXTINT fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    %% Subgraph styling (5 subgraphs = 5 neutral style directives)
+    style AZSUB fill:#FFFFFF,stroke:#605E5C,stroke-width:2px
+    style SECLZ fill:#FAFAFA,stroke:#A19F9D,stroke-width:1px
+    style WKLZ fill:#FAFAFA,stroke:#A19F9D,stroke-width:1px
+    style PROJ fill:#F3F2F1,stroke:#8A8886,stroke-width:1px
+    style EXTINT fill:#FAFAFA,stroke:#A19F9D,stroke-width:1px
 ```
 
 ### Component Overview
