@@ -53,9 +53,9 @@ Defined/Measured):
 
 ---
 
-## Section 2: Architecture Landscape
+## 2. Architecture Landscape
 
-### Data Domains
+### 2.1 Data Domains
 
 The repository organizes data into **three primary domains** aligned with Azure
 Landing Zone principles:
@@ -77,7 +77,7 @@ Landing Zone principles:
    - Schema: Implicit (Log Analytics schema)
    - Storage: Log Analytics Workspace
 
-### Storage Tier Architecture
+### 2.2 Storage Tier Architecture
 
 ```mermaid
 ---
@@ -127,7 +127,7 @@ flowchart TB
 
 **Validation**: Score 97/100 ✅
 
-### Data Zone Topology
+### 2.3 Data Zone Topology
 
 | Zone                   | Purpose                                      | Components                  | Classification |
 | ---------------------- | -------------------------------------------- | --------------------------- | -------------- |
@@ -149,9 +149,16 @@ deployed resources.
 
 ---
 
-## Section 3: Architecture Principles
+## 3. Architecture Principles
 
-### Core Data Principles
+### Overview
+
+The Data Architecture layer implements six core principles aligned with TOGAF 10
+Data Architecture standards, ensuring data quality, security, and governance
+throughout the configuration-to-deployment lifecycle. These principles guide all
+data-related decisions from schema design through runtime operations.
+
+### 3.1 Core Data Principles
 
 | Principle                   | Description                                     | Implementation Evidence                                                     |
 | --------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------- |
@@ -174,7 +181,7 @@ deployed resources.
 5. **Length Constraints** - Min/max length validation (1-90 chars for resource
    groups)
 
-### Data Classification Taxonomy
+### 3.2 Data Classification Taxonomy
 
 ```mermaid
 ---
@@ -230,9 +237,16 @@ flowchart TD
 
 ---
 
-## Section 4: Current State Baseline
+## 4. Current State Baseline
 
-### Baseline Data Architecture
+### Overview
+
+The Current State Baseline provides a comprehensive assessment of the existing
+Data Architecture, including storage distribution, quality metrics, governance
+maturity, and compliance posture. This baseline establishes performance
+benchmarks for measuring future improvements.
+
+### 4.1 Baseline Data Architecture
 
 ```mermaid
 ---
@@ -282,7 +296,7 @@ flowchart LR
 
 **Validation**: Score 95/100 ✅
 
-### Storage Distribution
+### 4.2 Storage Distribution
 
 | Storage Type           | Instance Count | Total Size | Retention              |
 | ---------------------- | -------------- | ---------- | ---------------------- |
@@ -291,7 +305,7 @@ flowchart LR
 | **Azure Key Vault**    | 1              | 1 secret   | 7d soft delete         |
 | **Log Analytics**      | 1              | Variable   | 30-730d (configurable) |
 
-### Quality Baseline
+### 4.3 Quality Baseline
 
 | Quality Dimension      | Current Score | Target Score | Gap                              |
 | ---------------------- | ------------- | ------------ | -------------------------------- |
@@ -300,7 +314,7 @@ flowchart LR
 | Data Lineage           | 60%           | 90%          | 30% (automated lineage tracking) |
 | Security Compliance    | 98%           | 100%         | 2% (audit logging enhancement)   |
 
-### Governance Maturity
+### 4.4 Governance Maturity
 
 **Current Level**: **3 - Defined**
 
@@ -311,7 +325,7 @@ flowchart LR
 - ⚠️ Manual data lineage tracking
 - ❌ No automated data quality dashboards
 
-### Compliance Posture
+### 4.5 Compliance Posture
 
 | Control               | Status       | Evidence                                           |
 | --------------------- | ------------ | -------------------------------------------------- |
@@ -336,7 +350,7 @@ pipeline.
 
 ---
 
-## Section 5: Component Catalog
+## 5. Component Catalog
 
 ### 5.1 Data Entities
 
@@ -418,7 +432,7 @@ infrastructure configuration rather than application data processing.
 
 ---
 
-## Section 6: Architecture Decisions
+## 6. Architecture Decisions
 
 ### ADR-001: JSON Schema for Configuration Validation
 
@@ -542,7 +556,7 @@ resources.
 
 ---
 
-## Section 8: Dependencies & Integration
+## 8. Dependencies & Integration
 
 ### Data Flow Patterns
 
