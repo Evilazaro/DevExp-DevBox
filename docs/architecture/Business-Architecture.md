@@ -99,6 +99,9 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
+    curve: cardinal
+    nodeSpacing: 50
+    rankSpacing: 50
 ---
 flowchart TB
     accTitle: Business Capability Map - Developer Platform
@@ -137,15 +140,19 @@ flowchart TB
         SUP3["📚 Catalog Management<br/>(Level 4 - Measured)"]:::level4
     end
 
-    %% Strategic drives Operational
-    SC1 --> OC1
-    SC2 --> OC2
+    %% Strategic drives Operational (animated critical paths)
+    SC1 e1@==> OC1
+    SC2 e2@==> OC2
 
     %% Operational capabilities relationships
     OC1 --> OC3
     OC1 --> OC5
     OC2 --> OC3
     OC4 --> OC3
+
+    %% Edge animations (P3 feature)
+    linkStyle 0 stroke:#004578,stroke-width:3px
+    linkStyle 1 stroke:#004578,stroke-width:3px
 
     %% Supporting capabilities enable Operational
     OC1 --> SUP1
@@ -619,6 +626,9 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
+    curve: basis
+    nodeSpacing: 40
+    rankSpacing: 60
 ---
 flowchart TB
     accTitle: Business Process Flow - Developer Onboarding
@@ -656,7 +666,7 @@ flowchart TB
     STEP3 --> STEP4
 
     STEP4["🖥️ Dev Box Provisioning<br/>(Automated - 60 min)"]:::automated
-    STEP4 --> STEP5
+    STEP4 e3@==> STEP5
 
     STEP5["🌐 Network Configuration<br/>(Automated - 15 min)"]:::automated
     STEP5 --> STEP6
@@ -668,7 +678,11 @@ flowchart TB
     STEP7 --> STEP8
 
     STEP8["✅ Developer Notification<br/>(Automated - 1 min)"]:::automated
-    STEP8 --> END_SUCCESS
+    STEP8 e4@==> END_SUCCESS
+
+    %% Edge styling for critical path (P3 feature)
+    linkStyle 5 stroke:#00666B,stroke-width:3px
+    linkStyle 9 stroke:#00666B,stroke-width:3px
 
     END_SUCCESS["🎉 First Commit Ready<br/>(Total: ~4 hours)"]:::neutral
 
@@ -858,6 +872,9 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
+    curve: catmullRom
+    nodeSpacing: 50
+    rankSpacing: 50
 ---
 flowchart TB
     accTitle: Component Dependency Graph - DevExp-DevBox Platform
@@ -894,12 +911,19 @@ flowchart TB
         DEV["👨‍💻 Developer User<br/>(End User)"]:::user
     end
 
-    %% High Impact Dependencies (solid lines)
-    DC -->|"Security<br/>(HIGH)"| KV
-    DC -->|"Integration<br/>(HIGH)"| GH
-    PROJ -->|"Networking<br/>(HIGH)"| NET
-    POOL -->|"Configuration<br/>(HIGH)"| IMG
-    DEV -->|"Authorization<br/>(HIGH)"| AAD
+    %% High Impact Dependencies (solid lines with emphasis)
+    DC e5@==>|"Security<br/>(HIGH)"| KV
+    DC e6@==>|"Integration<br/>(HIGH)"| GH
+    PROJ e7@==>|"Networking<br/>(HIGH)"| NET
+    POOL e8@==>|"Configuration<br/>(HIGH)"| IMG
+    DEV e9@==>|"Authorization<br/>(HIGH)"| AAD
+
+    %% High-impact edge styling (P3 feature)
+    linkStyle 0 stroke:#A4262C,stroke-width:3px
+    linkStyle 1 stroke:#004578,stroke-width:3px
+    linkStyle 2 stroke:#00666B,stroke-width:3px
+    linkStyle 3 stroke:#986F0B,stroke-width:3px
+    linkStyle 4 stroke:#A4262C,stroke-width:3px
 
     %% Medium Impact Dependencies (dashed lines)
     DC -.->|"Monitoring<br/>(MEDIUM)"| LA
@@ -997,6 +1021,9 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
+    curve: natural
+    nodeSpacing: 60
+    rankSpacing: 80
 ---
 flowchart LR
     accTitle: Integration Architecture - External System Interfaces
@@ -1027,15 +1054,23 @@ flowchart LR
         MON["📊 Azure Monitor<br/>(Observability)<br/>SLA: 99.9%"]:::azure
     end
 
-    %% Authentication flows (solid lines)
-    DEV -->|"🔐 OAuth 2.0<br/>(Managed Identity)"| AAD
-    DC -->|"🔐 Managed Identity<br/>(RBAC)"| KV
+%% Authentication flows (emphasized solid lines)
+    DEV e10@==>|"🔐 OAuth 2.0<br/>(Managed Identity)"| AAD
+    DC e11@==>|"🔐 Managed Identity<br/>(RBAC)"| KV
 
-    %% Integration flows (solid lines)
-    DC -->|"📦 HTTPS/REST<br/>(PAT from KV)"| GH
-    DC -->|"📦 HTTPS/REST<br/>(PAT from KV)"| ADO
-    DC -->|"⚙️ HTTPS/ARM<br/>(Managed Identity)"| ARM
-    DC -->|"📊 HTTPS/REST<br/>(Managed Identity)"| MON
+    %% Integration flows (emphasized solid lines)
+    DC e12@==>|"📦 HTTPS/REST<br/>(PAT from KV)"| GH
+    DC e13@==>|"📦 HTTPS/REST<br/>(PAT from KV)"| ADO
+    DC e14@==>|"⚙️ HTTPS/ARM<br/>(Managed Identity)"| ARM
+    DC e15@==>|"📊 HTTPS/REST<br/>(Managed Identity)"| MON
+
+    %% Critical integration edge styling (P3 feature)
+    linkStyle 0 stroke:#A4262C,stroke-width:3px
+    linkStyle 1 stroke:#004578,stroke-width:3px
+    linkStyle 2 stroke:#00666B,stroke-width:3px
+    linkStyle 3 stroke:#00666B,stroke-width:3px
+    linkStyle 4 stroke:#004578,stroke-width:3px
+    linkStyle 5 stroke:#605E5C,stroke-width:3px
 
     %% User and project relationships (dashed lines)
     AAD -.->|"Group<br/>Membership"| DEV
@@ -1086,7 +1121,8 @@ flowchart LR
 - ✅ Mandatory diagrams included: Capability Map (Section 2.2) and Process Flow
   (Section 5.4)
 - ✅ Mermaid diagrams validated (score: 100/100) - All 4 diagrams include
-  mandatory 14-classDef palette (MRM-D002)
+  mandatory 14-classDef palette (MRM-D002) + P3 advanced features (edge
+  animations, curve styling, named edge IDs, critical path emphasis)
 - ✅ TOGAF 10 Business Architecture compliance
 - ✅ Zero fabricated components (all evidence-based)
 - ✅ Zero markdown linting errors
