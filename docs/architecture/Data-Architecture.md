@@ -85,34 +85,45 @@ title: Data Storage Tier Architecture
 config:
   theme: base
   themeVariables:
-    primaryColor: "#DEECF9"
-    primaryTextColor: "#323130"
-    primaryBorderColor: "#0078D4"
-    lineColor: "#605E5C"
-    secondaryColor: "#FFF4CE"
-    tertiaryColor: "#DFF6DD"
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: false
+    curve: cardinal
+    nodeSpacing: 50
+    rankSpacing: 50
 ---
 flowchart TB
     accTitle: Data Storage Tier Architecture
-    accDescr: Shows storage tiers from configuration files through Azure services
+    accDescr: Architectural diagram showing storage tiers from configuration files through Azure services to governance layer with validation and provisioning relationships
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: TB direction explicit, 3 subgraphs at same level
+    %% PHASE 2 - SEMANTIC: 3 semantic colors with architectural justification:
+    %%   azureBlue (#DEECF9) = configuration tier (information/validation)
+    %%   successGreen (#DFF6DD) = Azure storage tier (successful deployment)
+    %%   sharedYellow (#FFF4CE) = governance layer (cross-cutting concerns)
+    %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
+    %% PHASE 5 - STANDARD: 3 subgraphs at same level, semantic colors on content nodes
+    %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph config["📁 Configuration Tier"]
-        style config fill:#DEECF9,stroke:#0078D4,stroke-width:2px
-        A1["🗂️ JSON Schemas<br/>(Validation Rules)"]
-        A2["📄 YAML Models<br/>(Configuration Data)"]
-        A3["🔧 Bicep Templates<br/>(IaC Definitions)"]
+        A1["🗂️ JSON Schemas<br/>(Validation Rules)"]:::azureBlue
+        A2["📄 YAML Models<br/>(Configuration Data)"]:::azureBlue
+        A3["🔧 Bicep Templates<br/>(IaC Definitions)"]:::azureBlue
     end
 
     subgraph azure["☁️ Azure Storage Tier"]
-        style azure fill:#DFF6DD,stroke:#107C10,stroke-width:2px
-        B1["🔒 Key Vault<br/>(Secrets Store)"]
-        B2["📊 Log Analytics<br/>(Monitoring Data)"]
+        B1["🔒 Key Vault<br/>(Secrets Store)"]:::successGreen
+        B2["📊 Log Analytics<br/>(Monitoring Data)"]:::successGreen
     end
 
     subgraph governance["🛡️ Governance Layer"]
-        style governance fill:#FFF4CE,stroke:#FFA500,stroke-width:2px
-        C1["🏷️ Tag Repository<br/>(Metadata)"]
-        C2["🔐 RBAC Policies<br/>(Access Control)"]
+        C1["🏷️ Tag Repository<br/>(Metadata)"]:::sharedYellow
+        C2["🔐 RBAC Policies<br/>(Access Control)"]:::sharedYellow
     end
 
     A1 -->|Validates| A2
@@ -123,6 +134,27 @@ flowchart TB
     C1 -.->|Labels| B2
     C2 -.->|Secures| B1
     C2 -.->|Secures| B2
+
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+
+    %% Subgraph styling (3 subgraphs = 3 style directives)
+    style config fill:#FFFFFF,stroke:#004578,stroke-width:3px
+    style azure fill:#FFFFFF,stroke:#0B6A0B,stroke-width:2px
+    style governance fill:#FFFFFF,stroke:#986F0B,stroke-width:2px
 ```
 
 **Validation**: Score 97/100 ✅
@@ -195,32 +227,47 @@ title: Data Classification Hierarchy
 config:
   theme: base
   themeVariables:
-    primaryColor: "#DEECF9"
-    primaryTextColor: "#323130"
-    primaryBorderColor: "#0078D4"
-    lineColor: "#605E5C"
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: false
+    curve: cardinal
+    nodeSpacing: 50
+    rankSpacing: 50
 ---
 flowchart TD
     accTitle: Data Classification Taxonomy
-    accDescr: Shows data classification levels from Public to Confidential
+    accDescr: Hierarchical diagram showing data classification levels from root through Public, Internal, and Confidential categories with subcategories for schemas, configuration, secrets, and tokens
 
-    ROOT["🗂️ Data Classification"]
-    style ROOT fill:#DEECF9,stroke:#0078D4,stroke-width:3px
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: TD direction explicit, hierarchical tree, no subgraphs
+    %% PHASE 2 - SEMANTIC: 3 semantic colors with data classification justification:
+    %%   successGreen (#DFF6DD) = Public data (low risk, open access)
+    %%   sharedYellow (#FFF4CE) = Internal data (moderate protection)
+    %%   errorRed (#FDE7E9) = Confidential data (high protection, restricted)
+    %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
+    %% PHASE 5 - STANDARD: Semantic colors represent data classification levels
+    %% ═══════════════════════════════════════════════════════════════════════════
 
-    PUBLIC["🌐 Public<br/>(Documentation)"]
-    INTERNAL["🏢 Internal<br/>(Schemas, Configs)"]
-    CONFIDENTIAL["🔒 Confidential<br/>(Secrets, Tokens)"]
+    ROOT["🗂️ Data Classification"]:::azureBlue
+
+    PUBLIC["🌐 Public<br/>(Documentation)"]:::successGreen
+    INTERNAL["🏢 Internal<br/>(Schemas, Configs)"]:::sharedYellow
+    CONFIDENTIAL["🔒 Confidential<br/>(Secrets, Tokens)"]:::errorRed
 
     ROOT --> PUBLIC
     ROOT --> INTERNAL
     ROOT --> CONFIDENTIAL
 
-    INTERNAL_1["📋 Schemas"]
-    INTERNAL_2["⚙️ Configuration"]
-    INTERNAL_3["🏷️ Metadata"]
+    INTERNAL_1["📋 Schemas"]:::sharedYellow
+    INTERNAL_2["⚙️ Configuration"]:::sharedYellow
+    INTERNAL_3["🏷️ Metadata"]:::sharedYellow
 
-    CONF_1["🔑 Key Vault Secrets"]
-    CONF_2["🎫 GitHub Tokens"]
+    CONF_1["🔑 Key Vault Secrets"]:::errorRed
+    CONF_2["🎫 GitHub Tokens"]:::errorRed
 
     INTERNAL --> INTERNAL_1
     INTERNAL --> INTERNAL_2
@@ -229,14 +276,21 @@ flowchart TD
     CONFIDENTIAL --> CONF_1
     CONFIDENTIAL --> CONF_2
 
-    style PUBLIC fill:#DFF6DD,stroke:#107C10
-    style INTERNAL fill:#FFF4CE,stroke:#FFA500
-    style CONFIDENTIAL fill:#FDE7E9,stroke:#A80000
-    style INTERNAL_1 fill:#FFF4CE,stroke:#FFA500
-    style INTERNAL_2 fill:#FFF4CE,stroke:#FFA500
-    style INTERNAL_3 fill:#FFF4CE,stroke:#FFA500
-    style CONF_1 fill:#FDE7E9,stroke:#A80000
-    style CONF_2 fill:#FDE7E9,stroke:#A80000
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 **Validation**: Score 96/100 ✅
@@ -260,34 +314,47 @@ title: Current State Data Architecture
 config:
   theme: base
   themeVariables:
-    primaryColor: "#DEECF9"
-    primaryTextColor: "#323130"
-    primaryBorderColor: "#0078D4"
-    lineColor: "#605E5C"
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: false
+    curve: cardinal
+    nodeSpacing: 50
+    rankSpacing: 50
 ---
 flowchart LR
     accTitle: Current State Data Architecture Diagram
-    accDescr: Shows current data architecture with schemas, models, and Azure stores
+    accDescr: Comprehensive diagram showing current data architecture with source repository containing schemas and models, validation layer for schema validation, and Azure resources including Key Vault and Log Analytics with deployment relationships
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: LR direction explicit, 3 subgraphs representing layers
+    %% PHASE 2 - SEMANTIC: 3 semantic colors with data flow justification:
+    %%   azureBlue (#DEECF9) = source/configuration layer (information)
+    %%   successGreen (#DFF6DD) = validation layer (quality gate)
+    %%   sharedYellow (#FFF4CE) = Azure resources (deployment target)
+    %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
+    %% PHASE 5 - STANDARD: 3 subgraphs at same level, semantic colors on content nodes
+    %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph source["📦 Source Repository"]
-        style source fill:#DEECF9,stroke:#0078D4,stroke-width:2px
-        S1["📋 azureResources.schema.json<br/>(141 lines)"]
-        S2["📋 devcenter.schema.json<br/>(661 lines)"]
-        S3["📋 security.schema.json<br/>(180 lines)"]
-        M1["📄 azureResources.yaml"]
-        M2["📄 security.yaml"]
-        M3["🔧 main.bicep"]
+        S1["📋 azureResources.schema.json<br/>(141 lines)"]:::azureBlue
+        S2["📋 devcenter.schema.json<br/>(661 lines)"]:::azureBlue
+        S3["📋 security.schema.json<br/>(180 lines)"]:::azureBlue
+        M1["📄 azureResources.yaml"]:::azureBlue
+        M2["📄 security.yaml"]:::azureBlue
+        M3["🔧 main.bicep"]:::azureBlue
     end
 
     subgraph validation["✅ Validation Layer"]
-        style validation fill:#DFF6DD,stroke:#107C10,stroke-width:2px
-        V1["🔍 JSON Schema<br/>Validator"]
+        V1["🔍 JSON Schema<br/>Validator"]:::successGreen
     end
 
     subgraph azure["☁️ Azure Resources"]
-        style azure fill:#FFF4CE,stroke:#FFA500,stroke-width:2px
-        A1["🔒 Key Vault<br/>(contoso)"]
-        A2["📊 Log Analytics<br/>(logAnalytics)"]
+        A1["🔒 Key Vault<br/>(contoso)"]:::sharedYellow
+        A2["📊 Log Analytics<br/>(logAnalytics)"]:::sharedYellow
     end
 
     S1 --> V1
@@ -298,6 +365,27 @@ flowchart LR
     V1 -->|Valid Config| M3
     M3 -->|Deploys| A1
     M3 -->|Deploys| A2
+
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+
+    %% Subgraph styling (3 subgraphs = 3 style directives)
+    style source fill:#FFFFFF,stroke:#004578,stroke-width:3px
+    style validation fill:#FFFFFF,stroke:#0B6A0B,stroke-width:2px
+    style azure fill:#FFFFFF,stroke:#986F0B,stroke-width:2px
 ```
 
 **Validation**: Score 95/100 ✅

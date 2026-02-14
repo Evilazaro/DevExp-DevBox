@@ -116,11 +116,11 @@ flowchart TB
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% PHASE 1 - STRUCTURAL: TB direction explicit, neutral containers, nesting = 2 levels
+    %% PHASE 1 - STRUCTURAL: TB direction explicit, flat topology, nesting = 0
     %% PHASE 2 - SEMANTIC: 3 semantic classes with architectural justification:
-    %%   Level 5 capabilities (blue) = optimized maturity
-    %%   Level 4 capabilities (teal) = measured maturity
-    %%   Level 3 capabilities (orange) = defined maturity
+    %%   Level 5 capabilities (azureBlue #DEECF9) = optimized maturity
+    %%   Level 4 capabilities (presenceTeal #C8F0E7) = measured maturity
+    %%   Level 3 capabilities (errorRed #FDE7E9) = defined maturity
     %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
     %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
     %% PHASE 5 - STANDARD: Neutral-first containers, semantic colors only on content nodes
@@ -177,7 +177,7 @@ flowchart TB
     classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
     classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
     classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
-    classDef presenceTeal fill:#C8F0E7,stroke:#323130,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Semantic class mappings for this diagram (3 used)
@@ -185,10 +185,10 @@ flowchart TB
     classDef level4 fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
     classDef level3 fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
 
-    %% Subgraph styling (3 subgraphs = 3 neutral style directives)
-    style STRATEGIC fill:#FAFAFA,stroke:#6A1B9A,stroke-width:2px
-    style CORE fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style SUPPORT fill:#FAFAFA,stroke:#A19F9D,stroke-width:2px
+    %% Subgraph styling (3 subgraphs = 3 style directives)
+    style STRATEGIC fill:#FFFFFF,stroke:#004578,stroke-width:3px
+    style CORE fill:#F3F2F1,stroke:#00666B,stroke-width:2px
+    style SUPPORT fill:#FFFFFF,stroke:#A4262C,stroke-width:2px
 ```
 
 ### 2.3 Value Streams (2)
