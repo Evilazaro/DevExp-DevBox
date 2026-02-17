@@ -384,9 +384,10 @@ flowchart LR
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Subgraph styling (3 subgraphs = 3 style directives)
-    style source fill:#FFFFFF,stroke:#004578,stroke-width:3px
-    style validation fill:#FFFFFF,stroke:#0B6A0B,stroke-width:2px
-    style azure fill:#FFFFFF,stroke:#986F0B,stroke-width:2px
+    %% CRITICAL: Functional siblings use semantic colors matching content purpose
+    style source fill:#DEECF9,stroke:#004578,stroke-width:3px
+    style validation fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px
+    style azure fill:#FFF4CE,stroke:#986F0B,stroke-width:2px
 ```
 
 **Validation**: Score 95/100 ✅
