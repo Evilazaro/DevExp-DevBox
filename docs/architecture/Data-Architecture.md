@@ -152,7 +152,7 @@ flowchart TB
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Subgraph styling (3 subgraphs = 3 style directives)
-    %% CRITICAL: Functional siblings use semantic colors matching content purpose    
+    %% CRITICAL: Functional siblings use semantic colors matching content purpose
     style config fill:#DEECF9,stroke:#004578,stroke-width:3px
     style azure fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px
     style governance fill:#FFF4CE,stroke:#986F0B,stroke-width:2px
@@ -1078,4 +1078,3 @@ design-time schemas through runtime resources.
 <!-- Highlight density: ~14.2% | Callouts: 10 | Validation: PASSED -->
 <!-- Scoring: 5-criteria method (Actionable, Critical Concept, Requirement, Unique Insight, Key Decision) -->
 <!-- Threshold: Highlighted content scored ≥2/5 criteria -->
-
