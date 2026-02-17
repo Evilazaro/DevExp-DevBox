@@ -680,21 +680,39 @@ title: Configuration-to-Deployment Data Flow
 config:
   theme: base
   themeVariables:
-    primaryColor: "#DEECF9"
-    primaryTextColor: "#323130"
-    primaryBorderColor: "#0078D4"
-    lineColor: "#605E5C"
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: false
+    curve: cardinal
+    nodeSpacing: 50
+    rankSpacing: 50
 ---
 flowchart LR
     accTitle: Configuration-to-Deployment Data Flow Diagram
-    accDescr: Shows how configuration files flow through validation to Azure deployment
+    accDescr: Shows how configuration files flow through validation to Azure deployment with 5 semantic stages from source config through deployment. WCAG AA compliant.
 
-    A["📄 YAML Config<br/>(azureResources.yaml)"]
-    B["🔍 JSON Schema<br/>Validation"]
-    C["🔧 Bicep<br/>Compilation"]
-    D["📦 ARM Template<br/>Generation"]
-    E["☁️ Azure Resource<br/>Manager"]
-    F["✅ Deployed<br/>Resources"]
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: LR direction explicit, flat topology
+    %% PHASE 2 - SEMANTIC: 5 semantic colors with data flow stage justification:
+    %%   azureBlue (#DEECF9) = source config (input)
+    %%   successGreen (#DFF6DD) = validation stages (quality gates)
+    %%   sharedYellow (#FFF4CE) = compilation (transformation)
+    %%   presenceTeal (#C8F0E7) = template generation (artifact)
+    %%   neutralPurple (#E1DFDD) = deployment (Azure services)
+    %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
+    %% PHASE 5 - STANDARD: Flat structure, semantic colors only on content nodes
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    A["📄 YAML Config<br/>(azureResources.yaml)"]:::azureBlue
+    B["🔍 JSON Schema<br/>Validation"]:::successGreen
+    C["🔧 Bicep<br/>Compilation"]:::sharedYellow
+    D["📦 ARM Template<br/>Generation"]:::presenceTeal
+    E["☁️ Azure Resource<br/>Manager"]:::neutralPurple
+    F["✅ Deployed<br/>Resources"]:::successGreen
 
     A -->|Schema directive| B
     B -->|Valid| C
@@ -702,12 +720,21 @@ flowchart LR
     D -->|Deploy| E
     E -->|Provision| F
 
-    style A fill:#DEECF9,stroke:#0078D4
-    style B fill:#DFF6DD,stroke:#107C10
-    style C fill:#FFF4CE,stroke:#FFA500
-    style D fill:#E3F2FD,stroke:#2196F3
-    style E fill:#F3E5F5,stroke:#9C27B0
-    style F fill:#DFF6DD,stroke:#107C10
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 **Validation**: Score 96/100 ✅
@@ -736,21 +763,38 @@ title: Secret Provisioning Data Flow
 config:
   theme: base
   themeVariables:
-    primaryColor: "#FDE7E9"
-    primaryTextColor: "#323130"
-    primaryBorderColor: "#A80000"
-    lineColor: "#605E5C"
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: false
+    curve: cardinal
+    nodeSpacing: 50
+    rankSpacing: 50
 ---
 flowchart TB
     accTitle: Secret Provisioning Flow
-    accDescr: Shows secure secret flow from user to Key Vault to DevCenter
+    accDescr: Shows secure secret flow from user through environment variable to Key Vault and DevCenter with security stages indicated. WCAG AA compliant.
 
-    A["👤 User<br/>(azd env set)"]
-    B["🔐 Environment<br/>Variable"]
-    C["🔧 Bicep<br/>Deployment"]
-    D["🔒 Key Vault<br/>(contoso)"]
-    E["📝 Secret<br/>(gha-token)"]
-    F["🎯 DevCenter<br/>Catalog"]
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: TB direction explicit, flat topology
+    %% PHASE 2 - SEMANTIC: 4 semantic colors with security flow justification:
+    %%   azureBlue (#DEECF9) = user input (source)
+    %%   sharedYellow (#FFF4CE) = environment variable (temporary storage)
+    %%   errorRed (#FDE7E9) = Key Vault secure storage (sensitive data)
+    %%   successGreen (#DFF6DD) = DevCenter consumption (deployed)
+    %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
+    %% PHASE 5 - STANDARD: Flat structure, semantic colors only on content nodes
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    A["👤 User<br/>(azd env set)"]:::azureBlue
+    B["🔐 Environment<br/>Variable"]:::sharedYellow
+    C["🔧 Bicep<br/>Deployment"]:::azureBlue
+    D["🔒 Key Vault<br/>(contoso)"]:::errorRed
+    E["📝 Secret<br/>(gha-token)"]:::errorRed
+    F["🎯 DevCenter<br/>Catalog"]:::successGreen
 
     A -->|Input secret| B
     B -->|Secure param| C
@@ -758,12 +802,21 @@ flowchart TB
     D -->|Create| E
     E -->|Reference| F
 
-    style A fill:#E3F2FD,stroke:#2196F3
-    style B fill:#FFF4CE,stroke:#FFA500
-    style C fill:#DEECF9,stroke:#0078D4
-    style D fill:#FDE7E9,stroke:#A80000
-    style E fill:#FDE7E9,stroke:#A80000
-    style F fill:#DFF6DD,stroke:#107C10
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 **Validation**: Score 97/100 ✅
@@ -827,37 +880,50 @@ title: Data Lineage - Configuration to Runtime
 config:
   theme: base
   themeVariables:
-    primaryColor: "#DEECF9"
-    primaryTextColor: "#323130"
-    primaryBorderColor: "#0078D4"
-    lineColor: "#605E5C"
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: false
+    curve: cardinal
+    nodeSpacing: 50
+    rankSpacing: 50
 ---
 flowchart TD
     accTitle: Data Lineage Map
-    accDescr: Full lineage from schemas through deployment to runtime
+    accDescr: Full lineage from schemas through deployment to runtime showing 4 lifecycle stages with design time, build time, deploy time, and runtime phases. WCAG AA compliant.
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: TD direction explicit, 4 subgraphs representing lifecycle
+    %% PHASE 2 - SEMANTIC: 4 semantic colors with lifecycle stage justification:
+    %%   azureBlue (#DEECF9) = design time (information architecture)
+    %%   sharedYellow (#FFF4CE) = build time (compilation/transformation)
+    %%   successGreen (#DFF6DD) = deploy time (successful deployment)
+    %%   neutralPurple (#E1DFDD) = runtime (active system)
+    %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
+    %% PHASE 5 - STANDARD: 4 subgraphs at same level, semantic colors on content nodes
+    %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph design["📐 Design Time"]
-        style design fill:#DEECF9,stroke:#0078D4,stroke-width:2px
-        L1["📋 JSON Schema<br/>(Design)"]
-        L2["📄 YAML Config<br/>(Configuration)"]
+        L1["📋 JSON Schema<br/>(Design)"]:::azureBlue
+        L2["📄 YAML Config<br/>(Configuration)"]:::azureBlue
     end
 
     subgraph build["🏗️ Build Time"]
-        style build fill:#FFF4CE,stroke:#FFA500,stroke-width:2px
-        L3["✅ Schema<br/>Validator"]
-        L4["🔧 Bicep<br/>Compiler"]
+        L3["✅ Schema<br/>Validator"]:::sharedYellow
+        L4["🔧 Bicep<br/>Compiler"]:::sharedYellow
     end
 
     subgraph deploy["🚀 Deploy Time"]
-        style deploy fill:#DFF6DD,stroke:#107C10,stroke-width:2px
-        L5["📦 ARM<br/>Template"]
-        L6["☁️ Azure<br/>Deployment"]
+        L5["📦 ARM<br/>Template"]:::successGreen
+        L6["☁️ Azure<br/>Deployment"]:::successGreen
     end
 
     subgraph runtime["⚡ Runtime"]
-        style runtime fill:#F3E5F5,stroke:#9C27B0,stroke-width:2px
-        L7["🔒 Key Vault<br/>(Stored Secret)"]
-        L8["🎯 DevCenter<br/>(Active Config)"]
+        L7["🔒 Key Vault<br/>(Stored Secret)"]:::neutralPurple
+        L8["🎯 DevCenter<br/>(Active Config)"]:::neutralPurple
     end
 
     L1 -->|Validates| L2
@@ -868,6 +934,28 @@ flowchart TD
     L6 -->|Creates| L7
     L6 -->|Provisions| L8
     L7 -.->|Referenced by| L8
+
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+
+    %% Subgraph styling (4 subgraphs = 4 style directives) - MANDATORY per GATE-2
+    style design fill:#FFFFFF,stroke:#004578,stroke-width:3px
+    style build fill:#F3F2F1,stroke:#986F0B,stroke-width:2px
+    style deploy fill:#F3F2F1,stroke:#0B6A0B,stroke-width:2px
+    style runtime fill:#F3F2F1,stroke:#5B5FC7,stroke-width:2px
 ```
 
 **Validation**: Score 95/100 ✅
