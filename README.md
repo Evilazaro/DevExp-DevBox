@@ -126,10 +126,14 @@ graph TB
 
 > ⚠️ **Before you begin**, ensure you have:
 
-- **Azure Subscription** with **appropriate permissions** (Contributor + User Access Administrator)
-- **Azure CLI** [`v2.50.0+`](https://learn.microsoft.com/cli/azure/install-azure-cli)
-- **Azure Developer CLI (azd)** [`v1.0.0+`](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)
-- **GitHub CLI (gh)** [`v2.0.0+`](https://cli.github.com/) (if using GitHub integration)
+- **Azure Subscription** with **appropriate permissions** (Contributor + User
+  Access Administrator)
+- **Azure CLI**
+  [`v2.50.0+`](https://learn.microsoft.com/cli/azure/install-azure-cli)
+- **Azure Developer CLI (azd)**
+  [`v1.0.0+`](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)
+- **GitHub CLI (gh)** [`v2.0.0+`](https://cli.github.com/) (if using GitHub
+  integration)
 - **PowerShell 7+** (Windows) or **Bash** (Linux/macOS)
 
 ### Installation
@@ -274,6 +278,7 @@ src/
    ```
 
    > 💡 **What happens**: This command will:
+   >
    > - Provision **resource groups** (workload, security, monitoring)
    > - Deploy **Key Vault** and secrets
    > - Create **Log Analytics workspace**
@@ -318,7 +323,8 @@ azd down
 
 ### Landing Zone Organization
 
-The accelerator implements **Azure Landing Zone principles** with resource segregation:
+The accelerator implements **Azure Landing Zone principles** with resource
+segregation:
 
 - **Workload Landing Zone** - DevCenter and project resources
 - **Security Landing Zone** - Key Vault, secrets, and security policies
@@ -343,6 +349,7 @@ Configured via the `identity.roleAssignments` section in
 ### Security Best Practices
 
 > 🔒 **Security-first approach**:
+>
 > - **Secrets stored in Azure Key Vault** (never in code)
 > - **Managed identities** for service-to-service authentication
 > - **Network security** with private endpoints support
@@ -421,8 +428,9 @@ For issues, questions, or contributions:
 
 ## ⭐ Acknowledgments
 
-Built with ❤️ by the DevExp Team, following Microsoft's best practices and Azure
-Well-Architected Framework principles.
+Built with ❤️ by Evilazaro Alves | Principal Cloud Solution Architect | Cloud
+Platforms and AI Apps | Microsoft, following Microsoft's best practices and
+Azure Well-Architected Framework principles.
 
 If this accelerator helps your organization, please consider giving it a ⭐ on
 GitHub!
