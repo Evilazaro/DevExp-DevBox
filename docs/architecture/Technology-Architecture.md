@@ -123,7 +123,7 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
-    curve: cardinal
+    curve: basis
     nodeSpacing: 50
     rankSpacing: 50
 ---
@@ -299,7 +299,7 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
-    curve: cardinal
+    curve: basis
     nodeSpacing: 50
     rankSpacing: 50
 ---
@@ -899,7 +899,7 @@ config:
     fontSize: '14px'
   flowchart:
     htmlLabels: false
-    curve: cardinal
+    curve: basis
     nodeSpacing: 50
     rankSpacing: 50
 ---
@@ -1081,7 +1081,7 @@ config:
     fontSize: '14px'
   flowchart:
     htmlLabels: false
-    curve: cardinal
+    curve: basis
     nodeSpacing: 50
     rankSpacing: 50
 ---
@@ -1587,3 +1587,4 @@ templates and YAML configuration files
 ---
 
 **End of Document**
+

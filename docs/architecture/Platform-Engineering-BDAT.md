@@ -92,7 +92,7 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
-    curve: cardinal
+    curve: basis
     nodeSpacing: 50
     rankSpacing: 50
 ---
@@ -293,7 +293,7 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
-    curve: cardinal
+    curve: basis
     nodeSpacing: 50
     rankSpacing: 50
 ---
@@ -1390,7 +1390,7 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
-    curve: cardinal
+    curve: basis
     nodeSpacing: 50
     rankSpacing: 50
 ---
@@ -2475,3 +2475,4 @@ Get-AzKeyVault -VaultName $keyVaultName | Select-Object VaultUri, ProvisioningSt
 requested)  
 🎯 **Quality Level**: Standard (as specified)  
 📈 **Component Confidence**: 0.92 average across 23 components
+
