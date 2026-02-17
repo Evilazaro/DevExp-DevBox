@@ -84,48 +84,68 @@ through centralized platform services.
 ### 1.5 Platform Architecture Context
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
+---
+title: Platform Engineering Architecture Context
+config:
+  theme: base
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: false
+    curve: cardinal
+    nodeSpacing: 50
+    rankSpacing: 50
+---
 flowchart TB
     accTitle: Platform Engineering Architecture Context
-    accDescr: High-level view of Platform Engineering layer showing core services, security, networking, and monitoring components organized by Azure Landing Zone principles
+    accDescr: High-level view of Platform Engineering layer showing core services, security, networking, and monitoring components organized by Azure Landing Zone principles. WCAG AA compliant.
 
-    %% Developer Interaction Layer
-    DevTeam["👥 Development Teams<br/>(Developers, Managers)"]
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: TB direction explicit, 4 subgraphs by function
+    %% PHASE 2 - SEMANTIC: 4 semantic colors with platform layer justification:
+    %%   azureBlue (#DEECF9) = core platform services
+    %%   sharedYellow (#FFF4CE) = security services
+    %%   presenceTeal (#C8F0E7) = network services
+    %%   successGreen (#DFF6DD) = monitoring/observability
+    %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
+    %% PHASE 5 - STANDARD: 4 functional subgraphs with semantic colors
+    %% ═══════════════════════════════════════════════════════════════════════════
 
-    %% Core Platform Services
+    DevTeam["👥 Development Teams<br/>(Developers, Managers)"]:::neutralGrey
+
     subgraph PlatformCore["🏗️ Platform Core Services"]
         direction TB
-        DevCenter["⚙️ Azure DevCenter<br/>(PaaS Platform)"]
-        Projects["📋 DevCenter Projects<br/>(Project Workspaces)"]
-        Catalogs["📚 Environment Catalogs<br/>(IaC Templates)"]
-        Pools["🖥️ Dev Box Pools<br/>(Compute Resources)"]
+        DevCenter["⚙️ Azure DevCenter<br/>(PaaS Platform)"]:::azureBlue
+        Projects["📋 DevCenter Projects<br/>(Project Workspaces)"]:::azureBlue
+        Catalogs["📚 Environment Catalogs<br/>(IaC Templates)"]:::azureBlue
+        Pools["🖥️ Dev Box Pools<br/>(Compute Resources)"]:::azureBlue
     end
 
-    %% Security Layer
     subgraph SecurityLayer["🔒 Security Services"]
         direction TB
-        KeyVault["🔐 Azure Key Vault<br/>(Secrets Management)"]
-        ManagedIdentity["🆔 Managed Identities<br/>(Authentication)"]
-        RBAC["🛡️ Role Assignments<br/>(Authorization)"]
+        KeyVault["🔐 Azure Key Vault<br/>(Secrets Management)"]:::sharedYellow
+        ManagedIdentity["🆔 Managed Identities<br/>(Authentication)"]:::sharedYellow
+        RBAC["🛡️ Role Assignments<br/>(Authorization)"]:::sharedYellow
     end
 
-    %% Networking Layer
     subgraph NetworkLayer["🌐 Network Services"]
         direction TB
-        VNet["🔌 Virtual Networks<br/>(Network Isolation)"]
-        Subnets["📡 Subnets<br/>(Segmentation)"]
-        NetConnection["↔️ Network Connections<br/>(DevCenter Links)"]
+        VNet["🔌 Virtual Networks<br/>(Network Isolation)"]:::presenceTeal
+        Subnets["📡 Subnets<br/>(Segmentation)"]:::presenceTeal
+        NetConnection["↔️ Network Connections<br/>(DevCenter Links)"]:::presenceTeal
     end
 
-    %% Monitoring Layer
     subgraph MonitoringLayer["📊 Observability Services"]
         direction TB
-        LogAnalytics["📈 Log Analytics<br/>(Centralized Logs)"]
-        Diagnostics["🔍 Diagnostic Settings<br/>(Telemetry)"]
+        LogAnalytics["📈 Log Analytics<br/>(Centralized Logs)"]:::successGreen
+        Diagnostics["🔍 Diagnostic Settings<br/>(Telemetry)"]:::successGreen
     end
 
-    %% Configuration Management
-    ConfigMgmt["⚙️ Configuration as Code<br/>(YAML + Bicep)"]
+    ConfigMgmt["⚙️ Configuration as Code<br/>(YAML + Bicep)"]:::neutralGrey
 
     %% Relationships
     DevTeam -->|"Provision & Access"| PlatformCore
@@ -142,30 +162,27 @@ flowchart TB
     Projects --- Catalogs
     Projects --- Pools
 
-    %% Styling using AZURE/FLUENT v1.1 with semantic colors
-    style PlatformCore fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#000
-    style SecurityLayer fill:#FFF4CE,stroke:#CA5010,stroke-width:2px,color:#000
-    style NetworkLayer fill:#EBF3FC,stroke:#0078D4,stroke-width:2px,color:#000
-    style MonitoringLayer fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#000
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
-    style DevCenter fill:#E3F2FD,stroke:#0078D4,stroke-width:1px,color:#000
-    style Projects fill:#E3F2FD,stroke:#0078D4,stroke-width:1px,color:#000
-    style Catalogs fill:#E3F2FD,stroke:#0078D4,stroke-width:1px,color:#000
-    style Pools fill:#E3F2FD,stroke:#0078D4,stroke-width:1px,color:#000
-
-    style KeyVault fill:#FEF6E0,stroke:#CA5010,stroke-width:1px,color:#000
-    style ManagedIdentity fill:#FEF6E0,stroke:#CA5010,stroke-width:1px,color:#000
-    style RBAC fill:#FEF6E0,stroke:#CA5010,stroke-width:1px,color:#000
-
-    style VNet fill:#F5FCFF,stroke:#0078D4,stroke-width:1px,color:#000
-    style Subnets fill:#F5FCFF,stroke:#0078D4,stroke-width:1px,color:#000
-    style NetConnection fill:#F5FCFF,stroke:#0078D4,stroke-width:1px,color:#000
-
-    style LogAnalytics fill:#F1FAF1,stroke:#107C10,stroke-width:1px,color:#000
-    style Diagnostics fill:#F1FAF1,stroke:#107C10,stroke-width:1px,color:#000
-
-    style DevTeam fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#000
-    style ConfigMgmt fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#000
+    %% Subgraph styling (4 subgraphs = 4 style directives) - MANDATORY per GATE-2
+    style PlatformCore fill:#FFFFFF,stroke:#004578,stroke-width:3px
+    style SecurityLayer fill:#F3F2F1,stroke:#986F0B,stroke-width:2px
+    style NetworkLayer fill:#F3F2F1,stroke:#00666B,stroke-width:2px
+    style MonitoringLayer fill:#F3F2F1,stroke:#0B6A0B,stroke-width:2px
 ```
 
 ---
@@ -268,48 +285,71 @@ component: monitoring
 ### 2.2 Platform Engineering Deployment Model
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
+---
+title: Platform Engineering Deployment Model
+config:
+  theme: base
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: false
+    curve: cardinal
+    nodeSpacing: 50
+    rankSpacing: 50
+---
 flowchart LR
     accTitle: Platform Engineering Deployment Model
-    accDescr: Shows the Infrastructure as Code deployment flow from configuration files through Bicep templates to Azure resources across three landing zones
+    accDescr: Shows the Infrastructure as Code deployment flow from configuration files through Bicep templates to Azure resources across three landing zones with deployment orchestration. WCAG AA compliant.
 
-    %% Configuration Layer
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: LR direction explicit, nested subgraphs for landing zones
+    %% PHASE 2 - SEMANTIC: 5 semantic colors with deployment stage justification:
+    %%   neutralGrey (#F3F2F1) = configuration inputs
+    %%   azureBlue (#DEECF9) = IaC orchestration layer
+    %%   presenceTeal (#C8F0E7) = workload landing zone
+    %%   sharedYellow (#FFF4CE) = security landing zone
+    %%   successGreen (#DFF6DD) = monitoring landing zone
+    %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
+    %% PHASE 5 - STANDARD: Nested subgraphs with semantic colors by function
+    %% ═══════════════════════════════════════════════════════════════════════════
+
     subgraph ConfigLayer["⚙️ Configuration Layer"]
         direction TB
-        YAMLConfig["📄 YAML Configurations<br/>(devcenter.yaml, security.yaml)"]
-        BicepParams["📋 Bicep Parameters<br/>(main.parameters.json)"]
+        YAMLConfig["📄 YAML Configurations<br/>(devcenter.yaml, security.yaml)"]:::neutralGrey
+        BicepParams["📋 Bicep Parameters<br/>(main.parameters.json)"]:::neutralGrey
     end
 
-    %% IaC Orchestration
     subgraph IaCLayer["🏗️ Infrastructure as Code"]
         direction TB
-        MainBicep["📜 main.bicep<br/>(Subscription Scope)"]
-        WorkloadModule["📦 workload.bicep"]
-        SecurityModule["📦 security.bicep"]
-        MonitoringModule["📦 logAnalytics.bicep"]
+        MainBicep["📜 main.bicep<br/>(Subscription Scope)"]:::azureBlue
+        WorkloadModule["📦 workload.bicep"]:::azureBlue
+        SecurityModule["📦 security.bicep"]:::azureBlue
+        MonitoringModule["📦 logAnalytics.bicep"]:::azureBlue
     end
 
-    %% Azure Target Environment
     subgraph AzureEnv["☁️ Azure Subscription"]
         direction TB
 
         subgraph WorkloadRG["Resource Group: Workload"]
-            DevCenterRes["⚙️ DevCenter"]
-            ProjectsRes["📋 Projects"]
+            DevCenterRes["⚙️ DevCenter"]:::presenceTeal
+            ProjectsRes["📋 Projects"]:::presenceTeal
         end
 
         subgraph SecurityRG["Resource Group: Security"]
-            KeyVaultRes["🔐 Key Vault"]
-            SecretsRes["🔑 Secrets"]
+            KeyVaultRes["🔐 Key Vault"]:::sharedYellow
+            SecretsRes["🔑 Secrets"]:::sharedYellow
         end
 
         subgraph MonitoringRG["Resource Group: Monitoring"]
-            LogAnalyticsRes["📈 Log Analytics"]
+            LogAnalyticsRes["📈 Log Analytics"]:::successGreen
         end
     end
 
-    %% Deployment Tool
-    AZD["🚀 Azure Developer CLI<br/>(azd up)"]
+    AZD["🚀 Azure Developer CLI<br/>(azd up)"]:::successGreen
 
     %% Relationships
     ConfigLayer --> MainBicep
@@ -328,23 +368,29 @@ flowchart LR
     LogAnalyticsRes -.->|"Monitors"| DevCenterRes
     KeyVaultRes -.->|"Provides Secrets"| DevCenterRes
 
-    %% Styling
-    style ConfigLayer fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#000
-    style IaCLayer fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#000
-    style AzureEnv fill:#EBF3FC,stroke:#0078D4,stroke-width:2px,color:#000
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
-    style WorkloadRG fill:#E3F2FD,stroke:#0078D4,stroke-width:2px,color:#000
-    style SecurityRG fill:#FEF6E0,stroke:#CA5010,stroke-width:2px,color:#000
-    style MonitoringRG fill:#F1FAF1,stroke:#107C10,stroke-width:2px,color:#000
-
-    style MainBicep fill:#DEECF9,stroke:#0078D4,stroke-width:1px,color:#000
-    style WorkloadModule fill:#DEECF9,stroke:#0078D4,stroke-width:1px,color:#000
-    style SecurityModule fill:#DEECF9,stroke:#0078D4,stroke-width:1px,color:#000
-    style MonitoringModule fill:#DEECF9,stroke:#0078D4,stroke-width:1px,color:#000
-
-    style YAMLConfig fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#000
-    style BicepParams fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#000
-    style AZD fill:#D1E7DD,stroke:#107C10,stroke-width:2px,color:#000
+    %% Subgraph styling (7 subgraphs = 7 style directives) - MANDATORY per GATE-2
+    style ConfigLayer fill:#FFFFFF,stroke:#605E5C,stroke-width:2px
+    style IaCLayer fill:#FFFFFF,stroke:#004578,stroke-width:3px
+    style AzureEnv fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    style WorkloadRG fill:#FFFFFF,stroke:#00666B,stroke-width:2px
+    style SecurityRG fill:#FFFFFF,stroke:#986F0B,stroke-width:2px
+    style MonitoringRG fill:#FFFFFF,stroke:#0B6A0B,stroke-width:2px
 ```
 
 ### 2.3 Architecture Layers and Integration
@@ -987,8 +1033,8 @@ resource keyVault 'Microsoft.KeyVault/vaults@2025-05-01' = {
 }
 ```
 
-**Stored Secrets**: | Secret Name | Purpose | Rotation Policy |
-|------------------------|----------------------------------|-------------------|
+| **Stored Secrets**: | Secret Name                   | Purpose          | Rotation Policy |
+| ------------------- | ----------------------------- | ---------------- | --------------- |
 | github-access-token | GitHub catalog authentication | Manual (90 days) |
 
 **Access Patterns**:
@@ -1048,14 +1094,14 @@ roleAssignments:
 **Description**: Role-based access control policies implementing principle of
 least privilege across all platform resources.
 
-**Role Assignment Matrix**: | Principal | Scope | Role | Justification |
-|-------------------------------|----------------------|-------------------------------|---------------------------------------|
-| DevCenter System Identity | Subscription | Contributor | Resource provisioning
-| | DevCenter System Identity | Subscription | User Access Administrator |
-Project identity management | | DevCenter System Identity | Security RG | Key
-Vault Secrets User | Read catalog credentials | | Platform Engineering Team
-(AAD)| Workload RG | DevCenter Project Admin | Project management | | Project
-System Identity | Workload RG | Contributor | Environment deployment |
+| **Role Assignment Matrix**: | Principal                 | Scope                     | Role                      | Justification |
+| --------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------- | ------- |
+| DevCenter System Identity   | Subscription              | Contributor               | Resource provisioning     |
+|                             | DevCenter System Identity | Subscription              | User Access Administrator |
+| Project identity management |                           | DevCenter System Identity | Security RG               | Key           |
+| Vault Secrets User          | Read catalog credentials  |                           | Platform Engineering Team |
+| (AAD)                       | Workload RG               | DevCenter Project Admin   | Project management        |               | Project |
+| System Identity             | Workload RG               | Contributor               | Environment deployment    |
 
 **Bicep Modules**:
 
@@ -1254,11 +1300,11 @@ pools:
     displayName: 'Standard Developer Workstation'
 ```
 
-**SKU Options**: | Definition | vCPUs | RAM | Storage | Use Case |
-|---------------------------|-------|-------|---------|---------------------------|
-| General_Purpose_8c_32gb | 8 | 32 GB | 256 GB | Standard development | |
-General_Purpose_16c_64gb | 16 | 64 GB | 512 GB | Heavy development | |
-Compute_Optimized_8c_16gb | 8 | 16 GB | 256 GB | Build/test workloads |
+| **SKU Options**:          | Definition | vCPUs | RAM    | Storage              | Use Case |
+| ------------------------- | ---------- | ----- | ------ | -------------------- | -------- |
+| General_Purpose_8c_32gb   | 8          | 32 GB | 256 GB | Standard development |          |
+| General_Purpose_16c_64gb  | 16         | 64 GB | 512 GB | Heavy development    |          |
+| Compute_Optimized_8c_16gb | 8          | 16 GB | 256 GB | Build/test workloads |
 
 **Bicep Implementation**: `src/workload/project/projectPool.bicep`
 
@@ -1336,33 +1382,60 @@ catalogs:
 ### 5.6 Component Dependency Matrix
 
 ```mermaid
-%%{init: {'theme':'base'}}%%
+---
+title: Platform Engineering Component Dependencies
+config:
+  theme: base
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: false
+    curve: cardinal
+    nodeSpacing: 50
+    rankSpacing: 50
+---
 flowchart TD
     accTitle: Platform Engineering Component Dependencies
-    accDescr: Dependency relationships between platform components showing deployment order and integration points
+    accDescr: Dependency relationships between platform components showing deployment order and integration points with semantic colors by functional area. WCAG AA compliant.
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: TD direction explicit, flat topology (no nesting)
+    %% PHASE 2 - SEMANTIC: 5 semantic colors with functional area justification:
+    %%   successGreen (#DFF6DD) = monitoring foundation
+    %%   sharedYellow (#FFF4CE) = security services
+    %%   azureBlue (#DEECF9) = core DevCenter platform
+    %%   presenceTeal (#C8F0E7) = project workload components
+    %%   neutralPurple (#E1DFDD) = network infrastructure
+    %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
+    %% PHASE 5 - STANDARD: Flat structure, semantic colors by functional domain
+    %% ═══════════════════════════════════════════════════════════════════════════
 
     %% Core Components
-    LogAnalytics["📈 Log Analytics<br/>(PLATFORM-MONITOR-001)"]
-    KeyVault["🔐 Key Vault<br/>(PLATFORM-SECURITY-001)"]
-    DevCenter["⚙️ DevCenter<br/>(PLATFORM-CORE-001)"]
+    LogAnalytics["📈 Log Analytics<br/>(PLATFORM-MONITOR-001)"]:::successGreen
+    KeyVault["🔐 Key Vault<br/>(PLATFORM-SECURITY-001)"]:::sharedYellow
+    DevCenter["⚙️ DevCenter<br/>(PLATFORM-CORE-001)"]:::azureBlue
 
     %% DevCenter Sub-Components
-    Catalogs["📚 Catalogs<br/>(PLATFORM-CORE-003)"]
-    EnvTypes["🎯 Environment Types<br/>(PLATFORM-CORE-004)"]
+    Catalogs["📚 Catalogs<br/>(PLATFORM-CORE-003)"]:::azureBlue
+    EnvTypes["🎯 Environment Types<br/>(PLATFORM-CORE-004)"]:::azureBlue
 
     %% Project Components
-    Projects["📋 Projects<br/>(PLATFORM-CORE-002)"]
-    ProjectCatalogs["📚 Project Catalogs<br/>(PLATFORM-PROJECT-003)"]
-    ProjectPools["🖥️ Dev Box Pools<br/>(PLATFORM-PROJECT-001)"]
-    ProjectEnvTypes["🎯 Project Env Types<br/>(PLATFORM-PROJECT-002)"]
+    Projects["📋 Projects<br/>(PLATFORM-CORE-002)"]:::azureBlue
+    ProjectCatalogs["📚 Project Catalogs<br/>(PLATFORM-PROJECT-003)"]:::presenceTeal
+    ProjectPools["🖥️ Dev Box Pools<br/>(PLATFORM-PROJECT-001)"]:::presenceTeal
+    ProjectEnvTypes["🎯 Project Env Types<br/>(PLATFORM-PROJECT-002)"]:::presenceTeal
 
     %% Network Components
-    VNet["🌐 Virtual Network<br/>(PLATFORM-NETWORK-001)"]
-    NetConnection["↔️ Network Connection<br/>(PLATFORM-NETWORK-002)"]
+    VNet["🌐 Virtual Network<br/>(PLATFORM-NETWORK-001)"]:::neutralPurple
+    NetConnection["↔️ Network Connection<br/>(PLATFORM-NETWORK-002)"]:::neutralPurple
 
     %% Identity Components
-    ManagedIdentity["🆔 Managed Identities<br/>(PLATFORM-SECURITY-002)"]
-    RBAC["🛡️ RBAC Assignments<br/>(PLATFORM-SECURITY-003)"]
+    ManagedIdentity["🆔 Managed Identities<br/>(PLATFORM-SECURITY-002)"]:::sharedYellow
+    RBAC["🛡️ RBAC Assignments<br/>(PLATFORM-SECURITY-003)"]:::sharedYellow
 
     %% Deployment Order Dependencies (Top to Bottom)
     LogAnalytics -->|"Required for diagnostics"| KeyVault
@@ -1388,24 +1461,21 @@ flowchart TD
     Catalogs -.->|"Inherited by"| ProjectCatalogs
     EnvTypes -.->|"Scoped to"| ProjectEnvTypes
 
-    %% Styling
-    style LogAnalytics fill:#F1FAF1,stroke:#107C10,stroke-width:2px,color:#000
-    style KeyVault fill:#FEF6E0,stroke:#CA5010,stroke-width:2px,color:#000
-    style DevCenter fill:#DEECF9,stroke:#0078D4,stroke-width:3px,color:#000
-
-    style Catalogs fill:#E3F2FD,stroke:#0078D4,stroke-width:1px,color:#000
-    style EnvTypes fill:#E3F2FD,stroke:#0078D4,stroke-width:1px,color:#000
-    style Projects fill:#E3F2FD,stroke:#0078D4,stroke-width:2px,color:#000
-
-    style ProjectCatalogs fill:#F5FCFF,stroke:#0078D4,stroke-width:1px,color:#000
-    style ProjectPools fill:#F5FCFF,stroke:#0078D4,stroke-width:1px,color:#000
-    style ProjectEnvTypes fill:#F5FCFF,stroke:#0078D4,stroke-width:1px,color:#000
-
-    style VNet fill:#EBF3FC,stroke:#0078D4,stroke-width:2px,color:#000
-    style NetConnection fill:#F5FCFF,stroke:#0078D4,stroke-width:1px,color:#000
-
-    style ManagedIdentity fill:#FEF6E0,stroke:#CA5010,stroke-width:1px,color:#000
-    style RBAC fill:#FEF6E0,stroke:#CA5010,stroke-width:1px,color:#000
+    %% Required classDef palette (ALL 14 - MANDATORY per MRM-D002)
+    classDef level1Group fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef level2Group fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level3Group fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef level4Group fill:#D2D0CE,stroke:#605E5C,stroke-width:1px,color:#323130
+    classDef mainGroup fill:#FFFFFF,stroke:#605E5C,stroke-width:3px,color:#323130
+    classDef subGroup fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#004578,stroke-width:2px,color:#323130
+    classDef successGreen fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px,color:#323130
+    classDef errorRed fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
+    classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
+    classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
+    classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
+    classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 ---
@@ -1791,13 +1861,13 @@ catalogs:
 - **Required Scopes**: `repo:read`
 - **Rotation Policy**: Manual, every 90 days
 
-**Failure Modes**: | Failure Scenario | Impact | Mitigation |
-|-----------------------------|----------------------------------------|-------------------------------------|
-| GitHub outage | Catalog sync fails (scheduled) | Manual sync available | | PAT
-expiration | Catalog sync fails with 401 error | Monitoring alert, automated
-reminder| | Repository deleted | Catalog inaccessible | Backup to Azure Repos |
-| Branch renamed | Sync points to non-existent branch | Configuration validation
-in CI/CD |
+| **Failure Modes**: | Failure Scenario                   | Impact                      | Mitigation           |
+| ------------------ | ---------------------------------- | --------------------------- | -------------------- | --------------------- |
+| GitHub outage      | Catalog sync fails (scheduled)     | Manual sync available       |                      | PAT                   |
+| expiration         | Catalog sync fails with 401 error  | Monitoring alert, automated |
+| reminder           |                                    | Repository deleted          | Catalog inaccessible | Backup to Azure Repos |
+| Branch renamed     | Sync points to non-existent branch | Configuration validation    |
+| in CI/CD           |
 
 **Monitoring**:
 
@@ -1841,12 +1911,12 @@ orgRoleTypes:
     roleType: 'Admin'
 ```
 
-**Failure Modes**: | Failure Scenario | Impact | Mitigation |
-|------------------------------|-------------------------------------|-------------------------------------|
-| Azure AD outage | Users cannot authenticate | Emergency access account
-(break-glass) | | Group membership sync delay | RBAC changes delayed (up to 1
-hour) | Manual role assignment if urgent | | MFA service unavailable | Users
-cannot complete MFA challenge | Fallback to SMS/app notification |
+| **Failure Modes**:            | Failure Scenario                 | Impact                      | Mitigation                    |
+| ----------------------------- | -------------------------------- | --------------------------- | ----------------------------- | ----- |
+| Azure AD outage               | Users cannot authenticate        | Emergency access account    |
+| (break-glass)                 |                                  | Group membership sync delay | RBAC changes delayed (up to 1 |
+| hour)                         | Manual role assignment if urgent |                             | MFA service unavailable       | Users |
+| cannot complete MFA challenge | Fallback to SMS/app notification |
 
 **SLA**: Azure AD SLA: 99.99% uptime  
 **Break-Glass Account**: Configured per Azure AD best practices (monitored,
@@ -1896,12 +1966,12 @@ Resources
 - **Alert Threshold**: 80% of budget
 - **Cost Allocation**: Via resource tags (costCenter, team, project)
 
-**Failure Modes**: | Failure Scenario | Impact | Mitigation |
-|-------------------------|-------------------------------------|-------------------------------------|
-| Quota exceeded | New resource creation fails | Request quota increase (3-5
-days) | | Billing issue | Subscription suspended | Multiple payment methods
-configured | | Region outage | Resources unavailable in region | Multi-region
-deployment (future) |
+| **Failure Modes**:  | Failure Scenario            | Impact                      | Mitigation                      |
+| ------------------- | --------------------------- | --------------------------- | ------------------------------- | ------------------------ |
+| Quota exceeded      | New resource creation fails | Request quota increase (3-5 |
+| days)               |                             | Billing issue               | Subscription suspended          | Multiple payment methods |
+| configured          |                             | Region outage               | Resources unavailable in region | Multi-region             |
+| deployment (future) |
 
 ---
 
@@ -1970,12 +2040,12 @@ resource catalog 'Microsoft.DevCenter/devcenters/catalogs@2024-05-01-preview' = 
 5. → GitHub (authenticate with PAT)
 ```
 
-**Failure Modes**: | Failure Point | Impact | Detection Method |
-|-------------------------|-------------------------------------|-------------------------------------|
-| Key Vault unavailable | Catalog sync fails | Diagnostic logs (OperationName:
-CatalogSync) | | Secret expired | GitHub 401 Unauthorized | Alert on ResultType
-== "Failed" | | RBAC misconfiguration | Access denied (403) | Azure Activity Log
-monitoring |
+| **Failure Modes**:    | Failure Point      | Impact                          | Detection Method        |
+| --------------------- | ------------------ | ------------------------------- | ----------------------- | ------------------- |
+| Key Vault unavailable | Catalog sync fails | Diagnostic logs (OperationName: |
+| CatalogSync)          |                    | Secret expired                  | GitHub 401 Unauthorized | Alert on ResultType |
+| == "Failed"           |                    | RBAC misconfiguration           | Access denied (403)     | Azure Activity Log  |
+| monitoring            |
 
 ---
 
@@ -2027,12 +2097,12 @@ Project Pool (references attached network)
 Dev Box instances (assigned IPs from subnet)
 ```
 
-**Failure Modes**: | Failure Point | Impact | Mitigation |
-|-----------------------------|-------------------------------------|-------------------------------------|
-| VNet deleted | New pool creation fails | Resource lock on production VNets | |
-Subnet IP exhaustion | Dev Box provisioning fails | Monitor available IPs,
-expand subnet| | Network Connection invalid | Pool creation fails with error |
-Pre-create network connections |
+| **Failure Modes**:             | Failure Point              | Impact                            | Mitigation                     |
+| ------------------------------ | -------------------------- | --------------------------------- | ------------------------------ |
+| VNet deleted                   | New pool creation fails    | Resource lock on production VNets |                                |
+| Subnet IP exhaustion           | Dev Box provisioning fails | Monitor available IPs,            |
+| expand subnet                  |                            | Network Connection invalid        | Pool creation fails with error |
+| Pre-create network connections |
 
 ---
 
@@ -2167,12 +2237,12 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
 }]
 ```
 
-**Log Categories by Resource**: | Resource Type | Log Categories | Purpose |
-|----------------------|-----------------------------|----------------------------------|
-| DevCenter | AuditEvent, Administrative | Project management, access | | Key
-Vault | AuditEvent | Secret access audit trail | | Network Connection | AllLogs
-| Network connectivity events | | Projects | Administrative | Environment
-deployment tracking |
+| **Log Categories by Resource**: | Resource Type              | Log Categories             | Purpose        |
+| ------------------------------- | -------------------------- | -------------------------- | -------------- | ------------------ | ------- |
+| DevCenter                       | AuditEvent, Administrative | Project management, access |                | Key                |
+| Vault                           | AuditEvent                 | Secret access audit trail  |                | Network Connection | AllLogs |
+| Network connectivity events     |                            | Projects                   | Administrative | Environment        |
+| deployment tracking             |
 
 ---
 
