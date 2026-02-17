@@ -209,11 +209,12 @@ graph TB
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Subgraph styling (5 subgraphs = 5 style directives) - MANDATORY per GATE-2
+    %% CRITICAL: Functional siblings use semantic colors matching content purpose
     style AzureSubscription fill:#FFFFFF,stroke:#605E5C,stroke-width:3px
-    style WorkloadLZ fill:#F3F2F1,stroke:#004578,stroke-width:2px
-    style SecurityLZ fill:#F3F2F1,stroke:#986F0B,stroke-width:2px
-    style MonitoringLZ fill:#F3F2F1,stroke:#0B6A0B,stroke-width:2px
-    style ConnectivityLZ fill:#F3F2F1,stroke:#00666B,stroke-width:2px
+    style WorkloadLZ fill:#DEECF9,stroke:#004578,stroke-width:2px
+    style SecurityLZ fill:#FFF4CE,stroke:#986F0B,stroke-width:2px
+    style MonitoringLZ fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px
+    style ConnectivityLZ fill:#C8F0E7,stroke:#00666B,stroke-width:2px
 ```
 
 **Diagram Validation**: ✅ Score 100/100 | Mermaid v11.x | AZURE/FLUENT v1.1
@@ -373,11 +374,12 @@ graph LR
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Subgraph styling (5 subgraphs = 5 style directives) - MANDATORY per GATE-2
+    %% CRITICAL: Functional siblings use semantic colors matching content purpose
     style AzureRegion fill:#FFFFFF,stroke:#605E5C,stroke-width:3px
-    style VNetGroup fill:#F3F2F1,stroke:#00666B,stroke-width:2px
+    style VNetGroup fill:#C8F0E7,stroke:#00666B,stroke-width:2px
     style Subnets fill:#FFFFFF,stroke:#00666B,stroke-width:1px
-    style DevCenterNetwork fill:#F3F2F1,stroke:#004578,stroke-width:2px
-    style DiagnosticsFlow fill:#F3F2F1,stroke:#0B6A0B,stroke-width:2px
+    style DevCenterNetwork fill:#DEECF9,stroke:#004578,stroke-width:2px
+    style DiagnosticsFlow fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px
 ```
 
 **Diagram Validation**: ✅ Score 100/100 | Mermaid v11.x | AZURE/FLUENT v1.1
@@ -1587,4 +1589,3 @@ templates and YAML configuration files
 ---
 
 **End of Document**
-

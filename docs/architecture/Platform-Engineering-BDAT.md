@@ -179,10 +179,11 @@ flowchart TB
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Subgraph styling (4 subgraphs = 4 style directives) - MANDATORY per GATE-2
-    style PlatformCore fill:#FFFFFF,stroke:#004578,stroke-width:3px
-    style SecurityLayer fill:#F3F2F1,stroke:#986F0B,stroke-width:2px
-    style NetworkLayer fill:#F3F2F1,stroke:#00666B,stroke-width:2px
-    style MonitoringLayer fill:#F3F2F1,stroke:#0B6A0B,stroke-width:2px
+    %% CRITICAL: Functional siblings use semantic colors matching content purpose
+    style PlatformCore fill:#DEECF9,stroke:#004578,stroke-width:3px
+    style SecurityLayer fill:#FFF4CE,stroke:#986F0B,stroke-width:2px
+    style NetworkLayer fill:#C8F0E7,stroke:#00666B,stroke-width:2px
+    style MonitoringLayer fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px
 ```
 
 ---
@@ -385,12 +386,13 @@ flowchart LR
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Subgraph styling (7 subgraphs = 7 style directives) - MANDATORY per GATE-2
-    style ConfigLayer fill:#FFFFFF,stroke:#605E5C,stroke-width:2px
-    style IaCLayer fill:#FFFFFF,stroke:#004578,stroke-width:3px
-    style AzureEnv fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style WorkloadRG fill:#FFFFFF,stroke:#00666B,stroke-width:2px
-    style SecurityRG fill:#FFFFFF,stroke:#986F0B,stroke-width:2px
-    style MonitoringRG fill:#FFFFFF,stroke:#0B6A0B,stroke-width:2px
+    %% CRITICAL: Functional siblings use semantic colors matching content purpose
+    style ConfigLayer fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    style IaCLayer fill:#DEECF9,stroke:#004578,stroke-width:3px
+    style AzureEnv fill:#FFFFFF,stroke:#605E5C,stroke-width:2px
+    style WorkloadRG fill:#C8F0E7,stroke:#00666B,stroke-width:2px
+    style SecurityRG fill:#FFF4CE,stroke:#986F0B,stroke-width:2px
+    style MonitoringRG fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px
 ```
 
 ### 2.3 Architecture Layers and Integration
@@ -2475,4 +2477,3 @@ Get-AzKeyVault -VaultName $keyVaultName | Select-Object VaultUri, ProvisioningSt
 requested)  
 🎯 **Quality Level**: Standard (as specified)  
 📈 **Component Confidence**: 0.92 average across 23 components
-
