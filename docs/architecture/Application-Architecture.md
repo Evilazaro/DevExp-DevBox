@@ -105,7 +105,7 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
-    curve: cardinal
+    curve: basis
     nodeSpacing: 50
     rankSpacing: 50
 ---
@@ -117,15 +117,16 @@ flowchart TB
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% PHASE 1 - STRUCTURAL: TB direction explicit, 3-tier architecture
+    %% PHASE 1 - STRUCTURAL: TB direction explicit, 4 functional sibling subgraphs
     %% PHASE 2 - SEMANTIC: 4 semantic colors with architectural justification:
     %%   sharedYellow (#FFF4CE) = orchestration tier (coordination/control)
     %%   azureBlue (#DEECF9) = core services (platform foundation)
     %%   successGreen (#DFF6DD) = project services (developer workload)
     %%   neutralPurple (#E1DFDD) = infrastructure services (cross-cutting)
+    %%   CRITICAL: Subgraph backgrounds MATCH content node colors (semantic siblings)
     %% PHASE 3 - FONT: Dark text #323130 on light backgrounds (WCAG AA 4.5:1 contrast)
     %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, all nodes have emoji icons
-    %% PHASE 5 - STANDARD: Functional siblings use distinct semantic colors
+    %% PHASE 5 - STANDARD: Functional siblings use distinct semantic colors matching content
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph ORCHESTRATOR["🎭 Orchestration Layer"]
@@ -187,17 +188,18 @@ flowchart TB
     classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
     classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
     classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
-    classDef presenceTeal fill:#C8F0E7,stroke:#005B5B,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
     classDef sharedPink fill:#F4D7E0,stroke:#AB5A87,stroke-width:2px,color:#323130
 
     linkStyle 0 stroke:#986F0B,stroke-width:3px
     linkStyle 1 stroke:#986F0B,stroke-width:3px
 
     %% Subgraph styling (4 subgraphs = 4 style directives) - MANDATORY per GATE-2
-    style ORCHESTRATOR fill:#FFFFFF,stroke:#605E5C,stroke-width:3px
-    style CORE fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style PROJECT fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style INFRA fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    %% CRITICAL: Functional siblings MUST match content colors (semantic, not hierarchical)
+    style ORCHESTRATOR fill:#FFF4CE,stroke:#986F0B,stroke-width:2px
+    style CORE fill:#DEECF9,stroke:#004578,stroke-width:2px
+    style PROJECT fill:#DFF6DD,stroke:#0B6A0B,stroke-width:2px
+    style INFRA fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px
 ```
 
 ---
@@ -242,7 +244,7 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
-    curve: cardinal
+    curve: basis
     nodeSpacing: 50
     rankSpacing: 50
 ---
@@ -291,7 +293,7 @@ flowchart LR
     classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
     classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
     classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
-    classDef presenceTeal fill:#C8F0E7,stroke:#005B5B,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
     classDef sharedPink fill:#F4D7E0,stroke:#AB5A87,stroke-width:2px,color:#323130
 ```
 

@@ -104,7 +104,7 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
-    curve: cardinal
+    curve: basis
     nodeSpacing: 50
     rankSpacing: 50
 ---
@@ -186,8 +186,10 @@ flowchart TB
     classDef level3 fill:#FDE7E9,stroke:#A4262C,stroke-width:2px,color:#323130
 
     %% Subgraph styling (3 subgraphs = 3 style directives)
-    style STRATEGIC fill:#FFFFFF,stroke:#004578,stroke-width:3px
-    style CORE fill:#F3F2F1,stroke:#00666B,stroke-width:2px
+    %% CRITICAL: Functional siblings use semantic colors matching content purpose
+    style STRATEGIC fill:#DEECF9,stroke:#004578,stroke-width:3px
+    style CORE fill:#C8F0E7,stroke:#00666B,stroke-width:2px
+    style SUPPORT fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
     style SUPPORT fill:#FFFFFF,stroke:#A4262C,stroke-width:2px
 ```
 
@@ -723,7 +725,7 @@ flowchart TB
     classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
     classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
     classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
-    classDef presenceTeal fill:#C8F0E7,stroke:#323130,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Semantic class mappings for this diagram (4 used)
@@ -901,7 +903,7 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
-    curve: catmullRom
+    curve: basis
     nodeSpacing: 50
     rankSpacing: 50
 ---
@@ -976,7 +978,7 @@ flowchart TB
     classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
     classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
     classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
-    classDef presenceTeal fill:#C8F0E7,stroke:#323130,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Semantic class mappings for this diagram (5 used)
@@ -987,11 +989,12 @@ flowchart TB
     classDef user fill:#EDEBE9,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Subgraph styling (5 subgraphs)
-    style SECURITY fill:#FAFAFA,stroke:#A4262C,stroke-width:2px
-    style PLATFORM fill:#F3F2F1,stroke:#004578,stroke-width:2px
-    style WORKLOAD fill:#FAFAFA,stroke:#00666B,stroke-width:2px
-    style EXTERNAL fill:#F3F2F1,stroke:#8A8886,stroke-width:2px
-    style USERS fill:#FAFAFA,stroke:#605E5C,stroke-width:2px
+    %% CRITICAL: Functional siblings use semantic colors matching content purpose
+    style SECURITY fill:#FDE7E9,stroke:#A4262C,stroke-width:2px
+    style PLATFORM fill:#DEECF9,stroke:#004578,stroke-width:2px
+    style WORKLOAD fill:#C8F0E7,stroke:#00666B,stroke-width:2px
+    style EXTERNAL fill:#FFF4CE,stroke:#8A8886,stroke-width:2px
+    style USERS fill:#EDEBE9,stroke:#605E5C,stroke-width:2px
 ```
 
 ### 8.2 Capability-to-Process Mapping
@@ -1055,7 +1058,7 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: false
-    curve: natural
+    curve: basis
     nodeSpacing: 60
     rankSpacing: 80
 ---
@@ -1124,7 +1127,7 @@ flowchart LR
     classDef sharedYellow fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#323130
     classDef warningOrange fill:#FDE7E9,stroke:#8A3707,stroke-width:2px,color:#323130
     classDef neutralPurple fill:#E1DFDD,stroke:#5B5FC7,stroke-width:2px,color:#323130
-    classDef presenceTeal fill:#C8F0E7,stroke:#323130,stroke-width:2px,color:#323130
+    classDef presenceTeal fill:#C8F0E7,stroke:#00666B,stroke-width:2px,color:#323130
     classDef neutralGrey fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Semantic class mappings for this diagram (4 used)
@@ -1134,10 +1137,11 @@ flowchart LR
     classDef azure fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
 
     %% Subgraph styling (4 subgraphs)
-    style CORE fill:#FAFAFA,stroke:#004578,stroke-width:2px
-    style IDENTITY fill:#F3F2F1,stroke:#A4262C,stroke-width:2px
-    style DEVOPS fill:#FAFAFA,stroke:#00666B,stroke-width:2px
-    style AZURE fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    %% CRITICAL: Functional siblings use semantic colors matching content purpose
+    style CORE fill:#DEECF9,stroke:#004578,stroke-width:2px
+    style IDENTITY fill:#FDE7E9,stroke:#A4262C,stroke-width:2px
+    style DEVOPS fill:#C8F0E7,stroke:#00666B,stroke-width:2px
+    style AZURE fill:#E1DFDD,stroke:#605E5C,stroke-width:2px
 ```
 
 ---
