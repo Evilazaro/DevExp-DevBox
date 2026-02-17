@@ -192,6 +192,12 @@ flowchart TB
 
     linkStyle 0 stroke:#986F0B,stroke-width:3px
     linkStyle 1 stroke:#986F0B,stroke-width:3px
+
+    %% Subgraph styling (4 subgraphs = 4 style directives) - MANDATORY per GATE-2
+    style ORCHESTRATOR fill:#FFFFFF,stroke:#605E5C,stroke-width:3px
+    style CORE fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    style PROJECT fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    style INFRA fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
 ```
 
 ---
