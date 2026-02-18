@@ -6,7 +6,7 @@
 [![azd](https://img.shields.io/badge/azd-compatible-5C2D91?logo=microsoftazure&logoColor=white)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview)
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white)](https://learn.microsoft.com/en-us/powershell/)
 
-**Dev Box Adoption & Deployment Accelerator** — an Infrastructure as Code solution built with Azure Bicep and the Azure Developer CLI (`azd`) that provisions a fully configured [Microsoft Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box) landing zone, complete with Dev Centers, projects, network isolation, Key Vault secrets management, and centralized monitoring.
+**Dev Box Adoption & Deployment Accelerator** — an **Infrastructure as Code** solution built with Azure Bicep and the Azure Developer CLI (`azd`) that provisions a fully configured [Microsoft Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box) landing zone, complete with Dev Centers, projects, network isolation, **Key Vault secrets management**, and **centralized monitoring**.
 
 ## Table of Contents
 
@@ -26,13 +26,13 @@
 
 **Overview**
 
-> 💡 **Why This Matters**: DevExp-DevBox eliminates weeks of manual Azure setup by providing a fully validated, production-ready Dev Box landing zone that teams can deploy in minutes. It enforces Azure Landing Zone best practices by default, so every environment is secure, observable, and consistently configured from day one.
+> 💡 **Why This Matters**: DevExp-DevBox **eliminates weeks of manual Azure setup** by providing a fully validated, **production-ready** Dev Box landing zone that teams can **deploy in minutes**. It enforces Azure Landing Zone best practices by default, so every environment is secure, observable, and consistently configured from day one.
 
-> 📌 **How It Works**: The accelerator uses Azure Bicep modules driven by versioned YAML configuration files. The Azure Developer CLI (`azd`) orchestrates provisioning across three dedicated resource groups — workload, security, and monitoring — while setup scripts handle GitHub and Azure DevOps integration automatically.
+> 📌 **How It Works**: The accelerator uses Azure Bicep modules driven by **versioned YAML configuration files**. The Azure Developer CLI (`azd`) orchestrates provisioning across **three dedicated resource groups** — workload, security, and monitoring — while setup scripts handle GitHub and Azure DevOps integration automatically.
 
-DevExp-DevBox is an Infrastructure as Code accelerator purpose-built for teams adopting [Microsoft Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box). It codifies the full Azure Dev Center topology — Dev Centers, projects, Dev Box pools, environment types, catalogs, and network connections — into reusable, parameterized Bicep modules with no hard-coded environment values.
+DevExp-DevBox is an Infrastructure as Code accelerator purpose-built for teams adopting [Microsoft Dev Box](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box). It codifies the full Azure Dev Center topology — Dev Centers, projects, Dev Box pools, environment types, catalogs, and network connections — into reusable, parameterized Bicep modules with **no hard-coded environment values**.
 
-The solution follows [Azure Landing Zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/) principles to enforce separation of concerns across resource groups, apply least-privilege RBAC role assignments, and integrate centralized monitoring and secret management out of the box.
+The solution follows [Azure Landing Zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/) principles to enforce **separation of concerns** across resource groups, apply **least-privilege RBAC** role assignments, and integrate centralized monitoring and secret management out of the box.
 
 > 📖 Full documentation: [evilazaro.github.io/DevExp-DevBox](https://evilazaro.github.io/DevExp-DevBox)
 
@@ -40,7 +40,7 @@ The solution follows [Azure Landing Zone](https://learn.microsoft.com/en-us/azur
 
 **Overview**
 
-> 💡 **Why This Matters**: Understanding the architecture helps teams plan their Azure subscription layout, network topology, and identity model before deploying. The landing zone design ensures that security resources are isolated from workload resources and that monitoring spans all components.
+> 💡 **Why This Matters**: Understanding the architecture helps teams plan their Azure subscription layout, network topology, and identity model **before deploying**. The landing zone design ensures that **security resources are isolated from workload resources** and that monitoring spans all components.
 
 > 📌 **How It Works**: Resources are organized into four resource groups aligned to distinct concerns — workload, security, monitoring, and per-project connectivity. The Dev Center acts as the central control plane, consuming secrets from Key Vault, emitting telemetry to Log Analytics, and attaching to project-specific VNets via Network Connections.
 
@@ -145,7 +145,7 @@ flowchart TB
 
 **Overview**
 
-> 💡 **Why This Matters**: Installing the correct tool versions before deployment prevents the most common setup failures. Each tool plays a distinct role — `az` manages Azure authentication, `azd` orchestrates the full deployment lifecycle, and `gh` or Azure DevOps CLI enables source-control integration.
+> 💡 **Why This Matters**: Installing the correct tool versions **before deployment** **prevents the most common setup failures**. Each tool plays a distinct role — `az` manages Azure authentication, `azd` orchestrates the full deployment lifecycle, and `gh` or Azure DevOps CLI enables source-control integration.
 
 > 📌 **How It Works**: All tools are available via `winget` on Windows, `brew` on macOS, and package managers on Linux. The setup scripts validate tool availability at startup and emit clear error messages for anything missing.
 
@@ -161,9 +161,9 @@ flowchart TB
 
 **Overview**
 
-> 💡 **Why This Matters**: The accelerator is designed to go from zero to a fully deployed Dev Box environment in under 10 minutes. The setup scripts handle authentication, environment initialization, and Azure resource provisioning in a single interactive flow.
+> 💡 **Why This Matters**: The accelerator is designed to go from zero to a fully deployed Dev Box environment in **under 10 minutes**. The setup scripts handle authentication, environment initialization, and Azure resource provisioning in a **single interactive flow**.
 
-> 📌 **How It Works**: `setUp.ps1` (Windows) and `setUp.sh` (Linux/macOS) wrap the `azd` CLI with pre-checks for authentication, tool availability, and parameter validation. Alternatively, `azd up` runs the full provision-and-deploy cycle directly.
+> 📌 **How It Works**: `setUp.ps1` (Windows) and `setUp.sh` (Linux/macOS) wrap the `azd` CLI with pre-checks for **authentication, tool availability, and parameter validation**. Alternatively, `azd up` runs the **full provision-and-deploy cycle** directly.
 
 **Clone and enter the repository:**
 
@@ -189,7 +189,7 @@ chmod +x setUp.sh
 
 **Overview**
 
-> 💡 **Why This Matters**: The deployment is fully declarative and idempotent — running it multiple times produces the same result without duplicating resources. This makes it safe to re-run after configuration changes or failed deployments.
+> 💡 **Why This Matters**: The deployment is fully **declarative and idempotent** — running it multiple times produces the same result without duplicating resources. This makes it **safe to re-run** after configuration changes or failed deployments.
 
 > 📌 **How It Works**: `azd up` reads `azure.yaml` to discover the Bicep entry point (`infra/main.bicep`), loads parameter values, calls the `preprovision` hook to set environment variables, and then deploys all resource groups and modules in dependency order.
 
@@ -213,7 +213,7 @@ azd up
 
 > 💡 **Why This Matters**: Once deployed, teams can customize Dev Box projects, add new pools, and update environment configurations entirely through YAML — no Bicep changes required for day-two operations.
 
-> 📌 **How It Works**: Edit the YAML files under `infra/settings/`, commit the changes, and re-run `azd up`. Bicep's `loadYamlContent()` picks up the new values and the deployment applies only the delta.
+> 📌 **How It Works**: Edit the YAML files under `infra/settings/`, commit the changes, and re-run `azd up`. Bicep's `loadYamlContent()` picks up the new values and the deployment **applies only the delta**.
 
 **Add a new Dev Box project** by extending `infra/settings/workload/devcenter.yaml`:
 
@@ -242,9 +242,9 @@ azd up
 
 **Overview**
 
-> 💡 **Why This Matters**: Centralizing all environment-specific settings in YAML files means Bicep templates stay environment-agnostic and can be safely re-used across dev, staging, and production without modification.
+> 💡 **Why This Matters**: Centralizing all environment-specific settings in YAML files means Bicep templates stay **environment-agnostic** and can be safely re-used across dev, staging, and production without modification.
 
-> 📌 **How It Works**: Bicep's `loadYamlContent()` function reads the YAML files at compile time and injects the values as variables. The schema files (`*.schema.json`) provide IDE validation and autocomplete for the YAML configuration.
+> 📌 **How It Works**: Bicep's `loadYamlContent()` function reads the YAML files **at compile time** and injects the values as variables. The schema files (`*.schema.json`) provide IDE validation and autocomplete for the YAML configuration.
 
 | File | Purpose | Key Settings |
 |---|---|---|
@@ -342,7 +342,7 @@ DevExp-DevBox/
 
 **Overview**
 
-> 💡 **Why This Matters**: This project follows a product-oriented delivery model so that every contribution is traceable to a business outcome. Epics deliver measurable capabilities, Features deliver testable deliverables, and Tasks are the smallest verifiable units of work — making it easy to review, prioritize, and track progress.
+> 💡 **Why This Matters**: This project follows a product-oriented delivery model so that every contribution is **traceable to a business outcome**. Epics deliver measurable capabilities, Features deliver testable deliverables, and Tasks are the **smallest verifiable units of work** — making it easy to review, prioritize, and track progress.
 
 > 📌 **How It Works**: Work items are managed through GitHub Issues using structured templates. Every PR must reference a closing issue, include validation evidence, and pass the engineering standards checklist before merging. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full workflow.
 
@@ -365,7 +365,7 @@ docs/<issue-number>-<short-name>
 
 ### Pull Request Requirements
 
-Every PR must:
+Every PR **must**:
 
 - Reference its closing issue (e.g., `Closes #123`)
 - Include a summary of changes, validation evidence, and docs updates
