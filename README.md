@@ -16,8 +16,6 @@ secrets management, and centralized monitoring.
 > 📖 Full documentation:
 > [evilazaro.github.io/DevExp-DevBox](https://evilazaro.github.io/DevExp-DevBox)
 
----
-
 ## Features
 
 **Overview**
