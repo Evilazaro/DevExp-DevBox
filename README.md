@@ -10,6 +10,17 @@
 
 > 📖 Full documentation: [evilazaro.github.io/DevExp-DevBox](https://evilazaro.github.io/DevExp-DevBox)
 
+## Table of Contents
+
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Architecture](#architecture)
+- [Repository Structure](#repository-structure)
+- [Configuration](#configuration)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Features
 
 **Overview**
@@ -18,15 +29,15 @@ DevExp-DevBox removes the complexity of bootstrapping a secure, production-ready
 
 | Feature | Description | Status |
 |---|---|---|
-| **Dev Center Provisioning** | Deploys a fully configured Azure Dev Center with system-assigned identity, catalog sync, and Azure Monitor agent | ✅ Stable |
-| **Multi-Project Support** | Provisions independent Dev Box projects with per-project pools, catalogs, and environment types | ✅ Stable |
-| **Managed Network Isolation** | Creates dedicated VNets with configurable address spaces and network connections per project | ✅ Stable |
-| **Azure Key Vault Integration** | Stores and manages sensitive secrets (e.g., GitHub Actions tokens) with RBAC authorization and soft-delete protection | ✅ Stable |
-| **Centralized Monitoring** | Deploys a Log Analytics Workspace connected to all Dev Center resources for unified observability | ✅ Stable |
-| **RBAC & Identity Management** | Applies least-privilege role assignments for Dev Managers, project identities, and the Dev Center system identity | ✅ Stable |
-| **Multi-Environment Automation** | One-command setup via `setUp.ps1` / `setUp.sh` supporting `github` and `adogit` source-control platforms | ✅ Stable |
-| **YAML-Driven Configuration** | All resource names, tags, environments, and Dev Box pool definitions are driven from versioned YAML files | ✅ Stable |
-| **Azure Landing Zone Alignment** | Resources are organized into dedicated resource groups for workload, security, and monitoring separation | ✅ Stable |
+| 🏢 **Dev Center Provisioning** | Deploys a fully configured Azure Dev Center with system-assigned identity, catalog sync, and Azure Monitor agent | ✅ Stable |
+| 📁 **Multi-Project Support** | Provisions independent Dev Box projects with per-project pools, catalogs, and environment types | ✅ Stable |
+| 🌐 **Managed Network Isolation** | Creates dedicated VNets with configurable address spaces and network connections per project | ✅ Stable |
+| 🔑 **Azure Key Vault Integration** | Stores and manages sensitive secrets (e.g., GitHub Actions tokens) with RBAC authorization and soft-delete protection | ✅ Stable |
+| 📈 **Centralized Monitoring** | Deploys a Log Analytics Workspace connected to all Dev Center resources for unified observability | ✅ Stable |
+| 🛡️ **RBAC & Identity Management** | Applies least-privilege role assignments for Dev Managers, project identities, and the Dev Center system identity | ✅ Stable |
+| ⚙️ **Multi-Environment Automation** | One-command setup via `setUp.ps1` / `setUp.sh` supporting `github` and `adogit` source-control platforms | ✅ Stable |
+| 📋 **YAML-Driven Configuration** | All resource names, tags, environments, and Dev Box pool definitions are driven from versioned YAML files | ✅ Stable |
+| 🏗️ **Azure Landing Zone Alignment** | Resources are organized into dedicated resource groups for workload, security, and monitoring separation | ✅ Stable |
 
 ## Quick Start
 
