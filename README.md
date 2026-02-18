@@ -41,8 +41,6 @@ minutes, not days.
 | **YAML-Driven Configuration**    | All resource names, tags, environments, and Dev Box pool definitions are driven from versioned YAML files             | `infra/settings/`                                                      |
 | **Azure Landing Zone Alignment** | Resources organized into dedicated resource groups: `devexp-workload`, `devexp-security`, `devexp-monitoring`         | `infra/settings/resourceOrganization/azureResources.yaml`              |
 
----
-
 ## Quick Start
 
 ### Prerequisites
@@ -96,8 +94,6 @@ azd up
 > **Expected output**: `azd` provisions three resource groups
 > (`devexp-workload-dev-<region>-RG`, `devexp-security-dev-<region>-RG`,
 > `devexp-monitoring-dev-<region>-RG`) and outputs the deployed Dev Center name.
-
----
 
 ## Architecture
 
@@ -189,8 +185,6 @@ flowchart TB
 | `devexp-monitoring-<env>-<region>-RG` | Observability            | Log Analytics Workspace               |
 | `<project>-connectivity-RG`           | Per-project networking   | VNet, Network Connection              |
 
----
-
 ## Repository Structure
 
 ```text
@@ -220,8 +214,6 @@ DevExp-DevBox/
         ├── core/                     # Dev Center, catalog, environment type modules
         └── project/                  # Project, pool, catalog, environment type modules
 ```
-
----
 
 ## Configuration
 
@@ -295,8 +287,6 @@ Set the required parameters for `azd`:
 | `environmentName` | Short environment label (`dev`, `test`, `prod`) | `dev`         |
 | `secretValue`     | GitHub Actions token stored in Key Vault        | _(sensitive)_ |
 
----
-
 ## Documentation
 
 Full documentation is published at
@@ -313,8 +303,6 @@ Additional references:
 - [Azure Developer CLI documentation](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview)
 - [Azure Bicep documentation](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview)
 - [Azure Landing Zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
-
----
 
 ## Contributing
 
@@ -358,13 +346,9 @@ Every PR must:
 - All YAML configuration files **must** pass schema validation
 - PowerShell scripts **must** follow the patterns in `setUp.ps1`
 
----
-
 ## License
 
 This project is licensed under the [MIT License](./LICENSE).
-
----
 
 > Built with ❤️ by the **DevExP Team** ·
 > [Report an issue](https://github.com/Evilazaro/DevExp-DevBox/issues)
