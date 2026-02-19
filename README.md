@@ -76,12 +76,29 @@ integrated security, observability, and source control support out of the box.
 ## Architecture
 
 ```mermaid
+---
+title: DevExp-DevBox Architecture
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
 flowchart TD
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef azureBlue fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
-    classDef azureGreen fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#054B16
-    classDef warning fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#3B2C00
-    classDef azureTeal fill:#EFF6FC,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    accTitle: DevExp-DevBox Architecture
+    accDescr: Shows the full DevExp-DevBox deployment architecture including the Automation Layer (setUp scripts and Azure Developer CLI), Azure Subscription structure with Security, Monitoring, and Workload resource groups, and dependencies between DevCenter, Key Vault, Log Analytics Workspace, and DevCenter projects
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph automation["🤖 Automation Layer"]
         SETUP["⚙️ setUp.ps1 / setUp.sh"]:::warning
@@ -123,12 +140,24 @@ flowchart TD
     SETUP -->|"invokes"| AZD
     AZD -->|"deploys"| subscription
 
-    style subscription fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style security fill:#FFF4F4,stroke:#A80000,stroke-width:1px
-    style monitoring fill:#F0FFF0,stroke:#107C10,stroke-width:1px
-    style workload fill:#EFF6FC,stroke:#0078D4,stroke-width:1px
-    style projects fill:#F8F8FF,stroke:#2D7D9A,stroke-width:1px
-    style automation fill:#FFF4CE,stroke:#986F0B,stroke-width:1px
+    %% ============================================
+    %% SUBGRAPH STYLING (5 subgraphs = 5 directives)
+    %% ============================================
+    style subscription fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    style security fill:#FDE7E9,stroke:#E81123,stroke-width:1px,color:#A4262C
+    style monitoring fill:#DFF6DD,stroke:#107C10,stroke-width:1px,color:#0B6A0B
+    style workload fill:#DEECF9,stroke:#0078D4,stroke-width:1px,color:#004578
+    style projects fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#323130
+    style automation fill:#FFF4CE,stroke:#FFB900,stroke-width:1px,color:#323130
+
+    %% Centralized styling - approved semantic classes only
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef azureBlue fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef azureGreen fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef azureTeal fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+
+
 ```
 
 ## Requirements
