@@ -60,18 +60,18 @@ patterns. It provisions a complete developer experience platform — from
 centralized DevCenter configuration to project-level Dev Box pools — with
 integrated security, observability, and source control support out of the box.
 
-| Feature                         | Description                                                                                                                    | Source                                   |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- |
-| 🏢 DevCenter Deployment         | Provisions Azure DevCenter with system-assigned identity, catalog sync, and Azure Monitor agent integration                    | `src/workload/core/devCenter.bicep`      |
-| 📁 Project Management           | Deploys DevCenter projects with role-specific Dev Box pools, environment types, and network configurations                     | `src/workload/project/project.bicep`     |
-| 🔐 Managed Identity & RBAC      | Configures Contributor, User Access Administrator, Key Vault Secrets User/Officer, and DevCenter Project Admin roles           | `infra/settings/workload/devcenter.yaml` |
-| 🔑 Key Vault Integration        | Provisions Azure Key Vault for secure secret storage and injects secrets into DevCenter via Key Vault references               | `src/security/security.bicep`            |
-| 📊 Log Analytics Monitoring     | Deploys centralized Log Analytics Workspace with diagnostic settings across all resources                                      | `src/management/logAnalytics.bicep`      |
-| ☁️ Landing Zone Resource Groups | Creates isolated resource groups for Workload, Security, and Monitoring following Azure Landing Zone principles                | `infra/main.bicep`                       |
-| ⚙️ Multi-Platform Automation    | Supports Windows (PowerShell 7+) and Linux/macOS (Bash) setup scripts with GitHub and Azure DevOps source control integration  | `setUp.ps1`, `setUp.sh`                  |
-| 📝 YAML-Driven Configuration    | Centralizes all resource settings — DevCenter, projects, security, networking, tagging — in validated YAML configuration files | `infra/settings/`                        |
-| 📦 Developer Catalogs           | Integrates the official Microsoft Dev Center catalog (`devcenter-catalog`) for custom task definitions                         | `infra/settings/workload/devcenter.yaml` |
-| 🌐 Environment Type Management  | Provisions `dev`, `staging`, and `UAT` environment types per project for full SDLC lifecycle coverage                          | `infra/settings/workload/devcenter.yaml` |
+| Feature                         | Description                                                                                                                    | Status    |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------- |
+| 🏢 DevCenter Deployment         | Provisions Azure DevCenter with system-assigned identity, catalog sync, and Azure Monitor agent integration                    | ✅ Stable |
+| 📁 Project Management           | Deploys DevCenter projects with role-specific Dev Box pools, environment types, and network configurations                     | ✅ Stable |
+| 🔐 Managed Identity & RBAC      | Configures Contributor, User Access Administrator, Key Vault Secrets User/Officer, and DevCenter Project Admin roles           | ✅ Stable |
+| 🔑 Key Vault Integration        | Provisions Azure Key Vault for secure secret storage and injects secrets into DevCenter via Key Vault references               | ✅ Stable |
+| 📊 Log Analytics Monitoring     | Deploys centralized Log Analytics Workspace with diagnostic settings across all resources                                      | ✅ Stable |
+| ☁️ Landing Zone Resource Groups | Creates isolated resource groups for Workload, Security, and Monitoring following Azure Landing Zone principles                | ✅ Stable |
+| ⚙️ Multi-Platform Automation    | Supports Windows (PowerShell 7+) and Linux/macOS (Bash) setup scripts with GitHub and Azure DevOps source control integration  | ✅ Stable |
+| 📝 YAML-Driven Configuration    | Centralizes all resource settings — DevCenter, projects, security, networking, tagging — in validated YAML configuration files | ✅ Stable |
+| 📦 Developer Catalogs           | Integrates the official Microsoft Dev Center catalog (`devcenter-catalog`) for custom task definitions                         | ✅ Stable |
+| 🌐 Environment Type Management  | Provisions `dev`, `staging`, and `UAT` environment types per project for full SDLC lifecycle coverage                          | ✅ Stable |
 
 ## Architecture
 
@@ -351,13 +351,13 @@ stored in Azure Key Vault and referenced by identifier. The DevCenter managed
 identity is granted only the permissions required to operate (principle of least
 privilege).
 
-| Control                         | Implementation                                                                                            | Source                                   |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| 🔑 Secret Storage               | GitHub / Azure DevOps access tokens stored exclusively in Azure Key Vault                                 | `src/security/secret.bicep`              |
-| 🚫 No Hard-Coded Secrets        | `secretValue` parameter is marked `@secure()` and passed via environment variable `KEY_VAULT_SECRET`      | `infra/main.parameters.json`             |
-| 🔐 Managed Identity             | DevCenter uses `SystemAssigned` identity — no service principals or client secrets                        | `infra/settings/workload/devcenter.yaml` |
-| 🛡️ Principle of Least Privilege | DevCenter identity receives Contributor and UAA at subscription; Key Vault roles scoped to resource group | `infra/settings/workload/devcenter.yaml` |
-| 📈 Diagnostic Logging           | All resources send diagnostic logs to the centralized Log Analytics Workspace                             | `src/management/logAnalytics.bicep`      |
+| Control                         | Implementation                                                                                            | Status      |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------- | ----------- |
+| 🔑 Secret Storage               | GitHub / Azure DevOps access tokens stored exclusively in Azure Key Vault                                 | ✅ Enforced |
+| 🚫 No Hard-Coded Secrets        | `secretValue` parameter is marked `@secure()` and passed via environment variable `KEY_VAULT_SECRET`      | ✅ Enforced |
+| 🔐 Managed Identity             | DevCenter uses `SystemAssigned` identity — no service principals or client secrets                        | ✅ Enforced |
+| 🛡️ Principle of Least Privilege | DevCenter identity receives Contributor and UAA at subscription; Key Vault roles scoped to resource group | ✅ Enforced |
+| 📈 Diagnostic Logging           | All resources send diagnostic logs to the centralized Log Analytics Workspace                             | ✅ Enforced |
 
 **Reporting Security Issues**: Do not open public GitHub Issues for security
 vulnerabilities. Follow the
