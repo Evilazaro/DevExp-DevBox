@@ -76,84 +76,52 @@ integrated security, observability, and source control support out of the box.
 ## Architecture
 
 ```mermaid
----
-title: "DevExp-DevBox Architecture"
-config:
-  theme: base
-  look: classic
-  layout: dagre
-  themeVariables:
-    fontSize: '16px'
-  flowchart:
-    htmlLabels: false
----
 flowchart TD
-    accTitle: DevExp-DevBox Landing Zone Architecture
-    accDescr: Azure Landing Zone architecture showing the relationship between Security, Monitoring, and Workload resource groups, and their constituent resources including Key Vault, Log Analytics, DevCenter, and Projects with Dev Box Pools
-
-    %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
-    %% (Semantic + Structural + Font + Accessibility Governance)
-    %% ═══════════════════════════════════════════════════════════════════════════
-    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
-    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
-    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
-    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
-    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
-    %% ═══════════════════════════════════════════════════════════════════════════
-
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef azureBlue fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef azureGreen fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#054B16
     classDef warning fill:#FFF4CE,stroke:#986F0B,stroke-width:2px,color:#3B2C00
     classDef azureTeal fill:#EFF6FC,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
 
+    subgraph automation["🤖 Automation Layer"]
+        SETUP["⚙️ setUp.ps1 / setUp.sh"]:::warning
+        AZD["🚀 Azure Developer CLI"]:::warning
+        BICEP["📐 Bicep Modules"]:::neutral
+    end
+
     subgraph subscription["☁️ Azure Subscription"]
-        direction TD
-
-        subgraph security["🔒 Security Resource Group\ndevexp-security"]
-            direction TB
-            KV["🔑 Azure Key Vault\nSecrets Management"]:::azureBlue
-            SECRET["🗝️ Key Vault Secret\nSource Control Token"]:::azureBlue
+        subgraph security["🔒 Security RG"]
+            KV["🔑 Azure Key Vault"]:::azureBlue
+            SECRET["🗝️ Key Vault Secret"]:::azureBlue
         end
 
-        subgraph monitoring["📊 Monitoring Resource Group\ndevexp-monitoring"]
-            direction TB
-            LAW["📈 Log Analytics Workspace\nCentralized Observability"]:::azureGreen
+        subgraph monitoring["📊 Monitoring RG"]
+            LAW["📈 Log Analytics Workspace"]:::azureGreen
         end
 
-        subgraph workload["⚙️ Workload Resource Group\ndevexp-workload"]
-            direction TB
-            DC["🏢 Azure DevCenter\ndevexp-devcenter"]:::azureTeal
-            CAT["📦 Dev Center Catalog\nmicrosoft/devcenter-catalog"]:::neutral
-            ENV["🌐 Environment Types\ndev · staging · UAT"]:::neutral
+        subgraph workload["⚙️ Workload RG"]
+            DC["🏢 Azure DevCenter"]:::azureTeal
+            CAT["📦 Dev Center Catalog"]:::neutral
+            ENV["🌐 Environment Types"]:::neutral
 
             subgraph projects["📁 DevCenter Projects"]
-                direction TB
-                PROJ["🛒 eShop Project\nRole-Based Dev Box Pools"]:::azureTeal
-                POOL["💻 Dev Box Pools\nManaged VNet · Azure SKU"]:::neutral
-                PROJEN["🔖 Project Environment Types\ndev · staging · UAT"]:::neutral
+                PROJ["🛒 eShop Project"]:::azureTeal
+                POOL["💻 Dev Box Pools"]:::neutral
+                PROJEN["🔖 Project Env Types"]:::neutral
             end
         end
 
-        KV -->|"Secret Identifier"| DC
-        LAW -->|"Diagnostic Settings"| DC
-        LAW -->|"Diagnostic Settings"| KV
-        DC -->|"Catalog Sync"| CAT
-        DC -->|"Hosts"| projects
-        PROJ -->|"Provisions"| POOL
-        PROJ -->|"Deploys"| PROJEN
+        KV -->|"secret identifier"| DC
+        LAW -->|"diagnostics"| DC
+        LAW -->|"diagnostics"| KV
+        DC -->|"catalog sync"| CAT
+        DC -->|"hosts"| projects
+        PROJ -->|"provisions"| POOL
+        PROJ -->|"deploys"| PROJEN
     end
 
-    subgraph automation["🤖 Automation Layer"]
-        direction LR
-        SETUP["⚙️ setUp.ps1 / setUp.sh\nCross-Platform Setup"]:::warning
-        AZD["🚀 Azure Developer CLI\nazd provision / deploy"]:::warning
-        BICEP["📐 Bicep Modules\ninfra/ + src/"]:::neutral
-    end
-
-    SETUP -->|"Invokes"| AZD
-    AZD -->|"Deploys"| subscription
+    SETUP -->|"invokes"| AZD
+    AZD -->|"deploys"| subscription
 
     style subscription fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
     style security fill:#FFF4F4,stroke:#A80000,stroke-width:1px
