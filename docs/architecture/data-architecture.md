@@ -1,48 +1,3 @@
-﻿```yaml
-chain_of_thought:
-  phase: 'Data Layer Analysis'
-  inputs_validated:
-    folder_paths_exist: true
-    target_layer_valid: 'Data'
-    dependencies_loaded:
-      - 'base-layer-config.prompt.md'
-      - 'bdat-mermaid-improved.prompt.md'
-      - 'error-taxonomy.prompt.md'
-      - 'fluent.prompt.md'
-    scan_results_available: true
-  strategy:
-    primary_approach:
-      'Schema file detection (*.schema.json, *.yaml, *.bicep type definitions)'
-    fallback_if_failed:
-      'Search for data entities in /src/security, /src/management,
-      /infra/settings folders'
-    expected_output:
-      '11 subsections (5.1-5.11) with data classification, storage type,
-      governance'
-    files_scanned: 37
-    data_assets_found: 44
-  gate_checks:
-    - criterion: 'Data classification assigned'
-      threshold:
-        'All 44 components have PII|PHI|Financial|Public|Internal|Confidential'
-      result: 'PASS'
-    - criterion: 'Section 5 mandatory table schema (10 columns)'
-      threshold:
-        'Component|Description|Classification|Storage|Owner|Retention|Freshness
-        SLA|Source Systems|Consumers|Source File'
-      result: 'PASS'
-    - criterion: 'Source file format — plain text path/file.ext:line-range'
-      result: 'PASS'
-    - criterion:
-        'Mermaid diagram compliance (accTitle+accDescr, AZURE/FLUENT v1.1)'
-      result: 'PASS'
-  data_maturity_level: 3
-  data_maturity_name: 'Defined'
-  average_confidence: 0.89
-  all_9_sections_planned: true
-  proceed: true
-```
-
 # Data Architecture - DevExp-DevBox
 
 **Generated**: 2026-02-19T00:00:00Z **Session ID**:
@@ -282,25 +237,25 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph SEC_DOMAIN["🔒 Security Domain"]
-        KV["🔐 Azure Key Vault<br/>Secret Store"]
-        SECSCHEMA["📋 security.schema.json<br/>Data Contract"]
-        SECYAML["📄 security.yaml<br/>Master Config"]
+        KV["🔐 Azure Key Vault - Secret Store"]
+        SECSCHEMA["📋 security.schema.json - Data Contract"]
+        SECYAML["📄 security.yaml - Master Config"]
     end
 
     subgraph MON_DOMAIN["📈 Monitoring Domain"]
-        LAW["📊 Log Analytics<br/>Telemetry Store"]
-        DIAGSETTINGS["🔍 Diagnostic Settings<br/>Audit Flow"]
+        LAW["📊 Log Analytics - Telemetry Store"]
+        DIAGSETTINGS["🔍 Diagnostic Settings - Audit Flow"]
     end
 
     subgraph WL_DOMAIN["⚙️ Workload Domain"]
-        DEVCENTERCFG["🖥️ devcenter.yaml<br/>Master Config"]
-        CATALOG["📚 Dev Center Catalog<br/>Config Repo"]
-        DCSCHEMA["📋 devcenter.schema.json<br/>Data Contract"]
+        DEVCENTERCFG["🖥️ devcenter.yaml - Master Config"]
+        CATALOG["📚 Dev Center Catalog - Config Repo"]
+        DCSCHEMA["📋 devcenter.schema.json - Data Contract"]
     end
 
     subgraph ORG_DOMAIN["🗂️ Organization Domain"]
-        RESORG["📄 azureResources.yaml<br/>Master Config"]
-        RESORGSCHEMA["📋 azureResources.schema.json<br/>Data Contract"]
+        RESORG["📄 azureResources.yaml - Master Config"]
+        RESORGSCHEMA["📋 azureResources.schema.json - Data Contract"]
     end
 
     SECYAML -->|"validates via"| SECSCHEMA
@@ -494,15 +449,15 @@ flowchart TD
     end
 
     subgraph TIER2["⚙️ Tier 2 — Bicep Transformation Pipeline"]
-        MAINBICEP["⚙️ infra/main.bicep<br/>(Orchestration)"]
-        SECBICEP["⚙️ src/security/security.bicep<br/>(Security Pipeline)"]
-        MONBICEP["⚙️ src/management/logAnalytics.bicep<br/>(Monitoring Pipeline)"]
+        MAINBICEP["⚙️ infra/main.bicep - (Orchestration)"]
+        SECBICEP["⚙️ src/security/security.bicep - (Security Pipeline)"]
+        MONBICEP["⚙️ src/management/logAnalytics.bicep - (Monitoring Pipeline)"]
     end
 
     subgraph TIER3["🗄️ Tier 3 — Persistent Data Stores (Azure)"]
-        KV["🔐 Azure Key Vault<br/>(Standard SKU)"]
-        LAW["📊 Log Analytics Workspace<br/>(PerGB2018 SKU)"]
-        CATALOG["📚 Dev Center Catalog<br/>(GitHub Sync)"]
+        KV["🔐 Azure Key Vault - (Standard SKU)"]
+        LAW["📊 Log Analytics Workspace - (PerGB2018 SKU)"]
+        CATALOG["📚 Dev Center Catalog - (GitHub Sync)"]
     end
 
     SECYAML -->|"loadYamlContent()"| SECBICEP
@@ -976,20 +931,20 @@ flowchart TD
         RESYAML["📄 azureResources.yaml"]
         DCYAML["📄 devcenter.yaml"]
         GHREPO["🐙 GitHub Repository"]
-        ENVVAR["🔑 KEY_VAULT_SECRET<br/>env variable"]
+        ENVVAR["🔑 KEY_VAULT_SECRET - env variable"]
     end
 
     subgraph TRANSFORM["⚙️ Transformation Engine (Bicep)"]
-        LOADYAML["loadYamlContent()<br/>YAML to Object"]
-        UNIQUE["uniqueString()<br/>Hash ID Generation"]
-        SUFFIX["resourceNameSuffix<br/>Name Composition"]
+        LOADYAML["loadYamlContent() - YAML to Object"]
+        UNIQUE["uniqueString() - Hash ID Generation"]
+        SUFFIX["resourceNameSuffix - Name Composition"]
         TAGS["union() Tags Merge"]
     end
 
     subgraph STORAGE["🗄️ Azure Persistent Stores"]
-        KV["🔐 Azure Key Vault<br/>(Secrets)"]
-        LAW["📊 Log Analytics<br/>(Telemetry + Audit)"]
-        CATALOG["📚 Dev Center Catalog<br/>(Config Repos)"]
+        KV["🔐 Azure Key Vault - (Secrets)"]
+        LAW["📊 Log Analytics - (Telemetry + Audit)"]
+        CATALOG["📚 Dev Center Catalog - (Config Repos)"]
     end
 
     subgraph CONSUMERS["📤 Service Consumers"]
