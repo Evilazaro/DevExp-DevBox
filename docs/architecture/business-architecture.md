@@ -507,9 +507,9 @@ flowchart LR
     classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
     classDef neutral fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
-    style level4 fill:#EDF8ED,stroke:#107C10,stroke-width:1px
-    style level3 fill:#FFFCF0,stroke:#FFB900,stroke-width:1px
-    style level2 fill:#FEF0F0,stroke:#E81123,stroke-width:1px
+    style level4 fill:#DFF6DD,stroke:#107C10,stroke-width:1px,color:#0B6A0B
+    style level3 fill:#FFF4CE,stroke:#FFB900,stroke-width:1px,color:#323130
+    style level2 fill:#FDE7E9,stroke:#E81123,stroke-width:1px,color:#A4262C
 ```
 
 ---
@@ -1168,14 +1168,14 @@ flowchart TD
     svc2 --> p1
     p1 --> svc3
 
-    classDef strategy fill:#EFF6FC,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    classDef strategy fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
     classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
     classDef neutral fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
-    style strategies fill:#EFF6FC,stroke:#2D7D9A,stroke-width:1px
+    style strategies fill:#C8F0E7,stroke:#2D7D9A,stroke-width:1px,color:#0D3A4F
     style capabilities fill:#F3F2F1,stroke:#605E5C,stroke-width:1px
     style processes fill:#FFF4CE,stroke:#FFB900,stroke-width:1px
     style services fill:#DFF6DD,stroke:#107C10,stroke-width:1px
