@@ -12,8 +12,33 @@ environments on Azure. Implements Azure Landing Zone principles with automated
 provisioning of DevCenter, projects, security, networking, and monitoring
 resources through reusable Bicep modules and cross-platform automation scripts.
 
+## Overview
+
+**Overview**
+
+DevExp-DevBox is an Infrastructure as Code accelerator that enables platform
+engineering teams to adopt Microsoft Dev Box rapidly and consistently. It
+eliminates days of manual Azure configuration by codifying DevCenter, projects,
+security, networking, and observability into reusable, parameterized Bicep
+modules — deployed with a single command on Windows, Linux, or macOS.
+
+The accelerator follows Azure Landing Zone principles to segregate workloads
+into dedicated resource groups (Security, Monitoring, Workload), integrates
+Azure Key Vault for secret management, and provides YAML-driven configuration so
+teams can customize environments without touching any Bicep source files.
+Whether onboarding a single team or scaling across an enterprise, this
+accelerator provides a validated, production-ready foundation.
+
+> 📌 **Documentation**: Full guides are available at
+> [https://evilazaro.github.io/DevExp-DevBox/](https://evilazaro.github.io/DevExp-DevBox/).
+
+> ⚠️ **Prerequisites**: An active Azure subscription with `Contributor` and
+> `User Access Administrator` roles at subscription scope is required before
+> deployment.
+
 ## Table of Contents
 
+- [Overview](#overview)
 - [Features](#features)
 - [Architecture](#architecture)
 - [Requirements](#requirements)
@@ -35,18 +60,18 @@ patterns. It provisions a complete developer experience platform — from
 centralized DevCenter configuration to project-level Dev Box pools — with
 integrated security, observability, and source control support out of the box.
 
-| Feature                      | Description                                                                                                                    | Source                                   |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- |
-| DevCenter Deployment         | Provisions Azure DevCenter with system-assigned identity, catalog sync, and Azure Monitor agent integration                    | `src/workload/core/devCenter.bicep`      |
-| Project Management           | Deploys DevCenter projects with role-specific Dev Box pools, environment types, and network configurations                     | `src/workload/project/project.bicep`     |
-| Managed Identity & RBAC      | Configures Contributor, User Access Administrator, Key Vault Secrets User/Officer, and DevCenter Project Admin roles           | `infra/settings/workload/devcenter.yaml` |
-| Key Vault Integration        | Provisions Azure Key Vault for secure secret storage and injects secrets into DevCenter via Key Vault references               | `src/security/security.bicep`            |
-| Log Analytics Monitoring     | Deploys centralized Log Analytics Workspace with diagnostic settings across all resources                                      | `src/management/logAnalytics.bicep`      |
-| Landing Zone Resource Groups | Creates isolated resource groups for Workload, Security, and Monitoring following Azure Landing Zone principles                | `infra/main.bicep`                       |
-| Multi-Platform Automation    | Supports Windows (PowerShell 7+) and Linux/macOS (Bash) setup scripts with GitHub and Azure DevOps source control integration  | `setUp.ps1`, `setUp.sh`                  |
-| YAML-Driven Configuration    | Centralizes all resource settings — DevCenter, projects, security, networking, tagging — in validated YAML configuration files | `infra/settings/`                        |
-| Developer Catalogs           | Integrates the official Microsoft Dev Center catalog (`devcenter-catalog`) for custom task definitions                         | `infra/settings/workload/devcenter.yaml` |
-| Environment Type Management  | Provisions `dev`, `staging`, and `UAT` environment types per project for full SDLC lifecycle coverage                          | `infra/settings/workload/devcenter.yaml` |
+| Feature                         | Description                                                                                                                    | Source                                   |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- |
+| 🏢 DevCenter Deployment         | Provisions Azure DevCenter with system-assigned identity, catalog sync, and Azure Monitor agent integration                    | `src/workload/core/devCenter.bicep`      |
+| 📁 Project Management           | Deploys DevCenter projects with role-specific Dev Box pools, environment types, and network configurations                     | `src/workload/project/project.bicep`     |
+| 🔐 Managed Identity & RBAC      | Configures Contributor, User Access Administrator, Key Vault Secrets User/Officer, and DevCenter Project Admin roles           | `infra/settings/workload/devcenter.yaml` |
+| 🔑 Key Vault Integration        | Provisions Azure Key Vault for secure secret storage and injects secrets into DevCenter via Key Vault references               | `src/security/security.bicep`            |
+| 📊 Log Analytics Monitoring     | Deploys centralized Log Analytics Workspace with diagnostic settings across all resources                                      | `src/management/logAnalytics.bicep`      |
+| ☁️ Landing Zone Resource Groups | Creates isolated resource groups for Workload, Security, and Monitoring following Azure Landing Zone principles                | `infra/main.bicep`                       |
+| ⚙️ Multi-Platform Automation    | Supports Windows (PowerShell 7+) and Linux/macOS (Bash) setup scripts with GitHub and Azure DevOps source control integration  | `setUp.ps1`, `setUp.sh`                  |
+| 📝 YAML-Driven Configuration    | Centralizes all resource settings — DevCenter, projects, security, networking, tagging — in validated YAML configuration files | `infra/settings/`                        |
+| 📦 Developer Catalogs           | Integrates the official Microsoft Dev Center catalog (`devcenter-catalog`) for custom task definitions                         | `infra/settings/workload/devcenter.yaml` |
+| 🌐 Environment Type Management  | Provisions `dev`, `staging`, and `UAT` environment types per project for full SDLC lifecycle coverage                          | `infra/settings/workload/devcenter.yaml` |
 
 ## Architecture
 
@@ -147,14 +172,14 @@ source control credentials for DevCenter catalog integration, and appropriate
 Azure RBAC permissions at the subscription level. All tools must be installed
 and authenticated before running the setup scripts.
 
-| Requirement                 | Version | Purpose                                               | Install                                                                                               |
-| --------------------------- | ------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Azure CLI (`az`)            | Latest  | Azure authentication and resource management          | [Install Guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)                        |
-| Azure Developer CLI (`azd`) | Latest  | Environment provisioning and deployment orchestration | [Install Guide](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)    |
-| GitHub CLI (`gh`)           | Latest  | GitHub authentication for source control integration  | [Install Guide](https://cli.github.com/)                                                              |
-| PowerShell                  | 7+      | Windows setup script execution                        | [Install Guide](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) |
-| Bash                        | 5+      | Linux/macOS setup script execution                    | Included in OS                                                                                        |
-| `jq`                        | 1.6+    | JSON processing in Bash scripts (`setUp.sh`)          | [Install Guide](https://jqlang.github.io/jq/download/)                                                |
+| Requirement                    | Version | Purpose                                               | Install                                                                                               |
+| ------------------------------ | ------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| ☁️ Azure CLI (`az`)            | Latest  | Azure authentication and resource management          | [Install Guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)                        |
+| 🚀 Azure Developer CLI (`azd`) | Latest  | Environment provisioning and deployment orchestration | [Install Guide](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)    |
+| 🔗 GitHub CLI (`gh`)           | Latest  | GitHub authentication for source control integration  | [Install Guide](https://cli.github.com/)                                                              |
+| 🛠️ PowerShell                  | 7+      | Windows setup script execution                        | [Install Guide](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) |
+| ⚡ Bash                        | 5+      | Linux/macOS setup script execution                    | Included in OS                                                                                        |
+| 🔧 `jq`                        | 1.6+    | JSON processing in Bash scripts (`setUp.sh`)          | [Install Guide](https://jqlang.github.io/jq/download/)                                                |
 
 **Azure Permissions Required**:
 
@@ -163,6 +188,10 @@ The deploying identity must have the following roles at subscription scope:
 - `Contributor` — required to create resource groups and resources
 - `User Access Administrator` — required to assign RBAC roles to the DevCenter
   managed identity
+
+> 💡 **Tip**: Run
+> `az role assignment list --assignee $(az ad signed-in-user show --query id -o tsv) --output table`
+> to verify your current role assignments before deployment.
 
 ## Configuration
 
@@ -229,11 +258,11 @@ projects:
 
 Environment-specific values are injected via `azd` environment variables:
 
-| Parameter         | Environment Variable | Description                                              |
-| ----------------- | -------------------- | -------------------------------------------------------- |
-| `environmentName` | `AZURE_ENV_NAME`     | Short name for the deployment environment (2–10 chars)   |
-| `location`        | `AZURE_LOCATION`     | Azure region for resource deployment                     |
-| `secretValue`     | `KEY_VAULT_SECRET`   | Source control personal access token stored in Key Vault |
+| Parameter            | Environment Variable | Description                                              |
+| -------------------- | -------------------- | -------------------------------------------------------- |
+| 📍 `environmentName` | `AZURE_ENV_NAME`     | Short name for the deployment environment (2–10 chars)   |
+| 🌍 `location`        | `AZURE_LOCATION`     | Azure region for resource deployment                     |
+| 🔒 `secretValue`     | `KEY_VAULT_SECRET`   | Source control personal access token stored in Key Vault |
 
 ## Quick Start
 
@@ -304,13 +333,13 @@ After provisioning, the following outputs are available from `infra/main.bicep`:
 azd env get-values
 ```
 
-| Output Variable                      | Description                       |
-| ------------------------------------ | --------------------------------- |
-| `AZURE_DEV_CENTER_NAME`              | Name of the deployed DevCenter    |
-| `AZURE_DEV_CENTER_PROJECTS`          | Array of deployed project names   |
-| `AZURE_KEY_VAULT_NAME`               | Name of the provisioned Key Vault |
-| `AZURE_KEY_VAULT_ENDPOINT`           | Key Vault URI endpoint            |
-| `AZURE_LOG_ANALYTICS_WORKSPACE_NAME` | Log Analytics Workspace name      |
+| Output Variable                         | Description                       |
+| --------------------------------------- | --------------------------------- |
+| 🏢 `AZURE_DEV_CENTER_NAME`              | Name of the deployed DevCenter    |
+| 📁 `AZURE_DEV_CENTER_PROJECTS`          | Array of deployed project names   |
+| 🔑 `AZURE_KEY_VAULT_NAME`               | Name of the provisioned Key Vault |
+| 🔗 `AZURE_KEY_VAULT_ENDPOINT`           | Key Vault URI endpoint            |
+| 📊 `AZURE_LOG_ANALYTICS_WORKSPACE_NAME` | Log Analytics Workspace name      |
 
 ## Security
 
@@ -322,18 +351,22 @@ stored in Azure Key Vault and referenced by identifier. The DevCenter managed
 identity is granted only the permissions required to operate (principle of least
 privilege).
 
-| Control                      | Implementation                                                                                            | Source                                   |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| Secret Storage               | GitHub / Azure DevOps access tokens stored exclusively in Azure Key Vault                                 | `src/security/secret.bicep`              |
-| No Hard-Coded Secrets        | `secretValue` parameter is marked `@secure()` and passed via environment variable `KEY_VAULT_SECRET`      | `infra/main.parameters.json`             |
-| Managed Identity             | DevCenter uses `SystemAssigned` identity — no service principals or client secrets                        | `infra/settings/workload/devcenter.yaml` |
-| Principle of Least Privilege | DevCenter identity receives Contributor and UAA at subscription; Key Vault roles scoped to resource group | `infra/settings/workload/devcenter.yaml` |
-| Diagnostic Logging           | All resources send diagnostic logs to the centralized Log Analytics Workspace                             | `src/management/logAnalytics.bicep`      |
+| Control                         | Implementation                                                                                            | Source                                   |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| 🔑 Secret Storage               | GitHub / Azure DevOps access tokens stored exclusively in Azure Key Vault                                 | `src/security/secret.bicep`              |
+| 🚫 No Hard-Coded Secrets        | `secretValue` parameter is marked `@secure()` and passed via environment variable `KEY_VAULT_SECRET`      | `infra/main.parameters.json`             |
+| 🔐 Managed Identity             | DevCenter uses `SystemAssigned` identity — no service principals or client secrets                        | `infra/settings/workload/devcenter.yaml` |
+| 🛡️ Principle of Least Privilege | DevCenter identity receives Contributor and UAA at subscription; Key Vault roles scoped to resource group | `infra/settings/workload/devcenter.yaml` |
+| 📈 Diagnostic Logging           | All resources send diagnostic logs to the centralized Log Analytics Workspace                             | `src/management/logAnalytics.bicep`      |
 
 **Reporting Security Issues**: Do not open public GitHub Issues for security
 vulnerabilities. Follow the
 [GitHub Security Advisory](https://github.com/Evilazaro/DevExp-DevBox/security/advisories/new)
 process.
+
+> ⚠️ **Security Notice**: Never commit values for `KEY_VAULT_SECRET`,
+> `AZURE_ENV_NAME`, or personal access tokens to source control. Use
+> `azd env set` to manage these values locally.
 
 ## Project Structure
 
@@ -377,12 +410,12 @@ changes).
 
 ### Branch Naming
 
-| Type          | Convention             | Example                           |
-| ------------- | ---------------------- | --------------------------------- |
-| Feature       | `feature/<short-name>` | `feature/123-dev-center-baseline` |
-| Task          | `task/<short-name>`    | `task/456-add-pool-config`        |
-| Bug Fix       | `fix/<short-name>`     | `fix/789-keyvault-access`         |
-| Documentation | `docs/<short-name>`    | `docs/update-readme`              |
+| Type             | Convention             | Example                           |
+| ---------------- | ---------------------- | --------------------------------- |
+| 🚀 Feature       | `feature/<short-name>` | `feature/123-dev-center-baseline` |
+| 🔧 Task          | `task/<short-name>`    | `task/456-add-pool-config`        |
+| 🐛 Bug Fix       | `fix/<short-name>`     | `fix/789-keyvault-access`         |
+| 📝 Documentation | `docs/<short-name>`    | `docs/update-readme`              |
 
 ### Pull Request Requirements
 
@@ -395,12 +428,12 @@ Every PR must:
 
 ### Issue Labels
 
-| Label Type | Required Values                                                                                                                                                                               |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Type       | `type:epic`, `type:feature`, `type:task`                                                                                                                                                      |
-| Area       | `area:dev-box`, `area:dev-center`, `area:networking`, `area:identity-access`, `area:governance`, `area:images`, `area:automation`, `area:monitoring`, `area:operations`, `area:documentation` |
-| Priority   | `priority:p0`, `priority:p1`, `priority:p2`                                                                                                                                                   |
-| Status     | `status:triage`, `status:ready`, `status:in-progress`, `status:done`                                                                                                                          |
+| Label Type  | Required Values                                                                                                                                                                               |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🏷️ Type     | `type:epic`, `type:feature`, `type:task`                                                                                                                                                      |
+| 🗂️ Area     | `area:dev-box`, `area:dev-center`, `area:networking`, `area:identity-access`, `area:governance`, `area:images`, `area:automation`, `area:monitoring`, `area:operations`, `area:documentation` |
+| ⚡ Priority | `priority:p0`, `priority:p1`, `priority:p2`                                                                                                                                                   |
+| 🔄 Status   | `status:triage`, `status:ready`, `status:in-progress`, `status:done`                                                                                                                          |
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full contribution guide.
 
@@ -409,13 +442,13 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full contribution guide.
 Full documentation is available at
 [https://evilazaro.github.io/DevExp-DevBox/](https://evilazaro.github.io/DevExp-DevBox/).
 
-| Topic                         | Link                                                                                                                       |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Resource Organization         | [Configure Resource Organization](https://evilazaro.github.io/DevExp-DevBox/docs/configureresources/resourceorganization/) |
-| Workload Configuration        | [Configure Workload](https://evilazaro.github.io/DevExp-DevBox/docs/configureresources/workload/)                          |
-| Azure Landing Zones Reference | [Microsoft CAF — Landing Zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)       |
-| Microsoft Dev Box             | [What is Microsoft Dev Box?](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box)           |
-| Azure DevCenter               | [DevCenter Documentation](https://learn.microsoft.com/en-us/azure/dev-box/)                                                |
+| Topic                            | Link                                                                                                                       |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 📋 Resource Organization         | [Configure Resource Organization](https://evilazaro.github.io/DevExp-DevBox/docs/configureresources/resourceorganization/) |
+| ⚙️ Workload Configuration        | [Configure Workload](https://evilazaro.github.io/DevExp-DevBox/docs/configureresources/workload/)                          |
+| ☁️ Azure Landing Zones Reference | [Microsoft CAF — Landing Zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)       |
+| 💻 Microsoft Dev Box             | [What is Microsoft Dev Box?](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box)           |
+| 🏢 Azure DevCenter               | [DevCenter Documentation](https://learn.microsoft.com/en-us/azure/dev-box/)                                                |
 
 ## License
 
