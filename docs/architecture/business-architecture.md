@@ -145,12 +145,12 @@ flowchart TB
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    cap1["🏗️ Developer Environment\nProvisioning\nMaturity: 3 – Defined"]:::warning
-    cap2["🔐 Secure Credential\nManagement\nMaturity: 4 – Measured"]:::success
-    cap3["📦 Landing Zone\nResource Organization\nMaturity: 3 – Defined"]:::warning
-    cap4["📋 Catalog Integration\n& Task Management\nMaturity: 2 – Repeatable"]:::danger
-    cap5["🔄 Multi-Environment\nSDLC Management\nMaturity: 3 – Defined"]:::warning
-    cap6["📊 Observability\n& Diagnostics\nMaturity: 3 – Defined"]:::warning
+    cap1["🏗️ Developer Environment<br/>Provisioning<br/>Maturity: 3 – Defined"]:::warning
+    cap2["🔐 Secure Credential<br/>Management<br/>Maturity: 4 – Measured"]:::success
+    cap3["📦 Landing Zone<br/>Resource Organization<br/>Maturity: 3 – Defined"]:::warning
+    cap4["📋 Catalog Integration<br/>& Task Management<br/>Maturity: 2 – Repeatable"]:::danger
+    cap5["🔄 Multi-Environment<br/>SDLC Management<br/>Maturity: 3 – Defined"]:::warning
+    cap6["📊 Observability<br/>& Diagnostics<br/>Maturity: 3 – Defined"]:::warning
 
     cap3 --> cap1
     cap2 --> cap1
@@ -488,18 +488,18 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph level4["🟢 Level 4 – Measured"]
-        cap2["🔐 Secure Credential\nManagement\n[L4]"]:::success
+        cap2["🔐 Secure Credential<br/>Management<br/>[L4]"]:::success
     end
 
     subgraph level3["🟡 Level 3 – Defined"]
-        cap1["🏗️ Developer Environment\nProvisioning\n[L3]"]:::warning
-        cap3["📦 Landing Zone\nResource Organization\n[L3]"]:::warning
-        cap5["🔄 Multi-Environment\nSDLC Management\n[L3]"]:::warning
-        cap6["📊 Observability\n& Diagnostics\n[L3]"]:::warning
+        cap1["🏗️ Developer Environment<br/>Provisioning<br/>[L3]"]:::warning
+        cap3["📦 Landing Zone<br/>Resource Organization<br/>[L3]"]:::warning
+        cap5["🔄 Multi-Environment<br/>SDLC Management<br/>[L3]"]:::warning
+        cap6["📊 Observability<br/>& Diagnostics<br/>[L3]"]:::warning
     end
 
     subgraph level2["🔴 Level 2 – Repeatable"]
-        cap4["📋 Catalog Integration\n& Task Management\n[L2]"]:::danger
+        cap4["📋 Catalog Integration<br/>& Task Management<br/>[L2]"]:::danger
     end
 
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
@@ -776,19 +776,19 @@ flowchart TB
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    Start(["🚀 Developer Initiates\nEnvironment Setup"])
-    CloneRepo["📥 Clone Repository\ngit clone DevExp-DevBox"]
-    AzLogin["🔑 Authenticate Azure CLI\naz login"]
-    AzdLogin["🔑 Authenticate azd\nazd auth login"]
-    GhLogin["🔑 Authenticate GitHub CLI\ngh auth login"]
-    AuthOk{"⚡ All Auth\nSuccessful?"}
+    Start(["🚀 Developer Initiates<br/>Environment Setup"])
+    CloneRepo["📥 Clone Repository<br/>git clone DevExp-DevBox"]
+    AzLogin["🔑 Authenticate Azure CLI<br/>az login"]
+    AzdLogin["🔑 Authenticate azd<br/>azd auth login"]
+    GhLogin["🔑 Authenticate GitHub CLI<br/>gh auth login"]
+    AuthOk{"⚡ All Auth<br/>Successful?"}
     DetectOS{"⚡ OS Platform?"}
-    RunPS["⚙️ Run setUp.ps1\n-EnvName -SourceControl"]
-    RunSh["⚙️ Run setUp.sh\n-e -s"]
-    ProvisionOk{"⚡ Provision\nSucceeded?"}
-    VerifyOutputs["✅ Verify azd Outputs\nDevCenter, Key Vault, Log Analytics"]
-    End(["🏁 Dev Box Environment\nReady"])
-    ErrorStop(["❌ Fix Prerequisites\nand Retry"])
+    RunPS["⚙️ Run setUp.ps1<br/>-EnvName -SourceControl"]
+    RunSh["⚙️ Run setUp.sh<br/>-e -s"]
+    ProvisionOk{"⚡ Provision<br/>Succeeded?"}
+    VerifyOutputs["✅ Verify azd Outputs<br/>DevCenter, Key Vault, Log Analytics"]
+    End(["🏁 Dev Box Environment<br/>Ready"])
+    ErrorStop(["❌ Fix Prerequisites<br/>and Retry"])
 
     Start --> CloneRepo
     CloneRepo --> AzLogin
@@ -1131,28 +1131,28 @@ flowchart TD
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph strategies["📌 Business Strategies"]
-        s1["🎯 Dev Box Accelerator\nStrategy"]:::strategy
-        s2["🏢 Landing Zone\nAdoption Strategy"]:::strategy
-        s3["📋 Product-Oriented\nDelivery Model"]:::strategy
+        s1["🎯 Dev Box Accelerator<br/>Strategy"]:::strategy
+        s2["🏢 Landing Zone<br/>Adoption Strategy"]:::strategy
+        s3["📋 Product-Oriented<br/>Delivery Model"]:::strategy
     end
 
     subgraph capabilities["🧩 Business Capabilities"]
-        c1["🏗️ Developer Env\nProvisioning"]:::core
-        c2["🔐 Secure Credential\nManagement"]:::success
-        c3["📦 Landing Zone\nResource Org"]:::warning
+        c1["🏗️ Developer Env<br/>Provisioning"]:::core
+        c2["🔐 Secure Credential<br/>Management"]:::success
+        c3["📦 Landing Zone<br/>Resource Org"]:::warning
         c4["📋 Catalog Integration"]:::danger
         c6["📊 Observability"]:::warning
     end
 
     subgraph processes["🔄 Business Processes"]
-        p1["⚙️ Dev Box\nSetup Process"]:::core
-        p2["📝 Issue\nLifecycle Process"]:::neutral
+        p1["⚙️ Dev Box<br/>Setup Process"]:::core
+        p2["📝 Issue<br/>Lifecycle Process"]:::neutral
     end
 
     subgraph services["🛠️ Business Services"]
-        svc1["☁️ DevCenter\nProvisioning Service"]:::core
-        svc2["🔑 Secrets\nManagement Service"]:::success
-        svc3["📈 Monitoring\nService"]:::warning
+        svc1["☁️ DevCenter<br/>Provisioning Service"]:::core
+        svc2["🔑 Secrets<br/>Management Service"]:::success
+        svc3["📈 Monitoring<br/>Service"]:::warning
     end
 
     s1 --> c1
