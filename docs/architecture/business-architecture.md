@@ -510,10 +510,13 @@ flowchart LR
         cap4["📋 Catalog Integration<br/>& Task Management<br/>[L2]"]:::danger
     end
 
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
     classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
-    classDef neutral fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef data fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     style level4 fill:#DFF6DD,stroke:#107C10,stroke-width:1px,color:#0B6A0B
     style level3 fill:#FFF4CE,stroke:#FFB900,stroke-width:1px,color:#323130
