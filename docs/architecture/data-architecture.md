@@ -220,6 +220,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart LR
     accTitle: DevExp-DevBox Data Domain Architecture
@@ -271,15 +273,18 @@ flowchart LR
     style WL_DOMAIN fill:#F3F2F1,stroke:#8A8886,stroke-width:2px
     style ORG_DOMAIN fill:#F3F2F1,stroke:#8A8886,stroke-width:2px
 
-    classDef store fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef contract fill:#EFF6FC,stroke:#106EBE,stroke-width:2px,color:#323130
-    classDef config fill:#FFF4CE,stroke:#8A6A00,stroke-width:2px,color:#323130
-    classDef service fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef data fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
-    class KV,LAW store
-    class SECSCHEMA,DCSCHEMA,RESORGSCHEMA contract
-    class SECYAML,DEVCENTERCFG,RESORG config
-    class DIAGSETTINGS,CATALOG service
+    class KV,LAW success
+    class SECSCHEMA,DCSCHEMA,RESORGSCHEMA core
+    class SECYAML,DEVCENTERCFG,RESORG warning
+    class DIAGSETTINGS,CATALOG neutral
 ```
 
 ### Summary
@@ -425,6 +430,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart TD
     accTitle: DevExp-DevBox Baseline Data Architecture
@@ -476,13 +483,17 @@ flowchart TD
     style TIER2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px
     style TIER3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px
 
-    classDef config fill:#FFF4CE,stroke:#8A6A00,stroke-width:2px,color:#323130
-    classDef pipeline fill:#EFF6FC,stroke:#106EBE,stroke-width:2px,color:#323130
-    classDef store fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef data fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
-    class SECYAML,RESYAML,DCYAML,MAINPARAMS config
-    class MAINBICEP,SECBICEP,MONBICEP pipeline
-    class KV,LAW,CATALOG store
+    class SECYAML,RESYAML,DCYAML,MAINPARAMS warning
+    class MAINBICEP,SECBICEP,MONBICEP core
+    class KV,LAW,CATALOG success
 ```
 
 ### Storage Distribution
@@ -910,6 +921,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart TD
     accTitle: DevExp-DevBox Data Flow Architecture
@@ -978,15 +991,18 @@ flowchart TD
     style STORAGE fill:#F3F2F1,stroke:#8A8886,stroke-width:2px
     style CONSUMERS fill:#F3F2F1,stroke:#8A8886,stroke-width:2px
 
-    classDef source fill:#EFF6FC,stroke:#106EBE,stroke-width:2px,color:#323130
-    classDef transform fill:#FFF4CE,stroke:#8A6A00,stroke-width:2px,color:#323130
-    classDef store fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef consumer fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef data fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
-    class SECYAML,RESYAML,DCYAML,GHREPO,ENVVAR source
-    class LOADYAML,UNIQUE,SUFFIX,TAGS transform
-    class KV,LAW,CATALOG store
-    class DC,DEVBOX,MONITOR consumer
+    class SECYAML,RESYAML,DCYAML,GHREPO,ENVVAR core
+    class LOADYAML,UNIQUE,SUFFIX,TAGS warning
+    class KV,LAW,CATALOG success
+    class DC,DEVBOX,MONITOR neutral
 ```
 
 ### Producer-Consumer Relationships

@@ -129,6 +129,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart TB
     accTitle: Business Capability Map - DevExp-DevBox
@@ -159,9 +161,13 @@ flowchart TB
     cap1 --> cap6
     cap5 --> cap6
 
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
     classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef data fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 ---
@@ -471,6 +477,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart LR
     accTitle: Capability Maturity Heatmap - DevExp-DevBox
@@ -760,6 +768,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart TB
     accTitle: Dev Box Setup Process Flow
@@ -805,15 +815,18 @@ flowchart TB
     ProvisionOk -->|"❌ Failed"| ErrorStop
     VerifyOutputs --> End
 
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
-    classDef decision fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
-    classDef error fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef data fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     class CloneRepo,AzLogin,AzdLogin,GhLogin,RunPS,RunSh,VerifyOutputs core
-    class AuthOk,DetectOS,ProvisionOk decision
+    class AuthOk,DetectOS,ProvisionOk warning
     class Start,End success
-    class ErrorStop error
+    class ErrorStop danger
 ```
 
 #### 5.4.2 Issue Management Lifecycle Process
@@ -1114,6 +1127,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart TD
     accTitle: Business Architecture Dependency Graph - DevExp-DevBox
@@ -1131,9 +1146,9 @@ flowchart TD
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph strategies["📌 Business Strategies"]
-        s1["🎯 Dev Box Accelerator<br/>Strategy"]:::strategy
-        s2["🏢 Landing Zone<br/>Adoption Strategy"]:::strategy
-        s3["📋 Product-Oriented<br/>Delivery Model"]:::strategy
+        s1["🎯 Dev Box Accelerator<br/>Strategy"]:::data
+        s2["🏢 Landing Zone<br/>Adoption Strategy"]:::data
+        s3["📋 Product-Oriented<br/>Delivery Model"]:::data
     end
 
     subgraph capabilities["🧩 Business Capabilities"]
@@ -1168,12 +1183,13 @@ flowchart TD
     svc2 --> p1
     p1 --> svc3
 
-    classDef strategy fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
     classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
-    classDef neutral fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef data fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
     style strategies fill:#C8F0E7,stroke:#2D7D9A,stroke-width:1px,color:#0D3A4F
     style capabilities fill:#F3F2F1,stroke:#605E5C,stroke-width:1px
