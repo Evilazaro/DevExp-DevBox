@@ -11,19 +11,19 @@ provisioning of
 environments on Azure using Infrastructure as Code (Bicep), declarative YAML
 configuration, and cross-platform automation scripts.
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Features](#features)
-- [Architecture](#architecture)
-- [Requirements](#requirements)
-- [Quick Start](#quick-start)
-- [Configuration](#configuration)
-- [Cleanup](#cleanup)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
+- [✨ Features](#-features)
+- [🏗️ Architecture](#-architecture)
+- [📋 Requirements](#-requirements)
+- [🚀 Quick Start](#-quick-start)
+- [⚙️ Configuration](#-configuration)
+- [🧹 Cleanup](#-cleanup)
+- [📂 Project Structure](#-project-structure)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
-## Features
+## ✨ Features
 
 **Overview**
 
@@ -45,7 +45,7 @@ projects, pools, catalogs, and environment types.
 | Cross-Platform Automation     | Setup scripts for both PowerShell (Windows) and Bash (Linux/macOS) with Azure Developer CLI integration                                | ✅ Stable |
 | Source Control Integration    | GitHub and Azure DevOps Git support for catalogs, image definitions, and environment definitions                                       | ✅ Stable |
 
-## Architecture
+## 🏗️ Architecture
 
 ```mermaid
 ---
@@ -140,7 +140,7 @@ flowchart TB
     style config fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
 ```
 
-## Requirements
+## 📋 Requirements
 
 **Overview**
 
@@ -161,7 +161,7 @@ setup scripts.
 > are installed and that authentication is active before proceeding with
 > provisioning.
 
-## Quick Start
+## 🚀 Quick Start
 
 **Overview**
 
@@ -228,7 +228,7 @@ cd DevExp-DevBox
 > control platform. Use `"adogit"` instead of `"github"` for the source control
 > parameter.
 
-## Configuration
+## ⚙️ Configuration
 
 **Overview**
 
@@ -321,7 +321,7 @@ keyVault:
 > securely retrieve tokens from GitHub CLI or Azure DevOps CLI and pass them as
 > deployment parameters.
 
-### Cleanup
+### 🧹 Cleanup
 
 To tear down all provisioned resources, run the cleanup script. It removes subscription deployments, RBAC role assignments, service principals, GitHub secrets, and resource groups.
 
@@ -337,7 +337,7 @@ Optionally specify a target environment and region:
 
 > **Warning**: The cleanup operation is destructive and cannot be undone. Verify the target environment before running.
 
-## Project Structure
+## 📂 Project Structure
 
 **Overview**
 
@@ -371,7 +371,7 @@ DevExp-DevBox/
 └── package.json                    # Documentation tooling
 ```
 
-## Contributing
+## 🤝 Contributing
 
 **Overview**
 
@@ -398,6 +398,6 @@ az deployment sub what-if --location eastus2 --template-file infra/main.bicep
 git push origin feature/your-feature-name
 ```
 
-## License
+## 📄 License
 
 [MIT](./LICENSE) — Copyright (c) 2025 Evilázaro Alves
