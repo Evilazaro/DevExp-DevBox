@@ -33,17 +33,17 @@ principles, enforces security best practices with Azure Key Vault and RBAC, and
 supports declarative YAML-driven configuration for Dev Center resources,
 projects, pools, catalogs, and environment types.
 
-| Feature                       | Description                                                                                                                            | Status    |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| Azure Dev Center Provisioning | Deploys a fully configured Dev Center with managed identity, catalogs, and environment types                                           | ✅ Stable |
-| Dev Box Project Management    | Creates projects with role-specific pools (e.g., backend-engineer, frontend-engineer) and per-project RBAC                             | ✅ Stable |
-| YAML-Driven Configuration     | Declarative configuration for Dev Center, security, networking, and resource organization via YAML files with JSON Schema validation   | ✅ Stable |
-| Network Connectivity          | Supports both managed and unmanaged virtual networks with automated VNet, subnet, and network connection provisioning                  | ✅ Stable |
-| Security and Key Vault        | Automated Key Vault deployment with RBAC authorization, soft delete, purge protection, and secret management for source control tokens | ✅ Stable |
-| Centralized Monitoring        | Log Analytics workspace with diagnostic settings for Dev Center and Key Vault resources                                                | ✅ Stable |
-| Multi-Environment Support     | Environment types for dev, staging, and UAT with configurable deployment targets                                                       | ✅ Stable |
-| Cross-Platform Automation     | Setup scripts for both PowerShell (Windows) and Bash (Linux/macOS) with Azure Developer CLI integration                                | ✅ Stable |
-| Source Control Integration    | GitHub and Azure DevOps Git support for catalogs, image definitions, and environment definitions                                       | ✅ Stable |
+| Feature                              | Description                                                                                                                            | Status    |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| 🏢 Azure Dev Center Provisioning     | Deploys a fully configured Dev Center with managed identity, catalogs, and environment types                                           | ✅ Stable |
+| 📂 Dev Box Project Management        | Creates projects with role-specific pools (e.g., backend-engineer, frontend-engineer) and per-project RBAC                             | ✅ Stable |
+| 📝 YAML-Driven Configuration         | Declarative configuration for Dev Center, security, networking, and resource organization via YAML files with JSON Schema validation   | ✅ Stable |
+| 🌐 Network Connectivity              | Supports both managed and unmanaged virtual networks with automated VNet, subnet, and network connection provisioning                  | ✅ Stable |
+| 🔒 Security and Key Vault            | Automated Key Vault deployment with RBAC authorization, soft delete, purge protection, and secret management for source control tokens | ✅ Stable |
+| 📊 Centralized Monitoring            | Log Analytics workspace with diagnostic settings for Dev Center and Key Vault resources                                                | ✅ Stable |
+| 🌍 Multi-Environment Support         | Environment types for dev, staging, and UAT with configurable deployment targets                                                       | ✅ Stable |
+| ⚙️ Cross-Platform Automation         | Setup scripts for both PowerShell (Windows) and Bash (Linux/macOS) with Azure Developer CLI integration                                | ✅ Stable |
+| 🔗 Source Control Integration        | GitHub and Azure DevOps Git support for catalogs, image definitions, and environment definitions                                       | ✅ Stable |
 
 ## 🏗️ Architecture
 
@@ -148,14 +148,14 @@ The following prerequisites are required to deploy the DevExp-DevBox
 accelerator. All tools must be installed and authenticated before running the
 setup scripts.
 
-| Requirement                                                                                                    | Minimum Version | Purpose                                                                                        |
-| -------------------------------------------------------------------------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------- |
-| [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)                                     | Latest          | Azure resource management and authentication                                                   |
-| [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd) | Latest          | Environment provisioning and deployment orchestration                                          |
-| [GitHub CLI](https://cli.github.com/)                                                                          | Latest          | GitHub authentication and token retrieval (if using GitHub)                                    |
-| [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)             | 5.1+            | Setup automation on Windows                                                                    |
-| [Bash](https://www.gnu.org/software/bash/)                                                                     | 4.0+            | Setup automation on Linux/macOS                                                                |
-| Azure Subscription                                                                                             | N/A             | An active Azure subscription with Owner or Contributor + User Access Administrator permissions |
+| Requirement                                                                                                       | Minimum Version | Purpose                                                                                        |
+| ----------------------------------------------------------------------------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------- |
+| 🖥️ [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)                                     | Latest          | Azure resource management and authentication                                                   |
+| 🚀 [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd) | Latest          | Environment provisioning and deployment orchestration                                          |
+| 🐙 [GitHub CLI](https://cli.github.com/)                                                                          | Latest          | GitHub authentication and token retrieval (if using GitHub)                                    |
+| 📜 [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)             | 5.1+            | Setup automation on Windows                                                                    |
+| 🐚 [Bash](https://www.gnu.org/software/bash/)                                                                     | 4.0+            | Setup automation on Linux/macOS                                                                |
+| ☁️ Azure Subscription                                                                                              | N/A             | An active Azure subscription with Owner or Contributor + User Access Administrator permissions |
 
 > **Note**: The setup scripts automatically validate that all required CLI tools
 > are installed and that authentication is active before proceeding with
