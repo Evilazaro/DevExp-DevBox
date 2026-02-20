@@ -18,6 +18,7 @@ configuration, and cross-platform automation scripts.
 - [Requirements](#requirements)
 - [Quick Start](#quick-start)
 - [Configuration](#configuration)
+- [Cleanup](#cleanup)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
 - [License](#license)
@@ -319,6 +320,22 @@ keyVault:
 > **Warning**: Do not commit secret values to source control. The setup scripts
 > securely retrieve tokens from GitHub CLI or Azure DevOps CLI and pass them as
 > deployment parameters.
+
+### Cleanup
+
+To tear down all provisioned resources, run the cleanup script. It removes subscription deployments, RBAC role assignments, service principals, GitHub secrets, and resource groups.
+
+```powershell
+.\cleanSetUp.ps1
+```
+
+Optionally specify a target environment and region:
+
+```powershell
+.\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2"
+```
+
+> **Warning**: The cleanup operation is destructive and cannot be undone. Verify the target environment before running.
 
 ## Project Structure
 
