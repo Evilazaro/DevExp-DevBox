@@ -84,6 +84,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart TD
     accTitle: DevExp-DevBox Architecture
@@ -108,21 +110,21 @@ flowchart TD
 
     subgraph subscription["☁️ Azure Subscription"]
         subgraph security["🔒 Security RG"]
-            KV["🔑 Azure Key Vault"]:::azureBlue
-            SECRET["🗝️ Key Vault Secret"]:::azureBlue
+            KV["🔑 Azure Key Vault"]:::danger
+            SECRET["🗝️ Key Vault Secret"]:::danger
         end
 
         subgraph monitoring["📊 Monitoring RG"]
-            LAW["📈 Log Analytics Workspace"]:::azureGreen
+            LAW["📈 Log Analytics Workspace"]:::success
         end
 
         subgraph workload["⚙️ Workload RG"]
-            DC["🏢 Azure DevCenter"]:::azureTeal
+            DC["🏢 Azure DevCenter"]:::data
             CAT["📦 Dev Center Catalog"]:::neutral
             ENV["🌐 Environment Types"]:::neutral
 
             subgraph projects["📁 DevCenter Projects"]
-                PROJ["🛒 eShop Project"]:::azureTeal
+                PROJ["🛒 eShop Project"]:::data
                 POOL["💻 Dev Box Pools"]:::neutral
                 PROJEN["🔖 Project Env Types"]:::neutral
             end
@@ -141,7 +143,7 @@ flowchart TD
     AZD -->|"deploys"| subscription
 
     %% ============================================
-    %% SUBGRAPH STYLING (5 subgraphs = 5 directives)
+    %% SUBGRAPH STYLING (6 subgraphs = 6 directives)
     %% ============================================
     style subscription fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
     style security fill:#FDE7E9,stroke:#E81123,stroke-width:1px,color:#A4262C
@@ -152,10 +154,12 @@ flowchart TD
 
     %% Centralized styling - approved semantic classes only
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef azureBlue fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
-    classDef azureGreen fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef azureTeal fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef data fill:#C8F0E7,stroke:#2D7D9A,stroke-width:2px,color:#0D3A4F
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
 
 ```
