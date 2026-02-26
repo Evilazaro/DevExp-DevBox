@@ -130,53 +130,53 @@ flowchart TD
 
 ### 2.1 Data Entities
 
-| Name                         | Description                                                                           | Confidence | Classification |
-| ---------------------------- | ------------------------------------------------------------------------------------- | ---------- | -------------- |
-| Key Vault Configuration      | Key Vault entity with name, secrets, purge protection, soft delete, RBAC settings     | 0.92       | Confidential   |
-| Resource Group Entities      | Three resource groups (workload, security, monitoring) with create flags, names, tags | 0.90       | Internal       |
-| DevCenter Core Configuration | DevCenter name, catalog sync, hosted network, monitor agent status                    | 0.92       | Internal       |
-| DevCenter Identity           | SystemAssigned identity with RBAC role assignments and org role types                 | 0.91       | Confidential   |
-| Catalog Entities (DevCenter) | customTasks catalog pointing to public GitHub devcenter-catalog repo                  | 0.88       | Public         |
-| Environment Type Entities    | Three environment types: dev, staging, UAT with deployment targets                    | 0.87       | Internal       |
-| Project Entity (eShop)       | Complete project definition with network, identity, pools, catalogs, tags             | 0.95       | Internal       |
-| Pool Entities                | backend-engineer (32c/128GB/512SSD) and frontend-engineer (16c/64GB/256SSD) pools     | 0.85       | Internal       |
-| Project Catalog Entities     | environments and devboxImages catalogs from private Evilazaro/eShop repo              | 0.90       | Confidential   |
-| Network Configuration        | VNet eShop with Managed type, 10.0.0.0/16 address space, eShop-subnet                 | 0.88       | Internal       |
-| Deployment Parameters        | environmentName, location, secretValue parameters from environment variables          | 0.85       | Confidential   |
-| AZD Project Entity           | ContosoDevExp project with preprovision hook                                          | 0.80       | Public         |
-| Resource Tag Entities        | Standardized tag set: environment, division, team, project, costCenter, owner         | 0.87       | Internal       |
-| Org Role Type (DevManager)   | DevManager role mapping Azure AD group to DevCenter Project Admin RBAC                | 0.89       | Confidential   |
+| Name                         | Description                                                                           | Classification |
+| ---------------------------- | ------------------------------------------------------------------------------------- | -------------- |
+| Key Vault Configuration      | Key Vault entity with name, secrets, purge protection, soft delete, RBAC settings     | Confidential   |
+| Resource Group Entities      | Three resource groups (workload, security, monitoring) with create flags, names, tags | Internal       |
+| DevCenter Core Configuration | DevCenter name, catalog sync, hosted network, monitor agent status                    | Internal       |
+| DevCenter Identity           | SystemAssigned identity with RBAC role assignments and org role types                 | Confidential   |
+| Catalog Entities (DevCenter) | customTasks catalog pointing to public GitHub devcenter-catalog repo                  | Public         |
+| Environment Type Entities    | Three environment types: dev, staging, UAT with deployment targets                    | Internal       |
+| Project Entity (eShop)       | Complete project definition with network, identity, pools, catalogs, tags             | Internal       |
+| Pool Entities                | backend-engineer (32c/128GB/512SSD) and frontend-engineer (16c/64GB/256SSD) pools     | Internal       |
+| Project Catalog Entities     | environments and devboxImages catalogs from private Evilazaro/eShop repo              | Confidential   |
+| Network Configuration        | VNet eShop with Managed type, 10.0.0.0/16 address space, eShop-subnet                 | Internal       |
+| Deployment Parameters        | environmentName, location, secretValue parameters from environment variables          | Confidential   |
+| AZD Project Entity           | ContosoDevExp project with preprovision hook                                          | Public         |
+| Resource Tag Entities        | Standardized tag set: environment, division, team, project, costCenter, owner         | Internal       |
+| Org Role Type (DevManager)   | DevManager role mapping Azure AD group to DevCenter Project Admin RBAC                | Confidential   |
 
 ### 2.2 Data Models
 
-| Name                         | Description                                                               | Confidence | Classification |
-| ---------------------------- | ------------------------------------------------------------------------- | ---------- | -------------- |
-| KeyVaultSettings Type        | Composite type wrapping KeyVaultConfig for parameter passing              | 0.92       | Internal       |
-| KeyVaultConfig Type          | Key Vault properties: name, purge protection, soft delete, RBAC           | 0.92       | Internal       |
-| DevCenterConfig Type         | DevCenter config: name, identity, catalogs, sync, hosted network, tags    | 0.93       | Internal       |
-| Identity Type (DevCenter)    | Managed identity with type string and roleAssignments                     | 0.90       | Confidential   |
-| RoleAssignment Type          | DevCenter and orgRoleTypes arrays for RBAC                                | 0.90       | Confidential   |
-| AzureRBACRole Type           | RBAC role definition with id (GUID), name, and scope                      | 0.90       | Internal       |
-| OrgRoleType Type             | Org role: type, azureADGroupId, azureADGroupName, azureRBACRoles          | 0.91       | Confidential   |
-| Catalog Type (DevCenter)     | Repository catalog: name, type, visibility, uri, branch, path             | 0.88       | Internal       |
-| EnvironmentTypeConfig Type   | Simple type with name string for environment types                        | 0.85       | Internal       |
-| ProjectNetwork Type          | Network config: name, create, resourceGroupName, VNet type, subnets       | 0.90       | Internal       |
-| ProjectCatalog Type          | Project catalog: name, type, sourceControl, visibility, uri, branch, path | 0.89       | Internal       |
-| ProjectEnvironmentTypeConfig | Project environment type with name and deploymentTargetId                 | 0.85       | Internal       |
-| PoolConfig Type              | Pool definition: name, imageDefinitionName, vmSku                         | 0.87       | Internal       |
-| Identity Type (Project)      | Project identity: type and roleAssignments array                          | 0.90       | Confidential   |
-| NetworkSettings Type         | VNet settings: name, type, create, resourceGroupName, tags, subnets       | 0.91       | Internal       |
-| VirtualNetwork Type          | VNet config: name, resourceGroupName, type, subnets                       | 0.88       | Internal       |
-| VirtualNetworkSubnet Type    | Subnet: name and addressPrefix                                            | 0.85       | Internal       |
-| Tags Type                    | Wildcard string-keyed object type for Azure resource tags (shared)        | 0.82       | Internal       |
+| Name                         | Description                                                               | Classification |
+| ---------------------------- | ------------------------------------------------------------------------- | -------------- |
+| KeyVaultSettings Type        | Composite type wrapping KeyVaultConfig for parameter passing              | Internal       |
+| KeyVaultConfig Type          | Key Vault properties: name, purge protection, soft delete, RBAC           | Internal       |
+| DevCenterConfig Type         | DevCenter config: name, identity, catalogs, sync, hosted network, tags    | Internal       |
+| Identity Type (DevCenter)    | Managed identity with type string and roleAssignments                     | Confidential   |
+| RoleAssignment Type          | DevCenter and orgRoleTypes arrays for RBAC                                | Confidential   |
+| AzureRBACRole Type           | RBAC role definition with id (GUID), name, and scope                      | Internal       |
+| OrgRoleType Type             | Org role: type, azureADGroupId, azureADGroupName, azureRBACRoles          | Confidential   |
+| Catalog Type (DevCenter)     | Repository catalog: name, type, visibility, uri, branch, path             | Internal       |
+| EnvironmentTypeConfig Type   | Simple type with name string for environment types                        | Internal       |
+| ProjectNetwork Type          | Network config: name, create, resourceGroupName, VNet type, subnets       | Internal       |
+| ProjectCatalog Type          | Project catalog: name, type, sourceControl, visibility, uri, branch, path | Internal       |
+| ProjectEnvironmentTypeConfig | Project environment type with name and deploymentTargetId                 | Internal       |
+| PoolConfig Type              | Pool definition: name, imageDefinitionName, vmSku                         | Internal       |
+| Identity Type (Project)      | Project identity: type and roleAssignments array                          | Confidential   |
+| NetworkSettings Type         | VNet settings: name, type, create, resourceGroupName, tags, subnets       | Internal       |
+| VirtualNetwork Type          | VNet config: name, resourceGroupName, type, subnets                       | Internal       |
+| VirtualNetworkSubnet Type    | Subnet: name and addressPrefix                                            | Internal       |
+| Tags Type                    | Wildcard string-keyed object type for Azure resource tags (shared)        | Internal       |
 
 ### 2.3 Data Stores
 
-| Name                    | Description                                                                 | Confidence | Classification |
-| ----------------------- | --------------------------------------------------------------------------- | ---------- | -------------- |
-| Azure Key Vault         | Secrets store with purge protection, soft delete, RBAC authorization        | 0.95       | Confidential   |
-| Azure Key Vault Secret  | Individual secret (gha-token) with secure value and text/plain content type | 0.93       | Confidential   |
-| Log Analytics Workspace | Centralized log and metrics store with PerGB2018 SKU                        | 0.92       | Internal       |
+| Name                    | Description                                                                 | Classification |
+| ----------------------- | --------------------------------------------------------------------------- | -------------- |
+| Azure Key Vault         | Secrets store with purge protection, soft delete, RBAC authorization        | Confidential   |
+| Azure Key Vault Secret  | Individual secret (gha-token) with secure value and text/plain content type | Confidential   |
+| Log Analytics Workspace | Centralized log and metrics store with PerGB2018 SKU                        | Internal       |
 
 ```mermaid
 ---
@@ -235,39 +235,39 @@ flowchart LR
 
 ### 2.4 Data Flows
 
-| Name                        | Description                                                                          | Confidence | Classification |
-| --------------------------- | ------------------------------------------------------------------------------------ | ---------- | -------------- |
-| Secret Value Flow           | KEY_VAULT_SECRET env var through parameters to Key Vault to catalog secretIdentifier | 0.95       | Confidential   |
-| Log Analytics ID Flow       | Workspace ID from monitoring module to security and workload diagnostics             | 0.92       | Internal       |
-| DevCenter Config Flow       | devcenter.yaml loaded via loadYamlContent to all workload modules                    | 0.93       | Internal       |
-| Security Config Flow        | security.yaml loaded to Key Vault and secret modules                                 | 0.90       | Confidential   |
-| Resource Org Flow           | azureResources.yaml loaded to main.bicep for resource group creation                 | 0.90       | Internal       |
-| DevCenter Principal ID Flow | DevCenter identity.principalId to subscription and RG role assignments               | 0.91       | Confidential   |
-| Project Principal ID Flow   | Project identity.principalId to role assignment modules                              | 0.91       | Confidential   |
-| Security RG Name Flow       | securityRgName propagated for DevCenter Key Vault access scoping                     | 0.88       | Internal       |
-| Network Connection Flow     | VNet subnet ID through network connection to DevCenter attachment                    | 0.90       | Internal       |
-| Key Vault Endpoint Flow     | Key Vault URI propagated as deployment output                                        | 0.87       | Internal       |
-| Project Names Array Flow    | AZURE_PROJECT_NAME aggregated into AZURE_DEV_CENTER_PROJECTS output                  | 0.85       | Internal       |
-| Environment Variables Flow  | azd shell hook setting env vars for parameter substitution                           | 0.85       | Confidential   |
+| Name                        | Description                                                                          | Classification |
+| --------------------------- | ------------------------------------------------------------------------------------ | -------------- |
+| Secret Value Flow           | KEY_VAULT_SECRET env var through parameters to Key Vault to catalog secretIdentifier | Confidential   |
+| Log Analytics ID Flow       | Workspace ID from monitoring module to security and workload diagnostics             | Internal       |
+| DevCenter Config Flow       | devcenter.yaml loaded via loadYamlContent to all workload modules                    | Internal       |
+| Security Config Flow        | security.yaml loaded to Key Vault and secret modules                                 | Confidential   |
+| Resource Org Flow           | azureResources.yaml loaded to main.bicep for resource group creation                 | Internal       |
+| DevCenter Principal ID Flow | DevCenter identity.principalId to subscription and RG role assignments               | Confidential   |
+| Project Principal ID Flow   | Project identity.principalId to role assignment modules                              | Confidential   |
+| Security RG Name Flow       | securityRgName propagated for DevCenter Key Vault access scoping                     | Internal       |
+| Network Connection Flow     | VNet subnet ID through network connection to DevCenter attachment                    | Internal       |
+| Key Vault Endpoint Flow     | Key Vault URI propagated as deployment output                                        | Internal       |
+| Project Names Array Flow    | AZURE_PROJECT_NAME aggregated into AZURE_DEV_CENTER_PROJECTS output                  | Internal       |
+| Environment Variables Flow  | azd shell hook setting env vars for parameter substitution                           | Confidential   |
 
 ### 2.5 Data Services
 
-| Name         | Description                                                                     | Confidence   | Classification |
-| ------------ | ------------------------------------------------------------------------------- | ------------ | -------------- |
-| Not detected | No dedicated data services (REST APIs) detected; this is an IaC-only repository | Not detected | Not detected   |
+| Name         | Description                                                                     | Classification |
+| ------------ | ------------------------------------------------------------------------------- | -------------- |
+| Not detected | No dedicated data services (REST APIs) detected; this is an IaC-only repository | Not detected   |
 
 ### 2.6 Data Governance
 
-| Name                          | Description                                                                                         | Confidence | Classification |
-| ----------------------------- | --------------------------------------------------------------------------------------------------- | ---------- | -------------- |
-| Resource Tagging Policy       | Enforced tag taxonomy across all resources: environment, division, team, project, costCenter, owner | 0.92       | Internal       |
-| Landing Zone Segregation      | Three-zone segregation (workload, security, monitoring) per Azure Landing Zone patterns             | 0.93       | Internal       |
-| Environment Type Governance   | Defined lifecycle: dev, staging, UAT with per-type deployment targets                               | 0.88       | Internal       |
-| Catalog Sync Policy           | catalogItemSyncEnableStatus Enabled with Scheduled syncType                                         | 0.85       | Internal       |
-| RBAC Governance (DevCenter)   | Contributor + User Access Administrator (Subscription), KV Secrets User/Officer (RG)                | 0.92       | Confidential   |
-| RBAC Governance (Project)     | Contributor, Dev Box User, Deployment Environment User (Project), KV Secrets (RG)                   | 0.91       | Confidential   |
-| Environment Type Creator Role | Default Contributor role assigned to environment type creators                                      | 0.87       | Internal       |
-| Schema Validation Governance  | JSON Schema 2020-12 validation for all YAML configs                                                 | 0.90       | Internal       |
+| Name                          | Description                                                                                         | Classification |
+| ----------------------------- | --------------------------------------------------------------------------------------------------- | -------------- |
+| Resource Tagging Policy       | Enforced tag taxonomy across all resources: environment, division, team, project, costCenter, owner | Internal       |
+| Landing Zone Segregation      | Three-zone segregation (workload, security, monitoring) per Azure Landing Zone patterns             | Internal       |
+| Environment Type Governance   | Defined lifecycle: dev, staging, UAT with per-type deployment targets                               | Internal       |
+| Catalog Sync Policy           | catalogItemSyncEnableStatus Enabled with Scheduled syncType                                         | Internal       |
+| RBAC Governance (DevCenter)   | Contributor + User Access Administrator (Subscription), KV Secrets User/Officer (RG)                | Confidential   |
+| RBAC Governance (Project)     | Contributor, Dev Box User, Deployment Environment User (Project), KV Secrets (RG)                   | Confidential   |
+| Environment Type Creator Role | Default Contributor role assigned to environment type creators                                      | Internal       |
+| Schema Validation Governance  | JSON Schema 2020-12 validation for all YAML configs                                                 | Internal       |
 
 ```mermaid
 ---
@@ -333,65 +333,65 @@ flowchart TD
 
 ### 2.7 Data Quality Rules
 
-| Name                        | Description                                                      | Confidence | Classification |
-| --------------------------- | ---------------------------------------------------------------- | ---------- | -------------- |
-| Location Allowed Values     | @allowed decorator restricting to 16 Azure regions               | 0.90       | Internal       |
-| Environment Name Length     | @minLength(2) @maxLength(10) on environmentName parameter        | 0.88       | Internal       |
-| Log Analytics Name Length   | @minLength(4) @maxLength(49) with runtime truncation to 63 chars | 0.87       | Internal       |
-| Log Analytics SKU Allowed   | @allowed restricting to 8 valid SKU names                        | 0.85       | Internal       |
-| Key Vault Name Pattern      | Regex ^[a-zA-Z0-9-]{3,24}$ in JSON Schema                        | 0.90       | Internal       |
-| Secret Name Pattern         | Regex ^[a-zA-Z0-9-]{1,127}$ in JSON Schema                       | 0.88       | Internal       |
-| Soft Delete Retention Range | Integer range 7-90 in JSON Schema                                | 0.85       | Internal       |
-| GUID Pattern Validation     | Regex for all RBAC role IDs and Azure AD group IDs               | 0.92       | Internal       |
-| CIDR Block Pattern          | Regex for VNet address prefixes and subnet prefixes              | 0.88       | Internal       |
-| Resource Group Name Pattern | Regex ^[a-zA-Z0-9._-]+$ maxLength 90                             | 0.87       | Internal       |
+| Name                        | Description                                                      | Classification |
+| --------------------------- | ---------------------------------------------------------------- | -------------- |
+| Location Allowed Values     | @allowed decorator restricting to 16 Azure regions               | Internal       |
+| Environment Name Length     | @minLength(2) @maxLength(10) on environmentName parameter        | Internal       |
+| Log Analytics Name Length   | @minLength(4) @maxLength(49) with runtime truncation to 63 chars | Internal       |
+| Log Analytics SKU Allowed   | @allowed restricting to 8 valid SKU names                        | Internal       |
+| Key Vault Name Pattern      | Regex ^[a-zA-Z0-9-]{3,24}$ in JSON Schema                        | Internal       |
+| Secret Name Pattern         | Regex ^[a-zA-Z0-9-]{1,127}$ in JSON Schema                       | Internal       |
+| Soft Delete Retention Range | Integer range 7-90 in JSON Schema                                | Internal       |
+| GUID Pattern Validation     | Regex for all RBAC role IDs and Azure AD group IDs               | Internal       |
+| CIDR Block Pattern          | Regex for VNet address prefixes and subnet prefixes              | Internal       |
+| Resource Group Name Pattern | Regex ^[a-zA-Z0-9._-]+$ maxLength 90                             | Internal       |
 
 ### 2.8 Master Data
 
-| Name                        | Description                                                                         | Confidence | Classification |
-| --------------------------- | ----------------------------------------------------------------------------------- | ---------- | -------------- |
-| Azure RBAC Role GUIDs       | 7 well-known built-in role definition IDs (Contributor, UAA, KV Secrets User, etc.) | 0.95       | Public         |
-| Azure AD Group References   | Platform Engineering Team and eShop Developers group IDs                            | 0.90       | Confidential   |
-| VM SKU Reference Data       | general_i_32c128gb512ssd_v2, general_i_16c64gb256ssd_v2                             | 0.85       | Internal       |
-| Image Definition References | eShop-backend-engineer, eShop-frontend-engineer image names                         | 0.85       | Internal       |
-| Network Address Space       | VNet 10.0.0.0/16, Subnet 10.0.1.0/24                                                | 0.87       | Internal       |
-| Azure API Versions          | Resource provider API versions across all Bicep files                               | 0.82       | Public         |
+| Name                        | Description                                                                         | Classification |
+| --------------------------- | ----------------------------------------------------------------------------------- | -------------- |
+| Azure RBAC Role GUIDs       | 7 well-known built-in role definition IDs (Contributor, UAA, KV Secrets User, etc.) | Public         |
+| Azure AD Group References   | Platform Engineering Team and eShop Developers group IDs                            | Confidential   |
+| VM SKU Reference Data       | general_i_32c128gb512ssd_v2, general_i_16c64gb256ssd_v2                             | Internal       |
+| Image Definition References | eShop-backend-engineer, eShop-frontend-engineer image names                         | Internal       |
+| Network Address Space       | VNet 10.0.0.0/16, Subnet 10.0.1.0/24                                                | Internal       |
+| Azure API Versions          | Resource provider API versions across all Bicep files                               | Public         |
 
 ### 2.9 Data Transformations
 
-| Name                             | Description                                                                         | Confidence | Classification |
-| -------------------------------- | ----------------------------------------------------------------------------------- | ---------- | -------------- |
-| Resource Group Name Construction | Conditional: if create=true, constructs {name}-{env}-{location}-RG                  | 0.92       | Internal       |
-| Key Vault Name Uniquification    | Appends uniqueString() suffix for global uniqueness                                 | 0.90       | Internal       |
-| Log Analytics Name Truncation    | Computes maxNameLength=63-suffix-1, truncates, appends uniqueString                 | 0.88       | Internal       |
-| Catalog Properties Union         | Conditional ternary on catalog type to construct gitHub or adoGit block via union() | 0.87       | Internal       |
+| Name                             | Description                                                                         | Classification |
+| -------------------------------- | ----------------------------------------------------------------------------------- | -------------- |
+| Resource Group Name Construction | Conditional: if create=true, constructs {name}-{env}-{location}-RG                  | Internal       |
+| Key Vault Name Uniquification    | Appends uniqueString() suffix for global uniqueness                                 | Internal       |
+| Log Analytics Name Truncation    | Computes maxNameLength=63-suffix-1, truncates, appends uniqueString                 | Internal       |
+| Catalog Properties Union         | Conditional ternary on catalog type to construct gitHub or adoGit block via union() | Internal       |
 
 ### 2.10 Data Contracts
 
-| Name                           | Description                                                             | Confidence | Classification |
-| ------------------------------ | ----------------------------------------------------------------------- | ---------- | -------------- |
-| Security Configuration Schema  | JSON Schema 2020-12 for security.yaml: create, keyVault, tags           | 0.95       | Internal       |
-| Resource Organization Schema   | JSON Schema for azureResources.yaml: workload, security, monitoring RGs | 0.95       | Internal       |
-| DevCenter Configuration Schema | Comprehensive JSON Schema for devcenter.yaml with reusable $defs        | 0.95       | Internal       |
+| Name                           | Description                                                             | Classification |
+| ------------------------------ | ----------------------------------------------------------------------- | -------------- |
+| Security Configuration Schema  | JSON Schema 2020-12 for security.yaml: create, keyVault, tags           | Internal       |
+| Resource Organization Schema   | JSON Schema for azureResources.yaml: workload, security, monitoring RGs | Internal       |
+| DevCenter Configuration Schema | Comprehensive JSON Schema for devcenter.yaml with reusable $defs        | Internal       |
 
 ### 2.11 Data Security
 
-| Name                            | Description                                                           | Confidence | Classification |
-| ------------------------------- | --------------------------------------------------------------------- | ---------- | -------------- |
-| @secure() Secret Value          | Prevents secret from appearing in deployment logs or ARM outputs      | 0.95       | Confidential   |
-| @secure() Secret Identifier     | Secret URI treated as secure throughout entire parameter chain        | 0.95       | Confidential   |
-| Key Vault Purge Protection      | enablePurgeProtection: true prevents permanent deletion               | 0.92       | Confidential   |
-| Key Vault Soft Delete           | enableSoftDelete: true with 7-day retention period                    | 0.90       | Confidential   |
-| Key Vault RBAC Authorization    | enableRbacAuthorization: true for Azure RBAC data-plane auth          | 0.92       | Confidential   |
-| Key Vault Access Policy         | Deployer objectId granted secrets and keys permissions                | 0.91       | Confidential   |
-| KV Secrets User Role Assignment | Key Vault Secrets User role to managed identities                     | 0.90       | Confidential   |
-| Conditional Secret Identifier   | secretIdentifier only passed when visibility is private               | 0.88       | Confidential   |
-| Azure AD Join                   | domainJoinType AzureADJoin for zero-trust network access              | 0.90       | Internal       |
-| SSO with Local Admin            | singleSignOnStatus Enabled, localAdministrator Enabled                | 0.87       | Internal       |
-| Windows Client Licensing        | licenseType Windows_Client for compliance                             | 0.82       | Internal       |
-| Managed Identity (DevCenter)    | SystemAssigned identity, auto-rotated by Azure                        | 0.93       | Internal       |
-| Managed Identity (Project)      | Per-project SystemAssigned identity with least-privilege RBAC         | 0.93       | Internal       |
-| Managed Identity (Env Type)     | Per-environment-type SystemAssigned identity for deployment isolation | 0.90       | Internal       |
+| Name                            | Description                                                           | Classification |
+| ------------------------------- | --------------------------------------------------------------------- | -------------- |
+| @secure() Secret Value          | Prevents secret from appearing in deployment logs or ARM outputs      | Confidential   |
+| @secure() Secret Identifier     | Secret URI treated as secure throughout entire parameter chain        | Confidential   |
+| Key Vault Purge Protection      | enablePurgeProtection: true prevents permanent deletion               | Confidential   |
+| Key Vault Soft Delete           | enableSoftDelete: true with 7-day retention period                    | Confidential   |
+| Key Vault RBAC Authorization    | enableRbacAuthorization: true for Azure RBAC data-plane auth          | Confidential   |
+| Key Vault Access Policy         | Deployer objectId granted secrets and keys permissions                | Confidential   |
+| KV Secrets User Role Assignment | Key Vault Secrets User role to managed identities                     | Confidential   |
+| Conditional Secret Identifier   | secretIdentifier only passed when visibility is private               | Confidential   |
+| Azure AD Join                   | domainJoinType AzureADJoin for zero-trust network access              | Internal       |
+| SSO with Local Admin            | singleSignOnStatus Enabled, localAdministrator Enabled                | Internal       |
+| Windows Client Licensing        | licenseType Windows_Client for compliance                             | Internal       |
+| Managed Identity (DevCenter)    | SystemAssigned identity, auto-rotated by Azure                        | Internal       |
+| Managed Identity (Project)      | Per-project SystemAssigned identity with least-privilege RBAC         | Internal       |
+| Managed Identity (Env Type)     | Per-environment-type SystemAssigned identity for deployment isolation | Internal       |
 
 ### Summary
 
