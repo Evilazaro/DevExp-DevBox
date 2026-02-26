@@ -1,14 +1,5 @@
 # Data Architecture - DevExp-DevBox
 
-**Generated**: 2026-02-26T00:00:00Z **Session ID**:
-00000000-0000-0000-0000-000000000000 **Quality Level**: comprehensive **Data
-Assets Found**: 90 **Target Layer**: Data **Analysis Scope**: ["."] (full
-repository root)
-
-<!-- ⛔ HEADER GATE: All 6 fields verified present. -->
-
----
-
 ## Section 1: Executive Summary
 
 ### Overview
@@ -33,35 +24,6 @@ configuration, Security teams governing Key Vault and RBAC policies, and
 Development teams consuming DevBox pools and environment types. The architecture
 follows Azure Landing Zone principles with strict resource segregation across
 workload, security, and monitoring zones.
-
-### Key Findings
-
-| Metric                   | Value | Assessment                               |
-| ------------------------ | ----- | ---------------------------------------- |
-| Total Data Assets        | 90    | Comprehensive coverage                   |
-| Data Entities            | 14    | Well-structured configuration entities   |
-| Data Models (Types)      | 18    | Strong type system in Bicep              |
-| Data Stores              | 3     | Key Vault, Secret Store, Log Analytics   |
-| Data Flows               | 12    | Complete parameter chain traceability    |
-| Data Governance          | 8     | Mature tagging and RBAC governance       |
-| Data Quality Rules       | 10    | Schema validation + Bicep decorators     |
-| Data Contracts (Schemas) | 3     | JSON Schema 2020-12 for all configs      |
-| Master Data              | 6     | Well-documented reference data           |
-| Data Transformations     | 4     | Name construction and uniquification     |
-| Data Security            | 14    | Defense-in-depth with managed identities |
-| Data Services            | 0     | IaC-only repository (no REST APIs)       |
-| Average Confidence       | 0.88  | High confidence across all assets        |
-
-### Data Quality Scorecard
-
-| Dimension     | Score | Assessment                                      |
-| ------------- | ----- | ----------------------------------------------- |
-| Completeness  | 95%   | All configuration entities fully defined        |
-| Consistency   | 92%   | Tag taxonomy applied uniformly                  |
-| Accuracy      | 90%   | Schema validation enforces correctness          |
-| Timeliness    | 85%   | Catalog sync scheduled; no real-time SLA        |
-| Uniqueness    | 98%   | `uniqueString()` ensures globally unique names  |
-| Accessibility | 88%   | RBAC + managed identities for controlled access |
 
 ### Coverage Summary
 
