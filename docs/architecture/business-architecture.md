@@ -41,24 +41,24 @@ excluded.
 
 ### 2.1 Business Strategy (2)
 
-| Name                            | Description                                                                                                                    | Source               | Confidence | Maturity    |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------- | ---------- | ----------- |
-| Dev Box Platform Vision         | **Strategic vision** to accelerate Dev Box adoption through automated provisioning following **Azure Landing Zone** principles | README.md:8-13       | 0.95       | 3 - Defined |
-| Product-Oriented Delivery Model | **Delivery strategy** based on Epics → Features → Tasks hierarchy for measurable **capability outcomes**                       | CONTRIBUTING.md:1-15 | 0.92       | 3 - Defined |
+| Name                            | Description                                                                                                                    | Confidence | Maturity    |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------- | ----------- |
+| Dev Box Platform Vision         | **Strategic vision** to accelerate Dev Box adoption through automated provisioning following **Azure Landing Zone** principles | 0.95       | 3 - Defined |
+| Product-Oriented Delivery Model | **Delivery strategy** based on Epics → Features → Tasks hierarchy for measurable **capability outcomes**                       | 0.92       | 3 - Defined |
 
 ### 2.2 Business Capabilities (9)
 
-| Name                       | Description                                                                                                          | Source          | Confidence | Maturity     |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------- | ---------- | ------------ |
-| Dev Center Provisioning    | Deploys a fully configured **Dev Center** with managed identity, catalogs, and environment types                     | README.md:36-37 | 0.95       | 4 - Measured |
-| Dev Box Project Management | Creates projects with **role-specific pools** (backend-engineer, frontend-engineer) and per-project RBAC             | README.md:38-39 | 0.93       | 4 - Measured |
-| YAML-Driven Configuration  | **Declarative configuration** for Dev Center, security, networking via YAML files with JSON Schema validation        | README.md:40-41 | 0.94       | 4 - Measured |
-| Network Connectivity       | Supports managed and unmanaged **virtual networks** with automated VNet, subnet, and network connection provisioning | README.md:42-43 | 0.90       | 3 - Defined  |
-| Security & Key Vault       | Automated **Key Vault deployment** with RBAC authorization, soft delete, purge protection, and secret management     | README.md:44-45 | 0.93       | 4 - Measured |
-| Centralized Monitoring     | **Log Analytics workspace** with diagnostic settings for Dev Center and Key Vault resources                          | README.md:46-47 | 0.88       | 3 - Defined  |
-| Multi-Environment Support  | **Environment types** for dev, staging, and UAT with configurable deployment targets                                 | README.md:48-49 | 0.91       | 3 - Defined  |
-| Cross-Platform Automation  | Setup scripts for **PowerShell** (Windows) and **Bash** (Linux/macOS) with Azure Developer CLI integration           | README.md:50-51 | 0.90       | 3 - Defined  |
-| Source Control Integration | **GitHub and Azure DevOps Git** support for catalogs, image definitions, and environment definitions                 | README.md:52-53 | 0.89       | 3 - Defined  |
+| Name                       | Description                                                                                                          | Confidence | Maturity     |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------- | ------------ |
+| Dev Center Provisioning    | Deploys a fully configured **Dev Center** with managed identity, catalogs, and environment types                     | 0.95       | 4 - Measured |
+| Dev Box Project Management | Creates projects with **role-specific pools** (backend-engineer, frontend-engineer) and per-project RBAC             | 0.93       | 4 - Measured |
+| YAML-Driven Configuration  | **Declarative configuration** for Dev Center, security, networking via YAML files with JSON Schema validation        | 0.94       | 4 - Measured |
+| Network Connectivity       | Supports managed and unmanaged **virtual networks** with automated VNet, subnet, and network connection provisioning | 0.90       | 3 - Defined  |
+| Security & Key Vault       | Automated **Key Vault deployment** with RBAC authorization, soft delete, purge protection, and secret management     | 0.93       | 4 - Measured |
+| Centralized Monitoring     | **Log Analytics workspace** with diagnostic settings for Dev Center and Key Vault resources                          | 0.88       | 3 - Defined  |
+| Multi-Environment Support  | **Environment types** for dev, staging, and UAT with configurable deployment targets                                 | 0.91       | 3 - Defined  |
+| Cross-Platform Automation  | Setup scripts for **PowerShell** (Windows) and **Bash** (Linux/macOS) with Azure Developer CLI integration           | 0.90       | 3 - Defined  |
+| Source Control Integration | **GitHub and Azure DevOps Git** support for catalogs, image definitions, and environment definitions                 | 0.89       | 3 - Defined  |
 
 #### Business Capability Map
 
@@ -112,75 +112,75 @@ flowchart TB
 
 ### 2.3 Value Streams (2)
 
-| Name                        | Description                                                                                                             | Source              | Confidence | Maturity    |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------- | ---------- | ----------- |
-| Environment Provisioning    | End-to-end value delivery from **repository clone** through authentication to **fully provisioned Dev Box environment** | setUp.ps1:682-758   | 0.92       | 3 - Defined |
-| Environment Decommissioning | End-to-end **teardown** from deployment cleanup through role removal to **resource group deletion**                     | cleanSetUp.ps1:1-42 | 0.88       | 3 - Defined |
+| Name                        | Description                                                                                                             | Confidence | Maturity    |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------- | ----------- |
+| Environment Provisioning    | End-to-end value delivery from **repository clone** through authentication to **fully provisioned Dev Box environment** | 0.92       | 3 - Defined |
+| Environment Decommissioning | End-to-end **teardown** from deployment cleanup through role removal to **resource group deletion**                     | 0.88       | 3 - Defined |
 
 ### 2.4 Business Processes (7)
 
-| Name                      | Description                                                                                                                | Source                              | Confidence | Maturity       |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ---------- | -------------- |
-| Setup Orchestration       | **Main provisioning workflow**: Validate tools → Authenticate → Initialize AZD environment → Provision Azure resources     | setUp.ps1:682-758                   | 0.93       | 4 - Measured   |
-| Cleanup Orchestration     | **Decommissioning process**: Delete deployments → Remove users/roles → Purge credentials → Delete resource groups          | cleanSetUp.ps1:44-317               | 0.90       | 3 - Defined    |
-| Issue Management Workflow | **Issue governance**: Create from templates → Apply labels (type/area/priority/status) → Link parent issues → Track status | CONTRIBUTING.md:17-48               | 0.88       | 3 - Defined    |
-| PR & Branch Workflow      | **Change management**: Branch naming (`feature/<name>`) → Validate → PR with evidence → Review → Merge                     | CONTRIBUTING.md:50-69               | 0.87       | 3 - Defined    |
-| Infrastructure Deployment | **Azure provisioning sequence**: Monitoring → Security (depends on Monitoring) → Workload (depends on Security)            | infra/main.bicep:97-153             | 0.94       | 4 - Measured   |
-| Credential Management     | **CI/CD credential lifecycle**: Create service principal → Assign roles → Store as GitHub secret → Cleanup on decommission | setUp.ps1:312-420                   | 0.85       | 3 - Defined    |
-| Incident Management       | **Bug triage workflow** with severity levels (S0-S3), reproduction steps, environment details, and triage checks           | .github/ISSUE_TEMPLATE/bug.yml:1-82 | 0.82       | 2 - Repeatable |
+| Name                      | Description                                                                                                                | Confidence | Maturity       |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------- | -------------- |
+| Setup Orchestration       | **Main provisioning workflow**: Validate tools → Authenticate → Initialize AZD environment → Provision Azure resources     | 0.93       | 4 - Measured   |
+| Cleanup Orchestration     | **Decommissioning process**: Delete deployments → Remove users/roles → Purge credentials → Delete resource groups          | 0.90       | 3 - Defined    |
+| Issue Management Workflow | **Issue governance**: Create from templates → Apply labels (type/area/priority/status) → Link parent issues → Track status | 0.88       | 3 - Defined    |
+| PR & Branch Workflow      | **Change management**: Branch naming (`feature/<name>`) → Validate → PR with evidence → Review → Merge                     | 0.87       | 3 - Defined    |
+| Infrastructure Deployment | **Azure provisioning sequence**: Monitoring → Security (depends on Monitoring) → Workload (depends on Security)            | 0.94       | 4 - Measured   |
+| Credential Management     | **CI/CD credential lifecycle**: Create service principal → Assign roles → Store as GitHub secret → Cleanup on decommission | 0.85       | 3 - Defined    |
+| Incident Management       | **Bug triage workflow** with severity levels (S0-S3), reproduction steps, environment details, and triage checks           | 0.82       | 2 - Repeatable |
 
 ### 2.5 Business Services (4)
 
-| Name                          | Description                                                                                                                      | Source                                       | Confidence | Maturity     |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- | ---------- | ------------ |
-| Dev Center Platform Service   | **Core platform service** providing developer workstation provisioning with managed identity, catalog sync, and monitoring agent | infra/settings/workload/devcenter.yaml:19-23 | 0.95       | 4 - Measured |
-| Catalog Configuration Service | **Centralized catalog** from microsoft/devcenter-catalog GitHub repository with scheduled sync for Dev Box customization tasks   | infra/settings/workload/devcenter.yaml:72-79 | 0.88       | 3 - Defined  |
-| Secret Management Service     | **Azure Key Vault** service with RBAC authorization, purge protection, soft delete, and diagnostic logging to Log Analytics      | infra/settings/security/security.yaml:14-31  | 0.91       | 4 - Measured |
-| Centralized Logging Service   | **Log Analytics workspace** with AzureActivity solution providing unified diagnostics for all platform resources                 | src/management/logAnalytics.bicep:37-65      | 0.87       | 3 - Defined  |
+| Name                          | Description                                                                                                                      | Confidence | Maturity     |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------ |
+| Dev Center Platform Service   | **Core platform service** providing developer workstation provisioning with managed identity, catalog sync, and monitoring agent | 0.95       | 4 - Measured |
+| Catalog Configuration Service | **Centralized catalog** from microsoft/devcenter-catalog GitHub repository with scheduled sync for Dev Box customization tasks   | 0.88       | 3 - Defined  |
+| Secret Management Service     | **Azure Key Vault** service with RBAC authorization, purge protection, soft delete, and diagnostic logging to Log Analytics      | 0.91       | 4 - Measured |
+| Centralized Logging Service   | **Log Analytics workspace** with AzureActivity solution providing unified diagnostics for all platform resources                 | 0.87       | 3 - Defined  |
 
 ### 2.6 Business Functions (3)
 
-| Name                    | Description                                                                                                                | Source                                                        | Confidence | Maturity     |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------- | ------------ |
-| Security Landing Zone   | **Security organizational unit** managing Key Vault and related security resources with dedicated resource group           | infra/settings/resourceOrganization/azureResources.yaml:35-49 | 0.93       | 4 - Measured |
-| Monitoring Landing Zone | **Monitoring organizational unit** managing Log Analytics and observability resources with dedicated resource group        | infra/settings/resourceOrganization/azureResources.yaml:51-65 | 0.90       | 3 - Defined  |
-| Workload Landing Zone   | **Workload organizational unit** managing Dev Center, projects, pools, and related resources with dedicated resource group | infra/settings/resourceOrganization/azureResources.yaml:16-30 | 0.93       | 4 - Measured |
+| Name                    | Description                                                                                                                | Confidence | Maturity     |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------ |
+| Security Landing Zone   | **Security organizational unit** managing Key Vault and related security resources with dedicated resource group           | 0.93       | 4 - Measured |
+| Monitoring Landing Zone | **Monitoring organizational unit** managing Log Analytics and observability resources with dedicated resource group        | 0.90       | 3 - Defined  |
+| Workload Landing Zone   | **Workload organizational unit** managing Dev Center, projects, pools, and related resources with dedicated resource group | 0.93       | 4 - Measured |
 
 ### 2.7 Business Roles & Actors (4)
 
-| Name                        | Description                                                                                                                                      | Source                                         | Confidence | Maturity       |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------- | ---------- | -------------- |
-| Dev Manager                 | **Platform admin role** mapped to "Platform Engineering Team" Azure AD group with **DevCenter Project Admin** RBAC role                          | infra/settings/workload/devcenter.yaml:53-63   | 0.95       | 4 - Measured   |
-| eShop Developers            | **Developer role** mapped to Azure AD group with Contributor, **Dev Box User**, Deployment Environment User, and Key Vault access roles          | infra/settings/workload/devcenter.yaml:118-137 | 0.94       | 4 - Measured   |
-| Dev Center System Identity  | **Service principal** with Contributor, User Access Administrator, Key Vault Secrets User/Officer roles at Subscription and ResourceGroup scopes | infra/settings/workload/devcenter.yaml:35-51   | 0.92       | 4 - Measured   |
-| Target Stakeholder Personas | **External stakeholders**: Developer, Platform Engineer, Security/Compliance, IT Admin, Product/Program team                                     | .github/pull_request_template.md:15-22         | 0.80       | 2 - Repeatable |
+| Name                        | Description                                                                                                                                      | Confidence | Maturity       |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | -------------- |
+| Dev Manager                 | **Platform admin role** mapped to "Platform Engineering Team" Azure AD group with **DevCenter Project Admin** RBAC role                          | 0.95       | 4 - Measured   |
+| eShop Developers            | **Developer role** mapped to Azure AD group with Contributor, **Dev Box User**, Deployment Environment User, and Key Vault access roles          | 0.94       | 4 - Measured   |
+| Dev Center System Identity  | **Service principal** with Contributor, User Access Administrator, Key Vault Secrets User/Officer roles at Subscription and ResourceGroup scopes | 0.92       | 4 - Measured   |
+| Target Stakeholder Personas | **External stakeholders**: Developer, Platform Engineer, Security/Compliance, IT Admin, Product/Program team                                     | 0.80       | 2 - Repeatable |
 
 ### 2.8 Business Rules (4)
 
-| Name                  | Description                                                                                                                                     | Source                                                                | Confidence | Maturity     |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ---------- | ------------ |
-| Security Policy       | **Data protection rules**: enablePurgeProtection=true, enableSoftDelete=true, softDeleteRetentionInDays=7, **enableRbacAuthorization=true**     | infra/settings/security/security.yaml:24-28                           | 0.95       | 4 - Measured |
-| Resource Governance   | **Tag taxonomy enforcement**: environment, division, team, project, costCenter, owner, landingZone — validated by JSON Schema                   | infra/settings/resourceOrganization/azureResources.schema.json:57-140 | 0.93       | 4 - Measured |
-| Branch & PR Standards | **Change control rules**: Branch naming (`feature/`, `task/`, `fix/`, `docs/`), PR must reference issue, include summary/evidence/docs          | CONTRIBUTING.md:50-69                                                 | 0.87       | 3 - Defined  |
-| Engineering Standards | **Quality rules**: Bicep must be parameterized/idempotent/reusable, PowerShell 7+ with error handling, docs-as-code with purpose/inputs/outputs | CONTRIBUTING.md:73-100                                                | 0.88       | 3 - Defined  |
+| Name                  | Description                                                                                                                                     | Confidence | Maturity     |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------ |
+| Security Policy       | **Data protection rules**: enablePurgeProtection=true, enableSoftDelete=true, softDeleteRetentionInDays=7, **enableRbacAuthorization=true**     | 0.95       | 4 - Measured |
+| Resource Governance   | **Tag taxonomy enforcement**: environment, division, team, project, costCenter, owner, landingZone — validated by JSON Schema                   | 0.93       | 4 - Measured |
+| Branch & PR Standards | **Change control rules**: Branch naming (`feature/`, `task/`, `fix/`, `docs/`), PR must reference issue, include summary/evidence/docs          | 0.87       | 3 - Defined  |
+| Engineering Standards | **Quality rules**: Bicep must be parameterized/idempotent/reusable, PowerShell 7+ with error handling, docs-as-code with purpose/inputs/outputs | 0.88       | 3 - Defined  |
 
 ### 2.9 Business Events (1)
 
-| Name                        | Description                                                                                                                      | Source            | Confidence | Maturity    |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ---------- | ----------- |
-| Authentication Verification | **Pre-provisioning gate**: Validates Azure CLI, Azure DevOps, and GitHub authentication status before proceeding with deployment | setUp.ps1:172-310 | 0.85       | 3 - Defined |
+| Name                        | Description                                                                                                                      | Confidence | Maturity    |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------- | ----------- |
+| Authentication Verification | **Pre-provisioning gate**: Validates Azure CLI, Azure DevOps, and GitHub authentication status before proceeding with deployment | 0.85       | 3 - Defined |
 
 ### 2.10 Business Objects/Entities (1)
 
-| Name          | Description                                                                                                                                       | Source                                        | Confidence | Maturity     |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ---------- | ------------ |
-| eShop Project | **Core business entity** with VNet configuration (10.0.0.0/16), backend/frontend pools, project catalogs, and environment types (dev/staging/UAT) | infra/settings/workload/devcenter.yaml:93-188 | 0.95       | 4 - Measured |
+| Name          | Description                                                                                                                                       | Confidence | Maturity     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------ |
+| eShop Project | **Core business entity** with VNet configuration (10.0.0.0/16), backend/frontend pools, project catalogs, and environment types (dev/staging/UAT) | 0.95       | 4 - Measured |
 
 ### 2.11 KPIs & Metrics (1)
 
-| Name                         | Description                                                                                                                                  | Source                  | Confidence | Maturity    |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ---------- | ----------- |
-| Definition of Done Framework | **Multi-level quality criteria**: Task (PR merged + validation), Feature (acceptance criteria + docs), Epic (end-to-end validated + metrics) | CONTRIBUTING.md:114-145 | 0.88       | 3 - Defined |
+| Name                         | Description                                                                                                                                  | Confidence | Maturity    |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ----------- |
+| Definition of Done Framework | **Multi-level quality criteria**: Task (PR merged + validation), Feature (acceptance criteria + docs), Epic (end-to-end validated + metrics) | 0.88       | 3 - Defined |
 
 ### Summary
 
@@ -219,15 +219,15 @@ Infrastructure-as-Code paradigm where all configuration is version-controlled
 and schema-validated. These principles collectively ensure that the platform is
 repeatable, auditable, and governable.
 
-| #   | Principle                              | Rationale                                                                                                                | Implication                                                                                 | Source                                                        |
-| --- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| P1  | **Declarative Configuration-as-Code**  | All platform settings defined in YAML with JSON Schema validation eliminates drift and enables repeatable deployments    | Changes must come through version-controlled YAML files, not manual Azure portal edits      | infra/settings/workload/devcenter.yaml:1-14                   |
-| P2  | **Landing Zone Segregation**           | Resources organized into Security, Monitoring, and Workload landing zones following Azure Cloud Adoption Framework       | Each functional domain has its own resource group with independent lifecycle and tags       | infra/settings/resourceOrganization/azureResources.yaml:16-65 |
-| P3  | **Least-Privilege RBAC**               | Role assignments scoped to minimum necessary level (Subscription, ResourceGroup, Project) with explicit role definitions | All identities must have documented role justification; no wildcard or Owner-level defaults | infra/settings/workload/devcenter.yaml:35-63                  |
-| P4  | **Security-by-Default**                | Key Vault deployed with purge protection, soft delete, and RBAC authorization enabled by default                         | Security controls cannot be disabled without explicit configuration change and review       | infra/settings/security/security.yaml:24-28                   |
-| P5  | **Idempotent & Parameterized Modules** | Bicep modules must be reusable across environments without hard-coded values                                             | All modules accept parameters; environment specifics come from YAML configuration           | CONTRIBUTING.md:73-80                                         |
-| P6  | **Cross-Platform Automation**          | Setup scripts available for both PowerShell (Windows) and Bash (Linux/macOS)                                             | Every automation capability must have cross-platform parity or documented gaps              | README.md:50-51                                               |
-| P7  | **Product-Oriented Delivery**          | Work organized as Epics → Features → Tasks with measurable outcomes and exit criteria                                    | Every deliverable must link to a trackable issue with definition of done                    | CONTRIBUTING.md:1-15                                          |
+| #   | Principle                              | Rationale                                                                                                                | Implication                                                                                 |
+| --- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| P1  | **Declarative Configuration-as-Code**  | All platform settings defined in YAML with JSON Schema validation eliminates drift and enables repeatable deployments    | Changes must come through version-controlled YAML files, not manual Azure portal edits      |
+| P2  | **Landing Zone Segregation**           | Resources organized into Security, Monitoring, and Workload landing zones following Azure Cloud Adoption Framework       | Each functional domain has its own resource group with independent lifecycle and tags       |
+| P3  | **Least-Privilege RBAC**               | Role assignments scoped to minimum necessary level (Subscription, ResourceGroup, Project) with explicit role definitions | All identities must have documented role justification; no wildcard or Owner-level defaults |
+| P4  | **Security-by-Default**                | Key Vault deployed with purge protection, soft delete, and RBAC authorization enabled by default                         | Security controls cannot be disabled without explicit configuration change and review       |
+| P5  | **Idempotent & Parameterized Modules** | Bicep modules must be reusable across environments without hard-coded values                                             | All modules accept parameters; environment specifics come from YAML configuration           |
+| P6  | **Cross-Platform Automation**          | Setup scripts available for both PowerShell (Windows) and Bash (Linux/macOS)                                             | Every automation capability must have cross-platform parity or documented gaps              |
+| P7  | **Product-Oriented Delivery**          | Work organized as Epics → Features → Tasks with measurable outcomes and exit criteria                                    | Every deliverable must link to a trackable issue with definition of done                    |
 
 ---
 
@@ -365,7 +365,6 @@ DevExp-DevBox platform, identified from repository documentation.
 | **Scope**         | Organization-wide platform engineering |
 | **Owner**         | Platform Engineering Team (Contoso)    |
 | **Maturity**      | 3 - Defined                            |
-| **Source**        | README.md:8-13                         |
 | **Confidence**    | 0.95                                   |
 
 **Strategic Intent**: Automate provisioning of Microsoft Dev Box environments on
@@ -385,7 +384,6 @@ Well-Architected Framework.
 | **Scope**         | All platform development and operations |
 | **Owner**         | DevExP Team                             |
 | **Maturity**      | 3 - Defined                             |
-| **Source**        | CONTRIBUTING.md:1-15                    |
 | **Confidence**    | 0.92                                    |
 
 **Delivery Hierarchy**:
@@ -409,7 +407,6 @@ maturity assessment, dependencies, and supporting evidence.
 | **Description**      | Deploys a fully configured Dev Center with managed identity, catalogs, and environment types |
 | **Owner**            | Platform Engineering Team                                                                    |
 | **Maturity**         | 4 - Measured                                                                                 |
-| **Source**           | README.md:36-37                                                                              |
 | **Confidence**       | 0.95                                                                                         |
 
 **Features**: SystemAssigned managed identity, catalog item sync, Microsoft
@@ -427,7 +424,6 @@ Monitoring (for diagnostics).
 | **Description**      | Creates projects with role-specific pools and per-project RBAC |
 | **Owner**            | Platform Engineering Team                                      |
 | **Maturity**         | 4 - Measured                                                   |
-| **Source**           | README.md:38-39                                                |
 | **Confidence**       | 0.93                                                           |
 
 **Features**: Backend-engineer pool (32c/128GB/512SSD), frontend-engineer pool
@@ -442,7 +438,6 @@ Monitoring (for diagnostics).
 | **Description**      | Declarative configuration for Dev Center, security, networking via YAML with JSON Schema validation |
 | **Owner**            | Platform Engineering Team                                                                           |
 | **Maturity**         | 4 - Measured                                                                                        |
-| **Source**           | README.md:40-41                                                                                     |
 | **Confidence**       | 0.94                                                                                                |
 
 **Configuration Files**: `devcenter.yaml` (195 lines, 661-line schema),
@@ -458,7 +453,6 @@ Monitoring (for diagnostics).
 | **Description**      | Managed and unmanaged VNet support with automated provisioning |
 | **Owner**            | Platform Engineering Team                                      |
 | **Maturity**         | 3 - Defined                                                    |
-| **Source**           | README.md:42-43                                                |
 | **Confidence**       | 0.90                                                           |
 
 #### 5.2.5 Security & Key Vault
@@ -470,7 +464,6 @@ Monitoring (for diagnostics).
 | **Description**      | Automated Key Vault with RBAC, soft delete, purge protection, and secret management |
 | **Owner**            | Platform Engineering Team                                                           |
 | **Maturity**         | 4 - Measured                                                                        |
-| **Source**           | README.md:44-45                                                                     |
 | **Confidence**       | 0.93                                                                                |
 
 #### 5.2.6 Centralized Monitoring
@@ -482,7 +475,6 @@ Monitoring (for diagnostics).
 | **Description**      | Log Analytics workspace with diagnostic settings |
 | **Owner**            | Platform Engineering Team                        |
 | **Maturity**         | 3 - Defined                                      |
-| **Source**           | README.md:46-47                                  |
 | **Confidence**       | 0.88                                             |
 
 #### 5.2.7 Multi-Environment Support
@@ -494,7 +486,6 @@ Monitoring (for diagnostics).
 | **Description**      | Environment types (dev, staging, UAT) with configurable deployment targets |
 | **Owner**            | Platform Engineering Team                                                  |
 | **Maturity**         | 3 - Defined                                                                |
-| **Source**           | README.md:48-49                                                            |
 | **Confidence**       | 0.91                                                                       |
 
 #### 5.2.8 Cross-Platform Automation
@@ -506,7 +497,6 @@ Monitoring (for diagnostics).
 | **Description**      | PowerShell and Bash scripts with Azure Developer CLI integration |
 | **Owner**            | Platform Engineering Team                                        |
 | **Maturity**         | 3 - Defined                                                      |
-| **Source**           | README.md:50-51                                                  |
 | **Confidence**       | 0.90                                                             |
 
 #### 5.2.9 Source Control Integration
@@ -518,7 +508,6 @@ Monitoring (for diagnostics).
 | **Description**      | GitHub and Azure DevOps Git support for catalogs and definitions |
 | **Owner**            | Platform Engineering Team                                        |
 | **Maturity**         | 3 - Defined                                                      |
-| **Source**           | README.md:52-53                                                  |
 | **Confidence**       | 0.89                                                             |
 
 ### 5.3 Value Streams Specifications
@@ -535,7 +524,6 @@ DevExp-DevBox platform delivers and reclaims value.
 | **Value Delivered**   | Fully provisioned Dev Box environment ready for development |
 | **Owner**             | Platform Engineering Team                                   |
 | **Maturity**          | 3 - Defined                                                 |
-| **Source**            | setUp.ps1:682-758                                           |
 | **Confidence**        | 0.92                                                        |
 
 **Stages**: Clone Repository → Authenticate (Azure + Source Control) →
@@ -553,7 +541,6 @@ of running `azd up` or setup script.
 | **Value Delivered**   | Complete removal of all provisioned resources and credentials |
 | **Owner**             | Platform Engineering Team                                     |
 | **Maturity**          | 3 - Defined                                                   |
-| **Source**            | cleanSetUp.ps1:1-42                                           |
 | **Confidence**        | 0.88                                                          |
 
 **Stages**: Delete Deployments → Remove Users/Roles → Purge Credentials → Delete
@@ -573,7 +560,6 @@ DevExp-DevBox platform, with expanded workflow details and relationships.
 | **Trigger**      | `setUp.ps1` or `setUp.sh` execution |
 | **Owner**        | Platform Engineering Team           |
 | **Maturity**     | 4 - Measured                        |
-| **Source**       | setUp.ps1:682-758                   |
 | **Confidence**   | 0.93                                |
 
 **Process Steps**:
@@ -598,7 +584,6 @@ DevExp-DevBox platform, with expanded workflow details and relationships.
 | **Trigger**      | `cleanSetUp.ps1` execution |
 | **Owner**        | Platform Engineering Team  |
 | **Maturity**     | 3 - Defined                |
-| **Source**       | cleanSetUp.ps1:44-317      |
 | **Confidence**   | 0.90                       |
 
 **Process Steps**:
@@ -618,7 +603,6 @@ DevExp-DevBox platform, with expanded workflow details and relationships.
 | **Trigger**      | Issue creation via GitHub Issue Templates |
 | **Owner**        | DevExP Team                               |
 | **Maturity**     | 3 - Defined                               |
-| **Source**       | CONTRIBUTING.md:17-48                     |
 | **Confidence**   | 0.88                                      |
 
 #### 5.4.4 PR & Branch Workflow
@@ -630,7 +614,6 @@ DevExp-DevBox platform, with expanded workflow details and relationships.
 | **Trigger**      | Feature/fix branch creation |
 | **Owner**        | DevExP Team                 |
 | **Maturity**     | 3 - Defined                 |
-| **Source**       | CONTRIBUTING.md:50-69       |
 | **Confidence**   | 0.87                        |
 
 #### 5.4.5 Infrastructure Deployment Process
@@ -642,7 +625,6 @@ DevExp-DevBox platform, with expanded workflow details and relationships.
 | **Trigger**      | `azd provision` or `az deployment sub create` |
 | **Owner**        | Platform Engineering Team                     |
 | **Maturity**     | 4 - Measured                                  |
-| **Source**       | infra/main.bicep:97-153                       |
 | **Confidence**   | 0.94                                          |
 
 **Deployment Sequence** (dependency-ordered):
@@ -662,7 +644,6 @@ DevExp-DevBox platform, with expanded workflow details and relationships.
 | **Trigger**      | Setup script authentication phase |
 | **Owner**        | Platform Engineering Team         |
 | **Maturity**     | 3 - Defined                       |
-| **Source**       | setUp.ps1:312-420                 |
 | **Confidence**   | 0.85                              |
 
 #### 5.4.7 Incident Management Process
@@ -674,7 +655,6 @@ DevExp-DevBox platform, with expanded workflow details and relationships.
 | **Trigger**      | Bug report via GitHub Issue Template |
 | **Owner**        | DevExP Team                          |
 | **Maturity**     | 2 - Repeatable                       |
-| **Source**       | .github/ISSUE_TEMPLATE/bug.yml:1-82  |
 | **Confidence**   | 0.82                                 |
 
 #### Process Flow — Setup Orchestration
@@ -753,7 +733,6 @@ delivered to consumers.
 | **Consumers**    | Dev Manager, eShop Developers                |
 | **SLA**          | Azure Dev Center SLA (99.9%)                 |
 | **Maturity**     | 4 - Measured                                 |
-| **Source**       | infra/settings/workload/devcenter.yaml:19-23 |
 | **Confidence**   | 0.95                                         |
 
 **Service Features**: Managed identity (SystemAssigned), catalog item sync
@@ -768,7 +747,6 @@ delivered to consumers.
 | **Consumers**    | Dev Center Platform Service                  |
 | **Provider**     | microsoft/devcenter-catalog (GitHub)         |
 | **Maturity**     | 3 - Defined                                  |
-| **Source**       | infra/settings/workload/devcenter.yaml:72-79 |
 | **Confidence**   | 0.88                                         |
 
 #### 5.5.3 Secret Management Service
@@ -780,7 +758,6 @@ delivered to consumers.
 | **Consumers**    | Dev Center Platform Service, CI/CD Pipeline |
 | **Provider**     | Azure Key Vault                             |
 | **Maturity**     | 4 - Measured                                |
-| **Source**       | infra/settings/security/security.yaml:14-31 |
 | **Confidence**   | 0.91                                        |
 
 #### 5.5.4 Centralized Logging Service
@@ -792,7 +769,6 @@ delivered to consumers.
 | **Consumers**    | All landing zone resources              |
 | **Provider**     | Azure Log Analytics                     |
 | **Maturity**     | 3 - Defined                             |
-| **Source**       | src/management/logAnalytics.bicep:37-65 |
 | **Confidence**   | 0.87                                    |
 
 ### 5.6 Business Functions Specifications
@@ -810,7 +786,6 @@ structure the DevExp-DevBox platform resources.
 | **Resource Group** | `devexp-security-{env}-{location}-RG`                           |
 | **Tags**           | environment=dev, division=Platforms, team=DevExP, costCenter=IT |
 | **Maturity**       | 4 - Measured                                                    |
-| **Source**         | infra/settings/resourceOrganization/azureResources.yaml:35-49   |
 | **Confidence**     | 0.93                                                            |
 
 #### 5.6.2 Monitoring Landing Zone
@@ -822,7 +797,6 @@ structure the DevExp-DevBox platform resources.
 | **Responsibility** | Log Analytics, diagnostics, observability resources           |
 | **Resource Group** | `devexp-monitoring-{env}-{location}-RG`                       |
 | **Maturity**       | 3 - Defined                                                   |
-| **Source**         | infra/settings/resourceOrganization/azureResources.yaml:51-65 |
 | **Confidence**     | 0.90                                                          |
 
 #### 5.6.3 Workload Landing Zone
@@ -834,7 +808,6 @@ structure the DevExp-DevBox platform resources.
 | **Responsibility** | Dev Center, projects, pools, catalogs, environment types      |
 | **Resource Group** | `devexp-workload-{env}-{location}-RG`                         |
 | **Maturity**       | 4 - Measured                                                  |
-| **Source**         | infra/settings/resourceOrganization/azureResources.yaml:16-30 |
 | **Confidence**     | 0.93                                                          |
 
 ### 5.7 Business Roles & Actors Specifications
@@ -852,7 +825,6 @@ DevExp-DevBox platform RBAC model.
 | **RBAC Roles**     | DevCenter Project Admin (331c37c6) at ResourceGroup scope            |
 | **Responsibility** | Manage Dev Box deployments, configure project settings               |
 | **Maturity**       | 4 - Measured                                                         |
-| **Source**         | infra/settings/workload/devcenter.yaml:53-63                         |
 | **Confidence**     | 0.95                                                                 |
 
 #### 5.7.2 eShop Developers Role
@@ -865,7 +837,6 @@ DevExp-DevBox platform RBAC model.
 | **RBAC Roles**     | Contributor (Project), Dev Box User (Project), Deployment Environment User (Project), Key Vault Secrets User (ResourceGroup), Key Vault Secrets Officer (ResourceGroup) |
 | **Responsibility** | Access Dev Boxes, deploy environments, manage project secrets                                                                                                           |
 | **Maturity**       | 4 - Measured                                                                                                                                                            |
-| **Source**         | infra/settings/workload/devcenter.yaml:118-137                                                                                                                          |
 | **Confidence**     | 0.94                                                                                                                                                                    |
 
 #### 5.7.3 Dev Center System Identity
@@ -877,7 +848,6 @@ DevExp-DevBox platform RBAC model.
 | **RBAC Roles**     | Contributor (Subscription), User Access Administrator (Subscription), Key Vault Secrets User (ResourceGroup), Key Vault Secrets Officer (ResourceGroup) |
 | **Responsibility** | Automated resource provisioning and secret retrieval                                                                                                    |
 | **Maturity**       | 4 - Measured                                                                                                                                            |
-| **Source**         | infra/settings/workload/devcenter.yaml:35-51                                                                                                            |
 | **Confidence**     | 0.92                                                                                                                                                    |
 
 #### 5.7.4 Target Stakeholder Personas
@@ -889,7 +859,6 @@ DevExp-DevBox platform RBAC model.
 | **Personas**       | Developer, Platform Engineer, Security/Compliance, IT Admin, Product/Program Team |
 | **Responsibility** | Consume platform services, provide requirements, validate outcomes                |
 | **Maturity**       | 2 - Repeatable                                                                    |
-| **Source**         | .github/pull_request_template.md:15-22                                            |
 | **Confidence**     | 0.80                                                                              |
 
 ### 5.8 Business Rules Specifications
@@ -905,7 +874,6 @@ DevExp-DevBox platform operations.
 | **Rule Type**     | Declarative Configuration                        |
 | **Enforcement**   | JSON Schema validation + Bicep parameter binding |
 | **Maturity**      | 4 - Measured                                     |
-| **Source**        | infra/settings/security/security.yaml:24-28      |
 | **Confidence**    | 0.95                                             |
 
 **Rules**:
@@ -924,7 +892,6 @@ DevExp-DevBox platform operations.
 | **Rule Type**     | Tag Taxonomy + Schema Validation                                      |
 | **Enforcement**   | JSON Schema with regex patterns and enums                             |
 | **Maturity**      | 4 - Measured                                                          |
-| **Source**        | infra/settings/resourceOrganization/azureResources.schema.json:57-140 |
 | **Confidence**    | 0.93                                                                  |
 
 **Rules**:
@@ -945,7 +912,6 @@ DevExp-DevBox platform operations.
 | **Rule Type**     | Process Governance          |
 | **Enforcement**   | PR template + manual review |
 | **Maturity**      | 3 - Defined                 |
-| **Source**        | CONTRIBUTING.md:50-69       |
 | **Confidence**    | 0.87                        |
 
 **Rules**:
@@ -963,7 +929,6 @@ DevExp-DevBox platform operations.
 | **Rule Type**     | Development Governance         |
 | **Enforcement**   | PR review + Definition of Done |
 | **Maturity**      | 3 - Defined                    |
-| **Source**        | CONTRIBUTING.md:73-100         |
 | **Confidence**    | 0.88                           |
 
 **Rules**:
@@ -988,7 +953,6 @@ the Business layer.
 | **Trigger**    | Setup script execution                                                       |
 | **Response**   | Validate Azure CLI, AZD, and source control authentication before proceeding |
 | **Maturity**   | 3 - Defined                                                                  |
-| **Source**     | setUp.ps1:172-310                                                            |
 | **Confidence** | 0.85                                                                         |
 
 ### 5.10 Business Objects/Entities Specifications
@@ -1004,7 +968,6 @@ DevExp-DevBox platform domain model.
 | **Entity Type** | Dev Center Project                                              |
 | **Description** | Core business entity representing a developer project workspace |
 | **Maturity**    | 4 - Measured                                                    |
-| **Source**      | infra/settings/workload/devcenter.yaml:93-188                   |
 | **Confidence**  | 0.95                                                            |
 
 **Attributes**:
@@ -1031,7 +994,6 @@ the DevExp-DevBox governance model.
 | **KPI Type**           | Multi-Level Quality Gate                 |
 | **Measurement Method** | Checklist validation per work item level |
 | **Maturity**           | 3 - Defined                              |
-| **Source**             | CONTRIBUTING.md:114-145                  |
 | **Confidence**         | 0.88                                     |
 
 **Quality Criteria by Level**:
@@ -1083,13 +1045,13 @@ Vault to Dev Center catalogs.
 
 ### Capability-to-Process Mappings
 
-| Capability                | Enabling Processes                             | Source                            |
-| ------------------------- | ---------------------------------------------- | --------------------------------- |
-| Dev Center Provisioning   | Infrastructure Deployment, Setup Orchestration | infra/main.bicep:136-153          |
-| Project Management        | Infrastructure Deployment (project loop)       | src/workload/workload.bicep:47-70 |
-| Security & Key Vault      | Infrastructure Deployment (security module)    | infra/main.bicep:119-134          |
-| YAML-Driven Configuration | Setup Orchestration (YAML load)                | infra/main.bicep:34-35            |
-| Cross-Platform Automation | Setup Orchestration, Cleanup Orchestration     | setUp.ps1:_, cleanSetUp.ps1:_     |
+| Capability                | Enabling Processes                             |
+| ------------------------- | ---------------------------------------------- |
+| Dev Center Provisioning   | Infrastructure Deployment, Setup Orchestration |
+| Project Management        | Infrastructure Deployment (project loop)       |
+| Security & Key Vault      | Infrastructure Deployment (security module)    |
+| YAML-Driven Configuration | Setup Orchestration (YAML load)                |
+| Cross-Platform Automation | Setup Orchestration, Cleanup Orchestration     |
 
 ### Service Dependencies
 
