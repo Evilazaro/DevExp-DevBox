@@ -137,7 +137,7 @@ flowchart TD
         S3["🔐 Managed Identities"]
         S4["📋 Schema Validation"]
     end
-    style SECURITY fill:#FDE7E9,stroke:#A80000,color:#323130
+    style SECURITY fill:#FDE7E9,stroke:#E81123,color:#323130
 
     subgraph MONITORING["📊 Monitoring Domain (14 components)"]
         M1["📊 Log Analytics"]
@@ -231,13 +231,13 @@ flowchart LR
         H2["🔐 Managed Identities"]
         H3["🛡️ RBAC Assignments"]
     end
-    style HOT fill:#FDE7E9,stroke:#A80000,color:#323130
+    style HOT fill:#FDE7E9,stroke:#E81123,color:#323130
 
     subgraph WARM["📊 Warm Tier (Near Real-time)"]
         W1["📊 Log Analytics Workspace"]
         W2["📈 Diagnostic Logs"]
     end
-    style WARM fill:#FFF4CE,stroke:#797673,color:#323130
+    style WARM fill:#FFF4CE,stroke:#8A8886,color:#323130
 
     subgraph CONFIG["📄 Config Tier (Deploy-time)"]
         C1["📄 YAML Config Files (3)"]
@@ -327,7 +327,7 @@ flowchart TD
             KV["🔒 Key Vault"]
             SC["🔑 gha-token Secret"]
         end
-        style SRG fill:#FDE7E9,stroke:#A80000,color:#323130
+        style SRG fill:#FDE7E9,stroke:#E81123,color:#323130
 
         subgraph MRG["📊 Monitoring Resource Group"]
             LA["📊 Log Analytics"]
@@ -515,7 +515,7 @@ flowchart TD
         C4["📋 RBAC Role Mappings"]
         C5["🔒 Managed Identity Principals"]
     end
-    style CONF fill:#FDE7E9,stroke:#A80000,color:#323130
+    style CONF fill:#FDE7E9,stroke:#E81123,color:#323130
 
     subgraph INT["🟡 Internal (52 assets)"]
         I1["📄 Resource Group Names"]
@@ -524,7 +524,7 @@ flowchart TD
         I4["🏷️ Tag Taxonomies"]
         I5["⚙️ Bicep Type Definitions"]
     end
-    style INT fill:#FFF4CE,stroke:#797673,color:#323130
+    style INT fill:#FFF4CE,stroke:#8A8886,color:#323130
 
     subgraph PUB["🟢 Public (10 assets)"]
         P1["📋 Azure RBAC Role GUIDs"]
@@ -621,7 +621,7 @@ flowchart TD
         KV["🔒 Key Vault"]
         SEC["🔑 Secret Store"]
     end
-    style SECURITY fill:#FDE7E9,stroke:#A80000,color:#323130
+    style SECURITY fill:#FDE7E9,stroke:#E81123,color:#323130
 
     subgraph MONITORING["📊 Monitoring Zone"]
         LA["📊 Log Analytics"]
@@ -730,7 +730,7 @@ flowchart LR
     subgraph L2["⚠️ Level 2 - Managed"]
         MN["📊 Monitoring"]
     end
-    style L2 fill:#FFF4CE,stroke:#797673,color:#323130
+    style L2 fill:#FFF4CE,stroke:#8A8886,color:#323130
 
     MN -->|"Add quality dashboards"| CM
     CM -->|"Add contract testing"| SM
@@ -925,7 +925,7 @@ flowchart LR
         T3["⚙️ ProjectNetwork (18 lines)"]
         T4["⚙️ PoolConfig (9 lines)"]
     end
-    style TYPES fill:#FFF4CE,stroke:#797673,color:#323130
+    style TYPES fill:#FFF4CE,stroke:#8A8886,color:#323130
 
     subgraph DEPLOY["☁️ Azure Deployment"]
         D1["☁️ ARM Resource Creation"]
@@ -1047,7 +1047,7 @@ flowchart LR
     subgraph CICD["🔐 CI/CD Environment"]
         ENV["🔐 KEY_VAULT_SECRET"]
     end
-    style CICD fill:#FDE7E9,stroke:#A80000,color:#323130
+    style CICD fill:#E7E2FA,stroke:#605E5C,color:#323130
 
     subgraph PARAMS["📄 Parameter Binding"]
         PJ["📄 main.parameters.json"]
@@ -1059,7 +1059,7 @@ flowchart LR
         KV["🔒 Azure Key Vault"]
         SC["🔑 gha-token Secret"]
     end
-    style VAULT fill:#FDE7E9,stroke:#A80000,color:#323130
+    style VAULT fill:#FDE7E9,stroke:#E81123,color:#323130
 
     subgraph CONSUMERS["📦 Private Catalogs"]
         C1["📦 environments (Evilazaro/eShop)"]
@@ -1129,7 +1129,7 @@ flowchart LR
         S3["📋 devcenter.schema.json"]
         P1["📋 main.parameters.json"]
     end
-    style VALIDATION fill:#F3F2F1,stroke:#D2D0CE,color:#323130
+    style VALIDATION fill:#C8F0E7,stroke:#0078D4,color:#323130
 
     subgraph ORCHESTRATOR["⚙️ Bicep Orchestrator"]
         MB["⚙️ infra/main.bicep"]
@@ -1141,7 +1141,7 @@ flowchart LR
         T2["🔄 KV Name Uniquification"]
         T3["🔄 LA Name Truncation"]
     end
-    style TRANSFORMS fill:#FFF4CE,stroke:#797673,color:#323130
+    style TRANSFORMS fill:#FFF4CE,stroke:#8A8886,color:#323130
 
     subgraph RESOURCES["☁️ Azure Resources"]
         RG["📁 Resource Groups x3"]
