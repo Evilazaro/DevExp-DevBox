@@ -11,7 +11,7 @@ A production-ready **Infrastructure as Code accelerator** for deploying
 environments using Azure Bicep, the Azure Developer CLI (`azd`), and automated
 setup scripts.
 
-**Overview**
+Overview
 
 DevExp-DevBox eliminates the manual, error-prone process of provisioning
 enterprise-grade developer workstation platforms on Azure. It codifies Microsoft
@@ -36,7 +36,7 @@ Centers, projects, pools, catalogs, and environment types in a single command.
 
 ## 🏗️ Architecture
 
-**Overview**
+Overview
 
 DevExp-DevBox follows **Azure Landing Zone principles** to segregate resources
 by function across three resource groups (Security, Monitoring, Workload) and
@@ -168,7 +168,7 @@ flowchart TB
 
 ## 🚀 Quick Start
 
-**Overview**
+Overview
 
 Get a fully provisioned Dev Box environment running in under 45 minutes. This
 guide walks through cloning the repository, authenticating with Azure and
@@ -182,7 +182,7 @@ cd DevExp-DevBox
 .\setUp.ps1 -EnvName "dev" -SourceControl "github"
 ```
 
-**Expected output:**
+Expected output:
 
 ```text
 ✅ [2026-02-26 10:00:00] All required tools are available
@@ -200,14 +200,14 @@ chmod +x setUp.sh
 ./setUp.sh -e "dev" -s "github"
 ```
 
-> ⚠️ **Important**: You must be authenticated with both Azure CLI (`az login`)
-> and GitHub CLI (`gh auth login`) before running the setup scripts. The scripts
-> validate authentication status and exit with actionable error messages if
-> credentials are missing.
+> ⚠️ **Important**: You **must be authenticated** with both Azure CLI
+> (`az login`) and GitHub CLI (`gh auth login`) before running the setup
+> scripts. The scripts validate authentication status and exit with actionable
+> error messages if credentials are missing.
 
 ## 📦 Deployment
 
-**Overview**
+Overview
 
 DevExp-DevBox supports two deployment workflows: **automated provisioning** via
 setup scripts that handle authentication, environment configuration, and
@@ -284,7 +284,7 @@ service principals, GitHub secrets, and Azure resource groups.
 
 ## 💻 Usage
 
-**Overview**
+Overview
 
 After deployment, platform engineers configure Dev Box environments through YAML
 settings files, while developers access their Dev Boxes through the Azure portal
@@ -355,7 +355,7 @@ keyVault:
 
 ## ✨ Features
 
-**Overview**
+Overview
 
 DevExp-DevBox provides a comprehensive set of capabilities organized across
 infrastructure provisioning, security, identity management, networking, and
@@ -390,7 +390,7 @@ Bicep templates.
 
 ## 📋 Requirements
 
-**Overview**
+Overview
 
 Organizations deploying DevExp-DevBox need five categories of prerequisites
 spanning Azure permissions, CLI tooling, and development environments. This
@@ -439,7 +439,7 @@ The accelerator supports deployment to the following regions, as defined in
 
 ## ⚙️ Configuration
 
-**Overview**
+Overview
 
 DevExp-DevBox uses a layered YAML configuration system with JSON Schema
 validation, organized into three domains: resource organization, security, and
@@ -508,7 +508,7 @@ pools:
 
 ## 📁 Project Structure
 
-**Overview**
+Overview
 
 The repository follows a **domain-driven organization** aligned with Azure
 Landing Zone principles. Infrastructure templates are separated by functional
@@ -549,12 +549,12 @@ DevExp-DevBox/
 
 ## 🤝 Contributing
 
-**Overview**
+Overview
 
 DevExp-DevBox follows a product-oriented delivery model with Epics, Features,
-and Tasks tracked through GitHub Issues. Contributions must follow the branching
-conventions, engineering standards for Bicep and PowerShell, and validation
-requirements defined in the project's contributing guide.
+and Tasks tracked through GitHub Issues. Contributions **must follow** the
+branching conventions, engineering standards for Bicep and PowerShell, and
+validation requirements defined in the project's contributing guide.
 
 > 💡 **Tip**: Review [CONTRIBUTING.md](CONTRIBUTING.md) for the complete guide
 > including issue templates, label requirements, PR workflows, and the
@@ -568,19 +568,19 @@ requirements defined in the project's contributing guide.
    - `docs/<short-name>` for documentation updates
 
 2. **Follow engineering standards**:
-   - Bicep modules must be parameterized, idempotent, and reusable across
+   - Bicep modules **must be parameterized, idempotent, and reusable** across
      environments
-   - PowerShell scripts must be PowerShell 7+ compatible with clear error
+   - PowerShell scripts **must be PowerShell 7+ compatible** with clear error
      handling
-   - All modules and scripts must include purpose, inputs/outputs, and example
-     usage
+   - All modules and scripts **must include** purpose, inputs/outputs, and
+     example usage
 
 3. **Submit a PR** referencing the issue it closes (e.g., `Closes #123`) with a
    summary of changes, test/validation evidence, and documentation updates
 
 ### Required Labels
 
-Every issue must have labels for **Type** (`type:epic`, `type:feature`,
+Every issue **must have labels** for **Type** (`type:epic`, `type:feature`,
 `type:task`), **Area** (e.g., `area:dev-box`, `area:identity-access`),
 **Priority** (`priority:p0`-`priority:p2`), and **Status** (`status:triage` →
 `status:done`).
