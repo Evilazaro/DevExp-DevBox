@@ -189,6 +189,8 @@ flowchart TB
 
 The Architecture Landscape inventory identifies **38 components** distributed across all 11 TOGAF Business Architecture types. Business Capabilities (9) and Business Processes (7) represent the largest component categories, reflecting the platform's emphasis on capability-driven automation and well-defined operational workflows. The average confidence of 0.87 across all components indicates strong traceability to source artifacts. Maturity levels cluster at Level 3 (Defined) and Level 4 (Measured), demonstrating a standardized platform with quantitative governance through JSON Schema validation and RBAC enforcement.
 
+Gaps identified include limited Business Events (1 component) and Business Objects (1 component), suggesting opportunities to formalize event-driven triggers such as drift detection and compliance alerts. The KPIs & Metrics category (1 component) should be expanded with quantitative SLA targets and provisioning latency metrics to support progression toward Level 5 (Optimized) maturity.
+
 ---
 
 ## 3. Architecture Principles
@@ -290,6 +292,8 @@ flowchart TB
 ### Summary
 
 The current state baseline reveals a platform operating at an average maturity of **3.4** across 9 capabilities. Four capabilities (Dev Center Provisioning, Project Management, YAML-Driven Configuration, Security & Key Vault) achieve Level 4 (Measured) with quantitative governance through JSON Schema validation and programmatic RBAC enforcement. Five capabilities at Level 3 (Defined) have standardized documentation and processes but lack the automated metrics and continuous improvement feedback loops required for Level 5 (Optimized).
+
+Key gaps to address for maturity advancement include: implementing automated drift detection for Network Connectivity and Multi-Environment Support, establishing real-time monitoring dashboards for Centralized Monitoring, and adding automated catalog health checks for Source Control Integration. Addressing these gaps would raise the average maturity from 3.4 to an estimated 4.0.
 
 ---
 
@@ -947,7 +951,9 @@ This subsection documents the performance measurement framework identified in th
 
 ### Summary
 
-The Component Catalog documents **38 components** across all 11 Business component types. Dev Center Provisioning, YAML-Driven Configuration, Security & Key Vault, and Project Management demonstrate the highest maturity at Level 4 (Measured), with quantitative governance through JSON Schema validation and programmatic RBAC enforcement. The Setup Orchestration and Infrastructure Deployment processes also achieve Level 4 through dependency-ordered automation with validation gates. Areas for enhancement include formalizing KPI metrics beyond binary pass/fail (currently only 1 KPI component), expanding business events to include automated triggers (e.g., drift detection, compliance alerts), and documenting additional business objects for catalog and environment type entities.
+The Component Catalog documents **38 components** across all 11 Business component types. Dev Center Provisioning, YAML-Driven Configuration, Security & Key Vault, and Project Management demonstrate the highest maturity at Level 4 (Measured), with quantitative governance through JSON Schema validation and programmatic RBAC enforcement. The Setup Orchestration and Infrastructure Deployment processes also achieve Level 4 through dependency-ordered automation with validation gates.
+
+Areas for enhancement include formalizing KPI metrics beyond binary pass/fail (currently only 1 KPI component), expanding business events to include automated triggers (e.g., drift detection, compliance alerts), and documenting additional business objects for catalog and environment type entities. Cross-layer integration with the Application and Technology layers should be prioritized to trace business capabilities through to their technical implementations.
 
 ---
 
@@ -1190,7 +1196,9 @@ flowchart LR
 
 ### Summary
 
-The DevExp-DevBox platform exhibits a well-structured dependency model with a clear deployment chain: Monitoring → Security → Workload. All three landing zones are driven by declarative YAML configuration, creating a single source of truth for platform state. Cross-cutting concerns (RBAC, tagging, diagnostic logging) are consistently applied across all landing zones through shared Bicep modules and tag inheritance patterns. The primary integration risk is the GitHub/ADO source control token flow, which spans CLI authentication → Key Vault secret → Dev Center catalog sync.
+The DevExp-DevBox platform exhibits a well-structured dependency model with a clear deployment chain: Monitoring → Security → Workload. All three landing zones are driven by declarative YAML configuration, creating a single source of truth for platform state. Cross-cutting concerns (RBAC, tagging, diagnostic logging) are consistently applied across all landing zones through shared Bicep modules and tag inheritance patterns.
+
+The primary integration risk is the GitHub/ADO source control token flow, which spans CLI authentication → Key Vault secret → Dev Center catalog sync. Recommended mitigations include implementing token rotation policies, adding health-check monitoring for catalog sync status, and establishing fallback procedures for source control platform unavailability.
 
 ---
 
