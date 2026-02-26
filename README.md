@@ -38,10 +38,10 @@ Centers, projects, pools, catalogs, and environment types in a single command.
 
 **Overview**
 
-DevExp-DevBox follows Azure Landing Zone principles to segregate resources by
-function across three resource groups (Security, Monitoring, Workload) and uses
-modular Bicep templates organized into five infrastructure domains: workload,
-security, identity, connectivity, and management.
+DevExp-DevBox follows **Azure Landing Zone principles** to segregate resources
+by function across three resource groups (Security, Monitoring, Workload) and
+uses modular Bicep templates organized into **five infrastructure domains**:
+workload, security, identity, connectivity, and management.
 
 > 💡 **Why This Matters**: Separating infrastructure into distinct resource
 > groups and Bicep module domains enables independent lifecycle management,
@@ -52,7 +52,7 @@ security, identity, connectivity, and management.
 > three resource groups and delegates to domain-specific modules. YAML
 > configuration files drive resource naming, tagging, and topology without
 > requiring Bicep template changes. The identity module manages RBAC role
-> assignments using system-assigned managed identities with least-privilege
+> assignments using system-assigned managed identities with **least-privilege**
 > principles.
 
 ```mermaid
@@ -288,8 +288,9 @@ service principals, GitHub secrets, and Azure resource groups.
 
 After deployment, platform engineers configure Dev Box environments through YAML
 settings files, while developers access their Dev Boxes through the Azure portal
-or Developer Portal. The configuration-as-code model enables version-controlled
-changes to Dev Center topology, project definitions, and pool configurations.
+or Developer Portal. The **configuration-as-code** model enables
+version-controlled changes to Dev Center topology, project definitions, and pool
+configurations.
 
 ### Managing Dev Center Configuration
 
@@ -509,9 +510,9 @@ pools:
 
 **Overview**
 
-The repository follows a domain-driven organization aligned with Azure Landing
-Zone principles. Infrastructure templates are separated by functional area
-(security, identity, connectivity, management, workload), configuration is
+The repository follows a **domain-driven organization** aligned with Azure
+Landing Zone principles. Infrastructure templates are separated by functional
+area (security, identity, connectivity, management, workload), configuration is
 externalized to YAML files, and automation scripts provide cross-platform
 deployment support.
 
