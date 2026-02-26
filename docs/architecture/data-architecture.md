@@ -1,6 +1,6 @@
 # Data Architecture - DevExp-DevBox
 
-## Section 1: Executive Summary
+## 1. Executive Summary
 
 ### Overview
 
@@ -37,7 +37,7 @@ with monitoring dashboards.
 
 ---
 
-## Section 2: Architecture Landscape
+## 2. Architecture Landscape
 
 ### Overview
 
@@ -402,7 +402,7 @@ Azure RBAC and Key Vault native APIs.
 
 ---
 
-## Section 3: Architecture Principles
+## 3. Architecture Principles
 
 ### Overview
 
@@ -523,7 +523,7 @@ flowchart TD
 
 ---
 
-## Section 4: Current State Baseline
+## 4. Current State Baseline
 
 ### Overview
 
@@ -764,7 +764,7 @@ Azure Key Vault rotation policies.
 
 ---
 
-## Section 5: Component Catalog
+## 5. Component Catalog
 
 ### Overview
 
@@ -988,7 +988,7 @@ and Bicep consumers to support impact analysis during configuration changes.
 
 ---
 
-## Section 8: Dependencies & Integration
+## 6. Dependencies & Integration
 
 ### Overview
 

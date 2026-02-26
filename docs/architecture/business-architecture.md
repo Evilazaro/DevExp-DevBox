@@ -1030,7 +1030,7 @@ trace business capabilities through to their technical implementations.
 
 ---
 
-## 8. Dependencies & Integration
+## 6. Dependencies & Integration
 
 ### Overview
 
