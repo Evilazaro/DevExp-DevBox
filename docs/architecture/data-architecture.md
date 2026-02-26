@@ -193,29 +193,33 @@ flowchart LR
     accDescr: Distribution of data assets across storage tiers from hot operational to cold configuration
 
     subgraph HOT["🔥 Hot Tier (Real-time Access)"]
-        H1["🔒 Key Vault Secrets"]
-        H2["🔐 Managed Identities"]
-        H3["🛡️ RBAC Assignments"]
+        H1["🔒 Key Vault Secrets"]:::danger
+        H2["🔐 Managed Identities"]:::danger
+        H3["🛡️ RBAC Assignments"]:::danger
     end
     style HOT fill:#FDE7E9,stroke:#E81123,color:#323130
 
     subgraph WARM["📊 Warm Tier (Near Real-time)"]
-        W1["📊 Log Analytics Workspace"]
-        W2["📈 Diagnostic Logs"]
+        W1["📊 Log Analytics Workspace"]:::warning
+        W2["📈 Diagnostic Logs"]:::warning
     end
-    style WARM fill:#FFF4CE,stroke:#8A8886,color:#323130
+    style WARM fill:#FFF4CE,stroke:#FFB900,color:#323130
 
     subgraph CONFIG["📄 Config Tier (Deploy-time)"]
-        C1["📄 YAML Config Files (3)"]
-        C2["📋 JSON Schemas (3)"]
-        C3["⚙️ Bicep Types (18)"]
-        C4["📄 Parameters (JSON)"]
+        C1["📄 YAML Config Files (3)"]:::neutral
+        C2["📋 JSON Schemas (3)"]:::neutral
+        C3["⚙️ Bicep Types (18)"]:::neutral
+        C4["📄 Parameters (JSON)"]:::neutral
     end
     style CONFIG fill:#F3F2F1,stroke:#D2D0CE,color:#323130
 
     CONFIG -->|"loadYamlContent"| HOT
     CONFIG -->|"deploy-time params"| WARM
     HOT -->|"audit logs"| WARM
+
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ### 2.4 Data Flows
