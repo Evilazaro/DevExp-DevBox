@@ -1122,42 +1122,42 @@ flowchart LR
     accDescr: Shows end-to-end data flow from YAML configs and environment variables through Bicep orchestrator to Azure resource deployment
 
     subgraph SOURCES["📄 Configuration Sources"]
-        E1["🔐 KEY_VAULT_SECRET env"]
-        E2["🌍 AZURE_LOCATION env"]
-        E3["📛 AZURE_ENV_NAME env"]
-        Y1["📄 azureResources.yaml"]
-        Y2["📄 security.yaml"]
-        Y3["📄 devcenter.yaml"]
+        E1["🔐 KEY_VAULT_SECRET env"]:::neutral
+        E2["🌍 AZURE_LOCATION env"]:::neutral
+        E3["📛 AZURE_ENV_NAME env"]:::neutral
+        Y1["📄 azureResources.yaml"]:::neutral
+        Y2["📄 security.yaml"]:::neutral
+        Y3["📄 devcenter.yaml"]:::neutral
     end
     style SOURCES fill:#F3F2F1,stroke:#D2D0CE,color:#323130
 
     subgraph VALIDATION["📋 Validation Layer"]
-        S1["📋 azureResources.schema.json"]
-        S2["📋 security.schema.json"]
-        S3["📋 devcenter.schema.json"]
-        P1["📋 main.parameters.json"]
+        S1["📋 azureResources.schema.json"]:::teal
+        S2["📋 security.schema.json"]:::teal
+        S3["📋 devcenter.schema.json"]:::teal
+        P1["📋 main.parameters.json"]:::teal
     end
-    style VALIDATION fill:#C8F0E7,stroke:#0078D4,color:#323130
+    style VALIDATION fill:#C8F0E7,stroke:#038387,color:#323130
 
     subgraph ORCHESTRATOR["⚙️ Bicep Orchestrator"]
-        MB["⚙️ infra/main.bicep"]
+        MB["⚙️ infra/main.bicep"]:::data
     end
-    style ORCHESTRATOR fill:#E1DFDD,stroke:#A19F9D,color:#323130
+    style ORCHESTRATOR fill:#E1DFDD,stroke:#8378DE,color:#323130
 
     subgraph TRANSFORMS["🔄 Transformations"]
-        T1["🔄 RG Name Construction"]
-        T2["🔄 KV Name Uniquification"]
-        T3["🔄 LA Name Truncation"]
+        T1["🔄 RG Name Construction"]:::warning
+        T2["🔄 KV Name Uniquification"]:::warning
+        T3["🔄 LA Name Truncation"]:::warning
     end
-    style TRANSFORMS fill:#FFF4CE,stroke:#8A8886,color:#323130
+    style TRANSFORMS fill:#FFF4CE,stroke:#FFB900,color:#323130
 
     subgraph RESOURCES["☁️ Azure Resources"]
-        RG["📁 Resource Groups x3"]
-        KV["🔒 Key Vault + Secret"]
-        LA["📊 Log Analytics"]
-        DC["🖥️ DevCenter"]
-        PR["📁 Project + Pools"]
-        NET["🌐 VNet + Connection"]
+        RG["📁 Resource Groups x3"]:::core
+        KV["🔒 Key Vault + Secret"]:::core
+        LA["📊 Log Analytics"]:::core
+        DC["🖥️ DevCenter"]:::core
+        PR["📁 Project + Pools"]:::core
+        NET["🌐 VNet + Connection"]:::core
     end
     style RESOURCES fill:#DEECF9,stroke:#0078D4,color:#323130
 
@@ -1190,6 +1190,12 @@ flowchart LR
     LA -->|"workspaceId"| DC
     LA -->|"workspaceId"| NET
     NET -->|"connectionName"| PR
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef teal fill:#C8F0E7,stroke:#038387,stroke-width:2px,color:#005B70
+    classDef data fill:#E1DFDD,stroke:#8378DE,stroke-width:2px,color:#5B5FC7
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
 ```
 
 ### Summary
