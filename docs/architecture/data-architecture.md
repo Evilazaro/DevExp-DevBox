@@ -904,29 +904,29 @@ flowchart LR
     accDescr: Shows the three-layer validation contract between JSON Schema, YAML configuration, and Bicep type definitions
 
     subgraph SCHEMA["📋 JSON Schema Layer"]
-        S1["📋 security.schema.json"]
-        S2["📋 azureResources.schema.json"]
-        S3["📋 devcenter.schema.json (661 lines)"]
+        S1["📋 security.schema.json"]:::core
+        S2["📋 azureResources.schema.json"]:::core
+        S3["📋 devcenter.schema.json (661 lines)"]:::core
     end
     style SCHEMA fill:#DEECF9,stroke:#0078D4,color:#323130
 
     subgraph CONFIG["📄 YAML Config Layer"]
-        C1["📄 security.yaml"]
-        C2["📄 azureResources.yaml"]
-        C3["📄 devcenter.yaml"]
+        C1["📄 security.yaml"]:::neutral
+        C2["📄 azureResources.yaml"]:::neutral
+        C3["📄 devcenter.yaml"]:::neutral
     end
     style CONFIG fill:#F3F2F1,stroke:#D2D0CE,color:#323130
 
     subgraph TYPES["⚙️ Bicep Type Layer"]
-        T1["⚙️ KeyVaultConfig (16 lines)"]
-        T2["⚙️ DevCenterConfig (20 lines)"]
-        T3["⚙️ ProjectNetwork (18 lines)"]
-        T4["⚙️ PoolConfig (9 lines)"]
+        T1["⚙️ KeyVaultConfig (16 lines)"]:::warning
+        T2["⚙️ DevCenterConfig (20 lines)"]:::warning
+        T3["⚙️ ProjectNetwork (18 lines)"]:::warning
+        T4["⚙️ PoolConfig (9 lines)"]:::warning
     end
-    style TYPES fill:#FFF4CE,stroke:#8A8886,color:#323130
+    style TYPES fill:#FFF4CE,stroke:#FFB900,color:#323130
 
     subgraph DEPLOY["☁️ Azure Deployment"]
-        D1["☁️ ARM Resource Creation"]
+        D1["☁️ ARM Resource Creation"]:::success
     end
     style DEPLOY fill:#DFF6DD,stroke:#107C10,color:#323130
 
@@ -942,6 +942,11 @@ flowchart LR
     T2 -->|"compile-time check"| D1
     T3 -->|"compile-time check"| D1
     T4 -->|"compile-time check"| D1
+
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
 ```
 
 ### 5.11 Data Security
@@ -1043,25 +1048,25 @@ flowchart LR
     accDescr: End-to-end flow of the GitHub access token from CI/CD environment through Key Vault to private catalog authentication
 
     subgraph CICD["🔐 CI/CD Environment"]
-        ENV["🔐 KEY_VAULT_SECRET"]
+        ENV["🔐 KEY_VAULT_SECRET"]:::data
     end
-    style CICD fill:#E7E2FA,stroke:#605E5C,color:#323130
+    style CICD fill:#E7E2FA,stroke:#8378DE,color:#323130
 
     subgraph PARAMS["📄 Parameter Binding"]
-        PJ["📄 main.parameters.json"]
-        MB["⚙️ infra/main.bicep (@secure)"]
+        PJ["📄 main.parameters.json"]:::neutral
+        MB["⚙️ infra/main.bicep (@secure)"]:::neutral
     end
     style PARAMS fill:#F3F2F1,stroke:#D2D0CE,color:#323130
 
     subgraph VAULT["🔒 Key Vault"]
-        KV["🔒 Azure Key Vault"]
-        SC["🔑 gha-token Secret"]
+        KV["🔒 Azure Key Vault"]:::danger
+        SC["🔑 gha-token Secret"]:::danger
     end
     style VAULT fill:#FDE7E9,stroke:#E81123,color:#323130
 
     subgraph CONSUMERS["📦 Private Catalogs"]
-        C1["📦 environments (Evilazaro/eShop)"]
-        C2["📦 devboxImages (Evilazaro/eShop)"]
+        C1["📦 environments (Evilazaro/eShop)"]:::core
+        C2["📦 devboxImages (Evilazaro/eShop)"]:::core
     end
     style CONSUMERS fill:#DEECF9,stroke:#0078D4,color:#323130
 
@@ -1072,6 +1077,11 @@ flowchart LR
     SC -->|"secretIdentifier URI"| C1
     SC -->|"secretIdentifier URI"| C2
     MB -.->|"Managed Identity"| KV
+
+    classDef data fill:#E7E2FA,stroke:#8378DE,stroke-width:2px,color:#5B5FC7
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
 ```
 
 ### Producer-Consumer Relationships
