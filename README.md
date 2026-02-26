@@ -373,20 +373,20 @@ Bicep templates.
 > is externalized to YAML files with JSON Schema validation, enabling changes
 > without modifying infrastructure code.
 
-| Feature                          | Description                                                                                                           | Source                                    |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| 🖥️ **Dev Center Provisioning**   | Deploys Azure Dev Center with catalog sync, Microsoft-hosted networking, and Azure Monitor agent                      | `src/workload/core/devCenter.bicep`       |
-| 📂 **Multi-Project Support**     | Creates isolated projects with team-specific pools, catalogs, and environment types                                   | `src/workload/project/project.bicep`      |
-| 💻 **Dev Box Pools**             | Configures role-specific Dev Box pools with custom VM SKUs and image definitions                                      | `src/workload/project/projectPool.bicep`  |
-| 📋 **Catalog Integration**       | Syncs Dev Box image definitions and environment templates from GitHub or Azure DevOps repositories                    | `src/workload/core/catalog.bicep`         |
-| 🌍 **Environment Types**         | Defines lifecycle stages (dev, staging, UAT) with optional deployment target subscriptions                            | `src/workload/core/environmentType.bicep` |
-| 🔐 **Key Vault Security**        | Provisions Azure Key Vault with purge protection, soft delete, RBAC authorization, and secret management              | `src/security/keyVault.bicep`             |
-| 🔒 **RBAC Management**           | Assigns least-privilege roles (Contributor, User Access Admin, Key Vault Secrets User/Officer) via managed identities | `src/identity/`                           |
-| 🔗 **Network Connectivity**      | Creates VNets, subnets, and Dev Center network connections for managed or unmanaged virtual network topologies        | `src/connectivity/connectivity.bicep`     |
-| 📈 **Centralized Monitoring**    | Deploys Log Analytics workspace with diagnostic settings forwarding logs and metrics from Dev Center and Key Vault    | `src/management/logAnalytics.bicep`       |
-| ⚙️ **YAML-Driven Configuration** | Externalizes all settings (resources, security, workload topology) to validated YAML files with JSON Schema           | `infra/settings/`                         |
-| 🛠️ **Cross-Platform Automation** | PowerShell and Bash setup scripts with authentication validation, token management, and interactive prompts           | `setUp.ps1`, `setUp.sh`                   |
-| 🧹 **Infrastructure Cleanup**    | Comprehensive teardown script removing deployments, role assignments, service principals, and GitHub secrets          | `cleanSetUp.ps1`                          |
+| Feature                          | Description                                                                                                           |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 🖥️ **Dev Center Provisioning**   | Deploys Azure Dev Center with catalog sync, Microsoft-hosted networking, and Azure Monitor agent                      |
+| 📂 **Multi-Project Support**     | Creates isolated projects with team-specific pools, catalogs, and environment types                                   |
+| 💻 **Dev Box Pools**             | Configures role-specific Dev Box pools with custom VM SKUs and image definitions                                      |
+| 📋 **Catalog Integration**       | Syncs Dev Box image definitions and environment templates from GitHub or Azure DevOps repositories                    |
+| 🌍 **Environment Types**         | Defines lifecycle stages (dev, staging, UAT) with optional deployment target subscriptions                            |
+| 🔐 **Key Vault Security**        | Provisions Azure Key Vault with purge protection, soft delete, RBAC authorization, and secret management              |
+| 🔒 **RBAC Management**           | Assigns least-privilege roles (Contributor, User Access Admin, Key Vault Secrets User/Officer) via managed identities |
+| 🔗 **Network Connectivity**      | Creates VNets, subnets, and Dev Center network connections for managed or unmanaged virtual network topologies        |
+| 📈 **Centralized Monitoring**    | Deploys Log Analytics workspace with diagnostic settings forwarding logs and metrics from Dev Center and Key Vault    |
+| ⚙️ **YAML-Driven Configuration** | Externalizes all settings (resources, security, workload topology) to validated YAML files with JSON Schema           |
+| 🛠️ **Cross-Platform Automation** | PowerShell and Bash setup scripts with authentication validation, token management, and interactive prompts           |
+| 🧹 **Infrastructure Cleanup**    | Comprehensive teardown script removing deployments, role assignments, service principals, and GitHub secrets          |
 
 ## 📋 Requirements
 
