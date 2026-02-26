@@ -107,7 +107,6 @@ flowchart TB
 
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
-    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
 ```
 
 ### 2.3 Value Streams (2)
@@ -300,7 +299,6 @@ flowchart TB
 
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
-    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
 ```
 
 ### Current State Assessment
@@ -726,28 +724,28 @@ delivered to consumers.
 
 #### 5.5.1 Dev Center Platform Service
 
-| Attribute        | Value                                        |
-| ---------------- | -------------------------------------------- |
-| **Service Name** | Dev Center Platform Service                  |
-| **Service Type** | Core Platform Service                        |
-| **Consumers**    | Dev Manager, eShop Developers                |
-| **SLA**          | Azure Dev Center SLA (99.9%)                 |
-| **Maturity**     | 4 - Measured                                 |
-| **Confidence**   | 0.95                                         |
+| Attribute        | Value                         |
+| ---------------- | ----------------------------- |
+| **Service Name** | Dev Center Platform Service   |
+| **Service Type** | Core Platform Service         |
+| **Consumers**    | Dev Manager, eShop Developers |
+| **SLA**          | Azure Dev Center SLA (99.9%)  |
+| **Maturity**     | 4 - Measured                  |
+| **Confidence**   | 0.95                          |
 
 **Service Features**: Managed identity (SystemAssigned), catalog item sync
 (Enabled), Microsoft hosted network (Enabled), Azure Monitor agent (Enabled).
 
 #### 5.5.2 Catalog Configuration Service
 
-| Attribute        | Value                                        |
-| ---------------- | -------------------------------------------- |
-| **Service Name** | Catalog Configuration Service                |
-| **Service Type** | Supporting Service                           |
-| **Consumers**    | Dev Center Platform Service                  |
-| **Provider**     | microsoft/devcenter-catalog (GitHub)         |
-| **Maturity**     | 3 - Defined                                  |
-| **Confidence**   | 0.88                                         |
+| Attribute        | Value                                |
+| ---------------- | ------------------------------------ |
+| **Service Name** | Catalog Configuration Service        |
+| **Service Type** | Supporting Service                   |
+| **Consumers**    | Dev Center Platform Service          |
+| **Provider**     | microsoft/devcenter-catalog (GitHub) |
+| **Maturity**     | 3 - Defined                          |
+| **Confidence**   | 0.88                                 |
 
 #### 5.5.3 Secret Management Service
 
@@ -762,14 +760,14 @@ delivered to consumers.
 
 #### 5.5.4 Centralized Logging Service
 
-| Attribute        | Value                                   |
-| ---------------- | --------------------------------------- |
-| **Service Name** | Centralized Logging Service             |
-| **Service Type** | Observability Service                   |
-| **Consumers**    | All landing zone resources              |
-| **Provider**     | Azure Log Analytics                     |
-| **Maturity**     | 3 - Defined                             |
-| **Confidence**   | 0.87                                    |
+| Attribute        | Value                       |
+| ---------------- | --------------------------- |
+| **Service Name** | Centralized Logging Service |
+| **Service Type** | Observability Service       |
+| **Consumers**    | All landing zone resources  |
+| **Provider**     | Azure Log Analytics         |
+| **Maturity**     | 3 - Defined                 |
+| **Confidence**   | 0.87                        |
 
 ### 5.6 Business Functions Specifications
 
@@ -790,25 +788,25 @@ structure the DevExp-DevBox platform resources.
 
 #### 5.6.2 Monitoring Landing Zone
 
-| Attribute          | Value                                                         |
-| ------------------ | ------------------------------------------------------------- |
-| **Function Name**  | Monitoring Landing Zone                                       |
-| **Function Type**  | Organizational Unit                                           |
-| **Responsibility** | Log Analytics, diagnostics, observability resources           |
-| **Resource Group** | `devexp-monitoring-{env}-{location}-RG`                       |
-| **Maturity**       | 3 - Defined                                                   |
-| **Confidence**     | 0.90                                                          |
+| Attribute          | Value                                               |
+| ------------------ | --------------------------------------------------- |
+| **Function Name**  | Monitoring Landing Zone                             |
+| **Function Type**  | Organizational Unit                                 |
+| **Responsibility** | Log Analytics, diagnostics, observability resources |
+| **Resource Group** | `devexp-monitoring-{env}-{location}-RG`             |
+| **Maturity**       | 3 - Defined                                         |
+| **Confidence**     | 0.90                                                |
 
 #### 5.6.3 Workload Landing Zone
 
-| Attribute          | Value                                                         |
-| ------------------ | ------------------------------------------------------------- |
-| **Function Name**  | Workload Landing Zone                                         |
-| **Function Type**  | Organizational Unit                                           |
-| **Responsibility** | Dev Center, projects, pools, catalogs, environment types      |
-| **Resource Group** | `devexp-workload-{env}-{location}-RG`                         |
-| **Maturity**       | 4 - Measured                                                  |
-| **Confidence**     | 0.93                                                          |
+| Attribute          | Value                                                    |
+| ------------------ | -------------------------------------------------------- |
+| **Function Name**  | Workload Landing Zone                                    |
+| **Function Type**  | Organizational Unit                                      |
+| **Responsibility** | Dev Center, projects, pools, catalogs, environment types |
+| **Resource Group** | `devexp-workload-{env}-{location}-RG`                    |
+| **Maturity**       | 4 - Measured                                             |
+| **Confidence**     | 0.93                                                     |
 
 ### 5.7 Business Roles & Actors Specifications
 
@@ -886,13 +884,13 @@ DevExp-DevBox platform operations.
 
 #### 5.8.2 Resource Governance Rules
 
-| Attribute         | Value                                                                 |
-| ----------------- | --------------------------------------------------------------------- |
-| **Rule Category** | Resource Governance                                                   |
-| **Rule Type**     | Tag Taxonomy + Schema Validation                                      |
-| **Enforcement**   | JSON Schema with regex patterns and enums                             |
-| **Maturity**      | 4 - Measured                                                          |
-| **Confidence**    | 0.93                                                                  |
+| Attribute         | Value                                     |
+| ----------------- | ----------------------------------------- |
+| **Rule Category** | Resource Governance                       |
+| **Rule Type**     | Tag Taxonomy + Schema Validation          |
+| **Enforcement**   | JSON Schema with regex patterns and enums |
+| **Maturity**      | 4 - Measured                              |
+| **Confidence**    | 0.93                                      |
 
 **Rules**:
 
@@ -1091,8 +1089,8 @@ flowchart LR
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    MON["📊 Monitoring Landing Zone<br/>Log Analytics Workspace"]:::core
-    SEC["🔒 Security Landing Zone<br/>Azure Key Vault"]:::warning
+    MON["📊 Monitoring Landing Zone<br/>Log Analytics Workspace"]:::warning
+    SEC["🔒 Security Landing Zone<br/>Azure Key Vault"]:::danger
     WRK["🖥️ Workload Landing Zone<br/>Dev Center + Projects"]:::success
 
     MON -->|"logAnalyticsId"| SEC
@@ -1107,6 +1105,7 @@ flowchart LR
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
     classDef neutral fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 

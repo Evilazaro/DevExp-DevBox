@@ -33,17 +33,17 @@ principles, enforces security best practices with Azure Key Vault and RBAC, and
 supports declarative YAML-driven configuration for Dev Center resources,
 projects, pools, catalogs, and environment types.
 
-| Feature                              | Description                                                                                                                            | Status    |
-| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| 🏢 Azure Dev Center Provisioning     | Deploys a fully configured Dev Center with managed identity, catalogs, and environment types                                           | ✅ Stable |
-| 📂 Dev Box Project Management        | Creates projects with role-specific pools (e.g., backend-engineer, frontend-engineer) and per-project RBAC                             | ✅ Stable |
-| 📝 YAML-Driven Configuration         | Declarative configuration for Dev Center, security, networking, and resource organization via YAML files with JSON Schema validation   | ✅ Stable |
-| 🌐 Network Connectivity              | Supports both managed and unmanaged virtual networks with automated VNet, subnet, and network connection provisioning                  | ✅ Stable |
-| 🔒 Security and Key Vault            | Automated Key Vault deployment with RBAC authorization, soft delete, purge protection, and secret management for source control tokens | ✅ Stable |
-| 📊 Centralized Monitoring            | Log Analytics workspace with diagnostic settings for Dev Center and Key Vault resources                                                | ✅ Stable |
-| 🌍 Multi-Environment Support         | Environment types for dev, staging, and UAT with configurable deployment targets                                                       | ✅ Stable |
-| ⚙️ Cross-Platform Automation         | Setup scripts for both PowerShell (Windows) and Bash (Linux/macOS) with Azure Developer CLI integration                                | ✅ Stable |
-| 🔗 Source Control Integration        | GitHub and Azure DevOps Git support for catalogs, image definitions, and environment definitions                                       | ✅ Stable |
+| Feature                          | Description                                                                                                                            | Status    |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| 🏢 Azure Dev Center Provisioning | Deploys a fully configured Dev Center with managed identity, catalogs, and environment types                                           | ✅ Stable |
+| 📂 Dev Box Project Management    | Creates projects with role-specific pools (e.g., backend-engineer, frontend-engineer) and per-project RBAC                             | ✅ Stable |
+| 📝 YAML-Driven Configuration     | Declarative configuration for Dev Center, security, networking, and resource organization via YAML files with JSON Schema validation   | ✅ Stable |
+| 🌐 Network Connectivity          | Supports both managed and unmanaged virtual networks with automated VNet, subnet, and network connection provisioning                  | ✅ Stable |
+| 🔒 Security and Key Vault        | Automated Key Vault deployment with RBAC authorization, soft delete, purge protection, and secret management for source control tokens | ✅ Stable |
+| 📊 Centralized Monitoring        | Log Analytics workspace with diagnostic settings for Dev Center and Key Vault resources                                                | ✅ Stable |
+| 🌍 Multi-Environment Support     | Environment types for dev, staging, and UAT with configurable deployment targets                                                       | ✅ Stable |
+| ⚙️ Cross-Platform Automation     | Setup scripts for both PowerShell (Windows) and Bash (Linux/macOS) with Azure Developer CLI integration                                | ✅ Stable |
+| 🔗 Source Control Integration    | GitHub and Azure DevOps Git support for catalogs, image definitions, and environment definitions                                       | ✅ Stable |
 
 ## 🏗️ Architecture
 
@@ -75,8 +75,8 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef primary fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#003B6F
-    classDef security fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#3B2C00
+    classDef primary fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef security fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
     classDef external fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
 
     subgraph automation["⚙️ Automation Layer"]
@@ -134,9 +134,9 @@ flowchart TB
 
     style automation fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
     style infra fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style securityLZ fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style monitoringLZ fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style workloadLZ fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    style securityLZ fill:#FDE7E9,stroke:#E81123,stroke-width:2px
+    style monitoringLZ fill:#FFF4CE,stroke:#FFB900,stroke-width:2px
+    style workloadLZ fill:#DFF6DD,stroke:#107C10,stroke-width:2px
     style config fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
 ```
 
@@ -155,7 +155,7 @@ setup scripts.
 | 🐙 [GitHub CLI](https://cli.github.com/)                                                                          | Latest          | GitHub authentication and token retrieval (if using GitHub)                                    |
 | 📜 [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)             | 5.1+            | Setup automation on Windows                                                                    |
 | 🐚 [Bash](https://www.gnu.org/software/bash/)                                                                     | 4.0+            | Setup automation on Linux/macOS                                                                |
-| ☁️ Azure Subscription                                                                                              | N/A             | An active Azure subscription with Owner or Contributor + User Access Administrator permissions |
+| ☁️ Azure Subscription                                                                                             | N/A             | An active Azure subscription with Owner or Contributor + User Access Administrator permissions |
 
 > **Note**: The setup scripts automatically validate that all required CLI tools
 > are installed and that authentication is active before proceeding with
@@ -323,7 +323,9 @@ keyVault:
 
 ### 🧹 Cleanup
 
-To tear down all provisioned resources, run the cleanup script. It removes subscription deployments, RBAC role assignments, service principals, GitHub secrets, and resource groups.
+To tear down all provisioned resources, run the cleanup script. It removes
+subscription deployments, RBAC role assignments, service principals, GitHub
+secrets, and resource groups.
 
 ```powershell
 .\cleanSetUp.ps1
@@ -335,7 +337,8 @@ Optionally specify a target environment and region:
 .\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2"
 ```
 
-> **Warning**: The cleanup operation is destructive and cannot be undone. Verify the target environment before running.
+> **Warning**: The cleanup operation is destructive and cannot be undone. Verify
+> the target environment before running.
 
 ## 📂 Project Structure
 
