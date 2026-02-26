@@ -1171,17 +1171,7 @@ configuration modifications, implementing contract tests between schema files
 and Bicep type definitions, and adding health checks for the secret identifier
 chain to detect broken references before deployment.
 
----
-
-<!-- SECTION COUNT AUDIT: Found 6 sections. Required: 6 (output_sections: [1, 2, 3, 4, 5, 8]). Status: PASS -->
-<!-- Sections present: 1 (Executive Summary), 2 (Architecture Landscape), 3 (Architecture Principles), 4 (Current State Baseline), 5 (Component Catalog), 8 (Dependencies & Integration) -->
-<!-- Sections 2, 4, 5, 8 have ### Summary: PASS -->
-<!-- All sections start with ### Overview: PASS -->
-<!-- Section 2 subsections 2.1-2.11: PASS (11 subsections) -->
-<!-- Section 5 subsections 5.1-5.11: PASS (11 subsections) -->
-<!-- Source traceability: All components use path/file:line-range format: PASS -->
-<!-- No placeholder text: PASS -->
-<!-- Mermaid diagrams: accTitle + accDescr + AZURE/FLUENT governance block: PASS -->
-<!-- Data classification: All components classified: PASS -->
-<!-- Quality level: comprehensive (90 components ≥ 8 threshold): PASS -->
-<!-- Diagram count: 10 diagrams (comprehensive = all diagrams): PASS -->
+> ⚠️ **Warning**: Any structural change to `devcenter.yaml` cascades to **8+
+> downstream Bicep modules**. Introduce **change impact analysis tooling** and
+> **contract tests** between schema files and Bicep type definitions before
+> making breaking configuration changes.
