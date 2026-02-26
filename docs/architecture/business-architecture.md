@@ -590,6 +590,63 @@ steps, actors, and decision points. Average confidence is 0.88.
 - All CLI prerequisites must be installed before provisioning begins
 - Authentication must be validated before token retrieval
 
+**Environment Setup Process Flow:**
+
+```mermaid
+---
+title: DevExp-DevBox Environment Setup Process
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: DevExp-DevBox Environment Setup Process Flow
+    accDescr: BPMN-style diagram showing the environment setup workflow from argument validation to infrastructure provisioning
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    Start(["🚀 User Runs setUp Script"]):::success
+    ParseArgs["📋 Parse & Validate<br/>Arguments"]:::core
+    CheckTools{"⚡ CLI Tools<br/>Installed?"}:::warning
+    ValidateAuth["🔑 Validate Azure<br/>Authentication"]:::core
+    AuthOK{"⚡ Authentication<br/>Valid?"}:::warning
+    GetToken["🔒 Retrieve &<br/>Mask Token"]:::core
+    InitAzd["⚙️ Initialize azd<br/>Environment"]:::core
+    Provision["🖥️ Execute azd<br/>provision"]:::core
+    End(["✅ Environment Ready"]):::success
+    Fail["❌ Halt with<br/>Actionable Error"]:::danger
+
+    Start --> ParseArgs
+    ParseArgs --> CheckTools
+    CheckTools -->|"Yes"| ValidateAuth
+    CheckTools -->|"No"| Fail
+    ValidateAuth --> AuthOK
+    AuthOK -->|"Yes"| GetToken
+    AuthOK -->|"No"| Fail
+    GetToken --> InitAzd
+    InitAzd --> Provision
+    Provision --> End
+
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+```
+
 ### 5.5 Business Services Specifications
 
 This subsection documents the 5 business services offered by the platform.
@@ -862,122 +919,9 @@ enabling environment-specific customization without cross-domain code changes.
 
 ### Overview
 
-Governance for the DevExp-DevBox platform is enforced through a combination of
-schema validation, RBAC role assignments, tagging policies, and documented
-contribution workflows. The governance model follows a hierarchical structure:
-organizational standards are defined in CONTRIBUTING.md, technical standards are
-enforced via JSON Schema and Bicep parameter validation, and operational
-governance is managed through issue lifecycle management and PR review
-processes.
-
-Capability ownership is distributed across functional domains, with the Platform
-Engineering Team serving as the primary accountable party for Dev Center
-operations. The product-oriented delivery model (Epics → Features → Tasks)
-provides structured change control with explicit traceability requirements and
-exit criteria.
-
-### Capability Ownership
-
-| Capability                 | Owner                     | Responsibility                                            | Source                                         |
-| -------------------------- | ------------------------- | --------------------------------------------------------- | ---------------------------------------------- |
-| Dev Center Provisioning    | Platform Engineering Team | End-to-end Dev Center deployment and configuration        | `infra/settings/workload/devcenter.yaml:49`    |
-| Security Management        | Platform Engineering Team | Key Vault provisioning, secret rotation, access policies  | `infra/settings/security/security.yaml:1-*`    |
-| Identity & Access          | Platform Engineering Team | RBAC role assignments, managed identity lifecycle         | `infra/settings/workload/devcenter.yaml:33-57` |
-| Network Connectivity       | Platform Engineering Team | VNet provisioning, subnet allocation, network connections | `src/connectivity/connectivity.bicep:1-*`      |
-| Monitoring & Observability | Platform Engineering Team | Log Analytics deployment, diagnostic settings             | `src/management/logAnalytics.bicep:1-*`        |
-
-### RACI Matrix
-
-| Activity                    | Platform Engineer | Dev Manager | Developer | CI/CD Identity |
-| --------------------------- | ----------------- | ----------- | --------- | -------------- |
-| Infrastructure Provisioning | **R, A**          | C           | I         | R              |
-| YAML Configuration Changes  | **R, A**          | C           | I         | -              |
-| RBAC Role Assignment        | **R, A**          | C           | I         | -              |
-| Dev Box Pool Management     | R                 | **A**       | C         | -              |
-| Dev Box Consumption         | I                 | I           | **R, A**  | -              |
-| PR Review & Merge           | **R, A**          | C           | R         | -              |
-| Issue Triage                | **R, A**          | C           | R         | -              |
-| Infrastructure Cleanup      | **R, A**          | I           | I         | R              |
-
-### Change Control Process
-
-1. **Issue Creation**: All changes tracked via GitHub Issues with mandatory
-   Type, Area, Priority, Status labels (`CONTRIBUTING.md:20-24`)
-2. **Branch Creation**: Feature/task/fix branches with issue number (e.g.,
-   `feature/123-dev-center-baseline`) (`CONTRIBUTING.md:34-44`)
-3. **PR Submission**: Must reference closing issue, include summary, test
-   evidence, and doc updates (`CONTRIBUTING.md:46-52`)
-4. **Validation**: `what-if` deployment validation, sandbox testing, smoke test
-   documentation (`CONTRIBUTING.md:74-84`)
-5. **Merge**: After review approval and validation evidence
-
-### Governance Enforcement Mechanisms
-
-| Mechanism                  | Type            | Scope                              | Source                                          |
-| -------------------------- | --------------- | ---------------------------------- | ----------------------------------------------- |
-| JSON Schema Validation     | Design-time     | All YAML configuration files       | `infra/settings/**/*.schema.json`               |
-| Bicep Parameter Decorators | Deployment-time | Region, naming, length constraints | `infra/main.bicep:4-30`                         |
-| Mandatory Issue Labels     | Process         | All GitHub Issues                  | `CONTRIBUTING.md:20-24`                         |
-| Parent-Child Linking       | Process         | Features→Epics, Tasks→Features     | `CONTRIBUTING.md:26-28`                         |
-| RBAC Scoping               | Runtime         | All Azure resource access          | `infra/settings/workload/devcenter.yaml:33-115` |
-
----
-
-> **Note**: Sections 6 (Architecture Decisions), 7 (Architecture Standards), and
-> 9 (Governance & Management) were included in full per comprehensive quality
-> level. No sections were omitted.
-
----
-
-## Process Flow — Environment Setup
-
-```mermaid
----
-title: DevExp-DevBox Environment Setup Process
-config:
-  theme: base
-  look: classic
-  layout: dagre
-  themeVariables:
-    fontSize: '16px'
-  flowchart:
-    htmlLabels: true
----
-flowchart TB
-    accTitle: DevExp-DevBox Environment Setup Process Flow
-    accDescr: BPMN-style diagram showing the environment setup workflow from argument validation to infrastructure provisioning
-
-    %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
-    %% ═══════════════════════════════════════════════════════════════════════════
-
-    Start(["🚀 User Runs setUp Script"]):::success
-    ParseArgs["📋 Parse & Validate<br/>Arguments"]:::core
-    CheckTools{"⚡ CLI Tools<br/>Installed?"}:::warning
-    ValidateAuth["🔑 Validate Azure<br/>Authentication"]:::core
-    AuthOK{"⚡ Authentication<br/>Valid?"}:::warning
-    GetToken["🔒 Retrieve &<br/>Mask Token"]:::core
-    InitAzd["⚙️ Initialize azd<br/>Environment"]:::core
-    Provision["🖥️ Execute azd<br/>provision"]:::core
-    End(["✅ Environment Ready"]):::success
-    Fail["❌ Halt with<br/>Actionable Error"]:::danger
-
-    Start --> ParseArgs
-    ParseArgs --> CheckTools
-    CheckTools -->|"Yes"| ValidateAuth
-    CheckTools -->|"No"| Fail
-    ValidateAuth --> AuthOK
-    AuthOK -->|"Yes"| GetToken
-    AuthOK -->|"No"| Fail
-    GetToken --> InitAzd
-    InitAzd --> Provision
-    Provision --> End
-
-    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
-    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
-```
+Out of scope for this analysis. This section was excluded per the configured
+`output_sections: [1, 2, 3, 4, 5, 8]`. To include Governance & Management,
+re-run the analysis with Section 9 added to `output_sections`.
 
 ---
 
