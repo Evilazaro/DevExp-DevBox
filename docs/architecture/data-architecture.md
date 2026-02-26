@@ -577,41 +577,41 @@ flowchart TD
     accDescr: Shows the hub-and-spoke data flow from YAML configs through main.bicep to specialized resource modules
 
     subgraph CONFIG["📄 Configuration Sources"]
-        Y1["📄 azureResources.yaml"]
-        Y2["📄 security.yaml"]
-        Y3["📄 devcenter.yaml"]
-        Y4["📄 main.parameters.json"]
+        Y1["📄 azureResources.yaml"]:::neutral
+        Y2["📄 security.yaml"]:::neutral
+        Y3["📄 devcenter.yaml"]:::neutral
+        Y4["📄 main.parameters.json"]:::neutral
     end
     style CONFIG fill:#F3F2F1,stroke:#D2D0CE,color:#323130
 
     subgraph SCHEMAS["📋 Schema Validation"]
-        S1["📋 azureResources.schema.json"]
-        S2["📋 security.schema.json"]
-        S3["📋 devcenter.schema.json"]
+        S1["📋 azureResources.schema.json"]:::neutral
+        S2["📋 security.schema.json"]:::neutral
+        S3["📋 devcenter.schema.json"]:::neutral
     end
     style SCHEMAS fill:#F3F2F1,stroke:#D2D0CE,color:#323130
 
     subgraph HUB["⚙️ Orchestrator"]
-        M["⚙️ infra/main.bicep"]
+        M["⚙️ infra/main.bicep"]:::data
     end
     style HUB fill:#E1DFDD,stroke:#A19F9D,color:#323130
 
     subgraph SECURITY["🔒 Security Zone"]
-        KV["🔒 Key Vault"]
-        SEC["🔑 Secret Store"]
+        KV["🔒 Key Vault"]:::danger
+        SEC["🔑 Secret Store"]:::danger
     end
     style SECURITY fill:#FDE7E9,stroke:#E81123,color:#323130
 
     subgraph MONITORING["📊 Monitoring Zone"]
-        LA["📊 Log Analytics"]
+        LA["📊 Log Analytics"]:::success
     end
     style MONITORING fill:#DFF6DD,stroke:#107C10,color:#323130
 
     subgraph WORKLOAD["🖥️ Workload Zone"]
-        DC["🖥️ DevCenter"]
-        PR["📁 Projects"]
-        PL["💻 Pools"]
-        CT["📦 Catalogs"]
+        DC["🖥️ DevCenter"]:::core
+        PR["📁 Projects"]:::core
+        PL["💻 Pools"]:::core
+        CT["📦 Catalogs"]:::core
     end
     style WORKLOAD fill:#DEECF9,stroke:#0078D4,color:#323130
 
@@ -635,6 +635,12 @@ flowchart TD
     DC --> PR
     PR --> PL
     PR --> CT
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef data fill:#E1DFDD,stroke:#8378DE,stroke-width:2px,color:#5B5FC7
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
 ```
 
 ### Storage Distribution
@@ -694,26 +700,30 @@ flowchart LR
     accDescr: Visual assessment of governance maturity levels across six data management areas from Level 2 to Level 4
 
     subgraph L4["🏆 Level 4 - Measured"]
-        SM["🔒 Secret Management"]
+        SM["🔒 Secret Management"]:::success
     end
     style L4 fill:#DFF6DD,stroke:#107C10,color:#323130
 
     subgraph L3["✅ Level 3 - Defined"]
-        CM["📄 Config Management"]
-        AC["🛡️ Access Control"]
-        RO["📁 Resource Organization"]
-        SG["📋 Schema Governance"]
+        CM["📄 Config Management"]:::core
+        AC["🛡️ Access Control"]:::core
+        RO["📁 Resource Organization"]:::core
+        SG["📋 Schema Governance"]:::core
     end
     style L3 fill:#DEECF9,stroke:#0078D4,color:#323130
 
     subgraph L2["⚠️ Level 2 - Managed"]
-        MN["📊 Monitoring"]
+        MN["📊 Monitoring"]:::warning
     end
-    style L2 fill:#FFF4CE,stroke:#8A8886,color:#323130
+    style L2 fill:#FFF4CE,stroke:#FFB900,color:#323130
 
     MN -->|"Add quality dashboards"| CM
     CM -->|"Add contract testing"| SM
     AC -->|"Add anomaly detection"| SM
+
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
 ```
 
 ### Compliance Posture
