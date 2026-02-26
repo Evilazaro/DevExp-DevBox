@@ -285,22 +285,22 @@ flowchart TD
 
     subgraph SUB["☁️ Azure Subscription"]
         subgraph WRG["📁 Workload Resource Group"]
-            DC["🖥️ DevCenter"]
-            PR["📁 eShop Project"]
-            PL["💻 Pools (backend + frontend)"]
-            NC["🌐 Network Connection"]
-            VN["🌐 VNet (10.0.0.0/16)"]
+            DC["🖥️ DevCenter"]:::core
+            PR["📁 eShop Project"]:::core
+            PL["💻 Pools (backend + frontend)"]:::core
+            NC["🌐 Network Connection"]:::core
+            VN["🌐 VNet (10.0.0.0/16)"]:::core
         end
         style WRG fill:#DEECF9,stroke:#0078D4,color:#323130
 
         subgraph SRG["🔒 Security Resource Group"]
-            KV["🔒 Key Vault"]
-            SC["🔑 gha-token Secret"]
+            KV["🔒 Key Vault"]:::danger
+            SC["🔑 gha-token Secret"]:::danger
         end
         style SRG fill:#FDE7E9,stroke:#E81123,color:#323130
 
         subgraph MRG["📊 Monitoring Resource Group"]
-            LA["📊 Log Analytics"]
+            LA["📊 Log Analytics"]:::success
         end
         style MRG fill:#DFF6DD,stroke:#107C10,color:#323130
     end
@@ -314,6 +314,10 @@ flowchart TD
     NC --> PL
     DC --> PR
     PR --> PL
+
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
 ```
 
 ### 2.7 Data Quality Rules
