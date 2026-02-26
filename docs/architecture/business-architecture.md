@@ -732,43 +732,9 @@ re-run the analysis with Section 6 added to `output_sections`.
 
 ### Overview
 
-Architecture standards for the DevExp-DevBox repository are derived from source
-code patterns, schema constraints, and engineering guidelines documented in
-CONTRIBUTING.md. These standards govern naming conventions, module design,
-configuration structure, and automation practices.
-
-The standards reflect a mature engineering culture with explicit rules for
-idempotency, parameterization, and secret management. Enforcement mechanisms
-range from JSON Schema validation (design-time) to Bicep parameter decorators
-(deployment-time) to documented PR review expectations.
-
-### Naming Conventions
-
-| Element             | Convention                           | Example                                 | Source                                                |
-| ------------------- | ------------------------------------ | --------------------------------------- | ----------------------------------------------------- |
-| Resource Group Name | `{domain}-{env}-{region}-RG` pattern | `devexp-workload-dev-eastus-RG`         | `infra/main.bicep:42-44`                              |
-| Key Vault Name      | Alphanumeric + hyphens, 3-24 chars   | `contoso`                               | `infra/settings/security/security.schema.json:82-100` |
-| Environment Name    | 2-10 chars, lowercase                | `dev`, `staging`, `UAT`                 | `infra/main.bicep:29-30`                              |
-| Dev Center Name     | Lowercase with hyphens               | `devexp-devcenter`                      | `infra/settings/workload/devcenter.yaml:12`           |
-| Pool Name           | Role-descriptive kebab-case          | `backend-engineer`, `frontend-engineer` | `infra/settings/workload/devcenter.yaml:131-138`      |
-| Branch Name         | `{type}/{issue}-{short-name}`        | `feature/123-dev-center-baseline`       | `CONTRIBUTING.md:34-44`                               |
-
-### Module Design Standards
-
-| Standard            | Description                                           | Enforcement                  | Source                  |
-| ------------------- | ----------------------------------------------------- | ---------------------------- | ----------------------- |
-| Parameterized       | No hard-coded environment specifics in Bicep modules  | PR review                    | `CONTRIBUTING.md:55-56` |
-| Idempotent          | All operations safe for re-execution                  | PR review                    | `CONTRIBUTING.md:57`    |
-| Reusable            | Modules work across environments without modification | JSON Schema validation       | `CONTRIBUTING.md:58`    |
-| No Embedded Secrets | Credentials never in code or parameters               | PR review, Key Vault pattern | `CONTRIBUTING.md:60`    |
-
-### Configuration Standards
-
-| Standard                | Description                                     | Enforcement                 | Source                                                          |
-| ----------------------- | ----------------------------------------------- | --------------------------- | --------------------------------------------------------------- |
-| YAML + JSON Schema      | Every YAML file has a corresponding JSON Schema | `$schema` directive in YAML | `infra/settings/workload/devcenter.yaml:1`                      |
-| Consistent Tagging      | All resource groups maintain 7 standard tags    | Schema validation           | `infra/settings/resourceOrganization/azureResources.yaml:21-28` |
-| Environment Enumeration | Only `dev`, `test`, `staging`, `prod` allowed   | JSON Schema `enum`          | `infra/settings/security/security.schema.json:57-60`            |
+Out of scope for this analysis. This section was excluded per the configured
+`output_sections: [1, 2, 3, 4, 5, 8]`. To include Architecture Standards,
+re-run the analysis with Section 7 added to `output_sections`.
 
 ---
 
