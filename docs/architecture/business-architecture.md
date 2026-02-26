@@ -64,6 +64,7 @@ excluded.
 
 ```mermaid
 ---
+title: Business Capability Map
 config:
   theme: base
   look: classic
@@ -1110,7 +1111,6 @@ flowchart LR
     YAML -->|"drives"| SEC
     YAML -->|"drives"| WRK
 
-    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C

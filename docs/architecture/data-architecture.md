@@ -85,32 +85,36 @@ flowchart TD
     accDescr: Three core data domains with their sub-domains and component counts
 
     subgraph WORKLOAD["🖥️ Workload Domain (42 components)"]
-        W1["📄 DevCenter Config"]
-        W2["📁 Projects & Pools"]
-        W3["📦 Catalogs"]
-        W4["🌍 Environment Types"]
-        W5["🔗 Network Config"]
+        W1["📄 DevCenter Config"]:::core
+        W2["📁 Projects & Pools"]:::core
+        W3["📦 Catalogs"]:::core
+        W4["🌍 Environment Types"]:::core
+        W5["🔗 Network Config"]:::core
     end
     style WORKLOAD fill:#DEECF9,stroke:#0078D4,color:#323130
 
     subgraph SECURITY["🔒 Security Domain (34 components)"]
-        S1["🔑 Key Vault & Secrets"]
-        S2["🛡️ RBAC Assignments"]
-        S3["🔐 Managed Identities"]
-        S4["📋 Schema Validation"]
+        S1["🔑 Key Vault & Secrets"]:::danger
+        S2["🛡️ RBAC Assignments"]:::danger
+        S3["🔐 Managed Identities"]:::danger
+        S4["📋 Schema Validation"]:::danger
     end
     style SECURITY fill:#FDE7E9,stroke:#E81123,color:#323130
 
     subgraph MONITORING["📊 Monitoring Domain (14 components)"]
-        M1["📊 Log Analytics"]
-        M2["🏷️ Resource Tags"]
-        M3["📈 Diagnostics"]
+        M1["📊 Log Analytics"]:::success
+        M2["🏷️ Resource Tags"]:::success
+        M3["📈 Diagnostics"]:::success
     end
     style MONITORING fill:#DFF6DD,stroke:#107C10,color:#323130
 
     WORKLOAD -->|"secretIdentifier"| SECURITY
     MONITORING -->|"workspaceId"| WORKLOAD
     MONITORING -->|"workspaceId"| SECURITY
+
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
 ```
 
 ### 2.1 Data Entities
