@@ -200,6 +200,10 @@ category (1 component) should be expanded with quantitative SLA targets and
 provisioning latency metrics to support progression toward Level 5 (Optimized)
 maturity.
 
+> ⚠️ **Warning**: The platform currently lacks **automated drift detection** and
+> **compliance alerting**. Without these event-driven triggers, configuration
+> changes may go undetected between deployments.
+
 ---
 
 ## 3. Architecture Principles
@@ -218,15 +222,15 @@ Infrastructure-as-Code paradigm where all configuration is version-controlled
 and schema-validated. These principles collectively ensure that the platform is
 repeatable, auditable, and governable.
 
-| #   | Principle                              | Rationale                                                                                                                | Implication                                                                                 |
-| --- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| P1  | **Declarative Configuration-as-Code**  | All platform settings defined in YAML with JSON Schema validation eliminates drift and enables repeatable deployments    | Changes must come through version-controlled YAML files, not manual Azure portal edits      |
-| P2  | **Landing Zone Segregation**           | Resources organized into Security, Monitoring, and Workload landing zones following Azure Cloud Adoption Framework       | Each functional domain has its own resource group with independent lifecycle and tags       |
-| P3  | **Least-Privilege RBAC**               | Role assignments scoped to minimum necessary level (Subscription, ResourceGroup, Project) with explicit role definitions | All identities must have documented role justification; no wildcard or Owner-level defaults |
-| P4  | **Security-by-Default**                | Key Vault deployed with purge protection, soft delete, and RBAC authorization enabled by default                         | Security controls cannot be disabled without explicit configuration change and review       |
-| P5  | **Idempotent & Parameterized Modules** | Bicep modules must be reusable across environments without hard-coded values                                             | All modules accept parameters; environment specifics come from YAML configuration           |
-| P6  | **Cross-Platform Automation**          | Setup scripts available for both PowerShell (Windows) and Bash (Linux/macOS)                                             | Every automation capability must have cross-platform parity or documented gaps              |
-| P7  | **Product-Oriented Delivery**          | Work organized as Epics → Features → Tasks with measurable outcomes and exit criteria                                    | Every deliverable must link to a trackable issue with definition of done                    |
+| #   | Principle                              | Rationale                                                                                                                | Implication                                                                                     |
+| --- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| P1  | **Declarative Configuration-as-Code**  | All platform settings defined in YAML with JSON Schema validation eliminates drift and enables repeatable deployments    | Changes **must** come through version-controlled YAML files, not manual Azure portal edits      |
+| P2  | **Landing Zone Segregation**           | Resources organized into Security, Monitoring, and Workload landing zones following Azure Cloud Adoption Framework       | Each functional domain has its own resource group with independent lifecycle and tags           |
+| P3  | **Least-Privilege RBAC**               | Role assignments scoped to minimum necessary level (Subscription, ResourceGroup, Project) with explicit role definitions | All identities **must** have documented role justification; no wildcard or Owner-level defaults |
+| P4  | **Security-by-Default**                | Key Vault deployed with purge protection, soft delete, and RBAC authorization enabled by default                         | Security controls **cannot** be disabled without explicit configuration change and review       |
+| P5  | **Idempotent & Parameterized Modules** | Bicep modules must be reusable across environments without hard-coded values                                             | All modules accept parameters; environment specifics come from YAML configuration               |
+| P6  | **Cross-Platform Automation**          | Setup scripts available for both PowerShell (Windows) and Bash (Linux/macOS)                                             | Every automation capability **must** have cross-platform parity or documented gaps              |
+| P7  | **Product-Oriented Delivery**          | Work organized as Epics → Features → Tasks with measurable outcomes and exit criteria                                    | Every deliverable **must** link to a trackable issue with definition of done                    |
 
 ---
 
@@ -331,6 +335,10 @@ establishing real-time monitoring dashboards for Centralized Monitoring, and
 adding automated catalog health checks for Source Control Integration.
 Addressing these gaps would raise the average maturity from 3.4 to an estimated
 4.0.
+
+> 💡 **Tip**: Prioritize **drift detection** for YAML configurations and
+> **real-time monitoring dashboards** for the Centralized Monitoring capability
+> to achieve the fastest maturity uplift across the most capabilities.
 
 ---
 
@@ -1123,3 +1131,7 @@ spans CLI authentication → Key Vault secret → Dev Center catalog sync.
 Recommended mitigations include implementing token rotation policies, adding
 health-check monitoring for catalog sync status, and establishing fallback
 procedures for source control platform unavailability.
+
+> ⚠️ **Warning**: The **source control token flow** (CLI → Key Vault → Catalog)
+> is a single-point-of-failure. Token expiration or Key Vault access issues will
+> break all private catalog synchronization.

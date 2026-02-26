@@ -417,18 +417,18 @@ governance principles that ensure operational consistency and compliance.
 | Schema-First Design     | All configuration data must conform to a declared schema  | JSON Schema 2020-12 files validate every YAML config (3 schemas for 3 config files)               |
 | Type Safety             | Data structures must be explicitly typed                  | 18 Bicep user-defined types enforce compile-time structural correctness                           |
 | Separation of Concerns  | Data definitions are separated from processing logic      | YAML configs (what) vs. Bicep templates (how) are in distinct directories                         |
-| Defense in Depth        | Sensitive data is protected at multiple layers            | @secure() decorators + Key Vault encryption + RBAC + purge protection + soft delete               |
+| Defense in Depth        | Sensitive data is protected at multiple layers            | **@secure()** decorators + Key Vault encryption + RBAC + purge protection + soft delete           |
 | Least Privilege         | Data access is restricted to minimum required permissions | Role-scoped RBAC assignments (Subscription vs. ResourceGroup vs. Project)                         |
 | Immutable Configuration | Deployed configurations should not be modified in place   | IaC-driven deployments replace rather than patch resources                                        |
-| Traceability            | All data assets must be traceable to their source         | Every component has file:line references; parameter chains are documented                         |
+| Traceability            | All data assets **must** be traceable to their source     | Every component has file:line references; parameter chains are documented                         |
 
 ### Data Schema Design Standards
 
-- **YAML Configuration Files**: All configuration data uses YAML format with
-  yaml-language-server schema references for IDE validation
-- **JSON Schema 2020-12**: Every YAML file has a corresponding JSON Schema with
-  regex patterns, enum constraints, min/max values, and required field
-  enforcement
+- **YAML Configuration Files**: All configuration data **must** use YAML format
+  with yaml-language-server schema references for IDE validation
+- **JSON Schema 2020-12**: Every YAML file **must** have a corresponding JSON
+  Schema with regex patterns, enum constraints, min/max values, and required
+  field enforcement
 - **Bicep User-Defined Types**: All parameter interfaces use explicit type
   definitions with @description, @allowed, @minLength, @maxLength decorators
 - **Naming Conventions**: Resource names follow
@@ -710,6 +710,10 @@ flowchart LR
 | Secret Rotation       | Not detected | No automated rotation policy observed                        |
 | Data Retention        | Partial      | Soft delete 7-day retention; no long-term archival policy    |
 
+> ⚠️ **Warning**: **Secret rotation** is not detected. The `gha-token` secret
+> has no automated rotation policy, creating a risk of credential staleness and
+> potential security exposure.
+
 ### Summary
 
 The current state baseline reveals a well-architected data platform at Level 3
@@ -725,6 +729,11 @@ To advance toward Level 4 across all areas, the platform should implement formal
 data contract testing between YAML producers and Bicep consumers, establish
 configuration drift detection, and introduce automated secret rotation with
 Azure Key Vault rotation policies.
+
+> 💡 **Tip**: Implement **Azure Key Vault rotation policies** for the
+> `gha-token` secret and introduce **configuration drift detection** through
+> Azure Policy or CI/CD assertions to achieve the fastest path to Level 4
+> governance maturity.
 
 ---
 

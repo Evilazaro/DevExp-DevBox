@@ -148,17 +148,17 @@ The following prerequisites are required to deploy the DevExp-DevBox
 accelerator. All tools must be installed and authenticated before running the
 setup scripts.
 
-| Requirement                                                                                                       | Minimum Version | Purpose                                                                                        |
-| ----------------------------------------------------------------------------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------- |
-| 🖥️ [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)                                     | Latest          | Azure resource management and authentication                                                   |
-| 🚀 [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd) | Latest          | Environment provisioning and deployment orchestration                                          |
-| 🐙 [GitHub CLI](https://cli.github.com/)                                                                          | Latest          | GitHub authentication and token retrieval (if using GitHub)                                    |
-| 📜 [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)             | 5.1+            | Setup automation on Windows                                                                    |
-| 🐚 [Bash](https://www.gnu.org/software/bash/)                                                                     | 4.0+            | Setup automation on Linux/macOS                                                                |
-| ☁️ Azure Subscription                                                                                             | N/A             | An active Azure subscription with Owner or Contributor + User Access Administrator permissions |
+| Requirement                                                                                                       | Minimum Version | Purpose                                                                                                |
+| ----------------------------------------------------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------ |
+| 🖥️ [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)                                     | Latest          | Azure resource management and authentication                                                           |
+| 🚀 [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd) | Latest          | Environment provisioning and deployment orchestration                                                  |
+| 🐙 [GitHub CLI](https://cli.github.com/)                                                                          | Latest          | GitHub authentication and token retrieval (if using GitHub)                                            |
+| 📜 [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell)             | 5.1+            | Setup automation on Windows                                                                            |
+| 🐚 [Bash](https://www.gnu.org/software/bash/)                                                                     | 4.0+            | Setup automation on Linux/macOS                                                                        |
+| ☁️ Azure Subscription                                                                                             | N/A             | An active Azure subscription with **Owner** or **Contributor + User Access Administrator** permissions |
 
-> **Note**: The setup scripts automatically validate that all required CLI tools
-> are installed and that authentication is active before proceeding with
+> 📌 **Note**: The setup scripts automatically validate that all required CLI
+> tools are installed and that authentication is active before proceeding with
 > provisioning.
 
 ## 🚀 Quick Start
@@ -224,7 +224,7 @@ cd DevExp-DevBox
 ./setUp.sh -e "dev" -s "github"
 ```
 
-> **Tip**: Both setup scripts support Azure DevOps as an alternative source
+> 💡 **Tip**: Both setup scripts support Azure DevOps as an alternative source
 > control platform. Use `"adogit"` instead of `"github"` for the source control
 > parameter.
 
@@ -317,11 +317,11 @@ keyVault:
   enableRbacAuthorization: true
 ```
 
-> **Warning**: Do not commit secret values to source control. The setup scripts
-> securely retrieve tokens from GitHub CLI or Azure DevOps CLI and pass them as
-> deployment parameters.
+> ⚠️ **Warning**: Do not commit secret values to source control. The setup
+> scripts securely retrieve tokens from GitHub CLI or Azure DevOps CLI and pass
+> them as deployment parameters.
 
-### 🧹 Cleanup
+## 🧹 Cleanup
 
 To tear down all provisioned resources, run the cleanup script. It removes
 subscription deployments, RBAC role assignments, service principals, GitHub
@@ -337,8 +337,8 @@ Optionally specify a target environment and region:
 .\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2"
 ```
 
-> **Warning**: The cleanup operation is destructive and cannot be undone. Verify
-> the target environment before running.
+> ⚠️ **Warning**: The cleanup operation is **destructive and cannot be undone**.
+> Verify the target environment before running.
 
 ## 📂 Project Structure
 
