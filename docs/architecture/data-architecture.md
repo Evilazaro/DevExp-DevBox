@@ -66,6 +66,60 @@ The data domain spans three functional zones: the workload zone (DevCenter, proj
 
 The following subsections catalog all detected data components grouped by their architectural classification, with source traceability to the originating files and confidence scores calculated using the weighted formula (30% filename + 25% path + 35% content + 10% cross-reference).
 
+```mermaid
+---
+title: Data Domain Map
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
+flowchart TD
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    accTitle: Data Domain Map
+    accDescr: Three core data domains with their sub-domains and component counts
+
+    subgraph WORKLOAD["🖥️ Workload Domain (42 components)"]
+        W1["📄 DevCenter Config"]
+        W2["📁 Projects & Pools"]
+        W3["📦 Catalogs"]
+        W4["🌍 Environment Types"]
+        W5["🔗 Network Config"]
+    end
+    style WORKLOAD fill:#DEECF9,stroke:#0078D4,color:#323130
+
+    subgraph SECURITY["🔒 Security Domain (34 components)"]
+        S1["🔑 Key Vault & Secrets"]
+        S2["🛡️ RBAC Assignments"]
+        S3["🔐 Managed Identities"]
+        S4["📋 Schema Validation"]
+    end
+    style SECURITY fill:#FDE7E9,stroke:#A80000,color:#323130
+
+    subgraph MONITORING["📊 Monitoring Domain (14 components)"]
+        M1["📊 Log Analytics"]
+        M2["🏷️ Resource Tags"]
+        M3["📈 Diagnostics"]
+    end
+    style MONITORING fill:#DFF6DD,stroke:#107C10,color:#323130
+
+    WORKLOAD -->|"secretIdentifier"| SECURITY
+    MONITORING -->|"workspaceId"| WORKLOAD
+    MONITORING -->|"workspaceId"| SECURITY
+```
+
 ### 2.1 Data Entities
 
 | Name | Description | Source | Confidence | Classification |
@@ -116,6 +170,57 @@ The following subsections catalog all detected data components grouped by their 
 | Azure Key Vault Secret | Individual secret (gha-token) with secure value and text/plain content type | src/security/secret.bicep:18-29 | 0.93 | Confidential |
 | Log Analytics Workspace | Centralized log and metrics store with PerGB2018 SKU | src/management/logAnalytics.bicep:36-48 | 0.92 | Internal |
 
+```mermaid
+---
+title: Storage Tier Distribution
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
+flowchart LR
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    accTitle: Storage Tier Distribution
+    accDescr: Distribution of data assets across storage tiers from hot operational to cold configuration
+
+    subgraph HOT["🔥 Hot Tier (Real-time Access)"]
+        H1["🔒 Key Vault Secrets"]
+        H2["🔐 Managed Identities"]
+        H3["🛡️ RBAC Assignments"]
+    end
+    style HOT fill:#FDE7E9,stroke:#A80000,color:#323130
+
+    subgraph WARM["📊 Warm Tier (Near Real-time)"]
+        W1["📊 Log Analytics Workspace"]
+        W2["📈 Diagnostic Logs"]
+    end
+    style WARM fill:#FFF4CE,stroke:#797673,color:#323130
+
+    subgraph CONFIG["📄 Config Tier (Deploy-time)"]
+        C1["📄 YAML Config Files (3)"]
+        C2["📋 JSON Schemas (3)"]
+        C3["⚙️ Bicep Types (18)"]
+        C4["📄 Parameters (JSON)"]
+    end
+    style CONFIG fill:#F3F2F1,stroke:#D2D0CE,color:#323130
+
+    CONFIG -->|"loadYamlContent"| HOT
+    CONFIG -->|"deploy-time params"| WARM
+    HOT -->|"audit logs"| WARM
+```
+
 ### 2.4 Data Flows
 
 | Name | Description | Source | Confidence | Classification |
@@ -151,6 +256,64 @@ The following subsections catalog all detected data components grouped by their 
 | RBAC Governance (Project) | Contributor, Dev Box User, Deployment Environment User (Project), KV Secrets (RG) | infra/settings/workload/devcenter.yaml:112-124 | 0.91 | Confidential |
 | Environment Type Creator Role | Default Contributor role assigned to environment type creators | src/workload/project/projectEnvironmentType.bicep:18-23 | 0.87 | Internal |
 | Schema Validation Governance | JSON Schema 2020-12 validation for all YAML configs | infra/settings/security/security.schema.json:1-139 | 0.90 | Internal |
+
+```mermaid
+---
+title: Data Zone Topology
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
+flowchart TD
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    accTitle: Data Zone Topology
+    accDescr: Azure Landing Zone segregation showing data assets distributed across workload, security, and monitoring resource groups
+
+    subgraph SUB["☁️ Azure Subscription"]
+        subgraph WRG["📁 Workload Resource Group"]
+            DC["🖥️ DevCenter"]
+            PR["📁 eShop Project"]
+            PL["💻 Pools (backend + frontend)"]
+            NC["🌐 Network Connection"]
+            VN["🌐 VNet (10.0.0.0/16)"]
+        end
+        style WRG fill:#DEECF9,stroke:#0078D4,color:#323130
+
+        subgraph SRG["🔒 Security Resource Group"]
+            KV["🔒 Key Vault"]
+            SC["🔑 gha-token Secret"]
+        end
+        style SRG fill:#FDE7E9,stroke:#A80000,color:#323130
+
+        subgraph MRG["📊 Monitoring Resource Group"]
+            LA["📊 Log Analytics"]
+        end
+        style MRG fill:#DFF6DD,stroke:#107C10,color:#323130
+    end
+    style SUB fill:#F3F2F1,stroke:#D2D0CE,color:#323130
+
+    LA -->|"workspaceId"| KV
+    LA -->|"workspaceId"| DC
+    LA -->|"workspaceId"| VN
+    SC -->|"secretIdentifier"| DC
+    VN --> NC
+    NC --> PL
+    DC --> PR
+    PR --> PL
+```
 
 ### 2.7 Data Quality Rules
 
@@ -259,6 +422,67 @@ The principles are organized into three tiers: foundational principles that appl
 | Confidential | Secrets, credentials, Azure AD group IDs, RBAC role mappings | Key Vault secrets, @secure() parameters, Azure AD group IDs |
 | Internal | Operational configuration not for external exposure | Resource group names, VNet settings, pool configurations, tags |
 | Public | Publicly available reference data | Azure RBAC built-in role GUIDs, public catalog URIs, API versions |
+
+```mermaid
+---
+title: Data Classification Taxonomy
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
+flowchart TD
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    accTitle: Data Classification Taxonomy
+    accDescr: Hierarchical classification of data assets from confidential through internal to public with protection controls
+
+    ROOT["🏛️ Data Classification"]
+
+    subgraph CONF["🔴 Confidential (28 assets)"]
+        C1["🔐 @secure() Parameters"]
+        C2["🔑 Key Vault Secrets"]
+        C3["🛡️ Azure AD Group IDs"]
+        C4["📋 RBAC Role Mappings"]
+        C5["🔒 Managed Identity Principals"]
+    end
+    style CONF fill:#FDE7E9,stroke:#A80000,color:#323130
+
+    subgraph INT["🟡 Internal (52 assets)"]
+        I1["📄 Resource Group Names"]
+        I2["🌐 VNet/Subnet Config"]
+        I3["💻 Pool Configurations"]
+        I4["🏷️ Tag Taxonomies"]
+        I5["⚙️ Bicep Type Definitions"]
+    end
+    style INT fill:#FFF4CE,stroke:#797673,color:#323130
+
+    subgraph PUB["🟢 Public (10 assets)"]
+        P1["📋 Azure RBAC Role GUIDs"]
+        P2["🌐 Public Catalog URIs"]
+        P3["📄 Azure API Versions"]
+    end
+    style PUB fill:#DFF6DD,stroke:#107C10,color:#323130
+
+    ROOT --> CONF
+    ROOT --> INT
+    ROOT --> PUB
+
+    CONF -.->|"Protected by"| PROT1["🔒 Key Vault + @secure()"]
+    INT -.->|"Protected by"| PROT2["🛡️ Azure RBAC"]
+    PUB -.->|"Protected by"| PROT3["📋 Schema Validation"]
+```
 
 ---
 
