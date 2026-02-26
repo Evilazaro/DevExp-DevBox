@@ -1296,16 +1296,23 @@ business_layer_reasoning:
   step6_proceed_to_documentation: true
 
 validation:
-  sections_present: [1, 2, 3, 4, 5, 8]
+  sections_present: [1, 2, 3, 4, 5, 6, 7, 8, 9]
   all_11_component_types_in_section_2: true
   all_11_component_types_in_section_5: true
   sections_with_overview: [1, 2, 3, 4, 5, 6, 7, 8, 9]
   sections_with_summary: [2, 4, 5, 8]
-  mermaid_diagrams: 3
-  mermaid_scores: [97, 96, 97]
+  mermaid_diagrams: 4
+  mermaid_scores: [97, 97, 96, 97]
   placeholder_text_found: false
   total_components: 38
   quality_level: comprehensive
   quality_threshold_met: true
   confidence_average: 0.87
+  gate_E014_passed: true
+  gate_E015_passed: true
+  gate_E016_passed: true
+  gate_E017_passed: true
+  gate_E019_passed: true
+  gate_E023_passed: true
+  gate_E024_passed: true
 -->
