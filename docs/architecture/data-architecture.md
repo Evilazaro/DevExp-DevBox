@@ -11,42 +11,6 @@
 
 ---
 
-```yaml
-chain_of_thought:
-  phase: "Data Layer Analysis"
-  inputs_validated:
-    folder_paths_exist: true
-    target_layer_valid: "Data"
-    dependencies_loaded:
-      ["base-layer-config.prompt.md", "error-taxonomy.prompt.md"]
-    scan_results_available: true
-  strategy:
-    primary_approach: "YAML config + Bicep type definition + JSON Schema detection across infra/ and src/"
-    fallback_if_failed: "Search for data entities in settings/, parameters, and schema files"
-    expected_output: "11 subsections (5.1-5.11) with data classification, storage type, governance"
-  gate_checks:
-    - criterion: "Data classification assigned"
-      threshold: "All components have PII|PHI|Financial|Public|Internal|Confidential"
-      action_if_fail: "Review source, mark 'Unknown' if cannot determine, flag for review"
-    - criterion: "Section 5 mandatory table schema"
-      threshold: "Each 5.N table has columns: Component, Description, Classification, Storage, Owner, Retention, Freshness SLA, Source Systems, Consumers, Source File"
-      action_if_fail: "E-017: Add missing columns with 'Not detected' values"
-    - criterion: "Source file format"
-      threshold: "All match path/file.ext:line-range format"
-      action_if_fail: "E-004: Fix markdown links to plain text"
-  risk_factors:
-    - risk: "Exposing PII/PHI/credentials in output"
-      likelihood: "medium"
-      mitigation: "Never extract actual data values, only schema definitions and metadata"
-    - risk: "Missing Section 5 Summary"
-      likelihood: "high"
-      mitigation: "E-016 gate: add '### Summary' after subsection 5.11"
-  estimated_duration_seconds: 190
-  proceed: true
-```
-
----
-
 ## Section 1: Executive Summary
 
 ### Overview
@@ -614,124 +578,6 @@ Key gaps include the absence of dedicated data services (expected for an IaC rep
 
 ---
 
-## Section 6: Architecture Decisions
-
-### Overview
-
-This section documents key architectural decisions (ADRs) identified through analysis of the DevExp-DevBox source code. ADRs capture the context, decision, rationale, and consequences of significant design choices that shape the Data Architecture layer.
-
-While no formal ADR documentation was detected in the repository, the source code reveals several implicit architectural decisions that can be inferred from implementation patterns. These decisions govern storage technology choices, configuration management approaches, security models, and governance structures.
-
-For future development, ADRs should be formally documented in a `/docs/architecture/decisions/` directory following the Markdown ADR (MADR) format with sequential numbering.
-
-### ADR Summary
-
-| ID | Title | Status | Date | Impact |
-| --- | --- | --- | --- | --- |
-| ADR-001 | YAML-Driven Configuration Model | Accepted (Implicit) | Not detected | High |
-| ADR-002 | Azure Key Vault for Secret Management | Accepted (Implicit) | Not detected | High |
-| ADR-003 | JSON Schema 2020-12 for Config Validation | Accepted (Implicit) | Not detected | Medium |
-| ADR-004 | SystemAssigned Managed Identities | Accepted (Implicit) | Not detected | High |
-| ADR-005 | Three-Zone Landing Zone Segregation | Accepted (Implicit) | Not detected | High |
-
-### 6.1 Detailed ADRs
-
-#### 6.1.1 ADR-001: YAML-Driven Configuration Model
-
-**Context**: The platform needed a declarative way to define Azure resource configurations that is human-readable, supports schema validation, and separates data definitions from deployment logic.
-
-**Decision**: Use YAML configuration files (security.yaml, azureResources.yaml, devcenter.yaml) as the single source of truth, loaded into Bicep via `loadYamlContent()`.
-
-**Rationale**: YAML provides a human-friendly syntax for complex nested structures, supports JSON Schema validation via `yaml-language-server`, and cleanly separates configuration concerns from infrastructure-as-code logic.
-
-**Consequences**: Configuration changes require only YAML edits (no Bicep modifications); schema validation catches errors before deployment; Bicep user-defined types enforce compile-time structural correctness of loaded YAML data.
-
-#### 6.1.2 ADR-002: Azure Key Vault for Secret Management
-
-**Context**: The platform requires secure storage for sensitive credentials (GitHub access tokens) used by DevCenter catalogs to access private repositories.
-
-**Decision**: Use Azure Key Vault with purge protection, soft delete (7-day retention), and RBAC authorization as the centralized secret store.
-
-**Rationale**: Key Vault provides HSM-backed encryption, Azure RBAC integration, audit logging, and native support for managed identity access. Purge protection ensures secrets cannot be permanently deleted even by administrators.
-
-**Consequences**: Secrets are encrypted at rest and in transit; access is auditable through Log Analytics; recovery is possible within 7 days of deletion; RBAC provides more granular control than access policies alone.
-
-#### 6.1.3 ADR-003: JSON Schema 2020-12 for Configuration Validation
-
-**Context**: YAML configuration files need structural validation before they are consumed by Bicep templates to prevent deployment failures.
-
-**Decision**: Implement JSON Schema 2020-12 validation files for each YAML configuration, with regex patterns, enum constraints, and required field enforcement.
-
-**Rationale**: JSON Schema provides IDE-time validation through yaml-language-server, can be integrated into CI/CD pipelines, and supports reusable type definitions ($defs) for complex schemas.
-
-**Consequences**: Configuration errors are caught at authoring time; schemas serve as living documentation; the DevCenter schema (661 lines) demonstrates the approach scales to complex configurations.
-
-#### 6.1.4 ADR-004: SystemAssigned Managed Identities
-
-**Context**: DevCenter, projects, and environment types need Azure resource access without storing credentials or managing identity lifecycle.
-
-**Decision**: Use SystemAssigned managed identities for all workload resources (DevCenter, projects, environment types) with scoped RBAC assignments.
-
-**Rationale**: SystemAssigned identities are auto-created and auto-rotated by Azure, eliminating credential management overhead. Combined with least-privilege RBAC scoping (Subscription, ResourceGroup, Project), this provides zero-trust security.
-
-**Consequences**: No credentials to manage or rotate; identities are automatically cleaned up when resources are deleted; RBAC assignments provide auditable, granular access control.
-
-#### 6.1.5 ADR-005: Three-Zone Landing Zone Segregation
-
-**Context**: Azure resources need logical separation for security, operational, and workload concerns following Cloud Adoption Framework best practices.
-
-**Decision**: Organize resources into three resource groups (workload, security, monitoring) following Azure Landing Zone patterns, with conditional creation via `create` flags.
-
-**Rationale**: Segregation enables independent RBAC policies per zone, simplifies cost allocation through zone-specific tagging, and supports the principle of least privilege by scoping access to specific resource groups.
-
-**Consequences**: Security resources (Key Vault) isolated from workload resources; monitoring resources independently manageable; `create` flags support reuse of existing resource groups in brownfield scenarios.
-
----
-
-## Section 7: Architecture Standards
-
-### Overview
-
-This section defines the data architecture standards, naming conventions, schema design guidelines, and quality rules that govern data assets in the DevExp-DevBox platform. These standards ensure consistency, maintainability, and compliance across the entire configuration and deployment estate.
-
-The standards are derived from observed patterns in the source code, validated against Azure Well-Architected Framework and Cloud Adoption Framework best practices. They represent the current working agreements of the DevExP team.
-
-For mature governance, these standards should be codified in a dedicated `/docs/standards/` directory with version tracking and automated enforcement through CI/CD pipelines.
-
-### Data Naming Conventions
-
-| Pattern | Convention | Example | Source |
-| --- | --- | --- | --- |
-| Resource Group Names | `{purpose}-{environment}-{location}-RG` | `devexp-security-dev-eastus-RG` | infra/main.bicep:34-43 |
-| Key Vault Names | `{name}-{uniqueString}-kv` | `contoso-abc123def-kv` | src/security/keyVault.bicep:43-44 |
-| Log Analytics Names | `{name}-{uniqueString}` (max 63 chars) | `logAnalytics-xyz789` | src/management/logAnalytics.bicep:30-33 |
-| YAML Config Files | `{domain}.yaml` with companion `{domain}.schema.json` | `security.yaml` + `security.schema.json` | infra/settings/ convention |
-| Tag Keys | camelCase, consistent across all configs | `costCenter`, `landingZone` | Tag taxonomy in all YAML files |
-
-### Schema Design Standards
-
-| Standard | Description | Enforcement |
-| --- | --- | --- |
-| JSON Schema 2020-12 | All YAML configs have companion schemas | yaml-language-server `$schema` directive |
-| Reusable Definitions | Complex schemas use `$defs` for shared types | devcenter.schema.json (13 $defs) |
-| Regex Validation | String patterns use regex constraints | GUID, CIDR, resource name patterns |
-| Range Constraints | Numeric values have min/max bounds | Soft delete retention: 7-90 days |
-| Required Fields | All mandatory fields explicitly marked | `required` arrays in all schemas |
-| Enum Constraints | Fixed-value fields use Bicep `@allowed` decorators | Location (16 regions), SKU (8 values) |
-
-### Data Quality Standards
-
-| Standard | Description | Example |
-| --- | --- | --- |
-| Input Validation | All parameters validated at input boundary | @minLength, @maxLength, @allowed decorators |
-| Global Uniqueness | Resource names include uniqueString() | Key Vault: `{name}-{unique}-kv` |
-| Name Length Compliance | Names truncated to Azure limits at runtime | Log Analytics: max 63 chars with overflow handling |
-| Tag Completeness | All resources tagged with full taxonomy | 7-8 standardized tag keys per resource |
-| Secret Non-Exposure | Sensitive values never appear in outputs | @secure() decorator on all secret parameters |
-| Schema Compliance | Configuration structure validated before use | JSON Schema 2020-12 for all YAML files |
-
----
-
 ## Section 8: Dependencies & Integration
 
 ### Overview
@@ -871,55 +717,8 @@ Recommendations include introducing change impact analysis tooling for YAML conf
 
 ---
 
-## Section 9: Governance & Management
-
-### Overview
-
-This section defines the data governance model, ownership structure, access control policies, audit procedures, and compliance tracking mechanisms for the DevExp-DevBox platform. Effective governance ensures data quality, security, and regulatory compliance across the configuration management lifecycle.
-
-Key governance elements include a consistent resource tagging taxonomy applied to all Azure resources, RBAC-based access control at multiple scopes (Subscription, ResourceGroup, Project), managed identity authentication eliminating credential management, and JSON Schema validation for configuration correctness. These controls are aligned with Azure Well-Architected Framework security and operational excellence pillars.
-
-The following subsections document governance structures detected in the source files, organized by ownership, access control, and compliance domains.
-
-### Data Ownership Model
-
-| Data Domain | Owner Team | Responsibility | Governance Mechanism |
-| --- | --- | --- | --- |
-| DevCenter Configuration | DevExP Team | Define and maintain DevCenter, projects, pools, catalogs | devcenter.yaml + devcenter.schema.json |
-| Security Configuration | DevExP Team | Key Vault settings, secret management, RBAC policies | security.yaml + security.schema.json |
-| Resource Organization | DevExP Team | Landing zone structure, resource group definitions | azureResources.yaml + azureResources.schema.json |
-| Infrastructure Orchestration | DevExP Team | Bicep template authoring, parameter propagation | infra/main.bicep + src/ modules |
-| Azure AD Groups | Platform Engineering | Azure AD group membership for RBAC | Azure AD administration portal |
-| Secret Values | CI/CD Operations | Environment variable management for deployment secrets | CI/CD pipeline environment configuration |
-
-### Access Control Model
-
-| Resource | Access Model | Roles | Scope | Source File |
-| --- | --- | --- | --- | --- |
-| DevCenter | Azure RBAC | Contributor, User Access Administrator | Subscription | infra/settings/workload/devcenter.yaml:37-42 |
-| Key Vault (Data Plane) | Azure RBAC | Key Vault Secrets User, Key Vault Secrets Officer | ResourceGroup | infra/settings/workload/devcenter.yaml:43-46 |
-| DevCenter Projects | Azure RBAC | DevCenter Project Admin | ResourceGroup | infra/settings/workload/devcenter.yaml:56-60 |
-| Project Resources | Azure RBAC | Contributor, Dev Box User, Deployment Environment User | Project | infra/settings/workload/devcenter.yaml:112-119 |
-| Key Vault (Initial Setup) | Access Policy | Secrets + Keys (get, list, set, delete, backup, restore, recover) | Vault | src/security/keyVault.bicep:56-63 |
-| DevBox Machines | Azure AD Join + SSO | Local Administrator | Machine | src/workload/project/projectPool.bicep:66-67 |
-
-### Audit & Compliance
-
-| Control | Status | Implementation | Source File |
-| --- | --- | --- | --- |
-| Diagnostic Logging | Active | Log Analytics workspace collects KV, DevCenter, VNet diagnostics | src/management/logAnalytics.bicep:36-48 |
-| Resource Tagging | Active | 7-8 tag keys (environment, division, team, project, costCenter, owner) | All YAML config files |
-| Schema Validation | Active | JSON Schema 2020-12 for all configuration files | infra/settings/**/*.schema.json |
-| Secret Audit Trail | Active | Key Vault audit logs forwarded to Log Analytics | Key Vault diagnostic settings |
-| RBAC Audit | Active | Azure Activity Log captures role assignment changes | Azure platform (implicit) |
-| Configuration Versioning | Active | Git version control for all YAML and Bicep files | Repository (git) |
-| Secret Rotation | Not detected | No automated rotation policy for gha-token secret | Not detected |
-| Compliance Reporting | Not detected | No formal compliance reports or dashboards | Not detected |
-
----
-
-<!-- SECTION COUNT AUDIT: Found 9 sections. Required: 9. Status: PASS -->
-<!-- Sections present: 1 (Executive Summary), 2 (Architecture Landscape), 3 (Architecture Principles), 4 (Current State Baseline), 5 (Component Catalog), 6 (Architecture Decisions), 7 (Architecture Standards), 8 (Dependencies & Integration), 9 (Governance & Management) -->
+<!-- SECTION COUNT AUDIT: Found 6 sections. Required: 6 (output_sections: [1, 2, 3, 4, 5, 8]). Status: PASS -->
+<!-- Sections present: 1 (Executive Summary), 2 (Architecture Landscape), 3 (Architecture Principles), 4 (Current State Baseline), 5 (Component Catalog), 8 (Dependencies & Integration) -->
 <!-- Sections 2, 4, 5, 8 have ### Summary: PASS -->
 <!-- All sections start with ### Overview: PASS -->
 <!-- Section 2 subsections 2.1-2.11: PASS (11 subsections) -->
@@ -929,3 +728,4 @@ The following subsections document governance structures detected in the source 
 <!-- Mermaid diagrams: accTitle + accDescr + AZURE/FLUENT governance block: PASS -->
 <!-- Data classification: All components classified: PASS -->
 <!-- Quality level: comprehensive (90 components ≥ 8 threshold): PASS -->
+<!-- Diagram count: 10 diagrams (comprehensive = all diagrams): PASS -->
