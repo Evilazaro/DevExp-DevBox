@@ -2,16 +2,16 @@
 
 ## 📑 Table of Contents
 
-- [📋 1. Executive Summary](#1-executive-summary)
-- [🌐 2. Architecture Landscape](#2-architecture-landscape)
-- [🏛️ 3. Architecture Principles](#3-architecture-principles)
-- [📊 4. Current State Baseline](#4-current-state-baseline)
-- [📦 5. Component Catalog](#5-component-catalog)
-- [🔗 6. Dependencies & Integration](#6-dependencies--integration)
+- [📋 1. Executive Summary](#-1-executive-summary)
+- [🌐 2. Architecture Landscape](#-2-architecture-landscape)
+- [🏛️ 3. Architecture Principles](#️-3-architecture-principles)
+- [📊 4. Current State Baseline](#-4-current-state-baseline)
+- [📦 5. Component Catalog](#-5-component-catalog)
+- [🔗 6. Dependencies & Integration](#-6-dependencies--integration)
 
 ---
 
-## 1. Executive Summary
+## 📋 1. Executive Summary
 
 ### Overview
 
@@ -33,7 +33,7 @@ reflecting strong traceability between source artifacts and business intent.
 
 ---
 
-## 2. Architecture Landscape
+## 🌐 2. Architecture Landscape
 
 ### Overview
 
@@ -218,7 +218,7 @@ maturity.
 
 ---
 
-## 3. Architecture Principles
+## 🏛️ 3. Architecture Principles
 
 ### Overview
 
@@ -246,7 +246,7 @@ repeatable, auditable, and governable.
 
 ---
 
-## 4. Current State Baseline
+## 📊 4. Current State Baseline
 
 ### Overview
 
@@ -354,7 +354,7 @@ Addressing these gaps would raise the average maturity from 3.4 to an estimated
 
 ---
 
-## 5. Component Catalog
+## 📦 5. Component Catalog
 
 ### Overview
 
@@ -1041,7 +1041,7 @@ trace business capabilities through to their technical implementations.
 
 ---
 
-## 6. Dependencies & Integration
+## 🔗 6. Dependencies & Integration
 
 ### Overview
 
