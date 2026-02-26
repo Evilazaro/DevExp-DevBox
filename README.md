@@ -456,11 +456,11 @@ loaded at deployment time by Bicep's `loadYamlContent()` function.
 > Bicep orchestrator loads these files at deployment time using
 > `loadYamlContent()`, converting YAML values into typed Bicep parameters.
 
-| Configuration File                                           | Purpose                                                                 | Schema                       |
-| ------------------------------------------------------------ | ----------------------------------------------------------------------- | ---------------------------- |
-| ⚙️ `infra/settings/resourceOrganization/azureResources.yaml` | Resource group naming, creation flags, and tagging conventions          | `azureResources.schema.json` |
-| 🔒 `infra/settings/security/security.yaml`                   | Key Vault name, purge protection, soft delete, RBAC settings            | `security.schema.json`       |
-| 🖥️ `infra/settings/workload/devcenter.yaml`                  | Dev Center name, identity, catalogs, environment types, projects, pools | `devcenter.schema.json`      |
+| Configuration File                                           | Purpose                                                                 |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| ⚙️ `infra/settings/resourceOrganization/azureResources.yaml` | Resource group naming, creation flags, and tagging conventions          |
+| 🔒 `infra/settings/security/security.yaml`                   | Key Vault name, purge protection, soft delete, RBAC settings            |
+| 🖥️ `infra/settings/workload/devcenter.yaml`                  | Dev Center name, identity, catalogs, environment types, projects, pools |
 
 ### Key Configuration Parameters
 
