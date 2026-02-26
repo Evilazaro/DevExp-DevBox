@@ -617,6 +617,54 @@ flowchart TD
 | Schema Governance | Level 3 (Defined) | JSON Schema 2020-12 with regex, enum, range constraints |
 | Monitoring | Level 2 (Managed) | Log Analytics workspace deployed but no quality dashboards |
 
+```mermaid
+---
+title: Governance Maturity Assessment
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
+flowchart LR
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    accTitle: Governance Maturity Assessment
+    accDescr: Visual assessment of governance maturity levels across six data management areas from Level 2 to Level 4
+
+    subgraph L4["🏆 Level 4 - Measured"]
+        SM["🔒 Secret Management"]
+    end
+    style L4 fill:#DFF6DD,stroke:#107C10,color:#323130
+
+    subgraph L3["✅ Level 3 - Defined"]
+        CM["📄 Config Management"]
+        AC["🛡️ Access Control"]
+        RO["📁 Resource Organization"]
+        SG["📋 Schema Governance"]
+    end
+    style L3 fill:#DEECF9,stroke:#0078D4,color:#323130
+
+    subgraph L2["⚠️ Level 2 - Managed"]
+        MN["📊 Monitoring"]
+    end
+    style L2 fill:#FFF4CE,stroke:#797673,color:#323130
+
+    MN -->|"Add quality dashboards"| CM
+    CM -->|"Add contract testing"| SM
+    AC -->|"Add anomaly detection"| SM
+```
+
 ### Compliance Posture
 
 | Control | Status | Implementation |
@@ -687,6 +735,79 @@ Components are organized to support impact analysis, change management, and depe
 | VirtualNetwork Type | VNet config: name, resourceGroupName, type, subnets | Internal | Bicep type definition | DevExP Team | indefinite | batch | Bicep authoring | devCenter.bicep network config | src/workload/core/devCenter.bicep:62-72 |
 | VirtualNetworkSubnet | Subnet: name and addressPrefix | Internal | Bicep type definition | DevExP Team | indefinite | batch | Bicep authoring | VNet subnet deployment | src/workload/core/devCenter.bicep:75-81 |
 | Tags Type (shared) | Wildcard string-keyed object for Azure resource tags | Internal | Bicep type definition | DevExP Team | indefinite | batch | Bicep authoring | All resource modules | src/security/keyVault.bicep:37-40 |
+
+```mermaid
+---
+title: Configuration Entity Relationships
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
+flowchart TD
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    accTitle: Configuration Entity Relationships
+    accDescr: Entity-relationship diagram showing configuration entities and their relationships across DevCenter, Security, and Network domains
+
+    subgraph CORE["🖥️ DevCenter Core"]
+        DC["🖥️ DevCenter"]
+        CAT["📦 Catalog"]
+        ET["🌍 Environment Type"]
+        ID["🔐 Identity"]
+    end
+    style CORE fill:#DEECF9,stroke:#0078D4,color:#323130
+
+    subgraph PROJ["📁 Project Domain"]
+        PR["📁 Project (eShop)"]
+        PL["💻 Pool"]
+        PC["📦 Project Catalog"]
+        PE["🌍 Project Env Type"]
+        PI["🔐 Project Identity"]
+    end
+    style PROJ fill:#F3F2F1,stroke:#D2D0CE,color:#323130
+
+    subgraph NET["🌐 Network Domain"]
+        VN["🌐 VNet"]
+        SN["🌐 Subnet"]
+        NC["🔗 Network Connection"]
+    end
+    style NET fill:#E1DFDD,stroke:#A19F9D,color:#323130
+
+    subgraph SEC["🔒 Security Domain"]
+        KV["🔒 Key Vault"]
+        SC["🔑 Secret"]
+        RA["🛡️ RBAC Assignment"]
+    end
+    style SEC fill:#FDE7E9,stroke:#A80000,color:#323130
+
+    DC -->|"1:N"| PR
+    DC -->|"1:N"| CAT
+    DC -->|"1:N"| ET
+    DC -->|"1:1"| ID
+    PR -->|"1:N"| PL
+    PR -->|"1:N"| PC
+    PR -->|"1:N"| PE
+    PR -->|"1:1"| PI
+    PR -->|"1:1"| VN
+    VN -->|"1:N"| SN
+    SN -->|"1:1"| NC
+    KV -->|"1:N"| SC
+    ID -->|"1:N"| RA
+    PI -->|"1:N"| RA
+    SC -->|"ref"| PC
+```
 
 ### 5.3 Data Stores
 
@@ -775,6 +896,72 @@ Components are organized to support impact analysis, change management, and depe
 | Resource Org Schema | JSON Schema: workload, security, monitoring RGs with create, name, tags | Internal | JSON Schema | DevExP Team | indefinite | batch | Schema authoring | azureResources.yaml IDE validation | infra/settings/resourceOrganization/azureResources.schema.json:1-138 |
 | DevCenter Config Schema | Comprehensive JSON Schema with $defs: guid, roles, catalogs, projects, pools | Internal | JSON Schema | DevExP Team | indefinite | batch | Schema authoring | devcenter.yaml IDE validation | infra/settings/workload/devcenter.schema.json:1-661 |
 
+```mermaid
+---
+title: Data Contract Validation Flow
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
+flowchart LR
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    accTitle: Data Contract Validation Flow
+    accDescr: Shows the three-layer validation contract between JSON Schema, YAML configuration, and Bicep type definitions
+
+    subgraph SCHEMA["📋 JSON Schema Layer"]
+        S1["📋 security.schema.json"]
+        S2["📋 azureResources.schema.json"]
+        S3["📋 devcenter.schema.json (661 lines)"]
+    end
+    style SCHEMA fill:#DEECF9,stroke:#0078D4,color:#323130
+
+    subgraph CONFIG["📄 YAML Config Layer"]
+        C1["📄 security.yaml"]
+        C2["📄 azureResources.yaml"]
+        C3["📄 devcenter.yaml"]
+    end
+    style CONFIG fill:#F3F2F1,stroke:#D2D0CE,color:#323130
+
+    subgraph TYPES["⚙️ Bicep Type Layer"]
+        T1["⚙️ KeyVaultConfig (16 lines)"]
+        T2["⚙️ DevCenterConfig (20 lines)"]
+        T3["⚙️ ProjectNetwork (18 lines)"]
+        T4["⚙️ PoolConfig (9 lines)"]
+    end
+    style TYPES fill:#FFF4CE,stroke:#797673,color:#323130
+
+    subgraph DEPLOY["☁️ Azure Deployment"]
+        D1["☁️ ARM Resource Creation"]
+    end
+    style DEPLOY fill:#DFF6DD,stroke:#107C10,color:#323130
+
+    S1 -->|"IDE-time validation"| C1
+    S2 -->|"IDE-time validation"| C2
+    S3 -->|"IDE-time validation"| C3
+    C1 -->|"loadYamlContent"| T1
+    C2 -->|"loadYamlContent"| T2
+    C3 -->|"loadYamlContent"| T2
+    C3 -->|"loadYamlContent"| T3
+    C3 -->|"loadYamlContent"| T4
+    T1 -->|"compile-time check"| D1
+    T2 -->|"compile-time check"| D1
+    T3 -->|"compile-time check"| D1
+    T4 -->|"compile-time check"| D1
+```
+
 ### 5.11 Data Security
 
 | Component | Description | Classification | Storage | Owner | Retention | Freshness SLA | Source Systems | Consumers | Source File |
@@ -824,6 +1011,63 @@ The following subsections document detected integration patterns with their char
 | Identity Principal Flow | Batch (deploy-time) | Resource identity output | Role assignment modules | SystemAssigned type | src/workload/core/devCenter.bicep:160-162 |
 | Tag Propagation | Batch (deploy-time) | YAML tag blocks | All Azure resources | Tag taxonomy (7-8 keys) | infra/settings/workload/devcenter.yaml:188-195 |
 | Network ID Chain | Batch (deploy-time) | vnet.bicep output | networkConnection + projectPool | Bicep module params | src/connectivity/vnet.bicep:77-* |
+
+```mermaid
+---
+title: Secret Chain Flow
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
+flowchart LR
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    accTitle: Secret Chain Flow
+    accDescr: End-to-end flow of the GitHub access token from CI/CD environment through Key Vault to private catalog authentication
+
+    subgraph CICD["🔐 CI/CD Environment"]
+        ENV["🔐 KEY_VAULT_SECRET"]
+    end
+    style CICD fill:#FDE7E9,stroke:#A80000,color:#323130
+
+    subgraph PARAMS["📄 Parameter Binding"]
+        PJ["📄 main.parameters.json"]
+        MB["⚙️ infra/main.bicep (@secure)"]
+    end
+    style PARAMS fill:#F3F2F1,stroke:#D2D0CE,color:#323130
+
+    subgraph VAULT["🔒 Key Vault"]
+        KV["🔒 Azure Key Vault"]
+        SC["🔑 gha-token Secret"]
+    end
+    style VAULT fill:#FDE7E9,stroke:#A80000,color:#323130
+
+    subgraph CONSUMERS["📦 Private Catalogs"]
+        C1["📦 environments (Evilazaro/eShop)"]
+        C2["📦 devboxImages (Evilazaro/eShop)"]
+    end
+    style CONSUMERS fill:#DEECF9,stroke:#0078D4,color:#323130
+
+    ENV -->|"env variable ref"| PJ
+    PJ -->|"@secure() param"| MB
+    MB -->|"secretValue"| KV
+    KV --> SC
+    SC -->|"secretIdentifier URI"| C1
+    SC -->|"secretIdentifier URI"| C2
+    MB -.->|"Managed Identity"| KV
+```
 
 ### Producer-Consumer Relationships
 
