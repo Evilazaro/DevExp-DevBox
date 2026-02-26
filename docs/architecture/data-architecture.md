@@ -480,30 +480,30 @@ flowchart TD
     accTitle: Data Classification Taxonomy
     accDescr: Hierarchical classification of data assets from confidential through internal to public with protection controls
 
-    ROOT["🏛️ Data Classification"]
+    ROOT["🏛️ Data Classification"]:::neutral
 
     subgraph CONF["🔴 Confidential (28 assets)"]
-        C1["🔐 @secure() Parameters"]
-        C2["🔑 Key Vault Secrets"]
-        C3["🛡️ Azure AD Group IDs"]
-        C4["📋 RBAC Role Mappings"]
-        C5["🔒 Managed Identity Principals"]
+        C1["🔐 @secure() Parameters"]:::danger
+        C2["🔑 Key Vault Secrets"]:::danger
+        C3["🛡️ Azure AD Group IDs"]:::danger
+        C4["📋 RBAC Role Mappings"]:::danger
+        C5["🔒 Managed Identity Principals"]:::danger
     end
     style CONF fill:#FDE7E9,stroke:#E81123,color:#323130
 
     subgraph INT["🟡 Internal (52 assets)"]
-        I1["📄 Resource Group Names"]
-        I2["🌐 VNet/Subnet Config"]
-        I3["💻 Pool Configurations"]
-        I4["🏷️ Tag Taxonomies"]
-        I5["⚙️ Bicep Type Definitions"]
+        I1["📄 Resource Group Names"]:::warning
+        I2["🌐 VNet/Subnet Config"]:::warning
+        I3["💻 Pool Configurations"]:::warning
+        I4["🏷️ Tag Taxonomies"]:::warning
+        I5["⚙️ Bicep Type Definitions"]:::warning
     end
-    style INT fill:#FFF4CE,stroke:#8A8886,color:#323130
+    style INT fill:#FFF4CE,stroke:#FFB900,color:#323130
 
     subgraph PUB["🟢 Public (10 assets)"]
-        P1["📋 Azure RBAC Role GUIDs"]
-        P2["🌐 Public Catalog URIs"]
-        P3["📄 Azure API Versions"]
+        P1["📋 Azure RBAC Role GUIDs"]:::success
+        P2["🌐 Public Catalog URIs"]:::success
+        P3["📄 Azure API Versions"]:::success
     end
     style PUB fill:#DFF6DD,stroke:#107C10,color:#323130
 
@@ -511,9 +511,14 @@ flowchart TD
     ROOT --> INT
     ROOT --> PUB
 
-    CONF -.->|"Protected by"| PROT1["🔒 Key Vault + @secure()"]
-    INT -.->|"Protected by"| PROT2["🛡️ Azure RBAC"]
-    PUB -.->|"Protected by"| PROT3["📋 Schema Validation"]
+    CONF -.->|"Protected by"| PROT1["🔒 Key Vault + @secure()"]:::neutral
+    INT -.->|"Protected by"| PROT2["🛡️ Azure RBAC"]:::neutral
+    PUB -.->|"Protected by"| PROT3["📋 Schema Validation"]:::neutral
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
 ```
 
 ---
