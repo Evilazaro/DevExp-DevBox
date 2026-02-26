@@ -1,13 +1,13 @@
 # Data Architecture - DevExp-DevBox
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [1. Executive Summary](#1-executive-summary)
-- [2. Architecture Landscape](#2-architecture-landscape)
-- [3. Architecture Principles](#3-architecture-principles)
-- [4. Current State Baseline](#4-current-state-baseline)
-- [5. Component Catalog](#5-component-catalog)
-- [6. Dependencies & Integration](#6-dependencies--integration)
+- [📋 1. Executive Summary](#1-executive-summary)
+- [🌐 2. Architecture Landscape](#2-architecture-landscape)
+- [🏛️ 3. Architecture Principles](#3-architecture-principles)
+- [📊 4. Current State Baseline](#4-current-state-baseline)
+- [📦 5. Component Catalog](#5-component-catalog)
+- [🔗 6. Dependencies & Integration](#6-dependencies--integration)
 
 ---
 
