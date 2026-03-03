@@ -84,10 +84,10 @@ flowchart TB
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
     %% SEMANTIC COLOR LEGEND:
-    %%   core     (#DEECF9) — Dev Center & project resources
-    %%   security (#FDE7E9) — Key Vault, secrets, RBAC, identity
-    %%   monitoring (#F3F2F1) — Log Analytics, diagnostics
-    %%   network  (#DFF6DD) — VNet, network connections
+    %%   core       (#DEECF9) — Dev Center & project resources
+    %%   security   (#FDE7E9) — Key Vault, secrets, RBAC, identity
+    %%   monitoring (#FFF9C4) — Log Analytics, diagnostics
+    %%   network    (#DFF6DD) — VNet, network connections
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph platform["🏗️ Azure Subscription"]
@@ -156,7 +156,7 @@ flowchart TB
     %% ============================================
     style platform fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
     style securityRG fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
-    style monitoringRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style monitoringRG fill:#FFF9C4,stroke:#FFB900,stroke-width:2px,color:#323130
     style workloadRG fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     style core fill:#FAFAFA,stroke:#0078D4,stroke-width:2px,color:#323130
     style projects fill:#FAFAFA,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -166,7 +166,7 @@ flowchart TB
     %% classDef declarations (centralized, 4 semantic classes ≤ 5 max)
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef security fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
-    classDef monitoring fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef monitoring fill:#FFF9C4,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef network fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
 ```
 
