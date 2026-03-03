@@ -6,11 +6,10 @@
 
 **Overview**
 
-DevExp-DevBox is an Infrastructure-as-Code accelerator that automates the
-provisioning of Microsoft Dev Box environments on Azure. It enables platform
-engineering teams to deploy fully configured Dev Centers, projects, catalogs,
-DevBox pools, networking, security, identity, and monitoring resources using a
-single command.
+DevExp-DevBox automates the provisioning of Microsoft Dev Box environments on
+Azure using Infrastructure-as-Code. It enables platform engineering teams to
+deploy fully configured Dev Centers, projects, catalogs, DevBox pools,
+networking, security, identity, and monitoring resources using a single command.
 
 Built with Azure Bicep and deployed via Azure Developer CLI (`azd`), this
 accelerator follows Azure Landing Zone principles to deliver enterprise-grade
