@@ -198,10 +198,11 @@ GitHub CLI is only required when using GitHub as the source control platform.
 
 **Overview**
 
-The fastest path to a running Dev Box environment takes three steps: clone the
-repository, authenticate with Azure, and run the setup script. The script
-handles environment creation, GitHub token retrieval, and Azure resource
-provisioning through `azd`.
+Getting a Dev Box environment running involves two stages: preparing the
+environment with the setup script, then provisioning Azure resources with `azd`.
+The setup script validates prerequisites, verifies authentication, retrieves
+your source control token, and writes it to the `azd` environment configuration.
+Provisioning is a separate step that deploys the actual infrastructure.
 
 ### 1. Clone the Repository
 
@@ -210,15 +211,23 @@ git clone https://github.com/Evilazaro/DevExp-DevBox.git
 cd DevExp-DevBox
 ```
 
-### 2. Authenticate with Azure and GitHub
+### 2. Authenticate
+
+Log into the required CLIs before running the setup script. The script validates
+authentication and will exit with an error if any are missing.
 
 ```bash
 az login
 azd auth login
-gh auth login
+gh auth login          # only required when using GitHub as source control
 ```
 
-### 3. Run the Setup Script
+### 3. Prepare the Environment
+
+The setup script checks that all required tools are installed (`az`, `azd`,
+`gh`), verifies your authentication status, retrieves your source control token
+via the CLI, and writes `KEY_VAULT_SECRET` and `SOURCE_CONTROL_PLATFORM` to
+`.azure/{envName}/.env`. It does **not** deploy any Azure resources.
 
 **Windows (PowerShell):**
 
@@ -233,17 +242,33 @@ chmod +x setUp.sh
 ./setUp.sh -e "dev" -s "github"
 ```
 
-> [!TIP] The setup script automatically creates the `azd` environment, retrieves
-> a GitHub personal access token, stores it in Key Vault, and runs
-> `azd provision` to deploy all infrastructure.
+> [!TIP] If you omit the `-SourceControl` parameter, the script prompts you to
+> select between GitHub and Azure DevOps interactively.
 
-Expected output on successful completion:
+Expected output on successful preparation:
 
 ```text
-✅ [2026-03-03 10:00:00] Environment 'dev' created successfully
-✅ [2026-03-03 10:00:15] GitHub authentication verified
-✅ [2026-03-03 10:05:30] Azure provisioning completed
+ℹ️ [2026-03-03 10:00:00] Starting Dev Box environment setup
+ℹ️ [2026-03-03 10:00:00] Environment name: dev
+✅ [2026-03-03 10:00:01] All required tools are available
+✅ [2026-03-03 10:00:02] GitHub authentication verified successfully
+✅ [2026-03-03 10:00:03] GitHub token retrieved and stored securely
+✅ [2026-03-03 10:00:04] Azure Developer CLI environment 'dev' initialized successfully.
+✅ [2026-03-03 10:00:04] Dev Box environment 'dev' setup successfully
 ```
+
+### 4. Provision Azure Resources
+
+Once the environment is prepared, deploy the infrastructure with `azd`:
+
+```bash
+azd provision -e dev
+```
+
+This command reads the configuration from `infra/main.bicep` and the YAML
+settings files, then creates the resource groups, Key Vault, Log Analytics
+Workspace, Dev Center, projects, and all associated resources in your Azure
+subscription.
 
 ## Configuration
 
