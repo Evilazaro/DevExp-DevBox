@@ -119,6 +119,8 @@ config:
   theme: base
   look: classic
   layout: dagre
+  themeVariables:
+    fontSize: '16px'
   flowchart:
     htmlLabels: true
 ---
@@ -134,6 +136,15 @@ flowchart TB
     %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
+
+    %% ────────────────────────────────────────────────────────────────────────────
+    %% COLOR DOCUMENTATION (MRM-D001)
+    %% core    (#DEECF9) — Dev Center, catalogs, environment types (blue)
+    %% success (#DFF6DD) — Projects, pools, network connections (green)
+    %% danger  (#FDE7E9) — Security resources: Key Vault, secrets (red/orange)
+    %% warning (#FFF4CE) — Identity and RBAC role assignments (yellow)
+    %% data    (#E1DFDD) — Monitoring and diagnostics resources (purple-gray)
+    %% ────────────────────────────────────────────────────────────────────────────
 
     subgraph orchestrator["🏢 Subscription Scope — infra/main.bicep"]
         direction TB
@@ -188,18 +199,23 @@ flowchart TB
     project -->|"assigns"| projectRoles
     devCenter -->|"assigns"| orgRoles
 
-    style orchestrator fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style monitoringRG fill:#F3F2F1,stroke:#8A8886,stroke-width:1px
-    style securityRG fill:#F3F2F1,stroke:#8A8886,stroke-width:1px
-    style workloadRG fill:#F3F2F1,stroke:#8A8886,stroke-width:1px
-    style identity fill:#F3F2F1,stroke:#8A8886,stroke-width:1px
+    %% ============================================
+    %% SUBGRAPH STYLING (5 subgraphs = 5 directives)
+    %% ============================================
+    style orchestrator fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    style monitoringRG fill:#FFF9C4,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    style securityRG fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    style workloadRG fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    style identity fill:#E7E2FA,stroke:#8378DE,stroke-width:2px,color:#5B5FC7
 
-    %% Centralized semantic classDefs (Phase 5 compliant)
+    %% Centralized semantic classDefs — 7 canonical (Phase 5 compliant)
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
-    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
-    classDef data fill:#E8F4F8,stroke:#008272,stroke-width:2px,color:#004B50
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef data fill:#E1DFDD,stroke:#8378DE,stroke-width:2px,color:#5B5FC7
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 **Component Roles:**
