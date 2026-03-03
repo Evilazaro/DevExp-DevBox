@@ -120,10 +120,10 @@ flowchart TB
         la -->|"diagnostics"| dc
         la -->|"diagnostics"| kv
         la -->|"diagnostics"| vnet
-        dc --> proj
-        proj --> pools
-        proj --> identity
-        proj --> connectivity
+        dc -->|"manages"| proj
+        proj -->|"defines"| pools
+        proj -->|"configures"| identity
+        proj -->|"uses"| connectivity
     end
 
     subgraph config["📄 YAML Configuration"]
@@ -135,13 +135,13 @@ flowchart TB
 
     config -->|"loadYamlContent()"| orchestrator
 
-    style subscription fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style securityRG fill:#FDE7E9,stroke:#E81123,stroke-width:1px
-    style monitoringRG fill:#DFF6DD,stroke:#107C10,stroke-width:1px
-    style workloadRG fill:#DEECF9,stroke:#0078D4,stroke-width:1px
-    style projects fill:#EFF6FC,stroke:#0078D4,stroke-width:1px
-    style connectivity fill:#EFF6FC,stroke:#0078D4,stroke-width:1px
-    style config fill:#FFF4CE,stroke:#FFB900,stroke-width:1px
+    style subscription fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    style securityRG fill:#FDE7E9,stroke:#E81123,stroke-width:1px,color:#A4262C
+    style monitoringRG fill:#DFF6DD,stroke:#107C10,stroke-width:1px,color:#0B6A0B
+    style workloadRG fill:#DEECF9,stroke:#0078D4,stroke-width:1px,color:#004578
+    style projects fill:#EFF6FC,stroke:#0078D4,stroke-width:1px,color:#004578
+    style connectivity fill:#EFF6FC,stroke:#0078D4,stroke-width:1px,color:#004578
+    style config fill:#FFF4CE,stroke:#FFB900,stroke-width:1px,color:#986F0B
 
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef security fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
