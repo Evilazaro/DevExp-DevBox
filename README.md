@@ -9,22 +9,22 @@
 
 **Overview**
 
-The Contoso DevExp Dev Box Accelerator is an Infrastructure as Code (IaC)
-solution that automates the provisioning and configuration of Microsoft Dev Box
-environments on Azure. It enables platform engineering teams to deploy fully
-configured, developer-ready workstations with a single command, reducing
-environment setup time from days to minutes.
+The Contoso DevExp Dev Box Accelerator is an **Infrastructure as Code** (IaC)
+solution that automates the provisioning and configuration of **Microsoft Dev
+Box** environments on Azure. It enables platform engineering teams to deploy
+fully configured, developer-ready workstations with a **single command**,
+reducing environment setup time from days to minutes.
 
-This accelerator follows Azure Landing Zone principles to organize resources
+This accelerator follows **Azure Landing Zone principles** to organize resources
 into security, monitoring, and workload resource groups. It uses Azure Developer
 CLI (`azd`) for orchestration, Bicep modules for infrastructure definitions, and
-YAML-driven configuration for Dev Center settings — enabling repeatable,
+**YAML-driven configuration** for Dev Center settings — enabling repeatable,
 auditable, and customizable deployments across development, staging, and UAT
 environments.
 
-> [!NOTE] This project uses the Azure Developer CLI (`azd`) for provisioning.
-> All infrastructure is defined as Bicep modules with YAML-based configuration,
-> following the configuration-as-code approach.
+> [!NOTE] This project uses the **Azure Developer CLI** (`azd`) for
+> provisioning. All infrastructure is defined as **Bicep modules** with
+> YAML-based configuration, following the configuration-as-code approach.
 
 ## 📑 Table of Contents
 
@@ -42,13 +42,14 @@ environments.
 
 **Overview**
 
-The accelerator deploys resources across three Azure resource groups following
-Azure Landing Zone segregation principles. The orchestration layer (`azd`) runs
-setup scripts that authenticate against Azure and the chosen source control
-platform, then provisions all infrastructure through Bicep modules with
-dependency ordering: monitoring first, then security, then workload resources.
+The accelerator deploys resources across **three Azure resource groups**
+following Azure Landing Zone segregation principles. The orchestration layer
+(`azd`) runs setup scripts that authenticate against Azure and the chosen source
+control platform, then provisions all infrastructure through Bicep modules with
+**dependency ordering**: monitoring first, then security, then workload
+resources.
 
-The Bicep module hierarchy flows from a subscription-scoped entry point
+The Bicep module hierarchy flows from a **subscription-scoped entry point**
 (`main.bicep`) that creates resource groups and delegates to domain-specific
 modules for Log Analytics, Key Vault, and Dev Center resources including
 projects, pools, catalogs, and network connections.
@@ -169,7 +170,7 @@ flowchart TB
 
 **Overview**
 
-The accelerator provides a complete platform engineering toolkit for
+The accelerator provides a **complete platform engineering toolkit** for
 provisioning Microsoft Dev Box environments. It combines one-command deployment
 with enterprise-grade security, modular Bicep infrastructure, and flexible YAML
 configuration to support teams of any size across multiple environments.
@@ -198,18 +199,18 @@ modifying Bicep code.
 
 **Overview**
 
-Before deploying the accelerator, ensure you have the required CLI tools
+Before deploying the accelerator, ensure you have the **required CLI tools**
 installed and authenticated. The setup scripts validate all prerequisites
 automatically and provide actionable error messages if any tool is missing or
 not authenticated.
 
 Verify each tool with the corresponding `--version` command before proceeding.
-The minimum versions listed below have been tested for compatibility with the
-accelerator's Bicep modules and setup scripts.
+The **minimum versions** listed below have been tested for compatibility with
+the accelerator's Bicep modules and setup scripts.
 
-> [!IMPORTANT] You must have an active Azure subscription with Contributor and
-> User Access Administrator permissions at the subscription level to deploy all
-> resources.
+> [!IMPORTANT] You **must** have an active Azure subscription with
+> **Contributor** and **User Access Administrator** permissions at the
+> subscription level to deploy all resources.
 
 | Requirement                    | Minimum Version | Purpose                                                       |
 | ------------------------------ | --------------- | ------------------------------------------------------------- |
@@ -309,7 +310,7 @@ Two deployment paths are provided — one for Linux / macOS using Bash and one f
 Windows using PowerShell. Both paths produce the same infrastructure. Choose the
 path matching your operating system.
 
-> [!WARNING] Running `azd up` provisions Azure resources that incur costs.
+> [!WARNING] Running `azd up` **provisions Azure resources that incur costs**.
 > Review the configuration files in `infra/settings/` before deploying to ensure
 > the resource names, regions, and SKUs match your requirements.
 
@@ -408,7 +409,7 @@ Each subsection below demonstrates a specific configuration scenario with YAML
 examples and expected provisioning output. Apply changes by editing the relevant
 YAML file and running `azd provision -e "<env>"`.
 
-> [!TIP] Each YAML file includes a JSON Schema reference
+> [!TIP] Each YAML file includes a **JSON Schema reference**
 > (`yaml-language-server: $schema=...`) that provides editor validation and
 > autocomplete in VS Code with the YAML extension.
 
@@ -1059,7 +1060,7 @@ naming and structure), through security (Key Vault settings), to workload (Dev
 Center, projects, pools, catalogs, and environment types). This layered approach
 enables teams to customize each tier independently.
 
-> [!TIP] All YAML configuration files include JSON Schema references (via
+> [!TIP] All YAML configuration files include **JSON Schema references** (via
 > `yaml-language-server: $schema=...`) for editor validation and autocomplete.
 
 ### Resource Organization (`infra/settings/resourceOrganization/azureResources.yaml`)
