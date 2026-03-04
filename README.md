@@ -19,8 +19,6 @@ files**.
 
 ## Overview
 
-**Overview**
-
 This accelerator eliminates the hours-long, error-prone manual setup of
 developer environments by providing a **turnkey deployment pipeline** for
 Microsoft Dev Box. Platform engineering teams can **onboard new projects and
@@ -59,8 +57,6 @@ deployment model** across environments.
 - [License](#license)
 
 ## Architecture
-
-**Overview**
 
 The accelerator deploys resources across **three Azure resource groups** aligned
 with Azure Landing Zone segregation. A **subscription-scoped** Bicep
@@ -190,8 +186,6 @@ flowchart TB
 
 ## Features
 
-**Overview**
-
 This accelerator provides a complete platform engineering toolkit for Microsoft
 Dev Box adoption. It abstracts the complexity of multi-resource Azure
 deployments into a configuration-driven workflow, allowing teams to focus on
@@ -216,8 +210,6 @@ least-privilege access at every scope.
 | 🧹 Automated Cleanup         | Full teardown script removing resources, role assignments, and service principals    | ✅ Stable |
 
 ## Requirements
-
-**Overview**
 
 Before deploying the accelerator, **ensure your workstation has the required
 CLIs installed** and your Azure subscription has **sufficient permissions**. The
@@ -245,8 +237,6 @@ missing tools and insufficient permissions before proceeding.
 > subscription is recommended for initial deployment.
 
 ## Quick Start
-
-**Overview**
 
 Deploying the accelerator is a two-phase process: **setup** and **provision**.
 The setup phase authenticates you against Azure and your source control
@@ -377,7 +367,7 @@ azd up
 Windows requires one additional step because the default `azure.yaml` uses
 `shell: sh`. Two options:
 
-**Option A — Use the PowerShell-compatible azd configuration (recommended)**
+#### Option A — Use the PowerShell-compatible azd configuration (recommended)
 
 If you have Bash available (Git Bash, WSL, or Cygwin):
 
@@ -400,7 +390,7 @@ azd up
 The `azure-pwh.yaml` configuration uses `shell: pwsh` and delegates to
 `setUp.sh` through Bash. This keeps the same automated flow as Linux/macOS.
 
-**Option B — Use setUp.ps1 directly (no Bash required)**
+#### Option B — Use setUp.ps1 directly (no Bash required)
 
 If Bash is not available, run the PowerShell setup script manually, then
 provision:
@@ -471,8 +461,6 @@ azd env get-values
 > You can safely re-run `azd up` or `azd provision` at any time.
 
 ## Configuration
-
-**Overview**
 
 All deployment settings are **externalized into three YAML configuration files**
 under `infra/settings/`. Each file has a companion **JSON Schema** for IDE
@@ -840,8 +828,6 @@ variables:
 
 ## Usage
 
-**Overview**
-
 Once the Quick Start deployment is complete, platform engineers and developers
 interact with the accelerator through YAML configuration changes and standard
 Azure tools. This section covers the most common operational tasks: adding new
@@ -1183,8 +1169,6 @@ where supported. Each module merges component-specific tags (e.g.,
 
 ## Deployment
 
-**Overview**
-
 The deployment pipeline uses the Azure Developer CLI (`azd`) as the
 orchestration layer. A `preprovision` hook runs a platform-specific setup script
 that handles authentication, environment creation, and variable injection before
@@ -1225,8 +1209,6 @@ The deployment accepts the following parameters via `azd` environment variables:
 
 ## Project Structure
 
-**Overview**
-
 The repository follows a modular organization where infrastructure code,
 configuration, and automation are clearly separated. The `infra/` directory
 contains the deployment orchestrator and settings, while `src/` contains
@@ -1257,8 +1239,6 @@ DevExp-DevBox/
 ```
 
 ## Security
-
-**Overview**
 
 Security is enforced through **multiple layers**: Azure Key Vault with RBAC
 authorization stores all secrets, **managed identities eliminate credential
@@ -1347,8 +1327,6 @@ This script:
 | ⚠️ Pool creation failure          | Invalid image definition name                 | Ensure catalog sync completed and image definition exists in catalog |
 
 ## Contributing
-
-**Overview**
 
 This project uses a product-oriented delivery model with Epics, Features, and
 Tasks tracked as GitHub Issues. All changes go through pull requests with
