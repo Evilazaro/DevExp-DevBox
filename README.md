@@ -166,17 +166,17 @@ modifying Bicep code.
 > No Bicep code changes are needed for standard customizations like adding
 > projects, pools, or environment types.
 
-| Feature                      | Description                                                                                          |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------- |
-| 🚀 One-Command Deployment    | Deploy the entire Dev Box landing zone with a single `azd up` command                                |
-| 🔒 Enterprise Security       | Key Vault with RBAC authorization, purge protection, soft delete, and managed identities             |
-| 📊 Centralized Monitoring    | Log Analytics workspace with diagnostic settings for all deployed resources                          |
-| ⚙️ YAML-Driven Configuration | Define Dev Centers, projects, pools, catalogs, and environment types in YAML without modifying Bicep |
-| 🌐 Network Isolation         | Managed or unmanaged VNet support with configurable subnets for Dev Box connectivity                 |
-| 🏢 Multi-Project Support     | Deploy multiple projects with role-specific Dev Box pools under a single Dev Center                  |
-| 🔐 Least-Privilege RBAC      | Pre-configured role assignments following Microsoft security guidance for Dev Center operations      |
-| 📚 Catalog Integration       | GitHub and Azure DevOps Git catalog support for environment definitions and Dev Box images           |
-| 🌍 Multi-Environment         | Built-in support for dev, staging, and UAT environment types with per-project configuration          |
+| Feature                      | Description                                                                                                                                                                                                                                                         |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🚀 One-Command Deployment    | A single `azd up` command that provisions the entire Dev Box landing zone. It eliminates multi-step manual setup so teams get developer-ready environments in minutes by orchestrating preprovision hooks, Bicep modules, and YAML configuration in one execution.  |
+| 🔒 Enterprise Security       | An Azure Key Vault instance with RBAC authorization, purge protection, and soft delete. It safeguards secrets like source control tokens against accidental loss by enforcing retention policies and role-based access instead of vault access policies.            |
+| 📊 Centralized Monitoring    | A Log Analytics workspace that collects diagnostics from every deployed resource. It gives platform teams a single pane of glass for observability by automatically attaching diagnostic settings to Dev Center and Key Vault.                                      |
+| ⚙️ YAML-Driven Configuration | Three YAML configuration files (`azureResources.yaml`, `security.yaml`, `devcenter.yaml`) that define all deployment parameters. They decouple intent from infrastructure code so teams customize Dev Centers, projects, and pools without modifying Bicep modules. |
+| 🌐 Network Isolation         | VNet connectivity options — Managed (Microsoft-hosted) or Unmanaged (customer-managed) — for every Dev Box project. They enforce network segmentation for compliance by provisioning dedicated subnets and network connections per project.                         |
+| 🏢 Multi-Project Support     | A project array in `devcenter.yaml` that deploys multiple team-scoped projects under a single Dev Center. It scales from one team to many without duplicating infrastructure by reusing shared catalogs, environment types, and identity configurations.            |
+| 🔐 Least-Privilege RBAC      | Pre-configured role assignments at subscription, resource group, and project scopes following Microsoft security guidance. They reduce over-privileged access by mapping Azure AD groups to the minimum roles required for Dev Center operations.                   |
+| 📚 Catalog Integration       | GitHub and Azure DevOps Git repository connections that sync environment definitions and Dev Box image definitions into Dev Center. They keep developer environments up to date by automatically pulling catalog changes on each provisioning cycle.                |
+| 🌍 Multi-Environment         | Built-in `dev`, `staging`, and `UAT` environment types configurable at both Dev Center and project levels. They enable promotion workflows across lifecycle stages by isolating deployments with per-environment target subscriptions.                              |
 
 ## 📋 Requirements
 
