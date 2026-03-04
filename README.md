@@ -232,7 +232,8 @@ missing tools and insufficient permissions before proceeding.
 | 👥 Azure AD Groups             | N/A             | Pre-created groups matching IDs in `devcenter.yaml` configuration                 |
 | 📂 Git Repository              | N/A             | Source repository accessible for catalog syncing (PAT required for private repos) |
 
-> [!IMPORTANT] Your Azure subscription **must** allow creating resource groups,
+> [!IMPORTANT]
+> Your Azure subscription **must** allow creating resource groups,
 > registering resource providers (DevCenter, KeyVault, Network,
 > OperationalInsights), and creating role assignments. An **Owner** role on the
 > subscription is recommended for initial deployment.
@@ -456,7 +457,8 @@ az devcenter admin pool list \
 azd env get-values
 ```
 
-> [!NOTE] The first deployment typically takes **15–25 minutes** due to resource
+> [!NOTE]
+> The first deployment typically takes **15–25 minutes** due to resource
 > provider registration and resource creation. Subsequent runs are faster
 > because Bicep modules are **idempotent** — only changed resources are updated.
 > You can safely re-run `azd up` or `azd provision` at any time.
@@ -1021,7 +1023,8 @@ projects:
         path: '/environments'
 ```
 
-> [!IMPORTANT] Private catalogs **require** a valid PAT token stored in Key
+> [!IMPORTANT]
+> Private catalogs **require** a valid PAT token stored in Key
 > Vault. The `secretIdentifier` is automatically passed to private catalogs
 > during deployment. Ensure the PAT has `repo` (GitHub) or `Code (Read)` (Azure
 > DevOps) scope.
@@ -1258,7 +1261,8 @@ Key security features:
 - **Deployer access policies** grant the authenticated user secret and key
   management permissions
 
-> [!WARNING] The GitHub/Azure DevOps PAT token is stored as a **Key Vault
+> [!WARNING]
+> The GitHub/Azure DevOps PAT token is stored as a **Key Vault
 > secret**. Ensure you **rotate this token** according to your organization's
 > security policies. The secret name defaults to `gha-token` and is configurable
 > in `security.yaml`.
@@ -1310,7 +1314,8 @@ This script:
 - Removes GitHub secrets (if applicable)
 - Deletes all created resource groups
 
-> [!CAUTION] The cleanup script **permanently deletes all resources**. Key Vault
+> [!CAUTION]
+> The cleanup script **permanently deletes all resources**. Key Vault
 > soft delete provides a **7-day recovery window**, but all other resources are
 > immediately removed. Always verify you are targeting the **correct
 > subscription** before running cleanup.
