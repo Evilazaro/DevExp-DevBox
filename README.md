@@ -277,11 +277,11 @@ flowchart TD
 
     subgraph phase1["Phase 1 — preprovision hook (setUp.sh / setUp.ps1)"]
         direction TB
-        step1["🔍 Validate tools\n(az, azd, gh or az devops, jq)"]:::neutral
-        step2["☁️ Verify Azure authentication\n(az account show)"]:::neutral
-        step3["🔗 Verify source control auth\n(gh auth status / az devops)"]:::neutral
-        step4["🔑 Retrieve PAT token\n→ store as KEY_VAULT_SECRET"]:::warning
-        step5["💾 Write .azure/‹env›/.env\nKEY_VAULT_SECRET\nSOURCE_CONTROL_PLATFORM"]:::warning
+        step1["🔍 Validate tools<br>/(az, azd, gh or az devops, jq)"]:::neutral
+        step2["☁️ Verify Azure authentication<br>/(az account show)"]:::neutral
+        step3["🔗 Verify source control auth<br>/(gh auth status / az devops)"]:::neutral
+        step4["🔑 Retrieve PAT token<br>/→ store as KEY_VAULT_SECRET"]:::warning
+        step5["💾 Write .azure/‹env›/.env<br>/KEY_VAULT_SECRET<br>/SOURCE_CONTROL_PLATFORM"]:::warning
 
         step1 --> step2 --> step3 --> step4 --> step5
     end
@@ -290,11 +290,11 @@ flowchart TD
 
     subgraph phase2["Phase 2 — azd provision (automatic)"]
         direction TB
-        prov1["📄 Read main.parameters.json\n(AZURE_ENV_NAME, AZURE_LOCATION,\nKEY_VAULT_SECRET)"]:::neutral
-        prov2["📦 Deploy infra/main.bicep\nat subscription scope"]:::data
-        prov3["🗂️ Create resource groups\n(monitoring, security, workload)"]:::data
-        prov4["📊 Deploy Log Analytics\n→ 🔐 Key Vault\n→ 🏢 DevCenter"]:::success
-        prov5["📋 Create projects, pools,\ncatalogs, RBAC, networking"]:::success
+        prov1["📄 Read main.parameters.json<br>/(AZURE_ENV_NAME, AZURE_LOCATION,<br>/KEY_VAULT_SECRET)"]:::neutral
+        prov2["📦 Deploy infra/main.bicep<br>/at subscription scope"]:::data
+        prov3["🗂️ Create resource groups<br>/(monitoring, security, workload)"]:::data
+        prov4["📊 Deploy Log Analytics<br>/→ 🔐 Key Vault<br>/→ 🏢 DevCenter"]:::success
+        prov5["📋 Create projects, pools,<br>/catalogs, RBAC, networking"]:::success
 
         prov1 --> prov2 --> prov3 --> prov4 --> prov5
     end
