@@ -32,7 +32,6 @@ environments.
 - [Features](#-features)
 - [Requirements](#-requirements)
 - [Quick Start](#-quick-start)
-- [Deployment](#-deployment)
 - [Usage](#-usage)
 - [Configuration](#-configuration)
 - [Contributing](#-contributing)
@@ -297,101 +296,16 @@ azd provision -e "dev"
 > `gh` (no `jq` dependency). Parameters use PowerShell naming: `-EnvName` and
 > `-SourceControl` (accepts `github` or `adogit`).
 
-## 📦 Deployment
+**Step 4 — Cleanup:**
 
-**Overview**
-
-The deployment process uses Azure Developer CLI (`azd`) to provision all
-infrastructure through Bicep. The setup scripts orchestrate authentication,
-environment initialization, and the `azd provision` command. Two deployment
-paths are available: a guided setup via scripts, or direct `azd` commands for
-advanced users.
-
-### Option A — Guided Deployment (Recommended)
-
-**Step 1 — Authenticate and provision (Linux / macOS):**
-
-```bash
-./setUp.sh -e "dev" -s "github"
-```
-
-**Expected output:**
-
-```text
-✅ Prerequisites validated
-✅ Azure authentication confirmed
-✅ GitHub CLI authenticated
-✅ Environment 'dev' initialized
-✅ Provisioning complete
-```
-
-**Step 2 — Authenticate and provision (Windows):**
-
-```powershell
-.\setUp.ps1 -EnvName "dev" -SourceControl "github"
-```
-
-**Expected output:**
-
-```text
-✅ Prerequisites validated
-✅ Azure authentication confirmed
-✅ GitHub CLI authenticated
-✅ Environment 'dev' initialized
-✅ Provisioning complete
-```
-
-### Option B — Direct azd Deployment
-
-**Step 1 — Initialize the environment:**
-
-```bash
-azd init -e "dev"
-```
-
-**Expected output:**
-
-```text
-Initializing a new environment (dev)...
-SUCCESS: Environment initialized.
-```
-
-**Step 2 — Provision resources:**
-
-```bash
-azd provision -e "dev"
-```
-
-**Expected output:**
-
-```text
-Provisioning Azure resources (azd provision)
-(✓) Done: Resource group: devexp-workload-dev-eastus-RG
-(✓) Done: Resource group: devexp-security-dev-eastus-RG
-(✓) Done: Resource group: devexp-monitoring-dev-eastus-RG
-(✓) Done: Log Analytics Workspace
-(✓) Done: Key Vault
-(✓) Done: Dev Center
-
-SUCCESS: Your application was provisioned in Azure.
-```
-
-### Cleanup
-
-To remove all deployed resources and clean up the environment:
+To remove all deployed resources, service principals, and environment artifacts:
 
 ```powershell
 .\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2"
 ```
 
-**Expected output:**
-
-```text
-Removing subscription deployments...
-Deleting resource groups...
-Cleaning up service principals...
-✅ Cleanup complete
-```
+See [Cleanup](#cleanup) in the Usage section for the full parameter reference
+and expected output.
 
 ## 💻 Usage
 
