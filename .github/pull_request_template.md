@@ -31,9 +31,7 @@ Who benefits from this change?
 
 ### Out of Scope
 
--
-
----
+- ***
 
 ## 🧪 Validation & Testing
 
@@ -50,7 +48,7 @@ Describe how this change was validated:
 
 - [ ] Aligns with Azure Landing Zone principles
 - [ ] Aligns with Azure Well-Architected Framework
-- [ ] Does NOT introduce unnecessary coupling
+- [ ] Does **NOT** introduce unnecessary coupling
 
 ---
 
