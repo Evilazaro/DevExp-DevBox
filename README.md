@@ -42,9 +42,10 @@ environments.
 
 **Overview**
 
-The accelerator deploys resources across **three Azure resource groups**
-following Azure Landing Zone segregation principles. A **YAML configuration
-layer** (`infra/settings/`) declaratively defines all resource groups, Key Vault
+The accelerator deploys resources across **three core Azure resource groups**
+plus a **conditional connectivity resource group** per project, following Azure
+Landing Zone segregation principles. A **YAML configuration layer**
+(`infra/settings/`) declaratively defines all resource groups, Key Vault
 settings, and Dev Center configurations — these files are loaded at deployment
 time via Bicep's `loadYamlContent()`, decoupling intent from infrastructure
 code.
@@ -53,9 +54,13 @@ The orchestration layer (`azd`) runs setup scripts that authenticate against
 Azure and the chosen source control platform, then provisions all infrastructure
 through a **subscription-scoped entry point** (`main.bicep`) that creates
 resource groups and delegates to domain-specific Bicep modules with **dependency
-ordering**: monitoring first (Log Analytics), then security (Key Vault +
-secret), then workload (Dev Center, projects, pools, catalogs, and network
-connections).
+ordering**: monitoring first (Log Analytics + AzureActivity solution), then
+security (Key Vault + secret + diagnostic settings), then workload (Dev Center
+with catalogs, environment types, RBAC, and per-project resources including
+project catalogs, project environment types, Dev Box pools, and optional
+networking). **Diagnostic settings** are attached to Key Vault, Dev Center, and
+VNet resources, feeding all telemetry into the centralized Log Analytics
+workspace.
 
 ```mermaid
 ---
@@ -71,7 +76,7 @@ config:
 ---
 flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.2
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
@@ -82,7 +87,7 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     accTitle: Dev Box Accelerator Architecture
-    accDescr: Shows the configuration-driven deployment architecture with YAML configuration layer, orchestration tooling, and three Azure resource groups provisioned in dependency order through subscription-scoped Bicep modules
+    accDescr: Shows the configuration-driven deployment architecture with YAML configuration layer, orchestration tooling, three core Azure resource groups plus conditional connectivity resource groups, provisioned in dependency order through subscription-scoped Bicep modules with diagnostic settings and cross-group RBAC
 
     subgraph config["📄 Configuration Layer"]
         direction LR
@@ -104,44 +109,85 @@ flowchart TB
     subgraph monitoring["📊 Monitoring Resource Group"]
         direction LR
         logAnalytics["📈 Log Analytics<br/>Workspace"]:::warning
+        azActivity["📊 AzureActivity<br/>Solution"]:::warning
+
+        logAnalytics -->|"enables"| azActivity
     end
 
     subgraph security["🔒 Security Resource Group"]
         direction LR
-        keyVault["🔑 Azure Key Vault"]:::danger
+        keyVault["🔑 Azure Key Vault<br/>(RBAC · Purge Protection)"]:::danger
         secret["🔐 Secret<br/>(Source Control PAT)"]:::danger
+        kvDiag["📋 Diagnostic<br/>Settings"]:::danger
 
         keyVault -->|"stores"| secret
+        keyVault -->|"emits"| kvDiag
     end
 
     subgraph workload["🖥️ Workload Resource Group"]
         direction TB
-        devCenter["🏢 Dev Center"]:::success
-        catalog["📚 Catalogs<br/>(GitHub / Azure DevOps)"]:::success
-        envTypes["🌍 Environment Types<br/>(dev · staging · UAT)"]:::success
-        project["📋 Projects"]:::success
-        pools["💻 Dev Box Pools"]:::success
-        netConn["🔌 Network Connections<br/>(Managed / Unmanaged)"]:::success
-        identity["🔐 Managed Identity<br/>+ RBAC"]:::success
 
-        devCenter -->|"registers"| catalog
-        devCenter -->|"defines"| envTypes
-        devCenter -->|"contains"| project
-        project -->|"configures"| pools
-        project -->|"attaches"| netConn
-        project -->|"assigns"| identity
+        subgraph dcCore["🏢 Dev Center (shared)"]
+            direction TB
+            devCenter["🏢 Dev Center<br/>(SystemAssigned Identity)"]:::success
+            dcCatalog["📚 DC Catalogs<br/>(GitHub / Azure DevOps)"]:::success
+            envTypes["🌍 Environment Types<br/>(dev · staging · UAT)"]:::success
+            dcIdentity["🔐 DC Managed Identity<br/>+ Subscription & RG RBAC"]:::success
+            orgRoles["👥 Org Role Assignments<br/>(AAD Group → Project Admin)"]:::success
+            dcDiag["📋 Diagnostic<br/>Settings"]:::success
+
+            devCenter -->|"registers"| dcCatalog
+            devCenter -->|"defines"| envTypes
+            devCenter -->|"assigns"| dcIdentity
+            devCenter -->|"maps"| orgRoles
+            devCenter -->|"emits"| dcDiag
+        end
+
+        subgraph projGroup["📋 Projects (per team)"]
+            direction TB
+            project["📋 Project<br/>(SystemAssigned Identity)"]:::success
+            projCatalog["📚 Project Catalogs<br/>(Env Definitions · Image Definitions)"]:::success
+            projEnvTypes["🌍 Project Env Types<br/>(per-project · own identity)"]:::success
+            pools["💻 Dev Box Pools<br/>(VM SKU · Image Catalog)"]:::success
+            projIdentity["🔐 Project Identity<br/>(AAD Group · Project & RG RBAC)"]:::success
+
+            project -->|"syncs"| projCatalog
+            project -->|"overrides"| projEnvTypes
+            project -->|"configures"| pools
+            project -->|"assigns"| projIdentity
+        end
+
+        dcCore -->|"contains"| projGroup
+    end
+
+    subgraph connectivity["🔌 Connectivity Resource Group (conditional)"]
+        direction TB
+        vnet["🌐 Virtual Network<br/>+ Subnets"]:::core
+        netConn["🔗 Network Connection<br/>(Azure AD Join)"]:::core
+        attachedNet["🔗 Attached Network<br/>(DevCenter ↔ VNet)"]:::core
+        vnetDiag["📋 Diagnostic<br/>Settings"]:::core
+
+        vnet -->|"bridges"| netConn
+        netConn -->|"registers"| attachedNet
+        vnet -->|"emits"| vnetDiag
     end
 
     config -->|"configures"| bicep
     bicep -->|"1. deploys"| monitoring
     bicep -->|"2. deploys"| security
     bicep -->|"3. deploys"| workload
-    logAnalytics -.->|"collects logs"| devCenter
-    logAnalytics -.->|"collects logs"| keyVault
-    secret -.->|"provides token"| devCenter
+    project -.->|"provisions<br/>(Unmanaged VNet only)"| connectivity
+    attachedNet -.->|"binds to"| devCenter
+    kvDiag -.->|"sends to"| logAnalytics
+    dcDiag -.->|"sends to"| logAnalytics
+    vnetDiag -.->|"sends to"| logAnalytics
+    secret -.->|"provides token"| dcCatalog
+    secret -.->|"provides token"| projCatalog
+    dcIdentity -.->|"accesses secrets"| keyVault
+    projIdentity -.->|"accesses secrets"| keyVault
 
     %% ============================================
-    %% SUBGRAPH STYLING (5 subgraphs = 5 style directives)
+    %% SUBGRAPH STYLING (6 subgraphs + 2 nested = 8 style directives)
     %% config uses neutral gray — non-semantic, configuration files
     %% Functional siblings use distinct semantic colors (MRM-C001)
     %% Subgraph fill matches content node color (MRM-C005)
@@ -151,6 +197,9 @@ flowchart TB
     style monitoring fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
     style security fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
     style workload fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    style dcCore fill:#C8E6C9,stroke:#107C10,stroke-width:1px,color:#0B6A0B
+    style projGroup fill:#C8E6C9,stroke:#107C10,stroke-width:1px,color:#0B6A0B
+    style connectivity fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578,stroke-dasharray:5 5
 
     %% ============================================
     %% COLOR DOCUMENTATION (MRM-D001)
@@ -170,19 +219,30 @@ flowchart TB
 
 **Component Roles:**
 
-| Component              | Purpose                                                            | Module                                                           |
-| ---------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| 📋 YAML Configuration  | Declarative resource definitions loaded by Bicep at deploy time    | `infra/settings/resourceOrganization/`, `security/`, `workload/` |
-| 🔄 Azure Developer CLI | Orchestrates provisioning lifecycle via preprovision hooks         | `azure.yaml`                                                     |
-| 📜 Setup Scripts       | Authenticate and initialize environments                           | `setUp.ps1` / `setUp.sh`                                         |
-| 📐 Bicep Entry Point   | Subscription-scoped resource group creation and module delegation  | `infra/main.bicep`                                               |
-| 📈 Log Analytics       | Centralized monitoring and diagnostics collection                  | `src/management/logAnalytics.bicep`                              |
-| 🔑 Key Vault           | Secrets management with RBAC authorization and purge protection    | `src/security/keyVault.bicep`                                    |
-| 🔐 Secret              | Stores source control PAT for catalog authentication               | `src/security/secret.bicep`                                      |
-| 🏢 Dev Center          | Developer workstation platform with catalogs and environment types | `src/workload/core/devCenter.bicep`                              |
-| 📋 Projects            | Team-scoped Dev Box configurations with pools and networking       | `src/workload/project/project.bicep`                             |
-| 🔌 Networking          | VNet and network connections for Dev Box connectivity              | `src/connectivity/connectivity.bicep`                            |
-| 🔐 Identity            | Managed identity and RBAC role assignments                         | `src/identity/devCenterRoleAssignment.bicep`                     |
+| Component                     | Purpose                                                                      | Module                                                                                          |
+| ----------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| 📋 YAML Configuration         | Declarative resource definitions loaded by Bicep at deploy time              | `infra/settings/resourceOrganization/`, `security/`, `workload/`                                |
+| 🔄 Azure Developer CLI        | Orchestrates provisioning lifecycle via preprovision hooks                   | `azure.yaml`                                                                                    |
+| 📜 Setup Scripts              | Authenticate and initialize environments                                     | `setUp.ps1` / `setUp.sh`                                                                        |
+| 📐 Bicep Entry Point          | Subscription-scoped resource group creation and module delegation            | `infra/main.bicep`                                                                              |
+| 📈 Log Analytics              | Centralized monitoring and diagnostics collection                            | `src/management/logAnalytics.bicep`                                                             |
+| 📊 AzureActivity Solution     | Activity log analytics linked to the Log Analytics workspace                 | `src/management/logAnalytics.bicep`                                                             |
+| 🔑 Key Vault                  | Secrets management with RBAC authorization and purge protection              | `src/security/keyVault.bicep`                                                                   |
+| 🔐 Secret                     | Stores source control PAT for catalog authentication                         | `src/security/secret.bicep`                                                                     |
+| 📋 Diagnostic Settings        | Telemetry pipeline from Key Vault, Dev Center, and VNet to Log Analytics     | `src/security/secret.bicep`, `src/workload/core/devCenter.bicep`, `src/connectivity/vnet.bicep` |
+| 🏢 Dev Center                 | Developer workstation platform with catalogs and environment types           | `src/workload/core/devCenter.bicep`                                                             |
+| 📚 DC Catalogs                | Dev Center-level shared catalogs (GitHub / Azure DevOps Git)                 | `src/workload/core/catalog.bicep`                                                               |
+| 🌍 Environment Types          | Dev Center-level lifecycle stages (dev, staging, UAT)                        | `src/workload/core/environmentType.bicep`                                                       |
+| 🔐 DC Identity & RBAC         | Dev Center managed identity with Subscription and RG-scoped role assignments | `src/identity/devCenterRoleAssignment.bicep`, `devCenterRoleAssignmentRG.bicep`                 |
+| 👥 Org Role Assignments       | AAD group to DevCenter Project Admin mapping                                 | `src/identity/orgRoleAssignment.bicep`                                                          |
+| 📋 Projects                   | Team-scoped Dev Box configurations with own managed identity                 | `src/workload/project/project.bicep`                                                            |
+| 📚 Project Catalogs           | Per-project catalogs (environment definitions and image definitions)         | `src/workload/project/projectCatalog.bicep`                                                     |
+| 🌍 Project Environment Types  | Per-project env types with own SystemAssigned identity                       | `src/workload/project/projectEnvironmentType.bicep`                                             |
+| 💻 Dev Box Pools              | VM pools bound to image definition catalogs with configurable SKUs           | `src/workload/project/projectPool.bicep`                                                        |
+| 🔐 Project Identity & RBAC    | AAD group RBAC at Project and Security RG scope                              | `src/identity/projectIdentityRoleAssignment.bicep`, `projectIdentityRoleAssignmentRG.bicep`     |
+| 🔌 Connectivity (conditional) | VNet, Network Connection, and Attached Network for Unmanaged VNet projects   | `src/connectivity/connectivity.bicep`                                                           |
+| 🌐 Virtual Network            | Customer-managed VNet with subnets and diagnostic settings                   | `src/connectivity/vnet.bicep`                                                                   |
+| 🔗 Network Connection         | Azure AD Join bridge between Dev Center and VNet                             | `src/connectivity/networkConnection.bicep`                                                      |
 
 ## ✨ Features
 
