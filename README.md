@@ -190,8 +190,15 @@ not authenticated.
 
 **Overview**
 
-Get a Dev Box environment running in under 10 minutes. The setup scripts handle
-authentication, environment initialization, and provisioning automatically.
+Get a Dev Box environment running in under 10 minutes. The accelerator supports
+two deployment paths: automated via `azd up` (recommended), or manual setup
+using the included scripts. The setup scripts handle tool validation,
+authentication, and environment initialization — then `azd` provisions all Azure
+infrastructure through Bicep.
+
+> [!IMPORTANT] The setup scripts (`setUp.sh` / `setUp.ps1`) handle
+> authentication and environment initialization only. They do **not** provision
+> Azure resources. Use `azd up` or `azd provision` after running the scripts.
 
 **Step 1 — Clone the repository:**
 
@@ -209,38 +216,86 @@ remote: Counting objects: 100% (350/350), done.
 Receiving objects: 100% (350/350), 125.00 KiB | 1.25 MiB/s, done.
 ```
 
-**Step 2 — Log in to Azure:**
+**Step 2 — Authenticate with Azure and source control:**
 
 ```bash
 az login
 azd auth login
+gh auth login
 ```
+
+> [!NOTE] `gh auth login` is required when using GitHub as the source control
+> platform. For Azure DevOps Git, authenticate with `az devops login` instead.
 
 **Expected output:**
 
 ```text
 A web browser has been opened at https://login.microsoftonline.com/...
 You have logged in. Now let us find all the subscriptions to which you have access...
+✓ Logged in to github.com account
 ```
 
-**Step 3 — Run the setup script:**
+**Step 3 — Initialize and deploy (Linux / macOS):**
 
 ```bash
-./setUp.sh -e "dev" -s "github"
+azd init -e "dev"
+azd up
 ```
+
+The `azd up` command triggers the `setUp.sh` preprovision hook defined in
+`azure.yaml`. The hook validates prerequisites (`az`, `azd`, `jq`, `gh`),
+verifies authentication, retrieves the source control token, and stores it in
+the azd environment. After the hook completes, `azd` provisions all Azure
+infrastructure through `infra/main.bicep`.
 
 **Expected output:**
 
 ```text
-✅ Prerequisites validated
-✅ Azure authentication confirmed
-✅ GitHub CLI authenticated
-✅ Environment 'dev' initialized
-✅ Provisioning complete
+Initializing a new environment (dev)...
+SUCCESS: Environment initialized.
+
+ℹ️ Starting Dev Box environment setup
+ℹ️ Environment name: dev
+ℹ️ Source control platform: github
+ℹ️ Checking required tools...
+✅ All required tools are available
+✅ Using Azure subscription: Contoso-Dev (ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+✅ GitHub authentication verified successfully
+✅ GitHub token retrieved and stored securely
+✅ Azure Developer CLI environment 'dev' initialized successfully.
+✅ Dev Box environment 'dev' setup successfully
+
+Provisioning Azure resources (azd provision)
+(✓) Done: Resource group: devexp-workload-dev-RG
+(✓) Done: Resource group: devexp-security-dev-RG
+(✓) Done: Resource group: devexp-monitoring-dev-RG
+(✓) Done: Log Analytics Workspace
+(✓) Done: Key Vault
+(✓) Done: Dev Center
+
+SUCCESS: Your application was provisioned in Azure.
 ```
 
-> [!NOTE] On Windows, use `.\setUp.ps1 -EnvName "dev" -SourceControl "github"`
-> instead.
+**Step 3 (alt) — Initialize and deploy (Windows):**
+
+On Windows, if Bash is not available, rename `azure-pwh.yaml` to `azure.yaml` to
+use the PowerShell-based preprovision hook, then run:
+
+```powershell
+azd init -e "dev"
+azd up
+```
+
+Alternatively, run the setup and provisioning steps manually:
+
+```powershell
+.\setUp.ps1 -EnvName "dev" -SourceControl "github"
+azd provision -e "dev"
+```
+
+> [!NOTE] The PowerShell setup script (`setUp.ps1`) requires `az`, `azd`, and
+> `gh` (no `jq` dependency). Parameters use PowerShell naming: `-EnvName` and
+> `-SourceControl` (accepts `github` or `adogit`).
 
 ## 📦 Deployment
 
@@ -342,23 +397,28 @@ Cleaning up service principals...
 
 **Overview**
 
-After deployment, platform administrators manage Dev Box environments through
-the Azure portal or CLI, while developers access their Dev Boxes through the
-Microsoft Dev Box portal. Configuration changes are made through the YAML files
-and redeployed via `azd provision`.
+After deployment, platform administrators manage Dev Box environments by editing
+the YAML configuration files in `infra/settings/` and re-provisioning with
+`azd provision`. Developers access their Dev Boxes through the
+[Microsoft Dev Box portal](https://devbox.microsoft.com). All changes follow a
+configuration-as-code workflow — edit YAML, commit, re-provision.
 
 ### Adding a New Project
 
-Edit `infra/settings/workload/devcenter.yaml` to add a project entry under the
-`projects` array:
+Edit `infra/settings/workload/devcenter.yaml` to add a project under the
+`projects` array. Each project requires network, identity, pool, environment
+type, catalog, and tag configuration. Below is a complete project definition
+based on the existing `eShop` project structure:
 
 ```yaml
 projects:
   - name: 'myNewProject'
-    description: 'New team project'
+    description: 'New team project for backend services.'
+
     network:
       name: myNewProject
       create: true
+      resourceGroupName: 'myNewProject-connectivity-RG'
       virtualNetworkType: Managed
       addressPrefixes:
         - 10.1.0.0/16
@@ -366,15 +426,62 @@ projects:
         - name: myNewProject-subnet
           properties:
             addressPrefix: 10.1.1.0/24
+      tags:
+        environment: dev
+        division: Platforms
+        team: DevExP
+        project: DevExP-DevBox
+        costCenter: IT
+        owner: Contoso
+        resources: Network
+
+    identity:
+      type: SystemAssigned
+      roleAssignments:
+        - azureADGroupId: '<azure-ad-group-id>'
+          azureADGroupName: 'MyNewProject Developers'
+          azureRBACRoles:
+            - name: 'Contributor'
+              id: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+              scope: Project
+            - name: 'Dev Box User'
+              id: '45d50f46-0b78-4001-a660-4198cbe8cd05'
+              scope: Project
+            - name: 'Deployment Environment User'
+              id: '18e40d4e-8d2e-438d-97e1-9528336e149c'
+              scope: Project
+
     pools:
       - name: 'developer'
         imageDefinitionName: 'myNewProject-developer'
         vmSku: general_i_16c64gb256ssd_v2
+
+    environmentTypes:
+      - name: 'dev'
+        deploymentTargetId: ''
+      - name: 'staging'
+        deploymentTargetId: ''
+
+    catalogs:
+      - name: 'environments'
+        type: environmentDefinition
+        sourceControl: gitHub
+        visibility: private
+        uri: 'https://github.com/org/myNewProject.git'
+        branch: 'main'
+        path: '/.devcenter/environments'
+
+    tags:
+      environment: dev
+      division: Platforms
+      team: DevExP
+      project: DevExP-DevBox
+      costCenter: IT
+      owner: Contoso
+      resources: Project
 ```
 
-**Expected output:** _(no output — YAML configuration file edit)_
-
-Then re-provision to apply the changes:
+Then re-provision to deploy the new project:
 
 ```bash
 azd provision -e "dev"
@@ -384,50 +491,185 @@ azd provision -e "dev"
 
 ```text
 Provisioning Azure resources (azd provision)
+(✓) Done: Resource group: myNewProject-connectivity-RG
+(✓) Done: Virtual Network: myNewProject
 (✓) Done: Project: myNewProject
 (✓) Done: Dev Box Pool: developer
+(✓) Done: Environment Types: dev, staging
+
+SUCCESS: Your application was provisioned in Azure.
+```
+
+### Adding a Dev Box Pool to an Existing Project
+
+Add a new pool entry under the target project's `pools` array in
+`infra/settings/workload/devcenter.yaml`:
+
+```yaml
+pools:
+  - name: 'backend-engineer'
+    imageDefinitionName: 'eShop-backend-engineer'
+    vmSku: general_i_32c128gb512ssd_v2
+  - name: 'data-engineer' # New pool
+    imageDefinitionName: 'eShop-data-engineer'
+    vmSku: general_i_16c64gb256ssd_v2
+```
+
+Then re-provision:
+
+```bash
+azd provision -e "dev"
+```
+
+**Expected output:**
+
+```text
+Provisioning Azure resources (azd provision)
+(✓) Done: Dev Box Pool: data-engineer
 
 SUCCESS: Your application was provisioned in Azure.
 ```
 
 ### Modifying Security Settings
 
-Edit `infra/settings/security/security.yaml` to change Key Vault parameters:
+Edit `infra/settings/security/security.yaml` to change Key Vault parameters. The
+full configuration structure includes the top-level `create` flag and the nested
+`keyVault` block with its tags:
 
 ```yaml
+create: true
 keyVault:
   name: contoso
+  description: Development Environment Key Vault
+  secretName: gha-token
   enablePurgeProtection: true
   enableSoftDelete: true
-  softDeleteRetentionInDays: 90
+  softDeleteRetentionInDays: 90 # Changed from default 7
   enableRbacAuthorization: true
+  tags:
+    environment: dev
+    division: Platforms
+    team: DevExP
+    project: Contoso-DevExp-DevBox
+    costCenter: IT
+    owner: Contoso
+    landingZone: security
+    resources: ResourceGroup
 ```
 
-**Expected output:** _(no output — YAML configuration file edit)_
+Then re-provision:
+
+```bash
+azd provision -e "dev"
+```
+
+**Expected output:**
+
+```text
+Provisioning Azure resources (azd provision)
+(✓) Done: Key Vault: contoso
+
+SUCCESS: Your application was provisioned in Azure.
+```
+
+### Cleanup
+
+Remove all deployed resources and clean up the environment using the cleanup
+script. The script removes subscription deployments, users, role assignments,
+service principals, GitHub secrets, and resource groups:
+
+```powershell
+.\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2"
+```
+
+**Expected output:**
+
+```text
+DevExp-DevBox Full Cleanup
+==========================
+
+Retrieving subscription deployments...
+Deleting users and assigned roles...
+Deleting deployment credentials...
+Deleting GitHub secret for Azure credentials...
+Cleaning up resource groups...
+
+All cleanup operations completed successfully.
+```
+
+| Parameter         | Default                                      | Description                             |
+| ----------------- | -------------------------------------------- | --------------------------------------- |
+| `-EnvName`        | `gitHub`                                     | Environment name to clean up            |
+| `-Location`       | `eastus2`                                    | Azure region of deployed resources      |
+| `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Azure AD application display name       |
+| `-GhSecretName`   | `AZURE_CREDENTIALS`                          | GitHub repository secret name to remove |
 
 ## ⚙️ Configuration
 
 **Overview**
 
-All deployment parameters are driven by YAML configuration files located in
-`infra/settings/`. Each configuration file has a corresponding JSON Schema for
-validation. The YAML-driven approach allows teams to customize environments
-without modifying any Bicep module code, and schemas provide IDE autocomplete
-and validation support.
+All deployment parameters are driven by three YAML configuration files in
+`infra/settings/`, plus a Bicep parameters file for environment-specific values.
+Each YAML file has a corresponding JSON Schema for validation. The YAML-driven
+approach allows teams to customize environments without modifying any Bicep
+module code, and schemas provide IDE autocomplete and validation support.
 
 > [!TIP] All YAML configuration files include JSON Schema references (via
 > `yaml-language-server: $schema=...`) for editor validation and autocomplete
 > support in VS Code with the YAML extension.
 
-| Parameter          | File                                                      | Description                                                                          | Default                                                   |
-| ------------------ | --------------------------------------------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------- |
-| 📦 Resource Groups | `infra/settings/resourceOrganization/azureResources.yaml` | Names, tags, and create flags for workload, security, and monitoring resource groups | `devexp-workload`, `devexp-security`, `devexp-monitoring` |
-| 🔒 Key Vault       | `infra/settings/security/security.yaml`                   | Vault name, purge protection, soft delete retention, RBAC mode                       | `contoso`, purge protection enabled, 7-day retention      |
-| 🏢 Dev Center      | `infra/settings/workload/devcenter.yaml`                  | Dev Center name, identity, RBAC roles, catalogs, environment types, projects, pools  | `devexp-devcenter`, SystemAssigned identity               |
-| 🌐 Network         | `infra/settings/workload/devcenter.yaml` (per project)    | VNet type, address prefixes, subnet configuration                                    | Managed VNet, `10.0.0.0/16`                               |
-| 📍 Location        | `infra/main.parameters.json`                              | Azure region for deployment                                                          | Set via `AZURE_LOCATION` environment variable             |
-| 🌍 Environment     | `infra/main.parameters.json`                              | Environment name suffix for resource naming                                          | Set via `AZURE_ENV_NAME` environment variable             |
-| 🔑 Secret          | `infra/main.parameters.json`                              | GitHub access token stored in Key Vault                                              | Set via `KEY_VAULT_SECRET` environment variable           |
+### Resource Organization (`infra/settings/resourceOrganization/azureResources.yaml`)
+
+| Parameter           | Description                                       | Default             |
+| ------------------- | ------------------------------------------------- | ------------------- |
+| `workload.name`     | Workload resource group name                      | `devexp-workload`   |
+| `workload.create`   | Whether to create the workload resource group     | `true`              |
+| `security.name`     | Security resource group name                      | `devexp-security`   |
+| `security.create`   | Whether to create the security resource group     | `true`              |
+| `monitoring.name`   | Monitoring resource group name                    | `devexp-monitoring` |
+| `monitoring.create` | Whether to create the monitoring resource group   | `true`              |
+| `*.tags`            | Resource tags (environment, division, team, etc.) | `environment: dev`  |
+
+### Security (`infra/settings/security/security.yaml`)
+
+| Parameter                            | Description                                       | Default     |
+| ------------------------------------ | ------------------------------------------------- | ----------- |
+| `create`                             | Whether to create the Key Vault resource          | `true`      |
+| `keyVault.name`                      | Globally unique Key Vault name                    | `contoso`   |
+| `keyVault.secretName`                | Name of the secret storing the source control PAT | `gha-token` |
+| `keyVault.enablePurgeProtection`     | Prevent permanent deletion of secrets             | `true`      |
+| `keyVault.enableSoftDelete`          | Enable recovery of deleted secrets                | `true`      |
+| `keyVault.softDeleteRetentionInDays` | Retention period for soft-deleted secrets (7–90)  | `7`         |
+| `keyVault.enableRbacAuthorization`   | Use Azure RBAC instead of access policies         | `true`      |
+
+### Dev Center (`infra/settings/workload/devcenter.yaml`)
+
+| Parameter                               | Description                                              | Default                                |
+| --------------------------------------- | -------------------------------------------------------- | -------------------------------------- |
+| `name`                                  | Dev Center resource name                                 | `devexp-devcenter`                     |
+| `catalogItemSyncEnableStatus`           | Enable catalog item synchronization                      | `Enabled`                              |
+| `microsoftHostedNetworkEnableStatus`    | Enable Microsoft-hosted network for Dev Boxes            | `Enabled`                              |
+| `installAzureMonitorAgentEnableStatus`  | Install Azure Monitor agent on Dev Boxes                 | `Enabled`                              |
+| `identity.type`                         | Managed identity type for the Dev Center                 | `SystemAssigned`                       |
+| `identity.roleAssignments.devCenter`    | Subscription and RG-scoped RBAC roles for the Dev Center | Contributor, User Access Administrator |
+| `identity.roleAssignments.orgRoleTypes` | Organization-level role types (e.g., DevManager)         | Platform Engineering Team              |
+| `catalogs[].name`                       | Catalog name and Git repository configuration            | `customTasks`                          |
+| `catalogs[].uri`                        | Git repository URI for catalog source                    | Microsoft devcenter-catalog            |
+| `environmentTypes[].name`               | Environment type name                                    | `dev`, `staging`, `UAT`                |
+| `projects[].name`                       | Project name                                             | `eShop`                                |
+| `projects[].network`                    | VNet type, address prefixes, and subnet configuration    | Managed, `10.0.0.0/16`                 |
+| `projects[].pools[].vmSku`              | VM SKU for Dev Box pool                                  | `general_i_32c128gb512ssd_v2`          |
+| `projects[].identity`                   | Project-level managed identity and RBAC assignments      | SystemAssigned                         |
+| `projects[].catalogs[]`                 | Project-scoped catalogs for environments and images      | GitHub private repos                   |
+| `projects[].environmentTypes[]`         | Project-level environment types                          | `dev`, `staging`, `UAT`                |
+
+### Deployment Parameters (`infra/main.parameters.json`)
+
+| Parameter         | Environment Variable | Description                                 |
+| ----------------- | -------------------- | ------------------------------------------- |
+| `environmentName` | `AZURE_ENV_NAME`     | Environment name suffix for resource naming |
+| `location`        | `AZURE_LOCATION`     | Azure region for deployment                 |
+| `secretValue`     | `KEY_VAULT_SECRET`   | Source control PAT stored in Key Vault      |
 
 ### Project Structure
 
