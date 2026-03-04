@@ -43,16 +43,19 @@ environments.
 **Overview**
 
 The accelerator deploys resources across **three Azure resource groups**
-following Azure Landing Zone segregation principles. The orchestration layer
-(`azd`) runs setup scripts that authenticate against Azure and the chosen source
-control platform, then provisions all infrastructure through Bicep modules with
-**dependency ordering**: monitoring first, then security, then workload
-resources.
+following Azure Landing Zone segregation principles. A **YAML configuration
+layer** (`infra/settings/`) declaratively defines all resource groups, Key Vault
+settings, and Dev Center configurations — these files are loaded at deployment
+time via Bicep's `loadYamlContent()`, decoupling intent from infrastructure
+code.
 
-The Bicep module hierarchy flows from a **subscription-scoped entry point**
-(`main.bicep`) that creates resource groups and delegates to domain-specific
-modules for Log Analytics, Key Vault, and Dev Center resources including
-projects, pools, catalogs, and network connections.
+The orchestration layer (`azd`) runs setup scripts that authenticate against
+Azure and the chosen source control platform, then provisions all infrastructure
+through a **subscription-scoped entry point** (`main.bicep`) that creates
+resource groups and delegates to domain-specific Bicep modules with **dependency
+ordering**: monitoring first (Log Analytics), then security (Key Vault +
+secret), then workload (Dev Center, projects, pools, catalogs, and network
+connections).
 
 ```mermaid
 ---
@@ -79,16 +82,23 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     accTitle: Dev Box Accelerator Architecture
-    accDescr: Shows the three-tier resource group architecture with orchestration layer, security, monitoring, and workload components and their deployment relationships
+    accDescr: Shows the configuration-driven deployment architecture with YAML configuration layer, orchestration tooling, and three Azure resource groups provisioned in dependency order through subscription-scoped Bicep modules
+
+    subgraph config["📄 Configuration Layer"]
+        direction LR
+        azureResYaml["📋 azureResources.yaml<br/>(Resource Groups)"]:::neutral
+        securityYaml["📋 security.yaml<br/>(Key Vault Settings)"]:::neutral
+        devcenterYaml["📋 devcenter.yaml<br/>(Dev Center & Projects)"]:::neutral
+    end
 
     subgraph orchestration["🔄 Orchestration Layer"]
         direction LR
         azd["⚙️ Azure Developer CLI"]:::core
         setup["📜 Setup Scripts<br/>(PowerShell / Bash)"]:::core
-        bicep["📐 Bicep Modules<br/>(main.bicep)"]:::core
+        bicep["📐 main.bicep<br/>(Subscription Scope)"]:::core
 
         azd -->|"triggers"| setup
-        setup -->|"provisions"| bicep
+        setup -->|"provisions via"| bicep
     end
 
     subgraph monitoring["📊 Monitoring Resource Group"]
@@ -99,16 +109,19 @@ flowchart TB
     subgraph security["🔒 Security Resource Group"]
         direction LR
         keyVault["🔑 Azure Key Vault"]:::danger
+        secret["🔐 Secret<br/>(Source Control PAT)"]:::danger
+
+        keyVault -->|"stores"| secret
     end
 
     subgraph workload["🖥️ Workload Resource Group"]
         direction TB
         devCenter["🏢 Dev Center"]:::success
-        catalog["📚 Catalogs"]:::success
-        envTypes["🌍 Environment Types<br/>(dev, staging, UAT)"]:::success
+        catalog["📚 Catalogs<br/>(GitHub / Azure DevOps)"]:::success
+        envTypes["🌍 Environment Types<br/>(dev · staging · UAT)"]:::success
         project["📋 Projects"]:::success
         pools["💻 Dev Box Pools"]:::success
-        netConn["🔌 Network Connections"]:::success
+        netConn["🔌 Network Connections<br/>(Managed / Unmanaged)"]:::success
         identity["🔐 Managed Identity<br/>+ RBAC"]:::success
 
         devCenter -->|"registers"| catalog
@@ -119,18 +132,21 @@ flowchart TB
         project -->|"assigns"| identity
     end
 
-    bicep -->|"deploys"| monitoring
-    bicep -->|"deploys"| security
-    bicep -->|"deploys"| workload
-    logAnalytics -->|"receives diagnostics"| devCenter
-    logAnalytics -->|"receives diagnostics"| keyVault
-    keyVault -->|"provides secrets"| devCenter
+    config -->|"configures"| bicep
+    bicep -->|"1. deploys"| monitoring
+    bicep -->|"2. deploys"| security
+    bicep -->|"3. deploys"| workload
+    logAnalytics -.->|"collects logs"| devCenter
+    logAnalytics -.->|"collects logs"| keyVault
+    secret -.->|"provides token"| devCenter
 
     %% ============================================
-    %% SUBGRAPH STYLING (4 subgraphs = 4 style directives)
+    %% SUBGRAPH STYLING (5 subgraphs = 5 style directives)
+    %% config uses neutral gray — non-semantic, configuration files
     %% Functional siblings use distinct semantic colors (MRM-C001)
     %% Subgraph fill matches content node color (MRM-C005)
     %% ============================================
+    style config fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     style orchestration fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     style monitoring fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
     style security fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
@@ -139,11 +155,11 @@ flowchart TB
     %% ============================================
     %% COLOR DOCUMENTATION (MRM-D001)
     %% Semantic classes: 4 (core, success, danger, warning) ≤ 5 (MRM-C006)
-    %% core    = Orchestration / process (blue #DEECF9)
-    %% success = Workload / compute (green #DFF6DD)
-    %% danger  = Security / secrets (red #FDE7E9)
+    %% core    = Orchestration / infrastructure tooling (blue #DEECF9)
+    %% success = Workload / compute resources (green #DFF6DD)
+    %% danger  = Security / secrets management (red #FDE7E9)
     %% warning = Monitoring / observability (yellow #FFF4CE)
-    %% neutral = Non-semantic default (gray #FAFAFA)
+    %% neutral = Configuration files / non-semantic default (gray #FAFAFA)
     %% ============================================
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
@@ -154,17 +170,19 @@ flowchart TB
 
 **Component Roles:**
 
-| Component              | Purpose                                                            | Module                                       |
-| ---------------------- | ------------------------------------------------------------------ | -------------------------------------------- |
-| 🔄 Azure Developer CLI | Orchestrates provisioning lifecycle                                | `azure.yaml`                                 |
-| 📜 Setup Scripts       | Authenticate and initialize environments                           | `setUp.ps1` / `setUp.sh`                     |
-| 📐 Bicep Entry Point   | Subscription-scoped resource group creation and module delegation  | `infra/main.bicep`                           |
-| 📈 Log Analytics       | Centralized monitoring and diagnostics collection                  | `src/management/logAnalytics.bicep`          |
-| 🔑 Key Vault           | Secrets management with RBAC authorization and purge protection    | `src/security/keyVault.bicep`                |
-| 🏢 Dev Center          | Developer workstation platform with catalogs and environment types | `src/workload/core/devCenter.bicep`          |
-| 📋 Projects            | Team-scoped Dev Box configurations with pools and networking       | `src/workload/project/project.bicep`         |
-| 🔌 Networking          | VNet and network connections for Dev Box connectivity              | `src/connectivity/connectivity.bicep`        |
-| 🔐 Identity            | Managed identity and RBAC role assignments                         | `src/identity/devCenterRoleAssignment.bicep` |
+| Component              | Purpose                                                            | Module                                                           |
+| ---------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| 📋 YAML Configuration  | Declarative resource definitions loaded by Bicep at deploy time    | `infra/settings/resourceOrganization/`, `security/`, `workload/` |
+| 🔄 Azure Developer CLI | Orchestrates provisioning lifecycle via preprovision hooks         | `azure.yaml`                                                     |
+| 📜 Setup Scripts       | Authenticate and initialize environments                           | `setUp.ps1` / `setUp.sh`                                         |
+| 📐 Bicep Entry Point   | Subscription-scoped resource group creation and module delegation  | `infra/main.bicep`                                               |
+| 📈 Log Analytics       | Centralized monitoring and diagnostics collection                  | `src/management/logAnalytics.bicep`                              |
+| 🔑 Key Vault           | Secrets management with RBAC authorization and purge protection    | `src/security/keyVault.bicep`                                    |
+| 🔐 Secret              | Stores source control PAT for catalog authentication               | `src/security/secret.bicep`                                      |
+| 🏢 Dev Center          | Developer workstation platform with catalogs and environment types | `src/workload/core/devCenter.bicep`                              |
+| 📋 Projects            | Team-scoped Dev Box configurations with pools and networking       | `src/workload/project/project.bicep`                             |
+| 🔌 Networking          | VNet and network connections for Dev Box connectivity              | `src/connectivity/connectivity.bicep`                            |
+| 🔐 Identity            | Managed identity and RBAC role assignments                         | `src/identity/devCenterRoleAssignment.bicep`                     |
 
 ## ✨ Features
 
