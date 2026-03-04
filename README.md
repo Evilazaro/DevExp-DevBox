@@ -317,23 +317,29 @@ the YAML configuration files in `infra/settings/` and re-provisioning with
 [Microsoft Dev Box portal](https://devbox.microsoft.com). All changes follow a
 configuration-as-code workflow — edit YAML, commit, re-provision.
 
+> [!TIP] Each YAML file includes a JSON Schema reference
+> (`yaml-language-server: $schema=...`) that provides editor validation and
+> autocomplete in VS Code with the YAML extension.
+
 ### Adding a New Project
 
-Edit `infra/settings/workload/devcenter.yaml` to add a project under the
-`projects` array. Each project requires network, identity, pool, environment
-type, catalog, and tag configuration. Below is a complete project definition
-based on the existing `eShop` project structure:
+Edit `infra/settings/workload/devcenter.yaml` and append a new entry to the
+`projects` array. Each project requires network, identity, pools, environment
+types, catalogs, and tags. The example below mirrors the structure of the
+existing `eShop` project:
 
 ```yaml
 projects:
+  # ... existing projects above ...
   - name: 'myNewProject'
     description: 'New team project for backend services.'
 
+    # --- Network ---
     network:
       name: myNewProject
       create: true
       resourceGroupName: 'myNewProject-connectivity-RG'
-      virtualNetworkType: Managed
+      virtualNetworkType: Managed # Managed (Microsoft-hosted) or Unmanaged
       addressPrefixes:
         - 10.1.0.0/16
       subnets:
@@ -349,6 +355,7 @@ projects:
         owner: Contoso
         resources: Network
 
+    # --- Identity & RBAC ---
     identity:
       type: SystemAssigned
       roleAssignments:
@@ -364,18 +371,27 @@ projects:
             - name: 'Deployment Environment User'
               id: '18e40d4e-8d2e-438d-97e1-9528336e149c'
               scope: Project
+            - name: 'Key Vault Secrets User'
+              id: '4633458b-17de-408a-b874-0445c86b69e6'
+              scope: ResourceGroup
+            - name: 'Key Vault Secrets Officer'
+              id: 'b86a8fe4-44ce-4948-aee5-eccb2c155cd7'
+              scope: ResourceGroup
 
+    # --- Dev Box Pools ---
     pools:
       - name: 'developer'
         imageDefinitionName: 'myNewProject-developer'
         vmSku: general_i_16c64gb256ssd_v2
 
+    # --- Environment Types ---
     environmentTypes:
       - name: 'dev'
         deploymentTargetId: ''
       - name: 'staging'
         deploymentTargetId: ''
 
+    # --- Catalogs ---
     catalogs:
       - name: 'environments'
         type: environmentDefinition
@@ -384,7 +400,15 @@ projects:
         uri: 'https://github.com/org/myNewProject.git'
         branch: 'main'
         path: '/.devcenter/environments'
+      - name: 'devboxImages'
+        type: imageDefinition
+        sourceControl: gitHub
+        visibility: private
+        uri: 'https://github.com/org/myNewProject.git'
+        branch: 'main'
+        path: '/.devcenter/imageDefinitions'
 
+    # --- Tags ---
     tags:
       environment: dev
       division: Platforms
@@ -395,7 +419,7 @@ projects:
       resources: Project
 ```
 
-Then re-provision to deploy the new project:
+Re-provision to deploy the new project:
 
 ```bash
 azd provision -e "dev"
@@ -417,19 +441,23 @@ SUCCESS: Your application was provisioned in Azure.
 ### Adding a Dev Box Pool to an Existing Project
 
 Add a new pool entry under the target project's `pools` array in
-`infra/settings/workload/devcenter.yaml`:
+`infra/settings/workload/devcenter.yaml`. Each pool requires a name, an image
+definition name (references a catalog image), and a VM SKU:
 
 ```yaml
 pools:
   - name: 'backend-engineer'
     imageDefinitionName: 'eShop-backend-engineer'
     vmSku: general_i_32c128gb512ssd_v2
+  - name: 'frontend-engineer'
+    imageDefinitionName: 'eShop-frontend-engineer'
+    vmSku: general_i_16c64gb256ssd_v2
   - name: 'data-engineer' # New pool
     imageDefinitionName: 'eShop-data-engineer'
     vmSku: general_i_16c64gb256ssd_v2
 ```
 
-Then re-provision:
+Re-provision:
 
 ```bash
 azd provision -e "dev"
@@ -444,11 +472,143 @@ Provisioning Azure resources (azd provision)
 SUCCESS: Your application was provisioned in Azure.
 ```
 
+### Adding a Dev Center Catalog
+
+Dev Center-level catalogs provide shared configurations across all projects. Add
+a new entry to the top-level `catalogs` array in
+`infra/settings/workload/devcenter.yaml`:
+
+```yaml
+catalogs:
+  - name: 'customTasks'
+    type: gitHub
+    visibility: public
+    uri: 'https://github.com/microsoft/devcenter-catalog.git'
+    branch: 'main'
+    path: './Tasks'
+  - name: 'sharedEnvironments' # New catalog
+    type: gitHub
+    visibility: private
+    uri: 'https://github.com/org/shared-environments.git'
+    branch: 'main'
+    path: './Environments'
+```
+
+For project-scoped catalogs (environment definitions or image definitions), add
+entries under the project's `catalogs` array instead. Project catalogs support
+two types:
+
+- `environmentDefinition` — deployment environment templates
+- `imageDefinition` — Dev Box image definitions
+
+```yaml
+# Inside a project entry
+catalogs:
+  - name: 'environments'
+    type: environmentDefinition
+    sourceControl: gitHub
+    visibility: private
+    uri: 'https://github.com/org/myProject.git'
+    branch: 'main'
+    path: '/.devcenter/environments'
+  - name: 'devboxImages'
+    type: imageDefinition
+    sourceControl: gitHub
+    visibility: private
+    uri: 'https://github.com/org/myProject.git'
+    branch: 'main'
+    path: '/.devcenter/imageDefinitions'
+```
+
+### Adding or Modifying Environment Types
+
+Environment types can be defined at the Dev Center level (available to all
+projects) and at the project level (scoped to a single project). Each
+environment type has a name and an optional `deploymentTargetId` (leave empty to
+use the default subscription).
+
+**Dev Center level** — edit the top-level `environmentTypes` array in
+`infra/settings/workload/devcenter.yaml`:
+
+```yaml
+environmentTypes:
+  - name: 'dev'
+    deploymentTargetId: ''
+  - name: 'staging'
+    deploymentTargetId: ''
+  - name: 'UAT'
+    deploymentTargetId: ''
+  - name: 'prod' # New environment type
+    deploymentTargetId: '/subscriptions/<subscription-id>'
+```
+
+**Project level** — add entries under the project's `environmentTypes` array:
+
+```yaml
+# Inside a project entry
+environmentTypes:
+  - name: 'dev'
+    deploymentTargetId: ''
+  - name: 'staging'
+    deploymentTargetId: ''
+  - name: 'prod'
+    deploymentTargetId: ''
+```
+
+### Modifying Resource Groups
+
+Edit `infra/settings/resourceOrganization/azureResources.yaml` to rename
+resource groups, disable creation of specific groups, or update tags:
+
+```yaml
+workload:
+  create: true
+  name: myorg-workload # Renamed from devexp-workload
+  description: Production workloads
+  tags:
+    environment: prod
+    division: Engineering
+    team: Platform
+    project: MyOrg-DevBox
+    costCenter: Engineering
+    owner: MyOrg
+    landingZone: Workload
+    resources: ResourceGroup
+
+security:
+  create: true
+  name: myorg-security
+  description: Security resources
+  tags:
+    environment: prod
+    division: Engineering
+    team: Platform
+    project: MyOrg-DevBox
+    costCenter: Engineering
+    owner: MyOrg
+    landingZone: Workload
+    resources: ResourceGroup
+
+monitoring:
+  create: true
+  name: myorg-monitoring
+  description: Monitoring resources
+  tags:
+    environment: prod
+    division: Engineering
+    team: Platform
+    project: MyOrg-DevBox
+    costCenter: Engineering
+    owner: MyOrg
+    landingZone: Workload
+    resources: ResourceGroup
+```
+
 ### Modifying Security Settings
 
 Edit `infra/settings/security/security.yaml` to change Key Vault parameters. The
 full configuration structure includes the top-level `create` flag and the nested
-`keyVault` block with its tags:
+`keyVault` block:
 
 ```yaml
 create: true
@@ -471,7 +631,7 @@ keyVault:
     resources: ResourceGroup
 ```
 
-Then re-provision:
+Re-provision:
 
 ```bash
 azd provision -e "dev"
@@ -486,10 +646,56 @@ Provisioning Azure resources (azd provision)
 SUCCESS: Your application was provisioned in Azure.
 ```
 
+### Modifying Identity and RBAC
+
+The accelerator manages RBAC at two levels:
+
+**Dev Center identity** — controls what the Dev Center managed identity can do.
+Edit the `identity.roleAssignments.devCenter` array in
+`infra/settings/workload/devcenter.yaml`:
+
+```yaml
+identity:
+  type: SystemAssigned
+  roleAssignments:
+    devCenter:
+      - id: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+        name: 'Contributor'
+        scope: Subscription
+      - id: '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9'
+        name: 'User Access Administrator'
+        scope: Subscription
+      - id: '4633458b-17de-408a-b874-0445c86b69e6'
+        name: 'Key Vault Secrets User'
+        scope: ResourceGroup
+      - id: 'b86a8fe4-44ce-4948-aee5-eccb2c155cd7'
+        name: 'Key Vault Secrets Officer'
+        scope: ResourceGroup
+```
+
+**Organization roles** — controls which Azure AD groups get DevCenter Project
+Admin access. Edit the `identity.roleAssignments.orgRoleTypes` array:
+
+```yaml
+orgRoleTypes:
+  - type: DevManager
+    azureADGroupId: '<azure-ad-group-id>'
+    azureADGroupName: 'Platform Engineering Team'
+    azureRBACRoles:
+      - name: 'DevCenter Project Admin'
+        id: '331c37c6-af14-46d9-b9f4-e1909e1b95a0'
+        scope: ResourceGroup
+```
+
+**Project identity** — controls which Azure AD groups can access a specific
+project's Dev Boxes and environments. Edit the project's
+`identity.roleAssignments` array (see
+[Adding a New Project](#adding-a-new-project) for the full example).
+
 ### Cleanup
 
 Remove all deployed resources and clean up the environment using the cleanup
-script. The script removes subscription deployments, users, role assignments,
+script. The script removes subscription deployments, user role assignments,
 service principals, GitHub secrets, and resource groups:
 
 ```powershell
