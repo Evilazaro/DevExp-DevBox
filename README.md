@@ -226,7 +226,7 @@ the accelerator's Bicep modules and setup scripts.
 
 **Overview**
 
-Get a Dev Box environment running in under 10 minutes. Clone the repository,
+Get a Dev Box environment running in **under 10 minutes**. Clone the repository,
 authenticate with Azure and your source control platform, then run `azd up` to
 provision all infrastructure automatically.
 
@@ -300,15 +300,15 @@ SUCCESS: Your application was provisioned in Azure.
 
 **Overview**
 
-The accelerator uses Azure Developer CLI (`azd`) preprovision hooks to run
+The accelerator uses Azure Developer CLI (`azd`) **preprovision hooks** to run
 platform-specific setup scripts before provisioning infrastructure. The hook
 validates prerequisites, authenticates against Azure and source control, stores
 the access token in the `azd` environment, and then `azd` provisions all
 resources through `infra/main.bicep`.
 
-Two deployment paths are provided — one for Linux / macOS using Bash and one for
-Windows using PowerShell. Both paths produce the same infrastructure. Choose the
-path matching your operating system.
+Two deployment paths are provided — one for **Linux / macOS** using Bash and one
+for **Windows** using PowerShell. Both paths produce the same infrastructure.
+Choose the path matching your operating system.
 
 > [!WARNING] Running `azd up` **provisions Azure resources that incur costs**.
 > Review the configuration files in `infra/settings/` before deploying to ensure
@@ -357,8 +357,8 @@ SUCCESS: Your application was provisioned in Azure.
 
 ### Windows
 
-On Windows, if Bash is not available, rename `azure-pwh.yaml` to `azure.yaml` to
-use the PowerShell-based preprovision hook, then run:
+On Windows, if Bash is not available, rename `azure-pwh.yaml` to `azure.yaml`
+to use the **PowerShell-based preprovision hook**, then run:
 
 ```powershell
 azd init -e "dev"
@@ -403,7 +403,7 @@ After deployment, platform administrators manage Dev Box environments by editing
 the YAML configuration files in `infra/settings/` and re-provisioning with
 `azd provision`. Developers access their Dev Boxes through the
 [Microsoft Dev Box portal](https://devbox.microsoft.com). All changes follow a
-configuration-as-code workflow — edit YAML, commit, re-provision.
+**configuration-as-code** workflow — edit YAML, commit, re-provision.
 
 Each subsection below demonstrates a specific configuration scenario with YAML
 examples and expected provisioning output. Apply changes by editing the relevant
