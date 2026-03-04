@@ -259,7 +259,7 @@ config:
   flowchart:
     htmlLabels: true
 ---
-flowchart TD
+flowchart TB
     accTitle: azd up — End-to-End Deployment Flow
     accDescr: Shows the two-phase deployment process — preprovision setup followed by Bicep infrastructure provisioning
 
