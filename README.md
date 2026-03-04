@@ -32,7 +32,8 @@ well-defined inputs and outputs. Configuration is fully externalized into
 **schema-validated YAML files**, enabling a **GitOps-friendly, repeatable
 deployment model** across environments.
 
-> [!TIP] If you are new to Microsoft Dev Box, review the
+> [!TIP]
+> If you are new to Microsoft Dev Box, review the
 > [official overview](https://learn.microsoft.com/azure/dev-box/overview-what-is-microsoft-dev-box)
 > before getting started. Dev Box provides self-service access to
 > high-performance, cloud-based workstations pre-configured for specific
