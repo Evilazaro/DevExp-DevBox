@@ -1326,10 +1326,10 @@ use the PowerShell-based hook.
 **Overview**
 
 Contributions are welcome and follow a **product-oriented delivery
-model**\norganized into Epics, Features, and Tasks. The project enforces
-engineering\nstandards for Bicep (parameterized, idempotent modules), PowerShell
-(7+\ncompatible, fail-fast error handling), and documentation (docs-as-code in
-every\nPR).
+model** organized into Epics, Features, and Tasks. The project enforces
+engineering standards for Bicep (parameterized, idempotent modules), PowerShell
+(7+ compatible, fail-fast error handling), and documentation (docs-as-code in
+every PR).
 
 Whether you are fixing bugs, adding features, or improving documentation, your
 contributions help make this accelerator better for the platform engineering
