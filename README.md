@@ -224,110 +224,135 @@ missing tools and insufficient permissions before proceeding.
 
 **Overview**
 
-Get the Dev Box platform running in your Azure subscription with a single
-command. The setup script handles authentication, environment initialization,
-and resource provisioning automatically. Three deployment paths are supported:
-Linux/macOS via Bash, Windows via PowerShell, and Windows via the
-`azd`-compatible PowerShell hook.
+Deploying the accelerator is a two-phase process: **setup** and **provision**.
+The setup phase authenticates you against Azure and your source control
+platform, retrieves a PAT token, and writes it into an `azd` environment file
+(`.azure/<env>/.env`). The provision phase deploys all infrastructure via
+`infra/main.bicep`. When you run `azd up`, both phases execute automatically —
+the setup script runs as a `preprovision` hook before Bicep deployment begins.
 
-The entire provisioning workflow validates your tool dependencies, authenticates
-against your source control platform, securely stores credentials in Azure Key
-Vault, and deploys all infrastructure through Bicep modules — all in a single
-invocation.
+### How It Works
 
-### Prerequisites Check
-
-Before deploying, confirm all required tools are installed:
-
-```bash
-# Verify Azure CLI
-az version
-
-# Verify Azure Developer CLI
-azd version
-
-# Verify GitHub CLI (if using GitHub as source control)
-gh --version
-
-# Verify jq (required by Bash setup script)
-jq --version
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ azd up                                                                   │
+│                                                                          │
+│  Phase 1 — preprovision hook (setUp.sh)                                  │
+│  ┌────────────────────────────────────────────────────────────────────┐   │
+│  │ 1. Validate tools (az, azd, gh or az devops, jq)                  │   │
+│  │ 2. Verify Azure authentication (az account show)                  │   │
+│  │ 3. Verify source control authentication (gh auth / az devops)     │   │
+│  │ 4. Retrieve PAT token → store as KEY_VAULT_SECRET                 │   │
+│  │ 5. Write .azure/<env>/.env with KEY_VAULT_SECRET and              │   │
+│  │    SOURCE_CONTROL_PLATFORM                                        │   │
+│  └────────────────────────────────────────────────────────────────────┘   │
+│                                                                          │
+│  Phase 2 — azd provision (automatic)                                     │
+│  ┌────────────────────────────────────────────────────────────────────┐   │
+│  │ 1. Read parameters from main.parameters.json                      │   │
+│  │    (AZURE_ENV_NAME, AZURE_LOCATION, KEY_VAULT_SECRET)             │   │
+│  │ 2. Deploy infra/main.bicep at subscription scope                  │   │
+│  │ 3. Create 3 resource groups (monitoring, security, workload)      │   │
+│  │ 4. Deploy modules: Log Analytics → Key Vault → DevCenter          │   │
+│  │ 5. Create projects, pools, catalogs, RBAC, networking             │   │
+│  └────────────────────────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────────────────────┘
 ```
 
-Ensure you are authenticated to Azure and your source control platform:
+### Prerequisites
+
+| Tool                        | Minimum | Install                                                                                | Required When             |
+| --------------------------- | ------- | -------------------------------------------------------------------------------------- | ------------------------- |
+| Azure CLI (`az`)            | 2.50+   | [Install](https://learn.microsoft.com/cli/azure/install-azure-cli)                     | Always                    |
+| Azure Developer CLI (`azd`) | 1.0+    | [Install](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) | Always                    |
+| GitHub CLI (`gh`)           | 2.0+    | [Install](https://cli.github.com/)                                                     | Source control = `github` |
+| jq                          | 1.6+    | [Install](https://jqlang.github.io/jq/download/)                                       | Bash setup script         |
+| Bash                        | 4.0+    | Included on Linux/macOS; Git Bash or WSL on Windows                                    | `azd up` workflow         |
+| PowerShell                  | 5.1+    | Included on Windows                                                                    | `setUp.ps1` workflow      |
+
+Verify your tools:
 
 ```bash
-# Login to Azure
-az login
-
-# Login to GitHub
-gh auth login
-
-# Or login to Azure DevOps
-az devops login
+az version && azd version && gh --version && jq --version
 ```
 
-### Option 1: Deploy on Linux/macOS
+### Deploy on Linux / macOS
 
 ```bash
-# Clone the repository
+# 1. Clone and enter the repository
 git clone https://github.com/Evilazaro/DevExp-DevBox.git
 cd DevExp-DevBox
 
-# Deploy with a single command
+# 2. Authenticate
+az login
+gh auth login            # if using GitHub catalogs
+
+# 3. Deploy (setup + provision in one command)
 azd up
 ```
 
-The `azd up` command triggers the `preprovision` hook defined in `azure.yaml`,
-which runs `setUp.sh` to:
-
-1. Validate tool dependencies (`az`, `azd`, `gh`, `jq`)
-2. Authenticate to GitHub and generate a PAT token (or to Azure DevOps)
-3. Create and initialize the `azd` environment with required variables
-4. Set `KEY_VAULT_SECRET`, `SOURCE_CONTROL_PLATFORM`, `AZURE_ENV_NAME`, and
-   `AZURE_LOCATION`
-5. Provision all Azure resources via `infra/main.bicep`
-
-The Bash script accepts parameters for non-interactive execution:
+`azd up` prompts for an environment name and Azure region, then runs the
+`preprovision` hook (`setUp.sh`), and finally deploys all Bicep modules. GitHub
+is the default source control platform. To use Azure DevOps instead, set the
+environment variable before running:
 
 ```bash
-# Non-interactive deployment with explicit parameters
-./setUp.sh -e "prod" -s "github"
-
-# Deploy with Azure DevOps as source control
-./setUp.sh -e "dev" -s "adogit"
-
-# Show usage help
-./setUp.sh -h
+export SOURCE_CONTROL_PLATFORM="adogit"
+az devops login
+azd up
 ```
 
-### Option 2: Deploy on Windows (PowerShell)
+### Deploy on Windows
+
+Windows requires one additional step because the default `azure.yaml` uses
+`shell: sh`. Two options:
+
+**Option A — Use the PowerShell-compatible azd configuration (recommended)**
+
+If you have Bash available (Git Bash, WSL, or Cygwin):
 
 ```powershell
-# Clone the repository
+# 1. Clone and enter the repository
 git clone https://github.com/Evilazaro/DevExp-DevBox.git
 cd DevExp-DevBox
 
-# Deploy with explicit parameters
-.\setUp.ps1 -EnvName "dev" -SourceControl "github"
+# 2. Authenticate
+az login
+gh auth login
+
+# 3. Switch to the PowerShell azd configuration
+Copy-Item azure-pwh.yaml azure.yaml -Force
+
+# 4. Deploy
+azd up
 ```
 
-The PowerShell script supports the same source control platforms:
+The `azure-pwh.yaml` configuration uses `shell: pwsh` and delegates to
+`setUp.sh` through Bash. This keeps the same automated flow as Linux/macOS.
+
+**Option B — Use setUp.ps1 directly (no Bash required)**
+
+If Bash is not available, run the PowerShell setup script manually, then
+provision:
 
 ```powershell
-# Deploy with GitHub
-.\setUp.ps1 -EnvName "prod" -SourceControl "github"
+# 1. Clone and enter the repository
+git clone https://github.com/Evilazaro/DevExp-DevBox.git
+cd DevExp-DevBox
 
-# Deploy with Azure DevOps
-.\setUp.ps1 -EnvName "staging" -SourceControl "adogit"
+# 2. Authenticate
+az login
+gh auth login
 
-# Interactive mode (prompts for source control selection)
-.\setUp.ps1 -EnvName "dev"
+# 3. Run the setup script (creates .azure/<env>/.env with PAT and platform)
+.\setUp.ps1 -EnvName "dev" -SourceControl "github"
 
-# Show help
-.\setUp.ps1 -Help
+# 4. Provision infrastructure (separate step — setUp.ps1 does NOT provision)
+azd provision -e dev
 ```
 
-When `-SourceControl` is omitted, the script presents an interactive menu:
+The `-SourceControl` parameter accepts `github` or `adogit`. If omitted, the
+script prompts interactively:
 
 ```text
 Please select your source control platform:
@@ -336,46 +361,44 @@ Please select your source control platform:
 Enter your choice (1 or 2):
 ```
 
-### Option 3: Deploy on Windows via azd
+### What Each Script Does
 
-Use the PowerShell-compatible `azd` configuration:
-
-```powershell
-# Copy the Windows-compatible azd config
-Copy-Item azure-pwh.yaml azure.yaml
-
-# Deploy using azd
-azd up
-```
-
-The `azure-pwh.yaml` file uses `shell: pwsh` and invokes the Bash setup script
-through a PowerShell wrapper, enabling the same `azd up` workflow on Windows.
+| Script           | Provisions Infrastructure?                                   | Purpose                                                                     |
+| ---------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------- |
+| `setUp.sh`       | No — runs as `preprovision` hook; `azd` provisions afterward | Validates tools, authenticates, retrieves PAT, writes `.azure/<env>/.env`   |
+| `setUp.ps1`      | No — you must run `azd provision` afterward                  | Same as `setUp.sh` but in PowerShell; standalone, does not require Bash     |
+| `azure.yaml`     | Yes — via `azd up`                                           | Bash-based `preprovision` hook; GitHub is the default platform              |
+| `azure-pwh.yaml` | Yes — via `azd up` after copying to `azure.yaml`             | PowerShell-based `preprovision` hook; delegates to `setUp.sh` via Bash      |
+| `cleanSetUp.ps1` | N/A                                                          | Tears down all deployed resources, role assignments, and service principals |
 
 ### Verify the Deployment
 
-After provisioning completes, verify all resources were created:
+After provisioning completes:
 
 ```bash
 # List deployed resource groups
 az group list --query "[?contains(name,'devexp')]" --output table
 
-# Verify the DevCenter was created
+# Verify the DevCenter
 az devcenter admin devcenter list --output table
 
 # List DevCenter projects
-az devcenter admin project list --dev-center-name devexp-devcenter --output table
+az devcenter admin project list --output table
 
-# Check Dev Box pools
-az devcenter admin pool list --project-name eShop --dev-center-name devexp-devcenter --output table
+# Check Dev Box pools for a project
+az devcenter admin pool list \
+  --project-name eShop \
+  --resource-group "devexp-workload-dev-eastus2-RG" \
+  --output table
 
-# View environment variables set by azd
+# View all azd environment variables
 azd env get-values
 ```
 
-> [!NOTE] The first deployment typically takes 15-25 minutes due to resource
-> provider registration and resource creation. Subsequent deployments are faster
-> due to incremental provisioning. All Bicep modules are idempotent — you can
-> safely re-run `azd up` at any time.
+> [!NOTE] The first deployment typically takes 15–25 minutes due to resource
+> provider registration and resource creation. Subsequent runs are faster
+> because Bicep modules are idempotent — only changed resources are updated. You
+> can safely re-run `azd up` or `azd provision` at any time.
 
 ## Configuration
 
