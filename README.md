@@ -22,7 +22,8 @@ CLI (`azd`) for orchestration, Bicep modules for infrastructure definitions, and
 auditable, and customizable deployments across development, staging, and UAT
 environments.
 
-> [!NOTE] This project uses the **Azure Developer CLI** (`azd`) for
+> [!NOTE]
+> This project uses the **Azure Developer CLI** (`azd`) for
 > provisioning. All infrastructure is defined as **Bicep modules** with
 > YAML-based configuration, following the configuration-as-code approach.
 
@@ -179,7 +180,8 @@ Every capability is driven by YAML files in `infra/settings/`, so teams can
 customize Dev Centers, projects, pools, catalogs, and environment types without
 modifying Bicep code.
 
-> [!TIP] All features are configurable through YAML files in `infra/settings/`.
+> [!TIP]
+> All features are configurable through YAML files in `infra/settings/`.
 > No Bicep code changes are needed for standard customizations like adding
 > projects, pools, or environment types.
 
@@ -208,7 +210,8 @@ Verify each tool with the corresponding `--version` command before proceeding.
 The **minimum versions** listed below have been tested for compatibility with
 the accelerator's Bicep modules and setup scripts.
 
-> [!IMPORTANT] You **must** have an active Azure subscription with
+> [!IMPORTANT]
+> You **must** have an active Azure subscription with
 > **Contributor** and **User Access Administrator** permissions at the
 > subscription level to deploy all resources.
 
@@ -233,7 +236,8 @@ provision all infrastructure automatically.
 The setup scripts handle tool validation, authentication, and environment
 initialization — then `azd` provisions all Azure infrastructure through Bicep.
 
-> [!IMPORTANT] The setup scripts (`setUp.sh` / `setUp.ps1`) handle
+> [!IMPORTANT]
+> The setup scripts (`setUp.sh` / `setUp.ps1`) handle
 > authentication and environment initialization only. They do **not** provision
 > Azure resources. Use `azd up` or `azd provision` after running the scripts.
 
@@ -261,7 +265,8 @@ azd auth login
 gh auth login
 ```
 
-> [!NOTE] `gh auth login` is required when using GitHub as the source control
+> [!NOTE]
+> `gh auth login` is required when using GitHub as the source control
 > platform. For Azure DevOps Git, authenticate with `az devops login` instead.
 
 **Expected output:**
@@ -310,7 +315,8 @@ Two deployment paths are provided — one for **Linux / macOS** using Bash and o
 for **Windows** using PowerShell. Both paths produce the same infrastructure.
 Choose the path matching your operating system.
 
-> [!WARNING] Running `azd up` **provisions Azure resources that incur costs**.
+> [!WARNING]
+> Running `azd up` **provisions Azure resources that incur costs**.
 > Review the configuration files in `infra/settings/` before deploying to ensure
 > the resource names, regions, and SKUs match your requirements.
 
@@ -372,7 +378,8 @@ Alternatively, run the setup and provisioning steps manually:
 azd provision -e "dev"
 ```
 
-> [!TIP] The PowerShell setup script (`setUp.ps1`) accepts `-EnvName` and
+> [!TIP]
+> The PowerShell setup script (`setUp.ps1`) accepts `-EnvName` and
 > `-SourceControl` (either `github` or `adogit`). It requires `az`, `azd`, and
 > `gh` — no `jq` dependency.
 
@@ -409,7 +416,8 @@ Each subsection below demonstrates a specific configuration scenario with YAML
 examples and expected provisioning output. Apply changes by editing the relevant
 YAML file and running `azd provision -e "<env>"`.
 
-> [!TIP] Each YAML file includes a **JSON Schema reference**
+> [!TIP]
+> Each YAML file includes a **JSON Schema reference**
 > (`yaml-language-server: $schema=...`) that provides editor validation and
 > autocomplete in VS Code with the YAML extension.
 
@@ -1060,7 +1068,8 @@ naming and structure), through **security** (Key Vault settings), to
 **workload** (Dev Center, projects, pools, catalogs, and environment types).
 This layered approach enables teams to customize each tier independently.
 
-> [!TIP] All YAML configuration files include **JSON Schema references** (via
+> [!TIP]
+> All YAML configuration files include **JSON Schema references** (via
 > `yaml-language-server: $schema=...`) for editor validation and autocomplete.
 
 ### Resource Organization (`infra/settings/resourceOrganization/azureResources.yaml`)
