@@ -60,6 +60,8 @@ config:
   theme: base
   look: classic
   layout: dagre
+  themeVariables:
+    fontSize: '16px'
   flowchart:
     htmlLabels: true
 ---
@@ -90,7 +92,7 @@ flowchart TB
 
     subgraph monitoring["📊 Monitoring Resource Group"]
         direction LR
-        logAnalytics["📈 Log Analytics<br/>Workspace"]:::data
+        logAnalytics["📈 Log Analytics<br/>Workspace"]:::warning
     end
 
     subgraph security["🔒 Security Resource Group"]
@@ -123,16 +125,30 @@ flowchart TB
     logAnalytics -->|"receives diagnostics"| keyVault
     keyVault -->|"provides secrets"| devCenter
 
-    style orchestration fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style monitoring fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style security fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
-    style workload fill:#F3F2F1,stroke:#605E5C,stroke-width:2px
+    %% ============================================
+    %% SUBGRAPH STYLING (4 subgraphs = 4 style directives)
+    %% Functional siblings use distinct semantic colors (MRM-C001)
+    %% Subgraph fill matches content node color (MRM-C005)
+    %% ============================================
+    style orchestration fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    style monitoring fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    style security fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    style workload fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
 
+    %% ============================================
+    %% COLOR DOCUMENTATION (MRM-D001)
+    %% Semantic classes: 4 (core, success, danger, warning) ≤ 5 (MRM-C006)
+    %% core    = Orchestration / process (blue #DEECF9)
+    %% success = Workload / compute (green #DFF6DD)
+    %% danger  = Security / secrets (red #FDE7E9)
+    %% warning = Monitoring / observability (yellow #FFF4CE)
+    %% neutral = Non-semantic default (gray #FAFAFA)
+    %% ============================================
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
-    classDef data fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#986F0B
-    classDef neutral fill:#EDEBE9,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 **Component Roles:**
