@@ -233,30 +233,54 @@ the setup script runs as a `preprovision` hook before Bicep deployment begins.
 
 ### How It Works
 
-```text
-┌──────────────────────────────────────────────────────────────────────────┐
-│ azd up                                                                   │
-│                                                                          │
-│  Phase 1 — preprovision hook (setUp.sh)                                  │
-│  ┌────────────────────────────────────────────────────────────────────┐   │
-│  │ 1. Validate tools (az, azd, gh or az devops, jq)                  │   │
-│  │ 2. Verify Azure authentication (az account show)                  │   │
-│  │ 3. Verify source control authentication (gh auth / az devops)     │   │
-│  │ 4. Retrieve PAT token → store as KEY_VAULT_SECRET                 │   │
-│  │ 5. Write .azure/<env>/.env with KEY_VAULT_SECRET and              │   │
-│  │    SOURCE_CONTROL_PLATFORM                                        │   │
-│  └────────────────────────────────────────────────────────────────────┘   │
-│                                                                          │
-│  Phase 2 — azd provision (automatic)                                     │
-│  ┌────────────────────────────────────────────────────────────────────┐   │
-│  │ 1. Read parameters from main.parameters.json                      │   │
-│  │    (AZURE_ENV_NAME, AZURE_LOCATION, KEY_VAULT_SECRET)             │   │
-│  │ 2. Deploy infra/main.bicep at subscription scope                  │   │
-│  │ 3. Create 3 resource groups (monitoring, security, workload)      │   │
-│  │ 4. Deploy modules: Log Analytics → Key Vault → DevCenter          │   │
-│  │ 5. Create projects, pools, catalogs, RBAC, networking             │   │
-│  └────────────────────────────────────────────────────────────────────┘   │
-└──────────────────────────────────────────────────────────────────────────┘
+```mermaid
+---
+title: "azd up — End-to-End Deployment Flow"
+config:
+  theme: base
+  look: classic
+  layout: dagre
+---
+flowchart TD
+    accTitle: azd up deployment flow
+    accDescr: Shows the two-phase deployment process — preprovision setup followed by Bicep infrastructure provisioning
+
+    start(["▶️ azd up"]):::core --> phase1
+
+    subgraph phase1["Phase 1 — preprovision hook (setUp.sh / setUp.ps1)"]
+        direction TB
+        step1["🔍 Validate tools\n(az, azd, gh or az devops, jq)"]:::neutral
+        step2["☁️ Verify Azure authentication\n(az account show)"]:::neutral
+        step3["🔗 Verify source control auth\n(gh auth status / az devops)"]:::neutral
+        step4["🔑 Retrieve PAT token\n→ store as KEY_VAULT_SECRET"]:::warning
+        step5["💾 Write .azure/‹env›/.env\nKEY_VAULT_SECRET\nSOURCE_CONTROL_PLATFORM"]:::warning
+
+        step1 --> step2 --> step3 --> step4 --> step5
+    end
+
+    phase1 --> phase2
+
+    subgraph phase2["Phase 2 — azd provision (automatic)"]
+        direction TB
+        prov1["📄 Read main.parameters.json\n(AZURE_ENV_NAME, AZURE_LOCATION,\nKEY_VAULT_SECRET)"]:::neutral
+        prov2["📦 Deploy infra/main.bicep\nat subscription scope"]:::data
+        prov3["🗂️ Create resource groups\n(monitoring, security, workload)"]:::data
+        prov4["📊 Deploy Log Analytics\n→ 🔐 Key Vault\n→ 🏢 DevCenter"]:::success
+        prov5["📋 Create projects, pools,\ncatalogs, RBAC, networking"]:::success
+
+        prov1 --> prov2 --> prov3 --> prov4 --> prov5
+    end
+
+    prov5 --> done(["✅ Deployment complete"]):::success
+
+    style phase1 fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
+    style phase2 fill:#E8F1FB,stroke:#0078D4,stroke-width:2px,color:#004578
+
+    classDef core fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    classDef warning fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
+    classDef data fill:#E8F1FB,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ### Prerequisites
