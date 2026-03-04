@@ -321,6 +321,30 @@ configuration-as-code workflow — edit YAML, commit, re-provision.
 > (`yaml-language-server: $schema=...`) that provides editor validation and
 > autocomplete in VS Code with the YAML extension.
 
+### Configuring Dev Center Feature Toggles
+
+The Dev Center exposes three feature toggles at the top level of
+`infra/settings/workload/devcenter.yaml`. Each accepts `Enabled` or `Disabled`:
+
+```yaml
+name: 'devexp-devcenter'
+catalogItemSyncEnableStatus: 'Enabled' # Sync catalog items from repos
+microsoftHostedNetworkEnableStatus: 'Enabled' # Microsoft-hosted VNet for Dev Boxes
+installAzureMonitorAgentEnableStatus: 'Enabled' # Azure Monitor agent on Dev Boxes
+```
+
+| Toggle                                 | Effect when Disabled                                                               |
+| -------------------------------------- | ---------------------------------------------------------------------------------- |
+| `catalogItemSyncEnableStatus`          | Catalog items are not auto-synced from connected repositories                      |
+| `microsoftHostedNetworkEnableStatus`   | Dev Boxes cannot use Microsoft-managed networks; requires Unmanaged VNets          |
+| `installAzureMonitorAgentEnableStatus` | Azure Monitor agent is not installed on Dev Boxes; disables host-level diagnostics |
+
+Re-provision after changing any toggle:
+
+```bash
+azd provision -e "dev"
+```
+
 ### Adding a New Project
 
 Edit `infra/settings/workload/devcenter.yaml` and append a new entry to the
@@ -472,11 +496,74 @@ Provisioning Azure resources (azd provision)
 SUCCESS: Your application was provisioned in Azure.
 ```
 
+### Configuring Network Connectivity
+
+Each project requires a network configuration. The accelerator supports two
+virtual network types and the option to use an existing VNet.
+
+**Managed VNet (Microsoft-hosted)** — Microsoft manages the virtual network.
+This is the simplest option and requires `microsoftHostedNetworkEnableStatus`
+set to `Enabled` at the Dev Center level:
+
+```yaml
+# Inside a project entry
+network:
+  name: myProject
+  create: true
+  resourceGroupName: 'myProject-connectivity-RG'
+  virtualNetworkType: Managed
+  addressPrefixes:
+    - 10.1.0.0/16
+  subnets:
+    - name: myProject-subnet
+      properties:
+        addressPrefix: 10.1.1.0/24
+```
+
+**Unmanaged VNet (customer-managed)** — you provide and manage your own virtual
+network. Use this when you need custom NSGs, route tables, or peering with
+corporate networks:
+
+```yaml
+# Inside a project entry
+network:
+  name: myProject
+  create: true
+  resourceGroupName: 'myProject-connectivity-RG'
+  virtualNetworkType: Unmanaged
+  addressPrefixes:
+    - 10.2.0.0/16
+  subnets:
+    - name: myProject-subnet
+      properties:
+        addressPrefix: 10.2.1.0/24
+```
+
+**Using an existing VNet** — set `create: false` to reference a virtual network
+that already exists. The `resourceGroupName` must point to the resource group
+containing the existing VNet:
+
+```yaml
+# Inside a project entry
+network:
+  name: existing-corp-vnet
+  create: false
+  resourceGroupName: 'corp-networking-RG'
+  virtualNetworkType: Unmanaged
+  subnets:
+    - name: devbox-subnet
+      properties:
+        addressPrefix: 10.50.1.0/24
+```
+
 ### Adding a Dev Center Catalog
 
-Dev Center-level catalogs provide shared configurations across all projects. Add
-a new entry to the top-level `catalogs` array in
+Dev Center-level catalogs provide shared configurations across all projects. The
+accelerator supports both **GitHub** and **Azure DevOps Git** (`adoGit`)
+repositories. Add a new entry to the top-level `catalogs` array in
 `infra/settings/workload/devcenter.yaml`:
+
+**GitHub catalog:**
 
 ```yaml
 catalogs:
@@ -486,23 +573,29 @@ catalogs:
     uri: 'https://github.com/microsoft/devcenter-catalog.git'
     branch: 'main'
     path: './Tasks'
-  - name: 'sharedEnvironments' # New catalog
-    type: gitHub
+```
+
+**Azure DevOps Git catalog:**
+
+```yaml
+catalogs:
+  - name: 'sharedEnvironments'
+    type: adoGit
     visibility: private
-    uri: 'https://github.com/org/shared-environments.git'
+    uri: 'https://dev.azure.com/org/project/_git/shared-environments'
     branch: 'main'
     path: './Environments'
 ```
 
 For project-scoped catalogs (environment definitions or image definitions), add
 entries under the project's `catalogs` array instead. Project catalogs support
-two types:
+two types and both source control providers:
 
 - `environmentDefinition` — deployment environment templates
 - `imageDefinition` — Dev Box image definitions
 
 ```yaml
-# Inside a project entry
+# Inside a project entry — GitHub
 catalogs:
   - name: 'environments'
     type: environmentDefinition
@@ -518,6 +611,18 @@ catalogs:
     uri: 'https://github.com/org/myProject.git'
     branch: 'main'
     path: '/.devcenter/imageDefinitions'
+```
+
+```yaml
+# Inside a project entry — Azure DevOps
+catalogs:
+  - name: 'environments'
+    type: environmentDefinition
+    sourceControl: adoGit
+    visibility: private
+    uri: 'https://dev.azure.com/org/project/_git/myProject'
+    branch: 'main'
+    path: '/.devcenter/environments'
 ```
 
 ### Adding or Modifying Environment Types
@@ -631,6 +736,18 @@ keyVault:
     resources: ResourceGroup
 ```
 
+**Using an existing Key Vault** — set `create: false` to reference a Key Vault
+that already exists in the security resource group. The accelerator will store
+the GitHub access token secret in the existing vault instead of creating a new
+one:
+
+```yaml
+create: false
+keyVault:
+  name: my-existing-keyvault # Must exist in the security resource group
+  secretName: gha-token
+```
+
 Re-provision:
 
 ```bash
@@ -688,9 +805,36 @@ orgRoleTypes:
 ```
 
 **Project identity** — controls which Azure AD groups can access a specific
-project's Dev Boxes and environments. Edit the project's
-`identity.roleAssignments` array (see
-[Adding a New Project](#adding-a-new-project) for the full example).
+project's Dev Boxes and environments. The `roleAssignments` array supports
+multiple AD groups, enabling fine-grained access for multi-team projects:
+
+```yaml
+# Inside a project entry
+identity:
+  type: SystemAssigned
+  roleAssignments:
+    - azureADGroupId: '<backend-team-group-id>'
+      azureADGroupName: 'Backend Developers'
+      azureRBACRoles:
+        - name: 'Contributor'
+          id: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+          scope: Project
+        - name: 'Dev Box User'
+          id: '45d50f46-0b78-4001-a660-4198cbe8cd05'
+          scope: Project
+    - azureADGroupId: '<qa-team-group-id>'
+      azureADGroupName: 'QA Engineers'
+      azureRBACRoles:
+        - name: 'Dev Box User'
+          id: '45d50f46-0b78-4001-a660-4198cbe8cd05'
+          scope: Project
+        - name: 'Deployment Environment User'
+          id: '18e40d4e-8d2e-438d-97e1-9528336e149c'
+          scope: Project
+```
+
+See [Adding a New Project](#adding-a-new-project) for the full project identity
+example.
 
 ### Cleanup
 
