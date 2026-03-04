@@ -78,12 +78,25 @@ config:
   theme: base
   look: classic
   layout: dagre
+  themeVariables:
+    fontSize: '16px'
   flowchart:
     htmlLabels: true
 ---
 flowchart TB
     accTitle: DevExp-DevBox Platform Architecture
     accDescr: Shows the three-tier landing zone architecture with monitoring, security, and workload resource groups and their component relationships
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph subscription["☁️ Azure Subscription"]
         direction TB
@@ -140,7 +153,7 @@ flowchart TB
     style security fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
     style workload fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
     style projects fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
-    style connectivity fill:#E8F1FB,stroke:#0078D4,stroke-width:2px,color:#004578
+    style connectivity fill:#C8F0E7,stroke:#00A889,stroke-width:2px,color:#004B50
 
     classDef core fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
@@ -240,10 +253,25 @@ config:
   theme: base
   look: classic
   layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart TD
     accTitle: azd up deployment flow
     accDescr: Shows the two-phase deployment process — preprovision setup followed by Bicep infrastructure provisioning
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
 
     start(["▶️ azd up"]):::core --> phase1
 
