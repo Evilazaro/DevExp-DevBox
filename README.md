@@ -522,7 +522,8 @@ Resource group names are generated at deployment time using the pattern:
 `{name}-{environmentName}-{location}-RG` (e.g.,
 `devexp-workload-dev-eastus-RG`).
 
-> [!TIP] Set `create: false` to use existing resource groups instead of creating
+> [!TIP]
+> Set `create: false` to use existing resource groups instead of creating
 > new ones. This is useful when integrating with an existing **Azure Landing
 > Zone** or when resource groups are managed by a separate governance team.
 
@@ -677,7 +678,8 @@ environmentTypes:
     deploymentTargetId: ''
 ```
 
-> [!TIP] Set `deploymentTargetId` to a subscription resource ID (e.g.,
+> [!TIP]
+> Set `deploymentTargetId` to a subscription resource ID (e.g.,
 > `/subscriptions/<guid>`) to deploy environment resources into a different
 > subscription. Leave empty to use the current subscription.
 
