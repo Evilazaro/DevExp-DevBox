@@ -1056,9 +1056,9 @@ corresponding **JSON Schema** for validation, providing IDE autocomplete and
 validation support in VS Code with the YAML extension.
 
 The configuration hierarchy flows from **resource organization** (resource group
-naming and structure), through **security** (Key Vault settings), to **workload**
-(Dev Center, projects, pools, catalogs, and environment types). This layered
-approach enables teams to customize each tier independently.
+naming and structure), through **security** (Key Vault settings), to
+**workload** (Dev Center, projects, pools, catalogs, and environment types).
+This layered approach enables teams to customize each tier independently.
 
 > [!TIP] All YAML configuration files include **JSON Schema references** (via
 > `yaml-language-server: $schema=...`) for editor validation and autocomplete.
@@ -1316,10 +1316,11 @@ use the PowerShell-based hook.
 
 **Overview**
 
-Contributions are welcome and follow a product-oriented delivery model organized
-into Epics, Features, and Tasks. The project enforces engineering standards for
-Bicep (parameterized, idempotent modules), PowerShell (7+ compatible, fail-fast
-error handling), and documentation (docs-as-code in every PR).
+Contributions are welcome and follow a **product-oriented delivery
+model**\norganized into Epics, Features, and Tasks. The project enforces
+engineering\nstandards for Bicep (parameterized, idempotent modules), PowerShell
+(7+\ncompatible, fail-fast error handling), and documentation (docs-as-code in
+every\nPR).
 
 Whether you are fixing bugs, adding features, or improving documentation, your
 contributions help make this accelerator better for the platform engineering
