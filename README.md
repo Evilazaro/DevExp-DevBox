@@ -98,6 +98,14 @@ flowchart TB
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
+    %% COLOR DOCUMENTATION
+    %% core (#E1DFDD) — API/Service layers, DevCenter compute resources
+    %% success (#DFF6DD) — Deployment pools, provisioned resources
+    %% warning (#FFF4CE) — Security-sensitive resources (Key Vault, secrets)
+    %% data (#E8F1FB) — Monitoring and analytics (Log Analytics)
+    %% network (#C8F0E7) — Networking infrastructure (VNet, subnet, connections)
+    %% neutral (#FAFAFA) — Non-semantic supporting elements (catalogs, env types)
+
     subgraph subscription["☁️ Azure Subscription"]
         direction TB
 
@@ -129,9 +137,9 @@ flowchart TB
 
         subgraph connectivity["🌐 Connectivity Resource Group"]
             direction LR
-            vnet["🔗 Virtual Network"]:::data
-            subnet["📍 Subnet"]:::data
-            networkConn["🔌 Network Connection"]:::data
+            vnet["🔗 Virtual Network"]:::network
+            subnet["📍 Subnet"]:::network
+            networkConn["🔌 Network Connection"]:::network
         end
     end
 
@@ -159,6 +167,7 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef warning fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
     classDef data fill:#E8F1FB,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef network fill:#C8F0E7,stroke:#00A889,stroke-width:2px,color:#004B50
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
@@ -273,9 +282,16 @@ flowchart TD
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
+    %% COLOR DOCUMENTATION
+    %% core (#E1DFDD) — Entry/exit nodes (azd up command)
+    %% success (#DFF6DD) — Completed deployment stages
+    %% warning (#FFF4CE) — Security-sensitive operations (PAT, secrets)
+    %% data (#E8F1FB) — Infrastructure deployment operations
+    %% neutral (#FAFAFA) — Validation and read operations
+
     start(["▶️ azd up"]):::core --> phase1
 
-    subgraph phase1["Phase 1 — preprovision hook (setUp.sh / setUp.ps1)"]
+    subgraph phase1["⚙️ Phase 1 — preprovision hook (setUp.sh / setUp.ps1)"]
         direction TB
         step1["🔍 Validate tools<br>/(az, azd, gh or az devops, jq)"]:::neutral
         step2["☁️ Verify Azure authentication<br>/(az account show)"]:::neutral
@@ -288,7 +304,7 @@ flowchart TD
 
     phase1 --> phase2
 
-    subgraph phase2["Phase 2 — azd provision (automatic)"]
+    subgraph phase2["🚀 Phase 2 — azd provision (automatic)"]
         direction TB
         prov1["📄 Read main.parameters.json<br>/(AZURE_ENV_NAME, AZURE_LOCATION,<br>/KEY_VAULT_SECRET)"]:::neutral
         prov2["📦 Deploy infra/main.bicep<br>/at subscription scope"]:::data
