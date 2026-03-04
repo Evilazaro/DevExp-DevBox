@@ -32,8 +32,7 @@ well-defined inputs and outputs. Configuration is fully externalized into
 **schema-validated YAML files**, enabling a **GitOps-friendly, repeatable
 deployment model** across environments.
 
-> [!TIP]
-> If you are new to Microsoft Dev Box, review the
+> [!TIP] If you are new to Microsoft Dev Box, review the
 > [official overview](https://learn.microsoft.com/azure/dev-box/overview-what-is-microsoft-dev-box)
 > before getting started. Dev Box provides self-service access to
 > high-performance, cloud-based workstations pre-configured for specific
@@ -98,11 +97,10 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     %% COLOR DOCUMENTATION
-    %% core (#E1DFDD) — API/Service layers, DevCenter compute resources
+    %% core (#DEECF9) — Process/API layers (DevCenter, projects, monitoring)
     %% success (#DFF6DD) — Deployment pools, provisioned resources
     %% warning (#FFF4CE) — Security-sensitive resources (Key Vault, secrets)
-    %% data (#E8F1FB) — Monitoring and analytics (Log Analytics)
-    %% network (#C8F0E7) — Networking infrastructure (VNet, subnet, connections)
+    %% data (#E1DFDD) — Network/external infrastructure (VNet, subnet)
     %% neutral (#FAFAFA) — Non-semantic supporting elements (catalogs, env types)
 
     subgraph subscription["☁️ Azure Subscription"]
@@ -110,8 +108,8 @@ flowchart TB
 
         subgraph monitoring["📊 Monitoring Resource Group"]
             direction LR
-            logAnalytics["📈 Log Analytics Workspace"]:::data
-            activitySolution["📋 Azure Activity Solution"]:::data
+            logAnalytics["📈 Log Analytics Workspace"]:::core
+            activitySolution["📋 Azure Activity Solution"]:::core
         end
 
         subgraph security["🔒 Security Resource Group"]
@@ -136,9 +134,9 @@ flowchart TB
 
         subgraph connectivity["🌐 Connectivity Resource Group"]
             direction LR
-            vnet["🔗 Virtual Network"]:::network
-            subnet["📍 Subnet"]:::network
-            networkConn["🔌 Network Connection"]:::network
+            vnet["🔗 Virtual Network"]:::data
+            subnet["📍 Subnet"]:::data
+            networkConn["🔌 Network Connection"]:::data
         end
     end
 
@@ -155,18 +153,19 @@ flowchart TB
     networkConn -->|"joins"| subnet
     subnet -->|"belongs to"| vnet
 
-    style subscription fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style monitoring fill:#E8F1FB,stroke:#0078D4,stroke-width:2px,color:#004578
-    style security fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
-    style workload fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
-    style projects fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
-    style connectivity fill:#C8F0E7,stroke:#00A889,stroke-width:2px,color:#004B50
+    %% SUBGRAPH STYLING — hierarchical neutral fills (6 subgraphs = 6 style directives)
+    style subscription fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    style monitoring fill:#EDEBE9,stroke:#605E5C,stroke-width:2px,color:#323130
+    style security fill:#EDEBE9,stroke:#605E5C,stroke-width:2px,color:#323130
+    style workload fill:#EDEBE9,stroke:#605E5C,stroke-width:2px,color:#323130
+    style projects fill:#D2D0CE,stroke:#605E5C,stroke-width:2px,color:#323130
+    style connectivity fill:#EDEBE9,stroke:#605E5C,stroke-width:2px,color:#323130
 
-    classDef core fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    %% Centralized classDef palette (canonical — max 5 semantic classes)
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef warning fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
-    classDef data fill:#E8F1FB,stroke:#0078D4,stroke-width:2px,color:#004578
-    classDef network fill:#C8F0E7,stroke:#00A889,stroke-width:2px,color:#004B50
+    classDef data fill:#E1DFDD,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
@@ -232,8 +231,7 @@ missing tools and insufficient permissions before proceeding.
 | 👥 Azure AD Groups             | N/A             | Pre-created groups matching IDs in `devcenter.yaml` configuration                 |
 | 📂 Git Repository              | N/A             | Source repository accessible for catalog syncing (PAT required for private repos) |
 
-> [!IMPORTANT]
-> Your Azure subscription **must** allow creating resource groups,
+> [!IMPORTANT] Your Azure subscription **must** allow creating resource groups,
 > registering resource providers (DevCenter, KeyVault, Network,
 > OperationalInsights), and creating role assignments. An **Owner** role on the
 > subscription is recommended for initial deployment.
@@ -262,7 +260,7 @@ config:
     htmlLabels: true
 ---
 flowchart TD
-    accTitle: azd up deployment flow
+    accTitle: azd up — End-to-End Deployment Flow
     accDescr: Shows the two-phase deployment process — preprovision setup followed by Bicep infrastructure provisioning
 
     %% ═══════════════════════════════════════════════════════════════════════════
@@ -277,21 +275,20 @@ flowchart TD
     %% ═══════════════════════════════════════════════════════════════════════════
 
     %% COLOR DOCUMENTATION
-    %% core (#E1DFDD) — Entry/exit nodes (azd up command)
+    %% core (#DEECF9) — Entry/exit and deployment operations (azd up, Bicep deploy)
     %% success (#DFF6DD) — Completed deployment stages
     %% warning (#FFF4CE) — Security-sensitive operations (PAT, secrets)
-    %% data (#E8F1FB) — Infrastructure deployment operations
     %% neutral (#FAFAFA) — Validation and read operations
 
     start(["▶️ azd up"]):::core --> phase1
 
     subgraph phase1["⚙️ Phase 1 — preprovision hook (setUp.sh / setUp.ps1)"]
         direction TB
-        step1["🔍 Validate tools<br>/(az, azd, gh or az devops, jq)"]:::neutral
-        step2["☁️ Verify Azure authentication<br>/(az account show)"]:::neutral
-        step3["🔗 Verify source control auth<br>/(gh auth status / az devops)"]:::neutral
-        step4["🔑 Retrieve PAT token<br>/→ store as KEY_VAULT_SECRET"]:::warning
-        step5["💾 Write .azure/‹env›/.env<br>/KEY_VAULT_SECRET<br>/SOURCE_CONTROL_PLATFORM"]:::warning
+        step1["🔍 Validate CLI tools"]:::neutral
+        step2["☁️ Verify Azure auth"]:::neutral
+        step3["🔗 Verify source control"]:::neutral
+        step4["🔑 Retrieve PAT token"]:::warning
+        step5["💾 Write env variables"]:::warning
 
         step1 --> step2 --> step3 --> step4 --> step5
     end
@@ -300,24 +297,25 @@ flowchart TD
 
     subgraph phase2["🚀 Phase 2 — azd provision (automatic)"]
         direction TB
-        prov1["📄 Read main.parameters.json<br>/(AZURE_ENV_NAME, AZURE_LOCATION,<br>/KEY_VAULT_SECRET)"]:::neutral
-        prov2["📦 Deploy infra/main.bicep<br>/at subscription scope"]:::data
-        prov3["🗂️ Create resource groups<br>/(monitoring, security, workload)"]:::data
-        prov4["📊 Deploy Log Analytics<br>/→ 🔐 Key Vault<br>/→ 🏢 DevCenter"]:::success
-        prov5["📋 Create projects, pools,<br>/catalogs, RBAC, networking"]:::success
+        prov1["📄 Read deployment params"]:::neutral
+        prov2["📦 Deploy main.bicep"]:::core
+        prov3["🗂️ Create resource groups"]:::core
+        prov4["📊 Deploy monitoring,<br>security, workload"]:::success
+        prov5["📋 Create projects & pools"]:::success
 
         prov1 --> prov2 --> prov3 --> prov4 --> prov5
     end
 
     prov5 --> done(["✅ Deployment complete"]):::success
 
-    style phase1 fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
-    style phase2 fill:#E8F1FB,stroke:#0078D4,stroke-width:2px,color:#004578
+    %% SUBGRAPH STYLING — neutral fills (2 subgraphs = 2 style directives)
+    style phase1 fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    style phase2 fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 
-    classDef core fill:#E1DFDD,stroke:#605E5C,stroke-width:2px,color:#323130
+    %% Centralized classDef palette (canonical — max 5 semantic classes)
+    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef warning fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
-    classDef data fill:#E8F1FB,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
@@ -457,8 +455,7 @@ az devcenter admin pool list \
 azd env get-values
 ```
 
-> [!NOTE]
-> The first deployment typically takes **15–25 minutes** due to resource
+> [!NOTE] The first deployment typically takes **15–25 minutes** due to resource
 > provider registration and resource creation. Subsequent runs are faster
 > because Bicep modules are **idempotent** — only changed resources are updated.
 > You can safely re-run `azd up` or `azd provision` at any time.
@@ -522,8 +519,7 @@ Resource group names are generated at deployment time using the pattern:
 `{name}-{environmentName}-{location}-RG` (e.g.,
 `devexp-workload-dev-eastus-RG`).
 
-> [!TIP]
-> Set `create: false` to use existing resource groups instead of creating
+> [!TIP] Set `create: false` to use existing resource groups instead of creating
 > new ones. This is useful when integrating with an existing **Azure Landing
 > Zone** or when resource groups are managed by a separate governance team.
 
@@ -678,8 +674,7 @@ environmentTypes:
     deploymentTargetId: ''
 ```
 
-> [!TIP]
-> Set `deploymentTargetId` to a subscription resource ID (e.g.,
+> [!TIP] Set `deploymentTargetId` to a subscription resource ID (e.g.,
 > `/subscriptions/<guid>`) to deploy environment resources into a different
 > subscription. Leave empty to use the current subscription.
 
@@ -1025,8 +1020,7 @@ projects:
         path: '/environments'
 ```
 
-> [!IMPORTANT]
-> Private catalogs **require** a valid PAT token stored in Key
+> [!IMPORTANT] Private catalogs **require** a valid PAT token stored in Key
 > Vault. The `secretIdentifier` is automatically passed to private catalogs
 > during deployment. Ensure the PAT has `repo` (GitHub) or `Code (Read)` (Azure
 > DevOps) scope.
@@ -1263,8 +1257,7 @@ Key security features:
 - **Deployer access policies** grant the authenticated user secret and key
   management permissions
 
-> [!WARNING]
-> The GitHub/Azure DevOps PAT token is stored as a **Key Vault
+> [!WARNING] The GitHub/Azure DevOps PAT token is stored as a **Key Vault
 > secret**. Ensure you **rotate this token** according to your organization's
 > security policies. The secret name defaults to `gha-token` and is configurable
 > in `security.yaml`.
@@ -1316,8 +1309,7 @@ This script:
 - Removes GitHub secrets (if applicable)
 - Deletes all created resource groups
 
-> [!CAUTION]
-> The cleanup script **permanently deletes all resources**. Key Vault
+> [!CAUTION] The cleanup script **permanently deletes all resources**. Key Vault
 > soft delete provides a **7-day recovery window**, but all other resources are
 > immediately removed. Always verify you are targeting the **correct
 > subscription** before running cleanup.
