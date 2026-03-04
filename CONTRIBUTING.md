@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository provides a Dev Box Adoption & Deployment Accelerator (DevEx
+This repository provides a **Dev Box Adoption & Deployment Accelerator** (DevEx
 Accelerator) implemented as Infrastructure as Code (Bicep), automation
 (PowerShell), and documentation (Markdown).
 
@@ -26,7 +26,7 @@ Use the GitHub Issue Forms:
 
 ### Required Labels
 
-Every issue must have:
+Every issue **must** have:
 
 - **Type**: `type:epic` OR `type:feature` OR `type:task`
 - **Area** (at least one): `area:dev-box`, `area:dev-center`, `area:networking`,
@@ -38,8 +38,8 @@ Every issue must have:
 
 ### Linking Rules
 
-- Every **Feature** MUST link its **Parent Epic** (e.g., `#101`).
-- Every **Task** MUST link its **Parent Feature** (e.g., `#202`).
+- Every **Feature** **MUST** link its **Parent Epic** (e.g., `#101`).
+- Every **Task** **MUST** link its **Parent Feature** (e.g., `#202`).
 - Epics track Features/Tasks in the **Child Issues** list.
 
 ---
@@ -61,7 +61,7 @@ Include the issue number when possible:
 
 ### Pull Requests
 
-Each PR must:
+Each PR **must**:
 
 - Reference the issue it closes (e.g., `Closes #123`)
 - Include:
@@ -75,12 +75,12 @@ Each PR must:
 
 ### Infrastructure as Code (Bicep)
 
-- Modules must be:
-  - Parameterized (no hard-coded environment specifics)
-  - Idempotent
-  - Reusable across environments
+- Modules **must** be:
+  - **Parameterized** (no hard-coded environment specifics)
+  - **Idempotent**
+  - **Reusable** across environments
 - Prefer consistent naming and centralized tagging patterns.
-- Avoid embedding secrets in code or parameters.
+- **Avoid** embedding secrets in code or parameters.
 
 ### PowerShell
 
@@ -91,12 +91,12 @@ Each PR must:
 
 ### Documentation (Markdown)
 
-- Every module/script must have:
+- Every module/script **must** have:
   - Purpose
   - Inputs/outputs
   - Example usage
   - Troubleshooting notes (common failures)
-- Keep docs “docs-as-code” and updated in the same PR as changes.
+- Keep docs **"docs-as-code"** and updated in the same PR as changes.
 
 ---
 
