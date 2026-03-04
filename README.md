@@ -32,6 +32,7 @@ environments.
 - [Features](#-features)
 - [Requirements](#-requirements)
 - [Quick Start](#-quick-start)
+- [Deployment](#-deployment)
 - [Usage](#-usage)
 - [Configuration](#-configuration)
 - [Contributing](#-contributing)
@@ -63,8 +64,19 @@ config:
     htmlLabels: true
 ---
 flowchart TB
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - STRUCTURAL: Direction explicit, flat topology, nesting ≤ 3
+    %% PHASE 2 - SEMANTIC: Colors justified, max 5 semantic classes, neutral-first
+    %% PHASE 3 - FONT: Dark text on light backgrounds, contrast ≥ 4.5:1
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, icons on all nodes
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
     accTitle: Dev Box Accelerator Architecture
-    accDescr: Shows the three-tier resource group architecture with orchestration layer, security, monitoring, and workload components
+    accDescr: Shows the three-tier resource group architecture with orchestration layer, security, monitoring, and workload components and their deployment relationships
 
     subgraph orchestration["🔄 Orchestration Layer"]
         direction LR
@@ -83,7 +95,7 @@ flowchart TB
 
     subgraph security["🔒 Security Resource Group"]
         direction LR
-        keyVault["🔑 Azure Key Vault"]:::warning
+        keyVault["🔑 Azure Key Vault"]:::danger
     end
 
     subgraph workload["🖥️ Workload Resource Group"]
@@ -118,9 +130,9 @@ flowchart TB
 
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#986F0B
-    classDef data fill:#E8DAEF,stroke:#8764B8,stroke-width:2px,color:#4B2D83
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#E81123,stroke-width:2px,color:#A4262C
+    classDef data fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#986F0B
+    classDef neutral fill:#EDEBE9,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 **Component Roles:**
@@ -145,6 +157,10 @@ The accelerator provides a complete platform engineering toolkit for
 provisioning Microsoft Dev Box environments. It combines one-command deployment
 with enterprise-grade security, modular Bicep infrastructure, and flexible YAML
 configuration to support teams of any size across multiple environments.
+
+Every capability is driven by YAML files in `infra/settings/`, so teams can
+customize Dev Centers, projects, pools, catalogs, and environment types without
+modifying Bicep code.
 
 > [!TIP] All features are configurable through YAML files in `infra/settings/`.
 > No Bicep code changes are needed for standard customizations like adding
@@ -171,6 +187,10 @@ installed and authenticated. The setup scripts validate all prerequisites
 automatically and provide actionable error messages if any tool is missing or
 not authenticated.
 
+Verify each tool with the corresponding `--version` command before proceeding.
+The minimum versions listed below have been tested for compatibility with the
+accelerator's Bicep modules and setup scripts.
+
 > [!IMPORTANT] You must have an active Azure subscription with Contributor and
 > User Access Administrator permissions at the subscription level to deploy all
 > resources.
@@ -189,11 +209,12 @@ not authenticated.
 
 **Overview**
 
-Get a Dev Box environment running in under 10 minutes. The accelerator supports
-two deployment paths: automated via `azd up` (recommended), or manual setup
-using the included scripts. The setup scripts handle tool validation,
-authentication, and environment initialization — then `azd` provisions all Azure
-infrastructure through Bicep.
+Get a Dev Box environment running in under 10 minutes. Clone the repository,
+authenticate with Azure and your source control platform, then run `azd up` to
+provision all infrastructure automatically.
+
+The setup scripts handle tool validation, authentication, and environment
+initialization — then `azd` provisions all Azure infrastructure through Bicep.
 
 > [!IMPORTANT] The setup scripts (`setUp.sh` / `setUp.ps1`) handle
 > authentication and environment initialization only. They do **not** provision
@@ -234,18 +255,12 @@ You have logged in. Now let us find all the subscriptions to which you have acce
 ✓ Logged in to github.com account
 ```
 
-**Step 3 — Initialize and deploy (Linux / macOS):**
+**Step 3 — Initialize and deploy:**
 
 ```bash
 azd init -e "dev"
 azd up
 ```
-
-The `azd up` command triggers the `setUp.sh` preprovision hook defined in
-`azure.yaml`. The hook validates prerequisites (`az`, `azd`, `jq`, `gh`),
-verifies authentication, retrieves the source control token, and stores it in
-the azd environment. After the hook completes, `azd` provisions all Azure
-infrastructure through `infra/main.bicep`.
 
 **Expected output:**
 
@@ -253,6 +268,54 @@ infrastructure through `infra/main.bicep`.
 Initializing a new environment (dev)...
 SUCCESS: Environment initialized.
 
+Provisioning Azure resources (azd provision)
+(✓) Done: Resource group: devexp-workload-dev-RG
+(✓) Done: Resource group: devexp-security-dev-RG
+(✓) Done: Resource group: devexp-monitoring-dev-RG
+(✓) Done: Log Analytics Workspace
+(✓) Done: Key Vault
+(✓) Done: Dev Center
+
+SUCCESS: Your application was provisioned in Azure.
+```
+
+## 📦 Deployment
+
+**Overview**
+
+The accelerator uses Azure Developer CLI (`azd`) preprovision hooks to run
+platform-specific setup scripts before provisioning infrastructure. The hook
+validates prerequisites, authenticates against Azure and source control, stores
+the access token in the `azd` environment, and then `azd` provisions all
+resources through `infra/main.bicep`.
+
+Two deployment paths are provided — one for Linux / macOS using Bash and one for
+Windows using PowerShell. Both paths produce the same infrastructure. Choose the
+path matching your operating system.
+
+> [!WARNING] Running `azd up` provisions Azure resources that incur costs.
+> Review the configuration files in `infra/settings/` before deploying to ensure
+> the resource names, regions, and SKUs match your requirements.
+
+### Linux / macOS
+
+The default `azure.yaml` uses a Bash preprovision hook that executes `setUp.sh`.
+The script validates that `az`, `azd`, `jq`, and `gh` are installed and
+authenticated, retrieves the GitHub token, and stores it in the `azd`
+environment:
+
+```bash
+azd init -e "dev"
+azd up
+```
+
+The `azd up` command triggers the `setUp.sh` preprovision hook defined in
+`azure.yaml`. After the hook completes, `azd` provisions all Azure
+infrastructure through `infra/main.bicep`.
+
+**Expected output:**
+
+```text
 ℹ️ Starting Dev Box environment setup
 ℹ️ Environment name: dev
 ℹ️ Source control platform: github
@@ -275,7 +338,7 @@ Provisioning Azure resources (azd provision)
 SUCCESS: Your application was provisioned in Azure.
 ```
 
-**Step 3 (alt) — Initialize and deploy (Windows):**
+### Windows
 
 On Windows, if Bash is not available, rename `azure-pwh.yaml` to `azure.yaml` to
 use the PowerShell-based preprovision hook, then run:
@@ -292,20 +355,28 @@ Alternatively, run the setup and provisioning steps manually:
 azd provision -e "dev"
 ```
 
-> [!NOTE] The PowerShell setup script (`setUp.ps1`) requires `az`, `azd`, and
-> `gh` (no `jq` dependency). Parameters use PowerShell naming: `-EnvName` and
-> `-SourceControl` (accepts `github` or `adogit`).
+> [!TIP] The PowerShell setup script (`setUp.ps1`) accepts `-EnvName` and
+> `-SourceControl` (either `github` or `adogit`). It requires `az`, `azd`, and
+> `gh` — no `jq` dependency.
 
-**Step 4 — Cleanup:**
+**Expected output:**
 
-To remove all deployed resources, service principals, and environment artifacts:
+```text
+✅ All required tools are available
+✅ GitHub authentication verified successfully
+✅ GitHub token retrieved and stored securely
+✅ Dev Box environment 'dev' setup successfully
 
-```powershell
-.\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2"
+Provisioning Azure resources (azd provision)
+(✓) Done: Resource group: devexp-workload-dev-RG
+(✓) Done: Resource group: devexp-security-dev-RG
+(✓) Done: Resource group: devexp-monitoring-dev-RG
+(✓) Done: Log Analytics Workspace
+(✓) Done: Key Vault
+(✓) Done: Dev Center
+
+SUCCESS: Your application was provisioned in Azure.
 ```
-
-See [Cleanup](#cleanup) in the Usage section for the full parameter reference
-and expected output.
 
 ## 💻 Usage
 
@@ -316,6 +387,10 @@ the YAML configuration files in `infra/settings/` and re-provisioning with
 `azd provision`. Developers access their Dev Boxes through the
 [Microsoft Dev Box portal](https://devbox.microsoft.com). All changes follow a
 configuration-as-code workflow — edit YAML, commit, re-provision.
+
+Each subsection below demonstrates a specific configuration scenario with YAML
+examples and expected provisioning output. Apply changes by editing the relevant
+YAML file and running `azd provision -e "<env>"`.
 
 > [!TIP] Each YAML file includes a JSON Schema reference
 > (`yaml-language-server: $schema=...`) that provides editor validation and
@@ -333,16 +408,25 @@ microsoftHostedNetworkEnableStatus: 'Enabled' # Microsoft-hosted VNet for Dev Bo
 installAzureMonitorAgentEnableStatus: 'Enabled' # Azure Monitor agent on Dev Boxes
 ```
 
-| Toggle                                 | Effect when Disabled                                                               |
-| -------------------------------------- | ---------------------------------------------------------------------------------- |
-| `catalogItemSyncEnableStatus`          | Catalog items are not auto-synced from connected repositories                      |
-| `microsoftHostedNetworkEnableStatus`   | Dev Boxes cannot use Microsoft-managed networks; requires Unmanaged VNets          |
-| `installAzureMonitorAgentEnableStatus` | Azure Monitor agent is not installed on Dev Boxes; disables host-level diagnostics |
+| Toggle                                    | Effect when Disabled                                                               |
+| ----------------------------------------- | ---------------------------------------------------------------------------------- |
+| ⚙️ `catalogItemSyncEnableStatus`          | Catalog items are not auto-synced from connected repositories                      |
+| 🌐 `microsoftHostedNetworkEnableStatus`   | Dev Boxes cannot use Microsoft-managed networks; requires Unmanaged VNets          |
+| 📊 `installAzureMonitorAgentEnableStatus` | Azure Monitor agent is not installed on Dev Boxes; disables host-level diagnostics |
 
 Re-provision after changing any toggle:
 
 ```bash
 azd provision -e "dev"
+```
+
+**Expected output:**
+
+```text
+Provisioning Azure resources (azd provision)
+(✓) Done: Dev Center: devexp-devcenter (configuration updated)
+
+SUCCESS: Your application was provisioned in Azure.
 ```
 
 ### Adding a New Project
@@ -556,6 +640,22 @@ network:
         addressPrefix: 10.50.1.0/24
 ```
 
+Re-provision after applying network changes:
+
+```bash
+azd provision -e "dev"
+```
+
+**Expected output:**
+
+```text
+Provisioning Azure resources (azd provision)
+(✓) Done: Virtual Network: myProject
+(✓) Done: Network Connection: myProject-subnet
+
+SUCCESS: Your application was provisioned in Azure.
+```
+
 ### Adding a Dev Center Catalog
 
 Dev Center-level catalogs provide shared configurations across all projects. The
@@ -625,6 +725,21 @@ catalogs:
     path: '/.devcenter/environments'
 ```
 
+Re-provision after adding catalogs:
+
+```bash
+azd provision -e "dev"
+```
+
+**Expected output:**
+
+```text
+Provisioning Azure resources (azd provision)
+(✓) Done: Catalog: customTasks (syncing from repository)
+
+SUCCESS: Your application was provisioned in Azure.
+```
+
 ### Adding or Modifying Environment Types
 
 Environment types can be defined at the Dev Center level (available to all
@@ -658,6 +773,21 @@ environmentTypes:
     deploymentTargetId: ''
   - name: 'prod'
     deploymentTargetId: ''
+```
+
+Re-provision after adding environment types:
+
+```bash
+azd provision -e "dev"
+```
+
+**Expected output:**
+
+```text
+Provisioning Azure resources (azd provision)
+(✓) Done: Environment Type: prod
+
+SUCCESS: Your application was provisioned in Azure.
 ```
 
 ### Modifying Resource Groups
@@ -707,6 +837,23 @@ monitoring:
     owner: MyOrg
     landingZone: Workload
     resources: ResourceGroup
+```
+
+Re-provision after modifying resource groups:
+
+```bash
+azd provision -e "dev"
+```
+
+**Expected output:**
+
+```text
+Provisioning Azure resources (azd provision)
+(✓) Done: Resource group: myorg-workload-dev-RG
+(✓) Done: Resource group: myorg-security-dev-RG
+(✓) Done: Resource group: myorg-monitoring-dev-RG
+
+SUCCESS: Your application was provisioned in Azure.
 ```
 
 ### Modifying Security Settings
@@ -834,7 +981,20 @@ identity:
 ```
 
 See [Adding a New Project](#adding-a-new-project) for the full project identity
-example.
+example. Re-provision after changing any RBAC configuration:
+
+```bash
+azd provision -e "dev"
+```
+
+**Expected output:**
+
+```text
+Provisioning Azure resources (azd provision)
+(✓) Done: Role assignments updated
+
+SUCCESS: Your application was provisioned in Azure.
+```
 
 ### Cleanup
 
@@ -861,12 +1021,12 @@ Cleaning up resource groups...
 All cleanup operations completed successfully.
 ```
 
-| Parameter         | Default                                      | Description                             |
-| ----------------- | -------------------------------------------- | --------------------------------------- |
-| `-EnvName`        | `gitHub`                                     | Environment name to clean up            |
-| `-Location`       | `eastus2`                                    | Azure region of deployed resources      |
-| `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Azure AD application display name       |
-| `-GhSecretName`   | `AZURE_CREDENTIALS`                          | GitHub repository secret name to remove |
+| Parameter            | Default                                      | Description                             |
+| -------------------- | -------------------------------------------- | --------------------------------------- |
+| ⚙️ `-EnvName`        | `gitHub`                                     | Environment name to clean up            |
+| 🌍 `-Location`       | `eastus2`                                    | Azure region of deployed resources      |
+| 🔐 `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Azure AD application display name       |
+| 🔑 `-GhSecretName`   | `AZURE_CREDENTIALS`                          | GitHub repository secret name to remove |
 
 ## ⚙️ Configuration
 
@@ -878,6 +1038,11 @@ All deployment parameters are driven by three YAML configuration files in
 corresponding JSON Schema for validation, providing IDE autocomplete and
 validation support in VS Code with the YAML extension.
 
+The configuration hierarchy flows from resource organization (resource group
+naming and structure), through security (Key Vault settings), to workload (Dev
+Center, projects, pools, catalogs, and environment types). This layered approach
+enables teams to customize each tier independently.
+
 > [!TIP] All YAML configuration files include JSON Schema references (via
 > `yaml-language-server: $schema=...`) for editor validation and autocomplete.
 
@@ -885,20 +1050,20 @@ validation support in VS Code with the YAML extension.
 
 Defines the three resource groups following Azure Landing Zone segregation.
 
-| Parameter                | Description                                     | Default             |
-| ------------------------ | ----------------------------------------------- | ------------------- |
-| `workload.create`        | Whether to create the workload resource group   | `true`              |
-| `workload.name`          | Workload resource group name                    | `devexp-workload`   |
-| `workload.description`   | Description for the workload resource group     | `prodExp`           |
-| `workload.tags`          | Resource tags                                   | See Tags below      |
-| `security.create`        | Whether to create the security resource group   | `true`              |
-| `security.name`          | Security resource group name                    | `devexp-security`   |
-| `security.description`   | Description for the security resource group     | `prodExp`           |
-| `security.tags`          | Resource tags                                   | See Tags below      |
-| `monitoring.create`      | Whether to create the monitoring resource group | `true`              |
-| `monitoring.name`        | Monitoring resource group name                  | `devexp-monitoring` |
-| `monitoring.description` | Description for the monitoring resource group   | `prodExp`           |
-| `monitoring.tags`        | Resource tags                                   | See Tags below      |
+| Parameter                   | Description                                     | Default             |
+| --------------------------- | ----------------------------------------------- | ------------------- |
+| ⚙️ `workload.create`        | Whether to create the workload resource group   | `true`              |
+| 📁 `workload.name`          | Workload resource group name                    | `devexp-workload`   |
+| 📝 `workload.description`   | Description for the workload resource group     | `prodExp`           |
+| 🏷️ `workload.tags`          | Resource tags                                   | See Tags below      |
+| ⚙️ `security.create`        | Whether to create the security resource group   | `true`              |
+| 📁 `security.name`          | Security resource group name                    | `devexp-security`   |
+| 📝 `security.description`   | Description for the security resource group     | `prodExp`           |
+| 🏷️ `security.tags`          | Resource tags                                   | See Tags below      |
+| ⚙️ `monitoring.create`      | Whether to create the monitoring resource group | `true`              |
+| 📁 `monitoring.name`        | Monitoring resource group name                  | `devexp-monitoring` |
+| 📝 `monitoring.description` | Description for the monitoring resource group   | `prodExp`           |
+| 🏷️ `monitoring.tags`        | Resource tags                                   | See Tags below      |
 
 **Common tag keys:** `environment`, `division`, `team`, `project`, `costCenter`,
 `owner`, `landingZone`, `resources`
@@ -907,173 +1072,173 @@ Defines the three resource groups following Azure Landing Zone segregation.
 
 Configures the Azure Key Vault for secrets management.
 
-| Parameter                            | Description                                       | Default                             |
-| ------------------------------------ | ------------------------------------------------- | ----------------------------------- |
-| `create`                             | Whether to create the Key Vault resource          | `true`                              |
-| `keyVault.name`                      | Globally unique Key Vault name                    | `contoso`                           |
-| `keyVault.description`               | Purpose description for the Key Vault             | `Development Environment Key Vault` |
-| `keyVault.secretName`                | Name of the secret storing the source control PAT | `gha-token`                         |
-| `keyVault.enablePurgeProtection`     | Prevent permanent deletion of secrets             | `true`                              |
-| `keyVault.enableSoftDelete`          | Enable recovery of deleted secrets                | `true`                              |
-| `keyVault.softDeleteRetentionInDays` | Retention period for soft-deleted secrets (7–90)  | `7`                                 |
-| `keyVault.enableRbacAuthorization`   | Use Azure RBAC instead of access policies         | `true`                              |
-| `keyVault.tags`                      | Resource tags for the Key Vault                   | See Tags above                      |
+| Parameter                               | Description                                       | Default                             |
+| --------------------------------------- | ------------------------------------------------- | ----------------------------------- |
+| ⚙️ `create`                             | Whether to create the Key Vault resource          | `true`                              |
+| 🔐 `keyVault.name`                      | Globally unique Key Vault name                    | `contoso`                           |
+| 📝 `keyVault.description`               | Purpose description for the Key Vault             | `Development Environment Key Vault` |
+| 🔑 `keyVault.secretName`                | Name of the secret storing the source control PAT | `gha-token`                         |
+| ⚙️ `keyVault.enablePurgeProtection`     | Prevent permanent deletion of secrets             | `true`                              |
+| ⚙️ `keyVault.enableSoftDelete`          | Enable recovery of deleted secrets                | `true`                              |
+| ⚙️ `keyVault.softDeleteRetentionInDays` | Retention period for soft-deleted secrets (7–90)  | `7`                                 |
+| 🔐 `keyVault.enableRbacAuthorization`   | Use Azure RBAC instead of access policies         | `true`                              |
+| 🏷️ `keyVault.tags`                      | Resource tags for the Key Vault                   | See Tags above                      |
 
 ### Dev Center (`infra/settings/workload/devcenter.yaml`)
 
 #### Core Settings
 
-| Parameter                              | Description                                   | Default            |
-| -------------------------------------- | --------------------------------------------- | ------------------ |
-| `name`                                 | Dev Center resource name                      | `devexp-devcenter` |
-| `catalogItemSyncEnableStatus`          | Enable catalog item synchronization           | `Enabled`          |
-| `microsoftHostedNetworkEnableStatus`   | Enable Microsoft-hosted network for Dev Boxes | `Enabled`          |
-| `installAzureMonitorAgentEnableStatus` | Install Azure Monitor agent on Dev Boxes      | `Enabled`          |
-| `tags`                                 | Resource tags for the Dev Center              | See Tags above     |
+| Parameter                                 | Description                                   | Default            |
+| ----------------------------------------- | --------------------------------------------- | ------------------ |
+| 🏢 `name`                                 | Dev Center resource name                      | `devexp-devcenter` |
+| ⚙️ `catalogItemSyncEnableStatus`          | Enable catalog item synchronization           | `Enabled`          |
+| 🌐 `microsoftHostedNetworkEnableStatus`   | Enable Microsoft-hosted network for Dev Boxes | `Enabled`          |
+| 📊 `installAzureMonitorAgentEnableStatus` | Install Azure Monitor agent on Dev Boxes      | `Enabled`          |
+| 🏷️ `tags`                                 | Resource tags for the Dev Center              | See Tags above     |
 
 #### Identity & RBAC
 
-| Parameter                                                        | Description                        | Default                                                                      |
-| ---------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------- |
-| `identity.type`                                                  | Managed identity type              | `SystemAssigned`                                                             |
-| `identity.roleAssignments.devCenter[].id`                        | Azure RBAC role definition ID      | —                                                                            |
-| `identity.roleAssignments.devCenter[].name`                      | Role name                          | `Contributor`, `User Access Administrator`, `Key Vault Secrets User/Officer` |
-| `identity.roleAssignments.devCenter[].scope`                     | Role scope                         | `Subscription` or `ResourceGroup`                                            |
-| `identity.roleAssignments.orgRoleTypes[].type`                   | Organization role type             | `DevManager`                                                                 |
-| `identity.roleAssignments.orgRoleTypes[].azureADGroupId`         | Azure AD group ID for role holders | —                                                                            |
-| `identity.roleAssignments.orgRoleTypes[].azureADGroupName`       | Azure AD group display name        | `Platform Engineering Team`                                                  |
-| `identity.roleAssignments.orgRoleTypes[].azureRBACRoles[].name`  | RBAC role assigned to the group    | `DevCenter Project Admin`                                                    |
-| `identity.roleAssignments.orgRoleTypes[].azureRBACRoles[].id`    | RBAC role definition ID            | —                                                                            |
-| `identity.roleAssignments.orgRoleTypes[].azureRBACRoles[].scope` | Role scope                         | `ResourceGroup`                                                              |
+| Parameter                                                           | Description                        | Default                                                                      |
+| ------------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------- |
+| 🔐 `identity.type`                                                  | Managed identity type              | `SystemAssigned`                                                             |
+| 🔑 `identity.roleAssignments.devCenter[].id`                        | Azure RBAC role definition ID      | —                                                                            |
+| 🔑 `identity.roleAssignments.devCenter[].name`                      | Role name                          | `Contributor`, `User Access Administrator`, `Key Vault Secrets User/Officer` |
+| 🌍 `identity.roleAssignments.devCenter[].scope`                     | Role scope                         | `Subscription` or `ResourceGroup`                                            |
+| 🔐 `identity.roleAssignments.orgRoleTypes[].type`                   | Organization role type             | `DevManager`                                                                 |
+| 🔑 `identity.roleAssignments.orgRoleTypes[].azureADGroupId`         | Azure AD group ID for role holders | —                                                                            |
+| 📝 `identity.roleAssignments.orgRoleTypes[].azureADGroupName`       | Azure AD group display name        | `Platform Engineering Team`                                                  |
+| 🔑 `identity.roleAssignments.orgRoleTypes[].azureRBACRoles[].name`  | RBAC role assigned to the group    | `DevCenter Project Admin`                                                    |
+| 🔑 `identity.roleAssignments.orgRoleTypes[].azureRBACRoles[].id`    | RBAC role definition ID            | —                                                                            |
+| 🌍 `identity.roleAssignments.orgRoleTypes[].azureRBACRoles[].scope` | Role scope                         | `ResourceGroup`                                                              |
 
 #### Catalogs (Dev Center Level)
 
-| Parameter               | Description            | Default                                              |
-| ----------------------- | ---------------------- | ---------------------------------------------------- |
-| `catalogs[].name`       | Catalog name           | `customTasks`                                        |
-| `catalogs[].type`       | Catalog type           | `gitHub`                                             |
-| `catalogs[].visibility` | Repository visibility  | `public`                                             |
-| `catalogs[].uri`        | Git repository URI     | `https://github.com/microsoft/devcenter-catalog.git` |
-| `catalogs[].branch`     | Git branch             | `main`                                               |
-| `catalogs[].path`       | Path within repository | `./Tasks`                                            |
+| Parameter                  | Description            | Default                                              |
+| -------------------------- | ---------------------- | ---------------------------------------------------- |
+| 📚 `catalogs[].name`       | Catalog name           | `customTasks`                                        |
+| ⚙️ `catalogs[].type`       | Catalog type           | `gitHub`                                             |
+| 🔐 `catalogs[].visibility` | Repository visibility  | `public`                                             |
+| 🔗 `catalogs[].uri`        | Git repository URI     | `https://github.com/microsoft/devcenter-catalog.git` |
+| 🔗 `catalogs[].branch`     | Git branch             | `main`                                               |
+| 📁 `catalogs[].path`       | Path within repository | `./Tasks`                                            |
 
 #### Environment Types (Dev Center Level)
 
-| Parameter                               | Description                           | Default                 |
-| --------------------------------------- | ------------------------------------- | ----------------------- |
-| `environmentTypes[].name`               | Environment type name                 | `dev`, `staging`, `UAT` |
-| `environmentTypes[].deploymentTargetId` | Subscription target (empty = default) | `""`                    |
+| Parameter                                  | Description                           | Default                 |
+| ------------------------------------------ | ------------------------------------- | ----------------------- |
+| 🌍 `environmentTypes[].name`               | Environment type name                 | `dev`, `staging`, `UAT` |
+| 🔗 `environmentTypes[].deploymentTargetId` | Subscription target (empty = default) | `""`                    |
 
 #### Projects
 
 Each entry in the `projects[]` array contains the following configuration
 blocks. All sub-parameters below are relative to a project entry.
 
-| Parameter     | Description         | Default          |
-| ------------- | ------------------- | ---------------- |
-| `name`        | Project name        | `eShop`          |
-| `description` | Project description | `eShop project.` |
-| `tags`        | Project-level tags  | See Tags above   |
+| Parameter        | Description         | Default          |
+| ---------------- | ------------------- | ---------------- |
+| 📋 `name`        | Project name        | `eShop`          |
+| 📝 `description` | Project description | `eShop project.` |
+| 🏷️ `tags`        | Project-level tags  | See Tags above   |
 
 **Project Network** (`projects[].network`):
 
-| Parameter                                    | Description                        | Default                 |
-| -------------------------------------------- | ---------------------------------- | ----------------------- |
-| `network.name`                               | Virtual network name               | `eShop`                 |
-| `network.create`                             | Whether to create the network      | `true`                  |
-| `network.resourceGroupName`                  | Resource group for networking      | `eShop-connectivity-RG` |
-| `network.virtualNetworkType`                 | Network type (`Managed` or custom) | `Managed`               |
-| `network.addressPrefixes[]`                  | VNet address space                 | `10.0.0.0/16`           |
-| `network.subnets[].name`                     | Subnet name                        | `eShop-subnet`          |
-| `network.subnets[].properties.addressPrefix` | Subnet address range               | `10.0.1.0/24`           |
-| `network.tags`                               | Network resource tags              | See Tags above          |
+| Parameter                                       | Description                        | Default                 |
+| ----------------------------------------------- | ---------------------------------- | ----------------------- |
+| 🌐 `network.name`                               | Virtual network name               | `eShop`                 |
+| ⚙️ `network.create`                             | Whether to create the network      | `true`                  |
+| 📁 `network.resourceGroupName`                  | Resource group for networking      | `eShop-connectivity-RG` |
+| 🌐 `network.virtualNetworkType`                 | Network type (`Managed` or custom) | `Managed`               |
+| 🌍 `network.addressPrefixes[]`                  | VNet address space                 | `10.0.0.0/16`           |
+| 🌐 `network.subnets[].name`                     | Subnet name                        | `eShop-subnet`          |
+| 🌍 `network.subnets[].properties.addressPrefix` | Subnet address range               | `10.0.1.0/24`           |
+| 🏷️ `network.tags`                               | Network resource tags              | See Tags above          |
 
 **Project Identity** (`projects[].identity`):
 
-| Parameter                                           | Description                 | Default                                                                                          |
-| --------------------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------ |
-| `identity.type`                                     | Managed identity type       | `SystemAssigned`                                                                                 |
-| `identity.roleAssignments[].azureADGroupId`         | Azure AD group ID           | —                                                                                                |
-| `identity.roleAssignments[].azureADGroupName`       | Azure AD group display name | `eShop Developers`                                                                               |
-| `identity.roleAssignments[].azureRBACRoles[].name`  | RBAC role name              | `Contributor`, `Dev Box User`, `Deployment Environment User`, `Key Vault Secrets User`/`Officer` |
-| `identity.roleAssignments[].azureRBACRoles[].id`    | RBAC role definition ID     | —                                                                                                |
-| `identity.roleAssignments[].azureRBACRoles[].scope` | Role scope                  | `Project` or `ResourceGroup`                                                                     |
+| Parameter                                              | Description                 | Default                                                                                          |
+| ------------------------------------------------------ | --------------------------- | ------------------------------------------------------------------------------------------------ |
+| 🔐 `identity.type`                                     | Managed identity type       | `SystemAssigned`                                                                                 |
+| 🔑 `identity.roleAssignments[].azureADGroupId`         | Azure AD group ID           | —                                                                                                |
+| 📝 `identity.roleAssignments[].azureADGroupName`       | Azure AD group display name | `eShop Developers`                                                                               |
+| 🔑 `identity.roleAssignments[].azureRBACRoles[].name`  | RBAC role name              | `Contributor`, `Dev Box User`, `Deployment Environment User`, `Key Vault Secrets User`/`Officer` |
+| 🔑 `identity.roleAssignments[].azureRBACRoles[].id`    | RBAC role definition ID     | —                                                                                                |
+| 🌍 `identity.roleAssignments[].azureRBACRoles[].scope` | Role scope                  | `Project` or `ResourceGroup`                                                                     |
 
 **Project Pools** (`projects[].pools[]`):
 
-| Parameter                     | Description                    | Default                       |
-| ----------------------------- | ------------------------------ | ----------------------------- |
-| `pools[].name`                | Dev Box pool name              | `backend-engineer`            |
-| `pools[].imageDefinitionName` | Image definition for the pool  | `eShop-backend-engineer`      |
-| `pools[].vmSku`               | VM SKU (size and capabilities) | `general_i_32c128gb512ssd_v2` |
+| Parameter                        | Description                    | Default                       |
+| -------------------------------- | ------------------------------ | ----------------------------- |
+| 💻 `pools[].name`                | Dev Box pool name              | `backend-engineer`            |
+| 📚 `pools[].imageDefinitionName` | Image definition for the pool  | `eShop-backend-engineer`      |
+| 💻 `pools[].vmSku`               | VM SKU (size and capabilities) | `general_i_32c128gb512ssd_v2` |
 
 **Project Catalogs** (`projects[].catalogs[]`):
 
-| Parameter                  | Description                                                 | Default        |
-| -------------------------- | ----------------------------------------------------------- | -------------- |
-| `catalogs[].name`          | Catalog name                                                | `environments` |
-| `catalogs[].type`          | Catalog type (`environmentDefinition` or `imageDefinition`) | —              |
-| `catalogs[].sourceControl` | Source control platform                                     | `gitHub`       |
-| `catalogs[].visibility`    | Repository visibility                                       | `private`      |
-| `catalogs[].uri`           | Git repository URI                                          | —              |
-| `catalogs[].branch`        | Git branch                                                  | `main`         |
-| `catalogs[].path`          | Path within the repository                                  | —              |
+| Parameter                     | Description                                                 | Default        |
+| ----------------------------- | ----------------------------------------------------------- | -------------- |
+| 📚 `catalogs[].name`          | Catalog name                                                | `environments` |
+| ⚙️ `catalogs[].type`          | Catalog type (`environmentDefinition` or `imageDefinition`) | —              |
+| ⚙️ `catalogs[].sourceControl` | Source control platform                                     | `gitHub`       |
+| 🔐 `catalogs[].visibility`    | Repository visibility                                       | `private`      |
+| 🔗 `catalogs[].uri`           | Git repository URI                                          | —              |
+| 🔗 `catalogs[].branch`        | Git branch                                                  | `main`         |
+| 📁 `catalogs[].path`          | Path within the repository                                  | —              |
 
 **Project Environment Types** (`projects[].environmentTypes[]`):
 
-| Parameter                               | Description                           | Default                 |
-| --------------------------------------- | ------------------------------------- | ----------------------- |
-| `environmentTypes[].name`               | Environment type name                 | `dev`, `staging`, `UAT` |
-| `environmentTypes[].deploymentTargetId` | Subscription target (empty = default) | `""`                    |
+| Parameter                                  | Description                           | Default                 |
+| ------------------------------------------ | ------------------------------------- | ----------------------- |
+| 🌍 `environmentTypes[].name`               | Environment type name                 | `dev`, `staging`, `UAT` |
+| 🔗 `environmentTypes[].deploymentTargetId` | Subscription target (empty = default) | `""`                    |
 
 ### Deployment Parameters (`infra/main.parameters.json`)
 
-| Parameter         | Environment Variable | Description                                 |
-| ----------------- | -------------------- | ------------------------------------------- |
-| `environmentName` | `AZURE_ENV_NAME`     | Environment name suffix for resource naming |
-| `location`        | `AZURE_LOCATION`     | Azure region for deployment                 |
-| `secretValue`     | `KEY_VAULT_SECRET`   | Source control PAT stored in Key Vault      |
+| Parameter            | Environment Variable | Description                                 |
+| -------------------- | -------------------- | ------------------------------------------- |
+| ⚙️ `environmentName` | `AZURE_ENV_NAME`     | Environment name suffix for resource naming |
+| 🌍 `location`        | `AZURE_LOCATION`     | Azure region for deployment                 |
+| 🔑 `secretValue`     | `KEY_VAULT_SECRET`   | Source control PAT stored in Key Vault      |
 
 ### Setup Script Parameters
 
 **`setUp.sh` (Linux / macOS):**
 
-| Parameter                 | Description                                    | Required |
-| ------------------------- | ---------------------------------------------- | -------- |
-| `-e` / `--env-name`       | Environment name for `azd`                     | Yes      |
-| `-s` / `--source-control` | Source control platform (`github` or `adogit`) | Yes      |
-| `-h` / `--help`           | Display usage information                      | No       |
+| Parameter                    | Description                                    | Required |
+| ---------------------------- | ---------------------------------------------- | -------- |
+| ⚙️ `-e` / `--env-name`       | Environment name for `azd`                     | Yes      |
+| ⚙️ `-s` / `--source-control` | Source control platform (`github` or `adogit`) | Yes      |
+| ⚙️ `-h` / `--help`           | Display usage information                      | No       |
 
 Required tools: `az`, `azd`, `jq`, `gh` (when using GitHub)
 
 **`setUp.ps1` (Windows):**
 
-| Parameter        | Description                                    | Required |
-| ---------------- | ---------------------------------------------- | -------- |
-| `-EnvName`       | Environment name for `azd`                     | Yes      |
-| `-SourceControl` | Source control platform (`github` or `adogit`) | Yes      |
-| `-Help`          | Display usage information                      | No       |
+| Parameter           | Description                                    | Required |
+| ------------------- | ---------------------------------------------- | -------- |
+| ⚙️ `-EnvName`       | Environment name for `azd`                     | Yes      |
+| ⚙️ `-SourceControl` | Source control platform (`github` or `adogit`) | Yes      |
+| ⚙️ `-Help`          | Display usage information                      | No       |
 
 Required tools: `az`, `azd`, `gh` (when using GitHub)
 
 **`cleanSetUp.ps1`:**
 
-| Parameter         | Default                                      | Description                             |
-| ----------------- | -------------------------------------------- | --------------------------------------- |
-| `-EnvName`        | `gitHub`                                     | Environment name to clean up            |
-| `-Location`       | `eastus2`                                    | Azure region of deployed resources      |
-| `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Azure AD application display name       |
-| `-GhSecretName`   | `AZURE_CREDENTIALS`                          | GitHub repository secret name to remove |
+| Parameter            | Default                                      | Description                             |
+| -------------------- | -------------------------------------------- | --------------------------------------- |
+| ⚙️ `-EnvName`        | `gitHub`                                     | Environment name to clean up            |
+| 🌍 `-Location`       | `eastus2`                                    | Azure region of deployed resources      |
+| 🔐 `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Azure AD application display name       |
+| 🔑 `-GhSecretName`   | `AZURE_CREDENTIALS`                          | GitHub repository secret name to remove |
 
 ### `azd` Hook Configuration
 
 The accelerator uses `azd` preprovision hooks to run setup scripts before
 provisioning. Two configuration files are provided:
 
-| File             | Shell  | Platform      | Hook Behavior                                                              |
-| ---------------- | ------ | ------------- | -------------------------------------------------------------------------- |
-| `azure.yaml`     | `sh`   | Linux / macOS | Runs `setUp.sh` with `AZURE_ENV_NAME` and `SOURCE_CONTROL_PLATFORM`        |
-| `azure-pwh.yaml` | `pwsh` | Windows       | Runs `setUp.sh` via `bash` (falls back to direct execution if unavailable) |
+| File                | Shell  | Platform      | Hook Behavior                                                              |
+| ------------------- | ------ | ------------- | -------------------------------------------------------------------------- |
+| 📁 `azure.yaml`     | `sh`   | Linux / macOS | Runs `setUp.sh` with `AZURE_ENV_NAME` and `SOURCE_CONTROL_PLATFORM`        |
+| 📁 `azure-pwh.yaml` | `pwsh` | Windows       | Runs `setUp.sh` via `bash` (falls back to direct execution if unavailable) |
 
 Both files set `SOURCE_CONTROL_PLATFORM` to `github` by default if not already
 configured. On Windows without Bash, rename `azure-pwh.yaml` to `azure.yaml` to
@@ -1138,6 +1303,10 @@ Contributions are welcome and follow a product-oriented delivery model organized
 into Epics, Features, and Tasks. The project enforces engineering standards for
 Bicep (parameterized, idempotent modules), PowerShell (7+ compatible, fail-fast
 error handling), and documentation (docs-as-code in every PR).
+
+Whether you are fixing bugs, adding features, or improving documentation, your
+contributions help make this accelerator better for the platform engineering
+community. All contributions are governed by the MIT License.
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
 
