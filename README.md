@@ -6,31 +6,33 @@
 [![Azure Developer CLI](https://img.shields.io/badge/azd-compatible-blue?logo=microsoft-azure)](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
 ![Status: Active](https://img.shields.io/badge/status-active-brightgreen)
 
-An Infrastructure-as-Code accelerator that automates the end-to-end provisioning
-of a
+An **Infrastructure-as-Code** accelerator that **automates the end-to-end
+provisioning** of a
 [Microsoft Dev Box](https://learn.microsoft.com/azure/dev-box/overview-what-is-microsoft-dev-box)
-platform on Azure, enabling organizations to deliver secure, role-specific
-developer workstations at scale.
+platform on Azure, enabling organizations to deliver **secure, role-specific
+developer workstations** at scale.
 
-Built on Azure Landing Zone principles and the Cloud Adoption Framework, this
-accelerator deploys centralized developer environments with RBAC, networking,
-security, and monitoring — entirely driven by YAML configuration files.
+Built on **Azure Landing Zone** principles and the **Cloud Adoption Framework**,
+this accelerator deploys centralized developer environments with RBAC,
+networking, security, and monitoring — entirely driven by **YAML configuration
+files**.
 
 ## Overview
 
 **Overview**
 
 This accelerator eliminates the hours-long, error-prone manual setup of
-developer environments by providing a turnkey deployment pipeline for Microsoft
-Dev Box. Platform engineering teams can onboard new projects and developer
-personas in minutes by editing YAML configuration files, without writing any
-Bicep or ARM templates directly.
+developer environments by providing a **turnkey deployment pipeline** for
+Microsoft Dev Box. Platform engineering teams can **onboard new projects and
+developer personas in minutes** by editing YAML configuration files, without
+writing any Bicep or ARM templates directly.
 
-The solution uses a modular Bicep architecture deployed via the Azure Developer
-CLI (`azd`). Each concern — security, networking, identity, monitoring, and the
-DevCenter workload — lives in its own module with well-defined inputs and
-outputs. Configuration is fully externalized into schema-validated YAML files,
-enabling a GitOps-friendly, repeatable deployment model across environments.
+The solution uses a **modular Bicep architecture** deployed via the Azure
+Developer CLI (`azd`). Each concern — security, networking, identity,
+monitoring, and the DevCenter workload — lives in its own module with
+well-defined inputs and outputs. Configuration is fully externalized into
+**schema-validated YAML files**, enabling a **GitOps-friendly, repeatable
+deployment model** across environments.
 
 > [!TIP] If you are new to Microsoft Dev Box, review the
 > [official overview](https://learn.microsoft.com/azure/dev-box/overview-what-is-microsoft-dev-box)
@@ -60,16 +62,16 @@ enabling a GitOps-friendly, repeatable deployment model across environments.
 
 **Overview**
 
-The accelerator deploys resources across three Azure resource groups aligned
-with Azure Landing Zone segregation. A subscription-scoped Bicep orchestrator
-(`main.bicep`) provisions monitoring, security, and workload layers in
-dependency order. Each DevCenter project can optionally create its own
+The accelerator deploys resources across **three Azure resource groups** aligned
+with Azure Landing Zone segregation. A **subscription-scoped** Bicep
+orchestrator (`main.bicep`) provisions monitoring, security, and workload layers
+in dependency order. Each DevCenter project can optionally create its own
 connectivity resource group for customer-managed networking.
 
-The deployment follows a layered dependency model: Monitoring provisions first
-(Log Analytics), Security provisions second (Key Vault), and the Workload layer
-provisions last (DevCenter, Projects, Pools, Catalogs, Identities, and Network
-Connections), consuming outputs from the prior layers.
+The deployment follows a **layered dependency model**: Monitoring provisions
+first (Log Analytics), Security provisions second (Key Vault), and the Workload
+layer provisions last (DevCenter, Projects, Pools, Catalogs, Identities, and
+Network Connections), consuming outputs from the prior layers.
 
 ```mermaid
 ---
@@ -217,10 +219,10 @@ least-privilege access at every scope.
 
 **Overview**
 
-Before deploying the accelerator, ensure your workstation has the required CLIs
-installed and your Azure subscription has sufficient permissions. The deployment
-creates resource groups, role assignments, and service principals, so elevated
-access is necessary.
+Before deploying the accelerator, **ensure your workstation has the required
+CLIs installed** and your Azure subscription has **sufficient permissions**. The
+deployment creates resource groups, role assignments, and service principals, so
+**elevated access** is necessary.
 
 All prerequisites can be validated by running the setup script, which checks for
 missing tools and insufficient permissions before proceeding.
@@ -237,7 +239,7 @@ missing tools and insufficient permissions before proceeding.
 | 👥 Azure AD Groups             | N/A             | Pre-created groups matching IDs in `devcenter.yaml` configuration                 |
 | 📂 Git Repository              | N/A             | Source repository accessible for catalog syncing (PAT required for private repos) |
 
-> [!IMPORTANT] Your Azure subscription must allow creating resource groups,
+> [!IMPORTANT] Your Azure subscription **must** allow creating resource groups,
 > registering resource providers (DevCenter, KeyVault, Network,
 > OperationalInsights), and creating role assignments. An **Owner** role on the
 > subscription is recommended for initial deployment.
@@ -463,24 +465,24 @@ az devcenter admin pool list \
 azd env get-values
 ```
 
-> [!NOTE] The first deployment typically takes 15–25 minutes due to resource
+> [!NOTE] The first deployment typically takes **15–25 minutes** due to resource
 > provider registration and resource creation. Subsequent runs are faster
-> because Bicep modules are idempotent — only changed resources are updated. You
-> can safely re-run `azd up` or `azd provision` at any time.
+> because Bicep modules are **idempotent** — only changed resources are updated.
+> You can safely re-run `azd up` or `azd provision` at any time.
 
 ## Configuration
 
 **Overview**
 
-All deployment settings are externalized into three YAML configuration files
-under `infra/settings/`. Each file has a companion JSON Schema for IDE
-autocompletion and validation. This design enables a GitOps workflow where
+All deployment settings are **externalized into three YAML configuration files**
+under `infra/settings/`. Each file has a companion **JSON Schema** for IDE
+autocompletion and validation. This design enables a **GitOps workflow** where
 infrastructure changes are reviewed and merged like application code.
 
 Modify these files to customize resource names, add projects, change VM SKUs,
-toggle networking modes, or adjust RBAC assignments — no Bicep code changes
-required. The JSON Schemas provide real-time validation in VS Code and other
-editors that support the `yaml-language-server` directive.
+toggle networking modes, or adjust RBAC assignments — **no Bicep code changes
+required**. The JSON Schemas provide **real-time validation** in VS Code and
+other editors that support the `yaml-language-server` directive.
 
 ### Configuration Files
 
@@ -530,8 +532,8 @@ Resource group names are generated at deployment time using the pattern:
 `devexp-workload-dev-eastus-RG`).
 
 > [!TIP] Set `create: false` to use existing resource groups instead of creating
-> new ones. This is useful when integrating with an existing Azure Landing Zone
-> or when resource groups are managed by a separate governance team.
+> new ones. This is useful when integrating with an existing **Azure Landing
+> Zone** or when resource groups are managed by a separate governance team.
 
 **Resource Organization Properties:**
 
@@ -846,9 +848,9 @@ Azure tools. This section covers the most common operational tasks: adding new
 projects, creating custom Dev Box pools, managing catalogs, switching networking
 modes, customizing RBAC, and running day-two operations.
 
-All configuration changes follow a GitOps workflow: edit YAML, commit, and
-re-run `azd up` (or `azd provision`) to apply. Bicep modules are idempotent, so
-re-provisioning only modifies changed resources.
+All configuration changes follow a **GitOps workflow**: edit YAML, commit, and
+re-run `azd up` (or `azd provision`) to apply. Bicep modules are **idempotent**,
+so re-provisioning only modifies changed resources.
 
 ### Adding a New Project
 
@@ -1032,10 +1034,10 @@ projects:
         path: '/environments'
 ```
 
-> [!IMPORTANT] Private catalogs require a valid PAT token stored in Key Vault.
-> The `secretIdentifier` is automatically passed to private catalogs during
-> deployment. Ensure the PAT has `repo` (GitHub) or `Code (Read)` (Azure DevOps)
-> scope.
+> [!IMPORTANT] Private catalogs **require** a valid PAT token stored in Key
+> Vault. The `secretIdentifier` is automatically passed to private catalogs
+> during deployment. Ensure the PAT has `repo` (GitHub) or `Code (Read)` (Azure
+> DevOps) scope.
 
 ### Switching Networking Modes
 
@@ -1258,10 +1260,10 @@ DevExp-DevBox/
 
 **Overview**
 
-Security is enforced through multiple layers: Azure Key Vault with RBAC
-authorization stores all secrets, managed identities eliminate credential
-management, and the multi-layer RBAC model follows the principle of least
-privilege. No secrets are hard-coded — all sensitive values flow through
+Security is enforced through **multiple layers**: Azure Key Vault with RBAC
+authorization stores all secrets, **managed identities eliminate credential
+management**, and the multi-layer RBAC model follows the **principle of least
+privilege**. **No secrets are hard-coded** — all sensitive values flow through
 `@secure()` Bicep parameters and Key Vault references.
 
 Key security features:
@@ -1275,10 +1277,10 @@ Key security features:
 - **Deployer access policies** grant the authenticated user secret and key
   management permissions
 
-> [!WARNING] The GitHub/Azure DevOps PAT token is stored as a Key Vault secret.
-> Ensure you rotate this token according to your organization's security
-> policies. The secret name defaults to `gha-token` and is configurable in
-> `security.yaml`.
+> [!WARNING] The GitHub/Azure DevOps PAT token is stored as a **Key Vault
+> secret**. Ensure you **rotate this token** according to your organization's
+> security policies. The secret name defaults to `gha-token` and is configurable
+> in `security.yaml`.
 
 ## Networking
 
@@ -1327,10 +1329,10 @@ This script:
 - Removes GitHub secrets (if applicable)
 - Deletes all created resource groups
 
-> [!CAUTION] The cleanup script permanently deletes all resources. Key Vault
-> soft delete provides a 7-day recovery window, but all other resources are
-> immediately removed. Always verify you are targeting the correct subscription
-> before running cleanup.
+> [!CAUTION] The cleanup script **permanently deletes all resources**. Key Vault
+> soft delete provides a **7-day recovery window**, but all other resources are
+> immediately removed. Always verify you are targeting the **correct
+> subscription** before running cleanup.
 
 ## Troubleshooting
 
