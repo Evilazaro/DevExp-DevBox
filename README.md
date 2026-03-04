@@ -357,8 +357,8 @@ SUCCESS: Your application was provisioned in Azure.
 
 ### Windows
 
-On Windows, if Bash is not available, rename `azure-pwh.yaml` to `azure.yaml`
-to use the **PowerShell-based preprovision hook**, then run:
+On Windows, if Bash is not available, rename `azure-pwh.yaml` to `azure.yaml` to
+use the **PowerShell-based preprovision hook**, then run:
 
 ```powershell
 azd init -e "dev"
@@ -1049,16 +1049,16 @@ All cleanup operations completed successfully.
 
 **Overview**
 
-All deployment parameters are driven by three YAML configuration files in
+All deployment parameters are driven by **three YAML configuration files** in
 `infra/settings/`, a Bicep parameters file for environment-specific values, and
 `azd` configuration files that define preprovision hooks. Each YAML file has a
-corresponding JSON Schema for validation, providing IDE autocomplete and
+corresponding **JSON Schema** for validation, providing IDE autocomplete and
 validation support in VS Code with the YAML extension.
 
-The configuration hierarchy flows from resource organization (resource group
-naming and structure), through security (Key Vault settings), to workload (Dev
-Center, projects, pools, catalogs, and environment types). This layered approach
-enables teams to customize each tier independently.
+The configuration hierarchy flows from **resource organization** (resource group
+naming and structure), through **security** (Key Vault settings), to **workload**
+(Dev Center, projects, pools, catalogs, and environment types). This layered
+approach enables teams to customize each tier independently.
 
 > [!TIP] All YAML configuration files include **JSON Schema references** (via
 > `yaml-language-server: $schema=...`) for editor validation and autocomplete.
