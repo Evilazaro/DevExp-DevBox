@@ -98,20 +98,18 @@ flowchart TB
 
     %% COLOR DOCUMENTATION
     %% neutral (#FAFAFA) — Non-semantic supporting elements (catalogs, env types)
-    %% core (#DEECF9) — Process/API layers (DevCenter, projects, monitoring)
-    %% success (#DFF6DD) — Deployment pools, provisioned resources
-    %% warning (#FFF4CE) — Security-sensitive resources (Key Vault, secrets)
-    %% danger (#FDE7E9) — Error states, alerts, destructive actions
-    %% data (#E1DFDD) — Network/external infrastructure (VNet, subnet)
-    %% external (#F3F2F1) — External systems, boundaries, outer containers
+    %% core (#0078D4) — Process/API layers (DevCenter, projects, monitoring)
+    %% success (#107C10) — Deployment pools, provisioned resources
+    %% warning (#FFB900) — Security-sensitive resources (Key Vault, secrets)
+    %% data (#8764B8) — Network/external infrastructure (VNet, subnet)
     %%
     %% SUBGRAPH SEMANTIC COLORS (Step 3a — functional siblings)
     %% subscription (#F3F2F1) — Outer boundary / main group
-    %% monitoring (#DEECF9) — Matches core content (telemetry/logging)
-    %% security (#FFF4CE) — Matches warning content (Key Vault/secrets)
-    %% workload (#DFF6DD) — Matches success content (deployment workload)
+    %% monitoring (#0078D4) — Matches core content (telemetry/logging)
+    %% security (#FFB900) — Matches warning content (Key Vault/secrets)
+    %% workload (#107C10) — Matches success content (deployment workload)
     %% projects (#FAFAFA) — Neutral nested container
-    %% connectivity (#E1DFDD) — Matches data content (VNet/network)
+    %% connectivity (#8764B8) — Matches data content (VNet/network)
 
     subgraph subscription["☁️ Azure Subscription"]
         direction TB
@@ -165,20 +163,18 @@ flowchart TB
 
     %% SUBGRAPH STYLING — semantic fills for functional siblings (6 subgraphs = 6 style directives)
     style subscription fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style monitoring fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
-    style security fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
-    style workload fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    style monitoring fill:#0078D4,stroke:#106EBE,stroke-width:2px,color:#FFFFFF
+    style security fill:#FFB900,stroke:#F7630C,stroke-width:2px,color:#323130
+    style workload fill:#107C10,stroke:#0B6A0B,stroke-width:2px,color:#FFFFFF
     style projects fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    style connectivity fill:#E1DFDD,stroke:#0078D4,stroke-width:2px,color:#004578
+    style connectivity fill:#8764B8,stroke:#5C2D91,stroke-width:2px,color:#FFFFFF
 
-    %% Centralized classDef palette (canonical — neutral-first, 7 semantic classes)
+    %% Centralized classDef palette (canonical — neutral-first, 4 semantic + neutral)
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
-    classDef warning fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#A4262C
-    classDef data fill:#E1DFDD,stroke:#0078D4,stroke-width:2px,color:#004578
-    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef core fill:#0078D4,stroke:#106EBE,stroke-width:2px,color:#FFFFFF
+    classDef success fill:#107C10,stroke:#0B6A0B,stroke-width:2px,color:#FFFFFF
+    classDef warning fill:#FFB900,stroke:#F7630C,stroke-width:2px,color:#323130
+    classDef data fill:#8764B8,stroke:#5C2D91,stroke-width:2px,color:#FFFFFF
 ```
 
 **Component Roles:**
@@ -288,16 +284,13 @@ flowchart TB
 
     %% COLOR DOCUMENTATION
     %% neutral (#FAFAFA) — Validation and read operations
-    %% core (#DEECF9) — Entry/exit and deployment operations (azd up, Bicep deploy)
-    %% success (#DFF6DD) — Completed deployment stages
-    %% warning (#FFF4CE) — Security-sensitive operations (PAT, secrets)
-    %% danger (#FDE7E9) — Error states, alerts, destructive actions
-    %% data (#E1DFDD) — Data storage, network infrastructure
-    %% external (#F3F2F1) — External systems, boundaries, outer containers
+    %% core (#0078D4) — Entry/exit and deployment operations (azd up, Bicep deploy)
+    %% success (#107C10) — Completed deployment stages
+    %% warning (#FFB900) — Security-sensitive operations (PAT, secrets)
     %%
     %% SUBGRAPH SEMANTIC COLORS (Step 3a — functional siblings)
-    %% phase1 (#FFF4CE) — Setup/security operations (PAT retrieval, auth)
-    %% phase2 (#DEECF9) — Core deployment operations (Bicep, provisioning)
+    %% phase1 (#FFB900) — Setup/security operations (PAT retrieval, auth)
+    %% phase2 (#0078D4) — Core deployment operations (Bicep, provisioning)
 
     start(["▶️ azd up"]):::core --> phase1
 
@@ -328,17 +321,14 @@ flowchart TB
     prov5 --> done(["✅ Deployment complete"]):::success
 
     %% SUBGRAPH STYLING — semantic fills for functional siblings (2 subgraphs = 2 style directives)
-    style phase1 fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
-    style phase2 fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    style phase1 fill:#FFB900,stroke:#F7630C,stroke-width:2px,color:#323130
+    style phase2 fill:#0078D4,stroke:#106EBE,stroke-width:2px,color:#FFFFFF
 
-    %% Centralized classDef palette (canonical — neutral-first, 7 semantic classes)
+    %% Centralized classDef palette (canonical — neutral-first, 3 semantic + neutral)
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
-    classDef warning fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#A4262C
-    classDef data fill:#E1DFDD,stroke:#0078D4,stroke-width:2px,color:#004578
-    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    classDef core fill:#0078D4,stroke:#106EBE,stroke-width:2px,color:#FFFFFF
+    classDef success fill:#107C10,stroke:#0B6A0B,stroke-width:2px,color:#FFFFFF
+    classDef warning fill:#FFB900,stroke:#F7630C,stroke-width:2px,color:#323130
 ```
 
 ### Prerequisites
