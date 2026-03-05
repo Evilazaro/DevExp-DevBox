@@ -76,15 +76,8 @@ config:
   theme: base
   look: classic
   layout: dagre
-  flowchart:
-    htmlLabels: true
-    curve: cardinal
   themeVariables:
     fontSize: '16px'
-    primaryColor: '#0078D4'
-    primaryBorderColor: '#106EBE'
-    primaryTextColor: '#FFFFFF'
-    lineColor: '#0078D4'
 ---
 flowchart TB
     accTitle: DevExp-DevBox Platform Architecture
@@ -107,14 +100,6 @@ flowchart TB
     %% success (#107C10) — Deployment pools, provisioned resources
     %% warning (#FFB900) — Security-sensitive resources (Key Vault, secrets)
     %% data (#8764B8) — Network/external infrastructure (VNet, subnet)
-    %%
-    %% SUBGRAPH SEMANTIC COLORS (Step 3a — functional siblings)
-    %% subscription (#F3F2F1) — Outer boundary / main group
-    %% monitoring (#0078D4) — Matches core content (telemetry/logging)
-    %% security (#FFB900) — Matches warning content (Key Vault/secrets)
-    %% workload (#107C10) — Matches success content (deployment workload)
-    %% projects (#FAFAFA) — Neutral nested container
-    %% connectivity (#8764B8) — Matches data content (VNet/network)
 
     subgraph subscription["☁️ Azure Subscription"]
         direction TB
@@ -166,13 +151,13 @@ flowchart TB
     networkConn -->|"joins"| subnet
     subnet -->|"belongs to"| vnet
 
-    %% SUBGRAPH STYLING — semantic fills for functional siblings (6 subgraphs = 6 style directives)
+    %% SUBGRAPH STYLING — neutral surfaces for all containers
     style subscription fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style monitoring fill:#0078D4,stroke:#106EBE,stroke-width:2px,color:#FFFFFF
-    style security fill:#FFB900,stroke:#F7630C,stroke-width:2px,color:#323130
-    style workload fill:#107C10,stroke:#0B6A0B,stroke-width:2px,color:#FFFFFF
-    style projects fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    style connectivity fill:#8764B8,stroke:#5C2D91,stroke-width:2px,color:#FFFFFF
+    style monitoring fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style security fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style workload fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style projects fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style connectivity fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     %% Centralized classDef palette (canonical — neutral-first, 4 semantic + neutral)
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -267,15 +252,8 @@ config:
   theme: base
   look: classic
   layout: dagre
-  flowchart:
-    htmlLabels: true
-    curve: cardinal
   themeVariables:
     fontSize: '16px'
-    primaryColor: '#0078D4'
-    primaryBorderColor: '#106EBE'
-    primaryTextColor: '#FFFFFF'
-    lineColor: '#0078D4'
 ---
 flowchart TB
     accTitle: azd up — End-to-End Deployment Flow
@@ -297,10 +275,6 @@ flowchart TB
     %% core (#0078D4) — Entry/exit and deployment operations (azd up, Bicep deploy)
     %% success (#107C10) — Completed deployment stages
     %% warning (#FFB900) — Security-sensitive operations (PAT, secrets)
-    %%
-    %% SUBGRAPH SEMANTIC COLORS (Step 3a — functional siblings)
-    %% phase1 (#FFB900) — Setup/security operations (PAT retrieval, auth)
-    %% phase2 (#0078D4) — Core deployment operations (Bicep, provisioning)
 
     start(["▶️ azd up"]):::core --> phase1
 
@@ -330,9 +304,9 @@ flowchart TB
 
     prov5 --> done(["✅ Deployment complete"]):::success
 
-    %% SUBGRAPH STYLING — semantic fills for functional siblings (2 subgraphs = 2 style directives)
-    style phase1 fill:#FFB900,stroke:#F7630C,stroke-width:2px,color:#323130
-    style phase2 fill:#0078D4,stroke:#106EBE,stroke-width:2px,color:#FFFFFF
+    %% SUBGRAPH STYLING — neutral surfaces for all containers
+    style phase1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style phase2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     %% Centralized classDef palette (canonical — neutral-first, 3 semantic + neutral)
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
