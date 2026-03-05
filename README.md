@@ -101,7 +101,9 @@ flowchart TB
     %% core (#DEECF9) — Process/API layers (DevCenter, projects, monitoring)
     %% success (#DFF6DD) — Deployment pools, provisioned resources
     %% warning (#FFF4CE) — Security-sensitive resources (Key Vault, secrets)
+    %% danger (#FDE7E9) — Error states, alerts, destructive actions
     %% data (#E1DFDD) — Network/external infrastructure (VNet, subnet)
+    %% external (#F3F2F1) — External systems, boundaries, outer containers
 
     subgraph subscription["☁️ Azure Subscription"]
         direction TB
@@ -161,12 +163,14 @@ flowchart TB
     style projects fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style connectivity fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    %% Centralized classDef palette (canonical — neutral-first, max 5 semantic classes)
+    %% Centralized classDef palette (canonical — neutral-first, 7 semantic classes)
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef warning fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#A4262C
     classDef data fill:#E1DFDD,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 **Component Roles:**
@@ -279,6 +283,9 @@ flowchart TB
     %% core (#DEECF9) — Entry/exit and deployment operations (azd up, Bicep deploy)
     %% success (#DFF6DD) — Completed deployment stages
     %% warning (#FFF4CE) — Security-sensitive operations (PAT, secrets)
+    %% danger (#FDE7E9) — Error states, alerts, destructive actions
+    %% data (#E1DFDD) — Data storage, network infrastructure
+    %% external (#F3F2F1) — External systems, boundaries, outer containers
 
     start(["▶️ azd up"]):::core --> phase1
 
@@ -312,11 +319,14 @@ flowchart TB
     style phase1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style phase2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    %% Centralized classDef palette (canonical — neutral-first, max 4 semantic classes)
+    %% Centralized classDef palette (canonical — neutral-first, 7 semantic classes)
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
     classDef warning fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#A4262C
+    classDef data fill:#E1DFDD,stroke:#0078D4,stroke-width:2px,color:#004578
+    classDef external fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
 ```
 
 ### Prerequisites
