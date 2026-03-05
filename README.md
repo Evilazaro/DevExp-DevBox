@@ -104,6 +104,14 @@ flowchart TB
     %% danger (#FDE7E9) — Error states, alerts, destructive actions
     %% data (#E1DFDD) — Network/external infrastructure (VNet, subnet)
     %% external (#F3F2F1) — External systems, boundaries, outer containers
+    %%
+    %% SUBGRAPH SEMANTIC COLORS (Step 3a — functional siblings)
+    %% subscription (#F3F2F1) — Outer boundary / main group
+    %% monitoring (#DEECF9) — Matches core content (telemetry/logging)
+    %% security (#FFF4CE) — Matches warning content (Key Vault/secrets)
+    %% workload (#DFF6DD) — Matches success content (deployment workload)
+    %% projects (#FAFAFA) — Neutral nested container
+    %% connectivity (#E1DFDD) — Matches data content (VNet/network)
 
     subgraph subscription["☁️ Azure Subscription"]
         direction TB
@@ -155,13 +163,13 @@ flowchart TB
     networkConn -->|"joins"| subnet
     subnet -->|"belongs to"| vnet
 
-    %% SUBGRAPH STYLING — uniform neutral fills (6 subgraphs = 6 style directives)
+    %% SUBGRAPH STYLING — semantic fills for functional siblings (6 subgraphs = 6 style directives)
     style subscription fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style monitoring fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style security fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style workload fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style projects fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style connectivity fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style monitoring fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
+    style security fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
+    style workload fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#0B6A0B
+    style projects fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    style connectivity fill:#E1DFDD,stroke:#0078D4,stroke-width:2px,color:#004578
 
     %% Centralized classDef palette (canonical — neutral-first, 7 semantic classes)
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -286,6 +294,10 @@ flowchart TB
     %% danger (#FDE7E9) — Error states, alerts, destructive actions
     %% data (#E1DFDD) — Data storage, network infrastructure
     %% external (#F3F2F1) — External systems, boundaries, outer containers
+    %%
+    %% SUBGRAPH SEMANTIC COLORS (Step 3a — functional siblings)
+    %% phase1 (#FFF4CE) — Setup/security operations (PAT retrieval, auth)
+    %% phase2 (#DEECF9) — Core deployment operations (Bicep, provisioning)
 
     start(["▶️ azd up"]):::core --> phase1
 
@@ -315,9 +327,9 @@ flowchart TB
 
     prov5 --> done(["✅ Deployment complete"]):::success
 
-    %% SUBGRAPH STYLING — uniform neutral fills (2 subgraphs = 2 style directives)
-    style phase1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style phase2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    %% SUBGRAPH STYLING — semantic fills for functional siblings (2 subgraphs = 2 style directives)
+    style phase1 fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#6D5700
+    style phase2 fill:#DEECF9,stroke:#0078D4,stroke-width:2px,color:#004578
 
     %% Centralized classDef palette (canonical — neutral-first, 7 semantic classes)
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
