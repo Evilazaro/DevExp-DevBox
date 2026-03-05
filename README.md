@@ -76,10 +76,15 @@ config:
   theme: base
   look: classic
   layout: dagre
-  themeVariables:
-    fontSize: '16px'
   flowchart:
     htmlLabels: true
+    curve: cardinal
+  themeVariables:
+    fontSize: '16px'
+    primaryColor: '#0078D4'
+    primaryBorderColor: '#106EBE'
+    primaryTextColor: '#FFFFFF'
+    lineColor: '#0078D4'
 ---
 flowchart TB
     accTitle: DevExp-DevBox Platform Architecture
@@ -262,10 +267,15 @@ config:
   theme: base
   look: classic
   layout: dagre
-  themeVariables:
-    fontSize: '16px'
   flowchart:
     htmlLabels: true
+    curve: cardinal
+  themeVariables:
+    fontSize: '16px'
+    primaryColor: '#0078D4'
+    primaryBorderColor: '#106EBE'
+    primaryTextColor: '#FFFFFF'
+    lineColor: '#0078D4'
 ---
 flowchart TB
     accTitle: azd up — End-to-End Deployment Flow
@@ -313,7 +323,7 @@ flowchart TB
         prov2["📦 Deploy main.bicep"]:::core
         prov3["🗂️ Create resource groups"]:::core
         prov4["📊 Deploy monitoring,<br>security, workload"]:::success
-        prov5["📋 Create projects & pools"]:::success
+        prov5["📋 Create projects #amp; pools"]:::success
 
         prov1 --> prov2 --> prov3 --> prov4 --> prov5
     end
