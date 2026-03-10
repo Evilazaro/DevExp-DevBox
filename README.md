@@ -62,8 +62,14 @@ config:
   layout: dagre
   flowchart:
     htmlLabels: true
+    curve: cardinal
+    nodeSpacing: 50
+    rankSpacing: 50
   themeVariables:
     fontSize: '16px'
+    primaryColor: '#0078D4'
+    primaryBorderColor: '#106EBE'
+    lineColor: '#106EBE'
 ---
 flowchart TB
     accTitle: DevExp-DevBox Infrastructure Architecture
@@ -83,17 +89,17 @@ flowchart TB
     subgraph sub["☁️ Azure Subscription"]
         direction TB
 
-        subgraph secRG["🔐 Security<br/>Resource Group"]
-            kv["🔑 Azure Key Vault"]:::core
+        subgraph secRG["🔐 Security<br>Resource Group"]
+            kv["🔑 Azure Key Vault"]:::danger
         end
 
-        subgraph monRG["📊 Monitoring<br/>Resource Group"]
+        subgraph monRG["📊 Monitoring<br>Resource Group"]
             law["📈 Log Analytics Workspace"]:::core
         end
 
-        subgraph wrkRG["⚙️ Workload<br/>Resource Group"]
+        subgraph wrkRG["⚙️ Workload<br>Resource Group"]
             dc["🖥️ Azure Dev Center"]:::core
-            nc["🔌 Network Connection"]:::core
+            nc["🔌 Network Connection"]:::external
 
             subgraph proj["📁 Projects"]
                 p1["🎯 Dev Box Project"]:::core
@@ -102,7 +108,7 @@ flowchart TB
             end
         end
 
-        subgraph connRG["🔗 Connectivity<br/>Resource Group"]
+        subgraph connRG["🔗 Connectivity<br>Resource Group"]
             vnet["🕸️ Virtual Network"]:::external
         end
     end
@@ -124,8 +130,9 @@ flowchart TB
     style proj    fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style connRG  fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    %% Centralized semantic classDefs — 4 used classes (Phase 5 compliant, no unused)
+    %% Centralized semantic classDefs — 5 used classes (Phase 5 compliant, no unused)
     classDef core     fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef danger   fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     classDef success  fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning  fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
