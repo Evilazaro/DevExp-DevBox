@@ -85,16 +85,16 @@ flowchart TB
     subgraph sub["☁️ Azure Subscription"]
         direction TB
 
-        subgraph secRG["🔐 Security Resource Group"]
+        subgraph secRG["🔐 Security<br/>Resource Group"]
             kv["🔑 Azure Key Vault"]:::core
             sec["🔒 Secrets & Tokens"]:::data
         end
 
-        subgraph monRG["📊 Monitoring Resource Group"]
+        subgraph monRG["📊 Monitoring<br/>Resource Group"]
             law["📈 Log Analytics Workspace"]:::core
         end
 
-        subgraph wrkRG["⚙️ Workload Resource Group"]
+        subgraph wrkRG["⚙️ Workload<br/>Resource Group"]
             dc["🖥️ Azure Dev Center"]:::core
 
             subgraph proj["📁 Projects"]
