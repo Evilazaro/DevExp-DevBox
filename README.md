@@ -204,49 +204,120 @@ with descriptive error messages if any prerequisite is missing.
 
 ## Quick Start
 
-Deploy the full Dev Box environment in under 15 minutes:
+### Before You Begin
+
+Complete these one-time pre-flight steps before running `azd up`:
+
+**1. Create required Azure AD groups** in your tenant (or record the Object IDs
+of existing groups):
+
+| Group                        | Default name in config      | Purpose                                          |
+| ---------------------------- | --------------------------- | ------------------------------------------------ |
+| 🏢 Platform Engineering Team | `Platform Engineering Team` | Dev Managers — can configure Dev Box definitions |
+| 👩‍💻 eShop Developers          | `eShop Developers`          | Dev Box Users for the eShop project              |
+
+Record each group's **Object ID** — you will need them to update
+`infra/settings/workload/devcenter.yaml` before deployment.
+
+**2. Generate a GitHub Personal Access Token (PAT)** with `repo` and `workflow`
+scopes at [github.com/settings/tokens](https://github.com/settings/tokens). This
+token is stored in Key Vault as `gha-token` and used by the Dev Center catalog
+and deployment pipelines.
+
+**3. Update Azure AD group IDs** in `infra/settings/workload/devcenter.yaml`:
+
+```yaml
+# Dev Manager group — replace with your tenant's Object ID
+orgRoleTypes:
+  - type: DevManager
+    azureADGroupId: '<your-platform-engineering-team-object-id>'
+    azureADGroupName: 'Platform Engineering Team'
+
+# eShop project developer group — replace with your tenant's Object ID
+projects:
+  - name: 'eShop'
+    identity:
+      roleAssignments:
+        - azureADGroupId: '<your-eshop-developers-object-id>'
+          azureADGroupName: 'eShop Developers'
+```
+
+> [!WARNING] Deploying without updating the Azure AD group Object IDs will cause
+> RBAC role assignment failures during provisioning. The default IDs in the
+> repository are placeholders for the Contoso demo tenant.
+
+### Deploy (Linux / macOS)
 
 ```bash
 # 1. Clone the repository
 git clone https://github.com/Evilazaro/DevExp-DevBox.git
 cd DevExp-DevBox
 
-# 2. Authenticate with Azure
+# 2. Authenticate
 az login
 azd auth login
 
-# 3. Provision all resources (Linux/macOS)
+# 3. (Optional) Set source control platform — defaults to 'github'
+export SOURCE_CONTROL_PLATFORM="github"
+
+# 4. Provision all resources
 azd up
 ```
 
-On Windows, use the PowerShell-friendly configuration:
+### Deploy (Windows PowerShell)
+
+On Windows, `azure-pwh.yaml` provides PowerShell-native hooks. Point `azd` at it
+explicitly:
 
 ```powershell
-# Windows: provision using the PowerShell azd configuration
-azd up --template .
+# 1. Clone the repository
+git clone https://github.com/Evilazaro/DevExp-DevBox.git
+Set-Location DevExp-DevBox
+
+# 2. Authenticate
+az login
+azd auth login
+
+# 3. (Optional) Set source control platform
+$env:SOURCE_CONTROL_PLATFORM = "github"
+
+# 4. Provision all resources using the PowerShell hooks file
+azd up --config azure-pwh.yaml
 ```
 
-When prompted, supply:
+### Prompted Values
 
-- **Environment name** (`AZURE_ENV_NAME`): e.g., `dev`
-- **Azure region** (`AZURE_LOCATION`): e.g., `eastus2`
-- **Key Vault secret** (`KEY_VAULT_SECRET`): your GitHub Actions personal access
-  token
+When `azd up` runs, it prompts interactively for three parameters:
 
-Expected output after a successful deployment:
+| Prompt              | Environment variable | Example value      | Notes                                                    |
+| ------------------- | -------------------- | ------------------ | -------------------------------------------------------- |
+| 🏷️ Environment name | `AZURE_ENV_NAME`     | `dev`              | 2–10 characters; appended to resource group names        |
+| 📍 Azure region     | `AZURE_LOCATION`     | `eastus2`          | Must be one of the allowed regions in `infra/main.bicep` |
+| 🔑 Key Vault secret | `KEY_VAULT_SECRET`   | `ghp_xxxxxxxxxxxx` | GitHub PAT generated in the pre-flight step              |
+
+### Expected Output
+
+A successful deployment prints:
 
 ```text
 SUCCESS: Your up workflow to provision and deploy to Azure completed.
 
 Outputs:
-  AZURE_DEV_CENTER_NAME               devexp-devcenter
-  AZURE_KEY_VAULT_NAME                contoso
-  AZURE_LOG_ANALYTICS_WORKSPACE_NAME  logAnalytics-dev-eastus2-RG
+  AZURE_DEV_CENTER_NAME                devexp-devcenter
+  AZURE_DEV_CENTER_PROJECTS            ["eShop"]
+  AZURE_KEY_VAULT_NAME                 contoso
+  AZURE_KEY_VAULT_ENDPOINT             https://contoso.vault.azure.net/
+  AZURE_LOG_ANALYTICS_WORKSPACE_NAME   logAnalytics-dev-eastus2-RG
+  SECURITY_AZURE_RESOURCE_GROUP_NAME   devexp-security-dev-eastus2-RG
+  MONITORING_AZURE_RESOURCE_GROUP_NAME devexp-monitoring-dev-eastus2-RG
+  WORKLOAD_AZURE_RESOURCE_GROUP_NAME   devexp-workload-dev-eastus2-RG
 ```
 
-> [!TIP] To connect with Azure DevOps instead of GitHub, run
-> `export SOURCE_CONTROL_PLATFORM=adogit` (Linux/macOS) or
-> `$env:SOURCE_CONTROL_PLATFORM = "adogit"` (PowerShell) before `azd up`.
+> [!TIP] To use Azure DevOps instead of GitHub, set
+> `SOURCE_CONTROL_PLATFORM=adogit` before `azd up`. Supply your Azure DevOps
+> Personal Access Token as `KEY_VAULT_SECRET`. The `setUp.sh` and `setUp.ps1`
+> scripts detect the platform and configure the appropriate credentials flow
+> automatically.
 
 ## Configuration
 
@@ -264,19 +335,33 @@ controls landing zone structure, `devcenter.yaml` manages workload topology, and
 `security.yaml` governs Key Vault settings. Changes take effect on the next
 `azd up`.
 
+### Configuration File Map
+
+| File                                                         | Purpose                                                     | Edit frequency         |
+| ------------------------------------------------------------ | ----------------------------------------------------------- | ---------------------- |
+| 📁 `infra/settings/resourceOrganization/azureResources.yaml` | Resource group names, tags, and create flags                | Once per environment   |
+| ⚙️ `infra/settings/workload/devcenter.yaml`                  | Dev Center, projects, pools, catalogs, RBAC                 | Per project onboarding |
+| 🔒 `infra/settings/security/security.yaml`                   | Key Vault name, secret name, soft-delete policy             | Once per deployment    |
+| 📋 `infra/main.parameters.json`                              | azd parameter bindings (`AZURE_ENV_NAME`, `AZURE_LOCATION`) | Rarely                 |
+
 ### Resource Group Organization
 
-Configure landing zones in
-`infra/settings/resourceOrganization/azureResources.yaml`:
+Edit `infra/settings/resourceOrganization/azureResources.yaml` to rename landing
+zones or change tagging. Set `create: false` to reuse an existing resource group
+instead of creating a new one.
 
 ```yaml
 workload:
   create: true
-  name: devexp-workload
+  name: devexp-workload # Base name; final name = devexp-workload-<env>-<region>-RG
   tags:
     environment: dev
+    division: Platforms
     team: DevExP
     project: Contoso-DevExp-DevBox
+    costCenter: IT
+    owner: Contoso
+    landingZone: Workload
 
 security:
   create: true
@@ -287,54 +372,178 @@ monitoring:
   name: devexp-monitoring
 ```
 
-### Dev Center and Projects
+> [!NOTE] Resource group names are computed at deploy time as
+> `<name>-<environmentName>-<location>-RG`. For example, `devexp-workload` with
+> `environmentName=dev` and `location=eastus2` becomes
+> `devexp-workload-dev-eastus2-RG`.
 
-Define Dev Center topology in `infra/settings/workload/devcenter.yaml`:
+### Dev Center Core Settings
+
+The top-level block in `infra/settings/workload/devcenter.yaml` controls Dev
+Center features and identity:
 
 ```yaml
 name: 'devexp-devcenter'
-catalogItemSyncEnableStatus: 'Enabled'
-microsoftHostedNetworkEnableStatus: 'Enabled'
-installAzureMonitorAgentEnableStatus: 'Enabled'
+catalogItemSyncEnableStatus: 'Enabled' # Auto-sync catalog items
+microsoftHostedNetworkEnableStatus: 'Enabled' # Microsoft-hosted network for Dev Boxes
+installAzureMonitorAgentEnableStatus: 'Enabled' # Azure Monitor agent on Dev Boxes
 
+identity:
+  type: 'SystemAssigned'
+  roleAssignments:
+    devCenter:
+      - id: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+        name: 'Contributor'
+        scope: 'Subscription'
+      - id: '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9'
+        name: 'User Access Administrator'
+        scope: 'Subscription'
+      - id: '4633458b-17de-408a-b874-0445c86b69e6'
+        name: 'Key Vault Secrets User'
+        scope: 'ResourceGroup'
+    orgRoleTypes:
+      - type: DevManager
+        azureADGroupId: '<your-platform-engineering-team-object-id>' # ← UPDATE THIS
+        azureADGroupName: 'Platform Engineering Team'
+        azureRBACRoles:
+          - name: 'DevCenter Project Admin'
+            id: '331c37c6-af14-46d9-b9f4-e1909e1b95a0'
+            scope: ResourceGroup
+```
+
+### Catalogs
+
+The global Dev Center catalog in `infra/settings/workload/devcenter.yaml` points
+to the Microsoft-managed tasks catalog:
+
+```yaml
+catalogs:
+  - name: 'customTasks'
+    type: gitHub
+    visibility: public
+    uri: 'https://github.com/microsoft/devcenter-catalog.git'
+    branch: 'main'
+    path: './Tasks'
+```
+
+Each project can also declare its own catalogs for environment definitions and
+Dev Box image definitions:
+
+```yaml
 projects:
   - name: 'eShop'
+    catalogs:
+      - name: 'environments'
+        type: environmentDefinition
+        sourceControl: gitHub
+        visibility: private
+        uri: 'https://github.com/Evilazaro/eShop.git'
+        branch: 'main'
+        path: '/.devcenter/environments'
+      - name: 'devboxImages'
+        type: imageDefinition
+        sourceControl: gitHub
+        visibility: private
+        uri: 'https://github.com/Evilazaro/eShop.git'
+        branch: 'main'
+        path: '/.devcenter/imageDefinitions'
+```
+
+### Projects, Pools, and RBAC
+
+Each project entry in `infra/settings/workload/devcenter.yaml` defines its own
+pools, environment types, networking, and role assignments:
+
+```yaml
+projects:
+  - name: 'eShop'
+    description: 'eShop project.'
+
+    # Networking — Managed uses Microsoft-hosted network; Unmanaged attaches a customer VNet
+    network:
+      name: eShop
+      create: true
+      resourceGroupName: 'eShop-connectivity-RG'
+      virtualNetworkType: Managed # or Unmanaged (requires addressPrefixes/subnets)
+      addressPrefixes:
+        - 10.0.0.0/16
+      subnets:
+        - name: eShop-subnet
+          properties:
+            addressPrefix: 10.0.1.0/24
+
+    # Identity and RBAC — update azureADGroupId to your tenant's group
+    identity:
+      type: SystemAssigned
+      roleAssignments:
+        - azureADGroupId: '<your-eshop-developers-object-id>' # ← UPDATE THIS
+          azureADGroupName: 'eShop Developers'
+          azureRBACRoles:
+            - name: 'Dev Box User'
+              id: '45d50f46-0b78-4001-a660-4198cbe8cd05'
+              scope: Project
+            - name: 'Deployment Environment User'
+              id: '18e40d4e-8d2e-438d-97e1-9528336e149c'
+              scope: Project
+            - name: 'Key Vault Secrets User'
+              id: '4633458b-17de-408a-b874-0445c86b69e6'
+              scope: ResourceGroup
+
+    # Dev Box pools — each pool is a role-specific VM configuration
     pools:
       - name: 'backend-engineer'
-        vmSku: general_i_32c128gb512ssd_v2
+        imageDefinitionName: 'eShop-backend-engineer'
+        vmSku: general_i_32c128gb512ssd_v2 # 32 vCPU, 128 GB RAM, 512 GB SSD
       - name: 'frontend-engineer'
-        vmSku: general_i_16c64gb256ssd_v2
+        imageDefinitionName: 'eShop-frontend-engineer'
+        vmSku: general_i_16c64gb256ssd_v2 # 16 vCPU, 64 GB RAM, 256 GB SSD
 
-environmentTypes:
-  - name: 'dev'
-  - name: 'staging'
-  - name: 'UAT'
+    # Environment types available to the project
+    environmentTypes:
+      - name: 'dev'
+        deploymentTargetId: '' # Empty = deploy to the default subscription
+      - name: 'staging'
+        deploymentTargetId: ''
+      - name: 'UAT'
+        deploymentTargetId: ''
 ```
 
 ### Key Vault and Security
 
-Configure secrets management in `infra/settings/security/security.yaml`:
+Configure secrets management in `infra/settings/security/security.yaml`.
+
+> [!NOTE] The Key Vault name must be **globally unique** across all Azure
+> tenants. Change `keyVault.name` from the default `contoso` to a unique value
+> before deploying to avoid a name collision.
 
 ```yaml
-create: true
+create: true # Set to false to reuse an existing Key Vault
 keyVault:
-  name: contoso
-  secretName: gha-token
+  name: contoso # ← Change to a globally unique name
+  secretName: gha-token # Name of the secret that stores your PAT
   enablePurgeProtection: true
-  enableRbacAuthorization: true
+  enableSoftDelete: true
   softDeleteRetentionInDays: 7
+  enableRbacAuthorization: true
+  tags:
+    environment: dev
+    team: DevExP
+    project: Contoso-DevExp-DevBox
 ```
 
 ### Configuration Reference
 
-| Parameter                               | File                         | Default               | Description                               |
-| --------------------------------------- | ---------------------------- | --------------------- | ----------------------------------------- |
-| 📁 `environmentName`                    | `infra/main.parameters.json` | `${AZURE_ENV_NAME}`   | Environment tag applied to all resources  |
-| 🔒 `secretValue`                        | `infra/main.parameters.json` | `${KEY_VAULT_SECRET}` | GitHub or ADO token stored in Key Vault   |
-| ⚙️ `location`                           | `infra/main.parameters.json` | `${AZURE_LOCATION}`   | Azure region for all resource deployments |
-| 🌍 `SOURCE_CONTROL_PLATFORM`            | Environment variable         | `github`              | Source control type: `github` or `adogit` |
-| 🔗 `catalogItemSyncEnableStatus`        | `devcenter.yaml`             | `Enabled`             | Auto-sync catalog items in Dev Center     |
-| 📍 `microsoftHostedNetworkEnableStatus` | `devcenter.yaml`             | `Enabled`             | Microsoft-hosted network for Dev Boxes    |
+| Parameter                                 | File                         | Default               | Description                                                      |
+| ----------------------------------------- | ---------------------------- | --------------------- | ---------------------------------------------------------------- |
+| 📁 `environmentName`                      | `infra/main.parameters.json` | `${AZURE_ENV_NAME}`   | 2–10 char tag appended to resource group names                   |
+| 🔒 `secretValue`                          | `infra/main.parameters.json` | `${KEY_VAULT_SECRET}` | GitHub or ADO PAT stored in Key Vault                            |
+| ⚙️ `location`                             | `infra/main.parameters.json` | `${AZURE_LOCATION}`   | Azure region — must match the allowed list in `infra/main.bicep` |
+| 🌍 `SOURCE_CONTROL_PLATFORM`              | Environment variable         | `github`              | `github` or `adogit`                                             |
+| 🔗 `catalogItemSyncEnableStatus`          | `devcenter.yaml`             | `Enabled`             | Auto-sync catalog items in the Dev Center                        |
+| 📍 `microsoftHostedNetworkEnableStatus`   | `devcenter.yaml`             | `Enabled`             | Microsoft-hosted network for Dev Boxes                           |
+| 📈 `installAzureMonitorAgentEnableStatus` | `devcenter.yaml`             | `Enabled`             | Azure Monitor agent installed on each Dev Box                    |
+| 🔑 `keyVault.name`                        | `security.yaml`              | `contoso`             | Globally unique Key Vault name — **must be changed**             |
+| 🗓️ `softDeleteRetentionInDays`            | `security.yaml`              | `7`                   | Secret soft-delete retention (7–90 days)                         |
 
 ## Deployment
 
@@ -401,50 +610,153 @@ To remove all provisioned resources:
 
 ## Usage
 
-### Access the Dev Center
+### Request a Dev Box as a Developer
 
-After deployment, navigate to the [Azure Portal](https://portal.azure.com) and
-open the `devexp-devcenter` resource inside the `devexp-workload` resource
-group. From there you can manage Dev Box definitions, catalogs, and environment
-types.
+Once the Dev Center is deployed and your Azure AD account is a member of the
+`eShop Developers` group:
+
+1. Navigate to the **Microsoft Dev Box developer portal**:
+   [https://devbox.microsoft.com](https://devbox.microsoft.com)
+2. Sign in with your organizational Azure AD account.
+3. Select **+ New Dev Box**.
+4. Choose your **project** (e.g., `eShop`), **pool** (e.g., `backend-engineer`),
+   and **environment type** (e.g., `dev`).
+5. Click **Create**. Provisioning typically takes 15–30 minutes.
+
+Once ready, connect via **Remote Desktop** directly from the portal or via the
+Windows App.
+
+### Verify the Deployment
+
+After `azd up` completes, confirm all resources are healthy:
+
+```bash
+# List all outputs from the last deployment
+azd show
+
+# Check the Dev Center resource directly
+az devcenter admin devcenter show \
+  --name devexp-devcenter \
+  --resource-group devexp-workload-dev-eastus2-RG
+
+# Verify Key Vault is accessible
+az keyvault show --name contoso --query properties.provisioningState
+
+# Confirm the Log Analytics Workspace is active
+az monitor log-analytics workspace show \
+  --resource-group devexp-monitoring-dev-eastus2-RG \
+  --workspace-name logAnalytics-dev-eastus2-RG \
+  --query provisioningState
+```
+
+All three commands should return `"Succeeded"`.
 
 ### Assign Developers to a Project
 
-Add Azure AD group members to the group referenced in
+Add members to the Azure AD group referenced in
 `infra/settings/workload/devcenter.yaml` for the target project. For the `eShop`
-project, the `eShop Developers` group receives `Dev Box User` and
-`Deployment Environment User` roles automatically at the project scope on
-deployment.
+project, any user in the `eShop Developers` group automatically receives
+`Dev Box User` and `Deployment Environment User` roles at the project scope
+after deployment.
+
+To add members using the Azure CLI:
+
+```bash
+# Add a user to the eShop Developers group
+az ad group member add \
+  --group "<your-eshop-developers-object-id>" \
+  --member-id "$(az ad user show --id user@contoso.com --query id -o tsv)"
+```
+
+> [!NOTE] Azure AD group membership changes propagate to Dev Box access within a
+> few minutes. Users do not need to redeploy the infrastructure — RBAC is
+> evaluated at Dev Box creation time via the group membership.
 
 ### Add a New Project
 
 Append a new entry under `projects:` in
-`infra/settings/workload/devcenter.yaml`:
+`infra/settings/workload/devcenter.yaml`, then run `azd up`. Bicep reconciles
+changes idempotently without modifying existing projects.
 
 ```yaml
 projects:
   - name: 'MyNewProject'
-    description: 'Dev Box project for Team X'
+    description: 'Dev Box project for Team X.'
     network:
+      name: myproject
       create: true
+      resourceGroupName: 'myproject-connectivity-RG'
       virtualNetworkType: Managed
+      addressPrefixes:
+        - 10.1.0.0/16
+      subnets:
+        - name: myproject-subnet
+          properties:
+            addressPrefix: 10.1.1.0/24
+      tags:
+        environment: dev
+        team: TeamX
+    identity:
+      type: SystemAssigned
+      roleAssignments:
+        - azureADGroupId: '<your-teamx-group-object-id>'
+          azureADGroupName: 'Team X Developers'
+          azureRBACRoles:
+            - name: 'Dev Box User'
+              id: '45d50f46-0b78-4001-a660-4198cbe8cd05'
+              scope: Project
+            - name: 'Deployment Environment User'
+              id: '18e40d4e-8d2e-438d-97e1-9528336e149c'
+              scope: Project
     pools:
       - name: 'developer'
         imageDefinitionName: 'myproject-developer'
         vmSku: general_i_16c64gb256ssd_v2
     environmentTypes:
       - name: 'dev'
-    identity:
-      type: SystemAssigned
-      roleAssignments: []
+        deploymentTargetId: ''
     catalogs: []
     tags:
       environment: dev
       team: TeamX
+      project: MyNewProject
+      costCenter: IT
+      owner: Contoso
+      resources: Project
 ```
 
-Then redeploy with `azd up`. Bicep will reconcile the change and provision the
-new project without modifying existing resources.
+### Monitor the Dev Center
+
+The Log Analytics Workspace receives diagnostic logs from the Dev Center
+automatically. Query usage and health in the
+[Azure Portal](https://portal.azure.com) or with the Azure CLI:
+
+```bash
+# Open the Log Analytics Workspace in the portal
+az monitor log-analytics workspace show \
+  --resource-group devexp-monitoring-dev-eastus2-RG \
+  --workspace-name logAnalytics-dev-eastus2-RG \
+  --query id -o tsv
+```
+
+Navigate to **Logs** in that workspace and run queries against the
+`DevCenterDiagnosticLogs` table to audit Dev Box provisioning events and
+environment deployments.
+
+### Tear Down the Environment
+
+To destroy all provisioned resources for a given environment:
+
+```powershell
+.\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2"
+```
+
+Alternatively, use `azd down` to remove only the Azure resources while
+preserving the `azd` environment configuration:
+
+```bash
+azd down --force --purge
+```
 
 ## Contributing
 
