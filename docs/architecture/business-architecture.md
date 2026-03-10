@@ -180,6 +180,62 @@ properties.
 | Deployment Success State  | Infrastructure provisioning outcome tracked by Azure Resource Manager state: all three resource groups and their child resources must reach `"Succeeded"` provisioningState before deployment is considered complete | 4 — Managed | `README.md:655-665`        |
 | Feature Delivery Status   | Platform feature completeness tracked across 10 feature dimensions. All features are currently at ✅ Stable status, indicating full production readiness with no items in preview or deprecated state                | 4 — Managed | `README.md:Features table` |
 
+### Capability Map
+
+```mermaid
+---
+title: "Business Capability Map (Maturity Heat Map)"
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: Business Capability Map Maturity Heat Map
+    accDescr: TOGAF Business Capability map showing all five core capabilities with their current maturity levels, grouped by strategic domain
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph plat["⚙️ Platform Delivery Capabilities"]
+        BC1["💻 Developer Env\nProvisioning\nL4 Managed"]:::success
+        BC2["📁 Multi-Project\nDev Center Mgmt\nL4 Managed"]:::success
+    end
+
+    subgraph gov["🔐 Governance & Security Capabilities"]
+        BC3["🔑 Role-Based\nAccess Control\nL4 Managed"]:::success
+        BC4["🔒 Secrets &\nCredential Mgmt\nL4 Managed"]:::success
+    end
+
+    subgraph lcy["🌍 Lifecycle Capabilities"]
+        BC5["🌍 Environment\nLifecycle Mgmt\nL3 Defined"]:::warning
+    end
+
+    BC1 -->|"governed by"| BC3
+    BC2 -->|"governed by"| BC3
+    BC4 -->|"enables"| BC2
+    BC5 -->|"scopes"| BC2
+
+    style plat fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style gov  fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style lcy  fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+```
+
 ### Summary
 
 The DevExp-DevBox business architecture landscape covers all eleven TOGAF
@@ -360,6 +416,58 @@ flowchart TB
     classDef danger   fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     classDef data     fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+```
+
+**Developer Onboarding Value Stream Map**
+
+```mermaid
+---
+title: "Developer Onboarding Value Stream Map"
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart LR
+    accTitle: Developer Onboarding Value Stream Map
+    accDescr: End-to-end value stream from Azure AD group assignment through first productive developer session, with process steps, actors, and lead times annotated
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    VS_START(["🏁 New Developer\nJoins Team"]):::neutral
+    VS_GRP["👥 Add to\nAAD Group"]:::core
+    VS_RBAC["🔑 RBAC Propagates\n(minutes)"]:::warning
+    VS_LOGIN["🌐 Sign in to\nDev Box Portal"]:::core
+    VS_REQ["➕ Request\nDev Box"]:::core
+    VS_PROV["⚙️ Azure Provisions\nVM (15–30 min)"]:::success
+    VS_CONN["🖥️ Connect via\nRemote Desktop"]:::success
+    VS_END(["✅ Developer\nProductivity"]):::success
+
+    VS_START -->|"Platform Eng\nadds member"| VS_GRP
+    VS_GRP -->|"automatic"| VS_RBAC
+    VS_RBAC -->|"developer\naction"| VS_LOGIN
+    VS_LOGIN -->|"select project/\npool/env"| VS_REQ
+    VS_REQ -->|"automated\nprovisioning"| VS_PROV
+    VS_PROV -->|"RDP or\nWindows App"| VS_CONN
+    VS_CONN --> VS_END
+
+    classDef neutral  fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core     fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success  fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning  fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
 
 **Dev Box Provisioning Workflow (Current State Process)**
