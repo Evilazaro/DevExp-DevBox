@@ -60,16 +60,12 @@ config:
   layout: dagre
   flowchart:
     htmlLabels: true
-    curve: cardinal
   themeVariables:
-    primaryColor: '#0078D4'
-    primaryBorderColor: '#106EBE'
-    primaryTextColor: '#FFFFFF'
-    lineColor: '#0078D4'
+    fontSize: '16px'
 ---
 flowchart TB
     accTitle: DevExp-DevBox Infrastructure Architecture
-    accDescr: Azure Dev Box infrastructure across Security, Monitoring, and Workload zones with Key Vault, Log Analytics, and Dev Center.
+    accDescr: Azure Dev Box infrastructure across Security, Monitoring, Workload, and Connectivity resource groups with Key Vault, Log Analytics, Dev Center, and per-project Virtual Networks.
 
     %% ═══════════════════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
@@ -87,7 +83,6 @@ flowchart TB
 
         subgraph secRG["🔐 Security<br/>Resource Group"]
             kv["🔑 Azure Key Vault"]:::core
-            sec["🔒 Secrets & Tokens"]:::data
         end
 
         subgraph monRG["📊 Monitoring<br/>Resource Group"]
@@ -96,42 +91,41 @@ flowchart TB
 
         subgraph wrkRG["⚙️ Workload<br/>Resource Group"]
             dc["🖥️ Azure Dev Center"]:::core
+            nc["🔌 Network Connection"]:::core
 
             subgraph proj["📁 Projects"]
                 p1["🎯 Dev Box Project"]:::core
                 pools["💻 Dev Box Pools"]:::success
                 envt["🌍 Environment Types"]:::warning
             end
+        end
 
-            subgraph netg["🔗 Connectivity"]
-                vnet["🕸️ Virtual Network"]:::external
-                nc["🔌 Network Connection"]:::core
-            end
+        subgraph connRG["🔗 Connectivity<br/>Resource Group"]
+            vnet["🕸️ Virtual Network"]:::external
         end
     end
 
-    sec -->|"stored in"| kv
-    kv -->|"provides secrets"| dc
-    law -->|"monitors"| dc
+    law -->|"diagnostics"| kv
+    law -->|"diagnostics"| dc
+    kv -->|"secret identifier"| dc
     dc -->|"manages"| p1
     p1 -->|"provisions"| pools
     p1 -->|"defines"| envt
     vnet -->|"backs"| nc
     nc -->|"attaches to"| dc
+    pools -->|"connects via"| nc
 
-    style sub   fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style secRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style monRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style wrkRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style proj  fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style netg  fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style sub     fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style secRG   fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style monRG   fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style wrkRG   fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style proj    fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style connRG  fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    %% Centralized semantic classDefs — neutral-first, 5 semantic classes (Phase 5 compliant)
-    classDef neutral  fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    %% Centralized semantic classDefs — 4 used classes (Phase 5 compliant, no unused)
     classDef core     fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success  fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning  fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef data     fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
