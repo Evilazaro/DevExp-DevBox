@@ -69,6 +69,6 @@ List assumptions, trade-offs, or known risks.
 ## ✅ Checklist
 
 - [ ] **Problem-first**, not implementation-first
-- [ ] Scope is controlled
+- [ ] **Scope is controlled**
 - [ ] **No undocumented breaking changes**
 - [ ] Ready for review

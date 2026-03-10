@@ -16,17 +16,17 @@ portal steps required.
 
 ## Overview
 
-DevExp-DevBox bridges the gap between manual Dev Box configuration and scalable,
-repeatable developer environment management. Platform engineering teams and
-DevOps architects use this accelerator to stand up enterprise-grade developer
-workstations across multiple projects without per-project scripting or portal
-work.
+DevExp-DevBox bridges the gap between manual Dev Box configuration and
+**scalable, repeatable developer environment management**. Platform engineering
+teams and DevOps architects use this accelerator to stand up enterprise-grade
+developer workstations across multiple projects without per-project scripting or
+portal work.
 
 It packages every required Azure resource — Dev Center, Key Vault, Log Analytics
-Workspace, virtual networks, and role assignments — into a YAML-driven,
-pipeline-ready blueprint. Teams declaratively define their developer
+Workspace, virtual networks, and role assignments — into a **YAML-driven,
+pipeline-ready blueprint**. Teams declaratively define their developer
 environments in `infra/settings/`, and the accelerator handles provisioning,
-wiring, and governance in a single deployment pass compliant with
+wiring, and governance in a **single deployment pass** compliant with
 [Azure Landing Zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
 principles.
 
@@ -190,9 +190,10 @@ CLI and an authenticated Azure session. Cross-platform support is built in:
 requirement is an active subscription with **Contributor or Owner rights** at
 the subscription scope.
 
-Before deploying, ensure all tools listed below are installed and authenticated.
-The `setUp.sh` and `setUp.ps1` scripts validate dependencies at startup and halt
-with descriptive error messages if any prerequisite is missing.
+Before deploying, **ensure all tools listed below are installed and
+authenticated**. The `setUp.sh` and `setUp.ps1` scripts validate dependencies at
+startup and **halt with descriptive error messages** if any prerequisite is
+missing.
 
 | Prerequisite           | Minimum Version | Purpose                                         | Install                                                                                            |
 | ---------------------- | --------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------------- |
@@ -585,10 +586,10 @@ azd up
 The `preprovision` hook in `azure.yaml` (Linux/macOS) or `azure-pwh.yaml`
 (Windows) invokes `setUp.sh` or `setUp.ps1`, which:
 
-1. Validates required tools (`az`, `azd`, `gh`, `jq`)
-2. Creates the `azd` environment and sets parameters
-3. Configures source control platform authentication
-4. Seeds Key Vault with the provided secret
+1. **Validates** required tools (`az`, `azd`, `gh`, `jq`)
+2. **Creates** the `azd` environment and sets parameters
+3. **Configures** source control platform authentication
+4. **Seeds** Key Vault with the provided secret
 
 ### Step 4: Verify the Deployment
 
@@ -653,7 +654,7 @@ az monitor log-analytics workspace show \
   --query provisioningState
 ```
 
-All three commands should return `"Succeeded"`.
+**All three commands should return `"Succeeded"`**.
 
 ### Assign Developers to a Project
 
@@ -798,8 +799,8 @@ Every issue **must** carry labels for type, area (`area:dev-box`,
 ### Pull Request Guidelines
 
 - Every PR **must** reference a parent Issue number in the description
-- Feature branches target `main`; Task branches target their parent Feature
-  branch
+- **Feature branches** target `main`; **Task branches** target their parent
+  Feature branch
 - All Bicep changes **must** pass `az bicep lint` before requesting review
 - Every **Feature** **must** link its parent Epic; every **Task** **must** link
   its parent Feature

@@ -55,7 +55,7 @@ Use:
 - `fix/<short-name>`
 - `docs/<short-name>`
 
-Include the issue number when possible:
+**Include the issue number when possible:**
 
 - `feature/123-dev-center-baseline`
 
@@ -127,7 +127,7 @@ A Feature PR should include evidence of:
 
 - PR merged
 - **Validation complete** (per Task template)
-- Docs updated if applicable
+- **Docs updated** if applicable
 
 ### Feature
 
@@ -147,5 +147,5 @@ A Feature PR should include evidence of:
 
 ## Code of Conduct
 
-Be professional, constructive, and specific. Keep discussions focused on
-outcomes, trade-offs, and user impact.
+Be **professional, constructive, and specific**. Keep discussions focused on
+**outcomes, trade-offs, and user impact**.
