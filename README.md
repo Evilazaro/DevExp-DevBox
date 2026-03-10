@@ -44,12 +44,14 @@ principles.
 
 ## Architecture
 
-The accelerator deploys across three dedicated Azure resource groups following
+The accelerator deploys across four dedicated Azure resource groups following
 landing zone principles: **Security** (Key Vault), **Monitoring** (Log
-Analytics), and **Workload** (Dev Center, projects, and connectivity).
-Dependencies flow deliberately: the monitoring layer feeds telemetry to Dev
-Center, the security layer supplies credentials via Key Vault, and project-level
-virtual networks attach through dedicated network connections.
+Analytics), **Workload** (Dev Center, Network Connections, and projects), and
+per-project **Connectivity** (Virtual Networks). Dependencies flow deliberately:
+Log Analytics receives diagnostics from both Key Vault and Dev Center; Key Vault
+supplies a secret identifier URI to Dev Center for catalog authentication; and
+per-project Virtual Networks in dedicated Connectivity Resource Groups attach to
+Dev Center through Network Connections deployed in the Workload Resource Group.
 
 ```mermaid
 ---
