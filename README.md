@@ -64,10 +64,16 @@ config:
   layout: dagre
   flowchart:
     htmlLabels: true
+    curve: cardinal
+  themeVariables:
+    primaryColor: '#0078D4'
+    primaryBorderColor: '#106EBE'
+    primaryTextColor: '#FFFFFF'
+    lineColor: '#0078D4'
 ---
 flowchart TB
     accTitle: DevExp-DevBox Infrastructure Architecture
-    accDescr: Azure subscription-scoped infrastructure with Security, Monitoring, and Workload landing zones. Dev Center consumes Key Vault secrets and Log Analytics telemetry, manages role-specific Dev Box pools through YAML-configured projects, and attaches to project-level virtual networks via network connections.
+    accDescr: Azure Dev Box infrastructure across Security, Monitoring, and Workload zones with Key Vault, Log Analytics, and Dev Center.
 
     %% ═══════════════════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
@@ -96,14 +102,14 @@ flowchart TB
             dc["🖥️ Azure Dev Center"]:::core
 
             subgraph proj["📁 Projects"]
-                p1["🎯 Dev Box Project"]:::neutral
-                pools["💻 Dev Box Pools"]:::neutral
-                envt["🌍 Environment Types"]:::neutral
+                p1["🎯 Dev Box Project"]:::core
+                pools["💻 Dev Box Pools"]:::success
+                envt["🌍 Environment Types"]:::warning
             end
 
             subgraph netg["🔗 Connectivity"]
                 vnet["🕸️ Virtual Network"]:::external
-                nc["🔌 Network Connection"]:::external
+                nc["🔌 Network Connection"]:::core
             end
         end
     end
@@ -117,16 +123,18 @@ flowchart TB
     vnet -->|"backs"| nc
     nc -->|"attaches to"| dc
 
-    style sub  fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style sub   fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style secRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style monRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style wrkRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style proj  fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style netg  fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    %% Centralized semantic classDefs (Phase 5 compliant)
+    %% Centralized semantic classDefs — neutral-first, 5 semantic classes (Phase 5 compliant)
     classDef neutral  fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core     fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success  fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning  fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef data     fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
