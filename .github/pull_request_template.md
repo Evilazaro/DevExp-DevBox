@@ -31,7 +31,7 @@ Who benefits from this change?
 
 ### Out of Scope
 
-- ***
+-
 
 ## 🧪 Validation & Testing
 

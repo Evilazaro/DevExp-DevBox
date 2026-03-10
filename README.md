@@ -16,8 +16,6 @@ portal steps required.
 
 ## Overview
 
-**Overview**
-
 DevExp-DevBox bridges the gap between manual Dev Box configuration and scalable,
 repeatable developer environment management. Platform engineering teams and
 DevOps architects use this accelerator to stand up enterprise-grade developer
@@ -45,8 +43,6 @@ principles.
 - [License](#license)
 
 ## Architecture
-
-**Overview**
 
 The accelerator deploys across three dedicated Azure resource groups following
 landing zone principles: **Security** (Key Vault), **Monitoring** (Log
@@ -154,8 +150,6 @@ flowchart TB
 
 ## Features
 
-**Overview**
-
 DevExp-DevBox removes the operational burden of configuring developer
 workstations at scale. From a single YAML configuration in
 `infra/settings/workload/devcenter.yaml`, platform teams define role-specific
@@ -182,8 +176,6 @@ audit-ready from day one, with no manual portal steps required.
 | 🧹 Cleanup automation        | `cleanSetUp.ps1` removes all provisioned resources             | ✅ Stable |
 
 ## Requirements
-
-**Overview**
 
 The accelerator runs on any workstation or CI/CD runner with the Azure Developer
 CLI and an authenticated Azure session. Cross-platform support is built in:
@@ -328,8 +320,6 @@ Outputs:
 > automatically.
 
 ## Configuration
-
-**Overview**
 
 All deployment behavior is controlled through YAML configuration files in
 `infra/settings/`. These files define resource group organization, Dev Center
@@ -767,8 +757,6 @@ azd down --force --purge
 ```
 
 ## Contributing
-
-**Overview**
 
 DevExp-DevBox follows a product-oriented contribution model with structured
 Issue tracking, branch naming conventions, and mandatory PR reviews. Whether
