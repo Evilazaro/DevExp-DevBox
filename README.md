@@ -133,16 +133,19 @@ flowchart TB
 
 **Component Roles:**
 
-| Component                    | Description                                                                     |
-| ---------------------------- | ------------------------------------------------------------------------------- |
-| ☁️ Azure Subscription        | Top-level scope; all resource groups deploy here (`infra/main.bicep`)           |
-| 🔐 Security Resource Group   | Hosts Azure Key Vault for token and secret management                           |
-| 🔑 Azure Key Vault           | Stores GitHub Actions or Azure DevOps tokens with RBAC authorization            |
-| 📊 Monitoring Resource Group | Centralizes observability for all Dev Center diagnostic events                  |
-| 📈 Log Analytics Workspace   | Receives diagnostic logs from Dev Center and connected resources                |
-| ⚙️ Workload Resource Group   | Contains Dev Center, Dev Box projects, pools, and network resources             |
-| 🖥️ Azure Dev Center          | Central hub for Dev Box definitions, catalogs, and environment types            |
-| 💻 Dev Box Pools             | Role-specific VM configurations (e.g., `backend-engineer`, `frontend-engineer`) |
+| Component                      | Description                                                                        |
+| ------------------------------ | ---------------------------------------------------------------------------------- |
+| ☁️ Azure Subscription          | Top-level scope; all resource groups deploy here (`infra/main.bicep`)              |
+| 🔐 Security Resource Group     | Hosts Azure Key Vault for token and secret management                              |
+| 🔑 Azure Key Vault             | Stores GitHub Actions or Azure DevOps tokens; streams diagnostics to Log Analytics |
+| 📊 Monitoring Resource Group   | Centralizes observability for all Dev Center diagnostic events                     |
+| 📈 Log Analytics Workspace     | Receives diagnostic logs from both Dev Center and Key Vault                        |
+| ⚙️ Workload Resource Group     | Contains Dev Center, Network Connections, Dev Box projects, and pools              |
+| 🖥️ Azure Dev Center            | Central hub for Dev Box definitions, catalogs, and environment types               |
+| 🔌 Network Connection          | Attaches the Dev Center to a per-project Virtual Network subnet                    |
+| 💻 Dev Box Pools               | Role-specific VM configurations (e.g., `backend-engineer`, `frontend-engineer`)    |
+| 🔗 Connectivity Resource Group | Per-project RG hosting the Virtual Network, isolated from workload resources       |
+| 🕸️ Virtual Network             | Customer-managed VNet with a DevCenter subnet; backs Network Connections           |
 
 ## Features
 
