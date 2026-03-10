@@ -210,17 +210,17 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph plat["⚙️ Platform Delivery Capabilities"]
-        BC1["💻 Developer Env\nProvisioning\nL4 Managed"]:::success
-        BC2["📁 Multi-Project\nDev Center Mgmt\nL4 Managed"]:::success
+        BC1("💻 Developer Env\nProvisioning\nL4 Managed"):::success
+        BC2("📁 Multi-Project\nDev Center Mgmt\nL4 Managed"):::success
     end
 
     subgraph gov["🔐 Governance & Security Capabilities"]
-        BC3["🔑 Role-Based\nAccess Control\nL4 Managed"]:::success
-        BC4["🔒 Secrets &\nCredential Mgmt\nL4 Managed"]:::success
+        BC3("🔑 Role-Based\nAccess Control\nL4 Managed"):::success
+        BC4("🔒 Secrets &\nCredential Mgmt\nL4 Managed"):::success
     end
 
     subgraph lcy["🌍 Lifecycle Capabilities"]
-        BC5["🌍 Environment\nLifecycle Mgmt\nL3 Defined"]:::warning
+        BC5("🌍 Environment\nLifecycle Mgmt\nL3 Defined"):::warning
     end
 
     BC1 -->|"governed by"| BC3
@@ -359,33 +359,33 @@ flowchart TB
 
     subgraph sub["☁️ Azure Subscription (ContosoDevExp)"]
         subgraph secRG["🔐 Security Landing Zone"]
-            kv["🔑 Key Vault (contoso)\ngha-token secret"]:::danger
+            kv("🔑 Key Vault (contoso)\ngha-token secret"):::danger
         end
 
         subgraph monRG["📊 Monitoring Landing Zone"]
-            law["📈 Log Analytics\nWorkspace"]:::data
+            law("📈 Log Analytics\nWorkspace"):::data
         end
 
         subgraph wrkRG["⚙️ Workload Landing Zone"]
-            dc["🖥️ Dev Center\n(devexp-devcenter)"]:::core
-            nc["🔌 Network Connection\n(eShop-managed)"]:::external
+            dc("🖥️ Dev Center\n(devexp-devcenter)"):::core
+            nc("🔌 Network Connection\n(eShop-managed)"):::external
 
             subgraph proj["📁 eShop Project"]
-                p1["🎯 Dev Box Project\neShop"]:::core
+                p1("🎯 Dev Box Project\neShop"):::core
                 subgraph pools["💻 Dev Box Pools"]
-                    be["🖥️ backend-engineer\n32C/128GB/512SSD"]:::success
-                    fe["🖥️ frontend-engineer\n16C/64GB/256SSD"]:::success
+                    be("🖥️ backend-engineer\n32C/128GB/512SSD"):::success
+                    fe("🖥️ frontend-engineer\n16C/64GB/256SSD"):::success
                 end
                 subgraph envt["🌍 Environment Types"]
-                    ev_dev["dev"]:::warning
-                    ev_stg["staging"]:::warning
-                    ev_uat["UAT"]:::warning
+                    ev_dev("🌱 dev"):::warning
+                    ev_stg("🚀 staging"):::warning
+                    ev_uat("🧪 UAT"):::warning
                 end
             end
         end
 
         subgraph connRG["🔗 Connectivity Landing Zone"]
-            vnet["🕸️ VNet (eShop)\n10.0.0.0/16"]:::external
+            vnet("🕸️ VNet (eShop)\n10.0.0.0/16"):::external
         end
     end
 
@@ -448,12 +448,12 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     VS_START(["🏁 New Developer\nJoins Team"]):::neutral
-    VS_GRP["👥 Add to\nAAD Group"]:::core
-    VS_RBAC["🔑 RBAC Propagates\n(minutes)"]:::warning
-    VS_LOGIN["🌐 Sign in to\nDev Box Portal"]:::core
-    VS_REQ["➕ Request\nDev Box"]:::core
-    VS_PROV["⚙️ Azure Provisions\nVM (15–30 min)"]:::success
-    VS_CONN["🖥️ Connect via\nRemote Desktop"]:::success
+    VS_GRP("👥 Add to\nAAD Group"):::core
+    VS_RBAC("🔑 RBAC Propagates\n(minutes)"):::warning
+    VS_LOGIN("🌐 Sign in to\nDev Box Portal"):::core
+    VS_REQ("➕ Request\nDev Box"):::core
+    VS_PROV("⚙️ Azure Provisions\nVM (15–30 min)"):::success
+    VS_CONN("🖥️ Connect via\nRemote Desktop"):::success
     VS_END(["✅ Developer\nProductivity"]):::success
 
     VS_START -->|"Platform Eng\nadds member"| VS_GRP
@@ -499,13 +499,13 @@ flowchart TD
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    DEV["👩‍💻 Developer"]:::external
-    PORTAL["🌐 devbox.microsoft.com\nDeveloper Portal"]:::core
-    AAD["🔐 Azure AD\nGroup Membership"]:::danger
-    DC["🖥️ Dev Center\nRBAC Validation"]:::core
-    PROV["⚙️ Azure\nProvisioning"]:::success
-    VM["💻 Dev Box VM\nReady (15–30 min)"]:::success
-    RDP["🖥️ Remote Desktop\nConnection"]:::external
+    DEV("👩‍💻 Developer"):::external
+    PORTAL("🌐 devbox.microsoft.com\nDeveloper Portal"):::core
+    AAD("🔐 Azure AD\nGroup Membership"):::danger
+    DC("🖥️ Dev Center\nRBAC Validation"):::core
+    PROV("⚙️ Azure\nProvisioning"):::success
+    VM("💻 Dev Box VM\nReady (15–30 min)"):::success
+    RDP("🖥️ Remote Desktop\nConnection"):::external
 
     DEV -->|"1. Navigate to portal"| PORTAL
     PORTAL -->|"2. Sign in with AAD account"| AAD
@@ -1207,24 +1207,24 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph ext["🌐 External Dependencies"]
-        AAD["🔐 Azure AD\nGroups"]:::external
-        PORTAL["🌐 Dev Box\nPortal"]:::external
-        GH["🐙 GitHub\nCatalog Source"]:::external
+        AAD("🔐 Azure AD\nGroups"):::external
+        PORTAL("🌐 Dev Box\nPortal"):::external
+        GH("🐙 GitHub\nCatalog Source"):::external
     end
 
     subgraph biz["⚙️ Business Capabilities"]
-        BC3["🔑 RBAC\nManagement"]:::core
-        BC1["💻 Dev Env\nProvisioning"]:::core
-        BC2["📁 Multi-Project\nMgmt"]:::core
-        BC4["🔒 Secrets &\nCredentials"]:::core
-        BC5["🌍 Env Lifecycle\nMgmt"]:::core
+        BC3("🔑 RBAC\nManagement"):::core
+        BC1("💻 Dev Env\nProvisioning"):::core
+        BC2("📁 Multi-Project\nMgmt"):::core
+        BC4("🔒 Secrets &\nCredentials"):::core
+        BC5("🌍 Env Lifecycle\nMgmt"):::core
     end
 
     subgraph svc["🛠️ Business Services"]
-        BV4["🔑 Key Vault\nService"]:::danger
-        BV2["🔄 Catalog\nSync"]:::success
-        BV3["📊 Monitor\nService"]:::data
-        BV1["🌐 Self-Service\nPortal"]:::external
+        BV4("🔑 Key Vault\nService"):::danger
+        BV2("🔄 Catalog\nSync"):::success
+        BV3("📊 Monitor\nService"):::data
+        BV1("🌐 Self-Service\nPortal"):::external
     end
 
     AAD -->|"group binding"| BC3
@@ -1279,22 +1279,22 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph bizL["📋 Business Layer"]
-        YML_DC["⚙️ devcenter.yaml\nBusiness Rules & Config"]:::core
-        YML_AZ["🏢 azureResources.yaml\nLanding Zone Policy"]:::core
-        YML_SEC["🔒 security.yaml\nSecurity Policy"]:::danger
+        YML_DC("⚙️ devcenter.yaml\nBusiness Rules & Config"):::core
+        YML_AZ("🏢 azureResources.yaml\nLanding Zone Policy"):::core
+        YML_SEC("🔒 security.yaml\nSecurity Policy"):::danger
     end
 
     subgraph appL["🔧 Application Layer"]
-        AZD["🚀 azd up\nOrchestration"]:::success
-        HOOK["🔗 setUp.sh / setUp.ps1\nPreprovision Hook"]:::success
-        BICEP["📐 infra/main.bicep\nInfrastructure Template"]:::neutral
+        AZD("🚀 azd up\nOrchestration"):::success
+        HOOK("🔗 setUp.sh / setUp.ps1\nPreprovision Hook"):::success
+        BICEP("📐 infra/main.bicep\nInfrastructure Template"):::neutral
     end
 
     subgraph techL["☁️ Technology Layer"]
-        DC_RES["🖥️ Dev Center\n(Azure Resource)"]:::core
-        KV_RES["🔑 Key Vault\n(Azure Resource)"]:::danger
-        LAW_RES["📊 Log Analytics\n(Azure Resource)"]:::data
-        VN_RES["🕸️ Virtual Network\n(Azure Resource)"]:::external
+        DC_RES("🖥️ Dev Center\n(Azure Resource)"):::core
+        KV_RES("🔑 Key Vault\n(Azure Resource)"):::danger
+        LAW_RES("📊 Log Analytics\n(Azure Resource)"):::data
+        VN_RES("🕸️ Virtual Network\n(Azure Resource)"):::external
     end
 
     YML_DC -->|"loadYamlContent()"| BICEP
