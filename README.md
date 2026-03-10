@@ -157,10 +157,10 @@ Dev Box pool configurations, multi-project access policies, and environment
 lifecycle management — deployable repeatably through CI/CD pipelines or
 `azd up`.
 
-The accelerator enforces Azure landing zone principles by default, ensuring
-clear resource group separation, least-privilege RBAC, managed identity
-integration, and centralized logging. Every deployment is functional and
-audit-ready from day one, with no manual portal steps required.
+The accelerator enforces **Azure landing zone principles** by default, ensuring
+clear resource group separation, **least-privilege RBAC**, **managed identity
+integration**, and centralized logging. Every deployment is functional and
+**audit-ready from day one**, with no manual portal steps required.
 
 | Feature                      | Description                                                    | Status    |
 | ---------------------------- | -------------------------------------------------------------- | --------- |
@@ -181,8 +181,8 @@ The accelerator runs on any workstation or CI/CD runner with the Azure Developer
 CLI and an authenticated Azure session. Cross-platform support is built in:
 `azure.yaml` drives Linux and macOS deployments via Bash hooks, while
 `azure-pwh.yaml` handles Windows PowerShell environments. The only Azure-side
-requirement is an active subscription with Contributor or Owner rights at the
-subscription scope.
+requirement is an active subscription with **Contributor or Owner rights** at
+the subscription scope.
 
 Before deploying, ensure all tools listed below are installed and authenticated.
 The `setUp.sh` and `setUp.ps1` scripts validate dependencies at startup and halt
@@ -323,9 +323,9 @@ Outputs:
 
 All deployment behavior is controlled through YAML configuration files in
 `infra/settings/`. These files define resource group organization, Dev Center
-topology, project layouts, pool configurations, and security parameters. No
-Bicep changes are required to customize a deployment — only YAML edits are
-needed, making the accelerator adaptable to any organization's naming
+topology, project layouts, pool configurations, and security parameters. **No
+Bicep changes are required** to customize a deployment — **only YAML edits are
+needed**, making the accelerator adaptable to any organization's naming
 conventions and tagging policies.
 
 The configuration layer separates concerns cleanly: `azureResources.yaml`
@@ -758,8 +758,8 @@ azd down --force --purge
 
 ## Contributing
 
-DevExp-DevBox follows a product-oriented contribution model with structured
-Issue tracking, branch naming conventions, and mandatory PR reviews. Whether
+DevExp-DevBox follows a **product-oriented** contribution model with structured
+Issue tracking, branch naming conventions, and **mandatory PR reviews**. Whether
 adding a new pool configuration template, fixing a Bicep parameter constraint,
 or improving documentation, the same lightweight governance process applies
 across all contribution types.
@@ -791,12 +791,12 @@ Every issue **must** carry labels for type, area (`area:dev-box`,
 
 ### Pull Request Guidelines
 
-- Every PR must reference a parent Issue number in the description
+- Every PR **must** reference a parent Issue number in the description
 - Feature branches target `main`; Task branches target their parent Feature
   branch
-- All Bicep changes must pass `az bicep lint` before requesting review
-- Every **Feature** must link its parent Epic; every **Task** must link its
-  parent Feature
+- All Bicep changes **must** pass `az bicep lint` before requesting review
+- Every **Feature** **must** link its parent Epic; every **Task** **must** link
+  its parent Feature
 
 ## License
 

@@ -63,10 +63,10 @@ Include the issue number when possible:
 
 Each PR **must**:
 
-- Reference the issue it closes (e.g., `Closes #123`)
+- **Reference the issue it closes** (e.g., `Closes #123`)
 - Include:
-  - Summary of changes
-  - Test/validation evidence
+  - **Summary of changes**
+  - **Test/validation evidence**
   - Docs updates (if applicable)
 
 ---
@@ -84,18 +84,18 @@ Each PR **must**:
 
 ### PowerShell
 
-- PowerShell 7+ compatible where possible
-- Clear error handling (fail fast with actionable messages)
-- Safe re-runs (idempotency)
-- Provide `-WhatIf`/dry-run guidance where applicable
+- **PowerShell 7+** compatible where possible
+- Clear error handling (**fail fast** with actionable messages)
+- Safe re-runs (**idempotency**)
+- Provide `-WhatIf`/**dry-run guidance** where applicable
 
 ### Documentation (Markdown)
 
 - Every module/script **must** have:
-  - Purpose
-  - Inputs/outputs
-  - Example usage
-  - Troubleshooting notes (common failures)
+  - **Purpose**
+  - **Inputs/outputs**
+  - **Example usage**
+  - **Troubleshooting notes** (common failures)
 - Keep docs **"docs-as-code"** and updated in the same PR as changes.
 
 ---
@@ -107,17 +107,17 @@ Each PR **must**:
 A Feature PR should include evidence of:
 
 - `what-if` (or equivalent) validation for deployments
-- Successful deployment in a sandbox/subscription (when feasible)
-- Basic smoke test steps documented
+- **Successful deployment** in a sandbox/subscription (when feasible)
+- **Basic smoke test steps** documented
 
 ### Smoke Tests
 
-Epic-level readiness requires:
+**Epic-level readiness** requires:
 
-- Platform admin flow validated (deploy + configure)
-- Developer flow validated (access → self-service → first login)
-- Networking/DNS assumptions validated
-- Diagnostics emitting to the expected sink (e.g., Log Analytics)
+- **Platform admin flow** validated (deploy + configure)
+- **Developer flow** validated (access → self-service → first login)
+- **Networking/DNS assumptions** validated
+- **Diagnostics** emitting to the expected sink (e.g., Log Analytics)
 
 ---
 
@@ -126,22 +126,22 @@ Epic-level readiness requires:
 ### Task
 
 - PR merged
-- Validation complete (per Task template)
+- **Validation complete** (per Task template)
 - Docs updated if applicable
 
 ### Feature
 
-- Acceptance criteria met
+- **Acceptance criteria** met
 - Example(s) updated
 - Documentation updated
-- Validated in an environment (or clearly documented why not)
+- **Validated in an environment** (or clearly documented why not)
 
 ### Epic
 
 - All child issues completed
-- End-to-end adoption scenario validated
+- **End-to-end adoption scenario** validated
 - Documentation published
-- Exit metrics met (or deviations documented)
+- **Exit metrics** met (or deviations documented)
 
 ---
 

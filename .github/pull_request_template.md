@@ -46,8 +46,8 @@ Describe how this change was validated:
 
 ## 🏗️ Architectural Alignment
 
-- [ ] Aligns with Azure Landing Zone principles
-- [ ] Aligns with Azure Well-Architected Framework
+- [ ] Aligns with **Azure Landing Zone principles**
+- [ ] Aligns with **Azure Well-Architected Framework**
 - [ ] Does **NOT** introduce unnecessary coupling
 
 ---
@@ -68,7 +68,7 @@ List assumptions, trade-offs, or known risks.
 
 ## ✅ Checklist
 
-- [ ] Problem-first, not implementation-first
+- [ ] **Problem-first**, not implementation-first
 - [ ] Scope is controlled
-- [ ] No undocumented breaking changes
+- [ ] **No undocumented breaking changes**
 - [ ] Ready for review
