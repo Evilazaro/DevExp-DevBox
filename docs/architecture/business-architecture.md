@@ -7,7 +7,7 @@
 - [3. Architecture Principles](#3-architecture-principles)
 - [4. Current State Baseline](#4-current-state-baseline)
 - [5. Component Catalog](#5-component-catalog)
-- [8. Dependencies & Integration](#8-dependencies--integration)
+- [6. Dependencies & Integration](#6-dependencies--integration)
 
 ---
 
@@ -16,25 +16,27 @@
 ### Overview
 
 This Business Architecture analysis covers the DevExp-DevBox repository, an
-Azure Dev Box Adoption & Deployment Accelerator designed to deliver
+**Azure Dev Box Adoption & Deployment Accelerator** designed to deliver
 production-ready, centralized developer workstation provisioning for enterprise
-engineering teams. The analysis identifies 36 Business layer components across
-10 of the 11 canonical Business Architecture component types.
+engineering teams. The analysis identifies **36 Business layer components**
+across **10 of the 11** canonical Business Architecture component types.
 
-The platform addresses a core business capability: eliminating weeks of manual
-developer environment setup by orchestrating Azure Dev Center, Dev Box pools,
+The platform addresses a core business capability: **eliminating weeks of manual
+developer environment setup** by orchestrating Azure Dev Center, Dev Box pools,
 identity governance, network isolation, and centralized monitoring through
-configuration-driven Infrastructure-as-Code. The business strategy aligns with
-the Microsoft Cloud Adoption Framework and Azure Landing Zone principles,
-ensuring enterprise-grade governance, cost allocation, and security compliance
-from inception.
+**configuration-driven Infrastructure-as-Code**. The business strategy aligns
+with the **Microsoft Cloud Adoption Framework** and **Azure Landing Zone**
+principles, ensuring enterprise-grade governance, cost allocation, and security
+compliance from inception.
 
 The analysis reveals a well-structured business architecture with strong
 identity and access governance (RBAC, least-privilege enforcement), clear role
 segregation (backend vs. frontend engineering pools), and a
-configuration-as-code model that externalizes business rules into YAML files —
-enabling non-technical governance. No KPIs or Metrics were explicitly defined,
-representing the primary gap for improvement.
+**configuration-as-code model** that externalizes business rules into YAML files
+— enabling non-technical governance.
+
+> ⚠️ **Gap Identified**: No KPIs or Metrics were explicitly defined,
+> representing the **primary gap** for improvement.
 
 ---
 
@@ -139,11 +141,12 @@ than in procedural application code.
 
 ### 2.11 KPIs & Metrics (0)
 
-**Status**: Not detected in analyzed files. No explicit KPI definitions, SLA
-targets, or measurable performance metrics were found in the source
-configuration or documentation. This represents a maturity gap — the platform
-would benefit from defined KPIs for provisioning time, pool utilization, RBAC
-compliance percentage, and cost-per-developer tracking.
+> ⚠️ **Not Detected**: No explicit KPI definitions, SLA targets, or measurable
+> performance metrics were found in the source configuration or documentation.
+
+This represents a **maturity gap** — the platform would benefit from defined
+KPIs for provisioning time, pool utilization, RBAC compliance percentage, and
+cost-per-developer tracking.
 
 ### Business Capability Map
 
@@ -231,48 +234,49 @@ documented.
 
 ### Overview
 
-The DevExp-DevBox platform embeds several -aligned architecture principles
-observable in the source configuration and documentation. These principles guide
+The DevExp-DevBox platform embeds several architecture principles observable in
+the source configuration and documentation. These principles guide
 decision-making across the platform's business capabilities, governance model,
 and operational workflows.
 
-These principles collectively enforce a platform model that balances developer
-velocity with enterprise governance, using configuration-driven automation to
+These principles collectively enforce a platform model that **balances developer
+velocity with enterprise governance**, using configuration-driven automation to
 reduce manual intervention while maintaining security and compliance guarantees.
 
 ### 3.1 Configuration-Driven Governance
 
-**Statement**: All business rules, role definitions, and resource policies are
-externalized into validated YAML configuration files, enabling governance
-changes without code modifications.
+**Statement**: All business rules, role definitions, and resource policies
+**must** be externalized into validated YAML configuration files, enabling
+governance changes without code modifications.
 
 ### 3.2 Least-Privilege Access Control
 
-**Statement**: Every identity assignment follows the principle of least
-privilege with role scoping at the narrowest applicable level (Project,
+**Statement**: Every identity assignment **must** follow the **principle of
+least privilege** with role scoping at the narrowest applicable level (Project,
 ResourceGroup, Subscription).
 
 ### 3.3 Landing Zone Segregation
 
-**Statement**: Resources are organized into functionally distinct landing zones
-(Workload, Security, Monitoring) following Azure Landing Zone principles for
-isolation, cost tracking, and operational clarity.
+**Statement**: Resources **must** be organized into functionally distinct
+landing zones (Workload, Security, Monitoring) following **Azure Landing Zone**
+principles for isolation, cost tracking, and operational clarity.
 
 ### 3.4 Role-Specific Resource Allocation
 
-**Statement**: Developer environments are tailored to role requirements, with
-distinct compute specifications per engineering function to optimize cost and
-performance.
+**Statement**: Developer environments **must** be tailored to role requirements,
+with distinct compute specifications per engineering function to optimize cost
+and performance.
 
 ### 3.5 Idempotent, Repeatable Deployment
 
-**Statement**: All infrastructure operations must be safe to re-run without side
-effects, enabling consistent environment provisioning and disaster recovery.
+**Statement**: All infrastructure operations **must** be safe to re-run without
+side effects, enabling consistent environment provisioning and disaster
+recovery.
 
 ### 3.6 Defense in Depth
 
-**Statement**: Security is applied at multiple layers — identity (Azure AD),
-secrets (Key Vault with purge protection), networking (VNet isolation), and
+**Statement**: Security **must** be applied at multiple layers — identity (Azure
+AD), secrets (Key Vault with purge protection), networking (VNet isolation), and
 monitoring (diagnostic logging on all resources).
 
 ---
@@ -365,14 +369,15 @@ The single-project deployment (eShop) validates the platform model with two
 role-specific pools, three SDLC environments, and comprehensive RBAC coverage.
 All 7 core capabilities are documented and standardized in configuration files.
 
-The primary gap is Monitoring & Observability, where diagnostic settings exist
-but no alerting rules, dashboards, or SLA targets are defined. The absence of
-KPIs & Metrics across the portfolio further limits the ability to quantitatively
-track business outcomes. Recommended improvements: (1) defining measurable KPIs
-for provisioning SLA, developer satisfaction, and cost-per-developer; (2)
-implementing alert rules and operational dashboards in Log Analytics; and (3)
-expanding from a single-project reference to multi-project production
-validation.
+The **primary gap** is Monitoring & Observability, where diagnostic settings
+exist but no alerting rules, dashboards, or SLA targets are defined. The absence
+of KPIs & Metrics across the portfolio further limits the ability to
+quantitatively track business outcomes.
+
+> 📌 **Recommended Improvements**: (1) defining measurable KPIs for provisioning
+> SLA, developer satisfaction, and cost-per-developer; (2) implementing alert
+> rules and operational dashboards in Log Analytics; and (3) expanding from a
+> single-project reference to multi-project production validation.
 
 ---
 
@@ -969,9 +974,9 @@ roles via scoped RBAC. Monitored by the Monitoring & Observability capability.
 
 ### 5.11 KPIs & Metrics (0)
 
-**Status**: Not detected in analyzed files. No explicit KPI definitions, SLA
-targets, measurable performance indicators, or dashboard configurations were
-found in the source configuration or documentation.
+> ⚠️ **Not Detected**: No explicit KPI definitions, SLA targets, measurable
+> performance indicators, or dashboard configurations were found in the source
+> configuration or documentation.
 
 **Recommended KPIs for future implementation**:
 
@@ -993,29 +998,31 @@ quantitatively managed access policies with explicit role-scope mappings.
 Business Rules demonstrate well-documented governance policies encoded directly
 in configuration files.
 
-The primary gap remains KPIs & Metrics (0 components), limiting the platform's
-ability to measure business outcomes. Additionally, the Project Delivery
-Function and DevOps Lead role would benefit from further standardization and
-documentation. Recommended improvements: (1) defining explicit KPIs in
-configuration or documentation; (2) expanding from 1 project to multi-project
-validation; (3) adding alerting rules and dashboards to the Monitoring &
-Observability capability.
+The **primary gap** remains KPIs & Metrics (0 components), limiting the
+platform's ability to measure business outcomes. Additionally, the Project
+Delivery Function and DevOps Lead role would benefit from further
+standardization and documentation.
+
+> 📌 **Recommended Improvements**: (1) defining explicit KPIs in configuration
+> or documentation; (2) expanding from 1 project to multi-project validation;
+> (3) adding alerting rules and dashboards to the Monitoring & Observability
+> capability.
 
 ---
 
-## 8. Dependencies & Integration
+## 6. Dependencies & Integration
 
 ### Overview
 
 This section documents the cross-component dependencies and integration points
 within the DevExp-DevBox Business Architecture. The platform exhibits a
-hub-and-spoke dependency pattern centered on the Developer Workstation
+**hub-and-spoke dependency pattern** centered on the Developer Workstation
 Provisioning capability, with supporting capabilities (Identity, Security,
 Networking, Configuration) feeding into the core provisioning workflow. All
-integration points are configuration-driven, managed through YAML files and
+integration points are **configuration-driven**, managed through YAML files and
 Bicep module references.
 
-The integration model follows the Azure Landing Zone pattern:
+The integration model follows the **Azure Landing Zone pattern**:
 subscription-scoped orchestration coordinates resource group-level deployments,
 with cross-group dependencies managed through Bicep output chaining (e.g., Key
 Vault secret identifiers passed to workload modules, Log Analytics workspace IDs
@@ -1220,13 +1227,15 @@ is achieved through configuration-driven mechanisms — YAML files loaded by Bic
 modules, output chaining for resource identifiers, and Azure AD group references
 for identity binding.
 
-The primary integration risk is the single-source dependency on GitHub for both
-catalog authentication (via Key Vault-stored `gha-token`) and configuration
-versioning. If the GitHub token expires or the catalog repository becomes
-unavailable, the Dev Box image provisioning pipeline is disrupted. Mitigations
-include: (1) implementing token rotation alerts via Log Analytics; (2) defining
-fallback catalog sources; and (3) adding catalog sync health KPIs to the
-Monitoring capability.
+> ⚠️ **Integration Risk**: The **primary integration risk** is the single-source
+> dependency on GitHub for both catalog authentication (via Key Vault-stored
+> `gha-token`) and configuration versioning. If the GitHub token expires or the
+> catalog repository becomes unavailable, the Dev Box image provisioning
+> pipeline is disrupted.
+
+> 💡 **Mitigations**: (1) implementing token rotation alerts via Log Analytics;
+> (2) defining fallback catalog sources; and (3) adding catalog sync health KPIs
+> to the Monitoring capability.
 
 ---
 
