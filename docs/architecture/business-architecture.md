@@ -8,7 +8,7 @@
 | **Repository**         | DevExp-DevBox        |
 | **Components Found**   | 36                   |
 | **Average Confidence** | 0.81                 |
-| **Diagrams Included**  | 2                    |
+| **Diagrams Included**  | 7                    |
 | **Sections Generated** | 1, 2, 3, 4, 5, 8     |
 | **Generated**          | 2026-03-11T10:37:00Z |
 
@@ -171,6 +171,73 @@ targets, or measurable performance metrics were found in the source
 configuration or documentation. This represents a maturity gap — the platform
 would benefit from defined KPIs for provisioning time, pool utilization, RBAC
 compliance percentage, and cost-per-developer tracking.
+
+### Business Capability Map
+
+```mermaid
+---
+title: DevExp-DevBox Business Capability Map — Architecture Landscape
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: DevExp-DevBox Business Capability Map — Architecture Landscape
+    accDescr: Shows the 7 core business capabilities organized by strategic, operational, and supporting tiers with maturity levels and dependencies
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph strategy["🎯 Strategic Tier"]
+        S1("📋 DevEx Platform Strategy<br/>Maturity: 3 - Defined"):::warning
+        S2("📋 Cloud Adoption & Landing Zone<br/>Maturity: 3 - Defined"):::warning
+    end
+
+    subgraph capabilities["⚙️ Core Capabilities"]
+        C1("💻 Developer Workstation Provisioning<br/>Maturity: 3 - Defined"):::warning
+        C2("📦 Configuration Management<br/>Maturity: 3 - Defined"):::warning
+        C3("🌐 Network Isolation & Connectivity<br/>Maturity: 3 - Defined"):::warning
+    end
+
+    subgraph governance["🛡️ Governance & Security"]
+        G1("🔐 Identity & Access Governance<br/>Maturity: 4 - Measured"):::success
+        G2("🔒 Security & Secrets Management<br/>Maturity: 3 - Defined"):::warning
+        G3("📊 Monitoring & Observability<br/>Maturity: 2 - Repeatable"):::danger
+        G4("🏷️ Resource Organization & Governance<br/>Maturity: 4 - Measured"):::success
+    end
+
+    S1 -->|"drives"| C1
+    S2 -->|"governs"| G4
+    C1 -->|"requires"| C2
+    C1 -->|"requires"| C3
+    G1 -->|"secures"| C1
+    G2 -->|"protects"| C2
+    G3 -->|"monitors"| C1
+    G4 -->|"enforces"| G1
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+
+    style strategy fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style capabilities fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style governance fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+```
 
 ### Summary
 
@@ -390,6 +457,66 @@ flowchart TB
     style supporting fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
+### Capability Maturity Heatmap
+
+```mermaid
+---
+title: DevExp-DevBox Capability Maturity Heatmap
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart LR
+    accTitle: DevExp-DevBox Capability Maturity Heatmap
+    accDescr: Shows the maturity level of each business capability using color-coded severity from Level 2 Repeatable to Level 4 Measured
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph level4["✅ Level 4 — Measured"]
+        M4A("🔐 Identity & Access Governance<br/>Quantitative RBAC, scoped roles"):::success
+        M4B("🏷️ Resource Organization & Governance<br/>Enforced tagging, cost centers"):::success
+    end
+
+    subgraph level3["🔶 Level 3 — Defined"]
+        M3A("💻 Developer Workstation Provisioning<br/>Standardized pools, catalog images"):::warning
+        M3B("🔒 Security & Secrets Management<br/>Key Vault with purge protection"):::warning
+        M3C("🌐 Network Isolation & Connectivity<br/>VNet per project, subnet isolation"):::warning
+        M3D("📦 Configuration Management<br/>Git-based catalogs, version control"):::warning
+    end
+
+    subgraph level2["🔴 Level 2 — Repeatable"]
+        M2A("📊 Monitoring & Observability<br/>Basic Log Analytics, no alerting"):::danger
+    end
+
+    M4A -.->|"target"| M3A
+    M4B -.->|"target"| M3B
+    M3A -.->|"target"| M2A
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+
+    style level4 fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style level3 fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style level2 fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+```
+
 ### Summary
 
 The DevExp-DevBox platform demonstrates a well-structured business architecture
@@ -596,6 +723,74 @@ Configuration Management capability.
 **Business Relationships**: Supported by the Cloud Adoption & Landing Zone
 Strategy. Delivered through Identity & Access Governance, Security & Secrets
 Management, and Monitoring & Observability capabilities.
+
+### Value Stream Map
+
+```mermaid
+---
+title: DevExp-DevBox Value Stream Map
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart LR
+    accTitle: DevExp-DevBox Value Stream Map
+    accDescr: Shows the two primary value streams with their enabling capabilities and process stages from trigger to value delivery
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph velocity["🚀 Developer Velocity Value Stream"]
+        V1(["👤 Developer<br/>Onboarding Request"]):::core
+        V2("🔑 Azure AD Group<br/>Assignment"):::core
+        V3("💻 Dev Box Pool<br/>Allocation"):::core
+        V4("📦 Pre-configured<br/>Tooling Install"):::core
+        V5(["✅ Developer<br/>Productive"]):::success
+    end
+
+    subgraph security["🛡️ Security & Compliance Value Stream"]
+        S1(["📋 Security<br/>Requirements"]):::core
+        S2("🔐 RBAC Policy<br/>Configuration"):::core
+        S3("🔒 Key Vault<br/>Provisioning"):::core
+        S4("📊 Diagnostic<br/>Logging Enabled"):::core
+        S5(["✅ Compliance<br/>Audit Trail"]):::success
+    end
+
+    V1 -->|"triggers"| V2
+    V2 -->|"enables"| V3
+    V3 -->|"provisions"| V4
+    V4 -->|"delivers"| V5
+
+    S1 -->|"defines"| S2
+    S2 -->|"secures"| S3
+    S3 -->|"monitors"| S4
+    S4 -->|"establishes"| S5
+
+    S2 -.->|"governs"| V2
+    S3 -.->|"protects"| V3
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+
+    style velocity fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style security fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+```
 
 ### 5.4 Business Processes (4)
 
