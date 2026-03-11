@@ -237,9 +237,10 @@ subscription-level permissions to create resource groups and assign roles.
 **Overview**
 
 All infrastructure parameters are defined in YAML configuration files under
-`infra/settings/`. This declarative approach separates configuration from
-deployment logic, making it straightforward to customize environments without
-modifying Bicep templates directly.
+`infra/settings/` and deployment parameters in `infra/main.bicep`. This
+declarative approach separates configuration from deployment logic, making it
+straightforward to customize environments without modifying Bicep templates
+directly.
 
 > 💡 **Why This Matters**: YAML-driven configuration enables platform teams to
 > manage environments through version-controlled file edits rather than
@@ -247,56 +248,141 @@ modifying Bicep templates directly.
 
 > 📌 **How It Works**: The Bicep orchestrator (`infra/main.bicep`) loads YAML
 > files at deployment time using the `loadYamlContent()` function, converting
-> human-readable settings into typed Bicep parameters automatically.
+> human-readable settings into typed Bicep parameters automatically. Deployment
+> parameters are mapped from `azd` environment variables through
+> `infra/main.parameters.json`.
+
+### Deployment Parameters
+
+The Bicep orchestrator (`infra/main.bicep`) accepts three parameters, mapped
+from `azd` environment variables via `infra/main.parameters.json`:
+
+| Parameter         | Source Variable       | Description                                      | Constraints                          |
+| ----------------- | --------------------- | ------------------------------------------------ | ------------------------------------ |
+| `environmentName` | `${AZURE_ENV_NAME}`   | Environment name used for resource naming        | 2–10 characters                      |
+| `location`        | `${AZURE_LOCATION}`   | Azure region for resource deployment             | 17 allowed regions (see table below) |
+| `secretValue`     | `${KEY_VAULT_SECRET}` | GitHub or Azure DevOps token stored in Key Vault | `@secure()` — never logged           |
+
+**Supported Azure Regions:**
+
+| Region          | Region          | Region             | Region               |
+| --------------- | --------------- | ------------------ | -------------------- |
+| `eastus`        | `eastus2`       | `westus`           | `westus2`            |
+| `westus3`       | `centralus`     | `northeurope`      | `westeurope`         |
+| `southeastasia` | `australiaeast` | `japaneast`        | `uksouth`            |
+| `canadacentral` | `swedencentral` | `switzerlandnorth` | `germanywestcentral` |
+
+Resource groups are named using the convention
+`{yaml-name}-{environmentName}-{location}-RG`. For example, with
+`environmentName=dev` and `location=eastus2`, the workload resource group
+becomes `devexp-workload-dev-eastus2-RG`.
+
+### Environment Variables
+
+The setup scripts create a `.azure/{envName}/.env` file with the following
+variables consumed by `azd provision`:
+
+| Variable                  | Set By                           | Description                                 |
+| ------------------------- | -------------------------------- | ------------------------------------------- |
+| `KEY_VAULT_SECRET`        | Setup script (from `gh`/prompt)  | Source control PAT stored in Key Vault      |
+| `SOURCE_CONTROL_PLATFORM` | Setup script (from parameter)    | Selected platform (`github` or `adogit`)    |
+| `AZURE_ENV_NAME`          | `azd env new`                    | Environment name passed to Bicep parameters |
+| `AZURE_LOCATION`          | `azd env set` or `azd provision` | Azure region passed to Bicep parameters     |
 
 ### Resource Organization
 
 Configure resource groups and tagging in
-`infra/settings/resourceOrganization/azureResources.yaml`:
+`infra/settings/resourceOrganization/azureResources.yaml`. Three resource groups
+are created following Azure Landing Zone principles:
 
 ```yaml
-resourceGroups:
-  - name: devexp-workload
-    suffix: workload
-    tags:
-      environment: dev
-      division: Platforms
-      team: DevExP
-      project: Contoso-DevExp-DevBox
-      costCenter: IT
-      owner: Contoso
-  - name: devexp-security
-    suffix: security
-  - name: devexp-monitoring
-    suffix: monitoring
+workload:
+  create: true
+  name: devexp-workload
+  description: prodExp
+  tags:
+    environment: dev
+    division: Platforms
+    team: DevExP
+    project: Contoso-DevExp-DevBox
+    costCenter: IT
+    owner: Contoso
+    landingZone: Workload
+    resources: ResourceGroup
+
+security:
+  create: true
+  name: devexp-security
+  tags:
+    environment: dev
+    division: Platforms
+
+monitoring:
+  create: true
+  name: devexp-monitoring
+  tags:
+    environment: dev
+    division: Platforms
 ```
 
 ### DevCenter Configuration
 
-Define DevCenter, projects, pools, and catalogs in
+Define DevCenter, projects, pools, catalogs, and RBAC in
 `infra/settings/workload/devcenter.yaml`:
 
 ```yaml
-name: devexp-devcenter
+name: 'devexp-devcenter'
+catalogItemSyncEnableStatus: 'Enabled'
+microsoftHostedNetworkEnableStatus: 'Enabled'
+installAzureMonitorAgentEnableStatus: 'Enabled'
+
 identity:
-  type: SystemAssigned
+  type: 'SystemAssigned'
+  roleAssignments:
+    devCenter:
+      - id: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+        name: 'Contributor'
+        scope: 'Subscription'
+      - id: '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9'
+        name: 'User Access Administrator'
+        scope: 'Subscription'
+      - id: '4633458b-17de-408a-b874-0445c86b69e6'
+        name: 'Key Vault Secrets User'
+        scope: 'ResourceGroup'
+
 catalogs:
-  - name: Tasks
+  - name: 'customTasks'
     type: gitHub
-    uri: https://github.com/microsoft/devcenter-catalog.git
-    branch: main
-    path: Tasks
+    visibility: public
+    uri: 'https://github.com/microsoft/devcenter-catalog.git'
+    branch: 'main'
+    path: './Tasks'
+
 environmentTypes:
-  - name: dev
-  - name: staging
-  - name: UAT
+  - name: 'dev'
+  - name: 'staging'
+  - name: 'UAT'
+
 projects:
-  - name: eShop
+  - name: 'eShop'
+    description: 'eShop project.'
+    network:
+      name: eShop
+      create: true
+      virtualNetworkType: Managed
+      addressPrefixes:
+        - 10.0.0.0/16
+      subnets:
+        - name: eShop-subnet
+          properties:
+            addressPrefix: 10.0.1.0/24
     pools:
-      - name: backend-engineer
-        vmSku: sku_v5_32c128gb
-      - name: frontend-engineer
-        vmSku: sku_v5_16c64gb
+      - name: 'backend-engineer'
+        imageDefinitionName: 'eShop-backend-engineer'
+        vmSku: general_i_32c128gb512ssd_v2
+      - name: 'frontend-engineer'
+        imageDefinitionName: 'eShop-frontend-engineer'
+        vmSku: general_i_16c64gb256ssd_v2
 ```
 
 ### Security Configuration
@@ -304,11 +390,16 @@ projects:
 Configure Key Vault settings in `infra/settings/security/security.yaml`:
 
 ```yaml
-name: contoso
-enableRbacAuthorization: true
-enableSoftDelete: true
-softDeleteRetentionInDays: 7
-enablePurgeProtection: true
+create: true
+
+keyVault:
+  name: contoso
+  description: Development Environment Key Vault
+  secretName: gha-token
+  enablePurgeProtection: true
+  enableSoftDelete: true
+  softDeleteRetentionInDays: 7
+  enableRbacAuthorization: true
 ```
 
 > [!NOTE] All YAML configuration files have corresponding JSON Schema files
@@ -317,6 +408,21 @@ enablePurgeProtection: true
 
 ## Quick Start
 
+**Overview**
+
+The setup scripts automate the complete deployment lifecycle — validating
+prerequisites, authenticating with Azure and your source control platform,
+retrieving access tokens, configuring the `azd` environment, and provisioning
+all infrastructure resources.
+
+> 💡 **Why This Matters**: A single-command setup avoids manual multi-step
+> provisioning that is error-prone and inconsistent across team members.
+
+> 📌 **How It Works**: The scripts validate that required CLIs are installed,
+> verify Azure authentication, prompt for source control platform selection (if
+> not provided), retrieve a PAT token, write environment configuration to
+> `.azure/{envName}/.env`, and execute `azd provision` to deploy all resources.
+
 **1. Clone the repository:**
 
 ```bash
@@ -324,42 +430,100 @@ git clone https://github.com/Evilazaro/DevExp-DevBox.git
 cd DevExp-DevBox
 ```
 
-**2. Authenticate with Azure:**
+**2. Authenticate with Azure and your source control platform:**
 
 ```bash
 az login
 azd auth login
+gh auth login    # Required if using GitHub as source control
 ```
 
-**3. Run the setup script:**
+**3. Run the setup script with parameters:**
 
 On Windows (PowerShell):
 
 ```powershell
-.\setUp.ps1
+# With explicit parameters
+.\setUp.ps1 -EnvName "dev" -SourceControl "github"
+
+# With Azure DevOps
+.\setUp.ps1 -EnvName "prod" -SourceControl "adogit"
+
+# Interactive mode — prompts for source control selection
+.\setUp.ps1 -EnvName "dev"
+
+# Show help
+.\setUp.ps1 -Help
 ```
 
 On Linux/macOS (Bash):
 
 ```bash
 chmod +x setUp.sh
-./setUp.sh
+
+# With explicit parameters
+./setUp.sh -e "dev" -s "github"
+
+# With Azure DevOps
+./setUp.sh -e "prod" -s "adogit"
+
+# Interactive mode
+./setUp.sh -e "dev"
+
+# Show help
+./setUp.sh -h
 ```
+
+**Script Parameters:**
+
+| Parameter (PS)   | Parameter (Bash)         | Description                                          | Required    |
+| ---------------- | ------------------------ | ---------------------------------------------------- | ----------- |
+| `-EnvName`       | `-e`, `--env-name`       | Name of the `azd` environment to create (2–10 chars) | ✅ Yes      |
+| `-SourceControl` | `-s`, `--source-control` | Platform: `github` or `adogit`                       | ⚡ Optional |
+| `-Help`          | `-h`, `--help`           | Display usage information                            | ⚡ Optional |
+
+**Setup Workflow:**
+
+The scripts execute the following steps in order:
+
+1. **Validate prerequisites** — checks that `az`, `azd`, and `gh` (or `jq` on
+   Bash) are available in PATH
+2. **Verify Azure authentication** — confirms `az account show` returns an
+   enabled subscription
+3. **Select source control platform** — uses the `-SourceControl` parameter or
+   presents an interactive menu:
+   ```text
+   ℹ️ [2025-01-22 10:30:00] Please select your source control platform:
+     1. Azure DevOps Git (adogit)
+     2. GitHub (github)
+   Enter your choice (1 or 2):
+   ```
+4. **Authenticate with platform** — verifies `gh auth status` (GitHub) or
+   `az devops configure` (Azure DevOps)
+5. **Retrieve access token** — obtains PAT via `gh auth token` (GitHub) or
+   secure prompt (Azure DevOps)
+6. **Initialize `azd` environment** — creates `.azure/{envName}/.env` with
+   `KEY_VAULT_SECRET` and `SOURCE_CONTROL_PLATFORM`
+7. **Provision resources** — runs `azd provision -e {envName}` to deploy all
+   Bicep templates
 
 **Expected output:**
 
 ```text
-Setting environment name...
-Environment name set to: ContosoDevExp
-Logging in to Azure...
-Successfully logged in to Azure
-Provisioning Azure resources...
-SUCCESS: Azure resources provisioned
+ℹ️ [2025-01-22 10:30:00] Verifying Azure authentication...
+ℹ️ [2025-01-22 10:30:01] Using Azure subscription: Contoso-Dev (ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+✅ [2025-01-22 10:30:01] GitHub authentication verified successfully
+✅ [2025-01-22 10:30:02] GitHub token retrieved and stored securely
+ℹ️ [2025-01-22 10:30:02] Using Azure Developer CLI environment: 'dev'
+ℹ️ [2025-01-22 10:30:02] Configuring environment variables in .\.azure\dev\.env
+✅ [2025-01-22 10:30:03] Azure Developer CLI environment 'dev' initialized successfully.
+ℹ️ [2025-01-22 10:30:03] Starting Azure resource provisioning with azd...
+✅ [2025-01-22 10:35:00] Azure provisioning completed successfully
 ```
 
-> [!TIP] The setup scripts handle `azd` environment initialization,
-> authentication, and resource provisioning in a single step. Review `setUp.ps1`
-> or `setUp.sh` to inspect the full workflow before running.
+> [!TIP] The setup scripts validate all prerequisites before making any changes.
+> If a required tool is missing or authentication fails, the script exits with a
+> descriptive error message before any resources are created.
 
 ## Deployment
 
