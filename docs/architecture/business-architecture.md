@@ -8,8 +8,7 @@ This Business Architecture analysis covers the DevExp-DevBox repository, an
 Azure Dev Box Adoption & Deployment Accelerator designed to deliver
 production-ready, centralized developer workstation provisioning for enterprise
 engineering teams. The analysis identifies 36 Business layer components across
-10 of the 11 canonical Business Architecture component types, with an average
-confidence score of 0.81.
+10 of the 11 canonical Business Architecture component types.
 
 The platform addresses a core business capability: eliminating weeks of manual
 developer environment setup by orchestrating Azure Dev Center, Dev Box pools,
@@ -34,16 +33,12 @@ the source, representing the primary gap for business maturity improvement.
 
 This section provides a comprehensive inventory of all Business layer components
 detected in the DevExp-DevBox repository. Components are organized by the 11
-canonical Business Architecture component types, each validated through the
-Layer Classification Decision Tree and scored using the weighted confidence
-formula (30% filename + 25% path + 35% content + 10% cross-reference).
+canonical Business Architecture component types.
 
-All components are traceable to source files. The repository implements a
-configuration-driven platform model where business intent — roles, capabilities,
-governance constraints, and deployment policies — is encoded in YAML
-configuration files and declarative Bicep templates, rather than in procedural
-application code. This analysis documents the business intent observed in these
-sources.
+The repository implements a configuration-driven platform model where business
+intent — roles, capabilities, governance constraints, and deployment policies —
+is encoded in YAML configuration files and declarative Bicep templates, rather
+than in procedural application code.
 
 ### 2.1 Business Strategy (2)
 
@@ -155,7 +150,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Business Capability Map — Architecture Landscape
-    accDescr: Shows the 7 core business capabilities organized by strategic, operational, and supporting tiers with maturity levels and dependencies
+    accDescr: Shows the 7 core business capabilities organized by strategic, operational, and supporting tiers with dependencies
 
     %% ═══════════════════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
@@ -209,20 +204,15 @@ flowchart TB
 ### Summary
 
 The DevExp-DevBox platform exhibits 36 Business layer components distributed
-across 10 of 11 component types, with confidence scores ranging from 0.71 to
-0.90 (average: 0.81). The strongest coverage appears in Business Rules (5
-components, avg. confidence 0.86), Business Objects/Entities (6 components, avg.
-0.85), and Business Capabilities (7 components, avg. 0.83). Identity & Access
-Governance and Role-Based VM Sizing demonstrate the highest maturity at Level 4
-(Measured), reflecting quantitatively managed RBAC policies and
-configuration-driven resource allocation.
+across 10 of 11 component types. The strongest coverage appears in Business
+Rules (5 components), Business Objects/Entities (6 components), and Business
+Capabilities (7 components).
 
 The primary gap is the absence of explicit KPIs & Metrics (0 components
 detected). While the platform embeds operational signals (diagnostic settings,
 tagging for cost tracking), no formal KPI definitions — such as provisioning SLA
 targets, developer satisfaction scores, or cost-per-developer budgets — are
-documented in the source. Addressing this gap would elevate overall business
-architecture maturity from Level 3 toward Level 4 across the portfolio.
+documented.
 
 ---
 
@@ -281,17 +271,11 @@ monitoring (diagnostic logging on all resources).
 
 ### Overview
 
-This section captures the current maturity and operational characteristics of
-the DevExp-DevBox Business Architecture as observed in the analyzed source
-files. The platform is in an active development state (environment tag: `dev`)
-with a single project (eShop) serving as the reference implementation. Diagrams
-visualize the business capability landscape and process relationships identified
-from source configuration analysis.
-
-The current state reflects a Level 3 (Defined) average maturity across the
-portfolio, with Identity & Access Governance and Resource Organization reaching
-Level 4 (Measured) due to their quantitatively managed RBAC policies and
-enforced tagging standards.
+This section captures the current operational characteristics of the
+DevExp-DevBox Business Architecture. The platform is in an active development
+state (environment tag: `dev`) with a single project (eShop) serving as the
+reference implementation. Diagrams visualize the business capability landscape
+and process relationships identified from configuration analysis.
 
 ### Business Architecture Overview
 
@@ -364,79 +348,18 @@ flowchart TB
     style supporting fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
----
-title: DevExp-DevBox Capability Maturity Heatmap
-config:
-  theme: base
-  look: classic
-  layout: dagre
-  themeVariables:
-    fontSize: '16px'
-  flowchart:
-    htmlLabels: true
----
-flowchart LR
-    accTitle: DevExp-DevBox Capability Maturity Heatmap
-    accDescr: Shows the maturity level of each business capability using color-coded severity from Level 2 Repeatable to Level 4 Measured
-
-    %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
-    %% (Semantic + Structural + Font + Accessibility Governance)
-    %% ═══════════════════════════════════════════════════════════════════════════
-    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
-    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
-    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
-    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
-    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
-    %% ═══════════════════════════════════════════════════════════════════════════
-
-    subgraph level4["✅ Level 4 — Measured"]
-        M4A("🔐 Identity & Access Governance<br/>Quantitative RBAC, scoped roles"):::success
-        M4B("🏷️ Resource Organization & Governance<br/>Enforced tagging, cost centers"):::success
-    end
-
-    subgraph level3["🔶 Level 3 — Defined"]
-        M3A("💻 Developer Workstation Provisioning<br/>Standardized pools, catalog images"):::warning
-        M3B("🔒 Security & Secrets Management<br/>Key Vault with purge protection"):::warning
-        M3C("🌐 Network Isolation & Connectivity<br/>VNet per project, subnet isolation"):::warning
-        M3D("📦 Configuration Management<br/>Git-based catalogs, version control"):::warning
-    end
-
-    subgraph level2["🔴 Level 2 — Repeatable"]
-        M2A("📊 Monitoring & Observability<br/>Basic Log Analytics, no alerting"):::danger
-    end
-
-    M4A -.->|"target"| M3A
-    M4B -.->|"target"| M3B
-    M3A -.->|"target"| M2A
-
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-
-    style level4 fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style level3 fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style level2 fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-```
-
 ### Summary
 
-The DevExp-DevBox platform demonstrates a well-structured business architecture
-at an overall maturity of Level 3 (Defined), with two capabilities — Identity &
-Access Governance and Resource Organization & Governance — reaching Level 4
-(Measured). The single-project deployment (eShop) validates the platform model
-with two role-specific pools, three SDLC environments, and comprehensive RBAC
-coverage. All 7 core capabilities are documented and standardized in
-configuration files.
+The DevExp-DevBox platform demonstrates a well-structured business architecture.
+The single-project deployment (eShop) validates the platform model with two
+role-specific pools, three SDLC environments, and comprehensive RBAC coverage.
+All 7 core capabilities are documented and standardized in configuration files.
 
-The primary maturity gap is Monitoring & Observability at Level 2 (Repeatable),
-where diagnostic settings exist but no alerting rules, dashboards, or SLA
-targets are defined. The absence of KPIs & Metrics across the portfolio further
-limits the ability to quantitatively track business outcomes. Advancing to Level
-4 across all capabilities requires: (1) defining measurable KPIs for
-provisioning SLA, developer satisfaction, and cost-per-developer; (2)
+The primary gap is Monitoring & Observability, where diagnostic settings exist
+but no alerting rules, dashboards, or SLA targets are defined. The absence of
+KPIs & Metrics across the portfolio further limits the ability to quantitatively
+track business outcomes. Recommended improvements: (1) defining measurable KPIs
+for provisioning SLA, developer satisfaction, and cost-per-developer; (2)
 implementing alert rules and operational dashboards in Log Analytics; and (3)
 expanding from a single-project reference to multi-project production
 validation.
@@ -450,9 +373,7 @@ validation.
 This section provides detailed specifications for each Business layer component
 identified in the DevExp-DevBox repository. Components are organized by the 11
 canonical Business Architecture types, with each entry documenting the
-component's purpose, source traceability, confidence score, maturity level, and
-business relationships. All components are validated through the Layer
-Classification Decision Tree and scored using the weighted confidence formula.
+component's purpose and business relationships.
 
 ### 5.1 Business Strategy (2)
 
@@ -1060,22 +981,19 @@ found in the source configuration or documentation.
 ### Summary
 
 The Component Catalog documents 36 components across 10 of 11 Business
-Architecture types, with confidence scores ranging from 0.71 (DevOps Lead) to
-0.90 (Dev Manager). The highest-maturity components are Identity & Access
-Governance, Dev Manager, Developer, and Least-Privilege RBAC Enforcement — all
-at Level 4 (Measured), reflecting quantitatively managed access policies with
-explicit role-scope mappings. Business Rules collectively demonstrate the
-highest average confidence (0.86), reflecting well-documented governance
-policies encoded directly in configuration files.
+Architecture types. The strongest areas are Identity & Access Governance, Dev
+Manager, Developer, and Least-Privilege RBAC Enforcement — reflecting
+quantitatively managed access policies with explicit role-scope mappings.
+Business Rules demonstrate well-documented governance policies encoded directly
+in configuration files.
 
 The primary gap remains KPIs & Metrics (0 components), limiting the platform's
-ability to measured as business outcomes. Additionally, the Project Delivery
-Function and DevOps Lead role are at Level 2 (Repeatable) maturity, suggesting
-these organizational functions would benefit from further standardization and
-documentation. Advancing the portfolio to Level 4 across all types requires: (1)
-defining explicit KPIs in configuration or documentation; (2) expanding from 1
-project to multi-project validation; (3) adding alerting rules and dashboards to
-the Monitoring & Observability capability.
+ability to measure business outcomes. Additionally, the Project Delivery
+Function and DevOps Lead role would benefit from further standardization and
+documentation. Recommended improvements: (1) defining explicit KPIs in
+configuration or documentation; (2) expanding from 1 project to multi-project
+validation; (3) adding alerting rules and dashboards to the Monitoring &
+Observability capability.
 
 ---
 
@@ -1306,4 +1224,4 @@ Monitoring capability.
 
 ---
 
-✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 7 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 6 | Violations: 0
