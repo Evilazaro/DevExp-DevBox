@@ -76,10 +76,10 @@ flowchart TB
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    subgraph subscription ["☁️ Azure Subscription"]
+    subgraph subscription ("☁️ Azure Subscription")
         direction TB
 
-        subgraph orchestrator ["⚙️ Deployment Orchestrator"]
+        subgraph orchestrator ("⚙️ Deployment Orchestrator")
             direction LR
             azd("🚀 Azure Developer CLI"):::core
             main("📋 main.bicep"):::core
@@ -88,24 +88,24 @@ flowchart TB
             yaml -->|"parameterizes"| main
         end
 
-        subgraph securityRG ["🔐 Security Resource Group"]
+        subgraph securityRG ("🔐 Security Resource Group")
             direction LR
             kv("🔑 Key Vault"):::danger
             secrets("🔒 Secrets Store"):::danger
             kv -->|"stores"| secrets
         end
 
-        subgraph monitoringRG ["📊 Monitoring Resource Group"]
+        subgraph monitoringRG ("📊 Monitoring Resource Group")
             direction LR
             la("📈 Log Analytics"):::warning
             activity("📋 Activity Solution"):::warning
             la -->|"collects"| activity
         end
 
-        subgraph workloadRG ["🏢 Workload Resource Group"]
+        subgraph workloadRG ("🏢 Workload Resource Group")
             direction TB
 
-            subgraph devCenter ["🖥️ DevCenter"]
+            subgraph devCenter ("🖥️ DevCenter")
                 direction LR
                 dc("⚙️ DevCenter Instance"):::core
                 catalog("📚 Catalogs"):::success
@@ -114,7 +114,7 @@ flowchart TB
                 dc -->|"defines"| envTypes
             end
 
-            subgraph projects ["📂 Projects"]
+            subgraph projects ("📂 Projects")
                 direction LR
                 project("📦 eShop Project"):::success
                 pools("💻 Dev Box Pools"):::core
@@ -123,7 +123,7 @@ flowchart TB
                 project -->|"uses"| envType
             end
 
-            subgraph networking ["🌐 Networking"]
+            subgraph networking ("🌐 Networking")
                 direction LR
                 vnet("🔗 Virtual Network"):::external
                 subnet("📍 Subnet"):::external
