@@ -626,10 +626,9 @@ technology, access control models, configuration management, and observability
 architecture.
 
 No formal ADR documents were detected in the repository. The decisions below are
-inferred from implementation evidence with confidence scores based on the
-consistency and explicitness of the patterns observed. Future work should
-include documenting these decisions formally in a
-`/docs/architecture/decisions/` directory following the MADR format.
+inferred from implementation patterns. Future work should include documenting
+these decisions formally in a `/docs/architecture/decisions/` directory
+following the MADR format.
 
 For established projects, ADRs should be stored in
 `/docs/architecture/decisions/` following the Markdown ADR (MADR) format with
