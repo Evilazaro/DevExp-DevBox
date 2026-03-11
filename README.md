@@ -527,19 +527,41 @@ The scripts execute the following steps in order:
 
 ## Deployment
 
+**Overview**
+
+DevExp-DevBox supports both automated and manual deployment workflows. The
+automated path handles the complete lifecycle in a single command, while the
+manual path gives platform engineers granular control over each step.
+
+> 💡 **Why This Matters**: Automated deployment ensures consistency and reduces
+> human error, while manual deployment enables troubleshooting, phased rollouts,
+> and integration with existing CI/CD pipelines.
+
+> 📌 **How It Works**: Both paths ultimately execute `azd provision`, which
+> reads parameters from `infra/main.parameters.json`, resolves them from the
+> `.azure/{envName}/.env` file, and deploys the subscription-scoped Bicep
+> template at `infra/main.bicep`.
+
 ### Automated Deployment (Recommended)
 
-The setup scripts automate the entire deployment lifecycle including environment
-creation, authentication, and provisioning:
+The setup scripts automate the entire deployment lifecycle including
+prerequisite validation, authentication, token retrieval, environment
+configuration, and provisioning:
 
 ```powershell
-# Windows
-.\setUp.ps1
+# Windows — deploy with GitHub as source control
+.\setUp.ps1 -EnvName "dev" -SourceControl "github"
+
+# Windows — deploy with Azure DevOps as source control
+.\setUp.ps1 -EnvName "prod" -SourceControl "adogit"
 ```
 
 ```bash
-# Linux/macOS
-./setUp.sh
+# Linux/macOS — deploy with GitHub as source control
+./setUp.sh -e "dev" -s "github"
+
+# Linux/macOS — deploy with Azure DevOps as source control
+./setUp.sh -e "prod" -s "adogit"
 ```
 
 ### Manual Deployment
@@ -547,27 +569,78 @@ creation, authentication, and provisioning:
 For granular control, use Azure Developer CLI commands directly:
 
 ```bash
-# Initialize environment
-azd env new ContosoDevExp
+# 1. Create a new azd environment (name must be 2–10 characters)
+azd env new dev
 
-# Set Azure location
+# 2. Set the Azure region (must be from the 17 supported regions)
 azd env set AZURE_LOCATION eastus2
 
-# Provision infrastructure
-azd provision
+# 3. Set the source control PAT for Key Vault storage
+azd env set KEY_VAULT_SECRET "<your-github-or-ado-pat>"
+
+# 4. Provision all infrastructure
+azd provision -e dev
 ```
+
+The `azd provision` command deploys the following resources across three
+resource groups:
+
+| Resource Group                        | Resources Deployed                                         |
+| ------------------------------------- | ---------------------------------------------------------- |
+| `devexp-security-{env}-{region}-RG`   | Key Vault with RBAC, soft delete, and purge protection     |
+| `devexp-monitoring-{env}-{region}-RG` | Log Analytics workspace with AzureActivity solution        |
+| `devexp-workload-{env}-{region}-RG`   | DevCenter, projects, pools, catalogs, environment types    |
+| `{project}-connectivity-RG`           | Virtual Network, subnets, and DevCenter network connection |
+
+### Redeploying After Configuration Changes
+
+After modifying any YAML configuration file under `infra/settings/`, apply the
+changes by re-running provisioning:
+
+```bash
+azd provision -e dev
+```
+
+Bicep deployments are idempotent — unchanged resources are skipped while only
+modified or new resources are created or updated.
 
 ### Cleanup
 
-Remove all deployed resources, role assignments, and credentials:
+Remove all deployed resources, role assignments, and credentials using the
+cleanup script:
 
 ```powershell
+# Default cleanup (environment: gitHub, region: eastus2)
 .\cleanSetUp.ps1
+
+# Cleanup a specific environment and region
+.\cleanSetUp.ps1 -EnvName "prod" -Location "westus2"
+
+# Full parameter example
+.\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2" -AppDisplayName "ContosoDevEx GitHub Actions Enterprise App" -GhSecretName "AZURE_CREDENTIALS"
 ```
 
-> [!WARNING] The cleanup script (`cleanSetUp.ps1`) deletes all resource groups,
-> role assignments, service principals, and GitHub secrets created by this
-> accelerator. This action is irreversible.
+**Cleanup Parameters:**
+
+| Parameter         | Default                                      | Description                                                                       |
+| ----------------- | -------------------------------------------- | --------------------------------------------------------------------------------- |
+| `-EnvName`        | `gitHub`                                     | Environment name used in resource group naming                                    |
+| `-Location`       | `eastus2`                                    | Azure region (eastus, eastus2, westus, westus2, westus3, northeurope, westeurope) |
+| `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Display name of the Azure AD app registration to delete                           |
+| `-GhSecretName`   | `AZURE_CREDENTIALS`                          | Name of the GitHub Actions secret to remove                                       |
+
+**The cleanup script removes the following resources:**
+
+1. 🗑️ All subscription-level ARM deployments
+2. 🔑 Role assignments created during provisioning
+3. 🏢 Service principals and Azure AD app registrations
+4. 🔐 GitHub Actions secrets (e.g., `AZURE_CREDENTIALS`)
+5. 📦 All resource groups matching the `{name}-{envName}-{location}-RG` pattern
+
+> [!WARNING] The cleanup script (`cleanSetUp.ps1`) permanently deletes all
+> resource groups, role assignments, service principals, app registrations, and
+> GitHub secrets created by this accelerator. Run with `-WhatIf` to preview
+> changes before execution. This action is irreversible.
 
 ## Usage
 
