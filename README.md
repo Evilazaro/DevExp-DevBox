@@ -686,23 +686,23 @@ changes.
 
 ## Project Structure
 
-| Path                                      | Description                                             |
-| ----------------------------------------- | ------------------------------------------------------- |
-| 📋 `infra/main.bicep`                     | Subscription-scoped deployment orchestrator             |
-| 📁 `infra/settings/resourceOrganization/` | Resource group and tagging configuration                |
-| 📁 `infra/settings/workload/`             | DevCenter, projects, pools, and catalog configuration   |
-| 📁 `infra/settings/security/`             | Key Vault and security configuration                    |
-| 🏢 `src/workload/core/`                   | DevCenter, catalog, and environment type modules        |
-| 📂 `src/workload/project/`                | Project, pool, catalog, and environment type modules    |
-| 🔐 `src/security/`                        | Key Vault provisioning and secret management            |
-| 🌐 `src/connectivity/`                    | Virtual network and network connection modules          |
-| 📊 `src/management/`                      | Log Analytics workspace and monitoring solution         |
-| 🔑 `src/identity/`                        | RBAC role assignment modules for DevCenter and projects |
-| ⚙️ `azure.yaml`                           | Azure Developer CLI configuration (Linux/macOS)         |
-| ⚙️ `azure-pwh.yaml`                       | Azure Developer CLI configuration (Windows PowerShell)  |
-| 🛠️ `setUp.ps1`                            | Windows PowerShell environment setup script             |
-| 🐧 `setUp.sh`                             | Linux/macOS Bash environment setup script               |
-| 🧹 `cleanSetUp.ps1`                       | Infrastructure cleanup and teardown script              |
+| Path                                      | Description                                               |
+| ----------------------------------------- | --------------------------------------------------------- |
+| 📋 `infra/main.bicep`                     | Subscription-scoped deployment orchestrator               |
+| 📁 `infra/settings/resourceOrganization/` | Resource group and tagging configuration                  |
+| 📁 `infra/settings/workload/`             | DevCenter, projects, pools, and catalog configuration     |
+| 📁 `infra/settings/security/`             | Key Vault and security configuration                      |
+| 🏢 `src/workload/core/`                   | DevCenter, catalog, and environment type modules          |
+| 📂 `src/workload/project/`                | Project, pool, catalog, and environment type modules      |
+| 🔐 `src/security/`                        | Key Vault provisioning and secret management              |
+| 🌐 `src/connectivity/`                    | Virtual network and network connection modules            |
+| 📊 `src/management/`                      | Log Analytics workspace and monitoring solution           |
+| 🔑 `src/identity/`                        | RBAC role assignment modules for DevCenter and projects   |
+| ⚙️ `azure.yaml`                           | `azd` configuration with preprovision hook (Linux/macOS)  |
+| ⚙️ `azure-pwh.yaml`                       | `azd` configuration with preprovision hook (Windows)      |
+| 🛠️ `setUp.ps1`                            | Setup script called by `azure-pwh.yaml` preprovision hook |
+| 🐧 `setUp.sh`                             | Setup script called by `azure.yaml` preprovision hook     |
+| 🧹 `cleanSetUp.ps1`                       | Infrastructure cleanup and teardown script                |
 
 ## Contributing
 
