@@ -6,16 +6,19 @@
 
 **Overview**
 
-> [!NOTE] This accelerator deploys a production-ready Azure Dev Box environment
-> in a single command using Azure Developer CLI (`azd`). It follows the
-> Microsoft Cloud Adoption Framework and Azure Landing Zone principles for
-> enterprise-grade developer workstation management.
+> [!NOTE] This accelerator provisions a production-ready Azure Dev Box
+> environment using Azure Developer CLI (`azd provision`). It is a pure
+> Infrastructure as Code accelerator — no application code is deployed. It
+> follows the Microsoft Cloud Adoption Framework and Azure Landing Zone
+> principles for enterprise-grade developer workstation management.
 
 DevExp-DevBox solves the challenge of provisioning and managing centralized,
 secure, cloud-hosted developer workstations across engineering teams. Platform
 engineers, DevOps leads, and IT administrators use this accelerator to deliver
 role-specific Dev Box environments — with consistent tooling, network isolation,
-and identity governance — without months of manual configuration.
+and identity governance — without months of manual configuration. It supports
+both **GitHub** and **Azure DevOps Git** as source control platforms for private
+catalog authentication.
 
 The accelerator orchestrates Azure Dev Center, Dev Box pools, Key Vault, Log
 Analytics, and Virtual Network resources through modular Bicep templates driven
@@ -164,7 +167,7 @@ flowchart TB
 
 | Component                  | Purpose                                                     | Azure Service                              |
 | -------------------------- | ----------------------------------------------------------- | ------------------------------------------ |
-| 🛠️ **Azure Developer CLI** | Orchestrates end-to-end provisioning via `azd up`           | Azure Developer CLI                        |
+| 🛠️ **Azure Developer CLI** | Orchestrates end-to-end provisioning via `azd provision`    | Azure Developer CLI                        |
 | 🔐 **Key Vault**           | Stores GitHub PAT for private catalog authentication        | `Microsoft.KeyVault/vaults`                |
 | 📈 **Log Analytics**       | Centralized monitoring, diagnostics, and audit logging      | `Microsoft.OperationalInsights/workspaces` |
 | 🏢 **Dev Center**          | Manages Dev Box definitions, catalogs, and projects         | `Microsoft.DevCenter/devcenters`           |
@@ -187,18 +190,18 @@ and YAML-driven configuration. For example, enabling a new project automatically
 provisions its Dev Box pools, network connections, RBAC assignments, and
 diagnostic settings — all from a single YAML entry.
 
-| Feature                            | Description                                                                                                                                | Benefits                                                                |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
-| ⚡ **One-Command Deployment**      | Provisions the entire Dev Box platform with `azd up`, including resource groups, Key Vault, Log Analytics, Dev Center, projects, and pools | Eliminates manual resource creation and reduces deployment errors       |
-| 📁 **YAML-Driven Configuration**   | All resources configured via validated YAML files with JSON Schema support (`devcenter.yaml`, `security.yaml`, `azureResources.yaml`)      | Enables environment customization without modifying Bicep code          |
-| 🔒 **Enterprise Security**         | Key Vault with RBAC authorization, purge protection, soft delete, and secure GitHub token storage for private catalog access               | Meets compliance requirements with zero hard-coded secrets              |
-| 📊 **Centralized Monitoring**      | Log Analytics workspace with diagnostic settings on Key Vault and Dev Center, activity logs, and all-metrics collection                    | Provides operational visibility and audit trails across all resources   |
-| 🔑 **Identity Governance**         | Microsoft Entra ID integration with system-assigned managed identities, Azure AD group-based RBAC, and least-privilege role assignments    | Enforces zero-trust principles with automated access control            |
-| 🌐 **Network Isolation**           | Managed or unmanaged Virtual Network support per project with configurable subnets and Azure AD-joined network connections                 | Ensures secure, isolated network environments for each team             |
-| 🏢 **Multi-Project Support**       | Deploy multiple projects within a single Dev Center, each with independent pools, catalogs, environment types, and RBAC                    | Scales to support multiple teams with distinct configurations           |
-| 💻 **Role-Specific Dev Boxes**     | Pre-configured Dev Box pools per engineering role (backend, frontend) with tailored VM SKUs, images, and tooling                           | Developers receive workstations optimized for their responsibilities    |
-| 📦 **Catalog Integration**         | DevCenter-level and project-level catalogs from GitHub or Azure DevOps Git repositories with scheduled sync                                | Centralizes image definitions and environment templates as code         |
-| 🌍 **Multi-Environment Lifecycle** | Environment types for dev, staging, and UAT with configurable deployment targets per project                                               | Supports the full software development lifecycle from a single platform |
+| Feature                            | Description                                                                                                                                       | Benefits                                                                |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| ⚡ **One-Command Provisioning**    | Provisions the entire Dev Box platform with `azd provision`, including resource groups, Key Vault, Log Analytics, Dev Center, projects, and pools | Eliminates manual resource creation and reduces deployment errors       |
+| 📁 **YAML-Driven Configuration**   | All resources configured via validated YAML files with JSON Schema support (`devcenter.yaml`, `security.yaml`, `azureResources.yaml`)             | Enables environment customization without modifying Bicep code          |
+| 🔒 **Enterprise Security**         | Key Vault with RBAC authorization, purge protection, soft delete, and secure GitHub token storage for private catalog access                      | Meets compliance requirements with zero hard-coded secrets              |
+| 📊 **Centralized Monitoring**      | Log Analytics workspace with diagnostic settings on Key Vault and Dev Center, activity logs, and all-metrics collection                           | Provides operational visibility and audit trails across all resources   |
+| 🔑 **Identity Governance**         | Microsoft Entra ID integration with system-assigned managed identities, Azure AD group-based RBAC, and least-privilege role assignments           | Enforces zero-trust principles with automated access control            |
+| 🌐 **Network Isolation**           | Managed or unmanaged Virtual Network support per project with configurable subnets and Azure AD-joined network connections                        | Ensures secure, isolated network environments for each team             |
+| 🏢 **Multi-Project Support**       | Deploy multiple projects within a single Dev Center, each with independent pools, catalogs, environment types, and RBAC                           | Scales to support multiple teams with distinct configurations           |
+| 💻 **Role-Specific Dev Boxes**     | Pre-configured Dev Box pools per engineering role (backend, frontend) with tailored VM SKUs, images, and tooling                                  | Developers receive workstations optimized for their responsibilities    |
+| 📦 **Catalog Integration**         | DevCenter-level and project-level catalogs from GitHub or Azure DevOps Git repositories with scheduled sync                                       | Centralizes image definitions and environment templates as code         |
+| 🌍 **Multi-Environment Lifecycle** | Environment types for dev, staging, and UAT with configurable deployment targets per project                                                      | Supports the full software development lifecycle from a single platform |
 
 ## 📋 Prerequisites
 
@@ -217,45 +220,58 @@ provide clear error messages if any dependency is missing.
 > Administrator** permissions on your Azure subscription. The deployment creates
 > subscription-scoped role assignments that require elevated privileges.
 
-| Requirement                | Minimum Version     | Purpose                                               | More Information                                                                                                                    |
-| -------------------------- | ------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| ☁️ **Azure Subscription**  | Active subscription | Target for all resource deployments                   | [Create a free account](https://azure.microsoft.com/free/)                                                                          |
-| 🛠️ **Azure CLI**           | 2.60+               | Azure authentication and resource management          | [Install Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli)                                                        |
-| 🛠️ **Azure Developer CLI** | 1.9+                | Orchestrates infrastructure provisioning via `azd up` | [Install azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)                                          |
-| 🛠️ **GitHub CLI**          | 2.40+               | GitHub authentication and token management            | [Install GitHub CLI](https://cli.github.com/)                                                                                       |
-| ⚙️ **PowerShell**          | 5.1+                | Required by `azd` preprovision hook on Windows        | [Install PowerShell](https://learn.microsoft.com/powershell/scripting/install/installing-powershell)                                |
-| ⚙️ **Bash**                | 5.0+                | Required by `azd` preprovision hook (`setUp.sh`)      | Pre-installed on most Unix systems                                                                                                  |
-| 🔐 **GitHub PAT**          | —                   | Authentication for private catalog repositories       | [Create a PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) |
+| Requirement                | Minimum Version     | Purpose                                                      | More Information                                                                                                                    |
+| -------------------------- | ------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| ☁️ **Azure Subscription**  | Active subscription | Target for all resource deployments                          | [Create a free account](https://azure.microsoft.com/free/)                                                                          |
+| 🛠️ **Azure CLI**           | 2.60+               | Azure authentication and resource management                 | [Install Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli)                                                        |
+| 🛠️ **Azure Developer CLI** | 1.9+                | Orchestrates infrastructure provisioning via `azd provision` | [Install azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)                                          |
+| 🛠️ **GitHub CLI**          | 2.40+               | Required when using GitHub as source control platform        | [Install GitHub CLI](https://cli.github.com/)                                                                                       |
+| ⚙️ **PowerShell**          | 5.1+                | Required by `azd` preprovision hook on Windows               | [Install PowerShell](https://learn.microsoft.com/powershell/scripting/install/installing-powershell)                                |
+| ⚙️ **Bash**                | 5.0+                | Required by `azd` preprovision hook (`setUp.sh`)             | Pre-installed on most Unix systems                                                                                                  |
+| �️ **jq**                   | 1.6+                | JSON processor required by setup scripts                     | [Install jq](https://jqlang.github.io/jq/download/)                                                                                 |
+| 🔐 **GitHub PAT**          | —                   | Authentication for private catalog repos (GitHub)            | [Create a PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) |
+| 🔐 **Azure DevOps PAT**    | —                   | Authentication for private catalog repos (Azure DevOps)      | [Create a PAT](https://learn.microsoft.com/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate)          |
 
 ## 🚀 Getting Started
 
 **Overview**
 
-The entire platform deploys with a single command: `azd up`. The Azure Developer
-CLI orchestrates everything — authentication validation, environment setup,
-GitHub token configuration, and Bicep provisioning — through a `preprovision`
-hook. The setup scripts (`setUp.ps1`, `setUp.sh`) are **not** run manually; they
-execute automatically as `azd` lifecycle hooks defined in `azure-pwh.yaml`
-(Windows) and `azure.yaml` (Linux/macOS).
+This is an **Infrastructure as Code accelerator** — it provisions Azure
+resources, not application code. The entire platform deploys with a single
+command: `azd provision`. The Azure Developer CLI orchestrates authentication
+validation, environment setup, source control token configuration, and Bicep
+provisioning through a `preprovision` hook.
 
-The deployment is fully idempotent — running `azd up` again updates existing
-resources without duplication. The entire process completes in approximately
-8–15 minutes depending on the Azure region.
+The accelerator supports **two source control platforms**: GitHub and Azure
+DevOps Git. The choice determines how private catalog authentication is handled
+(GitHub PAT or Azure DevOps PAT stored in Key Vault).
+
+The deployment is fully idempotent — running `azd provision` again updates
+existing resources without duplication.
 
 ### How It Works
 
-When you run `azd up`, the following happens automatically:
+When you run `azd provision`, the following happens automatically:
 
-1. **Preprovision hook** executes the setup script, which:
-   - Validates that all required CLI tools are installed (`az`, `azd`, `gh`)
-   - Verifies Azure and GitHub authentication
-   - Creates or reuses the `azd` environment
-   - Securely retrieves and stores the GitHub PAT for private catalog access
-2. **Bicep provisioning** deploys all infrastructure at subscription scope,
-   creating three resource groups (workload, security, monitoring) and all
-   associated resources
+1. **Preprovision hook** executes the setup script (`setUp.sh`), which:
+   - Validates that all required CLI tools are installed (`az`, `azd`, `jq`, and
+     `gh` for GitHub or Azure DevOps CLI for `adogit`)
+   - Verifies Azure CLI and source control platform authentication
+   - Prompts for the source control platform if `SOURCE_CONTROL_PLATFORM` is not
+     set (options: `github` or `adogit`)
+   - Securely retrieves the PAT from `gh auth token` (GitHub) or prompts for the
+     Azure DevOps PAT, then stores it as `KEY_VAULT_SECRET` in the `azd`
+     environment
+   - Creates or reuses the `azd` environment directory (`.azure/<env>/`)
+2. **Bicep provisioning** deploys all infrastructure at subscription scope:
+   - Three resource groups (workload, security, monitoring) per Landing Zone
+     principles
+   - Key Vault with the source control PAT
+   - Log Analytics workspace with diagnostic settings
+   - Dev Center with catalogs, environment types, and projects
+   - Per-project Dev Box pools, network connections, and RBAC assignments
 
-### Deploy
+### Provision (GitHub)
 
 **Step 1 — Clone the repository**
 
@@ -272,36 +288,60 @@ azd auth login
 gh auth login
 ```
 
-**Step 3 — Provision and deploy**
+**Step 3 — Provision infrastructure**
 
 ```bash
-azd up
+azd provision
 ```
 
 `azd` prompts for environment name, Azure subscription, and location if not
-already configured. The `preprovision` hook runs automatically before
-provisioning begins.
+already configured. The `preprovision` hook runs the setup script automatically
+before Bicep provisioning begins.
 
 **Expected output:**
 
 ```text
 Running preprovision hook → setUp.sh
-  ✅ All required tools found (az, azd, gh)
-  ✅ GitHub authentication successful
-  ✅ Azure Developer CLI environment created
-  ✅ Environment variables configured
+  ✅ All required tools found (az, azd, jq, gh)
+  ✅ Azure authentication verified
+  ✅ GitHub authentication verified
+  🔐 GitHub token stored securely in memory
+  ✅ Azure Developer CLI environment initialized
 
 Provisioning Azure resources (azd provision)
 
 SUCCESS: Your Azure resources have been provisioned.
- - Resource Group: devexp-workload-dev-eastus2-RG
- - Dev Center: devexp-devcenter
- - Key Vault: contoso-xxxxxxxx-kv
+  Resource Group: devexp-workload-dev-eastus2-RG
+  Resource Group: devexp-security-dev-eastus2-RG
+  Resource Group: devexp-monitoring-dev-eastus2-RG
+  Dev Center:     devexp-devcenter
+  Key Vault:      contoso-xxxxxxxx-kv
 ```
+
+### Provision (Azure DevOps Git)
+
+**Step 1 — Clone and authenticate**
+
+```bash
+git clone https://github.com/Evilazaro/DevExp-DevBox.git
+cd DevExp-DevBox
+az login
+azd auth login
+```
+
+**Step 2 — Set source control platform and provision**
+
+```bash
+export SOURCE_CONTROL_PLATFORM=adogit
+azd provision
+```
+
+The setup script prompts for your Azure DevOps PAT if the `KEY_VAULT_SECRET`
+environment variable is not already set.
 
 ### Platform-Specific Configuration
 
-| Platform           | azd Config       | Hook Shell      | Setup Script Invoked    |
+| Platform           | azd Config       | Hook Shell      | Script Invoked          |
 | ------------------ | ---------------- | --------------- | ----------------------- |
 | 🖥️ **Windows**     | `azure-pwh.yaml` | PowerShell 5.1+ | `setUp.sh` (via `bash`) |
 | 🐧 **Linux/macOS** | `azure.yaml`     | Bash 5.0+       | `setUp.sh`              |
@@ -310,10 +350,12 @@ SUCCESS: Your Azure resources have been provisioned.
 > invoke `setUp.sh` through `bash`. Ensure Windows Subsystem for Linux (WSL) or
 > Git Bash is available.
 
-### Verify Deployment
+### Verify Provisioning
 
 ```bash
-az devcenter admin dev-center list --resource-group "devexp-workload-dev-eastus2-RG" --output table
+az devcenter admin dev-center list \
+  --resource-group "devexp-workload-dev-eastus2-RG" \
+  --output table
 ```
 
 **Expected output:**
@@ -328,14 +370,15 @@ devexp-devcenter   eastus2     Succeeded
 
 **Overview**
 
-After deployment, platform engineers manage the Dev Box environment through
+After provisioning, platform engineers manage the Dev Box environment through
 Azure CLI commands, the Azure portal, or by updating the YAML configuration
-files and rerunning `azd up`. Developers access their Dev Boxes through the
-Microsoft Dev Box developer portal or the Windows App.
+files and rerunning `azd provision`. Developers access their Dev Boxes through
+the Microsoft Dev Box developer portal or the Windows App.
 
 Day-to-day operations include onboarding new projects, adding Dev Box pools,
 managing environment types, and monitoring resource health. All operational
-changes flow through the same YAML-driven workflow used in initial deployment.
+changes flow through the same YAML-driven, IaC workflow used in initial
+provisioning.
 
 ### Managing Projects
 
@@ -387,16 +430,26 @@ To remove all provisioned resources, including service principals and GitHub
 secrets:
 
 ```powershell
-.\cleanSetUp.ps1 -EnvName "dev"
+.\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2"
 ```
+
+**Parameters:**
+
+| Parameter         | Default                                      | Description                               |
+| ----------------- | -------------------------------------------- | ----------------------------------------- |
+| `-EnvName`        | `gitHub`                                     | Environment name used in resource naming  |
+| `-Location`       | `eastus2`                                    | Azure region where resources are deployed |
+| `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Azure AD application display name         |
+| `-GhSecretName`   | `AZURE_CREDENTIALS`                          | GitHub secret name to remove              |
 
 **Expected output:**
 
 ```text
-✅ Deleted resource groups
+✅ Deleted subscription deployments
 ✅ Removed role assignments
-✅ Cleaned up service principals
-✅ Environment 'dev' removed
+✅ Cleaned up service principals and app registrations
+✅ Removed GitHub secrets
+✅ Deleted resource groups
 ```
 
 ## 🔧 Configuration
@@ -409,9 +462,9 @@ three YAML files under `infra/settings/`. This design separates infrastructure
 logic (Bicep modules) from environment-specific values (YAML), enabling teams to
 customize deployments without modifying any template code.
 
-Configuration changes take effect on the next `azd up` execution. The JSON
-Schema files provide inline validation in editors like VS Code, catching
-configuration errors before deployment.
+Configuration changes take effect on the next `azd provision` execution. The
+JSON Schema files provide inline validation in editors like VS Code, catching
+configuration errors before provisioning.
 
 > [!TIP] Open the YAML files in VS Code with the YAML extension installed. The
 > `$schema` reference at the top of each file enables autocomplete and inline
@@ -430,11 +483,13 @@ configuration errors before deployment.
 The following environment variables are set by the setup script and consumed by
 `azd`:
 
-| Variable              | Description                                       | Example            |
-| --------------------- | ------------------------------------------------- | ------------------ |
-| 🌍 `AZURE_ENV_NAME`   | Environment name for resource naming              | `dev`              |
-| 🌍 `AZURE_LOCATION`   | Azure region for deployment                       | `eastus2`          |
-| 🔐 `KEY_VAULT_SECRET` | GitHub personal access token for private catalogs | `ghp_xxxxxxxxxxxx` |
+| Variable                     | Description                                                           | Example            |
+| ---------------------------- | --------------------------------------------------------------------- | ------------------ |
+| 🌍 `AZURE_ENV_NAME`          | Environment name for resource naming                                  | `dev`              |
+| 🌍 `AZURE_LOCATION`          | Azure region for deployment                                           | `eastus2`          |
+| 🔐 `KEY_VAULT_SECRET`        | PAT for private catalog authentication (GitHub or Azure DevOps)       | `ghp_xxxxxxxxxxxx` |
+| ⚙️ `SOURCE_CONTROL_PLATFORM` | Source control platform — `github` or `adogit` (defaults to `github`) | `github`           |
+| ⚙️ `AZURE_DEVOPS_EXT_PAT`    | Azure DevOps PAT exported when using `adogit` platform                | `ado_xxxxxxxxxxxx` |
 
 ### Resource Organization (`azureResources.yaml`)
 
@@ -452,8 +507,8 @@ existing groups in brownfield environments.
 
 ### Security (`security.yaml`)
 
-Configures Azure Key Vault for storing the GitHub PAT used by private catalog
-authentication:
+Configures Azure Key Vault for storing the source control PAT (GitHub or Azure
+DevOps) used by private catalog authentication:
 
 | Setting                              | Default     | Description                                |
 | ------------------------------------ | ----------- | ------------------------------------------ |
@@ -477,15 +532,45 @@ and project definitions:
 | `installAzureMonitorAgentEnableStatus` | Enable/disable Azure Monitor agent installation |
 | `identity.type`                        | Managed identity type (`SystemAssigned`)        |
 
+#### Dev Center Identity & Organizational Roles
+
+The `identity` block at the Dev Center level defines the managed identity and
+its role assignments across scopes:
+
+| Setting                                 | Description                                                                      |
+| --------------------------------------- | -------------------------------------------------------------------------------- |
+| `identity.type`                         | Managed identity type (`SystemAssigned`)                                         |
+| `identity.roleAssignments.devCenter`    | Roles assigned to the Dev Center identity (Contributor, User Access Admin, etc.) |
+| `identity.roleAssignments.orgRoleTypes` | Organizational role definitions (e.g., `DevManager`) mapped to Entra ID groups   |
+
+Organizational role types (`orgRoleTypes`) define personas like **DevManager**
+with their Entra ID group and RBAC roles:
+
+```yaml
+orgRoleTypes:
+  - type: DevManager
+    azureADGroupId: '<entra-group-id>'
+    azureADGroupName: 'Platform Engineering Team'
+    azureRBACRoles:
+      - name: 'DevCenter Project Admin'
+        id: '331c37c6-af14-46d9-b9f4-e1909e1b95a0'
+        scope: ResourceGroup
+```
+
+#### Project Configuration
+
 Each project entry under `projects:` supports:
 
-| Block              | Purpose                                                             |
-| ------------------ | ------------------------------------------------------------------- |
-| `network`          | VNet configuration — type, address prefixes, subnets                |
-| `identity`         | RBAC role assignments via Entra ID group membership                 |
-| `pools`            | Dev Box pool definitions with VM SKU and image references           |
-| `environmentTypes` | Lifecycle environments available to the project (dev, staging, UAT) |
-| `catalogs`         | Git-based catalog sources for images and environment definitions    |
+| Block              | Purpose                                                                                                                                |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`             | Project name — must be unique within the Dev Center                                                                                    |
+| `description`      | Human-readable project description                                                                                                     |
+| `network`          | VNet configuration — type (`Managed`/`Unmanaged`), address prefixes, subnets, resource group, tags                                     |
+| `identity`         | RBAC role assignments via Entra ID group membership (Dev Box User, Deployment Environment User, Contributor, Key Vault roles)          |
+| `pools`            | Dev Box pool definitions — pool name, image definition reference, VM SKU                                                               |
+| `environmentTypes` | Lifecycle environments available to the project (dev, staging, UAT) with optional deployment target IDs                                |
+| `catalogs`         | Source control catalogs — type (`environmentDefinition` or `imageDefinition`), source (`gitHub` or `adoGit`), visibility, branch, path |
+| `tags`             | Azure resource tags for cost allocation and governance                                                                                 |
 
 ### Adding a New Project
 
@@ -495,6 +580,7 @@ Add a new project entry to `infra/settings/workload/devcenter.yaml`:
 projects:
   - name: 'newProject'
     description: 'New team project'
+
     network:
       name: newProject
       create: true
@@ -506,13 +592,80 @@ projects:
         - name: newProject-subnet
           properties:
             addressPrefix: 10.1.1.0/24
+      tags:
+        environment: dev
+        division: Platforms
+        team: DevExP
+        project: DevExP-DevBox
+        costCenter: IT
+        owner: Contoso
+        resources: Network
+
+    identity:
+      type: SystemAssigned
+      roleAssignments:
+        - azureADGroupId: '<entra-group-id>'
+          azureADGroupName: 'New Project Developers'
+          azureRBACRoles:
+            - name: 'Contributor'
+              id: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+              scope: Project
+            - name: 'Dev Box User'
+              id: '45d50f46-0b78-4001-a660-4198cbe8cd05'
+              scope: Project
+            - name: 'Deployment Environment User'
+              id: '18e40d4e-8d2e-438d-97e1-9528336e149c'
+              scope: Project
+
     pools:
       - name: 'developer'
         imageDefinitionName: 'newProject-developer'
         vmSku: general_i_32c128gb512ssd_v2
+
+    environmentTypes:
+      - name: 'dev'
+        deploymentTargetId: ''
+
+    catalogs:
+      - name: 'environments'
+        type: environmentDefinition
+        sourceControl: gitHub # or adoGit for Azure DevOps
+        visibility: private
+        uri: 'https://github.com/org/repo.git'
+        branch: 'main'
+        path: '/.devcenter/environments'
+      - name: 'devboxImages'
+        type: imageDefinition
+        sourceControl: gitHub
+        visibility: private
+        uri: 'https://github.com/org/repo.git'
+        branch: 'main'
+        path: '/.devcenter/imageDefinitions'
+
+    tags:
+      environment: dev
+      division: Platforms
+      team: DevExP
+      project: DevExP-DevBox
+      costCenter: IT
+      owner: Contoso
+      resources: Project
 ```
 
-Then run `azd up` to apply the changes.
+Then run `azd provision` to apply the changes.
+
+### Switching Source Control Platform
+
+To switch from GitHub to Azure DevOps Git for catalog authentication:
+
+```bash
+export SOURCE_CONTROL_PLATFORM=adogit
+azd provision
+```
+
+The setup script prompts for the Azure DevOps PAT and configures the
+organization defaults. Update catalog entries in `devcenter.yaml` to use
+`sourceControl: adoGit` accordingly.
 
 ### Project Structure
 
