@@ -12,20 +12,23 @@
 > follows the Microsoft Cloud Adoption Framework and Azure Landing Zone
 > principles for enterprise-grade developer workstation management.
 
-DevExp-DevBox solves the challenge of provisioning and managing centralized,
-secure, cloud-hosted developer workstations across engineering teams. Platform
+DevExp-DevBox solves the challenge of provisioning and managing **centralized,
+secure, cloud-hosted developer workstations** across engineering teams. Platform
 engineers, DevOps leads, and IT administrators use this accelerator to deliver
-role-specific Dev Box environments — with consistent tooling, network isolation,
-and identity governance — without months of manual configuration. It supports
-both **GitHub** and **Azure DevOps Git** as source control platforms for private
-catalog authentication.
+**role-specific Dev Box environments** — with consistent tooling, network
+isolation, and identity governance — without months of manual configuration. It
+supports both **GitHub** and **Azure DevOps Git** as source control platforms
+for private catalog authentication.
 
 The accelerator orchestrates Azure Dev Center, Dev Box pools, Key Vault, Log
 Analytics, and Virtual Network resources through modular Bicep templates driven
-entirely by YAML configuration files. Each team and project receives
+entirely by **YAML configuration files**. Each team and project receives
 pre-configured Dev Box pools tailored to their role (backend, frontend), with
-Microsoft Entra ID integration for identity, RBAC for access control, and
-centralized monitoring for operational visibility.
+**Microsoft Entra ID** integration for identity, **RBAC** for access control,
+and centralized monitoring for operational visibility.
+
+> 💡 **Best Practice**: YAML configuration files enable environment
+> customization without modifying Bicep template code.
 
 ## 📑 Table of Contents
 
@@ -42,17 +45,22 @@ centralized monitoring for operational visibility.
 
 **Overview**
 
-This architecture follows Azure Landing Zone principles to segregate resources
-by function — security, monitoring, and workload — into dedicated resource
-groups. The design enables teams to manage Dev Box environments independently
-while maintaining centralized governance, audit trails, and network controls.
+This architecture follows **Azure Landing Zone principles** to segregate
+resources by function — security, monitoring, and workload — into dedicated
+resource groups. The design enables teams to manage Dev Box environments
+independently while maintaining centralized governance, audit trails, and
+network controls.
 
-Components are organized in a layered, modular pattern: the orchestration layer
-(`infra/main.bicep`) coordinates subscription-scoped deployments across three
-resource groups, while individual Bicep modules under `src/` handle each domain
-— identity, connectivity, security, monitoring, and workload. Configuration is
-externalized into validated YAML files, enabling environment customization
-without code changes.
+> 📌 **Architecture Pattern**: Resources are segregated into three dedicated
+> resource groups — security, monitoring, and workload — following Azure Landing
+> Zone principles.
+
+Components are organized in a **layered, modular pattern**: the orchestration
+layer (`infra/main.bicep`) coordinates subscription-scoped deployments across
+three resource groups, while individual Bicep modules under `src/` handle each
+domain — identity, connectivity, security, monitoring, and workload.
+Configuration is externalized into validated YAML files, enabling environment
+customization without code changes.
 
 ```mermaid
 ---
@@ -181,14 +189,18 @@ flowchart TB
 **Overview**
 
 This accelerator provides a comprehensive set of capabilities designed to reduce
-the time from zero to a fully governed Dev Box platform from weeks to minutes.
-Features are organized around five pillars: infrastructure automation, security,
-monitoring, identity governance, and developer experience.
+the time from zero to a fully governed Dev Box platform **from weeks to
+minutes**. Features are organized around **five pillars**: infrastructure
+automation, security, monitoring, identity governance, and developer experience.
 
 Each feature integrates with the others through the modular Bicep architecture
 and YAML-driven configuration. For example, enabling a new project automatically
 provisions its Dev Box pools, network connections, RBAC assignments, and
-diagnostic settings — all from a single YAML entry.
+diagnostic settings — all from a **single YAML entry**.
+
+> 💡 **Key Benefit**: Enabling a new project provisions Dev Box pools, network
+> connections, RBAC assignments, and diagnostic settings from a single YAML
+> entry.
 
 | Feature                            | Description                                                                                                                                       | Benefits                                                                |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
@@ -207,13 +219,14 @@ diagnostic settings — all from a single YAML entry.
 
 **Overview**
 
-Before deploying the accelerator, you need an Azure subscription with sufficient
-permissions, several CLI tools installed locally, and a GitHub personal access
-token if using private catalogs. These requirements ensure the setup scripts can
-authenticate, provision resources, and configure identity assignments.
+Before deploying the accelerator, you need an **Azure subscription with
+sufficient permissions**, several CLI tools installed locally, and a GitHub
+personal access token if using private catalogs. These requirements ensure the
+setup scripts can authenticate, provision resources, and configure identity
+assignments.
 
 Meeting all prerequisites takes approximately 15 minutes for a fresh
-workstation. The setup scripts validate tool availability automatically and
+workstation. The **setup scripts validate tool availability automatically** and
 provide clear error messages if any dependency is missing.
 
 > [!IMPORTANT] You must have **Owner** or **Contributor + User Access
@@ -246,8 +259,11 @@ The accelerator supports **two source control platforms**: GitHub and Azure
 DevOps Git. The choice determines how private catalog authentication is handled
 (GitHub PAT or Azure DevOps PAT stored in Key Vault).
 
-The deployment is fully idempotent — running `azd provision` again updates
+The deployment is **fully idempotent** — running `azd provision` again updates
 existing resources without duplication.
+
+> ⚠️ **Important**: This accelerator provisions Azure resources only — no
+> application code is deployed.
 
 ### How It Works
 
@@ -372,10 +388,10 @@ devexp-devcenter   eastus2     Succeeded
 
 After provisioning, platform engineers manage the Dev Box environment by editing
 the YAML configuration files and rerunning `azd provision`. The deployment is
-idempotent — every `azd provision` run converges the infrastructure to match the
-current YAML state, adding new resources, updating changed ones, and leaving
-untouched resources alone. Developers access their Dev Boxes through the
-Microsoft Dev Box developer portal or the Windows App.
+idempotent — every `azd provision` run **converges the infrastructure to match
+the current YAML state**, adding new resources, updating changed ones, and
+leaving untouched resources alone. Developers access their Dev Boxes through the
+**Microsoft Dev Box developer portal** or the Windows App.
 
 All day-2 operations follow the same workflow: **edit YAML → run
 `azd provision`**. There are no separate commands for adding projects, pools,
@@ -629,6 +645,9 @@ Key outputs include:
 To deploy into existing resource groups, Key Vault, or Virtual Networks, set
 `create: false` in the relevant configuration:
 
+> 💡 **Tip**: Set `create: false` in the relevant YAML file to reference
+> existing Azure resources instead of creating new ones.
+
 **Existing resource groups** — in `azureResources.yaml`:
 
 ```yaml
@@ -697,15 +716,18 @@ resource group deletion.
 
 **Overview**
 
-The accelerator uses a YAML-first configuration model validated by JSON Schemas.
-All resource definitions, feature toggles, and environment settings live in
-three YAML files under `infra/settings/`. This design separates infrastructure
-logic (Bicep modules) from environment-specific values (YAML), enabling teams to
-customize deployments without modifying any template code.
+The accelerator uses a **YAML-first configuration model** validated by **JSON
+Schemas**. All resource definitions, feature toggles, and environment settings
+live in three YAML files under `infra/settings/`. This design separates
+infrastructure logic (Bicep modules) from environment-specific values (YAML),
+enabling teams to customize deployments without modifying any template code.
 
 Configuration changes take effect on the next `azd provision` execution. The
 JSON Schema files provide inline validation in editors like VS Code, catching
 configuration errors before provisioning.
+
+> 📌 **Reference**: JSON Schema files provide inline validation in VS Code,
+> catching configuration errors before provisioning.
 
 > [!TIP] Open the YAML files in VS Code with the YAML extension installed. The
 > `$schema` reference at the top of each file enables autocomplete and inline
@@ -1148,10 +1170,10 @@ you are fixing a bug, adding a feature, improving documentation, or suggesting
 an enhancement, your contribution helps the broader platform engineering
 community adopt Dev Box faster.
 
-The project follows a product-oriented delivery model organized around Epics,
-Features, and Tasks. All contributions go through a standard GitHub pull request
-workflow with required reviews, and infrastructure code must be parameterized
-and idempotent.
+The project follows a **product-oriented delivery model** organized around
+Epics, Features, and Tasks. All contributions go through a standard GitHub
+**pull request workflow** with required reviews, and infrastructure code must be
+**parameterized and idempotent**.
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
 
