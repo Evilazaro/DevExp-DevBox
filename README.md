@@ -238,15 +238,13 @@ All infrastructure parameters are defined in YAML configuration files under
 it straightforward to customize environments without modifying Bicep templates
 directly.
 
-> [!IMPORTANT]
-> **YAML-driven configuration** enables platform teams to manage
+> [!IMPORTANT] **YAML-driven configuration** enables platform teams to manage
 > environments through version-controlled file edits rather than requiring Bicep
 > expertise for every modification.
 
 <!-- -->
 
-> [!NOTE]
-> The Bicep orchestrator (`infra/main.bicep`) loads YAML files at
+> [!NOTE] The Bicep orchestrator (`infra/main.bicep`) loads YAML files at
 > deployment time using the `loadYamlContent()` function, converting
 > human-readable settings into typed Bicep parameters automatically. Deployment
 > parameters are mapped from `azd` environment variables through
@@ -416,6 +414,8 @@ all infrastructure resources.
 > [!IMPORTANT] A **single-command setup** avoids manual multi-step provisioning
 > that is error-prone and inconsistent across team members.
 
+<!-- -->
+
 > [!NOTE] The scripts validate that required CLIs are installed, verify Azure
 > authentication, prompt for source control platform selection (if not
 > provided), retrieve a **PAT token**, write environment configuration to
@@ -534,6 +534,8 @@ manual path gives platform engineers granular control over each step.
 > [!IMPORTANT] **Automated deployment** ensures consistency and reduces human
 > error, while manual deployment enables troubleshooting, phased rollouts, and
 > integration with existing CI/CD pipelines.
+
+<!-- -->
 
 > [!NOTE] Both paths ultimately execute `azd provision`, which reads parameters
 > from `infra/main.parameters.json`, resolves them from the
