@@ -1026,12 +1026,12 @@ Commonly used roles for Dev Box projects:
 
 Defines the Dev Box pools available to developers in this project:
 
-| Field | Type | Description | | Field | Type | Description | |
------------------------ | ------ |
------------------------------------------------------ | | 📝 `name` | string |
-Pool display name (e.g., `backend-engineer`) | | 🖼️ `imageDefinitionName` |
-string | References an image from an `imageDefinition` catalog | | 💻 `vmSku` |
-string | Azure VM SKU (e.g., `general_i_32c128gb512ssd_v2`) |
+| Field                                                 | Type                                                  | Description              |            | Field | Type | Description |     |
+| ----------------------------------------------------- | ----------------------------------------------------- | ------------------------ | ---------- | ----- | ---- | ----------- | --- |
+| ----------------------------------------------------- |                                                       | 📝 `name`                | string     |
+| Pool display name (e.g., `backend-engineer`)          |                                                       | 🖼️ `imageDefinitionName` |
+| string                                                | References an image from an `imageDefinition` catalog |                          | 💻 `vmSku` |
+| string                                                | Azure VM SKU (e.g., `general_i_32c128gb512ssd_v2`)    |
 
 Pools are created only from project catalogs with `type: imageDefinition`. For
 each such catalog, a pool resource is created with the naming convention
