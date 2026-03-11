@@ -29,8 +29,7 @@ centralized monitoring for operational visibility.
 - [Architecture](#-architecture)
 - [Features](#-features)
 - [Prerequisites](#-prerequisites)
-- [Quick Start](#-quick-start)
-- [Deployment](#-deployment)
+- [Getting Started](#-getting-started)
 - [Usage](#-usage)
 - [Configuration](#-configuration)
 - [Contributing](#-contributing)
@@ -224,64 +223,74 @@ provide clear error messages if any dependency is missing.
 | 🛠️ **Azure CLI**           | 2.60+               | Azure authentication and resource management          | [Install Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli)                                                        |
 | 🛠️ **Azure Developer CLI** | 1.9+                | Orchestrates infrastructure provisioning via `azd up` | [Install azd](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)                                          |
 | 🛠️ **GitHub CLI**          | 2.40+               | GitHub authentication and token management            | [Install GitHub CLI](https://cli.github.com/)                                                                                       |
-| ⚙️ **PowerShell**          | 5.1+                | Windows setup automation (`setUp.ps1`)                | [Install PowerShell](https://learn.microsoft.com/powershell/scripting/install/installing-powershell)                                |
-| ⚙️ **Bash**                | 5.0+                | Linux/macOS setup automation (`setUp.sh`)             | Pre-installed on most Unix systems                                                                                                  |
+| ⚙️ **PowerShell**          | 5.1+                | Required by `azd` preprovision hook on Windows        | [Install PowerShell](https://learn.microsoft.com/powershell/scripting/install/installing-powershell)                                |
+| ⚙️ **Bash**                | 5.0+                | Required by `azd` preprovision hook (`setUp.sh`)      | Pre-installed on most Unix systems                                                                                                  |
 | 🔐 **GitHub PAT**          | —                   | Authentication for private catalog repositories       | [Create a PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) |
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
 **Overview**
 
-The quickest path to a working Dev Box environment takes three commands:
-authenticate, run the setup script, and provision. The setup script handles
-environment initialization, GitHub token configuration, and `azd` environment
-creation automatically.
+The entire platform deploys with a single command: `azd up`. The Azure Developer
+CLI orchestrates everything — authentication validation, environment setup,
+GitHub token configuration, and Bicep provisioning — through a `preprovision`
+hook. The setup scripts (`setUp.ps1`, `setUp.sh`) are **not** run manually; they
+execute automatically as `azd` lifecycle hooks defined in `azure-pwh.yaml`
+(Windows) and `azure.yaml` (Linux/macOS).
 
-This guide covers the Windows workflow using PowerShell. For Linux/macOS,
-replace `setUp.ps1` with `setUp.sh` and `azure-pwh.yaml` with `azure.yaml`.
+The deployment is fully idempotent — running `azd up` again updates existing
+resources without duplication. The entire process completes in approximately
+8–15 minutes depending on the Azure region.
 
-**1. Clone and authenticate**
+### How It Works
+
+When you run `azd up`, the following happens automatically:
+
+1. **Preprovision hook** executes the setup script, which:
+   - Validates that all required CLI tools are installed (`az`, `azd`, `gh`)
+   - Verifies Azure and GitHub authentication
+   - Creates or reuses the `azd` environment
+   - Securely retrieves and stores the GitHub PAT for private catalog access
+2. **Bicep provisioning** deploys all infrastructure at subscription scope,
+   creating three resource groups (workload, security, monitoring) and all
+   associated resources
+
+### Deploy
+
+**Step 1 — Clone the repository**
 
 ```bash
 git clone https://github.com/Evilazaro/DevExp-DevBox.git
 cd DevExp-DevBox
+```
+
+**Step 2 — Authenticate**
+
+```bash
 az login
 azd auth login
 gh auth login
 ```
 
-**Expected output:**
-
-```text
-Cloning into 'DevExp-DevBox'...
-remote: Enumerating objects: done.
-Logged in to Azure successfully.
-```
-
-**2. Run the setup script**
-
-```powershell
-.\setUp.ps1 -EnvName "dev" -SourceControl "github"
-```
-
-**Expected output:**
-
-```text
-✅ All required tools found (az, azd, gh)
-✅ GitHub authentication successful
-✅ Azure Developer CLI environment 'dev' created
-✅ Environment variables configured
-```
-
-**3. Provision resources**
+**Step 3 — Provision and deploy**
 
 ```bash
 azd up
 ```
 
+`azd` prompts for environment name, Azure subscription, and location if not
+already configured. The `preprovision` hook runs automatically before
+provisioning begins.
+
 **Expected output:**
 
 ```text
+Running preprovision hook → setUp.sh
+  ✅ All required tools found (az, azd, gh)
+  ✅ GitHub authentication successful
+  ✅ Azure Developer CLI environment created
+  ✅ Environment variables configured
+
 Provisioning Azure resources (azd provision)
 
 SUCCESS: Your Azure resources have been provisioned.
@@ -290,74 +299,16 @@ SUCCESS: Your Azure resources have been provisioned.
  - Key Vault: contoso-xxxxxxxx-kv
 ```
 
-## 📦 Deployment
+### Platform-Specific Configuration
 
-**Overview**
+| Platform           | azd Config       | Hook Shell      | Setup Script Invoked    |
+| ------------------ | ---------------- | --------------- | ----------------------- |
+| 🖥️ **Windows**     | `azure-pwh.yaml` | PowerShell 5.1+ | `setUp.sh` (via `bash`) |
+| 🐧 **Linux/macOS** | `azure.yaml`     | Bash 5.0+       | `setUp.sh`              |
 
-Deployment uses Azure Developer CLI (`azd`) with a preprovision hook that runs
-the platform-specific setup script. The Bicep templates deploy at subscription
-scope, creating three resource groups following Azure Landing Zone segregation:
-workload, security, and monitoring.
-
-The deployment is fully idempotent — running `azd up` again updates existing
-resources without duplication. The entire process completes in approximately
-8-15 minutes depending on the Azure region.
-
-> [!WARNING] The deployment creates subscription-level resources and role
-> assignments. Running `cleanSetUp.ps1` will permanently delete all provisioned
-> resources, role assignments, and associated Entra ID service principals.
-
-### Deployment Steps
-
-**Step 1: Initialize the environment**
-
-```bash
-azd init
-```
-
-**Expected output:**
-
-```text
-Initializing an app to run on Azure (azd init)
-  (✓) Done: Initialized successfully
-```
-
-**Step 2: Authenticate with Azure**
-
-```bash
-az login
-azd auth login
-```
-
-**Expected output:**
-
-```text
-Logged in on Azure.
-Logged in to Azure Developer CLI.
-```
-
-**Step 3: Provision infrastructure**
-
-```bash
-azd up
-```
-
-**Expected output:**
-
-```text
-Packaging services (azd package)
-Provisioning Azure resources (azd provision)
-Deploying services (azd deploy)
-
-SUCCESS: Your application was provisioned and deployed to Azure.
-```
-
-### Platform-Specific Notes
-
-| Platform           | Setup Script | azd Config       | Shell           |
-| ------------------ | ------------ | ---------------- | --------------- |
-| 🖥️ **Windows**     | `setUp.ps1`  | `azure-pwh.yaml` | PowerShell 5.1+ |
-| 🐧 **Linux/macOS** | `setUp.sh`   | `azure.yaml`     | Bash 5.0+       |
+> [!NOTE] On Windows, the `azure-pwh.yaml` preprovision hook uses PowerShell to
+> invoke `setUp.sh` through `bash`. Ensure Windows Subsystem for Linux (WSL) or
+> Git Bash is available.
 
 ### Verify Deployment
 
@@ -428,7 +379,12 @@ instances directly.
 
 ### Cleanup
 
-To remove all provisioned resources:
+> [!WARNING] Cleanup permanently deletes all provisioned resources, role
+> assignments, and associated Entra ID service principals. This action cannot be
+> undone.
+
+To remove all provisioned resources, including service principals and GitHub
+secrets:
 
 ```powershell
 .\cleanSetUp.ps1 -EnvName "dev"
@@ -480,6 +436,57 @@ The following environment variables are set by the setup script and consumed by
 | 🌍 `AZURE_LOCATION`   | Azure region for deployment                       | `eastus2`          |
 | 🔐 `KEY_VAULT_SECRET` | GitHub personal access token for private catalogs | `ghp_xxxxxxxxxxxx` |
 
+### Resource Organization (`azureResources.yaml`)
+
+Defines the three resource groups following Azure Landing Zone segregation by
+function:
+
+| Resource Group | Purpose                                 | Key Settings             |
+| -------------- | --------------------------------------- | ------------------------ |
+| **Workload**   | Dev Center, projects, and Dev Box pools | `name`, `create`, `tags` |
+| **Security**   | Key Vault for secret management         | `name`, `create`, `tags` |
+| **Monitoring** | Log Analytics and diagnostic settings   | `name`, `create`, `tags` |
+
+Set `create: false` to skip creation of any resource group when targeting
+existing groups in brownfield environments.
+
+### Security (`security.yaml`)
+
+Configures Azure Key Vault for storing the GitHub PAT used by private catalog
+authentication:
+
+| Setting                              | Default     | Description                                |
+| ------------------------------------ | ----------- | ------------------------------------------ |
+| `keyVault.name`                      | `contoso`   | Globally unique Key Vault name prefix      |
+| `keyVault.secretName`                | `gha-token` | Secret name for the GitHub PAT             |
+| `keyVault.enablePurgeProtection`     | `true`      | Prevents permanent deletion of secrets     |
+| `keyVault.enableSoftDelete`          | `true`      | Enables recovery of deleted secrets        |
+| `keyVault.softDeleteRetentionInDays` | `7`         | Retention period for soft-deleted secrets  |
+| `keyVault.enableRbacAuthorization`   | `true`      | Uses Azure RBAC instead of access policies |
+
+### Dev Center & Projects (`devcenter.yaml`)
+
+Central configuration for the Dev Center resource, catalogs, environment types,
+and project definitions:
+
+| Setting                                | Description                                     |
+| -------------------------------------- | ----------------------------------------------- |
+| `name`                                 | Dev Center resource name                        |
+| `catalogItemSyncEnableStatus`          | Enable/disable catalog item synchronization     |
+| `microsoftHostedNetworkEnableStatus`   | Enable/disable Microsoft-hosted network support |
+| `installAzureMonitorAgentEnableStatus` | Enable/disable Azure Monitor agent installation |
+| `identity.type`                        | Managed identity type (`SystemAssigned`)        |
+
+Each project entry under `projects:` supports:
+
+| Block              | Purpose                                                             |
+| ------------------ | ------------------------------------------------------------------- |
+| `network`          | VNet configuration — type, address prefixes, subnets                |
+| `identity`         | RBAC role assignments via Entra ID group membership                 |
+| `pools`            | Dev Box pool definitions with VM SKU and image references           |
+| `environmentTypes` | Lifecycle environments available to the project (dev, staging, UAT) |
+| `catalogs`         | Git-based catalog sources for images and environment definitions    |
+
 ### Adding a New Project
 
 Add a new project entry to `infra/settings/workload/devcenter.yaml`:
@@ -530,11 +537,11 @@ Then run `azd up` to apply the changes.
 │   ├── management/                         # Log Analytics module
 │   ├── security/                           # Key Vault and secret modules
 │   └── workload/                           # Dev Center, project, pool modules
-├── setUp.ps1                               # Windows setup automation
-├── setUp.sh                                # Linux/macOS setup automation
+├── setUp.ps1                               # Setup script (PowerShell equivalent)
+├── setUp.sh                                # Setup script (called by azd preprovision hook)
 ├── cleanSetUp.ps1                          # Resource teardown script
-├── azure.yaml                              # azd config (Linux/macOS)
-├── azure-pwh.yaml                          # azd config (Windows)
+├── azure.yaml                              # azd config + preprovision hook (Linux/macOS)
+├── azure-pwh.yaml                          # azd config + preprovision hook (Windows)
 └── package.json                            # Documentation site (Hugo/Docsy)
 ```
 
