@@ -8,7 +8,7 @@
 **Components Found**: 23  
 **Average Confidence**: 0.91  
 **Maturity Level**: 2 — Managed  
-**Dependencies**: base-layer-config.prompt.md, bdat-mermaid-improved.prompt.md, coordinator.prompt.md, error-taxonomy.prompt.md
+**Dependencies**: base-layer-config.prompt.md, bdat-mermaid-improved.prompt.md, coordinator.prompt.md, error-taxonomy.prompt.md, section-schema.prompt.md
 
 ---
 
@@ -1928,9 +1928,12 @@ diagnostics).
 | Project                   | Project Identity Role Assignment    | Request/Response | ARM Deployment (loop)        | RoleAssignment type               | ARM deployment retry |
 | Project                   | Project Identity Role Assignment RG | Request/Response | ARM Deployment (loop)        | RoleAssignment type               | ARM deployment retry |
 | Project                   | Project AD Group Assignment         | Request/Response | ARM Deployment (loop)        | RoleAssignment type               | ARM deployment retry |
-| Connectivity Orchestrator | Resource Group                      | Request/Response | ARM Deployment               | RG parameters                     | ARM deployment retry |
-| Connectivity Orchestrator | VNet                                | Request/Response | ARM Deployment               | NetworkSettings                   | ARM deployment retry |
-| Connectivity Orchestrator | Network Connection                  | Request/Response | ARM Deployment (conditional) | Network parameters                | ARM deployment retry |
+| Connectivity Orchestrator | Resource Group                      | Request/Response   | ARM Deployment               | RG parameters                    | ARM deployment retry |
+| Connectivity Orchestrator | VNet                                | Request/Response   | ARM Deployment               | NetworkSettings                  | ARM deployment retry |
+| Connectivity Orchestrator | Network Connection                  | Request/Response   | ARM Deployment (conditional) | Network parameters               | ARM deployment retry |
+| Dev Box Pool              | Network Connection                  | Resource Reference | ARM Resource ID              | networkConnectionName attachment | ARM deployment retry |
+| Dev Box Pool              | Project Catalog                     | Resource Reference | ARM Resource ID              | imageDefinitionName resolution   | ARM deployment retry |
+| Network Connection        | VNet / Subnet                       | Resource Reference | ARM Resource ID              | subnetId parameter               | ARM deployment retry |
 
 #### Database / Data Store Dependencies
 
@@ -2013,6 +2016,8 @@ flowchart LR
     conn -->|ARM| vnet("🔌 VNet")
     conn -->|ARM| netC("🔗 Net Conn")
     pool -->|attach| netC
+    pool -->|image ref| pCat
+    netC -->|subnet ref| vnet
 
     cat -->|Git HTTPS| gh("🌍 GitHub")
     pCat -->|Git HTTPS| gh
@@ -2039,11 +2044,11 @@ flowchart LR
 ### Summary
 
 The Dependencies & Integration analysis reveals a hierarchical deployment
-composition with 22 service-to-service ARM deployment integrations, 3 data store
-dependencies (Key Vault), 4 external API integrations (GitHub/ADO catalogs), and
-4 diagnostic data flows to Log Analytics. All integrations use the ARM
-deployment engine as the primary protocol, which provides built-in retry,
-rollback, and idempotency guarantees.
+composition with 22 service-to-service ARM deployment integrations, 3 resource
+reference dependencies, 3 data store dependencies (Key Vault), 4 external API
+integrations (GitHub/ADO catalogs), and 4 diagnostic data flows to Log
+Analytics. All integrations use the ARM deployment engine as the primary
+protocol, which provides built-in retry, rollback, and idempotency guarantees.
 
 Cross-domain dependencies are well-managed: the Workload domain accesses
 Security (Key Vault) through secretIdentifier URIs passed as parameters, and all
