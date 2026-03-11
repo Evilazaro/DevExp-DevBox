@@ -22,8 +22,8 @@ The analysis reveals a well-structured business architecture with strong
 identity and access governance (RBAC, least-privilege enforcement), clear role
 segregation (backend vs. frontend engineering pools), and a
 configuration-as-code model that externalizes business rules into YAML files —
-enabling non-technical governance. No KPIs or Metrics were explicitly defined in
-the source, representing the primary gap for business maturity improvement.
+enabling non-technical governance. No KPIs or Metrics were explicitly defined,
+representing the primary gap for improvement.
 
 ---
 
@@ -223,8 +223,7 @@ documented.
 The DevExp-DevBox platform embeds several -aligned architecture principles
 observable in the source configuration and documentation. These principles guide
 decision-making across the platform's business capabilities, governance model,
-and operational workflows. Each principle below is traced to evidence in the
-analyzed source files.
+and operational workflows.
 
 These principles collectively enforce a platform model that balances developer
 velocity with enterprise governance, using configuration-driven automation to
