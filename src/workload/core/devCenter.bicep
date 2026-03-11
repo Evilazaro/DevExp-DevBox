@@ -158,7 +158,7 @@ type EnvironmentTypeConfig = {
 
 // Main DevCenter resource
 @description('Dev Center Resource')
-resource devcenter 'Microsoft.DevCenter/devcenters@2025-10-01-preview' = {
+resource devcenter 'Microsoft.DevCenter/devcenters@2026-01-01-preview' = {
   name: devCenterName
   location: location
   identity: {

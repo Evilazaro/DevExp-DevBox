@@ -47,12 +47,12 @@ type Catalog = {
 }
 
 @description('Reference to the existing DevCenter project')
-resource project 'Microsoft.DevCenter/projects@2025-10-01-preview' existing = {
+resource project 'Microsoft.DevCenter/projects@2026-01-01-preview' existing = {
   name: projectName
 }
 
 @description('DevBox Pool resources - creates pools for image definition catalogs')
-resource pool 'Microsoft.DevCenter/projects/pools@2025-10-01-preview' = [
+resource pool 'Microsoft.DevCenter/projects/pools@2026-01-01-preview' = [
   for (catalog, i) in catalogs: if (catalog.type == 'imageDefinition') {
     name: '${name}-${i}-pool'
     location: location
