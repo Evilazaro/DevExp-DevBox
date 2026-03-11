@@ -809,6 +809,71 @@ flowchart LR
 on Identity & Access Governance capability for RBAC assignment. Delivers the
 Developer Velocity Value Stream.
 
+### Developer Onboarding Process Flow
+
+```mermaid
+---
+title: Developer Onboarding Process Flow
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: Developer Onboarding Process Flow
+    accDescr: BPMN-style diagram showing the end-to-end developer onboarding workflow from request through provisioning to productive state
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    Start(["🚀 Developer Onboarding<br/>Request Received"]):::success
+    AddGroup("👤 Add User to<br/>Azure AD Group"):::core
+    AssignRBAC("🔑 Auto-Assign RBAC Roles<br/>Contributor, Dev Box User,<br/>Env User, KV Secrets User"):::core
+    RoleCheck{"⚡ Role Validated<br/>Successfully?"}:::warning
+    SelectPool("💻 Select Dev Box Pool<br/>by Developer Role"):::core
+    PoolDecision{"⚡ Backend or<br/>Frontend?"}:::warning
+    BackendPool("⚙️ Backend Pool<br/>32c/128GB/512GB SSD"):::core
+    FrontendPool("⚙️ Frontend Pool<br/>16c/64GB/256GB SSD"):::core
+    ProvisionBox("📦 Provision Dev Box<br/>with Catalog Image"):::core
+    AttachNetwork("🌐 Attach Managed<br/>Network Connection"):::core
+    ValidateAccess("🔐 Validate Identity<br/>& Network Access"):::core
+    Complete(["✅ Developer<br/>Productive"]):::success
+    Escalate("❌ Escalate to<br/>Platform Engineer"):::danger
+
+    Start -->|"initiates"| AddGroup
+    AddGroup -->|"triggers"| AssignRBAC
+    AssignRBAC -->|"validates"| RoleCheck
+    RoleCheck -->|"Yes"| SelectPool
+    RoleCheck -->|"No"| Escalate
+    SelectPool -->|"evaluates"| PoolDecision
+    PoolDecision -->|"Backend"| BackendPool
+    PoolDecision -->|"Frontend"| FrontendPool
+    BackendPool -->|"provisions"| ProvisionBox
+    FrontendPool -->|"provisions"| ProvisionBox
+    ProvisionBox -->|"connects"| AttachNetwork
+    AttachNetwork -->|"secures"| ValidateAccess
+    ValidateAccess -->|"completes"| Complete
+    Escalate -->|"resolves"| AddGroup
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+```
+
 #### 5.4.2 Environment Promotion Process
 
 | Attribute       | Value                                                                                                                                                                                                                                                                                                                    |
