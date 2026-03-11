@@ -257,20 +257,20 @@ directly.
 The Bicep orchestrator (`infra/main.bicep`) accepts three parameters, mapped
 from `azd` environment variables via `infra/main.parameters.json`:
 
-| Parameter         | Source Variable       | Description                                      | Constraints                          |
-| ----------------- | --------------------- | ------------------------------------------------ | ------------------------------------ |
-| `environmentName` | `${AZURE_ENV_NAME}`   | Environment name used for resource naming        | 2–10 characters                      |
-| `location`        | `${AZURE_LOCATION}`   | Azure region for resource deployment             | 17 allowed regions (see table below) |
-| `secretValue`     | `${KEY_VAULT_SECRET}` | GitHub or Azure DevOps token stored in Key Vault | `@secure()` — never logged           |
+| Parameter            | Source Variable       | Description                                      | Constraints                          |
+| -------------------- | --------------------- | ------------------------------------------------ | ------------------------------------ |
+| ⚙️ `environmentName` | `${AZURE_ENV_NAME}`   | Environment name used for resource naming        | 2–10 characters                      |
+| 🌍 `location`        | `${AZURE_LOCATION}`   | Azure region for resource deployment             | 17 allowed regions (see table below) |
+| 🔐 `secretValue`     | `${KEY_VAULT_SECRET}` | GitHub or Azure DevOps token stored in Key Vault | `@secure()` — never logged           |
 
 **Supported Azure Regions:**
 
-| Region          | Region          | Region             | Region               |
-| --------------- | --------------- | ------------------ | -------------------- |
-| `eastus`        | `eastus2`       | `westus`           | `westus2`            |
-| `westus3`       | `centralus`     | `northeurope`      | `westeurope`         |
-| `southeastasia` | `australiaeast` | `japaneast`        | `uksouth`            |
-| `canadacentral` | `swedencentral` | `switzerlandnorth` | `germanywestcentral` |
+| Region             | Region             | Region                | Region                  |
+| ------------------ | ------------------ | --------------------- | ----------------------- |
+| 🌍 `eastus`        | 🌍 `eastus2`       | 🌍 `westus`           | 🌍 `westus2`            |
+| 🌍 `westus3`       | 🌍 `centralus`     | 🌍 `northeurope`      | 🌍 `westeurope`         |
+| 🌍 `southeastasia` | 🌍 `australiaeast` | 🌍 `japaneast`        | 🌍 `uksouth`            |
+| 🌍 `canadacentral` | 🌍 `swedencentral` | 🌍 `switzerlandnorth` | 🌍 `germanywestcentral` |
 
 Resource groups are named using the convention
 `{yaml-name}-{environmentName}-{location}-RG`. For example, with
@@ -282,12 +282,12 @@ becomes `devexp-workload-dev-eastus2-RG`.
 The setup scripts create a `.azure/{envName}/.env` file with the following
 variables consumed by `azd provision`:
 
-| Variable                  | Set By                           | Description                                 |
-| ------------------------- | -------------------------------- | ------------------------------------------- |
-| `KEY_VAULT_SECRET`        | Setup script (from `gh`/prompt)  | Source control PAT stored in Key Vault      |
-| `SOURCE_CONTROL_PLATFORM` | Setup script (from parameter)    | Selected platform (`github` or `adogit`)    |
-| `AZURE_ENV_NAME`          | `azd env new`                    | Environment name passed to Bicep parameters |
-| `AZURE_LOCATION`          | `azd env set` or `azd provision` | Azure region passed to Bicep parameters     |
+| Variable                     | Set By                           | Description                                 |
+| ---------------------------- | -------------------------------- | ------------------------------------------- |
+| 🔐 `KEY_VAULT_SECRET`        | Setup script (from `gh`/prompt)  | Source control PAT stored in Key Vault      |
+| ⚙️ `SOURCE_CONTROL_PLATFORM` | Setup script (from parameter)    | Selected platform (`github` or `adogit`)    |
+| ⚙️ `AZURE_ENV_NAME`          | `azd env new`                    | Environment name passed to Bicep parameters |
+| 🌍 `AZURE_LOCATION`          | `azd env set` or `azd provision` | Azure region passed to Bicep parameters     |
 
 ### Resource Organization
 
@@ -585,12 +585,12 @@ azd provision -e dev
 The `azd provision` command deploys the following resources across three
 resource groups:
 
-| Resource Group                        | Resources Deployed                                         |
-| ------------------------------------- | ---------------------------------------------------------- |
-| `devexp-security-{env}-{region}-RG`   | Key Vault with RBAC, soft delete, and purge protection     |
-| `devexp-monitoring-{env}-{region}-RG` | Log Analytics workspace with AzureActivity solution        |
-| `devexp-workload-{env}-{region}-RG`   | DevCenter, projects, pools, catalogs, environment types    |
-| `{project}-connectivity-RG`           | Virtual Network, subnets, and DevCenter network connection |
+| Resource Group                           | Resources Deployed                                         |
+| ---------------------------------------- | ---------------------------------------------------------- |
+| 🔐 `devexp-security-{env}-{region}-RG`   | Key Vault with RBAC, soft delete, and purge protection     |
+| 📊 `devexp-monitoring-{env}-{region}-RG` | Log Analytics workspace with AzureActivity solution        |
+| 🏢 `devexp-workload-{env}-{region}-RG`   | DevCenter, projects, pools, catalogs, environment types    |
+| 🌐 `{project}-connectivity-RG`           | Virtual Network, subnets, and DevCenter network connection |
 
 ### Redeploying After Configuration Changes
 
@@ -622,12 +622,12 @@ cleanup script:
 
 **Cleanup Parameters:**
 
-| Parameter         | Default                                      | Description                                                                       |
-| ----------------- | -------------------------------------------- | --------------------------------------------------------------------------------- |
-| `-EnvName`        | `gitHub`                                     | Environment name used in resource group naming                                    |
-| `-Location`       | `eastus2`                                    | Azure region (eastus, eastus2, westus, westus2, westus3, northeurope, westeurope) |
-| `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Display name of the Azure AD app registration to delete                           |
-| `-GhSecretName`   | `AZURE_CREDENTIALS`                          | Name of the GitHub Actions secret to remove                                       |
+| Parameter            | Default                                      | Description                                                                       |
+| -------------------- | -------------------------------------------- | --------------------------------------------------------------------------------- |
+| ⚙️ `-EnvName`        | `gitHub`                                     | Environment name used in resource group naming                                    |
+| 🌍 `-Location`       | `eastus2`                                    | Azure region (eastus, eastus2, westus, westus2, westus3, northeurope, westeurope) |
+| 🏢 `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Display name of the Azure AD app registration to delete                           |
+| 🔑 `-GhSecretName`   | `AZURE_CREDENTIALS`                          | Name of the GitHub Actions secret to remove                                       |
 
 **The cleanup script removes the following resources:**
 
