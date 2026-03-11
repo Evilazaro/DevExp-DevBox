@@ -725,6 +725,8 @@ practices to maintain infrastructure quality.
 > review friction, and maintains the reliability of infrastructure templates
 > that teams depend on for **production developer environments**.
 
+<!-- -->
+
 > [!NOTE] Contributors create feature branches following naming conventions,
 > adhere to Bicep and PowerShell coding standards, and submit pull requests for
 > review. See `CONTRIBUTING.md` for the complete contribution guide including
