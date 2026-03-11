@@ -1421,6 +1421,74 @@ flowchart LR
 | Landing Zone  | groups       | Resource Group                    | 1:1         |
 | Key Vault     | stores       | Secret                            | 1:N         |
 
+### Capability-Process Dependency Graph
+
+```mermaid
+---
+title: DevExp-DevBox Capability-Process Dependency Graph
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: DevExp-DevBox Capability-Process Dependency Graph
+    accDescr: Shows the dependency relationships between business capabilities and the processes they enable, organized by capability tier
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph caps["⚙️ Business Capabilities"]
+        CAP1("💻 Developer Workstation<br/>Provisioning"):::core
+        CAP2("🔐 Identity & Access<br/>Governance"):::success
+        CAP3("🔒 Security & Secrets<br/>Management"):::danger
+        CAP4("📊 Monitoring &<br/>Observability"):::warning
+        CAP5("🌐 Network Isolation<br/>& Connectivity"):::neutral
+        CAP6("🏷️ Resource Organization<br/>& Governance"):::success
+        CAP7("📦 Configuration<br/>Management"):::core
+    end
+
+    subgraph procs["🔄 Business Processes"]
+        P1("👤 Developer<br/>Onboarding"):::core
+        P2("🔄 Environment<br/>Promotion"):::core
+        P3("🚀 Infrastructure<br/>Deployment"):::core
+        P4("🗑️ Infrastructure<br/>Cleanup"):::danger
+    end
+
+    CAP1 -->|"enables"| P1
+    CAP1 -->|"supports"| P2
+    CAP2 -->|"secures"| P1
+    CAP3 -->|"protects"| P3
+    CAP4 -->|"monitors"| P1
+    CAP4 -->|"monitors"| P3
+    CAP5 -->|"connects"| P1
+    CAP6 -->|"governs"| P3
+    CAP7 -->|"configures"| P1
+    P3 -->|"provisions"| CAP1
+    P4 -->|"deprovisions"| CAP1
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+
+    style caps fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style procs fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+```
+
 ### Summary
 
 The DevExp-DevBox business architecture exhibits a well-structured dependency
