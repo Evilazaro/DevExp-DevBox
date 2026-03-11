@@ -15,18 +15,18 @@ engineering teams to deliver self-service, cloud-powered workstations to
 developers through Azure DevCenter and Dev Box, reducing onboarding time from
 days to minutes.
 
-> 💡 **Why This Matters**: Developer environment inconsistency and lengthy
-> onboarding are top productivity killers in enterprise teams. DevExp-DevBox
-> eliminates these issues by codifying your entire developer platform — from
-> networking and security to Dev Box pools and environment types — as
-> Infrastructure as Code, deployable with a single command.
+> [!IMPORTANT] Developer environment inconsistency and lengthy onboarding are
+> top productivity killers in enterprise teams. DevExp-DevBox eliminates these
+> issues by codifying your entire developer platform — from networking and
+> security to Dev Box pools and environment types — as Infrastructure as Code,
+> deployable with a single command.
 
-> 📌 **How It Works**: The accelerator uses Azure Bicep templates with
-> YAML-driven configuration to deploy a complete DevCenter ecosystem. It creates
-> three resource groups (security, monitoring, workload), provisions Key Vault,
-> Log Analytics, and Virtual Networks, then deploys DevCenter with projects,
-> pools, catalogs, and environment types — all parameterized through
-> human-readable YAML files and deployable via the Azure Developer CLI (`azd`).
+> [!NOTE] The accelerator uses Azure Bicep templates with YAML-driven
+> configuration to deploy a complete DevCenter ecosystem. It creates three
+> resource groups (security, monitoring, workload), provisions Key Vault, Log
+> Analytics, and Virtual Networks, then deploys DevCenter with projects, pools,
+> catalogs, and environment types — all parameterized through human-readable
+> YAML files and deployable via the Azure Developer CLI (`azd`).
 
 ## Table of Contents
 
@@ -186,14 +186,14 @@ and managing developer environments at scale. It addresses the core challenges
 of developer onboarding, environment consistency, and infrastructure governance
 that enterprise teams face when adopting cloud-powered workstations.
 
-> 💡 **Why This Matters**: Manual environment setup wastes engineering hours and
-> introduces configuration drift. This accelerator automates the entire
-> developer platform lifecycle, letting platform teams define environments
-> declaratively and developers self-serve instantly.
+> [!IMPORTANT] Manual environment setup wastes engineering hours and introduces
+> configuration drift. This accelerator automates the entire developer platform
+> lifecycle, letting platform teams define environments declaratively and
+> developers self-serve instantly.
 
-> 📌 **How It Works**: Each feature maps to a modular Bicep template, configured
-> through YAML files under `infra/settings/`, and deployed as a cohesive unit
-> through the Azure Developer CLI.
+> [!NOTE] Each feature maps to a modular Bicep template, configured through YAML
+> files under `infra/settings/`, and deployed as a cohesive unit through the
+> Azure Developer CLI.
 
 | Feature                   | Description                                                                                 | Status    |
 | ------------------------- | ------------------------------------------------------------------------------------------- | --------- |
@@ -213,14 +213,14 @@ Before deploying DevExp-DevBox, ensure your environment meets the prerequisites
 below. The accelerator requires Azure CLI tooling and appropriate
 subscription-level permissions to create resource groups and assign roles.
 
-> 💡 **Why This Matters**: Subscription-scoped Bicep deployments require
-> elevated permissions compared to resource-group-scoped deployments. Verifying
+> [!IMPORTANT] Subscription-scoped Bicep deployments require elevated
+> permissions compared to resource-group-scoped deployments. Verifying
 > prerequisites upfront prevents partial deployments and permission-related
 > failures.
 
-> 📌 **How It Works**: The setup scripts (`setUp.ps1` and `setUp.sh`) validate
-> prerequisites, configure the Azure Developer CLI environment, and authenticate
-> before provisioning begins.
+> [!NOTE] The setup scripts (`setUp.ps1` and `setUp.sh`) validate prerequisites,
+> configure the Azure Developer CLI environment, and authenticate before
+> provisioning begins.
 
 | Requirement            | Details                                                                         | Required    |
 | ---------------------- | ------------------------------------------------------------------------------- | ----------- |
@@ -242,12 +242,12 @@ declarative approach separates configuration from deployment logic, making it
 straightforward to customize environments without modifying Bicep templates
 directly.
 
-> 💡 **Why This Matters**: YAML-driven configuration enables platform teams to
-> manage environments through version-controlled file edits rather than
-> requiring Bicep expertise for every modification.
+> [!IMPORTANT] YAML-driven configuration enables platform teams to manage
+> environments through version-controlled file edits rather than requiring Bicep
+> expertise for every modification.
 
-> 📌 **How It Works**: The Bicep orchestrator (`infra/main.bicep`) loads YAML
-> files at deployment time using the `loadYamlContent()` function, converting
+> [!NOTE] The Bicep orchestrator (`infra/main.bicep`) loads YAML files at
+> deployment time using the `loadYamlContent()` function, converting
 > human-readable settings into typed Bicep parameters automatically. Deployment
 > parameters are mapped from `azd` environment variables through
 > `infra/main.parameters.json`.
