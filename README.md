@@ -671,15 +671,13 @@ Features, and Tasks. Contributions are welcome from the community, and the
 development workflow uses structured branching and standardized engineering
 practices to maintain infrastructure quality.
 
-> [!IMPORTANT]
-> A consistent contribution workflow ensures code quality, reduces
+> [!IMPORTANT] A consistent contribution workflow ensures code quality, reduces
 > review friction, and maintains the reliability of infrastructure templates
 > that teams depend on for **production developer environments**.
 
 <!-- -->
 
-> [!NOTE]
-> Contributors create feature branches following naming conventions,
+> [!NOTE] Contributors create feature branches following naming conventions,
 > adhere to Bicep and PowerShell coding standards, and submit pull requests for
 > review. See `CONTRIBUTING.md` for the complete contribution guide including
 > branching conventions and engineering standards.
