@@ -1,5 +1,16 @@
 # Business Architecture — DevExp-DevBox
 
+## 📑 Table of Contents
+
+- [1. Executive Summary](#1-executive-summary)
+- [2. Architecture Landscape](#2-architecture-landscape)
+- [3. Architecture Principles](#3-architecture-principles)
+- [4. Current State Baseline](#4-current-state-baseline)
+- [5. Component Catalog](#5-component-catalog)
+- [8. Dependencies & Integration](#8-dependencies--integration)
+
+---
+
 ## 1. Executive Summary
 
 ### Overview
@@ -42,14 +53,14 @@ than in procedural application code.
 
 ### 2.1 Business Strategy (2)
 
-| Name                                   | Description                                                                                                                                                                                                       |
+| 🎯 Name                                | 📝 Description                                                                                                                                                                                                    |
 | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Developer Experience Platform Strategy | **Strategic initiative** to deliver centralized, secure, cloud-hosted developer workstations across engineering teams, reducing onboarding from weeks to hours through Azure Dev Box and configuration-driven IaC |
 | Cloud Adoption & Landing Zone Strategy | **Framework alignment** with Microsoft Cloud Adoption Framework and Azure Landing Zone principles for enterprise-grade resource segregation, governance, and operational excellence                               |
 
 ### 2.2 Business Capabilities (7)
 
-| Name                               | Description                                                                                                                                                                   |
+| ⚙️ Name                            | 📝 Description                                                                                                                                                                |
 | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Developer Workstation Provisioning | **Core capability** for provisioning role-specific Dev Box environments with pre-configured tooling, VM sizing, and catalog-driven image definitions                          |
 | Identity & Access Governance       | **Governance capability** enforcing Azure AD group-based RBAC with role tiering (Dev Manager, Contributor, Dev Box User) following least-privilege principles                 |
@@ -61,14 +72,14 @@ than in procedural application code.
 
 ### 2.3 Value Streams (2)
 
-| Name                               | Description                                                                                                                                                                        |
+| 🚀 Name                            | 📝 Description                                                                                                                                                                     |
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Developer Velocity Value Stream    | **Primary value stream** reducing developer onboarding time through pre-configured, role-specific Dev Box environments with automated provisioning and identity integration        |
 | Security & Compliance Value Stream | **Supporting value stream** delivering enterprise-grade security through Azure AD integration, RBAC enforcement, Key Vault secret management, and comprehensive diagnostic logging |
 
 ### 2.4 Business Processes (4)
 
-| Name                                    | Description                                                                                                                                                    |
+| 🔄 Name                                 | 📝 Description                                                                                                                                                 |
 | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Developer Onboarding Process            | **Core process** for onboarding developers: Azure AD group assignment triggers automatic Dev Box pool allocation with role-specific tooling and network access |
 | Environment Promotion Process           | **Lifecycle process** governing application deployment through defined SDLC stages (dev → staging → UAT) with isolated environment types per project           |
@@ -77,21 +88,21 @@ than in procedural application code.
 
 ### 2.5 Business Services (2)
 
-| Name                         | Description                                                                                                                                                                                |
+| 🛠️ Name                      | 📝 Description                                                                                                                                                                             |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Dev Box Provisioning Service | **Platform service** that creates and manages role-specific Dev Box pools (backend-engineer, frontend-engineer) with designated VM SKUs, image definitions, and environment configurations |
 | Secret Management Service    | **Security service** providing centralized credential storage and retrieval through Azure Key Vault with RBAC-controlled access, purge protection, and audit logging                       |
 
 ### 2.6 Business Functions (2)
 
-| Name                          | Description                                                                                                                                                         |
+| 🏢 Name                       | 📝 Description                                                                                                                                                      |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Platform Engineering Function | **Organizational function** responsible for infrastructure design, module creation, governance enforcement, and Dev Center management within the Platforms division |
 | Project Delivery Function     | **Organizational function** managing project-scoped resource allocation, team-specific pools, catalogs, and environment configurations for product delivery teams   |
 
 ### 2.7 Business Roles & Actors (4)
 
-| Name                                    | Description                                                                                                                                                                                              |
+| 👥 Name                                 | 📝 Description                                                                                                                                                                                           |
 | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Dev Manager (Platform Engineering Team) | **Administrative role** with DevCenter Project Admin permissions, responsible for managing Dev Box definitions, project settings, and platform governance via Azure AD group "Platform Engineering Team" |
 | Developer (eShop Developers)            | **Consumer role** with Contributor, Dev Box User, and Deployment Environment User permissions, assigned via Azure AD group for project-scoped access to Dev Boxes and deployment environments            |
@@ -100,7 +111,7 @@ than in procedural application code.
 
 ### 2.8 Business Rules (5)
 
-| Name                                  | Description                                                                                                                                                                             |
+| 📏 Name                               | 📝 Description                                                                                                                                                                          |
 | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Role-Based VM Sizing Rule             | **Resource allocation rule**: backend engineers receive 32-core/128GB/512GB SSD VMs; frontend engineers receive 16-core/64GB/256GB SSD VMs, ensuring role-appropriate compute resources |
 | Network Isolation Per Project Rule    | **Security rule**: each project receives an isolated virtual network with dedicated address space, preventing cross-project network traffic by default                                  |
@@ -110,14 +121,14 @@ than in procedural application code.
 
 ### 2.9 Business Events (2)
 
-| Name                                | Description                                                                                                                                                                 |
+| ⚡ Name                             | 📝 Description                                                                                                                                                              |
 | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Project Onboarding Request Event    | **Trigger event**: addition of a new project entry in the Dev Center configuration initiates resource provisioning including network, identity, pools, and catalogs         |
 | Environment Promotion Trigger Event | **Lifecycle event**: application readiness in a lower SDLC stage (dev) triggers promotion to the next stage (staging → UAT) through defined environment type configurations |
 
 ### 2.10 Business Objects/Entities (6)
 
-| Name             | Description                                                                                                                                                            |
+| 📦 Name          | 📝 Description                                                                                                                                                         |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Dev Center       | **Core entity** representing the centralized developer workstation platform with catalog sync, hosted networking, and Azure Monitor agent integration                  |
 | Project          | **Organizational entity** representing a distinct team workspace (e.g., eShop) with dedicated identity, network, pools, catalogs, and environment types                |
@@ -378,7 +389,7 @@ component's purpose and business relationships.
 
 #### 5.1.1 Developer Experience Platform Strategy
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                                 |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                              |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Developer Experience Platform Strategy                                                                                                                                                                                                                                                                                                |
 | **Type**        | Business Strategy                                                                                                                                                                                                                                                                                                                     |
@@ -390,7 +401,7 @@ business case for all operational capabilities.
 
 #### 5.1.2 Cloud Adoption & Landing Zone Strategy
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                          |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                       |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Cloud Adoption & Landing Zone Strategy                                                                                                                                                                                                                                                         |
 | **Type**        | Business Strategy                                                                                                                                                                                                                                                                              |
@@ -404,7 +415,7 @@ foundation for the Security & Compliance Value Stream.
 
 #### 5.2.1 Developer Workstation Provisioning
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                             |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Developer Workstation Provisioning                                                                                                                                                                                                                                                                                   |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                                                  |
@@ -417,7 +428,7 @@ Network Isolation, and Identity & Access Governance capabilities.
 
 #### 5.2.2 Identity & Access Governance
 
-| Attribute       | Value                                                                                                                                                                                                                                                                               |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                            |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Identity & Access Governance                                                                                                                                                                                                                                                        |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                 |
@@ -430,7 +441,7 @@ Stream.
 
 #### 5.2.3 Security & Secrets Management
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                   |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Security & Secrets Management                                                                                                                                                                                                                                                                                           |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                                                     |
@@ -443,7 +454,7 @@ Rule. Supports the Secret Management Service. Feeds audit logs to the Monitoring
 
 #### 5.2.4 Monitoring & Observability
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                  |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                               |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Name**        | Monitoring & Observability                                                                                                                                                                                                                                                                             |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                                    |
@@ -455,7 +466,7 @@ maturity gap due to absent alerting rules and KPI dashboards.
 
 #### 5.2.5 Network Isolation & Connectivity
 
-| Attribute       | Value                                                                                                                                                                                                                                                     |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                  |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Network Isolation & Connectivity                                                                                                                                                                                                                          |
 | **Type**        | Business Capability                                                                                                                                                                                                                                       |
@@ -467,7 +478,7 @@ Each Project entity has an associated network configuration.
 
 #### 5.2.6 Resource Organization & Governance
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                             |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                          |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Resource Organization & Governance                                                                                                                                                                                                                                                                |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                               |
@@ -479,7 +490,7 @@ entity. Enables cost allocation tracking through enforced tags.
 
 #### 5.2.7 Configuration Management
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                             |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                          |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Configuration Management                                                                                                                                                                                                                                                                                          |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                                               |
@@ -493,7 +504,7 @@ Referenced by Project entities for project-specific catalogs.
 
 #### 5.3.1 Developer Velocity Value Stream
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                              |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                           |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Name**        | Developer Velocity Value Stream                                                                                                                                                                                                                                                                                    |
 | **Type**        | Value Stream                                                                                                                                                                                                                                                                                                       |
@@ -505,7 +516,7 @@ Configuration Management capability.
 
 #### 5.3.2 Security & Compliance Value Stream
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                    |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                 |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Security & Compliance Value Stream                                                                                                                                                                                                                                                       |
 | **Type**        | Value Stream                                                                                                                                                                                                                                                                             |
@@ -584,7 +595,7 @@ flowchart LR
 
 #### 5.4.1 Developer Onboarding Process
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                                                                                   |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                                                                                |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Developer Onboarding Process                                                                                                                                                                                                                                                                                                                                                            |
 | **Type**        | Business Process                                                                                                                                                                                                                                                                                                                                                                        |
@@ -660,7 +671,7 @@ flowchart TB
 
 #### 5.4.2 Environment Promotion Process
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                    |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                 |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Name**        | Environment Promotion Process                                                                                                                                                                                                                                                                                            |
 | **Type**        | Business Process                                                                                                                                                                                                                                                                                                         |
@@ -672,7 +683,7 @@ Triggered by the Environment Promotion Trigger Event.
 
 #### 5.4.3 Infrastructure Deployment Process
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                                                                                   |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                                                                                |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Infrastructure Deployment Process                                                                                                                                                                                                                                                                                                                                                       |
 | **Type**        | Business Process                                                                                                                                                                                                                                                                                                                                                                        |
@@ -684,7 +695,7 @@ Depends on the Secret Management Service for GitHub token retrieval.
 
 #### 5.4.4 Infrastructure Cleanup & Deprovisioning
 
-| Attribute       | Value                                                                                                                                                                                                                                                                |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                             |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Infrastructure Cleanup & Deprovisioning                                                                                                                                                                                                                              |
 | **Type**        | Business Process                                                                                                                                                                                                                                                     |
@@ -698,7 +709,7 @@ the target environment.
 
 #### 5.5.1 Dev Box Provisioning Service
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                                                  |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                                               |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Name**        | Dev Box Provisioning Service                                                                                                                                                                                                                                                                                                                           |
 | **Type**        | Business Service                                                                                                                                                                                                                                                                                                                                       |
@@ -711,7 +722,7 @@ definitions.
 
 #### 5.5.2 Secret Management Service
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                               |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                            |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Secret Management Service                                                                                                                                                                                                                                                                           |
 | **Type**        | Business Service                                                                                                                                                                                                                                                                                    |
@@ -726,7 +737,7 @@ Monitoring & Observability capability.
 
 #### 5.6.1 Platform Engineering Function
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                                            |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                                         |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Name**        | Platform Engineering Function                                                                                                                                                                                                                                                                                                                    |
 | **Type**        | Business Function                                                                                                                                                                                                                                                                                                                                |
@@ -738,7 +749,7 @@ Service and Infrastructure Deployment Process.
 
 #### 5.6.2 Project Delivery Function
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                  |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                               |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Project Delivery Function                                                                                                                                                                                                                                                              |
 | **Type**        | Business Function                                                                                                                                                                                                                                                                      |
@@ -752,7 +763,7 @@ dedicated resources.
 
 #### 5.7.1 Dev Manager (Platform Engineering Team)
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                                              |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                                           |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Dev Manager (Platform Engineering Team)                                                                                                                                                                                                                                                                                                            |
 | **Type**        | Business Role                                                                                                                                                                                                                                                                                                                                      |
@@ -763,7 +774,7 @@ all Project entities. Governed by the Least-Privilege RBAC Enforcement Rule.
 
 #### 5.7.2 Developer (eShop Developers)
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                   |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Developer (eShop Developers)                                                                                                                                                                                                                                                                                            |
 | **Type**        | Business Role                                                                                                                                                                                                                                                                                                           |
@@ -775,7 +786,7 @@ Sizing Rule and Network Isolation Per Project Rule.
 
 #### 5.7.3 Platform Engineer
 
-| Attribute       | Value                                                                                                                                                                                                                                                                           |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                        |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Platform Engineer                                                                                                                                                                                                                                                               |
 | **Type**        | Business Role                                                                                                                                                                                                                                                                   |
@@ -787,7 +798,7 @@ Deployment Process.
 
 #### 5.7.4 DevOps Lead
 
-| Attribute       | Value                                                                                                                                                                                                                                                    |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                 |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | DevOps Lead                                                                                                                                                                                                                                              |
 | **Type**        | Business Role                                                                                                                                                                                                                                            |
@@ -801,7 +812,7 @@ Engineering Function.
 
 #### 5.8.1 Role-Based VM Sizing Rule
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                       |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                    |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Role-Based VM Sizing Rule                                                                                                                                                                                                                                                                                   |
 | **Type**        | Business Rule                                                                                                                                                                                                                                                                                               |
@@ -813,7 +824,7 @@ Developer Velocity Value Stream.
 
 #### 5.8.2 Network Isolation Per Project Rule
 
-| Attribute       | Value                                                                                                                                                                                                                                                           |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                        |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Network Isolation Per Project Rule                                                                                                                                                                                                                              |
 | **Type**        | Business Rule                                                                                                                                                                                                                                                   |
@@ -825,7 +836,7 @@ Value Stream.
 
 #### 5.8.3 Least-Privilege RBAC Enforcement Rule
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                                                        |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                                                     |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Name**        | Least-Privilege RBAC Enforcement Rule                                                                                                                                                                                                                                                                                                                        |
 | **Type**        | Business Rule                                                                                                                                                                                                                                                                                                                                                |
@@ -837,7 +848,7 @@ Implements the Defense in Depth principle.
 
 #### 5.8.4 Resource Tagging Mandate
 
-| Attribute       | Value                                                                                                                                                                                                                                                                         |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                      |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Resource Tagging Mandate                                                                                                                                                                                                                                                      |
 | **Type**        | Business Rule                                                                                                                                                                                                                                                                 |
@@ -849,7 +860,7 @@ center billing and compliance reporting.
 
 #### 5.8.5 Secret Purge Protection Rule
 
-| Attribute       | Value                                                                                                                                                                                                                                                     |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                  |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Secret Purge Protection Rule                                                                                                                                                                                                                              |
 | **Type**        | Business Rule                                                                                                                                                                                                                                             |
@@ -862,7 +873,7 @@ Defense in Depth principle. Protects the Key Vault entity.
 
 #### 5.9.1 Project Onboarding Request Event
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                             |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Project Onboarding Request Event                                                                                                                                                                                                                                                                     |
 | **Type**        | Business Event                                                                                                                                                                                                                                                                                       |
@@ -873,7 +884,7 @@ new Project entity. Invokes the Dev Box Provisioning Service.
 
 #### 5.9.2 Environment Promotion Trigger Event
 
-| Attribute       | Value                                                                                                                                                                                                                                                                               |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                            |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Environment Promotion Trigger Event                                                                                                                                                                                                                                                 |
 | **Type**        | Business Event                                                                                                                                                                                                                                                                      |
@@ -886,7 +897,7 @@ on Environment Type entities. Supports the Developer Velocity Value Stream.
 
 #### 5.10.1 Dev Center
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                            |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                         |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Dev Center                                                                                                                                                                                                                                                                                                                       |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                                                                  |
@@ -898,7 +909,7 @@ Observability capability.
 
 #### 5.10.2 Project
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                                                             |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                                                          |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Project                                                                                                                                                                                                                                                                                                                                                           |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                                                                                                   |
@@ -910,7 +921,7 @@ Rule. Consumed by the Developer role.
 
 #### 5.10.3 Dev Box Pool
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                  |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                               |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Dev Box Pool                                                                                                                                                                                                                                                                                                           |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                                                        |
@@ -922,7 +933,7 @@ Developer role.
 
 #### 5.10.4 Environment Type
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                             |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Name**        | Environment Type                                                                                                                                                                                                                                                                     |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                      |
@@ -934,7 +945,7 @@ Promotion Trigger Event.
 
 #### 5.10.5 Landing Zone
 
-| Attribute       | Value                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Landing Zone                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                                                                                                                                                              |
@@ -946,7 +957,7 @@ Adoption & Landing Zone Strategy.
 
 #### 5.10.6 Key Vault
 
-| Attribute       | Value                                                                                                                                                                                                                                                                              |
+| 🏷️ Attribute    | 📋 Value                                                                                                                                                                                                                                                                           |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Name**        | Key Vault                                                                                                                                                                                                                                                                          |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                    |
@@ -1088,7 +1099,7 @@ flowchart LR
 
 ### Capability-to-Process Mappings
 
-| Business Capability                | Enabling Processes                          | Dependencies                                                              |
+| ⚙️ Business Capability             | 🔄 Enabling Processes                       | 🔗 Dependencies                                                           |
 | ---------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------- |
 | Developer Workstation Provisioning | Developer Onboarding, Environment Promotion | Identity & Access Governance, Network Isolation, Configuration Management |
 | Identity & Access Governance       | Developer Onboarding (RBAC assignment)      | Azure AD group management (external), Least-Privilege RBAC Rule           |
@@ -1100,35 +1111,35 @@ flowchart LR
 
 ### Service-to-Capability Alignment
 
-| Business Service             | Implementing Capability            | Governed By                                                         |
+| 🛠️ Business Service          | ⚙️ Implementing Capability         | 📏 Governed By                                                      |
 | ---------------------------- | ---------------------------------- | ------------------------------------------------------------------- |
 | Dev Box Provisioning Service | Developer Workstation Provisioning | Role-Based VM Sizing Rule, Network Isolation Per Project Rule       |
 | Secret Management Service    | Security & Secrets Management      | Secret Purge Protection Rule, Least-Privilege RBAC Enforcement Rule |
 
 ### Cross-Layer Integration Points
 
-| Integration Point  | Business Layer Component          | Application/Technology Layer Component           | Integration Mechanism                                |
-| ------------------ | --------------------------------- | ------------------------------------------------ | ---------------------------------------------------- |
-| Orchestration      | Infrastructure Deployment Process | `infra/main.bicep` (subscription-scoped)         | Bicep parameter binding via YAML `loadYamlContent()` |
-| Secret Injection   | Secret Management Service         | `src/security/keyVault.bicep`                    | Bicep output chaining (secret identifier)            |
-| Identity Binding   | Identity & Access Governance      | `src/identity/*.bicep` (role assignment modules) | Azure AD group ID reference in YAML config           |
-| Network Attachment | Network Isolation & Connectivity  | `src/connectivity/networkConnection.bicep`       | DevCenter network connection with Azure AD Join      |
-| Diagnostic Logging | Monitoring & Observability        | `src/management/logAnalytics.bicep`              | Log Analytics workspace ID passed to all modules     |
-| Catalog Sync       | Configuration Management          | `src/workload/core/catalog.bicep`                | GitHub URI + secret identifier for authentication    |
+| 🔗 Integration Point | 🏢 Business Layer Component       | 💻 Application/Technology Layer Component        | ⚙️ Integration Mechanism                             |
+| -------------------- | --------------------------------- | ------------------------------------------------ | ---------------------------------------------------- |
+| Orchestration        | Infrastructure Deployment Process | `infra/main.bicep` (subscription-scoped)         | Bicep parameter binding via YAML `loadYamlContent()` |
+| Secret Injection     | Secret Management Service         | `src/security/keyVault.bicep`                    | Bicep output chaining (secret identifier)            |
+| Identity Binding     | Identity & Access Governance      | `src/identity/*.bicep` (role assignment modules) | Azure AD group ID reference in YAML config           |
+| Network Attachment   | Network Isolation & Connectivity  | `src/connectivity/networkConnection.bicep`       | DevCenter network connection with Azure AD Join      |
+| Diagnostic Logging   | Monitoring & Observability        | `src/management/logAnalytics.bicep`              | Log Analytics workspace ID passed to all modules     |
+| Catalog Sync         | Configuration Management          | `src/workload/core/catalog.bicep`                | GitHub URI + secret identifier for authentication    |
 
 ### Entity Relationship Map
 
-| Parent Entity | Relationship | Child Entity                      | Cardinality |
-| ------------- | ------------ | --------------------------------- | ----------- |
-| Dev Center    | hosts        | Project                           | 1:N         |
-| Dev Center    | defines      | Environment Type                  | 1:N         |
-| Dev Center    | manages      | Catalog (central)                 | 1:N         |
-| Project       | contains     | Dev Box Pool                      | 1:N         |
-| Project       | configures   | Environment Type (project-scoped) | 1:N         |
-| Project       | references   | Catalog (project-specific)        | 1:N         |
-| Project       | uses         | Network (VNet + Subnet)           | 1:1         |
-| Landing Zone  | groups       | Resource Group                    | 1:1         |
-| Key Vault     | stores       | Secret                            | 1:N         |
+| 📦 Parent Entity | 🔗 Relationship | 📦 Child Entity                   | 🔢 Cardinality |
+| ---------------- | --------------- | --------------------------------- | -------------- |
+| Dev Center       | hosts           | Project                           | 1:N            |
+| Dev Center       | defines         | Environment Type                  | 1:N            |
+| Dev Center       | manages         | Catalog (central)                 | 1:N            |
+| Project          | contains        | Dev Box Pool                      | 1:N            |
+| Project          | configures      | Environment Type (project-scoped) | 1:N            |
+| Project          | references      | Catalog (project-specific)        | 1:N            |
+| Project          | uses            | Network (VNet + Subnet)           | 1:1            |
+| Landing Zone     | groups          | Resource Group                    | 1:1            |
+| Key Vault        | stores          | Secret                            | 1:N            |
 
 ### Capability-Process Dependency Graph
 
