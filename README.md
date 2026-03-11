@@ -370,30 +370,230 @@ devexp-devcenter   eastus2     Succeeded
 
 **Overview**
 
-After provisioning, platform engineers manage the Dev Box environment through
-Azure CLI commands, the Azure portal, or by updating the YAML configuration
-files and rerunning `azd provision`. Developers access their Dev Boxes through
-the Microsoft Dev Box developer portal or the Windows App.
+After provisioning, platform engineers manage the Dev Box environment by editing
+the YAML configuration files and rerunning `azd provision`. The deployment is
+idempotent — every `azd provision` run converges the infrastructure to match the
+current YAML state, adding new resources, updating changed ones, and leaving
+untouched resources alone. Developers access their Dev Boxes through the
+Microsoft Dev Box developer portal or the Windows App.
 
-Day-to-day operations include onboarding new projects, adding Dev Box pools,
-managing environment types, and monitoring resource health. All operational
-changes flow through the same YAML-driven, IaC workflow used in initial
-provisioning.
+All day-2 operations follow the same workflow: **edit YAML → run
+`azd provision`**. There are no separate commands for adding projects, pools,
+catalogs, or environment types.
+
+### Onboarding a New Project
+
+Add a project entry to `infra/settings/workload/devcenter.yaml` under the
+`projects:` array (see [Adding a New Project](#adding-a-new-project) for the
+full YAML template), then run:
+
+```bash
+azd provision
+```
+
+This single command provisions all resources for the new project: Dev Center
+project, network connection, RBAC role assignments (project identity + Entra ID
+group), catalogs, environment types, and Dev Box pools.
+
+### Adding a Dev Box Pool
+
+Add a pool entry to a project's `pools:` array in `devcenter.yaml`:
+
+```yaml
+pools:
+  - name: 'data-engineer'
+    imageDefinitionName: 'project-data-engineer'
+    vmSku: general_i_32c128gb512ssd_v2
+```
+
+Each pool references an `imageDefinitionName` from a project catalog of type
+`imageDefinition`. The accelerator creates the pool with Windows Client
+licensing, local administrator access enabled, and single sign-on enabled. Then
+run `azd provision` to apply.
+
+### Adding a Catalog
+
+**Dev Center-level catalog** — add to the top-level `catalogs:` array:
+
+```yaml
+catalogs:
+  - name: 'customTasks'
+    type: gitHub # or adoGit
+    visibility: public # or private (requires Key Vault secret)
+    uri: 'https://github.com/microsoft/devcenter-catalog.git'
+    branch: 'main'
+    path: './Tasks'
+```
+
+Dev Center catalogs sync on a scheduled basis. Private catalogs authenticate
+using the source control PAT stored in Key Vault.
+
+**Project-level catalog** — add to a project's `catalogs:` array:
+
+```yaml
+catalogs:
+  - name: 'devboxImages'
+    type: imageDefinition # or environmentDefinition
+    sourceControl: gitHub # or adoGit
+    visibility: private
+    uri: 'https://github.com/org/repo.git'
+    branch: 'main'
+    path: '/.devcenter/imageDefinitions'
+```
+
+Project catalogs have a `type` field (`imageDefinition` or
+`environmentDefinition`) and a `sourceControl` field instead of `type` for the
+repository kind. Image definition catalogs drive Dev Box pool creation.
+Environment definition catalogs provide deployment environment templates.
+
+Run `azd provision` after any catalog change.
+
+### Managing Environment Types
+
+**Dev Center-level environment types** define the available lifecycle stages.
+Add to the top-level `environmentTypes:` array:
+
+```yaml
+environmentTypes:
+  - name: 'prod'
+    deploymentTargetId: ''
+```
+
+**Project-level environment types** control which Dev Center environment types
+are available to a specific project. Add to a project's `environmentTypes:`
+array:
+
+```yaml
+environmentTypes:
+  - name: 'prod'
+    deploymentTargetId: '/subscriptions/<target-subscription-id>'
+```
+
+Leave `deploymentTargetId` empty to use the current subscription. Each project
+environment type gets a system-assigned managed identity and grants Contributor
+to environment creators automatically.
+
+Run `azd provision` after any environment type change.
+
+### Modifying Network Configuration
+
+Each project's `network:` block controls how Dev Boxes connect to the network:
+
+| `virtualNetworkType` | `create` | Behavior                                                                                                                                                          |
+| -------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Managed`            | any      | Uses Microsoft-hosted networking. No VNet, subnet, or network connection is created. The Dev Center `microsoftHostedNetworkEnableStatus` must be `Enabled`.       |
+| `Unmanaged`          | `true`   | Creates a new VNet, subnet, and network connection in the specified `resourceGroupName`. Attaches the network to the Dev Center.                                  |
+| `Unmanaged`          | `false`  | References an existing VNet by `name` in the specified `resourceGroupName`. Creates a network connection from its first subnet and attaches it to the Dev Center. |
+
+To switch a project from managed to unmanaged networking:
+
+```yaml
+network:
+  name: myProject
+  create: true
+  resourceGroupName: 'myProject-connectivity-RG'
+  virtualNetworkType: Unmanaged
+  addressPrefixes:
+    - 10.2.0.0/16
+  subnets:
+    - name: myProject-subnet
+      properties:
+        addressPrefix: 10.2.1.0/24
+  tags:
+    environment: dev
+```
+
+Run `azd provision` to apply.
+
+### Updating Identity & RBAC
+
+**Dev Center identity** — the Dev Center uses a SystemAssigned managed identity
+with role assignments at two scopes:
+
+- `Subscription` — Contributor and User Access Administrator
+- `ResourceGroup` — Key Vault Secrets User and Key Vault Secrets Officer (scoped
+  to the security resource group)
+
+**Organizational roles** — map Entra ID groups to RBAC roles at the resource
+group scope. Edit `identity.roleAssignments.orgRoleTypes` in `devcenter.yaml`:
+
+```yaml
+orgRoleTypes:
+  - type: DevManager
+    azureADGroupId: '<entra-group-id>'
+    azureADGroupName: 'Platform Engineering Team'
+    azureRBACRoles:
+      - name: 'DevCenter Project Admin'
+        id: '331c37c6-af14-46d9-b9f4-e1909e1b95a0'
+        scope: ResourceGroup
+```
+
+**Project identity** — each project gets a SystemAssigned managed identity. Its
+role assignments are applied from the project's `identity.roleAssignments`
+array. Roles use a `scope` field that controls where the assignment is created:
+
+| Scope           | Applied to                                          |
+| --------------- | --------------------------------------------------- |
+| `Project`       | Scoped to the Dev Center project resource itself    |
+| `ResourceGroup` | Scoped to the workload and security resource groups |
+
+Both the project's managed identity and the specified Entra ID group receive the
+same role assignments. Run `azd provision` after changes.
+
+### Monitoring & Diagnostics
+
+The accelerator automatically configures Log Analytics diagnostic settings on:
+
+| Resource         | Logs            | Metrics     |
+| ---------------- | --------------- | ----------- |
+| Dev Center       | All logs        | All metrics |
+| Key Vault        | All logs        | All metrics |
+| Virtual Networks | All logs        | All metrics |
+| Log Analytics    | All logs (self) | All metrics |
+
+Additionally, an **AzureActivity** solution is deployed on the Log Analytics
+workspace for subscription-level activity log collection.
+
+View collected diagnostics:
+
+```bash
+az monitor log-analytics workspace show \
+  --resource-group "devexp-monitoring-dev-eastus2-RG" \
+  --workspace-name "$(az monitor log-analytics workspace list \
+    --resource-group 'devexp-monitoring-dev-eastus2-RG' \
+    --query '[0].name' -o tsv)" \
+  --output table
+```
+
+### Verifying Catalog Sync
+
+Check the sync status of Dev Center catalogs:
+
+```bash
+az devcenter admin catalog list \
+  --dev-center-name "devexp-devcenter" \
+  --resource-group "devexp-workload-dev-eastus2-RG" \
+  --output table
+```
+
+Check project-level catalogs:
+
+```bash
+az devcenter admin catalog list \
+  --project-name "eShop" \
+  --resource-group "devexp-workload-dev-eastus2-RG" \
+  --output table
+```
 
 ### Managing Projects
 
 List deployed projects in the Dev Center:
 
 ```bash
-az devcenter admin project list --dev-center-name "devexp-devcenter" --resource-group "devexp-workload-dev-eastus2-RG" --output table
-```
-
-**Expected output:**
-
-```text
-Name    Location    DevCenterName      ProvisioningState
-------  ----------  -----------------  -------------------
-eShop   eastus2     devexp-devcenter   Succeeded
+az devcenter admin project list \
+  --dev-center-name "devexp-devcenter" \
+  --resource-group "devexp-workload-dev-eastus2-RG" \
+  --output table
 ```
 
 ### Managing Dev Box Pools
@@ -401,24 +601,91 @@ eShop   eastus2     devexp-devcenter   Succeeded
 List available Dev Box pools in a project:
 
 ```bash
-az devcenter admin pool list --project-name "eShop" --resource-group "devexp-workload-dev-eastus2-RG" --output table
+az devcenter admin pool list \
+  --project-name "eShop" \
+  --resource-group "devexp-workload-dev-eastus2-RG" \
+  --output table
 ```
 
-**Expected output:**
-
-```text
-Name               DevBoxDefinition          VmSku
------------------  ------------------------  ----------------------------
-backend-engineer   eShop-backend-engineer    general_i_32c128gb512ssd_v2
-frontend-engineer  eShop-frontend-engineer   general_i_16c64gb256ssd_v2
-```
-
-### Accessing Dev Boxes (Developer Portal)
+### Developer Self-Service
 
 Developers connect to their Dev Boxes through the Microsoft Dev Box portal at
 `https://devbox.microsoft.com`. Team members assigned to the appropriate Entra
-ID groups (e.g., "eShop Developers") can create and manage their Dev Box
-instances directly.
+ID group (e.g., "eShop Developers" with the **Dev Box User** role) can:
+
+- **Create** a Dev Box from any pool in their assigned project
+- **Start / Stop / Restart** their Dev Box instances
+- **Connect** via browser (web client) or the Windows App
+- **Delete** Dev Boxes they no longer need
+
+Access is governed by the `identity.roleAssignments` in `devcenter.yaml`. Users
+must be members of the Entra ID group specified in the project's configuration
+and that group must have the `Dev Box User` role
+(`45d50f46-0b78-4001-a660-4198cbe8cd05`).
+
+### Viewing Provisioning Outputs
+
+After `azd provision` completes, view key outputs:
+
+```bash
+azd env get-values
+```
+
+Key outputs include:
+
+| Output                                 | Description                         |
+| -------------------------------------- | ----------------------------------- |
+| `AZURE_DEV_CENTER_NAME`                | Name of the deployed Dev Center     |
+| `AZURE_DEV_CENTER_PROJECTS`            | Array of deployed project names     |
+| `AZURE_KEY_VAULT_NAME`                 | Key Vault resource name             |
+| `AZURE_KEY_VAULT_ENDPOINT`             | Key Vault URI                       |
+| `AZURE_LOG_ANALYTICS_WORKSPACE_ID`     | Log Analytics workspace resource ID |
+| `SECURITY_AZURE_RESOURCE_GROUP_NAME`   | Security resource group name        |
+| `MONITORING_AZURE_RESOURCE_GROUP_NAME` | Monitoring resource group name      |
+| `WORKLOAD_AZURE_RESOURCE_GROUP_NAME`   | Workload resource group name        |
+
+### Brownfield Integration
+
+To deploy into existing resource groups, Key Vault, or Virtual Networks, set
+`create: false` in the relevant configuration:
+
+**Existing resource groups** — in `azureResources.yaml`:
+
+```yaml
+workload:
+  create: false
+  name: 'my-existing-workload-rg'
+  tags: { ... }
+```
+
+When `create: false`, the accelerator references the resource group by name
+instead of creating it. The naming convention suffix (`-<env>-<location>-RG`) is
+skipped — the `name` value is used as-is.
+
+**Existing Key Vault** — in `security.yaml`:
+
+```yaml
+create: false
+keyVault:
+  name: 'my-existing-keyvault'
+  secretName: 'gha-token'
+```
+
+When `create: false`, the accelerator references the existing Key Vault by name
+and still creates/updates the secret within it.
+
+**Existing Virtual Network** — in a project's `network:` block:
+
+```yaml
+network:
+  name: existing-vnet-name
+  create: false
+  resourceGroupName: 'existing-vnet-rg'
+  virtualNetworkType: Unmanaged
+```
+
+The accelerator references the existing VNet and creates a network connection
+from its first subnet.
 
 ### Cleanup
 
@@ -442,15 +709,9 @@ secrets:
 | `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Azure AD application display name         |
 | `-GhSecretName`   | `AZURE_CREDENTIALS`                          | GitHub secret name to remove              |
 
-**Expected output:**
-
-```text
-✅ Deleted subscription deployments
-✅ Removed role assignments
-✅ Cleaned up service principals and app registrations
-✅ Removed GitHub secrets
-✅ Deleted resource groups
-```
+The script performs: subscription deployment deletion, role assignment removal,
+service principal and app registration cleanup, GitHub secret removal, and
+resource group deletion.
 
 ## 🔧 Configuration
 
