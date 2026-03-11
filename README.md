@@ -533,10 +533,10 @@ authentication, and environment configuration before deploying the Bicep
 templates.
 
 > [!IMPORTANT]
-> **Automated deployment** via `azd provision` ensures consistency
-> and reduces human error. The `preprovision` hook handles all setup steps
-> automatically, while manual deployment gives platform engineers granular
-> control over each environment variable.
+> `azd provision` **always** runs the `preprovision` hook, which
+> calls the setup script automatically. Pre-setting environment variables before
+> provisioning allows the hook to run **non-interactively**, skipping prompts
+> for source control platform and token retrieval.
 
 <!-- -->
 
@@ -545,9 +545,9 @@ templates.
 > resolves them from the `.azure/{envName}/.env` file, and deploys the
 > **subscription-scoped** Bicep template at `infra/main.bicep`.
 
-### Automated Deployment (Recommended)
+### Deploy
 
-Use `azd provision` — the `preprovision` hook handles setup automatically:
+Run `azd provision` — the `preprovision` hook handles setup automatically:
 
 ```bash
 # Create an azd environment and deploy
@@ -555,33 +555,14 @@ azd env new dev
 azd provision -e dev
 ```
 
-To specify the source control platform before provisioning:
+The hook will prompt interactively for source control platform selection and
+token retrieval. To skip interactive prompts, pre-set the environment variables
+before provisioning:
 
 ```bash
 azd env new dev
 azd env set SOURCE_CONTROL_PLATFORM github   # or adogit
-azd provision -e dev
-```
-
-### Manual Deployment (Without Preprovision Hook)
-
-For granular control, set all environment variables manually and provision. This
-bypasses the `preprovision` hook's interactive setup:
-
-```bash
-# 1. Create a new azd environment (name must be 2–10 characters)
-azd env new dev
-
-# 2. Set the Azure region (must be from the 17 supported regions)
-azd env set AZURE_LOCATION eastus2
-
-# 3. Set the source control platform (github or adogit)
-azd env set SOURCE_CONTROL_PLATFORM github
-
-# 4. Set the source control PAT for Key Vault storage
 azd env set KEY_VAULT_SECRET "<your-github-or-ado-pat>"
-
-# 5. Provision all infrastructure
 azd provision -e dev
 ```
 
