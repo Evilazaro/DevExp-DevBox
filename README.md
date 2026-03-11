@@ -6,8 +6,10 @@
 
 **Overview**
 
-> [!NOTE]
-> This accelerator deploys a production-ready Azure Dev Box environment in a single command using Azure Developer CLI (`azd`). It follows the Microsoft Cloud Adoption Framework and Azure Landing Zone principles for enterprise-grade developer workstation management.
+> [!NOTE] This accelerator deploys a production-ready Azure Dev Box environment
+> in a single command using Azure Developer CLI (`azd`). It follows the
+> Microsoft Cloud Adoption Framework and Azure Landing Zone principles for
+> enterprise-grade developer workstation management.
 
 DevExp-DevBox solves the challenge of provisioning and managing centralized,
 secure, cloud-hosted developer workstations across engineering teams. Platform
