@@ -834,13 +834,13 @@ catalogs, environment types, identity, and all project definitions.
 
 #### Core Settings
 
-| Setting                                | Values               | Description                                                                |
-| -------------------------------------- | -------------------- | -------------------------------------------------------------------------- |
-| `name`                                 | string               | Dev Center resource name (e.g., `devexp-devcenter`)                        |
-| `catalogItemSyncEnableStatus`          | `Enabled`/`Disabled` | Controls whether project catalog items are synced to Dev Center            |
-| `microsoftHostedNetworkEnableStatus`   | `Enabled`/`Disabled` | Enables Microsoft-hosted networking for projects using `Managed` VNet type |
-| `installAzureMonitorAgentEnableStatus` | `Enabled`/`Disabled` | Installs Azure Monitor agent on provisioned Dev Boxes                      |
-| `tags`                                 | object               | Azure resource tags applied to the Dev Center resource                     |
+| Setting                                   | Values               | Description                                                                |
+| ----------------------------------------- | -------------------- | -------------------------------------------------------------------------- |
+| 📝 `name`                                 | string               | Dev Center resource name (e.g., `devexp-devcenter`)                        |
+| 🔄 `catalogItemSyncEnableStatus`          | `Enabled`/`Disabled` | Controls whether project catalog items are synced to Dev Center            |
+| 🌐 `microsoftHostedNetworkEnableStatus`   | `Enabled`/`Disabled` | Enables Microsoft-hosted networking for projects using `Managed` VNet type |
+| 📊 `installAzureMonitorAgentEnableStatus` | `Enabled`/`Disabled` | Installs Azure Monitor agent on provisioned Dev Boxes                      |
+| 🏷️ `tags`                                 | object               | Azure resource tags applied to the Dev Center resource                     |
 
 #### Dev Center Identity
 
@@ -869,12 +869,12 @@ identity:
 **`devCenter` role assignments** — roles assigned to the Dev Center's managed
 identity itself. These are applied at the specified scope:
 
-| Role                      | GUID                                   | Scope           | Purpose                                  |
-| ------------------------- | -------------------------------------- | --------------- | ---------------------------------------- |
-| Contributor               | `b24988ac-6180-42a0-ab88-20f7382dd24c` | `Subscription`  | Manage resources within the subscription |
-| User Access Administrator | `18d7d88d-d35e-4fb5-a5c3-7773c20a72d9` | `Subscription`  | Assign roles to project identities       |
-| Key Vault Secrets User    | `4633458b-17de-408a-b874-0445c86b69e6` | `ResourceGroup` | Read secrets from Key Vault              |
-| Key Vault Secrets Officer | `b86a8fe4-44ce-4948-aee5-eccb2c155cd7` | `ResourceGroup` | Manage secrets in Key Vault              |
+| Role                         | GUID                                   | Scope           | Purpose                                  |
+| ---------------------------- | -------------------------------------- | --------------- | ---------------------------------------- |
+| 🔑 Contributor               | `b24988ac-6180-42a0-ab88-20f7382dd24c` | `Subscription`  | Manage resources within the subscription |
+| 🛡️ User Access Administrator | `18d7d88d-d35e-4fb5-a5c3-7773c20a72d9` | `Subscription`  | Assign roles to project identities       |
+| 🔐 Key Vault Secrets User    | `4633458b-17de-408a-b874-0445c86b69e6` | `ResourceGroup` | Read secrets from Key Vault              |
+| 🔒 Key Vault Secrets Officer | `b86a8fe4-44ce-4948-aee5-eccb2c155cd7` | `ResourceGroup` | Manage secrets in Key Vault              |
 
 Subscription-scoped roles are assigned at the subscription level.
 ResourceGroup-scoped roles are assigned on both the workload and security
@@ -883,26 +883,26 @@ resource groups.
 **`orgRoleTypes`** — organizational personas mapped to Entra ID security groups.
 Each group receives the specified RBAC roles at the resource group scope:
 
-| Field              | Description                                         |
-| ------------------ | --------------------------------------------------- |
-| `type`             | Persona name (e.g., `DevManager`)                   |
-| `azureADGroupId`   | Object ID of the Entra ID security group            |
-| `azureADGroupName` | Display name of the Entra ID security group         |
-| `azureRBACRoles`   | Array of roles — each has `name`, `id`, and `scope` |
+| Field                 | Description                                         |
+| --------------------- | --------------------------------------------------- |
+| 📝 `type`             | Persona name (e.g., `DevManager`)                   |
+| 🔑 `azureADGroupId`   | Object ID of the Entra ID security group            |
+| 👤 `azureADGroupName` | Display name of the Entra ID security group         |
+| 🛡️ `azureRBACRoles`   | Array of roles — each has `name`, `id`, and `scope` |
 
 #### Dev Center Catalogs
 
 Catalogs at the Dev Center level provide shared resources (e.g., custom tasks)
 available across all projects:
 
-| Field        | Values                | Description                                             |
-| ------------ | --------------------- | ------------------------------------------------------- |
-| `name`       | string                | Catalog display name                                    |
-| `type`       | `gitHub` or `adoGit`  | Source control platform hosting the catalog repository  |
-| `visibility` | `public` or `private` | `private` catalogs authenticate using the Key Vault PAT |
-| `uri`        | string                | Git repository URL                                      |
-| `branch`     | string                | Branch to sync from                                     |
-| `path`       | string                | Path within the repository to sync                      |
+| Field           | Values                | Description                                             |
+| --------------- | --------------------- | ------------------------------------------------------- |
+| 📝 `name`       | string                | Catalog display name                                    |
+| ⚙️ `type`       | `gitHub` or `adoGit`  | Source control platform hosting the catalog repository  |
+| 🔒 `visibility` | `public` or `private` | `private` catalogs authenticate using the Key Vault PAT |
+| 🔗 `uri`        | string                | Git repository URL                                      |
+| 🌿 `branch`     | string                | Branch to sync from                                     |
+| 📂 `path`       | string                | Path within the repository to sync                      |
 
 All catalogs use **scheduled sync** (`syncType: Scheduled`). Private catalogs
 use the `secretIdentifier` from Key Vault for Git authentication.
@@ -933,10 +933,10 @@ full specification of every block.
 
 #### `name` and `description`
 
-| Field         | Type   | Description                                              |
-| ------------- | ------ | -------------------------------------------------------- |
-| `name`        | string | Project name — must be unique within the Dev Center      |
-| `description` | string | Human-readable description (defaults to `name` if empty) |
+| Field            | Type   | Description                                              |
+| ---------------- | ------ | -------------------------------------------------------- |
+| 📝 `name`        | string | Project name — must be unique within the Dev Center      |
+| 📋 `description` | string | Human-readable description (defaults to `name` if empty) |
 
 The project is created as a `Microsoft.DevCenter/projects` resource with
 `catalogSettings.catalogItemSyncTypes` set to both `EnvironmentDefinition` and
@@ -946,15 +946,15 @@ The project is created as a `Microsoft.DevCenter/projects` resource with
 
 Controls how Dev Boxes in this project connect to the network:
 
-| Field                | Type     | Required | Description                                                   |
-| -------------------- | -------- | -------- | ------------------------------------------------------------- |
-| `name`               | string   | Yes      | VNet name (or existing VNet name when `create: false`)        |
-| `create`             | boolean  | Yes      | `true` to create a new VNet; `false` to use existing          |
-| `resourceGroupName`  | string   | Yes      | Resource group for network resources                          |
-| `virtualNetworkType` | string   | Yes      | `Managed` or `Unmanaged`                                      |
-| `addressPrefixes`    | string[] | No\*     | CIDR blocks for VNet address space                            |
-| `subnets`            | array    | No\*     | Subnet definitions with `name` and `properties.addressPrefix` |
-| `tags`               | object   | No       | Azure tags for network resources                              |
+| Field                   | Type     | Required | Description                                                   |
+| ----------------------- | -------- | -------- | ------------------------------------------------------------- |
+| 📝 `name`               | string   | Yes      | VNet name (or existing VNet name when `create: false`)        |
+| ⚙️ `create`             | boolean  | Yes      | `true` to create a new VNet; `false` to use existing          |
+| 🏢 `resourceGroupName`  | string   | Yes      | Resource group for network resources                          |
+| 🌐 `virtualNetworkType` | string   | Yes      | `Managed` or `Unmanaged`                                      |
+| 📍 `addressPrefixes`    | string[] | No\*     | CIDR blocks for VNet address space                            |
+| 📡 `subnets`            | array    | No\*     | Subnet definitions with `name` and `properties.addressPrefix` |
+| 🏷️ `tags`               | object   | No       | Azure tags for network resources                              |
 
 \* Required when `virtualNetworkType: Unmanaged` and `create: true`.
 
@@ -1007,30 +1007,31 @@ Each entry in `roleAssignments` creates role assignments for **both** the
 project's managed identity and the specified Entra ID group. The `scope` field
 controls where the role is applied:
 
-| Scope           | Where Applied                                         |
-| --------------- | ----------------------------------------------------- |
-| `Project`       | Scoped to the `Microsoft.DevCenter/projects` resource |
-| `ResourceGroup` | Applied to both the workload RG and the security RG   |
+| Scope              | Where Applied                                         |
+| ------------------ | ----------------------------------------------------- |
+| 📋 `Project`       | Scoped to the `Microsoft.DevCenter/projects` resource |
+| 🏢 `ResourceGroup` | Applied to both the workload RG and the security RG   |
 
 Commonly used roles for Dev Box projects:
 
-| Role                        | GUID                                   | Purpose                         |
-| --------------------------- | -------------------------------------- | ------------------------------- |
-| Contributor                 | `b24988ac-6180-42a0-ab88-20f7382dd24c` | Manage project resources        |
-| Dev Box User                | `45d50f46-0b78-4001-a660-4198cbe8cd05` | Create and manage Dev Boxes     |
-| Deployment Environment User | `18e40d4e-8d2e-438d-97e1-9528336e149c` | Deploy environments             |
-| Key Vault Secrets User      | `4633458b-17de-408a-b874-0445c86b69e6` | Read secrets for catalog access |
-| Key Vault Secrets Officer   | `b86a8fe4-44ce-4948-aee5-eccb2c155cd7` | Manage catalog secrets          |
+| Role                           | GUID                                   | Purpose                         |
+| ------------------------------ | -------------------------------------- | ------------------------------- |
+| 🔑 Contributor                 | `b24988ac-6180-42a0-ab88-20f7382dd24c` | Manage project resources        |
+| 💻 Dev Box User                | `45d50f46-0b78-4001-a660-4198cbe8cd05` | Create and manage Dev Boxes     |
+| 🌍 Deployment Environment User | `18e40d4e-8d2e-438d-97e1-9528336e149c` | Deploy environments             |
+| 🔐 Key Vault Secrets User      | `4633458b-17de-408a-b874-0445c86b69e6` | Read secrets for catalog access |
+| 🔒 Key Vault Secrets Officer   | `b86a8fe4-44ce-4948-aee5-eccb2c155cd7` | Manage catalog secrets          |
 
 #### `pools` — Dev Box Pools
 
 Defines the Dev Box pools available to developers in this project:
 
-| Field                 | Type   | Description                                           |
-| --------------------- | ------ | ----------------------------------------------------- |
-| `name`                | string | Pool display name (e.g., `backend-engineer`)          |
-| `imageDefinitionName` | string | References an image from an `imageDefinition` catalog |
-| `vmSku`               | string | Azure VM SKU (e.g., `general_i_32c128gb512ssd_v2`)    |
+| Field | Type | Description | | Field | Type | Description | |
+----------------------- | ------ |
+----------------------------------------------------- | | 📝 `name` | string |
+Pool display name (e.g., `backend-engineer`) | | 🖼️ `imageDefinitionName` |
+string | References an image from an `imageDefinition` catalog | | 💻 `vmSku` |
+string | Azure VM SKU (e.g., `general_i_32c128gb512ssd_v2`) |
 
 Pools are created only from project catalogs with `type: imageDefinition`. For
 each such catalog, a pool resource is created with the naming convention
@@ -1038,23 +1039,23 @@ each such catalog, a pool resource is created with the naming convention
 
 Each pool is provisioned with:
 
-| Property                       | Value               | Description                          |
-| ------------------------------ | ------------------- | ------------------------------------ |
-| `devBoxDefinitionType`         | `Value`             | Uses explicit image + SKU definition |
-| `licenseType`                  | `Windows_Client`    | Windows client licensing             |
-| `localAdministrator`           | `Enabled`           | Developers have local admin access   |
-| `singleSignOnStatus`           | `Enabled`           | SSO via Entra ID                     |
-| `virtualNetworkType`           | from network config | `Managed` or `Unmanaged`             |
-| `managedVirtualNetworkRegions` | `[location]`        | Set when using Managed networking    |
+| Property                          | Value               | Description                          |
+| --------------------------------- | ------------------- | ------------------------------------ |
+| ⚙️ `devBoxDefinitionType`         | `Value`             | Uses explicit image + SKU definition |
+| 📜 `licenseType`                  | `Windows_Client`    | Windows client licensing             |
+| 👤 `localAdministrator`           | `Enabled`           | Developers have local admin access   |
+| 🔐 `singleSignOnStatus`           | `Enabled`           | SSO via Entra ID                     |
+| 🌐 `virtualNetworkType`           | from network config | `Managed` or `Unmanaged`             |
+| 📍 `managedVirtualNetworkRegions` | `[location]`        | Set when using Managed networking    |
 
 #### `environmentTypes` — Project Environment Types
 
 Defines which Dev Center environment types are enabled for this project:
 
-| Field                | Type   | Description                                                      |
-| -------------------- | ------ | ---------------------------------------------------------------- |
-| `name`               | string | Must match a Dev Center environment type name                    |
-| `deploymentTargetId` | string | Subscription resource ID for deployment target (empty = current) |
+| Field                   | Type   | Description                                                      |
+| ----------------------- | ------ | ---------------------------------------------------------------- |
+| 📝 `name`               | string | Must match a Dev Center environment type name                    |
+| 🎯 `deploymentTargetId` | string | Subscription resource ID for deployment target (empty = current) |
 
 Each project environment type gets a `SystemAssigned` managed identity and
 automatically grants the **Contributor** role
@@ -1066,15 +1067,15 @@ Project-level catalogs are distinct from Dev Center catalogs. They provide image
 definitions for Dev Box pools and environment definitions for deployment
 environments:
 
-| Field           | Values                                       | Description                           |
-| --------------- | -------------------------------------------- | ------------------------------------- |
-| `name`          | string                                       | Catalog display name                  |
-| `type`          | `environmentDefinition` or `imageDefinition` | What the catalog provides             |
-| `sourceControl` | `gitHub` or `adoGit`                         | Source control platform               |
-| `visibility`    | `public` or `private`                        | `private` uses Key Vault PAT for auth |
-| `uri`           | string                                       | Git repository URL                    |
-| `branch`        | string                                       | Branch to sync from                   |
-| `path`          | string                                       | Path within the repository            |
+| Field              | Values                                       | Description                           |
+| ------------------ | -------------------------------------------- | ------------------------------------- |
+| 📝 `name`          | string                                       | Catalog display name                  |
+| 📦 `type`          | `environmentDefinition` or `imageDefinition` | What the catalog provides             |
+| 🔗 `sourceControl` | `gitHub` or `adoGit`                         | Source control platform               |
+| 👁️ `visibility`    | `public` or `private`                        | `private` uses Key Vault PAT for auth |
+| 🌐 `uri`           | string                                       | Git repository URL                    |
+| 🌿 `branch`        | string                                       | Branch to sync from                   |
+| 📂 `path`          | string                                       | Path within the repository            |
 
 - **`imageDefinition`** catalogs contain Dev Box image definitions referenced by
   pools via `imageDefinitionName`. These define the base OS image, installed
