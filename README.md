@@ -547,6 +547,27 @@ templates.
 
 ### Deploy
 
+#### 1. Customize Configuration
+
+Before your first deployment, review and customize the YAML configuration files
+under `infra/settings/` to match your organization's requirements. See the
+[Configuration](#configuration) section for details on each file:
+
+- **Resource Organization** —
+  `infra/settings/resourceOrganization/azureResources.yaml` (resource group
+  names, tags)
+- **DevCenter** — `infra/settings/workload/devcenter.yaml` (projects, pools,
+  catalogs, environment types, RBAC)
+- **Security** — `infra/settings/security/security.yaml` (Key Vault settings)
+
+> [!TIP]
+> The default configuration provides a working starting point. You can
+> deploy with defaults first and customize later, or tailor the YAML files to
+> your needs before the first deployment — either approach works because Bicep
+> deployments are **idempotent**.
+
+#### 2. Provision
+
 Run `azd provision` — the `preprovision` hook handles setup automatically:
 
 ```bash
@@ -576,10 +597,10 @@ resource groups:
 | 🏢 `devexp-workload-{env}-{region}-RG`   | DevCenter, projects, pools, catalogs, environment types    |
 | 🌐 `{project}-connectivity-RG`           | Virtual Network, subnets, and DevCenter network connection |
 
-### Redeploying After Configuration Changes
+### Updating a Deployed Environment
 
 After modifying any YAML configuration file under `infra/settings/`, apply the
-changes by re-running provisioning:
+changes to an existing deployment by re-running provisioning:
 
 ```bash
 azd provision -e dev
