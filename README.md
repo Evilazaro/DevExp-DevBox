@@ -19,6 +19,8 @@ from **days to minutes**.
 > security to Dev Box pools and environment types — as **Infrastructure as
 > Code**, deployable with a single command.
 
+<!-- -->
+
 > [!NOTE] The accelerator uses **Azure Bicep** templates with YAML-driven
 > configuration to deploy a complete DevCenter ecosystem. It creates three
 > resource groups (security, monitoring, workload), provisions Key Vault, Log
@@ -185,6 +187,8 @@ governance that enterprise teams face when adopting cloud-powered workstations.
 > platform lifecycle, letting platform teams define environments declaratively
 > and developers self-serve instantly.
 
+<!-- -->
+
 > [!NOTE] Each feature maps to a modular Bicep template, configured through YAML
 > files under `infra/settings/`, and deployed as a cohesive unit through the
 > Azure Developer CLI.
@@ -210,6 +214,8 @@ subscription-level permissions to create resource groups and assign roles.
 > prerequisites upfront prevents partial deployments and permission-related
 > failures.
 
+<!-- -->
+
 > [!NOTE] The setup scripts (`setUp.ps1` and `setUp.sh`) validate prerequisites,
 > configure the Azure Developer CLI environment, and authenticate before
 > provisioning begins.
@@ -232,11 +238,15 @@ All infrastructure parameters are defined in YAML configuration files under
 it straightforward to customize environments without modifying Bicep templates
 directly.
 
-> [!IMPORTANT] **YAML-driven configuration** enables platform teams to manage
+> [!IMPORTANT]
+> **YAML-driven configuration** enables platform teams to manage
 > environments through version-controlled file edits rather than requiring Bicep
 > expertise for every modification.
 
-> [!NOTE] The Bicep orchestrator (`infra/main.bicep`) loads YAML files at
+<!-- -->
+
+> [!NOTE]
+> The Bicep orchestrator (`infra/main.bicep`) loads YAML files at
 > deployment time using the `loadYamlContent()` function, converting
 > human-readable settings into typed Bicep parameters automatically. Deployment
 > parameters are mapped from `azd` environment variables through
