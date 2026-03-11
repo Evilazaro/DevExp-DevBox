@@ -164,20 +164,20 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph strategy["🎯 Strategic Tier"]
-        S1("📋 DevEx Platform Strategy"):::warning
-        S2("📋 Cloud Adoption & Landing Zone"):::warning
+        S1("📋 DevEx Platform Strategy"):::core
+        S2("📋 Cloud Adoption & Landing Zone"):::core
     end
 
     subgraph capabilities["⚙️ Core Capabilities"]
-        C1("💻 Developer Workstation Provisioning"):::warning
-        C2("📦 Configuration Management"):::warning
-        C3("🌐 Network Isolation & Connectivity"):::warning
+        C1("💻 Developer Workstation Provisioning"):::core
+        C2("📦 Configuration Management"):::core
+        C3("🌐 Network Isolation & Connectivity"):::neutral
     end
 
     subgraph governance["🛡️ Governance & Security"]
         G1("🔐 Identity & Access Governance"):::success
-        G2("🔒 Security & Secrets Management"):::warning
-        G3("📊 Monitoring & Observability"):::danger
+        G2("🔒 Security & Secrets Management"):::danger
+        G3("📊 Monitoring & Observability"):::warning
         G4("🏷️ Resource Organization & Governance"):::success
     end
 
@@ -573,11 +573,8 @@ flowchart LR
     S2 -.->|"governs"| V2
     S3 -.->|"protects"| V3
 
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
 
     style velocity fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style security fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -655,7 +652,6 @@ flowchart TB
     ValidateAccess -->|"completes"| Complete
     Escalate -->|"resolves"| AddGroup
 
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
