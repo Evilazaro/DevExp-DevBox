@@ -36,7 +36,6 @@ from **days to minutes**.
 - [Requirements](#requirements)
 - [Configuration](#configuration)
 - [Quick Start](#quick-start)
-- [Deployment](#deployment)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
