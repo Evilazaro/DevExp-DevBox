@@ -1887,6 +1887,155 @@ for idempotent role assignment deployment.
 
 ---
 
+## Section 6: Architecture Decisions
+
+### Overview
+
+This section documents key architecture decision records (ADRs) identified
+through analysis of the Bicep source modules, YAML configuration files, and
+deployment orchestration patterns. Each decision records the context, rationale,
+and consequences observed in the implementation. These ADRs capture framework
+choices, protocol selections, and integration pattern trade-offs that shape the
+platform architecture.
+
+#### ADR-001: Bicep as Infrastructure as Code Language
+
+| Attribute        | Value                                                                                                                                     |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **ID**           | ADR-001                                                                                                                                   |
+| **Title**        | Use Bicep as the sole Infrastructure as Code language                                                                                     |
+| **Status**       | Accepted                                                                                                                                  |
+| **Context**      | The platform requires declarative infrastructure provisioning for Azure resources with type safety, modularity, and Azure-native tooling  |
+| **Decision**     | All infrastructure is defined in Bicep with modular composition, leveraging Azure Developer CLI (azd) for orchestration                   |
+| **Source**        | infra/main.bicep:1-195, azure.yaml:1-10                                                                                                  |
+| **Consequences** | Strong Azure integration and type safety; limited multi-cloud portability; requires Bicep toolchain for development and CI/CD             |
+
+#### ADR-002: YAML-Driven Configuration Externalization
+
+| Attribute        | Value                                                                                                                                           |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ID**           | ADR-002                                                                                                                                         |
+| **Title**        | Externalize all environment configuration into YAML files with JSON Schema validation                                                           |
+| **Status**       | Accepted                                                                                                                                        |
+| **Context**      | Environment-specific settings (resource names, SKUs, roles) must vary across deployments without modifying Bicep module code                    |
+| **Decision**     | Configuration is stored in YAML files under infra/settings/ with JSON Schema validation, consumed via loadYamlContent() in Bicep modules       |
+| **Source**        | infra/settings/workload/devcenter.yaml:1-200, infra/settings/security/security.yaml:1-42, infra/settings/resourceOrganization/azureResources.yaml:1-65 |
+| **Consequences** | Clean separation of configuration and logic; enables multi-tenant deployments; requires schema maintenance for configuration changes            |
+
+#### ADR-003: Conditional Create-or-Reference Resource Pattern
+
+| Attribute        | Value                                                                                                                                              |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ID**           | ADR-003                                                                                                                                            |
+| **Title**        | Implement create-or-reference pattern for idempotent resource management                                                                           |
+| **Status**       | Accepted                                                                                                                                           |
+| **Context**      | The platform must support both greenfield deployments (create new resources) and brownfield scenarios (reference existing resources)                |
+| **Decision**     | Modules use a YAML-driven create flag with conditional Bicep deployment and existing resource references                                           |
+| **Source**        | src/security/security.bicep:22-35, src/connectivity/vnet.bicep:30-55, src/connectivity/resourceGroup.bicep:17-26                                   |
+| **Consequences** | Idempotent deployments safe to re-run; supports brownfield adoption; adds conditional complexity to module logic                                   |
+
+#### ADR-004: SystemAssigned Managed Identity with Scoped RBAC
+
+| Attribute        | Value                                                                                                                                                                         |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ID**           | ADR-004                                                                                                                                                                       |
+| **Title**        | Use SystemAssigned managed identities with scope-specific RBAC role assignments                                                                                               |
+| **Status**       | Accepted                                                                                                                                                                      |
+| **Context**      | DevCenter and projects require Azure permissions for resource provisioning, secret access, and cross-resource-group operations without storing credentials                     |
+| **Decision**     | SystemAssigned managed identities are used for DevCenter and projects, with RBAC roles assigned at subscription, resource group, and project scopes following least privilege  |
+| **Source**        | infra/settings/workload/devcenter.yaml:36-53, src/identity/devCenterRoleAssignment.bicep:1-46, src/identity/projectIdentityRoleAssignment.bicep:1-75                           |
+| **Consequences** | No credential management required; identity lifecycle tied to resource lifecycle; role assignments must be pre-planned per scope                                               |
+
+#### ADR-005: Centralized Diagnostic Log Collection
+
+| Attribute        | Value                                                                                                                                  |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **ID**           | ADR-005                                                                                                                                |
+| **Title**        | Route all resource diagnostics to a single Log Analytics workspace                                                                     |
+| **Status**       | Accepted                                                                                                                               |
+| **Context**      | Platform operations require unified observability across all Azure resources for troubleshooting, auditing, and compliance monitoring   |
+| **Decision**     | A centralized Log Analytics workspace receives allLogs and AllMetrics from all platform resources via diagnostic settings               |
+| **Source**        | src/management/logAnalytics.bicep:1-95, src/workload/core/devCenter.bicep:182-201, src/security/secret.bicep:33-53                      |
+| **Consequences** | Single pane of glass for monitoring; potential cost increase at scale; self-diagnostics enabled for the workspace itself                 |
+
+---
+
+## Section 7: Architecture Standards
+
+### Overview
+
+This section documents the architecture standards observed in the source code
+of the Platform Engineering accelerator. Each standard captures naming
+conventions, error handling patterns, security requirements, and design
+practices consistently applied across the Bicep modules and YAML configuration
+files. Standards are assessed for compliance level based on observed consistency
+across the codebase.
+
+#### Standard 1: Resource Naming Convention
+
+| Attribute        | Value                                                                                                          |
+| ---------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Name**         | Consistent Resource Naming with Environment Suffix                                                             |
+| **Description**  | All Azure resource names follow a pattern of base-name + unique-suffix or environment-name suffix             |
+| **Source**        | src/security/keyVault.bicep:44-47, src/management/logAnalytics.bicep:16-20                                     |
+| **Compliance**   | Full                                                                                                           |
+
+#### Standard 2: RBAC Authorization over Access Policies
+
+| Attribute        | Value                                                                                                     |
+| ---------------- | --------------------------------------------------------------------------------------------------------- |
+| **Name**         | RBAC-Based Authorization for Key Vault                                                                    |
+| **Description**  | Key Vault uses enableRbacAuthorization for role-based access control instead of legacy access policies    |
+| **Source**        | src/security/keyVault.bicep:52-55, infra/settings/security/security.yaml:1-42                              |
+| **Compliance**   | Full                                                                                                      |
+
+#### Standard 3: Diagnostic Settings on All Resources
+
+| Attribute        | Value                                                                                                                       |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **Name**         | Mandatory Diagnostic Settings for All Deployed Resources                                                                    |
+| **Description**  | Every PaaS resource must have diagnostic settings configured with allLogs and AllMetrics sent to the Log Analytics workspace |
+| **Source**        | src/workload/core/devCenter.bicep:182-201, src/security/secret.bicep:33-53, src/connectivity/vnet.bicep:58-76                |
+| **Compliance**   | Full                                                                                                                        |
+
+#### Standard 4: Secure Parameter Handling
+
+| Attribute        | Value                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------------- |
+| **Name**         | Secure Decorator for Sensitive Parameters                                                   |
+| **Description**  | All secret and credential parameters use the @secure() decorator to prevent log exposure    |
+| **Source**        | infra/main.bicep:23-24, src/security/security.bicep:5-6                                     |
+| **Compliance**   | Full                                                                                        |
+
+#### Standard 5: Descriptive Parameter Documentation
+
+| Attribute        | Value                                                                                                         |
+| ---------------- | ------------------------------------------------------------------------------------------------------------- |
+| **Name**         | @description Decorator on All Parameters, Variables, Resources, and Outputs                                   |
+| **Description**  | Every Bicep declaration uses the @description() decorator providing documentation for consumers and reviewers |
+| **Source**        | infra/main.bicep:1-30, src/identity/orgRoleAssignment.bicep:1-15, src/connectivity/vnet.bicep:1-12            |
+| **Compliance**   | Full                                                                                                          |
+
+#### Standard 6: GUID-Based Role Assignment Naming
+
+| Attribute        | Value                                                                                                                               |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Name**         | Deterministic GUID Names for Role Assignments                                                                                       |
+| **Description**  | Role assignment resource names use guid() with subscription, resource group, principal, and role inputs to ensure idempotent naming  |
+| **Source**        | src/identity/orgRoleAssignment.bicep:29-30, src/identity/projectIdentityRoleAssignment.bicep:35-36                                   |
+| **Compliance**   | Full                                                                                                                                |
+
+#### Standard 7: Allowed Values Validation
+
+| Attribute        | Value                                                                                                          |
+| ---------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Name**         | Parameter Validation with @allowed, @minLength, and Type Constraints                                          |
+| **Description**  | Critical parameters use Bicep validation decorators to enforce allowed values at deployment time               |
+| **Source**        | infra/main.bicep:4-20, src/identity/orgRoleAssignment.bicep:8-14, src/connectivity/vnet.bicep:20-28            |
+| **Compliance**   | Partial — applied to location and principalType but not consistently to all string parameters                  |
+
+---
+
 ## Section 8: Dependencies & Integration
 
 ### Overview
