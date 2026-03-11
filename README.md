@@ -6,8 +6,7 @@
 
 **Overview**
 
-> [!NOTE]
-> This accelerator deploys a production-ready Azure Dev Box environment
+> [!NOTE] This accelerator deploys a production-ready Azure Dev Box environment
 > in a single command using Azure Developer CLI (`azd`). It follows the
 > Microsoft Cloud Adoption Framework and Azure Landing Zone principles for
 > enterprise-grade developer workstation management.
@@ -64,10 +63,11 @@ config:
     fontSize: '16px'
   flowchart:
     htmlLabels: true
+    curve: cardinal
 ---
 flowchart TB
     accTitle: DevExp-DevBox Platform Architecture
-    accDescr: Architecture diagram showing the Azure Dev Box accelerator components organized by Landing Zone resource groups with their relationships and data flows
+    accDescr: Azure Dev Box accelerator components organized by Landing Zone resource groups with relationships and data flows
 
     %% ═══════════════════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
@@ -151,7 +151,7 @@ flowchart TB
     classDef danger   fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     classDef data     fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 
-    style platform fill:#F3F2F1,stroke:#605E5C,stroke-width:2px,color:#323130
+    style platform fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style orchestration fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style securityRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style monitoringRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -214,8 +214,7 @@ Meeting all prerequisites takes approximately 15 minutes for a fresh
 workstation. The setup scripts validate tool availability automatically and
 provide clear error messages if any dependency is missing.
 
-> [!IMPORTANT]
-> You must have **Owner** or **Contributor + User Access
+> [!IMPORTANT] You must have **Owner** or **Contributor + User Access
 > Administrator** permissions on your Azure subscription. The deployment creates
 > subscription-scoped role assignments that require elevated privileges.
 
@@ -304,8 +303,7 @@ The deployment is fully idempotent — running `azd up` again updates existing
 resources without duplication. The entire process completes in approximately
 8-15 minutes depending on the Azure region.
 
-> [!WARNING]
-> The deployment creates subscription-level resources and role
+> [!WARNING] The deployment creates subscription-level resources and role
 > assignments. Running `cleanSetUp.ps1` will permanently delete all provisioned
 > resources, role assignments, and associated Entra ID service principals.
 
@@ -459,8 +457,7 @@ Configuration changes take effect on the next `azd up` execution. The JSON
 Schema files provide inline validation in editors like VS Code, catching
 configuration errors before deployment.
 
-> [!TIP]
-> Open the YAML files in VS Code with the YAML extension installed. The
+> [!TIP] Open the YAML files in VS Code with the YAML extension installed. The
 > `$schema` reference at the top of each file enables autocomplete and inline
 > validation automatically.
 
