@@ -381,164 +381,144 @@ All day-2 operations follow the same workflow: **edit YAML → run
 `azd provision`**. There are no separate commands for adding projects, pools,
 catalogs, or environment types.
 
-### Onboarding a New Project
+### Adding a Project
 
-Add a project entry to `infra/settings/workload/devcenter.yaml` under the
-`projects:` array (see [Adding a New Project](#adding-a-new-project) for the
-full YAML template), then run:
+Add a new entry to the `projects:` array in
+`infra/settings/workload/devcenter.yaml`. The example below shows a complete
+project definition with all supported blocks — network, identity, pools,
+environment types, catalogs, and tags — matching the structure used by the
+included eShop reference project:
+
+```yaml
+projects:
+  - name: 'newProject'
+    description: 'New team project'
+
+    network:
+      name: newProject
+      create: true
+      resourceGroupName: 'newProject-connectivity-RG'
+      virtualNetworkType: Managed
+      addressPrefixes:
+        - 10.1.0.0/16
+      subnets:
+        - name: newProject-subnet
+          properties:
+            addressPrefix: 10.1.1.0/24
+      tags:
+        environment: dev
+        division: Platforms
+        team: DevExP
+        project: DevExP-DevBox
+        costCenter: IT
+        owner: Contoso
+        resources: Network
+
+    identity:
+      type: SystemAssigned
+      roleAssignments:
+        - azureADGroupId: '<entra-group-id>'
+          azureADGroupName: 'New Project Developers'
+          azureRBACRoles:
+            - name: 'Contributor'
+              id: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+              scope: Project
+            - name: 'Dev Box User'
+              id: '45d50f46-0b78-4001-a660-4198cbe8cd05'
+              scope: Project
+            - name: 'Deployment Environment User'
+              id: '18e40d4e-8d2e-438d-97e1-9528336e149c'
+              scope: Project
+            - name: 'Key Vault Secrets User'
+              id: '4633458b-17de-408a-b874-0445c86b69e6'
+              scope: ResourceGroup
+            - name: 'Key Vault Secrets Officer'
+              id: 'b86a8fe4-44ce-4948-aee5-eccb2c155cd7'
+              scope: ResourceGroup
+
+    pools:
+      - name: 'developer'
+        imageDefinitionName: 'newProject-developer'
+        vmSku: general_i_32c128gb512ssd_v2
+
+    environmentTypes:
+      - name: 'dev'
+        deploymentTargetId: ''
+
+    catalogs:
+      - name: 'environments'
+        type: environmentDefinition
+        sourceControl: gitHub
+        visibility: private
+        uri: 'https://github.com/org/repo.git'
+        branch: 'main'
+        path: '/.devcenter/environments'
+      - name: 'devboxImages'
+        type: imageDefinition
+        sourceControl: gitHub
+        visibility: private
+        uri: 'https://github.com/org/repo.git'
+        branch: 'main'
+        path: '/.devcenter/imageDefinitions'
+
+    tags:
+      environment: dev
+      division: Platforms
+      team: DevExP
+      project: DevExP-DevBox
+      costCenter: IT
+      owner: Contoso
+      resources: Project
+```
+
+Then run:
 
 ```bash
 azd provision
 ```
 
 This single command provisions all resources for the new project: Dev Center
-project, network connection, RBAC role assignments (project identity + Entra ID
-group), catalogs, environment types, and Dev Box pools.
+project, network connection (if Unmanaged), RBAC role assignments for the
+project's managed identity and the Entra ID group, catalogs with scheduled sync,
+environment types with Contributor grants for creators, and Dev Box pools with
+Windows Client licensing, local admin, and SSO.
 
-### Adding a Dev Box Pool
+See [Project Configuration](#project-configuration) for the full field reference
+of each block.
 
-Add a pool entry to a project's `pools:` array in `devcenter.yaml`:
+### Switching Source Control Platform
 
-```yaml
-pools:
-  - name: 'data-engineer'
-    imageDefinitionName: 'project-data-engineer'
-    vmSku: general_i_32c128gb512ssd_v2
+To switch from GitHub to Azure DevOps Git for catalog authentication:
+
+```bash
+export SOURCE_CONTROL_PLATFORM=adogit
+azd provision
 ```
 
-Each pool references an `imageDefinitionName` from a project catalog of type
-`imageDefinition`. The accelerator creates the pool with Windows Client
-licensing, local administrator access enabled, and single sign-on enabled. Then
-run `azd provision` to apply.
+The setup script prompts for the Azure DevOps PAT and configures the
+organization defaults. Update catalog entries in `devcenter.yaml` to use
+`sourceControl: adoGit` (project catalogs) or `type: adoGit` (Dev Center
+catalogs) accordingly.
 
-### Adding a Catalog
+### Day-2 Operations
 
-**Dev Center-level catalog** — add to the top-level `catalogs:` array:
+All changes follow the same workflow: **edit YAML → run `azd provision`**. The
+deployment is idempotent — it converges infrastructure to match the current YAML
+state.
 
-```yaml
-catalogs:
-  - name: 'customTasks'
-    type: gitHub # or adoGit
-    visibility: public # or private (requires Key Vault secret)
-    uri: 'https://github.com/microsoft/devcenter-catalog.git'
-    branch: 'main'
-    path: './Tasks'
-```
+| Operation                    | What to edit in `devcenter.yaml`                                                               | Reference                                                                                  |
+| ---------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Add a Dev Box pool           | Add entry to a project's `pools:` array                                                        | [`pools`](#pools--dev-box-pools)                                                           |
+| Add a Dev Center catalog     | Add entry to the top-level `catalogs:` array (`type`: `gitHub`/`adoGit`)                       | [Dev Center Catalogs](#dev-center-catalogs)                                                |
+| Add a project catalog        | Add entry to a project's `catalogs:` array (`sourceControl`: `gitHub`/`adoGit`)                | [`catalogs`](#catalogs--project-catalogs)                                                  |
+| Add an environment type      | Add to the top-level `environmentTypes:` and/or a project's `environmentTypes:` array          | [Dev Center Environment Types](#dev-center-environment-types)                              |
+| Change networking            | Edit a project's `network:` block (`virtualNetworkType`: `Managed`/`Unmanaged`, `create` flag) | [`network`](#network--network-configuration)                                               |
+| Update RBAC                  | Edit `identity.roleAssignments` at the Dev Center or project level                             | [Dev Center Identity](#dev-center-identity), [`identity`](#identity--rbac--access-control) |
+| Use existing resource groups | Set `create: false` in `azureResources.yaml`                                                   | [Brownfield Integration](#brownfield-integration)                                          |
+| Use existing Key Vault       | Set `create: false` in `security.yaml`                                                         | [Brownfield Integration](#brownfield-integration)                                          |
+| Use existing VNet            | Set `create: false` + `virtualNetworkType: Unmanaged` in a project's `network:` block          | [Brownfield Integration](#brownfield-integration)                                          |
 
-Dev Center catalogs sync on a scheduled basis. Private catalogs authenticate
-using the source control PAT stored in Key Vault.
-
-**Project-level catalog** — add to a project's `catalogs:` array:
-
-```yaml
-catalogs:
-  - name: 'devboxImages'
-    type: imageDefinition # or environmentDefinition
-    sourceControl: gitHub # or adoGit
-    visibility: private
-    uri: 'https://github.com/org/repo.git'
-    branch: 'main'
-    path: '/.devcenter/imageDefinitions'
-```
-
-Project catalogs have a `type` field (`imageDefinition` or
-`environmentDefinition`) and a `sourceControl` field instead of `type` for the
-repository kind. Image definition catalogs drive Dev Box pool creation.
-Environment definition catalogs provide deployment environment templates.
-
-Run `azd provision` after any catalog change.
-
-### Managing Environment Types
-
-**Dev Center-level environment types** define the available lifecycle stages.
-Add to the top-level `environmentTypes:` array:
-
-```yaml
-environmentTypes:
-  - name: 'prod'
-    deploymentTargetId: ''
-```
-
-**Project-level environment types** control which Dev Center environment types
-are available to a specific project. Add to a project's `environmentTypes:`
-array:
-
-```yaml
-environmentTypes:
-  - name: 'prod'
-    deploymentTargetId: '/subscriptions/<target-subscription-id>'
-```
-
-Leave `deploymentTargetId` empty to use the current subscription. Each project
-environment type gets a system-assigned managed identity and grants Contributor
-to environment creators automatically.
-
-Run `azd provision` after any environment type change.
-
-### Modifying Network Configuration
-
-Each project's `network:` block controls how Dev Boxes connect to the network:
-
-| `virtualNetworkType` | `create` | Behavior                                                                                                                                                          |
-| -------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Managed`            | any      | Uses Microsoft-hosted networking. No VNet, subnet, or network connection is created. The Dev Center `microsoftHostedNetworkEnableStatus` must be `Enabled`.       |
-| `Unmanaged`          | `true`   | Creates a new VNet, subnet, and network connection in the specified `resourceGroupName`. Attaches the network to the Dev Center.                                  |
-| `Unmanaged`          | `false`  | References an existing VNet by `name` in the specified `resourceGroupName`. Creates a network connection from its first subnet and attaches it to the Dev Center. |
-
-To switch a project from managed to unmanaged networking:
-
-```yaml
-network:
-  name: myProject
-  create: true
-  resourceGroupName: 'myProject-connectivity-RG'
-  virtualNetworkType: Unmanaged
-  addressPrefixes:
-    - 10.2.0.0/16
-  subnets:
-    - name: myProject-subnet
-      properties:
-        addressPrefix: 10.2.1.0/24
-  tags:
-    environment: dev
-```
-
-Run `azd provision` to apply.
-
-### Updating Identity & RBAC
-
-**Dev Center identity** — the Dev Center uses a SystemAssigned managed identity
-with role assignments at two scopes:
-
-- `Subscription` — Contributor and User Access Administrator
-- `ResourceGroup` — Key Vault Secrets User and Key Vault Secrets Officer (scoped
-  to the security resource group)
-
-**Organizational roles** — map Entra ID groups to RBAC roles at the resource
-group scope. Edit `identity.roleAssignments.orgRoleTypes` in `devcenter.yaml`:
-
-```yaml
-orgRoleTypes:
-  - type: DevManager
-    azureADGroupId: '<entra-group-id>'
-    azureADGroupName: 'Platform Engineering Team'
-    azureRBACRoles:
-      - name: 'DevCenter Project Admin'
-        id: '331c37c6-af14-46d9-b9f4-e1909e1b95a0'
-        scope: ResourceGroup
-```
-
-**Project identity** — each project gets a SystemAssigned managed identity. Its
-role assignments are applied from the project's `identity.roleAssignments`
-array. Roles use a `scope` field that controls where the assignment is created:
-
-| Scope           | Applied to                                          |
-| --------------- | --------------------------------------------------- |
-| `Project`       | Scoped to the Dev Center project resource itself    |
-| `ResourceGroup` | Scoped to the workload and security resource groups |
-
-Both the project's managed identity and the specified Entra ID group receive the
-same role assignments. Run `azd provision` after changes.
+After editing, run `azd provision` to apply.
 
 ### Monitoring & Diagnostics
 
@@ -1103,102 +1083,6 @@ tags:
 
 The project resource also receives automatic tags:
 `ms-resource-usage: azure-cloud-devbox` and `project: <project-name>`.
-
-### Adding a New Project
-
-Add a new project entry to `infra/settings/workload/devcenter.yaml`:
-
-```yaml
-projects:
-  - name: 'newProject'
-    description: 'New team project'
-
-    network:
-      name: newProject
-      create: true
-      resourceGroupName: 'newProject-connectivity-RG'
-      virtualNetworkType: Managed
-      addressPrefixes:
-        - 10.1.0.0/16
-      subnets:
-        - name: newProject-subnet
-          properties:
-            addressPrefix: 10.1.1.0/24
-      tags:
-        environment: dev
-        division: Platforms
-        team: DevExP
-        project: DevExP-DevBox
-        costCenter: IT
-        owner: Contoso
-        resources: Network
-
-    identity:
-      type: SystemAssigned
-      roleAssignments:
-        - azureADGroupId: '<entra-group-id>'
-          azureADGroupName: 'New Project Developers'
-          azureRBACRoles:
-            - name: 'Contributor'
-              id: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-              scope: Project
-            - name: 'Dev Box User'
-              id: '45d50f46-0b78-4001-a660-4198cbe8cd05'
-              scope: Project
-            - name: 'Deployment Environment User'
-              id: '18e40d4e-8d2e-438d-97e1-9528336e149c'
-              scope: Project
-
-    pools:
-      - name: 'developer'
-        imageDefinitionName: 'newProject-developer'
-        vmSku: general_i_32c128gb512ssd_v2
-
-    environmentTypes:
-      - name: 'dev'
-        deploymentTargetId: ''
-
-    catalogs:
-      - name: 'environments'
-        type: environmentDefinition
-        sourceControl: gitHub
-        visibility: private
-        uri: 'https://github.com/org/repo.git'
-        branch: 'main'
-        path: '/.devcenter/environments'
-      - name: 'devboxImages'
-        type: imageDefinition
-        sourceControl: gitHub
-        visibility: private
-        uri: 'https://github.com/org/repo.git'
-        branch: 'main'
-        path: '/.devcenter/imageDefinitions'
-
-    tags:
-      environment: dev
-      division: Platforms
-      team: DevExP
-      project: DevExP-DevBox
-      costCenter: IT
-      owner: Contoso
-      resources: Project
-```
-
-Then run `azd provision` to apply the changes.
-
-### Switching Source Control Platform
-
-To switch from GitHub to Azure DevOps Git for catalog authentication:
-
-```bash
-export SOURCE_CONTROL_PLATFORM=adogit
-azd provision
-```
-
-The setup script prompts for the Azure DevOps PAT and configures the
-organization defaults. Update catalog entries in `devcenter.yaml` to use
-`sourceControl: adoGit` (project catalogs) or `type: adoGit` (Dev Center
-catalogs) accordingly.
 
 ### Project Structure
 
