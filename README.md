@@ -739,6 +739,14 @@ configuration errors before provisioning.
 | 🔒 `infra/settings/security/security.yaml`                   | Key Vault configuration            | Vault name, secret name, purge protection, soft delete, RBAC            |
 | ⚙️ `infra/settings/workload/devcenter.yaml`                  | Dev Center and project definitions | Dev Center name, catalogs, environment types, projects, pools, identity |
 
+Each YAML file has a companion JSON Schema (e.g., `devcenter.schema.json`) that
+provides validation, autocomplete, and inline documentation in editors. The
+schema reference is declared at the top of each YAML file:
+
+```yaml
+# yaml-language-server: $schema=./devcenter.schema.json
+```
+
 ### Environment Variables
 
 The following environment variables are set by the setup script and consumed by
@@ -746,92 +754,355 @@ The following environment variables are set by the setup script and consumed by
 
 | Variable                     | Description                                                           | Example            |
 | ---------------------------- | --------------------------------------------------------------------- | ------------------ |
-| 🌍 `AZURE_ENV_NAME`          | Environment name for resource naming                                  | `dev`              |
-| 🌍 `AZURE_LOCATION`          | Azure region for deployment                                           | `eastus2`          |
+| 🌍 `AZURE_ENV_NAME`          | Environment name for resource naming (2–10 chars)                     | `dev`              |
+| 🌍 `AZURE_LOCATION`          | Azure region for deployment (see [Allowed Regions](#allowed-regions)) | `eastus2`          |
 | 🔐 `KEY_VAULT_SECRET`        | PAT for private catalog authentication (GitHub or Azure DevOps)       | `ghp_xxxxxxxxxxxx` |
 | ⚙️ `SOURCE_CONTROL_PLATFORM` | Source control platform — `github` or `adogit` (defaults to `github`) | `github`           |
 | ⚙️ `AZURE_DEVOPS_EXT_PAT`    | Azure DevOps PAT exported when using `adogit` platform                | `ado_xxxxxxxxxxxx` |
 
+These are stored in `.azure/<env>/.env` and injected into
+`infra/main.parameters.json`, which maps them to Bicep parameters:
+
+| Bicep Parameter   | Mapped From        |
+| ----------------- | ------------------ |
+| `environmentName` | `AZURE_ENV_NAME`   |
+| `location`        | `AZURE_LOCATION`   |
+| `secretValue`     | `KEY_VAULT_SECRET` |
+
+### Allowed Regions
+
+The deployment supports these Azure regions (enforced by `main.bicep`):
+
+`eastus`, `eastus2`, `westus`, `westus2`, `westus3`, `centralus`, `northeurope`,
+`westeurope`, `southeastasia`, `australiaeast`, `japaneast`, `uksouth`,
+`canadacentral`, `swedencentral`, `switzerlandnorth`, `germanywestcentral`
+
 ### Resource Organization (`azureResources.yaml`)
 
-Defines the three resource groups following Azure Landing Zone segregation by
-function:
+Defines three resource groups following Azure Landing Zone segregation by
+function. Each entry has these fields:
 
-| Resource Group | Purpose                                 | Key Settings             |
-| -------------- | --------------------------------------- | ------------------------ |
-| **Workload**   | Dev Center, projects, and Dev Box pools | `name`, `create`, `tags` |
-| **Security**   | Key Vault for secret management         | `name`, `create`, `tags` |
-| **Monitoring** | Log Analytics and diagnostic settings   | `name`, `create`, `tags` |
+| Field         | Type    | Description                                                                  |
+| ------------- | ------- | ---------------------------------------------------------------------------- |
+| `create`      | boolean | `true` to create the resource group; `false` to reference an existing one    |
+| `name`        | string  | Resource group name (base name when `create: true`; exact name when `false`) |
+| `description` | string  | Human-readable description for documentation                                 |
+| `tags`        | object  | Azure resource tags (key-value pairs) for governance and cost allocation     |
 
-Set `create: false` to skip creation of any resource group when targeting
-existing groups in brownfield environments.
+When `create: true`, the actual resource group name follows the convention
+`<name>-<environmentName>-<location>-RG` (e.g.,
+`devexp-workload-dev-eastus2-RG`). When `create: false`, the `name` value is
+used as-is, enabling brownfield integration with existing resource groups.
+
+**Default resource groups:**
+
+| Key          | Default Name        | Purpose                                 |
+| ------------ | ------------------- | --------------------------------------- |
+| `workload`   | `devexp-workload`   | Dev Center, projects, and Dev Box pools |
+| `security`   | `devexp-security`   | Key Vault for secret management         |
+| `monitoring` | `devexp-monitoring` | Log Analytics and diagnostic settings   |
 
 ### Security (`security.yaml`)
 
 Configures Azure Key Vault for storing the source control PAT (GitHub or Azure
 DevOps) used by private catalog authentication:
 
-| Setting                              | Default     | Description                                |
-| ------------------------------------ | ----------- | ------------------------------------------ |
-| `keyVault.name`                      | `contoso`   | Globally unique Key Vault name prefix      |
-| `keyVault.secretName`                | `gha-token` | Secret name for the GitHub PAT             |
-| `keyVault.enablePurgeProtection`     | `true`      | Prevents permanent deletion of secrets     |
-| `keyVault.enableSoftDelete`          | `true`      | Enables recovery of deleted secrets        |
-| `keyVault.softDeleteRetentionInDays` | `7`         | Retention period for soft-deleted secrets  |
-| `keyVault.enableRbacAuthorization`   | `true`      | Uses Azure RBAC instead of access policies |
+| Setting                              | Default     | Description                                                               |
+| ------------------------------------ | ----------- | ------------------------------------------------------------------------- |
+| `create`                             | `true`      | `true` to create a new Key Vault; `false` to use existing                 |
+| `keyVault.name`                      | `contoso`   | Key Vault name prefix (suffixed with unique string + `-kv` when creating) |
+| `keyVault.secretName`                | `gha-token` | Secret name for the source control PAT                                    |
+| `keyVault.enablePurgeProtection`     | `true`      | Prevents permanent deletion of the vault and secrets                      |
+| `keyVault.enableSoftDelete`          | `true`      | Enables recovery of deleted secrets                                       |
+| `keyVault.softDeleteRetentionInDays` | `7`         | Number of days to retain soft-deleted secrets (1–90)                      |
+| `keyVault.enableRbacAuthorization`   | `true`      | Uses Azure RBAC instead of vault access policies                          |
+| `keyVault.tags`                      | —           | Azure resource tags applied to the Key Vault                              |
 
-### Dev Center & Projects (`devcenter.yaml`)
+When `create: true`, the Key Vault is created with SKU `standard` and an access
+policy granting the deployer `get`, `list`, `set`, `delete`, `backup`,
+`restore`, and `recover` permissions on secrets and keys. Diagnostic settings
+(all logs + all metrics) are automatically configured to send to the Log
+Analytics workspace.
 
-Central configuration for the Dev Center resource, catalogs, environment types,
-and project definitions:
+When `create: false`, the existing Key Vault is referenced by `keyVault.name`
+and the secret is created/updated within it.
 
-| Setting                                | Description                                     |
-| -------------------------------------- | ----------------------------------------------- |
-| `name`                                 | Dev Center resource name                        |
-| `catalogItemSyncEnableStatus`          | Enable/disable catalog item synchronization     |
-| `microsoftHostedNetworkEnableStatus`   | Enable/disable Microsoft-hosted network support |
-| `installAzureMonitorAgentEnableStatus` | Enable/disable Azure Monitor agent installation |
-| `identity.type`                        | Managed identity type (`SystemAssigned`)        |
+### Dev Center Settings (`devcenter.yaml`)
 
-#### Dev Center Identity & Organizational Roles
+This is the central configuration file controlling the Dev Center resource, its
+catalogs, environment types, identity, and all project definitions.
 
-The `identity` block at the Dev Center level defines the managed identity and
-its role assignments across scopes:
+#### Core Settings
 
-| Setting                                 | Description                                                                      |
-| --------------------------------------- | -------------------------------------------------------------------------------- |
-| `identity.type`                         | Managed identity type (`SystemAssigned`)                                         |
-| `identity.roleAssignments.devCenter`    | Roles assigned to the Dev Center identity (Contributor, User Access Admin, etc.) |
-| `identity.roleAssignments.orgRoleTypes` | Organizational role definitions (e.g., `DevManager`) mapped to Entra ID groups   |
+| Setting                                | Values               | Description                                                                |
+| -------------------------------------- | -------------------- | -------------------------------------------------------------------------- |
+| `name`                                 | string               | Dev Center resource name (e.g., `devexp-devcenter`)                        |
+| `catalogItemSyncEnableStatus`          | `Enabled`/`Disabled` | Controls whether project catalog items are synced to Dev Center            |
+| `microsoftHostedNetworkEnableStatus`   | `Enabled`/`Disabled` | Enables Microsoft-hosted networking for projects using `Managed` VNet type |
+| `installAzureMonitorAgentEnableStatus` | `Enabled`/`Disabled` | Installs Azure Monitor agent on provisioned Dev Boxes                      |
+| `tags`                                 | object               | Azure resource tags applied to the Dev Center resource                     |
 
-Organizational role types (`orgRoleTypes`) define personas like **DevManager**
-with their Entra ID group and RBAC roles:
+#### Dev Center Identity
+
+The Dev Center uses a managed identity to authenticate to other Azure services
+(Key Vault, resource groups). The `identity` block configures the identity type
+and its role assignments:
 
 ```yaml
-orgRoleTypes:
-  - type: DevManager
-    azureADGroupId: '<entra-group-id>'
-    azureADGroupName: 'Platform Engineering Team'
-    azureRBACRoles:
-      - name: 'DevCenter Project Admin'
-        id: '331c37c6-af14-46d9-b9f4-e1909e1b95a0'
-        scope: ResourceGroup
+identity:
+  type: SystemAssigned
+  roleAssignments:
+    devCenter:
+      - id: '<role-definition-guid>'
+        name: 'Role Name'
+        scope: Subscription | ResourceGroup
+    orgRoleTypes:
+      - type: DevManager
+        azureADGroupId: '<entra-group-object-id>'
+        azureADGroupName: 'Group Display Name'
+        azureRBACRoles:
+          - name: 'Role Name'
+            id: '<role-definition-guid>'
+            scope: ResourceGroup
 ```
 
-#### Project Configuration
+**`devCenter` role assignments** — roles assigned to the Dev Center's managed
+identity itself. These are applied at the specified scope:
 
-Each project entry under `projects:` supports:
+| Role                      | GUID                                   | Scope           | Purpose                                  |
+| ------------------------- | -------------------------------------- | --------------- | ---------------------------------------- |
+| Contributor               | `b24988ac-6180-42a0-ab88-20f7382dd24c` | `Subscription`  | Manage resources within the subscription |
+| User Access Administrator | `18d7d88d-d35e-4fb5-a5c3-7773c20a72d9` | `Subscription`  | Assign roles to project identities       |
+| Key Vault Secrets User    | `4633458b-17de-408a-b874-0445c86b69e6` | `ResourceGroup` | Read secrets from Key Vault              |
+| Key Vault Secrets Officer | `b86a8fe4-44ce-4948-aee5-eccb2c155cd7` | `ResourceGroup` | Manage secrets in Key Vault              |
 
-| Block              | Purpose                                                                                                                                |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`             | Project name — must be unique within the Dev Center                                                                                    |
-| `description`      | Human-readable project description                                                                                                     |
-| `network`          | VNet configuration — type (`Managed`/`Unmanaged`), address prefixes, subnets, resource group, tags                                     |
-| `identity`         | RBAC role assignments via Entra ID group membership (Dev Box User, Deployment Environment User, Contributor, Key Vault roles)          |
-| `pools`            | Dev Box pool definitions — pool name, image definition reference, VM SKU                                                               |
-| `environmentTypes` | Lifecycle environments available to the project (dev, staging, UAT) with optional deployment target IDs                                |
-| `catalogs`         | Source control catalogs — type (`environmentDefinition` or `imageDefinition`), source (`gitHub` or `adoGit`), visibility, branch, path |
-| `tags`             | Azure resource tags for cost allocation and governance                                                                                 |
+Subscription-scoped roles are assigned at the subscription level.
+ResourceGroup-scoped roles are assigned on both the workload and security
+resource groups.
+
+**`orgRoleTypes`** — organizational personas mapped to Entra ID security groups.
+Each group receives the specified RBAC roles at the resource group scope:
+
+| Field              | Description                                         |
+| ------------------ | --------------------------------------------------- |
+| `type`             | Persona name (e.g., `DevManager`)                   |
+| `azureADGroupId`   | Object ID of the Entra ID security group            |
+| `azureADGroupName` | Display name of the Entra ID security group         |
+| `azureRBACRoles`   | Array of roles — each has `name`, `id`, and `scope` |
+
+#### Dev Center Catalogs
+
+Catalogs at the Dev Center level provide shared resources (e.g., custom tasks)
+available across all projects:
+
+| Field        | Values                | Description                                             |
+| ------------ | --------------------- | ------------------------------------------------------- |
+| `name`       | string                | Catalog display name                                    |
+| `type`       | `gitHub` or `adoGit`  | Source control platform hosting the catalog repository  |
+| `visibility` | `public` or `private` | `private` catalogs authenticate using the Key Vault PAT |
+| `uri`        | string                | Git repository URL                                      |
+| `branch`     | string                | Branch to sync from                                     |
+| `path`       | string                | Path within the repository to sync                      |
+
+All catalogs use **scheduled sync** (`syncType: Scheduled`). Private catalogs
+use the `secretIdentifier` from Key Vault for Git authentication.
+
+#### Dev Center Environment Types
+
+Environment types define the lifecycle stages available across the Dev Center.
+Projects can then enable a subset of these for their own use:
+
+```yaml
+environmentTypes:
+  - name: 'dev'
+    deploymentTargetId: ''
+  - name: 'staging'
+    deploymentTargetId: ''
+  - name: 'UAT'
+    deploymentTargetId: ''
+```
+
+The `deploymentTargetId` is only used at the project level — at the Dev Center
+level it defines the environment type name and display name.
+
+### Project Configuration
+
+Each entry in the `projects:` array defines a complete project with its own
+network, identity, pools, catalogs, environment types, and tags. Below is the
+full specification of every block.
+
+#### `name` and `description`
+
+| Field         | Type   | Description                                              |
+| ------------- | ------ | -------------------------------------------------------- |
+| `name`        | string | Project name — must be unique within the Dev Center      |
+| `description` | string | Human-readable description (defaults to `name` if empty) |
+
+The project is created as a `Microsoft.DevCenter/projects` resource with
+`catalogSettings.catalogItemSyncTypes` set to both `EnvironmentDefinition` and
+`ImageDefinition`.
+
+#### `network` — Network Configuration
+
+Controls how Dev Boxes in this project connect to the network:
+
+| Field                | Type     | Required | Description                                                   |
+| -------------------- | -------- | -------- | ------------------------------------------------------------- |
+| `name`               | string   | Yes      | VNet name (or existing VNet name when `create: false`)        |
+| `create`             | boolean  | Yes      | `true` to create a new VNet; `false` to use existing          |
+| `resourceGroupName`  | string   | Yes      | Resource group for network resources                          |
+| `virtualNetworkType` | string   | Yes      | `Managed` or `Unmanaged`                                      |
+| `addressPrefixes`    | string[] | No\*     | CIDR blocks for VNet address space                            |
+| `subnets`            | array    | No\*     | Subnet definitions with `name` and `properties.addressPrefix` |
+| `tags`               | object   | No       | Azure tags for network resources                              |
+
+\* Required when `virtualNetworkType: Unmanaged` and `create: true`.
+
+**`Managed` networking** — Dev Boxes use Microsoft-hosted networking. No VNet,
+subnet, or network connection resources are created. The Dev Center's
+`microsoftHostedNetworkEnableStatus` must be `Enabled`. Pool regions are set
+automatically.
+
+**`Unmanaged` networking with `create: true`** — Creates a new VNet and subnet
+in the specified `resourceGroupName` (the resource group is also created if it
+doesn't exist). A network connection (`domainJoinType: AzureADJoin`) is created
+and attached to the Dev Center.
+
+**`Unmanaged` networking with `create: false`** — References an existing VNet by
+`name` in the specified `resourceGroupName`. Creates a network connection from
+the existing VNet's first subnet and attaches it to the Dev Center.
+
+All unmanaged VNets get Log Analytics diagnostic settings (all logs + all
+metrics) automatically.
+
+#### `identity` — RBAC & Access Control
+
+Controls the project's managed identity and Entra ID group role assignments:
+
+```yaml
+identity:
+  type: SystemAssigned
+  roleAssignments:
+    - azureADGroupId: '<entra-group-object-id>'
+      azureADGroupName: 'Team Developers'
+      azureRBACRoles:
+        - name: 'Contributor'
+          id: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+          scope: Project
+        - name: 'Dev Box User'
+          id: '45d50f46-0b78-4001-a660-4198cbe8cd05'
+          scope: Project
+        - name: 'Deployment Environment User'
+          id: '18e40d4e-8d2e-438d-97e1-9528336e149c'
+          scope: Project
+        - name: 'Key Vault Secrets User'
+          id: '4633458b-17de-408a-b874-0445c86b69e6'
+          scope: ResourceGroup
+        - name: 'Key Vault Secrets Officer'
+          id: 'b86a8fe4-44ce-4948-aee5-eccb2c155cd7'
+          scope: ResourceGroup
+```
+
+Each entry in `roleAssignments` creates role assignments for **both** the
+project's managed identity and the specified Entra ID group. The `scope` field
+controls where the role is applied:
+
+| Scope           | Where Applied                                         |
+| --------------- | ----------------------------------------------------- |
+| `Project`       | Scoped to the `Microsoft.DevCenter/projects` resource |
+| `ResourceGroup` | Applied to both the workload RG and the security RG   |
+
+Commonly used roles for Dev Box projects:
+
+| Role                        | GUID                                   | Purpose                         |
+| --------------------------- | -------------------------------------- | ------------------------------- |
+| Contributor                 | `b24988ac-6180-42a0-ab88-20f7382dd24c` | Manage project resources        |
+| Dev Box User                | `45d50f46-0b78-4001-a660-4198cbe8cd05` | Create and manage Dev Boxes     |
+| Deployment Environment User | `18e40d4e-8d2e-438d-97e1-9528336e149c` | Deploy environments             |
+| Key Vault Secrets User      | `4633458b-17de-408a-b874-0445c86b69e6` | Read secrets for catalog access |
+| Key Vault Secrets Officer   | `b86a8fe4-44ce-4948-aee5-eccb2c155cd7` | Manage catalog secrets          |
+
+#### `pools` — Dev Box Pools
+
+Defines the Dev Box pools available to developers in this project:
+
+| Field                 | Type   | Description                                           |
+| --------------------- | ------ | ----------------------------------------------------- |
+| `name`                | string | Pool display name (e.g., `backend-engineer`)          |
+| `imageDefinitionName` | string | References an image from an `imageDefinition` catalog |
+| `vmSku`               | string | Azure VM SKU (e.g., `general_i_32c128gb512ssd_v2`)    |
+
+Pools are created only from project catalogs with `type: imageDefinition`. For
+each such catalog, a pool resource is created with the naming convention
+`<pool-name>-<catalog-index>-pool`.
+
+Each pool is provisioned with:
+
+| Property                       | Value               | Description                          |
+| ------------------------------ | ------------------- | ------------------------------------ |
+| `devBoxDefinitionType`         | `Value`             | Uses explicit image + SKU definition |
+| `licenseType`                  | `Windows_Client`    | Windows client licensing             |
+| `localAdministrator`           | `Enabled`           | Developers have local admin access   |
+| `singleSignOnStatus`           | `Enabled`           | SSO via Entra ID                     |
+| `virtualNetworkType`           | from network config | `Managed` or `Unmanaged`             |
+| `managedVirtualNetworkRegions` | `[location]`        | Set when using Managed networking    |
+
+#### `environmentTypes` — Project Environment Types
+
+Defines which Dev Center environment types are enabled for this project:
+
+| Field                | Type   | Description                                                      |
+| -------------------- | ------ | ---------------------------------------------------------------- |
+| `name`               | string | Must match a Dev Center environment type name                    |
+| `deploymentTargetId` | string | Subscription resource ID for deployment target (empty = current) |
+
+Each project environment type gets a `SystemAssigned` managed identity and
+automatically grants the **Contributor** role
+(`b24988ac-6180-42a0-ab88-20f7382dd24c`) to environment creators.
+
+#### `catalogs` — Project Catalogs
+
+Project-level catalogs are distinct from Dev Center catalogs. They provide image
+definitions for Dev Box pools and environment definitions for deployment
+environments:
+
+| Field           | Values                                       | Description                           |
+| --------------- | -------------------------------------------- | ------------------------------------- |
+| `name`          | string                                       | Catalog display name                  |
+| `type`          | `environmentDefinition` or `imageDefinition` | What the catalog provides             |
+| `sourceControl` | `gitHub` or `adoGit`                         | Source control platform               |
+| `visibility`    | `public` or `private`                        | `private` uses Key Vault PAT for auth |
+| `uri`           | string                                       | Git repository URL                    |
+| `branch`        | string                                       | Branch to sync from                   |
+| `path`          | string                                       | Path within the repository            |
+
+- **`imageDefinition`** catalogs contain Dev Box image definitions referenced by
+  pools via `imageDefinitionName`. These define the base OS image, installed
+  tools, and configuration for Dev Box VMs.
+- **`environmentDefinition`** catalogs contain ARM/Bicep templates for
+  deployment environments that developers can provision on demand.
+
+All project catalogs use scheduled sync. Private catalogs authenticate via the
+Key Vault secret (GitHub PAT or Azure DevOps PAT depending on `sourceControl`).
+
+#### `tags` — Resource Tags
+
+Arbitrary key-value pairs applied to the project resource for governance, cost
+allocation, and operational tracking:
+
+```yaml
+tags:
+  environment: 'dev'
+  division: 'Platforms'
+  team: 'DevExP'
+  project: 'DevExP-DevBox'
+  costCenter: 'IT'
+  owner: 'Contoso'
+  resources: 'Project'
+```
+
+The project resource also receives automatic tags:
+`ms-resource-usage: azure-cloud-devbox` and `project: <project-name>`.
 
 ### Adding a New Project
 
@@ -890,7 +1161,7 @@ projects:
     catalogs:
       - name: 'environments'
         type: environmentDefinition
-        sourceControl: gitHub # or adoGit for Azure DevOps
+        sourceControl: gitHub
         visibility: private
         uri: 'https://github.com/org/repo.git'
         branch: 'main'
@@ -926,7 +1197,8 @@ azd provision
 
 The setup script prompts for the Azure DevOps PAT and configures the
 organization defaults. Update catalog entries in `devcenter.yaml` to use
-`sourceControl: adoGit` accordingly.
+`sourceControl: adoGit` (project catalogs) or `type: adoGit` (Dev Center
+catalogs) accordingly.
 
 ### Project Structure
 
@@ -947,10 +1219,34 @@ organization defaults. Update catalog entries in `devcenter.yaml` to use
 │           └── devcenter.schema.json       # Validation schema
 ├── src/
 │   ├── connectivity/                       # VNet, subnet, network connection modules
+│   │   ├── connectivity.bicep              #   Orchestrates network resource creation
+│   │   ├── vnet.bicep                      #   VNet creation or existing VNet reference
+│   │   ├── networkConnection.bicep         #   Network connection + Dev Center attachment
+│   │   └── resourceGroup.bicep             #   Conditional resource group creation
 │   ├── identity/                           # RBAC and role assignment modules
+│   │   ├── devCenterRoleAssignment.bicep   #   Subscription-scoped role assignments
+│   │   ├── devCenterRoleAssignmentRG.bicep #   Resource group-scoped role assignments
+│   │   ├── keyVaultAccess.bicep            #   Key Vault Secrets User assignment
+│   │   ├── orgRoleAssignment.bicep         #   Org group role assignments
+│   │   ├── projectIdentityRoleAssignment.bicep    # Project-scoped roles
+│   │   └── projectIdentityRoleAssignmentRG.bicep  # Project RG-scoped roles
 │   ├── management/                         # Log Analytics module
+│   │   └── logAnalytics.bicep              #   Workspace + AzureActivity solution + diagnostics
 │   ├── security/                           # Key Vault and secret modules
+│   │   ├── security.bicep                  #   Orchestrates Key Vault creation or reference
+│   │   ├── keyVault.bicep                  #   Key Vault resource with access policies
+│   │   └── secret.bicep                    #   Secret creation + Key Vault diagnostics
 │   └── workload/                           # Dev Center, project, pool modules
+│       ├── workload.bicep                  #   Orchestrates Dev Center + projects
+│       ├── core/
+│       │   ├── devCenter.bicep             #   Dev Center resource + identity + diagnostics
+│       │   ├── catalog.bicep               #   Dev Center catalog (GitHub/ADO Git)
+│       │   └── environmentType.bicep       #   Dev Center environment type
+│       └── project/
+│           ├── project.bicep               #   Project resource + identity + connectivity
+│           ├── projectCatalog.bicep         #   Project catalog (env/image definitions)
+│           ├── projectEnvironmentType.bicep #   Project environment type + creator roles
+│           └── projectPool.bicep           #   Dev Box pool (image + SKU + network)
 ├── setUp.ps1                               # Setup script (PowerShell equivalent)
 ├── setUp.sh                                # Setup script (called by azd preprovision hook)
 ├── cleanSetUp.ps1                          # Resource teardown script
