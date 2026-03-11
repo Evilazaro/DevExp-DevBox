@@ -1,19 +1,5 @@
 # Business Architecture — DevExp-DevBox
 
-| Field                  | Value                |
-| ---------------------- | -------------------- |
-| **Layer**              | Business             |
-| **Quality Level**      | comprehensive        |
-| **Framework**          | TOGAF 10 / BDAT      |
-| **Repository**         | DevExp-DevBox        |
-| **Components Found**   | 36                   |
-| **Average Confidence** | 0.81                 |
-| **Diagrams Included**  | 7                    |
-| **Sections Generated** | 1, 2, 3, 4, 5, 8     |
-| **Generated**          | 2026-03-11T10:37:00Z |
-
----
-
 ## 1. Executive Summary
 
 ### Overview
@@ -22,8 +8,8 @@ This Business Architecture analysis covers the DevExp-DevBox repository, an
 Azure Dev Box Adoption & Deployment Accelerator designed to deliver
 production-ready, centralized developer workstation provisioning for enterprise
 engineering teams. The analysis identifies 36 Business layer components across
-10 of the 11 canonical TOGAF Business Architecture component types, with an
-average confidence score of 0.81.
+10 of the 11 canonical Business Architecture component types, with an average
+confidence score of 0.81.
 
 The platform addresses a core business capability: eliminating weeks of manual
 developer environment setup by orchestrating Azure Dev Center, Dev Box pools,
@@ -40,25 +26,6 @@ configuration-as-code model that externalizes business rules into YAML files —
 enabling non-technical governance. No KPIs or Metrics were explicitly defined in
 the source, representing the primary gap for business maturity improvement.
 
-- **Business Strategy**: 2 components (Platform strategy, Cloud Adoption
-  alignment)
-- **Business Capabilities**: 7 components (Provisioning, Identity, Security,
-  Monitoring, Networking, Governance, Configuration)
-- **Value Streams**: 2 components (Developer Velocity, Security & Compliance)
-- **Business Processes**: 4 components (Onboarding, Promotion, Deployment,
-  Cleanup)
-- **Business Services**: 2 components (Dev Box Provisioning, Secret Management)
-- **Business Functions**: 2 components (Platform Engineering, Project Delivery)
-- **Business Roles & Actors**: 4 components (Dev Manager, Developer, Platform
-  Engineer, DevOps Lead)
-- **Business Rules**: 5 components (VM Sizing, Network Isolation, RBAC, Tagging,
-  Purge Protection)
-- **Business Events**: 2 components (Onboarding Request, Promotion Trigger)
-- **Business Objects/Entities**: 6 components (DevCenter, Project, Pool,
-  Environment Type, Landing Zone, Key Vault)
-- **KPIs & Metrics**: 0 — Not detected
-- **Average Confidence**: 0.81
-
 ---
 
 ## 2. Architecture Landscape
@@ -67,8 +34,8 @@ the source, representing the primary gap for business maturity improvement.
 
 This section provides a comprehensive inventory of all Business layer components
 detected in the DevExp-DevBox repository. Components are organized by the 11
-canonical TOGAF Business Architecture component types, each validated through
-the Layer Classification Decision Tree and scored using the weighted confidence
+canonical Business Architecture component types, each validated through the
+Layer Classification Decision Tree and scored using the weighted confidence
 formula (30% filename + 25% path + 35% content + 10% cross-reference).
 
 All components are traceable to source files. The repository implements a
@@ -242,8 +209,8 @@ flowchart TB
 ### Summary
 
 The DevExp-DevBox platform exhibits 36 Business layer components distributed
-across 10 of 11 TOGAF component types, with confidence scores ranging from 0.71
-to 0.90 (average: 0.81). The strongest coverage appears in Business Rules (5
+across 10 of 11 component types, with confidence scores ranging from 0.71 to
+0.90 (average: 0.81). The strongest coverage appears in Business Rules (5
 components, avg. confidence 0.86), Business Objects/Entities (6 components, avg.
 0.85), and Business Capabilities (7 components, avg. 0.83). Identity & Access
 Governance and Role-Based VM Sizing demonstrate the highest maturity at Level 4
@@ -263,7 +230,7 @@ architecture maturity from Level 3 toward Level 4 across the portfolio.
 
 ### Overview
 
-The DevExp-DevBox platform embeds several TOGAF-aligned architecture principles
+The DevExp-DevBox platform embeds several -aligned architecture principles
 observable in the source configuration and documentation. These principles guide
 decision-making across the platform's business capabilities, governance model,
 and operational workflows. Each principle below is traced to evidence in the
@@ -545,7 +512,7 @@ validation.
 
 This section provides detailed specifications for each Business layer component
 identified in the DevExp-DevBox repository. Components are organized by the 11
-canonical TOGAF Business Architecture types, with each entry documenting the
+canonical Business Architecture types, with each entry documenting the
 component's purpose, source traceability, confidence score, maturity level, and
 business relationships. All components are validated through the Layer
 Classification Decision Tree and scored using the weighted confidence formula.
@@ -1263,7 +1230,7 @@ found in the source configuration or documentation.
 
 ### Summary
 
-The Component Catalog documents 36 components across 10 of 11 TOGAF Business
+The Component Catalog documents 36 components across 10 of 11 Business
 Architecture types, with confidence scores ranging from 0.71 (DevOps Lead) to
 0.90 (Dev Manager). The highest-maturity components are Identity & Access
 Governance, Dev Manager, Developer, and Least-Privilege RBAC Enforcement — all
