@@ -1,44 +1,16 @@
 # Data Architecture - DevExp-DevBox
 
-**Generated**: 2026-03-11T00:00:00Z **Session ID**:
-00000000-0000-0000-0000-000000000000 **Quality Level**: comprehensive **Data
-Assets Found**: 47 **Target Layer**: Data **Analysis Scope**: ["."]
+## 📑 Table of Contents
 
----
-
-```yaml
-data_layer_reasoning:
-  step1_scope_understood:
-    folder_paths: ['.']
-    expected_component_types: 11
-    confidence_threshold: 0.7
-  step2_file_evidence_gathered:
-    files_scanned: 30
-    candidates_identified: 47
-  step3_classification_planned:
-    components_by_type:
-      entities: 9
-      models: 3
-      stores: 2
-      flows: 4
-      services: 0
-      governance: 7
-      quality_rules: 0
-      master_data: 0
-      transformations: 0
-      contracts: 6
-      security: 8
-    relationships_mapped: 12
-  step4_constraints_checked:
-    all_from_folder_paths: true
-    all_have_source_refs: true
-    all_11_types_present: true
-  step5_assumptions_validated:
-    cross_references_valid: true
-    no_fabricated_components: true
-    mermaid_ready: true
-  step6_proceed_to_documentation: true
-```
+- [Section 1: Executive Summary](#section-1-executive-summary)
+- [Section 2: Architecture Landscape](#section-2-architecture-landscape)
+- [Section 3: Architecture Principles](#section-3-architecture-principles)
+- [Section 4: Current State Baseline](#section-4-current-state-baseline)
+- [Section 5: Component Catalog](#section-5-component-catalog)
+- [Section 6: Architecture Decisions](#section-6-architecture-decisions)
+- [Section 7: Architecture Standards](#section-7-architecture-standards)
+- [Section 8: Dependencies & Integration](#section-8-dependencies--integration)
+- [Section 9: Governance & Management](#section-9-governance--management)
 
 ---
 
@@ -72,27 +44,27 @@ attribution.
 
 ### Key Findings
 
-| Metric                     | Value | Assessment                                           |
-| -------------------------- | ----- | ---------------------------------------------------- |
-| Total Data Components      | 47    | Comprehensive coverage                               |
-| Data Entities              | 9     | Bicep type definitions and YAML schemas              |
-| Data Stores                | 2     | Key Vault (secrets) + Log Analytics (telemetry)      |
-| Data Security Components   | 8     | RBAC, purge protection, soft delete, diagnostics     |
-| Data Contracts             | 6     | JSON Schema + YAML config pairs                      |
-| Data Flows                 | 4     | Secret retrieval, diagnostics, catalog sync, network |
-| Data Governance            | 7     | Tagging, landing zones, identity management          |
-| Average Confidence         | 0.89  | High traceability                                    |
-| Components Below Threshold | 0     | All ≥ 0.7                                            |
+| 📊 Metric                  | 📈 Value | 🎯 Assessment                                        |
+| -------------------------- | -------- | ---------------------------------------------------- |
+| Total Data Components      | 47       | Comprehensive coverage                               |
+| Data Entities              | 9        | Bicep type definitions and YAML schemas              |
+| Data Stores                | 2        | Key Vault (secrets) + Log Analytics (telemetry)      |
+| Data Security Components   | 8        | RBAC, purge protection, soft delete, diagnostics     |
+| Data Contracts             | 6        | JSON Schema + YAML config pairs                      |
+| Data Flows                 | 4        | Secret retrieval, diagnostics, catalog sync, network |
+| Data Governance            | 7        | Tagging, landing zones, identity management          |
+| Average Confidence         | 0.89     | High traceability                                    |
+| Components Below Threshold | 0        | All ≥ 0.7                                            |
 
 ### Data Quality Scorecard
 
-| Dimension                  | Score | Assessment                                                       |
-| -------------------------- | ----- | ---------------------------------------------------------------- |
-| Schema Validation Coverage | 95%   | All YAML configs have JSON Schema validation                     |
-| Source Traceability        | 100%  | Every component maps to source file with line range              |
-| Classification Coverage    | 85%   | Most components classified; some inferred                        |
-| Access Control Coverage    | 90%   | RBAC enabled on Key Vault; role assignments defined              |
-| Audit Logging Coverage     | 90%   | Diagnostic settings on Key Vault, VNet, DevCenter, Log Analytics |
+| 📏 Dimension               | 💯 Score | 🎯 Assessment                                                    |
+| -------------------------- | -------- | ---------------------------------------------------------------- |
+| Schema Validation Coverage | 95%      | All YAML configs have JSON Schema validation                     |
+| Source Traceability        | 100%     | Every component maps to source file with line range              |
+| Classification Coverage    | 85%      | Most components classified; some inferred                        |
+| Access Control Coverage    | 90%      | RBAC enabled on Key Vault; role assignments defined              |
+| Audit Logging Coverage     | 90%      | Diagnostic settings on Key Vault, VNet, DevCenter, Log Analytics |
 
 ### Coverage Summary
 
@@ -130,41 +102,41 @@ entire repository.
 
 ### 2.1 Data Entities
 
-| Name            | Description                                                                         | Source                                     | Confidence | Classification |
-| --------------- | ----------------------------------------------------------------------------------- | ------------------------------------------ | ---------- | -------------- |
-| DevCenterConfig | Core Dev Center configuration entity with identity, sync, network, and tag settings | src/workload/core/devCenter.bicep:38-55    | 0.95       | Internal       |
-| Catalog         | Repository catalog entity with Git source, branch, path, and visibility settings    | src/workload/core/catalog.bicep:12-33      | 0.95       | Internal       |
-| Identity        | Managed identity entity with type and role assignment configuration                 | src/workload/core/devCenter.bicep:78-86    | 0.92       | Internal       |
-| VirtualNetwork  | Network topology entity with address spaces and subnet configurations               | src/workload/core/devCenter.bicep:57-63    | 0.90       | Internal       |
-| AzureRBACRole   | Role definition entity with GUID, name, and scope attributes                        | src/workload/core/devCenter.bicep:100-110  | 0.92       | Internal       |
-| KeyVaultConfig  | Key Vault configuration entity with security feature toggles                        | src/security/keyVault.bicep:20-36          | 0.95       | Confidential   |
-| ProjectNetwork  | Project-scoped network entity with optional create flag and subnets                 | src/workload/project/project.bicep:50-66   | 0.88       | Internal       |
-| PoolConfig      | Dev Box pool entity with image definition and VM SKU                                | src/workload/project/project.bicep:107-113 | 0.85       | Internal       |
-| Tags            | Resource tagging entity with wildcard key-value pairs                               | src/workload/core/devCenter.bicep:32-35    | 0.85       | Internal       |
+| 🏷️ Name         | 📝 Description                                                                      | 📂 Source                                  | 🎯 Confidence | 🔖 Classification |
+| --------------- | ----------------------------------------------------------------------------------- | ------------------------------------------ | ------------- | ----------------- |
+| DevCenterConfig | Core Dev Center configuration entity with identity, sync, network, and tag settings | src/workload/core/devCenter.bicep:38-55    | 0.95          | Internal          |
+| Catalog         | Repository catalog entity with Git source, branch, path, and visibility settings    | src/workload/core/catalog.bicep:12-33      | 0.95          | Internal          |
+| Identity        | Managed identity entity with type and role assignment configuration                 | src/workload/core/devCenter.bicep:78-86    | 0.92          | Internal          |
+| VirtualNetwork  | Network topology entity with address spaces and subnet configurations               | src/workload/core/devCenter.bicep:57-63    | 0.90          | Internal          |
+| AzureRBACRole   | Role definition entity with GUID, name, and scope attributes                        | src/workload/core/devCenter.bicep:100-110  | 0.92          | Internal          |
+| KeyVaultConfig  | Key Vault configuration entity with security feature toggles                        | src/security/keyVault.bicep:20-36          | 0.95          | Confidential      |
+| ProjectNetwork  | Project-scoped network entity with optional create flag and subnets                 | src/workload/project/project.bicep:50-66   | 0.88          | Internal          |
+| PoolConfig      | Dev Box pool entity with image definition and VM SKU                                | src/workload/project/project.bicep:107-113 | 0.85          | Internal          |
+| Tags            | Resource tagging entity with wildcard key-value pairs                               | src/workload/core/devCenter.bicep:32-35    | 0.85          | Internal          |
 
 ### 2.2 Data Models
 
-| Name                           | Description                                                                                      | Source                                                              | Confidence | Classification |
-| ------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- | ---------- | -------------- |
-| DevCenter Configuration Schema | JSON Schema model defining Dev Center, projects, catalogs, pools, identity, and role assignments | infra/settings/workload/devcenter.schema.json:1-80                  | 0.95       | Internal       |
-| Security Configuration Schema  | JSON Schema model for Key Vault security settings and tags                                       | infra/settings/security/security.schema.json:1-60                   | 0.95       | Confidential   |
-| Azure Resources Schema         | JSON Schema model for landing zone resource group organization                                   | infra/settings/resourceOrganization/azureResources.schema.json:1-60 | 0.95       | Internal       |
+| 🏷️ Name                        | 📝 Description                                                                                   | 📂 Source                                                           | 🎯 Confidence | 🔖 Classification |
+| ------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- | ------------- | ----------------- |
+| DevCenter Configuration Schema | JSON Schema model defining Dev Center, projects, catalogs, pools, identity, and role assignments | infra/settings/workload/devcenter.schema.json:1-80                  | 0.95          | Internal          |
+| Security Configuration Schema  | JSON Schema model for Key Vault security settings and tags                                       | infra/settings/security/security.schema.json:1-60                   | 0.95          | Confidential      |
+| Azure Resources Schema         | JSON Schema model for landing zone resource group organization                                   | infra/settings/resourceOrganization/azureResources.schema.json:1-60 | 0.95          | Internal          |
 
 ### 2.3 Data Stores
 
-| Name                    | Description                                                                         | Source                                  | Confidence | Classification |
-| ----------------------- | ----------------------------------------------------------------------------------- | --------------------------------------- | ---------- | -------------- |
-| Azure Key Vault         | Centralized secret store with RBAC authorization, soft delete, and purge protection | src/security/keyVault.bicep:46-76       | 0.95       | Confidential   |
-| Log Analytics Workspace | Centralized telemetry store with AzureActivity solution and diagnostic ingestion    | src/management/logAnalytics.bicep:38-52 | 0.92       | Internal       |
+| 🏷️ Name                 | 📝 Description                                                                      | 📂 Source                               | 🎯 Confidence | 🔖 Classification |
+| ----------------------- | ----------------------------------------------------------------------------------- | --------------------------------------- | ------------- | ----------------- |
+| Azure Key Vault         | Centralized secret store with RBAC authorization, soft delete, and purge protection | src/security/keyVault.bicep:46-76       | 0.95          | Confidential      |
+| Log Analytics Workspace | Centralized telemetry store with AzureActivity solution and diagnostic ingestion    | src/management/logAnalytics.bicep:38-52 | 0.92          | Internal          |
 
 ### 2.4 Data Flows
 
-| Name                      | Description                                                                   | Source                                         | Confidence | Classification |
-| ------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------- | ---------- | -------------- |
-| Secret Retrieval Flow     | Key Vault secret identifier passed from security module to DevCenter catalogs | infra/main.bicep:113-135                       | 0.90       | Confidential   |
-| Diagnostic Logging Flow   | allLogs + AllMetrics from Key Vault, VNet, DevCenter routed to Log Analytics  | src/security/secret.bicep:33-53                | 0.92       | Internal       |
-| Catalog Sync Flow         | Git repositories synced to DevCenter catalogs on scheduled basis              | src/workload/core/catalog.bicep:39-58          | 0.88       | Internal       |
-| Network Connectivity Flow | Dev Box pools connected to VNets via network connections with AzureADJoin     | src/connectivity/networkConnection.bicep:22-34 | 0.85       | Internal       |
+| 🏷️ Name                   | 📝 Description                                                                | 📂 Source                                      | 🎯 Confidence | 🔖 Classification |
+| ------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------- | ------------- | ----------------- |
+| Secret Retrieval Flow     | Key Vault secret identifier passed from security module to DevCenter catalogs | infra/main.bicep:113-135                       | 0.90          | Confidential      |
+| Diagnostic Logging Flow   | allLogs + AllMetrics from Key Vault, VNet, DevCenter routed to Log Analytics  | src/security/secret.bicep:33-53                | 0.92          | Internal          |
+| Catalog Sync Flow         | Git repositories synced to DevCenter catalogs on scheduled basis              | src/workload/core/catalog.bicep:39-58          | 0.88          | Internal          |
+| Network Connectivity Flow | Dev Box pools connected to VNets via network connections with AzureADJoin     | src/connectivity/networkConnection.bicep:22-34 | 0.85          | Internal          |
 
 ### 2.5 Data Services
 
@@ -172,15 +144,15 @@ Not detected in source files.
 
 ### 2.6 Data Governance
 
-| Name                               | Description                                                                                          | Source                                                        | Confidence | Classification |
-| ---------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------- | -------------- |
-| Mandatory Resource Tagging         | 8-key tag strategy (environment, division, team, project, costCenter, owner, landingZone, resources) | infra/settings/security/security.yaml:35-48                   | 0.95       | Internal       |
-| Workload Landing Zone              | Resource group segregation for DevCenter workload resources                                          | infra/settings/resourceOrganization/azureResources.yaml:17-28 | 0.92       | Internal       |
-| Security Landing Zone              | Resource group segregation for Key Vault and security resources                                      | infra/settings/resourceOrganization/azureResources.yaml:33-44 | 0.92       | Internal       |
-| Monitoring Landing Zone            | Resource group segregation for Log Analytics and diagnostics                                         | infra/settings/resourceOrganization/azureResources.yaml:49-60 | 0.92       | Internal       |
-| Dev Manager RBAC Governance        | Azure AD group-based role assignment for Platform Engineering Team                                   | infra/settings/workload/devcenter.yaml:53-62                  | 0.90       | Internal       |
-| Developer RBAC Governance          | Azure AD group-based role assignments for eShop Developers                                           | infra/settings/workload/devcenter.yaml:117-137                | 0.90       | Internal       |
-| SystemAssigned Identity Governance | Managed identity with Contributor + User Access Admin + Key Vault roles                              | infra/settings/workload/devcenter.yaml:26-50                  | 0.92       | Internal       |
+| 🏷️ Name                            | 📝 Description                                                                                       | 📂 Source                                                     | 🎯 Confidence | 🔖 Classification |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------------- | ----------------- |
+| Mandatory Resource Tagging         | 8-key tag strategy (environment, division, team, project, costCenter, owner, landingZone, resources) | infra/settings/security/security.yaml:35-48                   | 0.95          | Internal          |
+| Workload Landing Zone              | Resource group segregation for DevCenter workload resources                                          | infra/settings/resourceOrganization/azureResources.yaml:17-28 | 0.92          | Internal          |
+| Security Landing Zone              | Resource group segregation for Key Vault and security resources                                      | infra/settings/resourceOrganization/azureResources.yaml:33-44 | 0.92          | Internal          |
+| Monitoring Landing Zone            | Resource group segregation for Log Analytics and diagnostics                                         | infra/settings/resourceOrganization/azureResources.yaml:49-60 | 0.92          | Internal          |
+| Dev Manager RBAC Governance        | Azure AD group-based role assignment for Platform Engineering Team                                   | infra/settings/workload/devcenter.yaml:53-62                  | 0.90          | Internal          |
+| Developer RBAC Governance          | Azure AD group-based role assignments for eShop Developers                                           | infra/settings/workload/devcenter.yaml:117-137                | 0.90          | Internal          |
+| SystemAssigned Identity Governance | Managed identity with Contributor + User Access Admin + Key Vault roles                              | infra/settings/workload/devcenter.yaml:26-50                  | 0.92          | Internal          |
 
 ### 2.7 Data Quality Rules
 
@@ -196,27 +168,27 @@ Not detected in source files.
 
 ### 2.10 Data Contracts
 
-| Name                             | Description                                                          | Source                                                      | Confidence | Classification |
-| -------------------------------- | -------------------------------------------------------------------- | ----------------------------------------------------------- | ---------- | -------------- |
-| DevCenter Configuration Contract | YAML config validated by JSON Schema for Dev Center settings         | infra/settings/workload/devcenter.yaml:1-1                  | 0.95       | Internal       |
-| Security Configuration Contract  | YAML config validated by JSON Schema for Key Vault settings          | infra/settings/security/security.yaml:1-1                   | 0.95       | Confidential   |
-| Azure Resources Contract         | YAML config validated by JSON Schema for resource group organization | infra/settings/resourceOrganization/azureResources.yaml:1-1 | 0.95       | Internal       |
-| Azure Developer CLI Contract     | azure.yaml configuration for azd deployment orchestration            | azure.yaml:\*                                               | 0.85       | Internal       |
-| PowerShell Azure CLI Contract    | azure-pwh.yaml configuration for PowerShell-based deployment         | azure-pwh.yaml:\*                                           | 0.85       | Internal       |
-| Bicep Deployment Parameters      | ARM template parameters for main deployment                          | infra/main.parameters.json:\*                               | 0.88       | Internal       |
+| 🏷️ Name                          | 📝 Description                                                       | 📂 Source                                                   | 🎯 Confidence | 🔖 Classification |
+| -------------------------------- | -------------------------------------------------------------------- | ----------------------------------------------------------- | ------------- | ----------------- |
+| DevCenter Configuration Contract | YAML config validated by JSON Schema for Dev Center settings         | infra/settings/workload/devcenter.yaml:1-1                  | 0.95          | Internal          |
+| Security Configuration Contract  | YAML config validated by JSON Schema for Key Vault settings          | infra/settings/security/security.yaml:1-1                   | 0.95          | Confidential      |
+| Azure Resources Contract         | YAML config validated by JSON Schema for resource group organization | infra/settings/resourceOrganization/azureResources.yaml:1-1 | 0.95          | Internal          |
+| Azure Developer CLI Contract     | azure.yaml configuration for azd deployment orchestration            | azure.yaml:\*                                               | 0.85          | Internal          |
+| PowerShell Azure CLI Contract    | azure-pwh.yaml configuration for PowerShell-based deployment         | azure-pwh.yaml:\*                                           | 0.85          | Internal          |
+| Bicep Deployment Parameters      | ARM template parameters for main deployment                          | infra/main.parameters.json:\*                               | 0.88          | Internal          |
 
 ### 2.11 Data Security
 
-| Name                         | Description                                                               | Source                                    | Confidence | Classification |
-| ---------------------------- | ------------------------------------------------------------------------- | ----------------------------------------- | ---------- | -------------- |
-| RBAC Authorization           | Key Vault access controlled by Azure RBAC (enableRbacAuthorization: true) | src/security/keyVault.bicep:54-54         | 0.95       | Confidential   |
-| Soft Delete Protection       | Key Vault soft delete with configurable retention period (7-90 days)      | src/security/keyVault.bicep:51-52         | 0.95       | Confidential   |
-| Purge Protection             | Key Vault purge protection preventing permanent deletion                  | src/security/keyVault.bicep:50-50         | 0.95       | Confidential   |
-| Key Vault Secrets User Role  | RBAC role assignment for service principals to read secrets               | src/identity/keyVaultAccess.bicep:1-14    | 0.92       | Confidential   |
-| Diagnostic Audit Logging     | allLogs + AllMetrics diagnostic settings on Key Vault                     | src/security/secret.bicep:33-53           | 0.92       | Internal       |
-| VNet Diagnostic Logging      | allLogs + AllMetrics diagnostic settings on virtual networks              | src/connectivity/vnet.bicep:59-72         | 0.88       | Internal       |
-| DevCenter Diagnostic Logging | allLogs + AllMetrics diagnostic settings on DevCenter                     | src/workload/core/devCenter.bicep:148-162 | 0.88       | Internal       |
-| Network Isolation            | Virtual network with CIDR addressing and subnet segmentation              | src/connectivity/vnet.bicep:38-55         | 0.88       | Internal       |
+| 🏷️ Name                      | 📝 Description                                                            | 📂 Source                                 | 🎯 Confidence | 🔖 Classification |
+| ---------------------------- | ------------------------------------------------------------------------- | ----------------------------------------- | ------------- | ----------------- |
+| RBAC Authorization           | Key Vault access controlled by Azure RBAC (enableRbacAuthorization: true) | src/security/keyVault.bicep:54-54         | 0.95          | Confidential      |
+| Soft Delete Protection       | Key Vault soft delete with configurable retention period (7-90 days)      | src/security/keyVault.bicep:51-52         | 0.95          | Confidential      |
+| Purge Protection             | Key Vault purge protection preventing permanent deletion                  | src/security/keyVault.bicep:50-50         | 0.95          | Confidential      |
+| Key Vault Secrets User Role  | RBAC role assignment for service principals to read secrets               | src/identity/keyVaultAccess.bicep:1-14    | 0.92          | Confidential      |
+| Diagnostic Audit Logging     | allLogs + AllMetrics diagnostic settings on Key Vault                     | src/security/secret.bicep:33-53           | 0.92          | Internal          |
+| VNet Diagnostic Logging      | allLogs + AllMetrics diagnostic settings on virtual networks              | src/connectivity/vnet.bicep:59-72         | 0.88          | Internal          |
+| DevCenter Diagnostic Logging | allLogs + AllMetrics diagnostic settings on DevCenter                     | src/workload/core/devCenter.bicep:148-162 | 0.88          | Internal          |
+| Network Isolation            | Virtual network with CIDR addressing and subnet segmentation              | src/connectivity/vnet.bicep:38-55         | 0.88          | Internal          |
 
 ### Summary
 
@@ -251,7 +223,7 @@ with TOGAF 10 Data Architecture recommendations for governance-first design.
 
 ### Core Data Principles
 
-| Principle                 | Description                                                                              | Evidence                                                                | Source                                                        |
+| 📐 Principle              | 📝 Description                                                                           | 🔍 Evidence                                                             | 📂 Source                                                     |
 | ------------------------- | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------- |
 | Configuration-as-Code     | All infrastructure settings externalized to schema-validated YAML files                  | 3 YAML configs with matching JSON Schema files                          | infra/settings/:\*                                            |
 | Schema Validation         | JSON Schema enforces structural correctness at deployment time                           | devcenter.schema.json, security.schema.json, azureResources.schema.json | infra/settings/:\*                                            |
@@ -275,11 +247,11 @@ with TOGAF 10 Data Architecture recommendations for governance-first design.
 
 ### Data Classification Taxonomy
 
-| Classification | Description                                                          | Applied To                                    |
-| -------------- | -------------------------------------------------------------------- | --------------------------------------------- |
-| Confidential   | Secrets, credentials, access tokens, Key Vault configurations        | Key Vault, secret.bicep, keyVaultAccess.bicep |
-| Internal       | Infrastructure configuration, resource definitions, network topology | Bicep modules, YAML configs, schema files     |
-| Public         | Open-source catalog references                                       | microsoft/devcenter-catalog.git               |
+| 🔖 Classification | 📝 Description                                                       | 🎯 Applied To                                 |
+| ----------------- | -------------------------------------------------------------------- | --------------------------------------------- |
+| Confidential      | Secrets, credentials, access tokens, Key Vault configurations        | Key Vault, secret.bicep, keyVaultAccess.bicep |
+| Internal          | Infrastructure configuration, resource definitions, network topology | Bicep modules, YAML configs, schema files     |
+| Public            | Open-source catalog references                                       | microsoft/devcenter-catalog.git               |
 
 ---
 
@@ -380,14 +352,14 @@ flowchart TB
 
 ### Storage Distribution
 
-| Store                   | Type         | Purpose                                  | Retention            | Access Model   |
-| ----------------------- | ------------ | ---------------------------------------- | -------------------- | -------------- |
-| Azure Key Vault         | Secret Store | Credentials, tokens, certificates        | 7 days (soft delete) | Azure RBAC     |
-| Log Analytics Workspace | Log Store    | Diagnostic logs, metrics, Azure Activity | Default (30 days)    | Workspace RBAC |
+| 💾 Store                | 🏷️ Type      | 📝 Purpose                               | ⏱️ Retention         | 🔐 Access Model |
+| ----------------------- | ------------ | ---------------------------------------- | -------------------- | --------------- |
+| Azure Key Vault         | Secret Store | Credentials, tokens, certificates        | 7 days (soft delete) | Azure RBAC      |
+| Log Analytics Workspace | Log Store    | Diagnostic logs, metrics, Azure Activity | Default (30 days)    | Workspace RBAC  |
 
 ### Quality Baseline
 
-| Dimension          | Current State                      | Target State       | Gap                            |
+| 📏 Dimension       | 📍 Current State                   | 🎯 Target State    | ⚠️ Gap                         |
 | ------------------ | ---------------------------------- | ------------------ | ------------------------------ |
 | Schema Validation  | 100% of YAML configs validated     | 100%               | None                           |
 | RBAC Coverage      | 100% of resources RBAC-enabled     | 100%               | None                           |
@@ -397,13 +369,13 @@ flowchart TB
 
 ### Governance Maturity
 
-| Claimed Level | Actual Level          | Justification                                                                                                                                                                                                                      |
-| ------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Level 2       | **Level 2 — Managed** | Role-based access implemented, schema validation in place, configuration tracked in Git, mandatory resource tagging enforced. Missing: centralized data catalog, automated quality checks, schema registry (required for Level 3). |
+| 📍 Claimed Level | 🎯 Actual Level       | 📝 Justification                                                                                                                                                                                                                   |
+| ---------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Level 2          | **Level 2 — Managed** | Role-based access implemented, schema validation in place, configuration tracked in Git, mandatory resource tagging enforced. Missing: centralized data catalog, automated quality checks, schema registry (required for Level 3). |
 
 ### Compliance Posture
 
-| Control                    | Status          | Evidence                                           |
+| 🛡️ Control                 | 📍 Status       | 🔍 Evidence                                        |
 | -------------------------- | --------------- | -------------------------------------------------- |
 | RBAC Authorization         | ✅ Implemented  | enableRbacAuthorization: true on Key Vault         |
 | Soft Delete                | ✅ Implemented  | enableSoftDelete: true, 7-day retention            |
