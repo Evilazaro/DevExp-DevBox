@@ -6,7 +6,7 @@
 
 **Overview**
 
-> [!NOTE] This accelerator provisions a production-ready Azure Dev Box
+> 📌 **Note**: This accelerator provisions a production-ready Azure Dev Box
 > environment using Azure Developer CLI (`azd provision`). It is a pure
 > Infrastructure as Code accelerator — no application code is deployed. It
 > follows the Microsoft Cloud Adoption Framework and Azure Landing Zone
@@ -229,7 +229,7 @@ Meeting all prerequisites takes approximately 15 minutes for a fresh
 workstation. The **setup scripts validate tool availability automatically** and
 provide clear error messages if any dependency is missing.
 
-> [!IMPORTANT] You must have **Owner** or **Contributor + User Access
+> ⚠️ **Important**: You must have **Owner** or **Contributor + User Access
 > Administrator** permissions on your Azure subscription. The deployment creates
 > subscription-scoped role assignments that require elevated privileges.
 
@@ -362,9 +362,9 @@ environment variable is not already set.
 | 🖥️ **Windows**     | `azure-pwh.yaml` | PowerShell 5.1+ | `setUp.sh` (via `bash`) |
 | 🐧 **Linux/macOS** | `azure.yaml`     | Bash 5.0+       | `setUp.sh`              |
 
-> [!NOTE] On Windows, the `azure-pwh.yaml` preprovision hook uses PowerShell to
-> invoke `setUp.sh` through `bash`. Ensure Windows Subsystem for Linux (WSL) or
-> Git Bash is available.
+> 📌 **Note**: On Windows, the `azure-pwh.yaml` preprovision hook uses
+> PowerShell to invoke `setUp.sh` through `bash`. Ensure Windows Subsystem for
+> Linux (WSL) or Git Bash is available.
 
 ### Verify Provisioning
 
@@ -688,7 +688,7 @@ from its first subnet.
 
 ### Cleanup
 
-> [!WARNING] Cleanup permanently deletes all provisioned resources, role
+> ⚠️ **Warning**: Cleanup permanently deletes all provisioned resources, role
 > assignments, and associated Entra ID service principals. This action cannot be
 > undone.
 
@@ -729,9 +729,9 @@ configuration errors before provisioning.
 > 📌 **Reference**: JSON Schema files provide inline validation in VS Code,
 > catching configuration errors before provisioning.
 
-> [!TIP] Open the YAML files in VS Code with the YAML extension installed. The
-> `$schema` reference at the top of each file enables autocomplete and inline
-> validation automatically.
+> 💡 **Tip**: Open the YAML files in VS Code with the YAML extension installed.
+> The `$schema` reference at the top of each file enables autocomplete and
+> inline validation automatically.
 
 ### Configuration Files
 
