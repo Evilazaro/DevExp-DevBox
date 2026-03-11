@@ -13,8 +13,7 @@ platform engineering teams to deliver self-service, cloud-powered workstations
 to developers through **Azure DevCenter** and Dev Box, reducing onboarding time
 from **days to minutes**.
 
-> [!IMPORTANT]
-> Developer environment inconsistency and lengthy onboarding are
+> [!IMPORTANT] Developer environment inconsistency and lengthy onboarding are
 > top productivity killers in enterprise teams. DevExp-DevBox eliminates these
 > issues by codifying your entire developer platform — from networking and
 > security to Dev Box pools and environment types — as **Infrastructure as
@@ -22,8 +21,7 @@ from **days to minutes**.
 
 <!-- -->
 
-> [!NOTE]
-> The accelerator uses **Azure Bicep** templates with YAML-driven
+> [!NOTE] The accelerator uses **Azure Bicep** templates with YAML-driven
 > configuration to deploy a complete DevCenter ecosystem. It creates three
 > resource groups (security, monitoring, workload), provisions Key Vault, Log
 > Analytics, and Virtual Networks, then deploys DevCenter with projects, pools,
@@ -184,16 +182,14 @@ provisioning and managing developer environments at scale. It addresses the core
 challenges of developer onboarding, environment consistency, and infrastructure
 governance that enterprise teams face when adopting cloud-powered workstations.
 
-> [!IMPORTANT]
-> Manual environment setup wastes engineering hours and introduces
+> [!IMPORTANT] Manual environment setup wastes engineering hours and introduces
 > **configuration drift**. This accelerator automates the entire developer
 > platform lifecycle, letting platform teams define environments declaratively
 > and developers self-serve instantly.
 
 <!-- -->
 
-> [!NOTE]
-> Each feature maps to a modular Bicep template, configured through YAML
+> [!NOTE] Each feature maps to a modular Bicep template, configured through YAML
 > files under `infra/settings/`, and deployed as a cohesive unit through the
 > Azure Developer CLI.
 
@@ -213,16 +209,14 @@ Before deploying DevExp-DevBox, ensure your environment meets the prerequisites
 below. The accelerator requires Azure CLI tooling and appropriate
 subscription-level permissions to create resource groups and assign roles.
 
-> [!IMPORTANT]
-> **Subscription-scoped** Bicep deployments require **elevated
+> [!IMPORTANT] **Subscription-scoped** Bicep deployments require **elevated
 > permissions** compared to resource-group-scoped deployments. Verifying
 > prerequisites upfront prevents partial deployments and permission-related
 > failures.
 
 <!-- -->
 
-> [!NOTE]
-> The setup scripts (`setUp.ps1` and `setUp.sh`) validate prerequisites,
+> [!NOTE] The setup scripts (`setUp.ps1` and `setUp.sh`) validate prerequisites,
 > configure the Azure Developer CLI environment, and authenticate before
 > provisioning begins.
 
@@ -244,15 +238,13 @@ All infrastructure parameters are defined in YAML configuration files under
 it straightforward to customize environments without modifying Bicep templates
 directly.
 
-> [!IMPORTANT]
-> **YAML-driven configuration** enables platform teams to manage
+> [!IMPORTANT] **YAML-driven configuration** enables platform teams to manage
 > environments through version-controlled file edits rather than requiring Bicep
 > expertise for every modification.
 
 <!-- -->
 
-> [!NOTE]
-> The Bicep orchestrator (`infra/main.bicep`) loads YAML files at
+> [!NOTE] The Bicep orchestrator (`infra/main.bicep`) loads YAML files at
 > deployment time using the `loadYamlContent()` function, converting
 > human-readable settings into typed Bicep parameters automatically. Deployment
 > parameters are mapped from `azd` environment variables through
@@ -408,31 +400,29 @@ keyVault:
   enableRbacAuthorization: true
 ```
 
-> [!NOTE]
-> All YAML configuration files have corresponding **JSON Schema** files
+> [!NOTE] All YAML configuration files have corresponding **JSON Schema** files
 > (`.schema.json`) in the same directory for validation and editor
 > auto-completion support.
 
 ## Quick Start
 
 **DevExp-DevBox** deploys entirely through the **Azure Developer CLI** (`azd`).
-The setup scripts (`setUp.ps1` / `setUp.sh`) handle prerequisite validation,
-authentication, token retrieval, and `azd` environment configuration. After
-running the setup script, use `azd provision` to deploy all infrastructure.
+A single `azd provision` command handles everything — the `azure.yaml`
+`preprovision` hook automatically runs the setup script to validate
+prerequisites, authenticate with your source control platform, retrieve access
+tokens, and configure environment variables before Bicep deployment begins.
 
-> [!IMPORTANT]
-> Separating environment configuration from provisioning gives
-> platform teams a chance to review the `.azure/{envName}/.env` file before
-> committing Azure resources.
+> [!IMPORTANT] A **single-command deployment** via `azd provision` avoids manual
+> multi-step provisioning that is error-prone and inconsistent across team
+> members.
 
 <!-- -->
 
-> [!NOTE]
-> The setup scripts validate that required CLIs are installed, verify
-> Azure authentication, prompt for source control platform selection (if not
-> provided), retrieve a **PAT token**, and write environment configuration to
-> `.azure/{envName}/.env`. They do **not** run `azd provision` — that is a
-> separate step.
+> [!NOTE] The `preprovision` hook in `azure.yaml` (Linux/macOS) or
+> `azure-pwh.yaml` (Windows) calls the setup script automatically. The script
+> validates that required CLIs are installed, verifies Azure authentication,
+> retrieves a **PAT token**, and writes environment configuration to
+> `.azure/{envName}/.env` — all before `azd` deploys the Bicep templates.
 
 **1. Clone the repository:**
 
@@ -449,70 +439,46 @@ azd auth login
 gh auth login    # Required if using GitHub as source control
 ```
 
-**3. Run the setup script to configure the `azd` environment:**
-
-On Windows (PowerShell):
-
-```powershell
-# With explicit parameters
-.\setUp.ps1 -EnvName "dev" -SourceControl "github"
-
-# With Azure DevOps
-.\setUp.ps1 -EnvName "prod" -SourceControl "adogit"
-
-# Interactive mode — prompts for source control selection
-.\setUp.ps1 -EnvName "dev"
-
-# Show help
-.\setUp.ps1 -Help
-```
-
-On Linux/macOS (Bash):
+**3. Initialize an `azd` environment and provision infrastructure:**
 
 ```bash
-chmod +x setUp.sh
+# Create a new azd environment (name must be 2–10 characters)
+azd env new dev
 
-# With explicit parameters
-./setUp.sh -e "dev" -s "github"
-
-# With Azure DevOps
-./setUp.sh -e "prod" -s "adogit"
-
-# Interactive mode
-./setUp.sh -e "dev"
-
-# Show help
-./setUp.sh -h
-```
-
-**4. Provision infrastructure with `azd`:**
-
-```bash
+# Provision all infrastructure (preprovision hook runs setup automatically)
 azd provision -e dev
 ```
 
-`azd provision` reads parameters from `infra/main.parameters.json`, resolves
-environment variables from `.azure/{envName}/.env`, and deploys the
-**subscription-scoped** Bicep template at `infra/main.bicep`.
+The `preprovision` hook will prompt for source control platform selection if
+`SOURCE_CONTROL_PLATFORM` is not already set (defaults to `github`).
 
-**Script Parameters:**
+To set the source control platform explicitly before provisioning:
 
-| Parameter (PS)   | Parameter (Bash)         | Description                                          | Required    |
-| ---------------- | ------------------------ | ---------------------------------------------------- | ----------- |
-| `-EnvName`       | `-e`, `--env-name`       | Name of the `azd` environment to create (2–10 chars) | ✅ Yes      |
-| `-SourceControl` | `-s`, `--source-control` | Platform: `github` or `adogit`                       | ⚡ Optional |
-| `-Help`          | `-h`, `--help`           | Display usage information                            | ⚡ Optional |
+```bash
+azd env set SOURCE_CONTROL_PLATFORM github   # or adogit
+azd provision -e dev
+```
 
-**Setup Workflow:**
+**`azd` Environment Variables:**
 
-The setup scripts execute the following steps in order:
+| Variable                     | Set By                                   | Description                                 |
+| ---------------------------- | ---------------------------------------- | ------------------------------------------- |
+| ⚙️ `SOURCE_CONTROL_PLATFORM` | Preprovision hook (defaults to `github`) | Platform: `github` or `adogit`              |
+| 🔐 `KEY_VAULT_SECRET`        | Setup script (from `gh`/prompt)          | Source control PAT stored in Key Vault      |
+| ⚙️ `AZURE_ENV_NAME`          | `azd env new`                            | Environment name passed to Bicep parameters |
+| 🌍 `AZURE_LOCATION`          | `azd provision` prompt                   | Azure region passed to Bicep parameters     |
+
+**Preprovision Hook Workflow:**
+
+When `azd provision` runs, the `preprovision` hook in `azure.yaml` triggers the
+setup script, which executes these steps automatically:
 
 1. **Validate prerequisites** — checks that `az`, `azd`, and `gh` (or `jq` on
    Bash) are available in PATH
 2. **Verify Azure authentication** — confirms `az account show` returns an
    enabled subscription
-3. **Select source control platform** — uses the `-SourceControl` parameter or
-   presents an interactive menu:
+3. **Select source control platform** — uses `SOURCE_CONTROL_PLATFORM` env var
+   or presents an interactive menu:
 
    ```text
    ℹ️ [2025-01-22 10:30:00] Please select your source control platform:
@@ -528,7 +494,9 @@ The setup scripts execute the following steps in order:
 6. **Configure `azd` environment** — creates `.azure/{envName}/.env` with
    `KEY_VAULT_SECRET` and `SOURCE_CONTROL_PLATFORM`
 
-**Expected output (setup script):**
+After the hook completes, `azd` proceeds to deploy the Bicep templates.
+
+**Expected output:**
 
 ```text
 ℹ️ [2025-01-22 10:30:00] Verifying Azure authentication...
@@ -538,71 +506,53 @@ The setup scripts execute the following steps in order:
 ℹ️ [2025-01-22 10:30:02] Using Azure Developer CLI environment: 'dev'
 ℹ️ [2025-01-22 10:30:02] Configuring environment variables in .\.azure\dev\.env
 ✅ [2025-01-22 10:30:03] Azure Developer CLI environment 'dev' initialized successfully.
-✅ [2025-01-22 10:30:03] Dev Box environment 'dev' setup successfully
-ℹ️ [2025-01-22 10:30:03] Use 'azd env get-values' to view environment settings
 ```
 
-After the setup script completes, deploy infrastructure:
-
-```bash
-azd provision -e dev
-```
-
-> [!TIP]
-> The setup scripts validate all prerequisites before making any changes.
+> [!TIP] The setup scripts validate all prerequisites before making any changes.
 > If a required tool is missing or authentication fails, the script exits with a
 > descriptive error message before any resources are created.
 
 ## Deployment
 
-**DevExp-DevBox** deploys through the **Azure Developer CLI** (`azd`). The setup
-scripts handle environment configuration (authentication, token retrieval,
-`.env` file creation), while `azd provision` executes the Bicep deployment. Both
-automated and manual workflows are supported.
+**DevExp-DevBox** deploys through the **Azure Developer CLI** (`azd`). Running
+`azd provision` triggers the `preprovision` hook defined in `azure.yaml`, which
+automatically executes the setup script for prerequisite validation,
+authentication, and environment configuration before deploying the Bicep
+templates.
 
-> [!IMPORTANT]
-> **Automated deployment** ensures consistency and reduces human
-> error, while manual deployment enables troubleshooting, phased rollouts, and
-> integration with existing CI/CD pipelines.
+> [!IMPORTANT] **Automated deployment** via `azd provision` ensures consistency
+> and reduces human error. The `preprovision` hook handles all setup steps
+> automatically, while manual deployment gives platform engineers granular
+> control over each environment variable.
 
 <!-- -->
 
-> [!NOTE]
-> Both paths ultimately execute `azd provision`, which reads parameters
-> from `infra/main.parameters.json`, resolves them from the
-> `.azure/{envName}/.env` file, and deploys the **subscription-scoped** Bicep
-> template at `infra/main.bicep`.
+> [!NOTE] `azd provision` reads parameters from `infra/main.parameters.json`,
+> resolves them from the `.azure/{envName}/.env` file, and deploys the
+> **subscription-scoped** Bicep template at `infra/main.bicep`.
 
 ### Automated Deployment (Recommended)
 
-Run the setup script to configure the `azd` environment, then provision
-infrastructure with `azd`:
-
-```powershell
-# Windows — configure environment for GitHub
-.\setUp.ps1 -EnvName "dev" -SourceControl "github"
-
-# Windows — configure environment for Azure DevOps
-.\setUp.ps1 -EnvName "prod" -SourceControl "adogit"
-
-# Deploy infrastructure
-azd provision -e dev
-```
+Use `azd provision` — the `preprovision` hook handles setup automatically:
 
 ```bash
-# Linux/macOS — configure environment for GitHub
-./setUp.sh -e "dev" -s "github"
-
-# Linux/macOS — configure environment for Azure DevOps
-./setUp.sh -e "prod" -s "adogit"
-
-# Deploy infrastructure
+# Create an azd environment and deploy
+azd env new dev
 azd provision -e dev
 ```
 
-### Manual Deployment
+To specify the source control platform before provisioning:
 
-For granular control, use Azure Developer CLI commands directly:
+```bash
+azd env new dev
+azd env set SOURCE_CONTROL_PLATFORM github   # or adogit
+azd provision -e dev
+```
+
+### Manual Deployment (Without Preprovision Hook)
+
+For granular control, set all environment variables manually and provision. This
+bypasses the `preprovision` hook's interactive setup:
 
 ```bash
 # 1. Create a new azd environment (name must be 2–10 characters)
@@ -676,8 +626,7 @@ cleanup script:
 4. 🔐 GitHub Actions secrets (e.g., `AZURE_CREDENTIALS`)
 5. 📦 All resource groups matching the `{name}-{envName}-{location}-RG` pattern
 
-> [!WARNING]
-> The cleanup script (`cleanSetUp.ps1`) **permanently deletes** all
+> [!WARNING] The cleanup script (`cleanSetUp.ps1`) **permanently deletes** all
 > resource groups, role assignments, service principals, app registrations, and
 > GitHub secrets created by this accelerator. Run with `-WhatIf` to preview
 > changes before execution. **This action is irreversible**.
@@ -762,15 +711,13 @@ Features, and Tasks. Contributions are welcome from the community, and the
 development workflow uses structured branching and standardized engineering
 practices to maintain infrastructure quality.
 
-> [!IMPORTANT]
-> A consistent contribution workflow ensures code quality, reduces
+> [!IMPORTANT] A consistent contribution workflow ensures code quality, reduces
 > review friction, and maintains the reliability of infrastructure templates
 > that teams depend on for **production developer environments**.
 
 <!-- -->
 
-> [!NOTE]
-> Contributors create feature branches following naming conventions,
+> [!NOTE] Contributors create feature branches following naming conventions,
 > adhere to Bicep and PowerShell coding standards, and submit pull requests for
 > review. See `CONTRIBUTING.md` for the complete contribution guide including
 > branching conventions and engineering standards.
