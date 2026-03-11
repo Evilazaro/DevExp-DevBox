@@ -415,12 +415,12 @@ prerequisites, authenticating with Azure and your source control platform,
 retrieving access tokens, configuring the `azd` environment, and provisioning
 all infrastructure resources.
 
-> 💡 **Why This Matters**: A single-command setup avoids manual multi-step
-> provisioning that is error-prone and inconsistent across team members.
+> [!IMPORTANT] A single-command setup avoids manual multi-step provisioning that
+> is error-prone and inconsistent across team members.
 
-> 📌 **How It Works**: The scripts validate that required CLIs are installed,
-> verify Azure authentication, prompt for source control platform selection (if
-> not provided), retrieve a PAT token, write environment configuration to
+> [!NOTE] The scripts validate that required CLIs are installed, verify Azure
+> authentication, prompt for source control platform selection (if not
+> provided), retrieve a PAT token, write environment configuration to
 > `.azure/{envName}/.env`, and execute `azd provision` to deploy all resources.
 
 **1. Clone the repository:**
@@ -533,12 +533,12 @@ DevExp-DevBox supports both automated and manual deployment workflows. The
 automated path handles the complete lifecycle in a single command, while the
 manual path gives platform engineers granular control over each step.
 
-> 💡 **Why This Matters**: Automated deployment ensures consistency and reduces
-> human error, while manual deployment enables troubleshooting, phased rollouts,
-> and integration with existing CI/CD pipelines.
+> [!IMPORTANT] Automated deployment ensures consistency and reduces human error,
+> while manual deployment enables troubleshooting, phased rollouts, and
+> integration with existing CI/CD pipelines.
 
-> 📌 **How It Works**: Both paths ultimately execute `azd provision`, which
-> reads parameters from `infra/main.parameters.json`, resolves them from the
+> [!NOTE] Both paths ultimately execute `azd provision`, which reads parameters
+> from `infra/main.parameters.json`, resolves them from the
 > `.azure/{envName}/.env` file, and deploys the subscription-scoped Bicep
 > template at `infra/main.bicep`.
 
@@ -723,15 +723,14 @@ Features, and Tasks. Contributions are welcome from the community, and the
 development workflow uses structured branching and standardized engineering
 practices to maintain infrastructure quality.
 
-> 💡 **Why This Matters**: A consistent contribution workflow ensures code
-> quality, reduces review friction, and maintains the reliability of
-> infrastructure templates that teams depend on for production developer
-> environments.
+> [!IMPORTANT] A consistent contribution workflow ensures code quality, reduces
+> review friction, and maintains the reliability of infrastructure templates
+> that teams depend on for production developer environments.
 
-> 📌 **How It Works**: Contributors create feature branches following naming
-> conventions, adhere to Bicep and PowerShell coding standards, and submit pull
-> requests for review. See `CONTRIBUTING.md` for the complete contribution guide
-> including branching conventions and engineering standards.
+> [!NOTE] Contributors create feature branches following naming conventions,
+> adhere to Bicep and PowerShell coding standards, and submit pull requests for
+> review. See `CONTRIBUTING.md` for the complete contribution guide including
+> branching conventions and engineering standards.
 
 ### Branch Naming Convention
 
