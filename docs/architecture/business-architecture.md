@@ -47,89 +47,89 @@ sources.
 
 ### 2.1 Business Strategy (2)
 
-| Name                                   | Description                                                                                                                                                                                                       | Source            | Confidence | Maturity       |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ---------- | -------------- |
-| Developer Experience Platform Strategy | **Strategic initiative** to deliver centralized, secure, cloud-hosted developer workstations across engineering teams, reducing onboarding from weeks to hours through Azure Dev Box and configuration-driven IaC | `README.md:1-28`  | 0.78       | 2 - Repeatable |
-| Cloud Adoption & Landing Zone Strategy | **Framework alignment** with Microsoft Cloud Adoption Framework and Azure Landing Zone principles for enterprise-grade resource segregation, governance, and operational excellence                               | `README.md:40-51` | 0.76       | 3 - Defined    |
+| Name                                   | Description                                                                                                                                                                                                       |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Developer Experience Platform Strategy | **Strategic initiative** to deliver centralized, secure, cloud-hosted developer workstations across engineering teams, reducing onboarding from weeks to hours through Azure Dev Box and configuration-driven IaC |
+| Cloud Adoption & Landing Zone Strategy | **Framework alignment** with Microsoft Cloud Adoption Framework and Azure Landing Zone principles for enterprise-grade resource segregation, governance, and operational excellence                               |
 
 ### 2.2 Business Capabilities (7)
 
-| Name                               | Description                                                                                                                                                                   | Source                                                         | Confidence | Maturity       |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------- | -------------- |
-| Developer Workstation Provisioning | **Core capability** for provisioning role-specific Dev Box environments with pre-configured tooling, VM sizing, and catalog-driven image definitions                          | `infra/settings/workload/devcenter.yaml:19-23`                 | 0.85       | 3 - Defined    |
-| Identity & Access Governance       | **Governance capability** enforcing Azure AD group-based RBAC with role tiering (Dev Manager, Contributor, Dev Box User) following least-privilege principles                 | `infra/settings/workload/devcenter.yaml:26-65`                 | 0.88       | 4 - Measured   |
-| Security & Secrets Management      | **Security capability** providing centralized credential storage with purge protection, soft delete, and RBAC-based access control via Azure Key Vault                        | `infra/settings/security/security.yaml:1-38`                   | 0.86       | 3 - Defined    |
-| Monitoring & Observability         | **Operational capability** for centralized log aggregation, diagnostic settings across all resources, and Azure Activity logging via Log Analytics                            | `infra/settings/workload/devcenter.yaml:22`                    | 0.80       | 2 - Repeatable |
-| Network Isolation & Connectivity   | **Infrastructure capability** providing project-specific virtual networks, subnet isolation, and Azure AD Join network connections for secure Dev Box connectivity            | `infra/settings/workload/devcenter.yaml:93-114`                | 0.82       | 3 - Defined    |
-| Resource Organization & Governance | **Governance capability** defining Landing Zone resource group segregation (Workload, Security, Monitoring) with mandatory tagging for cost allocation and ownership tracking | `infra/settings/resourceOrganization/azureResources.yaml:1-60` | 0.84       | 4 - Measured   |
-| Configuration Management           | **Platform capability** for Git-based catalog management enabling version-controlled Dev Box image definitions and environment definitions via GitHub repositories            | `infra/settings/workload/devcenter.yaml:68-80`                 | 0.79       | 3 - Defined    |
+| Name                               | Description                                                                                                                                                                   |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Developer Workstation Provisioning | **Core capability** for provisioning role-specific Dev Box environments with pre-configured tooling, VM sizing, and catalog-driven image definitions                          |
+| Identity & Access Governance       | **Governance capability** enforcing Azure AD group-based RBAC with role tiering (Dev Manager, Contributor, Dev Box User) following least-privilege principles                 |
+| Security & Secrets Management      | **Security capability** providing centralized credential storage with purge protection, soft delete, and RBAC-based access control via Azure Key Vault                        |
+| Monitoring & Observability         | **Operational capability** for centralized log aggregation, diagnostic settings across all resources, and Azure Activity logging via Log Analytics                            |
+| Network Isolation & Connectivity   | **Infrastructure capability** providing project-specific virtual networks, subnet isolation, and Azure AD Join network connections for secure Dev Box connectivity            |
+| Resource Organization & Governance | **Governance capability** defining Landing Zone resource group segregation (Workload, Security, Monitoring) with mandatory tagging for cost allocation and ownership tracking |
+| Configuration Management           | **Platform capability** for Git-based catalog management enabling version-controlled Dev Box image definitions and environment definitions via GitHub repositories            |
 
 ### 2.3 Value Streams (2)
 
-| Name                               | Description                                                                                                                                                                        | Source                                       | Confidence | Maturity       |
-| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- | ---------- | -------------- |
-| Developer Velocity Value Stream    | **Primary value stream** reducing developer onboarding time through pre-configured, role-specific Dev Box environments with automated provisioning and identity integration        | `README.md:11-22`                            | 0.75       | 2 - Repeatable |
-| Security & Compliance Value Stream | **Supporting value stream** delivering enterprise-grade security through Azure AD integration, RBAC enforcement, Key Vault secret management, and comprehensive diagnostic logging | `infra/settings/security/security.yaml:1-38` | 0.73       | 3 - Defined    |
+| Name                               | Description                                                                                                                                                                        |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Developer Velocity Value Stream    | **Primary value stream** reducing developer onboarding time through pre-configured, role-specific Dev Box environments with automated provisioning and identity integration        |
+| Security & Compliance Value Stream | **Supporting value stream** delivering enterprise-grade security through Azure AD integration, RBAC enforcement, Key Vault secret management, and comprehensive diagnostic logging |
 
 ### 2.4 Business Processes (4)
 
-| Name                                    | Description                                                                                                                                                    | Source                                          | Confidence | Maturity       |
-| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ---------- | -------------- |
-| Developer Onboarding Process            | **Core process** for onboarding developers: Azure AD group assignment triggers automatic Dev Box pool allocation with role-specific tooling and network access | `infra/settings/workload/devcenter.yaml:81-200` | 0.82       | 3 - Defined    |
-| Environment Promotion Process           | **Lifecycle process** governing application deployment through defined SDLC stages (dev → staging → UAT) with isolated environment types per project           | `infra/settings/workload/devcenter.yaml:84-95`  | 0.80       | 3 - Defined    |
-| Infrastructure Deployment Process       | **Operational process** for one-command environment provisioning using Azure Developer CLI with GitHub authentication, resource creation, and validation       | `setUp.ps1:1-30`                                | 0.78       | 3 - Defined    |
-| Infrastructure Cleanup & Deprovisioning | **Operational process** for complete environment teardown including subscription deployment deletion, service principal cleanup, and credential revocation     | `cleanSetUp.ps1:1-10`                           | 0.76       | 2 - Repeatable |
+| Name                                    | Description                                                                                                                                                    |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Developer Onboarding Process            | **Core process** for onboarding developers: Azure AD group assignment triggers automatic Dev Box pool allocation with role-specific tooling and network access |
+| Environment Promotion Process           | **Lifecycle process** governing application deployment through defined SDLC stages (dev → staging → UAT) with isolated environment types per project           |
+| Infrastructure Deployment Process       | **Operational process** for one-command environment provisioning using Azure Developer CLI with GitHub authentication, resource creation, and validation       |
+| Infrastructure Cleanup & Deprovisioning | **Operational process** for complete environment teardown including subscription deployment deletion, service principal cleanup, and credential revocation     |
 
 ### 2.5 Business Services (2)
 
-| Name                         | Description                                                                                                                                                                                | Source                                          | Confidence | Maturity    |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------- | ---------- | ----------- |
-| Dev Box Provisioning Service | **Platform service** that creates and manages role-specific Dev Box pools (backend-engineer, frontend-engineer) with designated VM SKUs, image definitions, and environment configurations | `infra/settings/workload/devcenter.yaml:81-200` | 0.83       | 3 - Defined |
-| Secret Management Service    | **Security service** providing centralized credential storage and retrieval through Azure Key Vault with RBAC-controlled access, purge protection, and audit logging                       | `infra/settings/security/security.yaml:1-38`    | 0.81       | 3 - Defined |
+| Name                         | Description                                                                                                                                                                                |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Dev Box Provisioning Service | **Platform service** that creates and manages role-specific Dev Box pools (backend-engineer, frontend-engineer) with designated VM SKUs, image definitions, and environment configurations |
+| Secret Management Service    | **Security service** providing centralized credential storage and retrieval through Azure Key Vault with RBAC-controlled access, purge protection, and audit logging                       |
 
 ### 2.6 Business Functions (2)
 
-| Name                          | Description                                                                                                                                                         | Source                                          | Confidence | Maturity       |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | ---------- | -------------- |
-| Platform Engineering Function | **Organizational function** responsible for infrastructure design, module creation, governance enforcement, and Dev Center management within the Platforms division | `CONTRIBUTING.md:1-20`                          | 0.74       | 3 - Defined    |
-| Project Delivery Function     | **Organizational function** managing project-scoped resource allocation, team-specific pools, catalogs, and environment configurations for product delivery teams   | `infra/settings/workload/devcenter.yaml:81-200` | 0.72       | 2 - Repeatable |
+| Name                          | Description                                                                                                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Platform Engineering Function | **Organizational function** responsible for infrastructure design, module creation, governance enforcement, and Dev Center management within the Platforms division |
+| Project Delivery Function     | **Organizational function** managing project-scoped resource allocation, team-specific pools, catalogs, and environment configurations for product delivery teams   |
 
 ### 2.7 Business Roles & Actors (4)
 
-| Name                                    | Description                                                                                                                                                                                              | Source                                           | Confidence | Maturity       |
-| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ---------- | -------------- |
-| Dev Manager (Platform Engineering Team) | **Administrative role** with DevCenter Project Admin permissions, responsible for managing Dev Box definitions, project settings, and platform governance via Azure AD group "Platform Engineering Team" | `infra/settings/workload/devcenter.yaml:53-65`   | 0.90       | 4 - Measured   |
-| Developer (eShop Developers)            | **Consumer role** with Contributor, Dev Box User, and Deployment Environment User permissions, assigned via Azure AD group for project-scoped access to Dev Boxes and deployment environments            | `infra/settings/workload/devcenter.yaml:117-134` | 0.89       | 4 - Measured   |
-| Platform Engineer                       | **Technical role** responsible for infrastructure design, Bicep module creation, and governance standards enforcement following idempotent, parameterized IaC practices                                  | `CONTRIBUTING.md:72-89`                          | 0.74       | 3 - Defined    |
-| DevOps Lead                             | **Operational role** responsible for environment provisioning, release automation, and deployment orchestration using Azure Developer CLI and PowerShell                                                 | `CONTRIBUTING.md:72-89`                          | 0.71       | 2 - Repeatable |
+| Name                                    | Description                                                                                                                                                                                              |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Manager (Platform Engineering Team) | **Administrative role** with DevCenter Project Admin permissions, responsible for managing Dev Box definitions, project settings, and platform governance via Azure AD group "Platform Engineering Team" |
+| Developer (eShop Developers)            | **Consumer role** with Contributor, Dev Box User, and Deployment Environment User permissions, assigned via Azure AD group for project-scoped access to Dev Boxes and deployment environments            |
+| Platform Engineer                       | **Technical role** responsible for infrastructure design, Bicep module creation, and governance standards enforcement following idempotent, parameterized IaC practices                                  |
+| DevOps Lead                             | **Operational role** responsible for environment provisioning, release automation, and deployment orchestration using Azure Developer CLI and PowerShell                                                 |
 
 ### 2.8 Business Rules (5)
 
-| Name                                  | Description                                                                                                                                                                             | Source                                                          | Confidence | Maturity     |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ---------- | ------------ |
-| Role-Based VM Sizing Rule             | **Resource allocation rule**: backend engineers receive 32-core/128GB/512GB SSD VMs; frontend engineers receive 16-core/64GB/256GB SSD VMs, ensuring role-appropriate compute resources | `infra/settings/workload/devcenter.yaml:142-149`                | 0.87       | 4 - Measured |
-| Network Isolation Per Project Rule    | **Security rule**: each project receives an isolated virtual network with dedicated address space, preventing cross-project network traffic by default                                  | `infra/settings/workload/devcenter.yaml:93-114`                 | 0.85       | 3 - Defined  |
-| Least-Privilege RBAC Enforcement Rule | **Governance rule**: all access assignments follow the principle of least privilege with scoped roles (Subscription, ResourceGroup, Project) per organizational responsibility          | `infra/settings/workload/devcenter.yaml:26-65`                  | 0.88       | 4 - Measured |
-| Resource Tagging Mandate              | **Governance rule**: all Azure resources must carry mandatory tags (environment, division, team, project, costCenter, owner, landingZone) for cost allocation and compliance tracking   | `infra/settings/resourceOrganization/azureResources.yaml:19-30` | 0.86       | 4 - Measured |
-| Secret Purge Protection Rule          | **Security rule**: Key Vault purge protection is enabled with soft-delete retention of 7 days, preventing irreversible deletion of secrets and enabling recovery                        | `infra/settings/security/security.yaml:26-27`                   | 0.84       | 3 - Defined  |
+| Name                                  | Description                                                                                                                                                                             |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Role-Based VM Sizing Rule             | **Resource allocation rule**: backend engineers receive 32-core/128GB/512GB SSD VMs; frontend engineers receive 16-core/64GB/256GB SSD VMs, ensuring role-appropriate compute resources |
+| Network Isolation Per Project Rule    | **Security rule**: each project receives an isolated virtual network with dedicated address space, preventing cross-project network traffic by default                                  |
+| Least-Privilege RBAC Enforcement Rule | **Governance rule**: all access assignments follow the principle of least privilege with scoped roles (Subscription, ResourceGroup, Project) per organizational responsibility          |
+| Resource Tagging Mandate              | **Governance rule**: all Azure resources must carry mandatory tags (environment, division, team, project, costCenter, owner, landingZone) for cost allocation and compliance tracking   |
+| Secret Purge Protection Rule          | **Security rule**: Key Vault purge protection is enabled with soft-delete retention of 7 days, preventing irreversible deletion of secrets and enabling recovery                        |
 
 ### 2.9 Business Events (2)
 
-| Name                                | Description                                                                                                                                                                 | Source                                         | Confidence | Maturity       |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------- | -------------- |
-| Project Onboarding Request Event    | **Trigger event**: addition of a new project entry in the Dev Center configuration initiates resource provisioning including network, identity, pools, and catalogs         | `infra/settings/workload/devcenter.yaml:81-82` | 0.75       | 2 - Repeatable |
-| Environment Promotion Trigger Event | **Lifecycle event**: application readiness in a lower SDLC stage (dev) triggers promotion to the next stage (staging → UAT) through defined environment type configurations | `infra/settings/workload/devcenter.yaml:84-95` | 0.73       | 2 - Repeatable |
+| Name                                | Description                                                                                                                                                                 |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Project Onboarding Request Event    | **Trigger event**: addition of a new project entry in the Dev Center configuration initiates resource provisioning including network, identity, pools, and catalogs         |
+| Environment Promotion Trigger Event | **Lifecycle event**: application readiness in a lower SDLC stage (dev) triggers promotion to the next stage (staging → UAT) through defined environment type configurations |
 
 ### 2.10 Business Objects/Entities (6)
 
-| Name             | Description                                                                                                                                                            | Source                                                         | Confidence | Maturity     |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------- | ------------ |
-| Dev Center       | **Core entity** representing the centralized developer workstation platform with catalog sync, hosted networking, and Azure Monitor agent integration                  | `infra/settings/workload/devcenter.yaml:19-23`                 | 0.88       | 3 - Defined  |
-| Project          | **Organizational entity** representing a distinct team workspace (e.g., eShop) with dedicated identity, network, pools, catalogs, and environment types                | `infra/settings/workload/devcenter.yaml:81-200`                | 0.87       | 3 - Defined  |
-| Dev Box Pool     | **Resource entity** defining a collection of Dev Boxes with specific VM SKU and image definition, allocated per engineering role (backend-engineer, frontend-engineer) | `infra/settings/workload/devcenter.yaml:142-149`               | 0.86       | 3 - Defined  |
-| Environment Type | **Lifecycle entity** representing an SDLC deployment stage (dev, staging, UAT) with optional deployment target scoping                                                 | `infra/settings/workload/devcenter.yaml:84-95`                 | 0.84       | 3 - Defined  |
-| Landing Zone     | **Governance entity** defining resource group segregation by function (Workload, Security, Monitoring) with enforced tags and ownership attributes                     | `infra/settings/resourceOrganization/azureResources.yaml:1-60` | 0.82       | 4 - Measured |
-| Key Vault        | **Security entity** representing a centralized secret store with RBAC authorization, purge protection, soft delete, and diagnostic logging                             | `infra/settings/security/security.yaml:20-38`                  | 0.80       | 3 - Defined  |
+| Name             | Description                                                                                                                                                            |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Center       | **Core entity** representing the centralized developer workstation platform with catalog sync, hosted networking, and Azure Monitor agent integration                  |
+| Project          | **Organizational entity** representing a distinct team workspace (e.g., eShop) with dedicated identity, network, pools, catalogs, and environment types                |
+| Dev Box Pool     | **Resource entity** defining a collection of Dev Boxes with specific VM SKU and image definition, allocated per engineering role (backend-engineer, frontend-engineer) |
+| Environment Type | **Lifecycle entity** representing an SDLC deployment stage (dev, staging, UAT) with optional deployment target scoping                                                 |
+| Landing Zone     | **Governance entity** defining resource group segregation by function (Workload, Security, Monitoring) with enforced tags and ownership attributes                     |
+| Key Vault        | **Security entity** representing a centralized secret store with RBAC authorization, purge protection, soft delete, and diagnostic logging                             |
 
 ### 2.11 KPIs & Metrics (0)
 
@@ -169,21 +169,21 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph strategy["🎯 Strategic Tier"]
-        S1("📋 DevEx Platform Strategy<br/>Maturity: 3 - Defined"):::warning
-        S2("📋 Cloud Adoption & Landing Zone<br/>Maturity: 3 - Defined"):::warning
+        S1("📋 DevEx Platform Strategy"):::warning
+        S2("📋 Cloud Adoption & Landing Zone"):::warning
     end
 
     subgraph capabilities["⚙️ Core Capabilities"]
-        C1("💻 Developer Workstation Provisioning<br/>Maturity: 3 - Defined"):::warning
-        C2("📦 Configuration Management<br/>Maturity: 3 - Defined"):::warning
-        C3("🌐 Network Isolation & Connectivity<br/>Maturity: 3 - Defined"):::warning
+        C1("💻 Developer Workstation Provisioning"):::warning
+        C2("📦 Configuration Management"):::warning
+        C3("🌐 Network Isolation & Connectivity"):::warning
     end
 
     subgraph governance["🛡️ Governance & Security"]
-        G1("🔐 Identity & Access Governance<br/>Maturity: 4 - Measured"):::success
-        G2("🔒 Security & Secrets Management<br/>Maturity: 3 - Defined"):::warning
-        G3("📊 Monitoring & Observability<br/>Maturity: 2 - Repeatable"):::danger
-        G4("🏷️ Resource Organization & Governance<br/>Maturity: 4 - Measured"):::success
+        G1("🔐 Identity & Access Governance"):::success
+        G2("🔒 Security & Secrets Management"):::warning
+        G3("📊 Monitoring & Observability"):::danger
+        G4("🏷️ Resource Organization & Governance"):::success
     end
 
     S1 -->|"drives"| C1
@@ -246,31 +246,11 @@ reduce manual intervention while maintaining security and compliance guarantees.
 externalized into validated YAML configuration files, enabling governance
 changes without code modifications.
 
-**Evidence**: The three YAML configuration files (`devcenter.yaml`,
-`azureResources.yaml`, `security.yaml`) together with their JSON Schema
-validators encode all provisioning rules, tagging mandates, RBAC assignments,
-and security policies. Business stakeholders (project managers, security
-officers) can modify platform behavior by editing YAML — without touching Bicep
-or PowerShell code.
-
-**Source**: `infra/settings/workload/devcenter.yaml:1-200`,
-`infra/settings/resourceOrganization/azureResources.yaml:1-60`,
-`infra/settings/security/security.yaml:1-38`
-
 ### 3.2 Least-Privilege Access Control
 
 **Statement**: Every identity assignment follows the principle of least
 privilege with role scoping at the narrowest applicable level (Project,
 ResourceGroup, Subscription).
-
-**Evidence**: Role assignments in `devcenter.yaml` demonstrate deliberate scope
-restriction: Dev Box Users receive Project-scoped access, Key Vault Secrets
-Users receive ResourceGroup-scoped access, and only the DevCenter managed
-identity receives Subscription-scoped Contributor rights for orchestration
-purposes.
-
-**Source**: `infra/settings/workload/devcenter.yaml:26-65`,
-`infra/settings/workload/devcenter.yaml:117-134`
 
 ### 3.3 Landing Zone Segregation
 
@@ -278,50 +258,22 @@ purposes.
 (Workload, Security, Monitoring) following Azure Landing Zone principles for
 isolation, cost tracking, and operational clarity.
 
-**Evidence**: Three resource groups with distinct responsibilities are defined
-in `azureResources.yaml`, each carrying mandatory tags that enable cost center
-allocation, ownership tracking, and compliance auditing.
-
-**Source**: `infra/settings/resourceOrganization/azureResources.yaml:17-60`
-
 ### 3.4 Role-Specific Resource Allocation
 
 **Statement**: Developer environments are tailored to role requirements, with
 distinct compute specifications per engineering function to optimize cost and
 performance.
 
-**Evidence**: Backend engineers receive 32-core/128GB VMs
-(`general_i_32c128gb512ssd_v2`) while frontend engineers receive 16-core/64GB
-VMs (`general_i_16c64gb256ssd_v2`), with separate image definitions carrying
-role-appropriate toolchains.
-
-**Source**: `infra/settings/workload/devcenter.yaml:142-149`
-
 ### 3.5 Idempotent, Repeatable Deployment
 
 **Statement**: All infrastructure operations must be safe to re-run without side
 effects, enabling consistent environment provisioning and disaster recovery.
-
-**Evidence**: Bicep modules are parameterized and idempotent by design (as
-mandated in `CONTRIBUTING.md`), and the Azure Developer CLI workflow supports
-repeated `azd up` invocations without resource duplication.
-
-**Source**: `CONTRIBUTING.md:72-89`, `setUp.ps1:1-30`
 
 ### 3.6 Defense in Depth
 
 **Statement**: Security is applied at multiple layers — identity (Azure AD),
 secrets (Key Vault with purge protection), networking (VNet isolation), and
 monitoring (diagnostic logging on all resources).
-
-**Evidence**: The platform applies security controls at every tier: Azure AD for
-authentication, RBAC for authorization, Key Vault with purge protection and soft
-delete for secrets, project-isolated VNets for network segmentation, and Log
-Analytics for audit trails.
-
-**Source**: `infra/settings/security/security.yaml:1-38`,
-`infra/settings/workload/devcenter.yaml:26-65`,
-`infra/settings/workload/devcenter.yaml:93-114`
 
 ---
 
@@ -340,18 +292,6 @@ The current state reflects a Level 3 (Defined) average maturity across the
 portfolio, with Identity & Access Governance and Resource Organization reaching
 Level 4 (Measured) due to their quantitatively managed RBAC policies and
 enforced tagging standards.
-
-### Business Capability Maturity Assessment
-
-| Capability                         | Maturity Level | Evidence                                                                 |
-| ---------------------------------- | -------------- | ------------------------------------------------------------------------ |
-| Developer Workstation Provisioning | 3 - Defined    | Standardized pool definitions, catalog-driven images, documented process |
-| Identity & Access Governance       | 4 - Measured   | Quantitative RBAC with scoped roles, group-based access, audit trail     |
-| Security & Secrets Management      | 3 - Defined    | Standardized Key Vault with purge protection, RBAC authorization         |
-| Monitoring & Observability         | 2 - Repeatable | Basic Log Analytics with diagnostic settings, no defined alerting rules  |
-| Network Isolation & Connectivity   | 3 - Defined    | Documented VNet per project, subnet isolation, managed networking        |
-| Resource Organization & Governance | 4 - Measured   | Enforced tagging, cost center allocation, landing zone segregation       |
-| Configuration Management           | 3 - Defined    | Git-based catalogs with version control, sync automation enabled         |
 
 ### Business Architecture Overview
 
@@ -424,9 +364,6 @@ flowchart TB
     style supporting fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
-### Capability Maturity Heatmap
-
-```mermaid
 ---
 title: DevExp-DevBox Capability Maturity Heatmap
 config:
@@ -526,9 +463,6 @@ Classification Decision Tree and scored using the weighted confidence formula.
 | **Name**        | Developer Experience Platform Strategy                                                                                                                                                                                                                                                                                                |
 | **Type**        | Business Strategy                                                                                                                                                                                                                                                                                                                     |
 | **Description** | Strategic initiative to provision centralized, secure, cloud-hosted developer workstations across engineering teams. Reduces developer onboarding from weeks to hours through Azure Dev Box and configuration-driven Infrastructure-as-Code. Targets platform engineers, DevOps leads, and IT administrators as primary stakeholders. |
-| **Source**      | `README.md:1-28`                                                                                                                                                                                                                                                                                                                      |
-| **Confidence**  | 0.78                                                                                                                                                                                                                                                                                                                                  |
-| **Maturity**    | 2 - Repeatable                                                                                                                                                                                                                                                                                                                        |
 
 **Business Relationships**: Drives the Developer Workstation Provisioning
 capability. Informs the Developer Velocity Value Stream. Establishes the
@@ -541,9 +475,6 @@ business case for all operational capabilities.
 | **Name**        | Cloud Adoption & Landing Zone Strategy                                                                                                                                                                                                                                                         |
 | **Type**        | Business Strategy                                                                                                                                                                                                                                                                              |
 | **Description** | Framework alignment with Microsoft Cloud Adoption Framework (CAF) and Azure Landing Zone principles. Governs resource segregation by function (Workload, Security, Monitoring), consistent tagging for cost allocation, and subscription-scoped orchestration for enterprise-grade governance. |
-| **Source**      | `README.md:40-51`                                                                                                                                                                                                                                                                              |
-| **Confidence**  | 0.76                                                                                                                                                                                                                                                                                           |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                    |
 
 **Business Relationships**: Governs the Resource Organization & Governance
 capability. Informs the Landing Zone entity definition. Provides the strategic
@@ -558,9 +489,6 @@ foundation for the Security & Compliance Value Stream.
 | **Name**        | Developer Workstation Provisioning                                                                                                                                                                                                                                                                                   |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                                                  |
 | **Description** | Core platform capability for provisioning role-specific Dev Box environments. Manages Dev Center configuration, project allocation, pool definitions with designated VM SKUs, and catalog-driven image definitions. Delivers ready-to-use developer workstations tailored to backend and frontend engineering roles. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:19-23`                                                                                                                                                                                                                                                                       |
-| **Confidence**  | 0.85                                                                                                                                                                                                                                                                                                                 |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                                          |
 
 **Business Relationships**: Driven by the DevEx Platform Strategy. Implemented
 through the Dev Box Provisioning Service. Consumed by the Developer Onboarding
@@ -574,9 +502,6 @@ Network Isolation, and Identity & Access Governance capabilities.
 | **Name**        | Identity & Access Governance                                                                                                                                                                                                                                                        |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                 |
 | **Description** | Governance capability enforcing Azure AD group-based RBAC with role tiering across multiple scopes. Implements least-privilege access with Dev Manager (Project Admin), Contributor, Dev Box User, and Key Vault roles assigned at Subscription, ResourceGroup, and Project scopes. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:26-65`                                                                                                                                                                                                                                      |
-| **Confidence**  | 0.88                                                                                                                                                                                                                                                                                |
-| **Maturity**    | 4 - Measured                                                                                                                                                                                                                                                                        |
 
 **Business Relationships**: Secures the Developer Workstation Provisioning
 capability. Enforced by the Least-Privilege RBAC Enforcement Rule. Governs the
@@ -590,9 +515,6 @@ Stream.
 | **Name**        | Security & Secrets Management                                                                                                                                                                                                                                                                                           |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                                                     |
 | **Description** | Security capability providing centralized credential storage and retrieval through Azure Key Vault. Enforces purge protection, 7-day soft-delete retention, and RBAC-based authorization. Stores GitHub Actions tokens for catalog authentication and supports future secret types including API keys and certificates. |
-| **Source**      | `infra/settings/security/security.yaml:1-38`                                                                                                                                                                                                                                                                            |
-| **Confidence**  | 0.86                                                                                                                                                                                                                                                                                                                    |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                                             |
 
 **Business Relationships**: Protects the Configuration Management capability by
 securing catalog authentication tokens. Implements the Secret Purge Protection
@@ -606,9 +528,6 @@ Rule. Supports the Secret Management Service. Feeds audit logs to the Monitoring
 | **Name**        | Monitoring & Observability                                                                                                                                                                                                                                                                             |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                                    |
 | **Description** | Operational capability for centralized log aggregation via Log Analytics Workspace. Diagnostic settings are enabled across DevCenter, Key Vault, and network resources with Azure Activity logging. Provides the foundation for operational visibility but lacks defined alerting rules or dashboards. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:22`                                                                                                                                                                                                                                                            |
-| **Confidence**  | 0.80                                                                                                                                                                                                                                                                                                   |
-| **Maturity**    | 2 - Repeatable                                                                                                                                                                                                                                                                                         |
 
 **Business Relationships**: Monitors the Developer Workstation Provisioning
 capability. Receives audit logs from Security & Secrets Management. Represents a
@@ -621,9 +540,6 @@ maturity gap due to absent alerting rules and KPI dashboards.
 | **Name**        | Network Isolation & Connectivity                                                                                                                                                                                                                          |
 | **Type**        | Business Capability                                                                                                                                                                                                                                       |
 | **Description** | Infrastructure capability providing project-specific virtual networks with dedicated address spaces. The eShop project uses a 10.0.0.0/16 address space with a 10.0.1.0/24 subnet and managed Azure AD Join network connections for Dev Box connectivity. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:93-114`                                                                                                                                                                                                           |
-| **Confidence**  | 0.82                                                                                                                                                                                                                                                      |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                               |
 
 **Business Relationships**: Required by Developer Workstation Provisioning for
 secure Dev Box connectivity. Implements the Network Isolation Per Project Rule.
@@ -636,9 +552,6 @@ Each Project entity has an associated network configuration.
 | **Name**        | Resource Organization & Governance                                                                                                                                                                                                                                                                |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                               |
 | **Description** | Governance capability defining resource group segregation by function: Workload (devexp-workload), Security (devexp-security), and Monitoring (devexp-monitoring). Each group carries mandatory tags for environment, division, team, project, costCenter, owner, and landingZone classification. |
-| **Source**      | `infra/settings/resourceOrganization/azureResources.yaml:1-60`                                                                                                                                                                                                                                    |
-| **Confidence**  | 0.84                                                                                                                                                                                                                                                                                              |
-| **Maturity**    | 4 - Measured                                                                                                                                                                                                                                                                                      |
 
 **Business Relationships**: Governed by the Cloud Adoption & Landing Zone
 Strategy. Implements the Resource Tagging Mandate rule. Defines the Landing Zone
@@ -651,9 +564,6 @@ entity. Enables cost allocation tracking through enforced tags.
 | **Name**        | Configuration Management                                                                                                                                                                                                                                                                                          |
 | **Type**        | Business Capability                                                                                                                                                                                                                                                                                               |
 | **Description** | Platform capability for Git-based catalog management. The central customTasks catalog syncs from the Microsoft devcenter-catalog repository, while project-specific catalogs reference private GitHub repositories for environment definitions and Dev Box image definitions. Catalog sync is enabled by default. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:68-80`                                                                                                                                                                                                                                                                    |
-| **Confidence**  | 0.79                                                                                                                                                                                                                                                                                                              |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                                       |
 
 **Business Relationships**: Required by Developer Workstation Provisioning.
 Protected by Security & Secrets Management (GitHub token authentication).
@@ -668,9 +578,6 @@ Referenced by Project entities for project-specific catalogs.
 | **Name**        | Developer Velocity Value Stream                                                                                                                                                                                                                                                                                    |
 | **Type**        | Value Stream                                                                                                                                                                                                                                                                                                       |
 | **Description** | Primary end-to-end value delivery flow: Developer requests access → Platform assigns to Azure AD group → Dev Box pool allocates role-specific VM → Pre-configured tooling installed automatically → Developer productive within hours. Measured value: reduction in developer onboarding time from weeks to hours. |
-| **Source**      | `README.md:11-22`                                                                                                                                                                                                                                                                                                  |
-| **Confidence**  | 0.75                                                                                                                                                                                                                                                                                                               |
-| **Maturity**    | 2 - Repeatable                                                                                                                                                                                                                                                                                                     |
 
 **Business Relationships**: Driven by the DevEx Platform Strategy. Delivered
 through the Developer Onboarding Process, Dev Box Provisioning Service, and
@@ -683,9 +590,6 @@ Configuration Management capability.
 | **Name**        | Security & Compliance Value Stream                                                                                                                                                                                                                                                       |
 | **Type**        | Value Stream                                                                                                                                                                                                                                                                             |
 | **Description** | Supporting value delivery flow: Security requirements defined → RBAC policies configured in YAML → Key Vault provisioned with purge protection → Diagnostic logging enabled → Compliance audit trail established. Delivers enterprise-grade security posture for developer environments. |
-| **Source**      | `infra/settings/security/security.yaml:1-38`                                                                                                                                                                                                                                             |
-| **Confidence**  | 0.73                                                                                                                                                                                                                                                                                     |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                              |
 
 **Business Relationships**: Supported by the Cloud Adoption & Landing Zone
 Strategy. Delivered through Identity & Access Governance, Security & Secrets
@@ -768,9 +672,6 @@ flowchart LR
 | **Name**        | Developer Onboarding Process                                                                                                                                                                                                                                                                                                                                                            |
 | **Type**        | Business Process                                                                                                                                                                                                                                                                                                                                                                        |
 | **Description** | End-to-end developer provisioning: (1) Administrator adds user to Azure AD group (e.g., "eShop Developers"); (2) RBAC roles auto-assigned (Contributor, Dev Box User, Deployment Environment User, Key Vault Secrets User); (3) User accesses Dev Box portal; (4) System assigns appropriate pool based on role; (5) Dev Box provisioned with role-specific tooling and network access. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:81-200`                                                                                                                                                                                                                                                                                                                                         |
-| **Confidence**  | 0.82                                                                                                                                                                                                                                                                                                                                                                                    |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                                                                                                             |
 
 **Business Relationships**: Consumes the Dev Box Provisioning Service. Depends
 on Identity & Access Governance capability for RBAC assignment. Delivers the
@@ -848,9 +749,6 @@ flowchart TB
 | **Name**        | Environment Promotion Process                                                                                                                                                                                                                                                                                            |
 | **Type**        | Business Process                                                                                                                                                                                                                                                                                                         |
 | **Description** | SDLC lifecycle management: (1) Developer builds application in dev environment; (2) Application validated and promoted to staging; (3) Staging validation completed; (4) Application promoted to UAT for user acceptance testing. Each environment type is independently configured with optional deployment target IDs. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:84-95`                                                                                                                                                                                                                                                                           |
-| **Confidence**  | 0.80                                                                                                                                                                                                                                                                                                                     |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                                              |
 
 **Business Relationships**: Uses the Developer Workstation Provisioning
 capability. Operates across Environment Type entities (dev, staging, UAT).
@@ -863,9 +761,6 @@ Triggered by the Environment Promotion Trigger Event.
 | **Name**        | Infrastructure Deployment Process                                                                                                                                                                                                                                                                                                                                                       |
 | **Type**        | Business Process                                                                                                                                                                                                                                                                                                                                                                        |
 | **Description** | One-command environment provisioning: (1) Operator authenticates via Azure CLI, GitHub CLI, and Azure Developer CLI; (2) GitHub Actions token retrieved and injected; (3) `azd up` command invoked; (4) Bicep orchestration deploys Security RG, Monitoring RG, and Workload RG sub-modules; (5) Resources validated and output generated. Supports both PowerShell and Bash execution. |
-| **Source**      | `setUp.ps1:1-30`                                                                                                                                                                                                                                                                                                                                                                        |
-| **Confidence**  | 0.78                                                                                                                                                                                                                                                                                                                                                                                    |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                                                                                                             |
 
 **Business Relationships**: Creates all Landing Zone resources. Invokes the Dev
 Box Provisioning Service. Implements the Idempotent Deployment principle.
@@ -878,9 +773,6 @@ Depends on the Secret Management Service for GitHub token retrieval.
 | **Name**        | Infrastructure Cleanup & Deprovisioning                                                                                                                                                                                                                              |
 | **Type**        | Business Process                                                                                                                                                                                                                                                     |
 | **Description** | Complete environment teardown: (1) Subscription deployment records deleted; (2) Resource groups removed; (3) Service principals cleaned up; (4) GitHub secrets revoked; (5) Credential cache cleared. Prevents orphaned resources and ensures secure deprovisioning. |
-| **Source**      | `cleanSetUp.ps1:1-10`                                                                                                                                                                                                                                                |
-| **Confidence**  | 0.76                                                                                                                                                                                                                                                                 |
-| **Maturity**    | 2 - Repeatable                                                                                                                                                                                                                                                       |
 
 **Business Relationships**: Reverses the Infrastructure Deployment Process.
 Removes Landing Zone resources. Terminates the Dev Box Provisioning Service for
@@ -895,9 +787,6 @@ the target environment.
 | **Name**        | Dev Box Provisioning Service                                                                                                                                                                                                                                                                                                                           |
 | **Type**        | Business Service                                                                                                                                                                                                                                                                                                                                       |
 | **Description** | Platform service that creates and manages role-specific Dev Box pools. Currently serves the eShop project with two pools: backend-engineer (32c/128GB/512GB SSD, `eShop-backend-engineer` image) and frontend-engineer (16c/64GB/256GB SSD, `eShop-frontend-engineer` image). Pools are scoped to projects and connected via managed virtual networks. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:81-200`                                                                                                                                                                                                                                                                                                        |
-| **Confidence**  | 0.83                                                                                                                                                                                                                                                                                                                                                   |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                                                                            |
 
 **Business Relationships**: Implements the Developer Workstation Provisioning
 capability. Consumed by the Developer Onboarding Process. Governed by the
@@ -911,9 +800,6 @@ definitions.
 | **Name**        | Secret Management Service                                                                                                                                                                                                                                                                           |
 | **Type**        | Business Service                                                                                                                                                                                                                                                                                    |
 | **Description** | Security service providing centralized credential storage and retrieval. Currently manages a GitHub Actions token (`gha-token`) for catalog repository authentication. Configured with purge protection, 7-day soft-delete retention, and RBAC authorization. Audit logs streamed to Log Analytics. |
-| **Source**      | `infra/settings/security/security.yaml:1-38`                                                                                                                                                                                                                                                        |
-| **Confidence**  | 0.81                                                                                                                                                                                                                                                                                                |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                         |
 
 **Business Relationships**: Implements the Security & Secrets Management
 capability. Governed by the Secret Purge Protection Rule. Used by the
@@ -929,9 +815,6 @@ Monitoring & Observability capability.
 | **Name**        | Platform Engineering Function                                                                                                                                                                                                                                                                                                                    |
 | **Type**        | Business Function                                                                                                                                                                                                                                                                                                                                |
 | **Description** | Organizational function within the Platforms division responsible for infrastructure design, Bicep module creation, governance enforcement, and Dev Center management. Follows a product-oriented delivery model with Epics, Features, and Tasks. Enforces engineering standards including parameterized modules, idempotency, and docs-as-code. |
-| **Source**      | `CONTRIBUTING.md:1-20`                                                                                                                                                                                                                                                                                                                           |
-| **Confidence**  | 0.74                                                                                                                                                                                                                                                                                                                                             |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                                                                      |
 
 **Business Relationships**: Operates through the Dev Manager role. Governs all
 Business Capabilities. Responsible for maintaining the Dev Box Provisioning
@@ -944,9 +827,6 @@ Service and Infrastructure Deployment Process.
 | **Name**        | Project Delivery Function                                                                                                                                                                                                                                                              |
 | **Type**        | Business Function                                                                                                                                                                                                                                                                      |
 | **Description** | Organizational function managing project-scoped resource allocation, team-specific Dev Box pools, project catalogs, and environment configurations. Each project (e.g., eShop) receives dedicated identity, network, pools, catalogs, and environment types for independent operation. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:81-200`                                                                                                                                                                                                                                        |
-| **Confidence**  | 0.72                                                                                                                                                                                                                                                                                   |
-| **Maturity**    | 2 - Repeatable                                                                                                                                                                                                                                                                         |
 
 **Business Relationships**: Operates through the Developer role. Consumes the
 Dev Box Provisioning Service. Scoped to individual Project entities with
@@ -961,9 +841,6 @@ dedicated resources.
 | **Name**        | Dev Manager (Platform Engineering Team)                                                                                                                                                                                                                                                                                                            |
 | **Type**        | Business Role                                                                                                                                                                                                                                                                                                                                      |
 | **Description** | Administrative role assigned to the Azure AD group "Platform Engineering Team" (ID: 5a1d1455-e771-4c19-aa03-fb4a08418f22). Holds DevCenter Project Admin role at ResourceGroup scope, enabling management of Dev Box definitions, project settings, and platform governance. Manages Dev Box deployments but does not typically consume Dev Boxes. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:53-65`                                                                                                                                                                                                                                                                                                     |
-| **Confidence**  | 0.90                                                                                                                                                                                                                                                                                                                                               |
-| **Maturity**    | 4 - Measured                                                                                                                                                                                                                                                                                                                                       |
 
 **Business Relationships**: Operates the Platform Engineering Function. Manages
 all Project entities. Governed by the Least-Privilege RBAC Enforcement Rule.
@@ -975,9 +852,6 @@ all Project entities. Governed by the Least-Privilege RBAC Enforcement Rule.
 | **Name**        | Developer (eShop Developers)                                                                                                                                                                                                                                                                                            |
 | **Type**        | Business Role                                                                                                                                                                                                                                                                                                           |
 | **Description** | Consumer role assigned to the Azure AD group "eShop Developers" (ID: 9d42a792-2d74-441d-8bcb-71009371725f). Holds Contributor, Dev Box User, Deployment Environment User (Project scope), and Key Vault Secrets User/Officer (ResourceGroup scope) permissions. Consumes Dev Boxes and deploys to project environments. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:117-134`                                                                                                                                                                                                                                                                        |
-| **Confidence**  | 0.89                                                                                                                                                                                                                                                                                                                    |
-| **Maturity**    | 4 - Measured                                                                                                                                                                                                                                                                                                            |
 
 **Business Relationships**: Operates the Project Delivery Function. Primary
 consumer of the Dev Box Provisioning Service. Subject to the Role-Based VM
@@ -990,9 +864,6 @@ Sizing Rule and Network Isolation Per Project Rule.
 | **Name**        | Platform Engineer                                                                                                                                                                                                                                                               |
 | **Type**        | Business Role                                                                                                                                                                                                                                                                   |
 | **Description** | Technical role responsible for Bicep module development, governance standards enforcement, and infrastructure design. Must produce parameterized, idempotent, reusable modules with clear documentation including purpose, inputs/outputs, examples, and troubleshooting notes. |
-| **Source**      | `CONTRIBUTING.md:72-89`                                                                                                                                                                                                                                                         |
-| **Confidence**  | 0.74                                                                                                                                                                                                                                                                            |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                     |
 
 **Business Relationships**: Operates within the Platform Engineering Function.
 Creates and maintains infrastructure modules consumed by the Infrastructure
@@ -1005,9 +876,6 @@ Deployment Process.
 | **Name**        | DevOps Lead                                                                                                                                                                                                                                              |
 | **Type**        | Business Role                                                                                                                                                                                                                                            |
 | **Description** | Operational role responsible for environment provisioning, release automation, and deployment orchestration. Uses Azure Developer CLI, PowerShell 7+, and GitHub CLI for cross-platform deployment with clear error handling and idempotency guarantees. |
-| **Source**      | `CONTRIBUTING.md:72-89`                                                                                                                                                                                                                                  |
-| **Confidence**  | 0.71                                                                                                                                                                                                                                                     |
-| **Maturity**    | 2 - Repeatable                                                                                                                                                                                                                                           |
 
 **Business Relationships**: Executes the Infrastructure Deployment Process and
 Infrastructure Cleanup & Deprovisioning process. Collaborates with the Platform
@@ -1022,9 +890,6 @@ Engineering Function.
 | **Name**        | Role-Based VM Sizing Rule                                                                                                                                                                                                                                                                                   |
 | **Type**        | Business Rule                                                                                                                                                                                                                                                                                               |
 | **Description** | Resource allocation policy: backend engineers are assigned `general_i_32c128gb512ssd_v2` VMs (32 cores, 128 GB RAM, 512 GB SSD) while frontend engineers are assigned `general_i_16c64gb256ssd_v2` VMs (16 cores, 64 GB RAM, 256 GB SSD). Ensures role-appropriate compute resources and cost optimization. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:142-149`                                                                                                                                                                                                                                                            |
-| **Confidence**  | 0.87                                                                                                                                                                                                                                                                                                        |
-| **Maturity**    | 4 - Measured                                                                                                                                                                                                                                                                                                |
 
 **Business Relationships**: Governs the Dev Box Provisioning Service. Enforced
 through Dev Box Pool entity definitions. Supports cost optimization within the
@@ -1037,9 +902,6 @@ Developer Velocity Value Stream.
 | **Name**        | Network Isolation Per Project Rule                                                                                                                                                                                                                              |
 | **Type**        | Business Rule                                                                                                                                                                                                                                                   |
 | **Description** | Security isolation policy: each project receives a dedicated virtual network with its own address space (e.g., eShop: 10.0.0.0/16) and subnets (e.g., eShop-subnet: 10.0.1.0/24). Cross-project network traffic is prevented by default through isolated VNets. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:93-114`                                                                                                                                                                                                                 |
-| **Confidence**  | 0.85                                                                                                                                                                                                                                                            |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                     |
 
 **Business Relationships**: Enforced by the Network Isolation & Connectivity
 capability. Applied to all Project entities. Supports the Security & Compliance
@@ -1052,9 +914,6 @@ Value Stream.
 | **Name**        | Least-Privilege RBAC Enforcement Rule                                                                                                                                                                                                                                                                                                                        |
 | **Type**        | Business Rule                                                                                                                                                                                                                                                                                                                                                |
 | **Description** | Access governance policy: all role assignments use the narrowest applicable scope. DevCenter managed identity receives Subscription-scoped Contributor for orchestration. Dev Managers receive ResourceGroup-scoped Project Admin. Developers receive Project-scoped Dev Box User and Deployment Environment User. Key Vault access is ResourceGroup-scoped. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:26-65`                                                                                                                                                                                                                                                                                                               |
-| **Confidence**  | 0.88                                                                                                                                                                                                                                                                                                                                                         |
-| **Maturity**    | 4 - Measured                                                                                                                                                                                                                                                                                                                                                 |
 
 **Business Relationships**: Governs Identity & Access Governance capability.
 Applied to all Business Roles. Supports the Security & Compliance Value Stream.
@@ -1067,9 +926,6 @@ Implements the Defense in Depth principle.
 | **Name**        | Resource Tagging Mandate                                                                                                                                                                                                                                                      |
 | **Type**        | Business Rule                                                                                                                                                                                                                                                                 |
 | **Description** | Governance policy: all Azure resources must carry mandatory tags including environment, division, team, project, costCenter, owner, and landingZone/resources classification. Tags are defined per Landing Zone in `azureResources.yaml` and per Project in `devcenter.yaml`. |
-| **Source**      | `infra/settings/resourceOrganization/azureResources.yaml:19-30`                                                                                                                                                                                                               |
-| **Confidence**  | 0.86                                                                                                                                                                                                                                                                          |
-| **Maturity**    | 4 - Measured                                                                                                                                                                                                                                                                  |
 
 **Business Relationships**: Enforced by the Resource Organization & Governance
 capability. Applied to all Landing Zone and Project entities. Enables cost
@@ -1082,9 +938,6 @@ center billing and compliance reporting.
 | **Name**        | Secret Purge Protection Rule                                                                                                                                                                                                                              |
 | **Type**        | Business Rule                                                                                                                                                                                                                                             |
 | **Description** | Security policy: Key Vault purge protection is enabled (`enablePurgeProtection: true`) with soft-delete retention of 7 days (`softDeleteRetentionInDays: 7`). Prevents irreversible deletion of secrets and enables recovery within the retention window. |
-| **Source**      | `infra/settings/security/security.yaml:26-27`                                                                                                                                                                                                             |
-| **Confidence**  | 0.84                                                                                                                                                                                                                                                      |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                               |
 
 **Business Relationships**: Governs the Secret Management Service. Enforces the
 Defense in Depth principle. Protects the Key Vault entity.
@@ -1098,9 +951,6 @@ Defense in Depth principle. Protects the Key Vault entity.
 | **Name**        | Project Onboarding Request Event                                                                                                                                                                                                                                                                     |
 | **Type**        | Business Event                                                                                                                                                                                                                                                                                       |
 | **Description** | Trigger event: when a new project entry is added to the Dev Center configuration (projects array in `devcenter.yaml`), it initiates the full provisioning workflow — creating dedicated network resources, identity assignments, Dev Box pools, catalogs, and environment types for the new project. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:81-82`                                                                                                                                                                                                                                                       |
-| **Confidence**  | 0.75                                                                                                                                                                                                                                                                                                 |
-| **Maturity**    | 2 - Repeatable                                                                                                                                                                                                                                                                                       |
 
 **Business Relationships**: Triggers the Developer Onboarding Process. Creates a
 new Project entity. Invokes the Dev Box Provisioning Service.
@@ -1112,9 +962,6 @@ new Project entity. Invokes the Dev Box Provisioning Service.
 | **Name**        | Environment Promotion Trigger Event                                                                                                                                                                                                                                                 |
 | **Type**        | Business Event                                                                                                                                                                                                                                                                      |
 | **Description** | Lifecycle event: application readiness in a lower SDLC stage triggers promotion to the next stage. The platform defines three Environment Type entities (dev, staging, UAT) with independent deployment targets, supporting sequential promotion through the development lifecycle. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:84-95`                                                                                                                                                                                                                                      |
-| **Confidence**  | 0.73                                                                                                                                                                                                                                                                                |
-| **Maturity**    | 2 - Repeatable                                                                                                                                                                                                                                                                      |
 
 **Business Relationships**: Triggers the Environment Promotion Process. Operates
 on Environment Type entities. Supports the Developer Velocity Value Stream.
@@ -1128,9 +975,6 @@ on Environment Type entities. Supports the Developer Velocity Value Stream.
 | **Name**        | Dev Center                                                                                                                                                                                                                                                                                                                       |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                                                                  |
 | **Description** | Core platform entity (`devexp-devcenter`) representing the centralized developer workstation management hub. Configuration includes: (1) SystemAssigned managed identity; (2) Catalog item sync enabled; (3) Microsoft-hosted network enabled; (4) Azure Monitor Agent enabled. Hosts catalogs, environment types, and projects. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:19-23`                                                                                                                                                                                                                                                                                   |
-| **Confidence**  | 0.88                                                                                                                                                                                                                                                                                                                             |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                                                      |
 
 **Business Relationships**: Parent entity for Project, Environment Type, and
 Catalog entities. Managed by the Dev Manager role. Monitored by the Monitoring &
@@ -1143,9 +987,6 @@ Observability capability.
 | **Name**        | Project                                                                                                                                                                                                                                                                                                                                                           |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                                                                                                   |
 | **Description** | Organizational entity representing a team workspace within the Dev Center. The eShop project includes: dedicated SystemAssigned identity, Azure AD group-based access ("eShop Developers"), isolated VNet (10.0.0.0/16), two role-specific pools (backend-engineer, frontend-engineer), three environment types (dev, staging, UAT), and private GitHub catalogs. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:81-200`                                                                                                                                                                                                                                                                                                                   |
-| **Confidence**  | 0.87                                                                                                                                                                                                                                                                                                                                                              |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                                                                                       |
 
 **Business Relationships**: Child of Dev Center entity. Contains Dev Box Pool
 and Environment Type entities. Governed by the Network Isolation Per Project
@@ -1158,9 +999,6 @@ Rule. Consumed by the Developer role.
 | **Name**        | Dev Box Pool                                                                                                                                                                                                                                                                                                           |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                                                        |
 | **Description** | Resource entity defining a collection of Dev Boxes with specific VM SKU and image definitions. Two pools defined: (1) `backend-engineer` with `general_i_32c128gb512ssd_v2` SKU and `eShop-backend-engineer` image; (2) `frontend-engineer` with `general_i_16c64gb256ssd_v2` SKU and `eShop-frontend-engineer` image. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:142-149`                                                                                                                                                                                                                                                                       |
-| **Confidence**  | 0.86                                                                                                                                                                                                                                                                                                                   |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                                                            |
 
 **Business Relationships**: Child of Project entity. Governed by the Role-Based
 VM Sizing Rule. Provisioned by the Dev Box Provisioning Service. Consumed by the
@@ -1173,9 +1011,6 @@ Developer role.
 | **Name**        | Environment Type                                                                                                                                                                                                                                                                     |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                      |
 | **Description** | Lifecycle entity representing an SDLC deployment stage. Three types defined: (1) `dev` — development/integration testing; (2) `staging` — pre-production validation; (3) `UAT` — user acceptance testing. Each supports optional deployment target scoping via `deploymentTargetId`. |
-| **Source**      | `infra/settings/workload/devcenter.yaml:84-95`                                                                                                                                                                                                                                       |
-| **Confidence**  | 0.84                                                                                                                                                                                                                                                                                 |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                          |
 
 **Business Relationships**: Child of Dev Center entity. Available per Project.
 Consumed by the Environment Promotion Process. Triggered by the Environment
@@ -1188,9 +1023,6 @@ Promotion Trigger Event.
 | **Name**        | Landing Zone                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                                                                                                                                                              |
 | **Description** | Governance entity defining resource group segregation by function. Three zones: (1) `devexp-workload` (Workload) — main application resources; (2) `devexp-security` (Security) — Key Vault, NSGs, security resources; (3) `devexp-monitoring` (Monitoring) — Log Analytics, diagnostic resources. Each carries enforced tags for division (Platforms), team (DevExP), project (Contoso-DevExp-DevBox), and costCenter (IT). |
-| **Source**      | `infra/settings/resourceOrganization/azureResources.yaml:1-60`                                                                                                                                                                                                                                                                                                                                                               |
-| **Confidence**  | 0.82                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| **Maturity**    | 4 - Measured                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 **Business Relationships**: Defined by the Resource Organization & Governance
 capability. Governed by the Resource Tagging Mandate. Informed by the Cloud
@@ -1203,9 +1035,6 @@ Adoption & Landing Zone Strategy.
 | **Name**        | Key Vault                                                                                                                                                                                                                                                                          |
 | **Type**        | Business Object                                                                                                                                                                                                                                                                    |
 | **Description** | Security entity representing centralized secret storage (`contoso`). Configuration includes: RBAC authorization enabled, purge protection enabled, soft delete with 7-day retention, GitHub Actions token storage (`gha-token`). Tagged with Security landing zone classification. |
-| **Source**      | `infra/settings/security/security.yaml:20-38`                                                                                                                                                                                                                                      |
-| **Confidence**  | 0.80                                                                                                                                                                                                                                                                               |
-| **Maturity**    | 3 - Defined                                                                                                                                                                                                                                                                        |
 
 **Business Relationships**: Managed by the Secret Management Service. Governed
 by the Secret Purge Protection Rule. Accessed by the Developer and Dev Manager
