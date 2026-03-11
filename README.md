@@ -520,17 +520,17 @@ All changes follow the same workflow: **edit YAML → run `azd provision`**. The
 deployment is idempotent — it converges infrastructure to match the current YAML
 state.
 
-| Operation                    | What to edit in `devcenter.yaml`                                                               | Reference                                                                                  |
-| ---------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Add a Dev Box pool           | Add entry to a project's `pools:` array                                                        | [`pools`](#pools--dev-box-pools)                                                           |
-| Add a Dev Center catalog     | Add entry to the top-level `catalogs:` array (`type`: `gitHub`/`adoGit`)                       | [Dev Center Catalogs](#dev-center-catalogs)                                                |
-| Add a project catalog        | Add entry to a project's `catalogs:` array (`sourceControl`: `gitHub`/`adoGit`)                | [`catalogs`](#catalogs--project-catalogs)                                                  |
-| Add an environment type      | Add to the top-level `environmentTypes:` and/or a project's `environmentTypes:` array          | [Dev Center Environment Types](#dev-center-environment-types)                              |
-| Change networking            | Edit a project's `network:` block (`virtualNetworkType`: `Managed`/`Unmanaged`, `create` flag) | [`network`](#network--network-configuration)                                               |
-| Update RBAC                  | Edit `identity.roleAssignments` at the Dev Center or project level                             | [Dev Center Identity](#dev-center-identity), [`identity`](#identity--rbac--access-control) |
-| Use existing resource groups | Set `create: false` in `azureResources.yaml`                                                   | [Brownfield Integration](#brownfield-integration)                                          |
-| Use existing Key Vault       | Set `create: false` in `security.yaml`                                                         | [Brownfield Integration](#brownfield-integration)                                          |
-| Use existing VNet            | Set `create: false` + `virtualNetworkType: Unmanaged` in a project's `network:` block          | [Brownfield Integration](#brownfield-integration)                                          |
+| Operation                       | What to edit in `devcenter.yaml`                                                               | Reference                                                                                  |
+| ------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| 💻 Add a Dev Box pool           | Add entry to a project's `pools:` array                                                        | [`pools`](#pools--dev-box-pools)                                                           |
+| 📦 Add a Dev Center catalog     | Add entry to the top-level `catalogs:` array (`type`: `gitHub`/`adoGit`)                       | [Dev Center Catalogs](#dev-center-catalogs)                                                |
+| 📋 Add a project catalog        | Add entry to a project's `catalogs:` array (`sourceControl`: `gitHub`/`adoGit`)                | [`catalogs`](#catalogs--project-catalogs)                                                  |
+| 🌍 Add an environment type      | Add to the top-level `environmentTypes:` and/or a project's `environmentTypes:` array          | [Dev Center Environment Types](#dev-center-environment-types)                              |
+| 🌐 Change networking            | Edit a project's `network:` block (`virtualNetworkType`: `Managed`/`Unmanaged`, `create` flag) | [`network`](#network--network-configuration)                                               |
+| 🔑 Update RBAC                  | Edit `identity.roleAssignments` at the Dev Center or project level                             | [Dev Center Identity](#dev-center-identity), [`identity`](#identity--rbac--access-control) |
+| 🏢 Use existing resource groups | Set `create: false` in `azureResources.yaml`                                                   | [Brownfield Integration](#brownfield-integration)                                          |
+| 🔐 Use existing Key Vault       | Set `create: false` in `security.yaml`                                                         | [Brownfield Integration](#brownfield-integration)                                          |
+| 🔗 Use existing VNet            | Set `create: false` + `virtualNetworkType: Unmanaged` in a project's `network:` block          | [Brownfield Integration](#brownfield-integration)                                          |
 
 After editing, run `azd provision` to apply.
 
@@ -538,12 +538,12 @@ After editing, run `azd provision` to apply.
 
 The accelerator automatically configures Log Analytics diagnostic settings on:
 
-| Resource         | Logs            | Metrics     |
-| ---------------- | --------------- | ----------- |
-| Dev Center       | All logs        | All metrics |
-| Key Vault        | All logs        | All metrics |
-| Virtual Networks | All logs        | All metrics |
-| Log Analytics    | All logs (self) | All metrics |
+| Resource            | Logs            | Metrics     |
+| ------------------- | --------------- | ----------- |
+| 🏢 Dev Center       | All logs        | All metrics |
+| 🔐 Key Vault        | All logs        | All metrics |
+| 🌐 Virtual Networks | All logs        | All metrics |
+| 📊 Log Analytics    | All logs (self) | All metrics |
 
 Additionally, an **AzureActivity** solution is deployed on the Log Analytics
 workspace for subscription-level activity log collection.
@@ -627,16 +627,16 @@ azd env get-values
 
 Key outputs include:
 
-| Output                                 | Description                         |
-| -------------------------------------- | ----------------------------------- |
-| `AZURE_DEV_CENTER_NAME`                | Name of the deployed Dev Center     |
-| `AZURE_DEV_CENTER_PROJECTS`            | Array of deployed project names     |
-| `AZURE_KEY_VAULT_NAME`                 | Key Vault resource name             |
-| `AZURE_KEY_VAULT_ENDPOINT`             | Key Vault URI                       |
-| `AZURE_LOG_ANALYTICS_WORKSPACE_ID`     | Log Analytics workspace resource ID |
-| `SECURITY_AZURE_RESOURCE_GROUP_NAME`   | Security resource group name        |
-| `MONITORING_AZURE_RESOURCE_GROUP_NAME` | Monitoring resource group name      |
-| `WORKLOAD_AZURE_RESOURCE_GROUP_NAME`   | Workload resource group name        |
+| Output                                    | Description                         |
+| ----------------------------------------- | ----------------------------------- |
+| 🏢 `AZURE_DEV_CENTER_NAME`                | Name of the deployed Dev Center     |
+| 📋 `AZURE_DEV_CENTER_PROJECTS`            | Array of deployed project names     |
+| 🔐 `AZURE_KEY_VAULT_NAME`                 | Key Vault resource name             |
+| 🔗 `AZURE_KEY_VAULT_ENDPOINT`             | Key Vault URI                       |
+| 📊 `AZURE_LOG_ANALYTICS_WORKSPACE_ID`     | Log Analytics workspace resource ID |
+| 🛡️ `SECURITY_AZURE_RESOURCE_GROUP_NAME`   | Security resource group name        |
+| 📊 `MONITORING_AZURE_RESOURCE_GROUP_NAME` | Monitoring resource group name      |
+| 🚀 `WORKLOAD_AZURE_RESOURCE_GROUP_NAME`   | Workload resource group name        |
 
 ### Brownfield Integration
 
@@ -699,12 +699,12 @@ secrets:
 
 **Parameters:**
 
-| Parameter         | Default                                      | Description                               |
-| ----------------- | -------------------------------------------- | ----------------------------------------- |
-| `-EnvName`        | `gitHub`                                     | Environment name used in resource naming  |
-| `-Location`       | `eastus2`                                    | Azure region where resources are deployed |
-| `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Azure AD application display name         |
-| `-GhSecretName`   | `AZURE_CREDENTIALS`                          | GitHub secret name to remove              |
+| Parameter            | Default                                      | Description                               |
+| -------------------- | -------------------------------------------- | ----------------------------------------- |
+| ⚙️ `-EnvName`        | `gitHub`                                     | Environment name used in resource naming  |
+| 🌍 `-Location`       | `eastus2`                                    | Azure region where resources are deployed |
+| 📝 `-AppDisplayName` | `ContosoDevEx GitHub Actions Enterprise App` | Azure AD application display name         |
+| 🔑 `-GhSecretName`   | `AZURE_CREDENTIALS`                          | GitHub secret name to remove              |
 
 The script performs: subscription deployment deletion, role assignment removal,
 service principal and app registration cleanup, GitHub secret removal, and
@@ -763,11 +763,11 @@ The following environment variables are set by the setup script and consumed by
 These are stored in `.azure/<env>/.env` and injected into
 `infra/main.parameters.json`, which maps them to Bicep parameters:
 
-| Bicep Parameter   | Mapped From        |
-| ----------------- | ------------------ |
-| `environmentName` | `AZURE_ENV_NAME`   |
-| `location`        | `AZURE_LOCATION`   |
-| `secretValue`     | `KEY_VAULT_SECRET` |
+| Bicep Parameter      | Mapped From        |
+| -------------------- | ------------------ |
+| ⚙️ `environmentName` | `AZURE_ENV_NAME`   |
+| 🌍 `location`        | `AZURE_LOCATION`   |
+| 🔐 `secretValue`     | `KEY_VAULT_SECRET` |
 
 ### Allowed Regions
 
@@ -782,12 +782,12 @@ The deployment supports these Azure regions (enforced by `main.bicep`):
 Defines three resource groups following Azure Landing Zone segregation by
 function. Each entry has these fields:
 
-| Field         | Type    | Description                                                                  |
-| ------------- | ------- | ---------------------------------------------------------------------------- |
-| `create`      | boolean | `true` to create the resource group; `false` to reference an existing one    |
-| `name`        | string  | Resource group name (base name when `create: true`; exact name when `false`) |
-| `description` | string  | Human-readable description for documentation                                 |
-| `tags`        | object  | Azure resource tags (key-value pairs) for governance and cost allocation     |
+| Field            | Type    | Description                                                                  |
+| ---------------- | ------- | ---------------------------------------------------------------------------- |
+| ⚙️ `create`      | boolean | `true` to create the resource group; `false` to reference an existing one    |
+| 📝 `name`        | string  | Resource group name (base name when `create: true`; exact name when `false`) |
+| 📋 `description` | string  | Human-readable description for documentation                                 |
+| 🏷️ `tags`        | object  | Azure resource tags (key-value pairs) for governance and cost allocation     |
 
 When `create: true`, the actual resource group name follows the convention
 `<name>-<environmentName>-<location>-RG` (e.g.,
@@ -796,27 +796,27 @@ used as-is, enabling brownfield integration with existing resource groups.
 
 **Default resource groups:**
 
-| Key          | Default Name        | Purpose                                 |
-| ------------ | ------------------- | --------------------------------------- |
-| `workload`   | `devexp-workload`   | Dev Center, projects, and Dev Box pools |
-| `security`   | `devexp-security`   | Key Vault for secret management         |
-| `monitoring` | `devexp-monitoring` | Log Analytics and diagnostic settings   |
+| Key             | Default Name        | Purpose                                 |
+| --------------- | ------------------- | --------------------------------------- |
+| 🚀 `workload`   | `devexp-workload`   | Dev Center, projects, and Dev Box pools |
+| 🔐 `security`   | `devexp-security`   | Key Vault for secret management         |
+| 📊 `monitoring` | `devexp-monitoring` | Log Analytics and diagnostic settings   |
 
 ### Security (`security.yaml`)
 
 Configures Azure Key Vault for storing the source control PAT (GitHub or Azure
 DevOps) used by private catalog authentication:
 
-| Setting                              | Default     | Description                                                               |
-| ------------------------------------ | ----------- | ------------------------------------------------------------------------- |
-| `create`                             | `true`      | `true` to create a new Key Vault; `false` to use existing                 |
-| `keyVault.name`                      | `contoso`   | Key Vault name prefix (suffixed with unique string + `-kv` when creating) |
-| `keyVault.secretName`                | `gha-token` | Secret name for the source control PAT                                    |
-| `keyVault.enablePurgeProtection`     | `true`      | Prevents permanent deletion of the vault and secrets                      |
-| `keyVault.enableSoftDelete`          | `true`      | Enables recovery of deleted secrets                                       |
-| `keyVault.softDeleteRetentionInDays` | `7`         | Number of days to retain soft-deleted secrets (1–90)                      |
-| `keyVault.enableRbacAuthorization`   | `true`      | Uses Azure RBAC instead of vault access policies                          |
-| `keyVault.tags`                      | —           | Azure resource tags applied to the Key Vault                              |
+| Setting                                 | Default     | Description                                                               |
+| --------------------------------------- | ----------- | ------------------------------------------------------------------------- |
+| ⚙️ `create`                             | `true`      | `true` to create a new Key Vault; `false` to use existing                 |
+| 📝 `keyVault.name`                      | `contoso`   | Key Vault name prefix (suffixed with unique string + `-kv` when creating) |
+| 🔑 `keyVault.secretName`                | `gha-token` | Secret name for the source control PAT                                    |
+| 🛡️ `keyVault.enablePurgeProtection`     | `true`      | Prevents permanent deletion of the vault and secrets                      |
+| 🛡️ `keyVault.enableSoftDelete`          | `true`      | Enables recovery of deleted secrets                                       |
+| ⏳ `keyVault.softDeleteRetentionInDays` | `7`         | Number of days to retain soft-deleted secrets (1–90)                      |
+| 🔒 `keyVault.enableRbacAuthorization`   | `true`      | Uses Azure RBAC instead of vault access policies                          |
+| 🏷️ `keyVault.tags`                      | —           | Azure resource tags applied to the Key Vault                              |
 
 When `create: true`, the Key Vault is created with SKU `standard` and an access
 policy granting the deployer `get`, `list`, `set`, `delete`, `backup`,
