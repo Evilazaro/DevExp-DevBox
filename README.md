@@ -3,11 +3,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Azure](https://img.shields.io/badge/Azure-Deployed-0078D4?logo=microsoftazure)](https://azure.microsoft.com)
 [![IaC: Bicep](https://img.shields.io/badge/IaC-Bicep-0078D4)](https://learn.microsoft.com/azure/azure-resource-manager/bicep/)
-[![Status: Active](https://img.shields.io/badge/Status-Active-107C10)]()
+[![Status: Active](https://img.shields.io/badge/Status-Active-107C10)](#overview)
 
 ## Overview
-
-**Overview**
 
 **DevExp-DevBox** is a **Microsoft Dev Box** adoption and deployment accelerator
 that provisions enterprise-grade developer environments on Azure. It enables
@@ -43,8 +41,6 @@ from **days to minutes**.
 - [License](#license)
 
 ## Architecture
-
-**Overview**
 
 The accelerator follows an **Azure Landing Zone** pattern with
 **subscription-scoped** Bicep deployments organized into three resource groups:
@@ -179,12 +175,10 @@ flowchart TB
 
 ## Features
 
-**Overview**
-
-DevExp-DevBox provides a complete platform engineering toolkit for provisioning
-and managing developer environments at scale. It addresses the core challenges
-of developer onboarding, environment consistency, and infrastructure governance
-that enterprise teams face when adopting cloud-powered workstations.
+**DevExp-DevBox** provides a complete platform engineering toolkit for
+provisioning and managing developer environments at scale. It addresses the core
+challenges of developer onboarding, environment consistency, and infrastructure
+governance that enterprise teams face when adopting cloud-powered workstations.
 
 > [!IMPORTANT] Manual environment setup wastes engineering hours and introduces
 > **configuration drift**. This accelerator automates the entire developer
@@ -206,8 +200,6 @@ that enterprise teams face when adopting cloud-powered workstations.
 | 📁 YAML-Driven Config     | Human-readable YAML files with JSON Schema validation for all infrastructure parameters     | ✅ Stable |
 
 ## Requirements
-
-**Overview**
 
 Before deploying DevExp-DevBox, ensure your environment meets the prerequisites
 below. The accelerator requires Azure CLI tooling and appropriate
@@ -233,8 +225,6 @@ subscription-level permissions to create resource groups and assign roles.
 | 📦 jq                  | JSON processor required by `setUp.sh`                                           | ⚡ Optional |
 
 ## Configuration
-
-**Overview**
 
 All infrastructure parameters are defined in YAML configuration files under
 `infra/settings/` and deployment parameters in `infra/main.bicep`. This
@@ -408,8 +398,6 @@ keyVault:
 
 ## Quick Start
 
-**Overview**
-
 The setup scripts automate the complete deployment lifecycle — validating
 prerequisites, authenticating with Azure and your source control platform,
 retrieving access tokens, configuring the `azd` environment, and provisioning
@@ -492,12 +480,14 @@ The scripts execute the following steps in order:
    enabled subscription
 3. **Select source control platform** — uses the `-SourceControl` parameter or
    presents an interactive menu:
+
    ```text
    ℹ️ [2025-01-22 10:30:00] Please select your source control platform:
      1. Azure DevOps Git (adogit)
      2. GitHub (github)
    Enter your choice (1 or 2):
    ```
+
 4. **Authenticate with platform** — verifies `gh auth status` (GitHub) or
    `az devops configure` (Azure DevOps)
 5. **Retrieve access token** — obtains PAT via `gh auth token` (GitHub) or
@@ -527,9 +517,7 @@ The scripts execute the following steps in order:
 
 ## Deployment
 
-**Overview**
-
-DevExp-DevBox supports both automated and manual deployment workflows. The
+**DevExp-DevBox** supports both automated and manual deployment workflows. The
 automated path handles the complete lifecycle in a single command, while the
 manual path gives platform engineers granular control over each step.
 
@@ -715,8 +703,6 @@ changes.
 | 🧹 `cleanSetUp.ps1`                       | Infrastructure cleanup and teardown script              |
 
 ## Contributing
-
-**Overview**
 
 This project follows a product-oriented delivery model organized around Epics,
 Features, and Tasks. Contributions are welcome from the community, and the
