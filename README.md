@@ -6,7 +6,9 @@
 
 **Overview**
 
-> [!NOTE] This accelerator provisions a production-ready Azure Dev Box
+<!-- prettier-ignore -->
+> [!NOTE]
+> This accelerator provisions a production-ready Azure Dev Box
 > environment using Azure Developer CLI (`azd provision`). It is a pure
 > Infrastructure as Code accelerator — no application code is deployed. It
 > follows the Microsoft Cloud Adoption Framework and Azure Landing Zone
@@ -27,7 +29,9 @@ pre-configured Dev Box pools tailored to their role (backend, frontend), with
 **Microsoft Entra ID** integration for identity, **RBAC** for access control,
 and centralized monitoring for operational visibility.
 
-> [!TIP] YAML configuration files enable environment customization without
+<!-- prettier-ignore -->
+> [!TIP]
+> YAML configuration files enable environment customization without
 > modifying Bicep template code.
 
 ## 📑 Table of Contents
@@ -51,7 +55,9 @@ resource groups. The design enables teams to manage Dev Box environments
 independently while maintaining centralized governance, audit trails, and
 network controls.
 
-> [!NOTE] Resources are segregated into three dedicated resource groups —
+<!-- prettier-ignore -->
+> [!NOTE]
+> Resources are segregated into three dedicated resource groups —
 > security, monitoring, and workload — following Azure Landing Zone principles.
 
 Components are organized in a **layered, modular pattern**: the orchestration
@@ -197,7 +203,9 @@ and YAML-driven configuration. For example, enabling a new project automatically
 provisions its Dev Box pools, network connections, RBAC assignments, and
 diagnostic settings — all from a **single YAML entry**.
 
-> [!TIP] Enabling a new project provisions Dev Box pools, network connections,
+<!-- prettier-ignore -->
+> [!TIP]
+> Enabling a new project provisions Dev Box pools, network connections,
 > RBAC assignments, and diagnostic settings from a single YAML entry.
 
 | Feature                            | Description                                                                                                                                       | Benefits                                                                |
@@ -227,7 +235,9 @@ Meeting all prerequisites takes approximately 15 minutes for a fresh
 workstation. The **setup scripts validate tool availability automatically** and
 provide clear error messages if any dependency is missing.
 
-> [!IMPORTANT] You must have **Owner** or **Contributor + User Access
+<!-- prettier-ignore -->
+> [!IMPORTANT]
+> You must have **Owner** or **Contributor + User Access
 > Administrator** permissions on your Azure subscription. The deployment creates
 > subscription-scoped role assignments that require elevated privileges.
 
@@ -260,7 +270,9 @@ DevOps Git. The choice determines how private catalog authentication is handled
 The deployment is **fully idempotent** — running `azd provision` again updates
 existing resources without duplication.
 
-> [!IMPORTANT] This accelerator provisions Azure resources only — no application
+<!-- prettier-ignore -->
+> [!IMPORTANT]
+> This accelerator provisions Azure resources only — no application
 > code is deployed.
 
 ### How It Works
@@ -360,7 +372,9 @@ environment variable is not already set.
 | 🖥️ **Windows**     | `azure-pwh.yaml` | PowerShell 5.1+ | `setUp.sh` (via `bash`) |
 | 🐧 **Linux/macOS** | `azure.yaml`     | Bash 5.0+       | `setUp.sh`              |
 
-> [!NOTE] On Windows, the `azure-pwh.yaml` preprovision hook uses PowerShell to
+<!-- prettier-ignore -->
+> [!NOTE]
+> On Windows, the `azure-pwh.yaml` preprovision hook uses PowerShell to
 > invoke `setUp.sh` through `bash`. Ensure Windows Subsystem for Linux (WSL) or
 > Git Bash is available.
 
@@ -643,7 +657,9 @@ Key outputs include:
 To deploy into existing resource groups, Key Vault, or Virtual Networks, set
 `create: false` in the relevant configuration:
 
-> [!TIP] Set `create: false` in the relevant YAML file to reference existing
+<!-- prettier-ignore -->
+> [!TIP]
+> Set `create: false` in the relevant YAML file to reference existing
 > Azure resources instead of creating new ones.
 
 **Existing resource groups** — in `azureResources.yaml`:
@@ -686,7 +702,9 @@ from its first subnet.
 
 ### Cleanup
 
-> [!WARNING] Cleanup permanently deletes all provisioned resources, role
+<!-- prettier-ignore -->
+> [!WARNING]
+> Cleanup permanently deletes all provisioned resources, role
 > assignments, and associated Entra ID service principals. This action cannot be
 > undone.
 
@@ -724,10 +742,14 @@ Configuration changes take effect on the next `azd provision` execution. The
 JSON Schema files provide inline validation in editors like VS Code, catching
 configuration errors before provisioning.
 
-> [!NOTE] JSON Schema files provide inline validation in VS Code, catching
+<!-- prettier-ignore -->
+> [!NOTE]
+> JSON Schema files provide inline validation in VS Code, catching
 > configuration errors before provisioning.
 
-> [!TIP] Open the YAML files in VS Code with the YAML extension installed. The
+<!-- prettier-ignore -->
+> [!TIP]
+> Open the YAML files in VS Code with the YAML extension installed. The
 > `$schema` reference at the top of each file enables autocomplete and inline
 > validation automatically.
 
