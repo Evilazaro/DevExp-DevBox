@@ -41,26 +41,6 @@ architecture follows Azure Landing Zone segregation principles with mandatory
 8-key resource tagging for cost allocation, compliance tracking, and ownership
 attribution.
 
-### Key Findings
-
-| 📊 Metric                | 📈 Value | 🎯 Assessment                                        |
-| ------------------------ | -------- | ---------------------------------------------------- |
-| Total Data Components    | 47       | Comprehensive coverage                               |
-| Data Entities            | 9        | Bicep type definitions and YAML schemas              |
-| Data Stores              | 2        | Key Vault (secrets) + Log Analytics (telemetry)      |
-| Data Security Components | 8        | RBAC, purge protection, soft delete, diagnostics     |
-| Data Contracts           | 6        | JSON Schema + YAML config pairs                      |
-| Data Flows               | 4        | Secret retrieval, diagnostics, catalog sync, network |
-| Data Governance          | 7        | Tagging, landing zones, identity management          |
-
-### Data Quality Scorecard
-
-| 📏 Dimension               | 💯 Score | 🎯 Assessment                                                    |
-| -------------------------- | -------- | ---------------------------------------------------------------- |
-| Schema Validation Coverage | 95%      | All YAML configs have JSON Schema validation                     |
-| Access Control Coverage    | 90%      | RBAC enabled on Key Vault; role assignments defined              |
-| Audit Logging Coverage     | 90%      | Diagnostic settings on Key Vault, VNet, DevCenter, Log Analytics |
-
 ---
 
 ## Section 2: Architecture Landscape
