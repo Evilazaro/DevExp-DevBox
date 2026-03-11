@@ -1,8 +1,14 @@
 # Application Architecture - Platform Engineering (DevExp-DevBox)
 
-**Generated**: 2025-07-25T00:00:00Z **Target Layer**: Application **Quality
-Level**: Comprehensive **Repository**: platengineering **Components Found**: 23
-**Average Confidence**: 0.91 **Maturity Level**: 2 — Managed
+**Generated**: 2025-07-25T00:00:00Z  
+**Session ID**: a1b2c3d4-e5f6-7890-abcd-ef1234567890  
+**Target Layer**: Application  
+**Quality Level**: Comprehensive  
+**Repository**: platengineering  
+**Components Found**: 23  
+**Average Confidence**: 0.91  
+**Maturity Level**: 2 — Managed  
+**Dependencies**: base-layer-config.prompt.md, bdat-mermaid-improved.prompt.md, coordinator.prompt.md, error-taxonomy.prompt.md
 
 ---
 
