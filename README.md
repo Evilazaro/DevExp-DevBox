@@ -13,7 +13,8 @@ platform engineering teams to deliver self-service, cloud-powered workstations
 to developers through **Azure DevCenter** and Dev Box, reducing onboarding time
 from **days to minutes**.
 
-> [!IMPORTANT] Developer environment inconsistency and lengthy onboarding are
+> [!IMPORTANT]
+> Developer environment inconsistency and lengthy onboarding are
 > top productivity killers in enterprise teams. DevExp-DevBox eliminates these
 > issues by codifying your entire developer platform — from networking and
 > security to Dev Box pools and environment types — as **Infrastructure as
@@ -21,7 +22,8 @@ from **days to minutes**.
 
 <!-- -->
 
-> [!NOTE] The accelerator uses **Azure Bicep** templates with YAML-driven
+> [!NOTE]
+> The accelerator uses **Azure Bicep** templates with YAML-driven
 > configuration to deploy a complete DevCenter ecosystem. It creates three
 > resource groups (security, monitoring, workload), provisions Key Vault, Log
 > Analytics, and Virtual Networks, then deploys DevCenter with projects, pools,
@@ -182,14 +184,16 @@ provisioning and managing developer environments at scale. It addresses the core
 challenges of developer onboarding, environment consistency, and infrastructure
 governance that enterprise teams face when adopting cloud-powered workstations.
 
-> [!IMPORTANT] Manual environment setup wastes engineering hours and introduces
+> [!IMPORTANT]
+> Manual environment setup wastes engineering hours and introduces
 > **configuration drift**. This accelerator automates the entire developer
 > platform lifecycle, letting platform teams define environments declaratively
 > and developers self-serve instantly.
 
 <!-- -->
 
-> [!NOTE] Each feature maps to a modular Bicep template, configured through YAML
+> [!NOTE]
+> Each feature maps to a modular Bicep template, configured through YAML
 > files under `infra/settings/`, and deployed as a cohesive unit through the
 > Azure Developer CLI.
 
@@ -209,14 +213,16 @@ Before deploying DevExp-DevBox, ensure your environment meets the prerequisites
 below. The accelerator requires Azure CLI tooling and appropriate
 subscription-level permissions to create resource groups and assign roles.
 
-> [!IMPORTANT] **Subscription-scoped** Bicep deployments require **elevated
+> [!IMPORTANT]
+> **Subscription-scoped** Bicep deployments require **elevated
 > permissions** compared to resource-group-scoped deployments. Verifying
 > prerequisites upfront prevents partial deployments and permission-related
 > failures.
 
 <!-- -->
 
-> [!NOTE] The setup scripts (`setUp.ps1` and `setUp.sh`) validate prerequisites,
+> [!NOTE]
+> The setup scripts (`setUp.ps1` and `setUp.sh`) validate prerequisites,
 > configure the Azure Developer CLI environment, and authenticate before
 > provisioning begins.
 
@@ -238,13 +244,15 @@ All infrastructure parameters are defined in YAML configuration files under
 it straightforward to customize environments without modifying Bicep templates
 directly.
 
-> [!IMPORTANT] **YAML-driven configuration** enables platform teams to manage
+> [!IMPORTANT]
+> **YAML-driven configuration** enables platform teams to manage
 > environments through version-controlled file edits rather than requiring Bicep
 > expertise for every modification.
 
 <!-- -->
 
-> [!NOTE] The Bicep orchestrator (`infra/main.bicep`) loads YAML files at
+> [!NOTE]
+> The Bicep orchestrator (`infra/main.bicep`) loads YAML files at
 > deployment time using the `loadYamlContent()` function, converting
 > human-readable settings into typed Bicep parameters automatically. Deployment
 > parameters are mapped from `azd` environment variables through
@@ -400,7 +408,8 @@ keyVault:
   enableRbacAuthorization: true
 ```
 
-> [!NOTE] All YAML configuration files have corresponding **JSON Schema** files
+> [!NOTE]
+> All YAML configuration files have corresponding **JSON Schema** files
 > (`.schema.json`) in the same directory for validation and editor
 > auto-completion support.
 
@@ -411,12 +420,14 @@ prerequisites, authenticating with Azure and your source control platform,
 retrieving access tokens, configuring the `azd` environment, and provisioning
 all infrastructure resources.
 
-> [!IMPORTANT] A **single-command setup** avoids manual multi-step provisioning
+> [!IMPORTANT]
+> A **single-command setup** avoids manual multi-step provisioning
 > that is error-prone and inconsistent across team members.
 
 <!-- -->
 
-> [!NOTE] The scripts validate that required CLIs are installed, verify Azure
+> [!NOTE]
+> The scripts validate that required CLIs are installed, verify Azure
 > authentication, prompt for source control platform selection (if not
 > provided), retrieve a **PAT token**, write environment configuration to
 > `.azure/{envName}/.env`, and execute `azd provision` to deploy all resources.
@@ -521,7 +532,8 @@ The scripts execute the following steps in order:
 ✅ [2025-01-22 10:35:00] Azure provisioning completed successfully
 ```
 
-> [!TIP] The setup scripts validate all prerequisites before making any changes.
+> [!TIP]
+> The setup scripts validate all prerequisites before making any changes.
 > If a required tool is missing or authentication fails, the script exits with a
 > descriptive error message before any resources are created.
 
@@ -531,13 +543,15 @@ The scripts execute the following steps in order:
 automated path handles the complete lifecycle in a single command, while the
 manual path gives platform engineers granular control over each step.
 
-> [!IMPORTANT] **Automated deployment** ensures consistency and reduces human
+> [!IMPORTANT]
+> **Automated deployment** ensures consistency and reduces human
 > error, while manual deployment enables troubleshooting, phased rollouts, and
 > integration with existing CI/CD pipelines.
 
 <!-- -->
 
-> [!NOTE] Both paths ultimately execute `azd provision`, which reads parameters
+> [!NOTE]
+> Both paths ultimately execute `azd provision`, which reads parameters
 > from `infra/main.parameters.json`, resolves them from the
 > `.azure/{envName}/.env` file, and deploys the **subscription-scoped** Bicep
 > template at `infra/main.bicep`.
@@ -637,7 +651,8 @@ cleanup script:
 4. 🔐 GitHub Actions secrets (e.g., `AZURE_CREDENTIALS`)
 5. 📦 All resource groups matching the `{name}-{envName}-{location}-RG` pattern
 
-> [!WARNING] The cleanup script (`cleanSetUp.ps1`) **permanently deletes** all
+> [!WARNING]
+> The cleanup script (`cleanSetUp.ps1`) **permanently deletes** all
 > resource groups, role assignments, service principals, app registrations, and
 > GitHub secrets created by this accelerator. Run with `-WhatIf` to preview
 > changes before execution. **This action is irreversible**.
@@ -721,13 +736,15 @@ Features, and Tasks. Contributions are welcome from the community, and the
 development workflow uses structured branching and standardized engineering
 practices to maintain infrastructure quality.
 
-> [!IMPORTANT] A consistent contribution workflow ensures code quality, reduces
+> [!IMPORTANT]
+> A consistent contribution workflow ensures code quality, reduces
 > review friction, and maintains the reliability of infrastructure templates
 > that teams depend on for **production developer environments**.
 
 <!-- -->
 
-> [!NOTE] Contributors create feature branches following naming conventions,
+> [!NOTE]
+> Contributors create feature branches following naming conventions,
 > adhere to Bicep and PowerShell coding standards, and submit pull requests for
 > review. See `CONTRIBUTING.md` for the complete contribution guide including
 > branching conventions and engineering standards.
