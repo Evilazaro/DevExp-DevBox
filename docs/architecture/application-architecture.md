@@ -140,37 +140,213 @@ config:
   themeVariables:
     fontSize: '16px'
 ---
-C4Context
+flowchart TB
     accTitle: Platform Engineering Service Context Diagram
     accDescr: Shows the platform engineering services, their boundaries, and external dependencies for the DevExp-DevBox accelerator
 
-    %% C4 diagram with Azure-aligned theme variables
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
 
-    Person(admin, "Platform Admin", "Manages DevCenter infrastructure and projects")
-    Person(dev, "Developer", "Consumes Dev Box environments and deployment targets")
+    admin("👤 Platform Admin")
+    dev("👤 Developer")
 
-    Enterprise_Boundary(platform, "Platform Engineering") {
-        System(devCenter, "Azure DevCenter", "Core developer infrastructure platform")
-        System(keyVault, "Azure Key Vault", "Secrets and credential management")
-        System(logAnalytics, "Azure Log Analytics", "Centralized monitoring and diagnostics")
-        System(vnet, "Azure Virtual Network", "Network connectivity for Dev Boxes")
-    }
+    subgraph platform["Platform Engineering"]
+        devCenter("🏢 Azure DevCenter")
+        keyVault("🔑 Azure Key Vault")
+        logAnalytics("📈 Azure Log Analytics")
+        vnet("🔌 Azure Virtual Network")
+    end
 
-    System_Ext(github, "GitHub", "Source control and catalog repositories")
-    System_Ext(entraId, "Microsoft Entra ID", "Identity provider and RBAC")
-    System_Ext(arm, "Azure Resource Manager", "Infrastructure deployment API")
+    subgraph external["External Systems"]
+        github("🌍 GitHub")
+        entraId("🔐 Microsoft Entra ID")
+        arm("☁️ Azure Resource Manager")
+    end
 
-    Rel(admin, devCenter, "Manages projects and pools")
-    Rel(dev, devCenter, "Uses Dev Boxes and environments")
-    Rel(devCenter, keyVault, "Reads secrets", "Azure SDK")
-    Rel(devCenter, logAnalytics, "Sends diagnostics", "Azure Monitor")
-    Rel(devCenter, vnet, "Attaches networks", "AzureADJoin")
-    Rel(devCenter, github, "Syncs catalogs", "Git HTTPS")
-    Rel(devCenter, entraId, "Authenticates", "OAuth 2.0")
-    Rel(keyVault, logAnalytics, "Sends audit logs", "Azure Diagnostics")
-    Rel(vnet, logAnalytics, "Sends flow logs", "Azure Diagnostics")
+    admin -->|"Manages projects and pools"| devCenter
+    dev -->|"Uses Dev Boxes and environments"| devCenter
+    devCenter -->|"Reads secrets via Azure SDK"| keyVault
+    devCenter -->|"Sends diagnostics via Azure Monitor"| logAnalytics
+    devCenter -->|"Attaches networks via AzureADJoin"| vnet
+    devCenter -->|"Syncs catalogs via Git HTTPS"| github
+    devCenter -->|"Authenticates via OAuth 2.0"| entraId
+    devCenter -->|"Deploys resources"| arm
+    keyVault -->|"Sends audit logs"| logAnalytics
+    vnet -->|"Sends flow logs"| logAnalytics
 
-    UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+
+    class admin,dev neutral
+    class devCenter,vnet core
+    class keyVault,logAnalytics data
+    class github,entraId,arm external
+
+    style platform fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style external fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+```
+
+```mermaid
+---
+title: Service Ecosystem Map
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
+flowchart LR
+    accTitle: Service Ecosystem Map
+    accDescr: Shows the application service categories organized by functional domain including workload, security, connectivity, identity, and monitoring
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph workloadDomain["Workload Domain"]
+        dc("🏢 DevCenter")
+        proj("📋 Project")
+        pool("💻 Dev Box Pool")
+        cat("📚 Catalog")
+        envType("🔄 Environment Type")
+    end
+
+    subgraph securityDomain["Security Domain"]
+        kv("🔑 Key Vault")
+        secret("📝 Secret")
+    end
+
+    subgraph connectivityDomain["Connectivity Domain"]
+        vnetSvc("🔌 VNet")
+        netConn("🔗 Network Connection")
+        rg("📦 Resource Group")
+    end
+
+    subgraph identityDomain["Identity Domain"]
+        dcRbac("🔐 DC Role Assignment")
+        orgRbac("👥 Org Role Assignment")
+        projRbac("🔐 Project Role Assignment")
+        kvAccess("🔐 Key Vault Access")
+    end
+
+    subgraph monitoringDomain["Monitoring Domain"]
+        la("📈 Log Analytics")
+    end
+
+    workloadDomain --> securityDomain
+    workloadDomain --> connectivityDomain
+    workloadDomain --> identityDomain
+    securityDomain --> monitoringDomain
+    connectivityDomain --> monitoringDomain
+    workloadDomain --> monitoringDomain
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+
+    class dc,proj,pool,cat,envType core
+    class kv,secret warning
+    class vnetSvc,netConn,rg success
+    class dcRbac,orgRbac,projRbac,kvAccess data
+    class la neutral
+
+    style workloadDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style securityDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style connectivityDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style identityDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style monitoringDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+```
+
+```mermaid
+---
+title: Integration Tier Diagram
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
+flowchart TB
+    accTitle: Integration Tier Diagram
+    accDescr: Shows the three integration tiers of the platform — orchestration, service, and infrastructure — with cross-tier communication patterns
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph tier1["Tier 1 — Orchestration Layer"]
+        mainBicep("📦 Main Orchestrator")
+        workloadBicep("⚙️ Workload Orchestrator")
+        secBicep("🔒 Security Orchestrator")
+        connBicep("🌐 Connectivity Orchestrator")
+    end
+
+    subgraph tier2["Tier 2 — Service Layer"]
+        dcSvc("🏢 DevCenter")
+        projSvc("📋 Project")
+        kvSvc("🔑 Key Vault")
+        laSvc("📈 Log Analytics")
+    end
+
+    subgraph tier3["Tier 3 — Infrastructure Layer"]
+        vnetInfra("🔌 VNet + Subnets")
+        netConnInfra("🔗 Network Connection")
+        rgInfra("📦 Resource Groups")
+        rbacInfra("🔐 RBAC Assignments")
+    end
+
+    mainBicep -->|"ARM deployment"| workloadBicep
+    mainBicep -->|"ARM deployment"| secBicep
+    mainBicep -->|"ARM deployment"| laSvc
+    workloadBicep -->|"ARM deployment"| dcSvc
+    workloadBicep -->|"ARM deployment"| projSvc
+    secBicep -->|"ARM deployment"| kvSvc
+    projSvc -->|"ARM deployment"| connBicep
+    connBicep -->|"ARM deployment"| vnetInfra
+    connBicep -->|"ARM deployment"| netConnInfra
+    connBicep -->|"ARM deployment"| rgInfra
+    dcSvc -->|"ARM deployment"| rbacInfra
+    projSvc -->|"ARM deployment"| rbacInfra
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+
+    class mainBicep,workloadBicep,secBicep,connBicep neutral
+    class dcSvc,projSvc,kvSvc,laSvc core
+    class vnetInfra,netConnInfra,rgInfra,rbacInfra success
+
+    style tier1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style tier2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style tier3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ### Summary
@@ -301,6 +477,75 @@ segregation by resource group. Tags consistently include landingZone
 classification. However, the implementation targets a single subscription
 without explicit management group hierarchy or policy assignments, which limits
 full Cloud Adoption Framework alignment.
+
+```mermaid
+---
+title: Architecture Principle Relationships
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+---
+flowchart LR
+    accTitle: Architecture Principle Relationship Diagram
+    accDescr: Shows the relationships and dependencies between the seven architecture principles identified in the platform engineering codebase
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph foundation["Foundation Principles"]
+        iac("📦 Infrastructure as Code")
+        separation("🔀 Separation of Concerns")
+    end
+
+    subgraph security["Security Principles"]
+        leastPriv("🔐 Least Privilege Access")
+        secretMgmt("🔑 Externalized Secret Management")
+    end
+
+    subgraph operational["Operational Principles"]
+        observability("📈 Centralized Observability")
+        configDriven("⚙️ Configuration-Driven Deployment")
+    end
+
+    subgraph alignment["Alignment Principles"]
+        landingZone("☁️ Landing Zone Alignment")
+    end
+
+    iac -->|"enables"| configDriven
+    iac -->|"supports"| separation
+    separation -->|"enforces"| leastPriv
+    leastPriv -->|"requires"| secretMgmt
+    secretMgmt -->|"monitored by"| observability
+    configDriven -->|"follows"| landingZone
+    observability -->|"validates"| landingZone
+    iac -->|"audited by"| observability
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+
+    class iac,separation core
+    class leastPriv,secretMgmt warning
+    class observability,configDriven success
+    class landingZone neutral
+
+    style foundation fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style security fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style operational fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style alignment fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+```
 
 ---
 
