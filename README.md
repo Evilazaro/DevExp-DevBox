@@ -88,21 +88,21 @@ flowchart TB
             yaml -->|"parameterizes"| main
         end
 
-        subgraph securityRG ("🔐 Security Resource Group")
+        subgraph securityRG ["🔐 Security Resource Group"]
             direction LR
             kv("🔑 Key Vault"):::danger
             secrets("🔒 Secrets Store"):::danger
             kv -->|"stores"| secrets
         end
 
-        subgraph monitoringRG ("📊 Monitoring Resource Group")
+        subgraph monitoringRG ["📊 Monitoring Resource Group"]
             direction LR
             la("📈 Log Analytics"):::warning
             activity("📋 Activity Solution"):::warning
             la -->|"collects"| activity
         end
 
-        subgraph workloadRG ("🏢 Workload Resource Group")
+        subgraph workloadRG ["🏢 Workload Resource Group"]
             direction TB
 
             subgraph devCenter ("🖥️ DevCenter")
@@ -417,7 +417,8 @@ tokens, and configure environment variables before Bicep deployment begins.
 
 <!-- -->
 
-> [!NOTE] The `preprovision` hook in `azure.yaml` (Linux/macOS) or
+> [!NOTE]
+> The `preprovision` hook in `azure.yaml` (Linux/macOS) or
 > `azure-pwh.yaml` (Windows) calls the setup script automatically. The script
 > validates that required CLIs are installed, verifies Azure authentication,
 > retrieves a **PAT token**, and writes environment configuration to
@@ -451,7 +452,8 @@ under `infra/settings/` to match your organization's requirements. See the
   catalogs, environment types, RBAC)
 - **Security** — `infra/settings/security/security.yaml` (Key Vault settings)
 
-> [!TIP] The default configuration provides a working starting point. You can
+> [!TIP]
+> The default configuration provides a working starting point. You can
 > deploy with defaults first and customize later, or tailor the YAML files to
 > your needs before the first deployment — either approach works because Bicep
 > deployments are **idempotent**.
@@ -537,7 +539,8 @@ After the hook completes, `azd` proceeds to deploy the Bicep templates.
 ✅ [2025-01-22 10:30:03] Azure Developer CLI environment 'dev' initialized successfully.
 ```
 
-> [!TIP] The setup scripts validate all prerequisites before making any changes.
+> [!TIP]
+> The setup scripts validate all prerequisites before making any changes.
 > If a required tool is missing or authentication fails, the script exits with a
 > descriptive error message before any resources are created.
 
