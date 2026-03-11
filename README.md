@@ -423,14 +423,14 @@ tokens, and configure environment variables before Bicep deployment begins.
 > retrieves a **PAT token**, and writes environment configuration to
 > `.azure/{envName}/.env` — all before `azd` deploys the Bicep templates.
 
-**1. Clone the repository:**
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Evilazaro/DevExp-DevBox.git
 cd DevExp-DevBox
 ```
 
-**2. Authenticate with Azure and your source control platform:**
+### 2. Authenticate
 
 ```bash
 az login
@@ -438,7 +438,25 @@ azd auth login
 gh auth login    # Required if using GitHub as source control
 ```
 
-**3. Initialize an `azd` environment and provision infrastructure:**
+### 3. Customize Configuration (Optional)
+
+Before your first deployment, review and customize the YAML configuration files
+under `infra/settings/` to match your organization's requirements. See the
+[Configuration](#configuration) section for details on each file:
+
+- **Resource Organization** —
+  `infra/settings/resourceOrganization/azureResources.yaml` (resource group
+  names, tags)
+- **DevCenter** — `infra/settings/workload/devcenter.yaml` (projects, pools,
+  catalogs, environment types, RBAC)
+- **Security** — `infra/settings/security/security.yaml` (Key Vault settings)
+
+> [!TIP] The default configuration provides a working starting point. You can
+> deploy with defaults first and customize later, or tailor the YAML files to
+> your needs before the first deployment — either approach works because Bicep
+> deployments are **idempotent**.
+
+### 4. Provision
 
 ```bash
 # Create a new azd environment (name must be 2–10 characters)
@@ -451,10 +469,13 @@ azd provision -e dev
 The `preprovision` hook will prompt for source control platform selection if
 `SOURCE_CONTROL_PLATFORM` is not already set (defaults to `github`).
 
-To set the source control platform explicitly before provisioning:
+To skip interactive prompts, pre-set the environment variables before
+provisioning:
 
 ```bash
+azd env new dev
 azd env set SOURCE_CONTROL_PLATFORM github   # or adogit
+azd env set KEY_VAULT_SECRET "<your-github-or-ado-pat>"
 azd provision -e dev
 ```
 
@@ -466,6 +487,15 @@ azd provision -e dev
 | 🔐 `KEY_VAULT_SECRET`        | Setup script (from `gh`/prompt)          | Source control PAT stored in Key Vault      |
 | ⚙️ `AZURE_ENV_NAME`          | `azd env new`                            | Environment name passed to Bicep parameters |
 | 🌍 `AZURE_LOCATION`          | `azd provision` prompt                   | Azure region passed to Bicep parameters     |
+
+**Deployed Resources:**
+
+| Resource Group                           | Resources Deployed                                         |
+| ---------------------------------------- | ---------------------------------------------------------- |
+| 🔐 `devexp-security-{env}-{region}-RG`   | Key Vault with RBAC, soft delete, and purge protection     |
+| 📊 `devexp-monitoring-{env}-{region}-RG` | Log Analytics workspace with AzureActivity solution        |
+| 🏢 `devexp-workload-{env}-{region}-RG`   | DevCenter, projects, pools, catalogs, environment types    |
+| 🌐 `{project}-connectivity-RG`           | Virtual Network, subnets, and DevCenter network connection |
 
 **Preprovision Hook Workflow:**
 
@@ -510,76 +540,6 @@ After the hook completes, `azd` proceeds to deploy the Bicep templates.
 > [!TIP] The setup scripts validate all prerequisites before making any changes.
 > If a required tool is missing or authentication fails, the script exits with a
 > descriptive error message before any resources are created.
-
-## Deployment
-
-**DevExp-DevBox** deploys through the **Azure Developer CLI** (`azd`). Running
-`azd provision` triggers the `preprovision` hook defined in `azure.yaml`, which
-automatically executes the setup script for prerequisite validation,
-authentication, and environment configuration before deploying the Bicep
-templates.
-
-> [!IMPORTANT] `azd provision` **always** runs the `preprovision` hook, which
-> calls the setup script automatically. Pre-setting environment variables before
-> provisioning allows the hook to run **non-interactively**, skipping prompts
-> for source control platform and token retrieval.
-
-<!-- -->
-
-> [!NOTE] `azd provision` reads parameters from `infra/main.parameters.json`,
-> resolves them from the `.azure/{envName}/.env` file, and deploys the
-> **subscription-scoped** Bicep template at `infra/main.bicep`.
-
-### Deploy
-
-#### 1. Customize Configuration
-
-Before your first deployment, review and customize the YAML configuration files
-under `infra/settings/` to match your organization's requirements. See the
-[Configuration](#configuration) section for details on each file:
-
-- **Resource Organization** —
-  `infra/settings/resourceOrganization/azureResources.yaml` (resource group
-  names, tags)
-- **DevCenter** — `infra/settings/workload/devcenter.yaml` (projects, pools,
-  catalogs, environment types, RBAC)
-- **Security** — `infra/settings/security/security.yaml` (Key Vault settings)
-
-> [!TIP] The default configuration provides a working starting point. You can
-> deploy with defaults first and customize later, or tailor the YAML files to
-> your needs before the first deployment — either approach works because Bicep
-> deployments are **idempotent**.
-
-#### 2. Provision
-
-Run `azd provision` — the `preprovision` hook handles setup automatically:
-
-```bash
-# Create an azd environment and deploy
-azd env new dev
-azd provision -e dev
-```
-
-The hook will prompt interactively for source control platform selection and
-token retrieval. To skip interactive prompts, pre-set the environment variables
-before provisioning:
-
-```bash
-azd env new dev
-azd env set SOURCE_CONTROL_PLATFORM github   # or adogit
-azd env set KEY_VAULT_SECRET "<your-github-or-ado-pat>"
-azd provision -e dev
-```
-
-The `azd provision` command deploys the following resources across three
-resource groups:
-
-| Resource Group                           | Resources Deployed                                         |
-| ---------------------------------------- | ---------------------------------------------------------- |
-| 🔐 `devexp-security-{env}-{region}-RG`   | Key Vault with RBAC, soft delete, and purge protection     |
-| 📊 `devexp-monitoring-{env}-{region}-RG` | Log Analytics workspace with AzureActivity solution        |
-| 🏢 `devexp-workload-{env}-{region}-RG`   | DevCenter, projects, pools, catalogs, environment types    |
-| 🌐 `{project}-connectivity-RG`           | Virtual Network, subnets, and DevCenter network connection |
 
 ### Updating a Deployed Environment
 
