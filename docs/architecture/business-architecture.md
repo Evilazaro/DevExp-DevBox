@@ -15,14 +15,14 @@
 
 ## 📑 Quick Table of Contents
 
-| #   | Section                                                                    |
-| --- | -------------------------------------------------------------------------- |
-| 1   | [📋 Executive Summary](#1-📋-executive-summary)                           |
-| 2   | [🗺️ Architecture Landscape](#2-🗺️-architecture-landscape)                |
-| 3   | [🧭 Architecture Principles](#3-🧭-architecture-principles)               |
-| 4   | [📍 Current State Baseline](#4-📍-current-state-baseline)                  |
-| 5   | [📚 Component Catalog](#5-📚-component-catalog)                           |
-| 8   | [🔗 Dependencies & Integration](#8-🔗-dependencies--integration)          |
+| #   | Section                                                          |
+| --- | ---------------------------------------------------------------- |
+| 1   | [📋 Executive Summary](#1-📋-executive-summary)                  |
+| 2   | [🗺️ Architecture Landscape](#2-🗺️-architecture-landscape)        |
+| 3   | [🧭 Architecture Principles](#3-🧭-architecture-principles)      |
+| 4   | [📍 Current State Baseline](#4-📍-current-state-baseline)        |
+| 5   | [📚 Component Catalog](#5-📚-component-catalog)                  |
+| 8   | [🔗 Dependencies & Integration](#8-🔗-dependencies--integration) |
 
 ---
 
@@ -45,8 +45,8 @@ auditable provisioning aligned with Azure Landing Zone principles and the Cloud
 Adoption Framework.
 
 - **🎯 Business Strategy**: 1 (Developer Experience Platform Strategy)
-- **💪 Business Capabilities**: 5 (Developer Workstation Provisioning, Identity &
-  Access Management, Secrets Management, Centralized Monitoring, Network
+- **💪 Business Capabilities**: 5 (Developer Workstation Provisioning, Identity
+  & Access Management, Secrets Management, Centralized Monitoring, Network
   Isolation)
 - **🔄 Value Streams**: 1 (Developer Onboarding & Self-Service)
 - **⚙️ Business Processes**: 3 (Environment Provisioning, Change Management,
@@ -54,8 +54,8 @@ Adoption Framework.
 - **🛎️ Business Services**: 3 (Dev Box Pool Service, Catalog Sync Service,
   Environment Type Service)
 - **🏢 Business Functions**: 2 (Platform Engineering, Project Delivery)
-- **👥 Business Roles & Actors**: 4 (Platform Engineering Team, eShop Developers,
-  Dev Manager, Dev Box User)
+- **👥 Business Roles & Actors**: 4 (Platform Engineering Team, eShop
+  Developers, Dev Manager, Dev Box User)
 - **📏 Business Rules**: 4 (Tagging Policy, RBAC Least Privilege, Naming
   Convention, Schema Validation)
 - **⚡ Business Events**: 2 (Provisioning Trigger, Configuration Change)
@@ -86,7 +86,7 @@ documentation, issue templates, and deployment scripts.
 
 ### 2.2 💪 Business Capabilities (5)
 
-| 💪 Name                             | Description                                                                                                                                                                  |
+| 💪 Name                            | Description                                                                                                                                                                  |
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Developer Workstation Provisioning | **Core capability** for on-demand, role-specific developer machine provisioning with configurable VM SKUs and image definitions per project                                  |
 | Identity & Access Management       | **Core capability** for centralized Azure AD group-based RBAC with role assignments at subscription, resource group, and project scopes following least-privilege principles |
@@ -96,13 +96,13 @@ documentation, issue templates, and deployment scripts.
 
 ### 2.3 🔄 Value Streams (1)
 
-| 🔄 Name                              | Description                                                                                                                                                                |
+| 🔄 Name                             | Description                                                                                                                                                                |
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Developer Onboarding & Self-Service | **End-to-end value stream** from Azure AD group creation through YAML configuration to infrastructure provisioning and developer self-service access via Dev Center portal |
 
 ### 2.4 ⚙️ Business Processes (3)
 
-| ⚙️ Name                    | Description                                                                                                                                                                                                      |
+| ⚙️ Name                   | Description                                                                                                                                                                                                      |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Environment Provisioning  | **Core process** for deploying the full landing zone through `azd provision`, executing platform-appropriate setup scripts that validate prerequisites, authenticate, store tokens, and provision infrastructure |
 | Change Management         | **Governance process** defining Epic → Feature → Task hierarchy with required labels (type, area, priority, status), PR reviews, and documentation-as-code approach                                              |
@@ -110,7 +110,7 @@ documentation, issue templates, and deployment scripts.
 
 ### 2.5 🛎️ Business Services (3)
 
-| 🛎️ Name                   | Description                                                                                                                                                      |
+| 🛎️ Name                  | Description                                                                                                                                                      |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Dev Box Pool Service     | **Provisioning service** delivering role-specific developer workstations with configurable compute tiers (backend-engineer: 32-core, frontend-engineer: 16-core) |
 | Catalog Sync Service     | **Configuration service** synchronizing Dev Box definitions and environment configurations from GitHub and Azure DevOps Git repositories                         |
@@ -118,14 +118,14 @@ documentation, issue templates, and deployment scripts.
 
 ### 2.6 🏢 Business Functions (2)
 
-| 🏢 Name                        | Description                                                                                                                                |
+| 🏢 Name                       | Description                                                                                                                                |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Platform Engineering Function | **Organizational unit** responsible for Dev Center management, infrastructure provisioning, and governance enforcement across all projects |
 | Project Delivery Function     | **Organizational unit** responsible for project-level Dev Box consumption, environment usage, and team-specific tooling requirements       |
 
 ### 2.7 👥 Business Roles & Actors (4)
 
-| 👤 Name                    | Description                                                                                                                                               |
+| 👤 Name                   | Description                                                                                                                                               |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Platform Engineering Team | **Governance role** (Azure AD Group) with DevCenter Project Admin permissions for managing Dev Box deployments and project settings                       |
 | eShop Developers          | **Consumer role** (Azure AD Group) with Dev Box User, Deployment Environment User, and Key Vault Secrets access for self-service workstation provisioning |
@@ -134,7 +134,7 @@ documentation, issue templates, and deployment scripts.
 
 ### 2.8 📏 Business Rules (4)
 
-| 📏 Name               | Description                                                                                                                                                                                             |
+| 📏 Name              | Description                                                                                                                                                                                             |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Tagging Policy       | **Governance rule** mandating standardized tags (environment, division, team, project, costCenter, owner, landingZone, resources) on all Azure resources for cost tracking and organizational alignment |
 | RBAC Least Privilege | **Security rule** enforcing role assignments scoped to the minimum required level (Project, ResourceGroup, Subscription) following Azure best practices guidance                                        |
@@ -143,7 +143,7 @@ documentation, issue templates, and deployment scripts.
 
 ### 2.9 ⚡ Business Events (2)
 
-| ⚡ Name                | Description                                                                                                                                              |
+| ⚡ Name              | Description                                                                                                                                              |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Provisioning Trigger | **Lifecycle event** triggered by `azd provision` command that initiates the preprovision hook, executes setup scripts, and deploys the full landing zone |
 | Configuration Change | **Governance event** triggered by YAML configuration updates that flow through the PR-based change management process before infrastructure deployment   |
@@ -258,7 +258,7 @@ Each principle reflects an observable pattern in the source rather than a
 prescriptive recommendation, consistent with the anti-hallucination protocol
 requiring source traceability.
 
-| #   | 🧭 Principle                     | Rationale                                                                                                                                                        | Implications                                                                                                           |
+| #   | 🧭 Principle                    | Rationale                                                                                                                                                        | Implications                                                                                                           |
 | --- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | 1   | **Configuration-Driven Design** | All business-level settings are externalized in YAML configuration files validated by JSON Schemas, separating intent from implementation                        | Teams can modify business configuration without changing Bicep modules; schema validation prevents configuration drift |
 | 2   | **Landing Zone Alignment**      | Resources are organized across dedicated resource groups (Workload, Security, Monitoring) following Azure Landing Zone and Cloud Adoption Framework principles   | Security boundaries are enforced at the resource group level; blast radius is contained per domain                     |
@@ -284,17 +284,17 @@ capability model and role-based access structure.
 
 ### 🌡️ Business Capability Heatmap
 
-| 💪 Capability                       | Description                                                                                             |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Developer Workstation Provisioning | Role-specific VM SKUs, image definitions, pool configuration                                            |
-| Identity & Access Management       | Azure AD groups, scoped RBAC roles, managed identities                                                  |
-| Secrets Management                 | Key Vault with RBAC, purge protection, soft delete                                                      |
-| Centralized Monitoring             | Log Analytics workspace, diagnostic settings                                                            |
-| Network Isolation                  | Project-scoped VNets, subnet segmentation                                                               |
+| 💪 Capability                      | Description                                                  |
+| ---------------------------------- | ------------------------------------------------------------ |
+| Developer Workstation Provisioning | Role-specific VM SKUs, image definitions, pool configuration |
+| Identity & Access Management       | Azure AD groups, scoped RBAC roles, managed identities       |
+| Secrets Management                 | Key Vault with RBAC, purge protection, soft delete           |
+| Centralized Monitoring             | Log Analytics workspace, diagnostic settings                 |
+| Network Isolation                  | Project-scoped VNets, subnet segmentation                    |
 
 ### 🔍 Gap Analysis
 
-| 🔍 Gap Area                | Current State                                                                                 | Target State                                                                                           | Priority |
+| 🔍 Gap Area               | Current State                                                                                 | Target State                                                                                           | Priority |
 | ------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | -------- |
 | KPIs & Metrics            | Not detected — no formal KPI definitions, SLA targets, or performance dashboards              | Defined KPIs for provisioning time, developer adoption rate, and cost per Dev Box                      | High     |
 | Business Objects/Entities | Infrastructure resources modeled implicitly; no formal business domain entity catalog         | Formal domain model documenting Developer, Project, Pool, Environment as first-class business concepts | Medium   |
@@ -416,219 +416,219 @@ implementation details, consistent with the TOGAF Business Architecture scope.
 
 #### Developer Experience Platform Strategy
 
-| Attribute         | Value                                                                                                                                                                                                                                                                              |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🎯 Name**       | Developer Experience Platform Strategy                                                                                                                                                                                                                                             |
-| **📝 Description** | Strategic initiative to deliver self-service developer workstations at enterprise scale through configuration-driven Infrastructure-as-Code, enabling platform engineering teams to provision Azure Dev Box environments with built-in security, monitoring, and network isolation |
+| Attribute            | Value                                                                                                                                                                                                                                                                              |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🎯 Name**          | Developer Experience Platform Strategy                                                                                                                                                                                                                                             |
+| **📝 Description**   | Strategic initiative to deliver self-service developer workstations at enterprise scale through configuration-driven Infrastructure-as-Code, enabling platform engineering teams to provision Azure Dev Box environments with built-in security, monitoring, and network isolation |
 | **🔗 Relationships** | Enables: Developer Workstation Provisioning, Identity & Access Management, Secrets Management, Centralized Monitoring, Network Isolation                                                                                                                                           |
 
 ### 5.2 💪 Business Capabilities
 
 #### 5.2.1 💻 Developer Workstation Provisioning
 
-| Attribute         | Value                                                                                                                                                                                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **💻 Name**       | Developer Workstation Provisioning                                                                                                                                                                                                    |
-| **📝 Description** | Core capability for on-demand, role-specific developer machine provisioning with configurable VM SKUs (backend-engineer: 32-core/128GB, frontend-engineer: 16-core/64GB) and custom image definitions delivered through Dev Box pools |
+| Attribute            | Value                                                                                                                                                                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **💻 Name**          | Developer Workstation Provisioning                                                                                                                                                                                                    |
+| **📝 Description**   | Core capability for on-demand, role-specific developer machine provisioning with configurable VM SKUs (backend-engineer: 32-core/128GB, frontend-engineer: 16-core/64GB) and custom image definitions delivered through Dev Box pools |
 | **🔗 Relationships** | Delivered by: Dev Box Pool Service; Consumed by: eShop Developers, Dev Box User; Managed by: Platform Engineering Function                                                                                                            |
 
 #### 5.2.2 🔑 Identity & Access Management
 
-| Attribute         | Value                                                                                                                                                                                                                   |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🔑 Name**       | Identity & Access Management                                                                                                                                                                                            |
-| **📝 Description** | Core capability for centralized Azure AD group-based RBAC with SystemAssigned managed identities and role assignments at subscription, resource group, and project scopes following documented least-privilege guidance |
+| Attribute            | Value                                                                                                                                                                                                                   |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🔑 Name**          | Identity & Access Management                                                                                                                                                                                            |
+| **📝 Description**   | Core capability for centralized Azure AD group-based RBAC with SystemAssigned managed identities and role assignments at subscription, resource group, and project scopes following documented least-privilege guidance |
 | **🔗 Relationships** | Governs: All capabilities; Operated by: Platform Engineering Team; Consumed by: eShop Developers                                                                                                                        |
 
 #### 5.2.3 🔐 Secrets Management
 
-| Attribute         | Value                                                                                                                                                                                                               |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🔐 Name**       | Secrets Management                                                                                                                                                                                                  |
-| **📝 Description** | Core capability for centralized credential storage using Azure Key Vault with RBAC authorization, purge protection, soft delete (7-day retention), and support for GitHub Actions tokens and deployment credentials |
+| Attribute            | Value                                                                                                                                                                                                               |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🔐 Name**          | Secrets Management                                                                                                                                                                                                  |
+| **📝 Description**   | Core capability for centralized credential storage using Azure Key Vault with RBAC authorization, purge protection, soft delete (7-day retention), and support for GitHub Actions tokens and deployment credentials |
 | **🔗 Relationships** | Stores: GitHub Access Token, Azure DevOps Token; Accessed by: eShop Developers (Key Vault Secrets User/Officer)                                                                                                     |
 
 #### 5.2.4 📊 Centralized Monitoring
 
-| Attribute         | Value                                                                                                                                                                                                              |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **📊 Name**       | Centralized Monitoring                                                                                                                                                                                             |
-| **📝 Description** | Supporting capability providing audit trail and diagnostic logging across all deployed resources via a dedicated Log Analytics workspace with Azure Monitor agent installation enabled on all Dev Center resources |
+| Attribute            | Value                                                                                                                                                                                                              |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **📊 Name**          | Centralized Monitoring                                                                                                                                                                                             |
+| **📝 Description**   | Supporting capability providing audit trail and diagnostic logging across all deployed resources via a dedicated Log Analytics workspace with Azure Monitor agent installation enabled on all Dev Center resources |
 | **🔗 Relationships** | Monitors: Dev Center, Key Vault; Deployed to: devexp-monitoring resource group                                                                                                                                     |
 
 #### 5.2.5 🌐 Network Isolation
 
-| Attribute         | Value                                                                                                                                                                                                |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🌐 Name**       | Network Isolation                                                                                                                                                                                    |
-| **📝 Description** | Supporting capability for project-scoped virtual networks with subnet segmentation (10.0.0.0/16 VNet, 10.0.1.0/24 subnet) and Azure AD-joined managed network connections attached to the Dev Center |
+| Attribute            | Value                                                                                                                                                                                                |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🌐 Name**          | Network Isolation                                                                                                                                                                                    |
+| **📝 Description**   | Supporting capability for project-scoped virtual networks with subnet segmentation (10.0.0.0/16 VNet, 10.0.1.0/24 subnet) and Azure AD-joined managed network connections attached to the Dev Center |
 | **🔗 Relationships** | Provides: Network connectivity for Dev Box pools; Scoped to: eShop project; Type: Managed VNet                                                                                                       |
 
 ### 5.3 🔄 Value Streams
 
 #### 🔄 Developer Onboarding & Self-Service
 
-| Attribute         | Value                                                                                                                                                                                                                                         |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🔄 Name**       | Developer Onboarding & Self-Service                                                                                                                                                                                                           |
-| **📝 Description** | End-to-end value stream from Azure AD group creation through YAML configuration update, `azd provision` execution, RBAC role assignment, to developer self-service access via the Dev Center portal for VM provisioning from configured pools |
+| Attribute            | Value                                                                                                                                                                                                                                         |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🔄 Name**          | Developer Onboarding & Self-Service                                                                                                                                                                                                           |
+| **📝 Description**   | End-to-end value stream from Azure AD group creation through YAML configuration update, `azd provision` execution, RBAC role assignment, to developer self-service access via the Dev Center portal for VM provisioning from configured pools |
 | **🔗 Relationships** | Triggers: Environment Provisioning process; Delivers: Self-service Dev Box access; Actors: Platform Engineering Team → eShop Developers                                                                                                       |
 
 ### 5.4 ⚙️ Business Processes
 
 #### 5.4.1 ⚙️ Environment Provisioning
 
-| Attribute         | Value                                                                                                                                                                                                                                                                                                                   |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **⚙️ Name**       | Environment Provisioning                                                                                                                                                                                                                                                                                                |
-| **📝 Description** | Core automated process for deploying the full landing zone through `azd provision`, which triggers preprovision hooks executing platform-appropriate setup scripts that validate prerequisites, authenticate with Azure and source control platforms, securely store tokens, and provision all infrastructure resources |
+| Attribute            | Value                                                                                                                                                                                                                                                                                                                   |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **⚙️ Name**          | Environment Provisioning                                                                                                                                                                                                                                                                                                |
+| **📝 Description**   | Core automated process for deploying the full landing zone through `azd provision`, which triggers preprovision hooks executing platform-appropriate setup scripts that validate prerequisites, authenticate with Azure and source control platforms, securely store tokens, and provision all infrastructure resources |
 | **🔗 Relationships** | Triggered by: Provisioning Trigger event; Deploys: Monitoring → Security → Workload modules; Uses: Azure CLI, azd, GitHub CLI                                                                                                                                                                                           |
 
 #### 5.4.2 🔄 Change Management
 
-| Attribute         | Value                                                                                                                                                                                                                                                               |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🔄 Name**       | Change Management                                                                                                                                                                                                                                                   |
-| **📝 Description** | Governance process defining a product-oriented delivery model with Epic → Feature → Task hierarchy, required labels (type, area, priority, status), PR-based reviews with issue linking, and documentation-as-code updates in the same PR as infrastructure changes |
+| Attribute            | Value                                                                                                                                                                                                                                                               |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🔄 Name**          | Change Management                                                                                                                                                                                                                                                   |
+| **📝 Description**   | Governance process defining a product-oriented delivery model with Epic → Feature → Task hierarchy, required labels (type, area, priority, status), PR-based reviews with issue linking, and documentation-as-code updates in the same PR as infrastructure changes |
 | **🔗 Relationships** | Triggers: Configuration Change event; Enforces: Engineering Standards, Validation Expectations, Definition of Done                                                                                                                                                  |
 
 #### 5.4.3 🧹 Cleanup & Decommissioning
 
-| Attribute         | Value                                                                                                                                                                                             |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🧹 Name**       | Cleanup & Decommissioning                                                                                                                                                                         |
-| **📝 Description** | Lifecycle process for safely removing all provisioned resources including subscription deployments, user and role assignments, service principal credentials, GitHub secrets, and resource groups |
+| Attribute            | Value                                                                                                                                                                                             |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🧹 Name**          | Cleanup & Decommissioning                                                                                                                                                                         |
+| **📝 Description**   | Lifecycle process for safely removing all provisioned resources including subscription deployments, user and role assignments, service principal credentials, GitHub secrets, and resource groups |
 | **🔗 Relationships** | Reverses: Environment Provisioning process; Removes: RBAC assignments, Key Vault secrets, Resource Groups                                                                                         |
 
 ### 5.5 🛎️ Business Services
 
 #### 5.5.1 💻 Dev Box Pool Service
 
-| Attribute         | Value                                                                                                                                                                                                                                                               |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **💻 Name**       | Dev Box Pool Service                                                                                                                                                                                                                                                |
-| **📝 Description** | Provisioning service delivering role-specific developer workstations through configured pools with distinct compute tiers: backend-engineer (general_i_32c128gb512ssd_v2) and frontend-engineer (general_i_16c64gb256ssd_v2), each with dedicated image definitions |
+| Attribute            | Value                                                                                                                                                                                                                                                               |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **💻 Name**          | Dev Box Pool Service                                                                                                                                                                                                                                                |
+| **📝 Description**   | Provisioning service delivering role-specific developer workstations through configured pools with distinct compute tiers: backend-engineer (general_i_32c128gb512ssd_v2) and frontend-engineer (general_i_16c64gb256ssd_v2), each with dedicated image definitions |
 | **🔗 Relationships** | Delivers: Developer Workstation Provisioning capability; Consumed by: Dev Box User role                                                                                                                                                                             |
 
 #### 5.5.2 📂 Catalog Sync Service
 
-| Attribute         | Value                                                                                                                                                                                                                                                    |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **📂 Name**       | Catalog Sync Service                                                                                                                                                                                                                                     |
-| **📝 Description** | Configuration service synchronizing Dev Center resource definitions from external Git repositories — supporting GitHub (public/private) and Azure DevOps Git catalogs with branch and path specifications for tasks, environments, and image definitions |
+| Attribute            | Value                                                                                                                                                                                                                                                    |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **📂 Name**          | Catalog Sync Service                                                                                                                                                                                                                                     |
+| **📝 Description**   | Configuration service synchronizing Dev Center resource definitions from external Git repositories — supporting GitHub (public/private) and Azure DevOps Git catalogs with branch and path specifications for tasks, environments, and image definitions |
 | **🔗 Relationships** | Sources: microsoft/devcenter-catalog (GitHub), eShop environments and images; Scoped to: Dev Center and Project levels                                                                                                                                   |
 
 #### 5.5.3 🏷️ Environment Type Service
 
-| Attribute         | Value                                                                                                                                                                |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🏷️ Name**       | Environment Type Service                                                                                                                                             |
-| **📝 Description** | SDLC management service defining deployment environments (dev, staging, UAT) at both Dev Center and project levels with configurable deployment target subscriptions |
+| Attribute            | Value                                                                                                                                                                |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🏷️ Name**          | Environment Type Service                                                                                                                                             |
+| **📝 Description**   | SDLC management service defining deployment environments (dev, staging, UAT) at both Dev Center and project levels with configurable deployment target subscriptions |
 | **🔗 Relationships** | Enables: Multi-environment deployment; Consumed by: eShop project; Manages: dev, staging, UAT environments                                                           |
 
 ### 5.6 🏢 Business Functions
 
 #### 5.6.1 🏢 Platform Engineering Function
 
-| Attribute         | Value                                                                                                                                                                                               |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🏢 Name**       | Platform Engineering Function                                                                                                                                                                       |
-| **📝 Description** | Organizational unit responsible for Dev Center management, infrastructure provisioning, governance enforcement, and maintaining the configuration-driven accelerator as a product-oriented platform |
+| Attribute            | Value                                                                                                                                                                                               |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🏢 Name**          | Platform Engineering Function                                                                                                                                                                       |
+| **📝 Description**   | Organizational unit responsible for Dev Center management, infrastructure provisioning, governance enforcement, and maintaining the configuration-driven accelerator as a product-oriented platform |
 | **🔗 Relationships** | Staffed by: Platform Engineering Team, Dev Manager; Manages: All 5 business capabilities; Operates: Change Management process                                                                       |
 
 #### 5.6.2 📦 Project Delivery Function
 
-| Attribute         | Value                                                                                                                                                                          |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **📦 Name**       | Project Delivery Function                                                                                                                                                      |
-| **📝 Description** | Organizational unit responsible for project-level Dev Box consumption, environment usage, and team-specific tooling requirements — currently instantiated as the eShop project |
+| Attribute            | Value                                                                                                                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **📦 Name**          | Project Delivery Function                                                                                                                                                      |
+| **📝 Description**   | Organizational unit responsible for project-level Dev Box consumption, environment usage, and team-specific tooling requirements — currently instantiated as the eShop project |
 | **🔗 Relationships** | Staffed by: eShop Developers; Consumes: Developer Workstation Provisioning, Environment Type Service                                                                           |
 
 ### 5.7 👥 Business Roles & Actors
 
 #### 5.7.1 🛡️ Platform Engineering Team
 
-| Attribute         | Value                                                                                                                                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🛡️ Name**       | Platform Engineering Team                                                                                                                                                             |
-| **📝 Description** | Azure AD group (ID: 5a1d1455-e771-4c19-aa03-fb4a08418f22) with DevCenter Project Admin role at ResourceGroup scope, responsible for managing Dev Box deployments and project settings |
+| Attribute            | Value                                                                                                                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🛡️ Name**          | Platform Engineering Team                                                                                                                                                             |
+| **📝 Description**   | Azure AD group (ID: 5a1d1455-e771-4c19-aa03-fb4a08418f22) with DevCenter Project Admin role at ResourceGroup scope, responsible for managing Dev Box deployments and project settings |
 | **🔗 Relationships** | Operates: Platform Engineering Function; Manages: Dev Center, Projects, Pools, Catalogs                                                                                               |
 
 #### 5.7.2 👨‍💻 eShop Developers
 
-| Attribute         | Value                                                                                                                                                                                                                         |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **👨‍💻 Name**       | eShop Developers                                                                                                                                                                                                              |
-| **📝 Description** | Azure AD group (ID: 9d42a792-2d74-441d-8bcb-71009371725f) with Contributor, Dev Box User, Deployment Environment User, Key Vault Secrets User, and Key Vault Secrets Officer roles scoped to Project and ResourceGroup levels |
+| Attribute            | Value                                                                                                                                                                                                                         |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **👨‍💻 Name**          | eShop Developers                                                                                                                                                                                                              |
+| **📝 Description**   | Azure AD group (ID: 9d42a792-2d74-441d-8bcb-71009371725f) with Contributor, Dev Box User, Deployment Environment User, Key Vault Secrets User, and Key Vault Secrets Officer roles scoped to Project and ResourceGroup levels |
 | **🔗 Relationships** | Operates: Project Delivery Function; Consumes: Dev Box Pool Service, Environment Type Service                                                                                                                                 |
 
 #### 5.7.3 🔧 Dev Manager
 
-| Attribute         | Value                                                                                                                                                 |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🔧 Name**       | Dev Manager                                                                                                                                           |
-| **📝 Description** | Administrative role type for users who manage Dev Box deployments — can configure Dev Box definitions but typically do not consume Dev Boxes directly |
+| Attribute            | Value                                                                                                                                                 |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🔧 Name**          | Dev Manager                                                                                                                                           |
+| **📝 Description**   | Administrative role type for users who manage Dev Box deployments — can configure Dev Box definitions but typically do not consume Dev Boxes directly |
 | **🔗 Relationships** | Belongs to: Platform Engineering Team; Configures: Platform Engineering Function                                                                      |
 
 #### 5.7.4 👤 Dev Box User
 
-| Attribute         | Value                                                                                                                                                             |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **👤 Name**       | Dev Box User                                                                                                                                                      |
-| **📝 Description** | End-user role with permissions to create and manage personal Dev Box instances within assigned projects, enabling self-service developer workstation provisioning |
+| Attribute            | Value                                                                                                                                                             |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **👤 Name**          | Dev Box User                                                                                                                                                      |
+| **📝 Description**   | End-user role with permissions to create and manage personal Dev Box instances within assigned projects, enabling self-service developer workstation provisioning |
 | **🔗 Relationships** | Assigned to: eShop Developers group; Consumes: Developer Workstation Provisioning capability                                                                      |
 
 ### 5.8 📏 Business Rules
 
 #### 5.8.1 🏷️ Tagging Policy
 
-| Attribute         | Value                                                                                                                                                                                                                                     |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🏷️ Name**       | Tagging Policy                                                                                                                                                                                                                            |
-| **📝 Description** | Governance rule mandating 8 standardized tags on all Azure resources: environment, division, team, project, costCenter, owner, landingZone, and resources — enabling cost allocation, ownership tracking, and landing zone classification |
+| Attribute            | Value                                                                                                                                                                                                                                     |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🏷️ Name**          | Tagging Policy                                                                                                                                                                                                                            |
+| **📝 Description**   | Governance rule mandating 8 standardized tags on all Azure resources: environment, division, team, project, costCenter, owner, landingZone, and resources — enabling cost allocation, ownership tracking, and landing zone classification |
 | **🔗 Relationships** | Enforced on: All resource groups and Azure resources; Defined in: azureResources.yaml, devcenter.yaml, security.yaml                                                                                                                      |
 
 #### 5.8.2 🔒 RBAC Least Privilege
 
-| Attribute         | Value                                                                                                                                                                                                                                                |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🔒 Name**       | RBAC Least Privilege                                                                                                                                                                                                                                 |
-| **📝 Description** | Security rule enforcing role assignments scoped to the minimum required level — Contributor and User Access Administrator at Subscription scope for Dev Center operations, Key Vault roles at ResourceGroup scope, and Dev Box User at Project scope |
+| Attribute            | Value                                                                                                                                                                                                                                                |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🔒 Name**          | RBAC Least Privilege                                                                                                                                                                                                                                 |
+| **📝 Description**   | Security rule enforcing role assignments scoped to the minimum required level — Contributor and User Access Administrator at Subscription scope for Dev Center operations, Key Vault roles at ResourceGroup scope, and Dev Box User at Project scope |
 | **🔗 Relationships** | Governs: Platform Engineering Team, eShop Developers; References: Azure RBAC built-in roles documentation                                                                                                                                            |
 
 #### 5.8.3 📛 Naming Convention
 
-| Attribute         | Value                                                                                                                                                                            |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **📛 Name**       | Naming Convention                                                                                                                                                                |
-| **📝 Description** | Standards rule defining consistent resource naming with environment and location suffixes using the pattern `{resourceName}-{environmentName}-{location}-RG` for resource groups |
+| Attribute            | Value                                                                                                                                                                            |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **📛 Name**          | Naming Convention                                                                                                                                                                |
+| **📝 Description**   | Standards rule defining consistent resource naming with environment and location suffixes using the pattern `{resourceName}-{environmentName}-{location}-RG` for resource groups |
 | **🔗 Relationships** | Applied to: Resource group names (security, monitoring, workload); Enforced by: Bicep variable composition                                                                       |
 
 #### 5.8.4 ✅ Schema Validation
 
-| Attribute         | Value                                                                                                                                                                                                                |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **✅ Name**       | Schema Validation                                                                                                                                                                                                    |
-| **📝 Description** | Quality rule enforcing JSON Schema validation on all YAML configuration files through `yaml-language-server` schema references, preventing configuration drift and ensuring structural correctness before deployment |
+| Attribute            | Value                                                                                                                                                                                                                |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **✅ Name**          | Schema Validation                                                                                                                                                                                                    |
+| **📝 Description**   | Quality rule enforcing JSON Schema validation on all YAML configuration files through `yaml-language-server` schema references, preventing configuration drift and ensuring structural correctness before deployment |
 | **🔗 Relationships** | Validates: devcenter.yaml (devcenter.schema.json), security.yaml (security.schema.json), azureResources.yaml (azureResources.schema.json)                                                                            |
 
 ### 5.9 ⚡ Business Events
 
 #### 5.9.1 🚀 Provisioning Trigger
 
-| Attribute         | Value                                                                                                                                                                                                                                                           |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🚀 Name**       | Provisioning Trigger                                                                                                                                                                                                                                            |
-| **📝 Description** | Lifecycle event initiated by the `azd provision` command that triggers a preprovision hook executing the platform-appropriate setup script — validating prerequisites, authenticating with Azure and source control, and deploying all infrastructure resources |
+| Attribute            | Value                                                                                                                                                                                                                                                           |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **🚀 Name**          | Provisioning Trigger                                                                                                                                                                                                                                            |
+| **📝 Description**   | Lifecycle event initiated by the `azd provision` command that triggers a preprovision hook executing the platform-appropriate setup script — validating prerequisites, authenticating with Azure and source control, and deploying all infrastructure resources |
 | **🔗 Relationships** | Triggers: Environment Provisioning process; Initiator: Platform Engineering Team or automated pipeline                                                                                                                                                          |
 
 #### 5.9.2 📝 Configuration Change
 
-| Attribute         | Value                                                                                                                                                                                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **📝 Name**       | Configuration Change                                                                                                                                                                                                                  |
-| **📝 Description** | Governance event triggered when YAML configuration files are updated, flowing through the PR-based change management process with required issue linking, label application, and validation before infrastructure deployment |
-| **🔗 Relationships** | Triggers: Change Management process; Affects: All YAML configuration files; Governed by: CONTRIBUTING.md guidelines                                                                                                                   |
+| Attribute            | Value                                                                                                                                                                                                                        |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **📝 Name**          | Configuration Change                                                                                                                                                                                                         |
+| **📝 Description**   | Governance event triggered when YAML configuration files are updated, flowing through the PR-based change management process with required issue linking, label application, and validation before infrastructure deployment |
+| **🔗 Relationships** | Triggers: Change Management process; Affects: All YAML configuration files; Governed by: CONTRIBUTING.md guidelines                                                                                                          |
 
 ### 5.10 📦 Business Objects/Entities (0)
 
@@ -754,7 +754,7 @@ orchestration to deployed Azure resources.
 
 ### 🔗 Dependency Matrix
 
-| 🔗 Source Component                 | Target Component             | Relationship                                                                         |
+| 🔗 Source Component                | Target Component             | Relationship                                                                         |
 | ---------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------ |
 | Developer Workstation Provisioning | Identity & Access Management | **Requires** — Dev Box pools require RBAC role assignments for user access           |
 | Developer Workstation Provisioning | Network Isolation            | **Requires** — Dev Box pools connect to project-scoped VNets via network connections |
@@ -835,7 +835,6 @@ flowchart TB
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
     style configPhase fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style deployPhase fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
