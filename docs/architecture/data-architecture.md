@@ -4,14 +4,14 @@
 
 ## Quick TOC
 
-| #   | Section                                                               |
-| --- | --------------------------------------------------------------------- |
-| 1   | [📊 Executive Summary](#section-1-executive-summary)                  |
-| 2   | [🗺️ Architecture Landscape](#section-2-architecture-landscape)        |
-| 3   | [📏 Architecture Principles](#section-3-architecture-principles)      |
-| 4   | [📍 Current State Baseline](#section-4-current-state-baseline)        |
-| 5   | [📦 Component Catalog](#section-5-component-catalog)                  |
-| 8   | [🔗 Dependencies & Integration](#section-8-dependencies--integration) |
+| #   | Section                                                                |
+| --- | ---------------------------------------------------------------------- |
+| 1   | [📊 Executive Summary](#-section-1-executive-summary)                  |
+| 2   | [🗺️ Architecture Landscape](#️-section-2-architecture-landscape)        |
+| 3   | [📏 Architecture Principles](#-section-3-architecture-principles)      |
+| 4   | [📍 Current State Baseline](#-section-4-current-state-baseline)        |
+| 5   | [📦 Component Catalog](#-section-5-component-catalog)                  |
+| 8   | [🔗 Dependencies & Integration](#-section-8-dependencies--integration) |
 
 ---
 
