@@ -93,8 +93,8 @@ flowchart TB
 
     subgraph securityRG["🔒 Security Resource Group"]
         direction TB
-        keyVault("🔐 Key Vault"):::warning
-        secrets("🔑 Secrets"):::warning
+        keyVault("🔐 Key Vault"):::danger
+        secrets("🔑 Secrets"):::danger
     end
 
     subgraph workloadRG["🏢 Workload Resource Group"]
@@ -120,8 +120,8 @@ flowchart TB
 
     subgraph identity["🔑 Identity & Access"]
         direction TB
-        rbac("🔒 RBAC Assignments"):::warning
-        orgRoles("👥 Org Role Assignments"):::warning
+        rbac("🔒 RBAC Assignments"):::danger
+        orgRoles("👥 Org Role Assignments"):::danger
     end
 
     subgraph external["🌐 External Sources"]
@@ -161,11 +161,11 @@ flowchart TB
     style identity fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style external fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 **Component Roles:**
