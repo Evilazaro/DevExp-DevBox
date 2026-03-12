@@ -706,9 +706,9 @@ output contracts against consumer expectations.
 
 ---
 
-## Section 8: Dependencies & Integration
+## 🔗 Section 8: Dependencies & Integration
 
-### Overview
+### 🔭 Overview
 
 The Dependencies and Integration section maps the data flow patterns,
 producer-consumer relationships, and cross-module dependencies within the
@@ -729,17 +729,17 @@ diagnostic telemetry forwarding (resources → Log Analytics). Each pattern has
 well-defined contracts, though formal schema versioning and backward
 compatibility guarantees are not yet implemented.
 
-### Data Flow Patterns
+### 🔀 Data Flow Patterns
 
-| Pattern                 | Type                | Source               | Target                                | Contract                                                          | Source File                               |
-| ----------------------- | ------------------- | -------------------- | ------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------- |
-| Configuration Ingestion | Batch ETL           | YAML config files    | Bicep variables via loadYamlContent() | JSON Schema validation                                            | infra/main.bicep:36-37                    |
-| Monitoring Output Chain | Request/Response    | logAnalytics.bicep   | security.bicep, workload.bicep        | AZURE_LOG_ANALYTICS_WORKSPACE_ID (string)                         | infra/main.bicep:100-108                  |
-| Security Output Chain   | Request/Response    | security.bicep       | workload.bicep                        | AZURE_KEY_VAULT_SECRET_IDENTIFIER (string)                        | infra/main.bicep:110-125                  |
-| Workload Output Chain   | Request/Response    | workload.bicep       | main.bicep outputs                    | AZURE_DEV_CENTER_NAME (string), AZURE_DEV_CENTER_PROJECTS (array) | infra/main.bicep:130-155                  |
-| Diagnostic Forwarding   | Real-time Streaming | Azure resources      | Log Analytics workspace               | allLogs + AllMetrics categories                                   | src/management/logAnalytics.bicep:63-86   |
-| Secret Injection        | Request/Response    | Deployment parameter | Key Vault secret                      | @secure() parameter → secret resource                             | src/security/secret.bicep:1-31            |
-| Network Attachment      | Request/Response    | connectivity.bicep   | project.bicep pools                   | networkConnectionName, networkType                                | src/connectivity/connectivity.bicep:60-64 |
+| Pattern                 | Type                | Source               | Target                                | Contract                                                          |
+| ----------------------- | ------------------- | -------------------- | ------------------------------------- | ----------------------------------------------------------------- |
+| Configuration Ingestion | Batch ETL           | YAML config files    | Bicep variables via loadYamlContent() | JSON Schema validation                                            |
+| Monitoring Output Chain | Request/Response    | logAnalytics.bicep   | security.bicep, workload.bicep        | AZURE_LOG_ANALYTICS_WORKSPACE_ID (string)                         |
+| Security Output Chain   | Request/Response    | security.bicep       | workload.bicep                        | AZURE_KEY_VAULT_SECRET_IDENTIFIER (string)                        |
+| Workload Output Chain   | Request/Response    | workload.bicep       | main.bicep outputs                    | AZURE_DEV_CENTER_NAME (string), AZURE_DEV_CENTER_PROJECTS (array) |
+| Diagnostic Forwarding   | Real-time Streaming | Azure resources      | Log Analytics workspace               | allLogs + AllMetrics categories                                   |
+| Secret Injection        | Request/Response    | Deployment parameter | Key Vault secret                      | @secure() parameter → secret resource                             |
+| Network Attachment      | Request/Response    | connectivity.bicep   | project.bicep pools                   | networkConnectionName, networkType                                |
 
 ```mermaid
 ---
@@ -835,7 +835,7 @@ flowchart TD
     PROJ --> PIRA
 ```
 
-### Producer-Consumer Relationships
+### 🤝 Producer-Consumer Relationships
 
 | Producer Module    | Output                            | Consumer Module                       | Relationship Type                                                 |
 | ------------------ | --------------------------------- | ------------------------------------- | ----------------------------------------------------------------- |
@@ -848,7 +848,7 @@ flowchart TD
 | connectivity.bicep | networkType                       | projectPool.bicep (via project.bicep) | Configuration dependency — pool behavior varies by network type   |
 | catalog.bicep      | AZURE_DEV_CENTER_CATALOG_NAME     | DevCenter management plane            | Informational output for operational tracking                     |
 
-### Summary
+### 📊 Summary
 
 The DevExp-DevBox data integration architecture follows a well-structured DAG
 pattern with three deployment phases: monitoring (phase 1), security (phase 2),
