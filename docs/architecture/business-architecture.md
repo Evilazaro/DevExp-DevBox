@@ -2,8 +2,6 @@
 
 ## 1. 📋 Executive Summary
 
-### 🔭 Overview
-
 The DevExp-DevBox repository implements an **Azure Dev Box Adoption & Deployment
 Accelerator** that enables platform engineering teams to deliver self-service
 developer workstations at enterprise scale. This Business Architecture analysis
@@ -14,8 +12,6 @@ Infrastructure-as-Code model.
 ---
 
 ## 2. 🗺️ Architecture Landscape
-
-### 🔭 Overview
 
 This section provides an inventory of all Business layer components detected in
 the DevExp-DevBox repository, organized by the 11 canonical Business
@@ -180,8 +176,6 @@ measurability.
 
 ## 3. 🧭 Architecture Principles
 
-### 🔭 Overview
-
 The following architectural principles are observed in the DevExp-DevBox
 repository, derived from documented configuration patterns, code structure, and
 governance artifacts. These principles guide the design and evolution of the
@@ -204,8 +198,6 @@ requiring source traceability.
 ---
 
 ## 4. 📍 Current State Baseline
-
-### 🔭 Overview
 
 This section captures the current structural characteristics of the Business
 Architecture as observed in the DevExp-DevBox repository. The analysis is based
@@ -332,8 +324,6 @@ significantly.
 ---
 
 ## 5. 📚 Component Catalog
-
-### 🔭 Overview
 
 This section provides detailed specifications for each Business layer component
 identified in the Architecture Landscape. Components are organized by the 11
@@ -657,8 +647,6 @@ adoption, provisioning time, and cost efficiency.
 ---
 
 ## 8. 🔗 Dependencies & Integration
-
-### 🔭 Overview
 
 This section maps the cross-component dependencies and integration patterns
 observed in the DevExp-DevBox Business Architecture. The platform follows a
