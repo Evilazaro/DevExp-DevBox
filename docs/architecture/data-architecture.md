@@ -968,6 +968,126 @@ erDiagram
 | SecurityConfig Schema  | JSON Schema enforcing Key Vault configuration with retention constraints and tag requirements              | Internal       | Document Store | Platform Engineering | indefinite | batch         | Schema authors | security.yaml validation       |
 | AzureResources Schema  | JSON Schema defining 3-tier resource group model with naming patterns and tag structures                   | Internal       | Document Store | Platform Engineering | indefinite | batch         | Schema authors | azureResources.yaml validation |
 
+#### 📀 Dimensional Model
+
+```mermaid
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: "16px"
+---
+flowchart TD
+    accTitle: DevExp-DevBox Configuration Dimensional Model
+    accDescr: Shows the dimensional hierarchy of configuration data from Dev Center root through projects, pools, catalogs, and environment types
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef detail fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+
+    subgraph FactTable["Fact: Configuration Deployment"]
+        FACT["📊 Deployment Event\nenvironment, location, timestamp"]:::core
+    end
+    style FactTable fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Dimensions["Configuration Dimensions"]
+        DIM_DC["🏢 DevCenter Dimension\nname, identity, sync status"]:::data
+        DIM_PROJ["📁 Project Dimension\nname, description, network type"]:::data
+        DIM_SEC["🔑 Security Dimension\nKV name, RBAC model, retention"]:::data
+        DIM_RG["📦 Resource Group Dimension\nname, tier, create flag"]:::data
+    end
+    style Dimensions fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph DetailDimensions["Detail Dimensions"]
+        DD_POOL["💻 Pool\nVM SKU, image"]:::detail
+        DD_CAT["📚 Catalog\ntype, URI, branch"]:::detail
+        DD_ENV["🌍 EnvironmentType\nname, target"]:::detail
+        DD_TAG["🏷️ Tags\n7-key taxonomy"]:::detail
+    end
+    style DetailDimensions fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    FACT --> DIM_DC
+    FACT --> DIM_PROJ
+    FACT --> DIM_SEC
+    FACT --> DIM_RG
+    DIM_DC --> DD_CAT
+    DIM_DC --> DD_ENV
+    DIM_PROJ --> DD_POOL
+    DIM_RG --> DD_TAG
+```
+
+#### ⏳ Schema Evolution Timeline
+
+```mermaid
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: "16px"
+---
+flowchart LR
+    accTitle: DevExp-DevBox Schema Evolution Timeline
+    accDescr: Shows the current schema versions for all three configuration schemas and their validation relationships
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    classDef current fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef schema fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef config fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+
+    subgraph CurrentSchemas["Current Schema Versions (v1.0)"]
+        S1["📋 devcenter.schema.json\nDraft-07 | 15+ properties"]:::schema
+        S2["📋 security.schema.json\nDraft-07 | 8 properties"]:::schema
+        S3["📋 azureResources.schema.json\nDraft-07 | 6 properties"]:::schema
+    end
+    style CurrentSchemas fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Validations["Schema Validation Targets"]
+        C1["📄 devcenter.yaml"]:::config
+        C2["📄 security.yaml"]:::config
+        C3["📄 azureResources.yaml"]:::config
+    end
+    style Validations fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph BicepTypes["Bicep User-Defined Types"]
+        B1["⚙️ KeyVaultSettings type"]:::current
+        B2["⚙️ Tags type (* : string)"]:::current
+        B3["⚙️ DevCenterConfig type"]:::current
+    end
+    style BicepTypes fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    S1 -->|"validates"| C1
+    S2 -->|"validates"| C2
+    S3 -->|"validates"| C3
+    C1 -->|"consumed by"| B3
+    C2 -->|"consumed by"| B1
+    C3 -->|"consumed by"| B2
+```
+
 ### 🗄️ 5.3 Data Stores
 
 | Component                    | Description                                                                                   | Classification | Storage        | Owner                | Retention    | Freshness SLA | Source Systems                          | Consumers                                  |
@@ -1043,6 +1163,87 @@ erDiagram
 | Network Module Contract       | Exports networkConnectionName (string) and networkType (string) for pool network attachment         | Internal       | Not detected | Platform Engineering | Not detected | batch         | connectivity.bicep | project.bicep pool module                  |
 | Catalog Module Contract       | Exports AZURE_DEV_CENTER_CATALOG_NAME, AZURE_DEV_CENTER_CATALOG_ID, AZURE_DEV_CENTER_CATALOG_TYPE   | Internal       | Not detected | Platform Engineering | Not detected | batch         | catalog.bicep      | DevCenter management                       |
 
+#### 📜 Data Contract Maps
+
+```mermaid
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: "16px"
+---
+flowchart LR
+    accTitle: DevExp-DevBox Data Contract Map
+    accDescr: Shows the typed output contracts between Bicep modules illustrating producer-consumer data contract relationships
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    classDef producer fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef contract fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef consumer fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+
+    subgraph Producers["Producer Modules"]
+        P_MON["📊 logAnalytics.bicep"]:::producer
+        P_SEC["🔒 security.bicep"]:::producer
+        P_DC["🏢 devCenter.bicep"]:::producer
+        P_CONN["🌐 connectivity.bicep"]:::producer
+        P_CAT["📚 catalog.bicep"]:::producer
+        P_PROJ["📁 project.bicep"]:::producer
+    end
+    style Producers fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Contracts["Output Contracts"]
+        C_WID["WORKSPACE_ID\nstring"]:::contract
+        C_KVN["KEY_VAULT_NAME\nstring"]:::contract
+        C_KVS["KEY_VAULT_SECRET_ID\nstring"]:::contract
+        C_KVE["KEY_VAULT_ENDPOINT\nstring"]:::contract
+        C_DCN["DEV_CENTER_NAME\nstring"]:::contract
+        C_NET["networkConnectionName\nstring"]:::contract
+        C_CATN["CATALOG_NAME\nstring"]:::contract
+        C_PN["PROJECT_NAME\nstring"]:::contract
+    end
+    style Contracts fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Consumers["Consumer Modules"]
+        CO_SEC["🔒 security.bicep"]:::consumer
+        CO_WL["📦 workload.bicep"]:::consumer
+        CO_PROJ["📁 project.bicep"]:::consumer
+        CO_POOL["💻 projectPool.bicep"]:::consumer
+        CO_MAIN["⚙️ main.bicep"]:::consumer
+    end
+    style Consumers fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    P_MON --> C_WID
+    P_SEC --> C_KVN
+    P_SEC --> C_KVS
+    P_SEC --> C_KVE
+    P_DC --> C_DCN
+    P_CONN --> C_NET
+    P_CAT --> C_CATN
+    P_PROJ --> C_PN
+
+    C_WID --> CO_SEC
+    C_WID --> CO_WL
+    C_KVS --> CO_WL
+    C_KVN --> CO_MAIN
+    C_KVE --> CO_MAIN
+    C_DCN --> CO_PROJ
+    C_NET --> CO_POOL
+    C_CATN --> CO_MAIN
+    C_PN --> CO_MAIN
+```
+
 ### 🔐 5.11 Data Security
 
 | Component                    | Description                                                                                         | Classification | Storage      | Owner                | Retention  | Freshness SLA | Source Systems      | Consumers                    |
@@ -1106,6 +1307,84 @@ compatibility guarantees are not yet implemented.
 | Diagnostic Forwarding   | Real-time Streaming | Azure resources      | Log Analytics workspace               | allLogs + AllMetrics categories                                   |
 | Secret Injection        | Request/Response    | Deployment parameter | Key Vault secret                      | @secure() parameter → secret resource                             |
 | Network Attachment      | Request/Response    | connectivity.bicep   | project.bicep pools                   | networkConnectionName, networkType                                |
+
+#### 🔄 ETL/ELT Flow Diagram
+
+```mermaid
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: "16px"
+---
+flowchart LR
+    accTitle: DevExp-DevBox ETL Configuration Flow
+    accDescr: Shows the Extract-Transform-Load pipeline from YAML configuration authoring through schema validation and Bicep transformation to Azure resource provisioning
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    classDef extract fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef transform fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef load fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef validate fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+
+    subgraph Extract["Extract"]
+        E1["📄 devcenter.yaml"]:::extract
+        E2["📄 security.yaml"]:::extract
+        E3["📄 azureResources.yaml"]:::extract
+    end
+    style Extract fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Validate["Schema Validation Gate"]
+        V1["📋 devcenter.schema.json"]:::validate
+        V2["📋 security.schema.json"]:::validate
+        V3["📋 azureResources.schema.json"]:::validate
+    end
+    style Validate fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Transform["Transform (Bicep)"]
+        T1["⚙️ loadYamlContent()"]:::transform
+        T2["⚙️ Resource Name Construction"]:::transform
+        T3["⚙️ Tag Enrichment via union()"]:::transform
+        T4["⚙️ uniqueString() Derivation"]:::transform
+    end
+    style Transform fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Load["Load (Azure Resources)"]
+        L1["☁️ Resource Groups (3)"]:::load
+        L2["☁️ Dev Center + Projects"]:::load
+        L3["☁️ Key Vault + Secrets"]:::load
+        L4["☁️ Log Analytics"]:::load
+    end
+    style Load fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    E1 --> V1
+    E2 --> V2
+    E3 --> V3
+    V1 --> T1
+    V2 --> T1
+    V3 --> T1
+    T1 --> T2
+    T1 --> T3
+    T1 --> T4
+    T2 --> L1
+    T3 --> L2
+    T4 --> L3
+    T2 --> L4
+```
+
+#### 📊 Data Lineage Diagram
 
 ```mermaid
 ---
@@ -1213,6 +1492,81 @@ flowchart TD
 | connectivity.bicep | networkConnectionName             | projectPool.bicep (via project.bicep) | Mandatory dependency — pools require network attachment name      |
 | connectivity.bicep | networkType                       | projectPool.bicep (via project.bicep) | Configuration dependency — pool behavior varies by network type   |
 | catalog.bicep      | AZURE_DEV_CENTER_CATALOG_NAME     | DevCenter management plane            | Informational output for operational tracking                     |
+
+#### 📊 Producer-Consumer Matrix
+
+```mermaid
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: "16px"
+---
+flowchart TD
+    accTitle: DevExp-DevBox Producer-Consumer Dependency Matrix
+    accDescr: Shows the producer-consumer relationships between all Bicep modules with dependency types and data flow directions
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    classDef phase1 fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef phase2 fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    classDef phase3 fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef orchestrator fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+
+    MAIN["⚙️ main.bicep\nOrchestrator"]:::orchestrator
+
+    subgraph Phase1["Phase 1: Monitoring"]
+        MON["📊 logAnalytics.bicep\n→ WORKSPACE_ID, WORKSPACE_NAME"]:::phase1
+    end
+    style Phase1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Phase2["Phase 2: Security"]
+        SEC["🔒 security.bicep\n→ KV_NAME, KV_SECRET_ID, KV_ENDPOINT"]:::phase2
+        KV["🔑 keyVault.bicep\n→ KV_NAME, KV_ENDPOINT"]:::phase2
+        SECRET["🔐 secret.bicep\n→ SECRET_IDENTIFIER"]:::phase2
+    end
+    style Phase2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Phase3["Phase 3: Workload"]
+        WL["📦 workload.bicep\n→ DC_NAME, PROJECTS"]:::phase3
+        DC["🏢 devCenter.bicep\n→ DEV_CENTER_NAME"]:::phase3
+        PROJ["📁 project.bicep\n→ PROJECT_NAME, PROJECT_ID"]:::phase3
+        CONN["🌐 connectivity.bicep\n→ networkConnectionName"]:::phase3
+        CAT["📚 catalog.bicep\n→ CATALOG_NAME"]:::phase3
+    end
+    style Phase3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    MAIN -->|"deploys"| MON
+    MAIN -->|"WORKSPACE_ID"| SEC
+    MAIN -->|"WORKSPACE_ID + KV_SECRET_ID"| WL
+    SEC --> KV
+    SEC --> SECRET
+    WL --> DC
+    WL --> PROJ
+    DC -->|"DEV_CENTER_NAME"| PROJ
+    PROJ --> CONN
+    PROJ --> CAT
+    CONN -->|"networkConnectionName"| PROJ
+```
+
+#### 🔄 CDC Topology
+
+No Change Data Capture (CDC) patterns were detected in the analyzed source
+files. The platform uses a batch configuration deployment model where YAML
+configs are loaded at deployment time via `loadYamlContent()` rather than
+continuous data synchronization. For future CDC implementation, consider Azure
+Event Grid for configuration change events or Azure Policy for drift detection.
 
 ### 📊 Summary
 
