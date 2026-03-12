@@ -666,34 +666,34 @@ erDiagram
 | Log Analytics Name Truncation    | Truncates workspace name to (63 - uniqueSuffix length) characters and appends unique suffix                        | Internal       | Not detected | Platform Engineering | Not detected | batch         | Name parameter                             | Log Analytics resource  |
 | Tag Enrichment via union()       | Merges configuration-defined tags with runtime component identifiers using Bicep union() function                  | Internal       | Not detected | Platform Engineering | Not detected | batch         | Config tags, runtime context               | Resource tagging        |
 
-### 5.10 Data Contracts
+### 📝 5.10 Data Contracts
 
-| Component                     | Description                                                                                         | Classification | Storage      | Owner                | Retention    | Freshness SLA | Source Systems     | Consumers                                  | Source File                                |
-| ----------------------------- | --------------------------------------------------------------------------------------------------- | -------------- | ------------ | -------------------- | ------------ | ------------- | ------------------ | ------------------------------------------ | ------------------------------------------ |
-| Log Analytics Module Contract | Exports AZURE_LOG_ANALYTICS_WORKSPACE_ID (string) and AZURE_LOG_ANALYTICS_WORKSPACE_NAME (string)   | Internal       | Not detected | Platform Engineering | Not detected | batch         | logAnalytics.bicep | main.bicep, security.bicep, workload.bicep | src/management/logAnalytics.bicep:88-92    |
-| Security Module Contract      | Exports AZURE_KEY_VAULT_NAME, AZURE_KEY_VAULT_SECRET_IDENTIFIER, AZURE_KEY_VAULT_ENDPOINT (strings) | Confidential   | Not detected | Security Team        | Not detected | batch         | security.bicep     | main.bicep, workload.bicep                 | src/security/security.bicep:46-56          |
-| DevCenter Module Contract     | Exports AZURE_DEV_CENTER_NAME (string) consumed by project module for devCenterId reference         | Internal       | Not detected | Platform Engineering | Not detected | batch         | devCenter.bicep    | workload.bicep, project.bicep              | src/workload/core/devCenter.bicep:191      |
-| Project Module Contract       | Exports AZURE_PROJECT_NAME (string) and AZURE_PROJECT_ID (string) for deployment tracking           | Internal       | Not detected | Platform Engineering | Not detected | batch         | project.bicep      | workload.bicep output aggregation          | src/workload/project/project.bicep:269-272 |
-| Network Module Contract       | Exports networkConnectionName (string) and networkType (string) for pool network attachment         | Internal       | Not detected | Platform Engineering | Not detected | batch         | connectivity.bicep | project.bicep pool module                  | src/connectivity/connectivity.bicep:60-64  |
-| Catalog Module Contract       | Exports AZURE_DEV_CENTER_CATALOG_NAME, AZURE_DEV_CENTER_CATALOG_ID, AZURE_DEV_CENTER_CATALOG_TYPE   | Internal       | Not detected | Platform Engineering | Not detected | batch         | catalog.bicep      | DevCenter management                       | src/workload/core/catalog.bicep:70-78      |
+| Component                     | Description                                                                                         | Classification | Storage      | Owner                | Retention    | Freshness SLA | Source Systems     | Consumers                                  |
+| ----------------------------- | --------------------------------------------------------------------------------------------------- | -------------- | ------------ | -------------------- | ------------ | ------------- | ------------------ | ------------------------------------------ |
+| Log Analytics Module Contract | Exports AZURE_LOG_ANALYTICS_WORKSPACE_ID (string) and AZURE_LOG_ANALYTICS_WORKSPACE_NAME (string)   | Internal       | Not detected | Platform Engineering | Not detected | batch         | logAnalytics.bicep | main.bicep, security.bicep, workload.bicep |
+| Security Module Contract      | Exports AZURE_KEY_VAULT_NAME, AZURE_KEY_VAULT_SECRET_IDENTIFIER, AZURE_KEY_VAULT_ENDPOINT (strings) | Confidential   | Not detected | Security Team        | Not detected | batch         | security.bicep     | main.bicep, workload.bicep                 |
+| DevCenter Module Contract     | Exports AZURE_DEV_CENTER_NAME (string) consumed by project module for devCenterId reference         | Internal       | Not detected | Platform Engineering | Not detected | batch         | devCenter.bicep    | workload.bicep, project.bicep              |
+| Project Module Contract       | Exports AZURE_PROJECT_NAME (string) and AZURE_PROJECT_ID (string) for deployment tracking           | Internal       | Not detected | Platform Engineering | Not detected | batch         | project.bicep      | workload.bicep output aggregation          |
+| Network Module Contract       | Exports networkConnectionName (string) and networkType (string) for pool network attachment         | Internal       | Not detected | Platform Engineering | Not detected | batch         | connectivity.bicep | project.bicep pool module                  |
+| Catalog Module Contract       | Exports AZURE_DEV_CENTER_CATALOG_NAME, AZURE_DEV_CENTER_CATALOG_ID, AZURE_DEV_CENTER_CATALOG_TYPE   | Internal       | Not detected | Platform Engineering | Not detected | batch         | catalog.bicep      | DevCenter management                       |
 
-### 5.11 Data Security
+### 🔐 5.11 Data Security
 
-| Component                    | Description                                                                                         | Classification | Storage      | Owner                | Retention  | Freshness SLA | Source Systems      | Consumers                    | Source File                                    |
-| ---------------------------- | --------------------------------------------------------------------------------------------------- | -------------- | ------------ | -------------------- | ---------- | ------------- | ------------------- | ---------------------------- | ---------------------------------------------- |
-| Key Vault Encryption at Rest | Azure-managed encryption with RBAC authorization, soft delete, and purge protection enabled         | Confidential   | Key-Value    | Security Team        | 7d         | real-time     | Azure platform      | All secret consumers         | src/security/keyVault.bicep:48-55              |
-| Secret Storage with Audit    | Secrets stored with content type, enabled flag, and full diagnostic settings (allLogs + AllMetrics) | Confidential   | Key-Value    | Security Team        | 7d         | real-time     | Deployment pipeline | Catalog authentication       | src/security/secret.bicep:21-45                |
-| Network Segmentation         | VNet with CIDR-validated subnets and AzureADJoin domain type for network-isolated Dev Boxes         | Internal       | Not detected | Platform Engineering | indefinite | batch         | Network config      | DevCenter network attachment | src/connectivity/networkConnection.bicep:28-31 |
+| Component                    | Description                                                                                         | Classification | Storage      | Owner                | Retention  | Freshness SLA | Source Systems      | Consumers                    |
+| ---------------------------- | --------------------------------------------------------------------------------------------------- | -------------- | ------------ | -------------------- | ---------- | ------------- | ------------------- | ---------------------------- |
+| Key Vault Encryption at Rest | Azure-managed encryption with RBAC authorization, soft delete, and purge protection enabled         | Confidential   | Key-Value    | Security Team        | 7d         | real-time     | Azure platform      | All secret consumers         |
+| Secret Storage with Audit    | Secrets stored with content type, enabled flag, and full diagnostic settings (allLogs + AllMetrics) | Confidential   | Key-Value    | Security Team        | 7d         | real-time     | Deployment pipeline | Catalog authentication       |
+| Network Segmentation         | VNet with CIDR-validated subnets and AzureADJoin domain type for network-isolated Dev Boxes         | Internal       | Not detected | Platform Engineering | indefinite | batch         | Network config      | DevCenter network attachment |
 
-### Summary
+### 📊 Summary
 
-The Component Catalog documents 47 data components across all 11 canonical types
-with an average confidence score of 0.85. The dominant pattern is
-configuration-as-data, where YAML files define desired state, JSON Schemas
-enforce structural validation, and Bicep modules consume validated configuration
-to produce Azure resources. The strongest coverage is in Data Entities (6), Data
-Governance (6), and Data Contracts (6), reflecting the platform's emphasis on
-structure, access control, and module interoperability.
+The Component Catalog documents 47 data components across all 11 canonical
+types. The dominant pattern is configuration-as-data, where YAML files define
+desired state, JSON Schemas enforce structural validation, and Bicep modules
+consume validated configuration to produce Azure resources. The strongest
+coverage is in Data Entities (6), Data Governance (6), and Data Contracts (6),
+reflecting the platform's emphasis on structure, access control, and module
+interoperability.
 
 Key gaps include the absence of runtime data quality monitoring (no automated
 drift detection between configuration and deployed state), limited data lineage
