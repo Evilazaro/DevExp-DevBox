@@ -198,17 +198,15 @@ configuration, enabling teams to customize behavior without modifying
 infrastructure code. The architecture supports multiple projects, each with
 independent networking, identity, and catalog configurations.
 
-| Feature                   | Description                                                                                                              |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| 🚀 One-Command Deployment | Deploy the entire landing zone with a single `azd provision` command using preprovision hooks                            |
-| 🔒 Enterprise Security    | Key Vault with RBAC authorization, soft delete, purge protection, and managed identities                                 |
-| 📊 Centralized Monitoring | Log Analytics workspace with diagnostic settings across all deployed resources                                           |
-| 🌐 Network Isolation      | Per-project virtual networks with subnet segmentation and Azure AD-joined network connections                            |
-| ⚙️ Configuration-Driven   | YAML-based configuration with JSON Schema validation for resource organization, security, and workload                   |
-| 📦 Multi-Project Support  | Deploy multiple Dev Center projects, each with independent pools, catalogs, and environment types                        |
-| 🔑 Identity & RBAC        | Comprehensive role assignments at subscription, resource group, and project scopes with Azure AD group support           |
-| 📋 Catalog Integration    | GitHub and Azure DevOps Git catalog support with scheduled sync for tasks, environments, and image definitions           |
-| 💻 Cross-Platform Scripts | PowerShell and Bash setup scripts with secure token management, authentication validation, and interactive configuration |
+| Feature                       | Description                                                                                                                                   |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🚀 Cross-Platform Deployment  | Deploy the entire landing zone with a single `azd provision` command via PowerShell or Bash setup scripts with secure token management        |
+| 🔒 Enterprise Security & RBAC | Key Vault with RBAC authorization, soft delete, purge protection, managed identities, and role assignments at subscription and project scopes |
+| 📊 Centralized Monitoring     | Log Analytics workspace with diagnostic settings and Azure Monitor agent across all deployed resources                                        |
+| 🌐 Network Isolation          | Per-project virtual networks with subnet segmentation and Azure AD-joined network connections                                                 |
+| ⚙️ Configuration-Driven       | YAML-based configuration with JSON Schema validation for resource organization, security, and workload definitions                            |
+| 📦 Multi-Project Support      | Deploy multiple Dev Center projects, each with independent pools, catalogs, environment types, and network connectivity                       |
+| 📋 Catalog Integration        | GitHub and Azure DevOps Git catalog support with scheduled sync for tasks, environments, and image definitions                                |
 
 ## 📋 Requirements
 
