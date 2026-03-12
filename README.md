@@ -130,27 +130,27 @@ flowchart TB
         ado("🔗 Azure DevOps"):::external
     end
 
-    azd -->|"provisions"| main
-    config -->|"configures"| main
-    main -->|"deploys"| logAnalytics
-    main -->|"deploys"| keyVault
-    main -->|"deploys"| devCenter
-    keyVault -->|"stores"| secrets
-    devCenter -->|"creates"| catalog
-    devCenter -->|"creates"| envTypes
-    devCenter -->|"creates"| project
-    project -->|"provisions"| pools
-    project -->|"attaches"| projCatalog
-    project -->|"enables"| projEnvType
-    project -->|"connects"| vnet
-    vnet -->|"attaches"| netConn
-    netConn -->|"joins"| devCenter
-    devCenter -->|"assigns"| rbac
-    project -->|"assigns"| orgRoles
-    github -->|"syncs"| catalog
-    ado -->|"syncs"| projCatalog
-    logAnalytics -->|"monitors"| devCenter
-    logAnalytics -->|"monitors"| keyVault
+    azd -->|provisions| main
+    config -->|configures| main
+    main -->|deploys| logAnalytics
+    main -->|deploys| keyVault
+    main -->|deploys| devCenter
+    keyVault -->|stores| secrets
+    devCenter -->|creates| catalog
+    devCenter -->|creates| envTypes
+    devCenter -->|creates| project
+    project -->|provisions| pools
+    project -->|attaches| projCatalog
+    project -->|enables| projEnvType
+    project -->|connects| vnet
+    vnet -->|attaches| netConn
+    netConn -->|joins| devCenter
+    devCenter -->|assigns| rbac
+    project -->|assigns| orgRoles
+    github -->|syncs| catalog
+    ado -->|syncs| projCatalog
+    logAnalytics -->|monitors| devCenter
+    logAnalytics -->|monitors| keyVault
 
     style orchestration fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style monitoringRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
