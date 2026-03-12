@@ -152,6 +152,13 @@ flowchart TB
     logAnalytics -->|monitors| devCenter
     logAnalytics -->|monitors| keyVault
 
+    %% Centralized semantic classDefs
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+
     style orchestration fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style monitoringRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style securityRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -160,12 +167,6 @@ flowchart TB
     style connectivity fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style identity fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style external fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
 **Component Roles:**
