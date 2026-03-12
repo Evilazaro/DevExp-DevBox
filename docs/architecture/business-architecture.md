@@ -1,31 +1,5 @@
 # 🏗️ Business Architecture — DevExp-DevBox
 
-| Field                  | Value                   |
-| ---------------------- | ----------------------- |
-| **Layer**              | Business                |
-| **Quality Level**      | comprehensive           |
-| **Framework**          | TOGAF 10 / BDAT         |
-| **Repository**         | Evilazaro/DevExp-DevBox |
-| **Components Found**   | 25                      |
-| **Diagrams Included**  | 5                       |
-| **Sections Generated** | 1, 2, 3, 4, 5, 8        |
-| **Generated**          | 2026-03-12T10:27:00Z    |
-
----
-
-## 📑 Quick Table of Contents
-
-| #   | Section                                                          |
-| --- | ---------------------------------------------------------------- |
-| 1   | [📋 Executive Summary](#1-📋-executive-summary)                  |
-| 2   | [🗺️ Architecture Landscape](#2-🗺️-architecture-landscape)        |
-| 3   | [🧭 Architecture Principles](#3-🧭-architecture-principles)      |
-| 4   | [📍 Current State Baseline](#4-📍-current-state-baseline)        |
-| 5   | [📚 Component Catalog](#5-📚-component-catalog)                  |
-| 8   | [🔗 Dependencies & Integration](#8-🔗-dependencies--integration) |
-
----
-
 ## 1. 📋 Executive Summary
 
 ### 🔭 Overview
@@ -37,31 +11,6 @@ examines the strategic capabilities, value streams, business processes, and
 governance structures documented across the repository's configuration-driven
 Infrastructure-as-Code model.
 
-The analysis identifies 25 Business layer components spanning 9 of the 11
-canonical TOGAF Business Architecture component types. The repository's
-declarative YAML configuration model, validated by JSON Schemas, externalizes
-all business-level settings from infrastructure code — enabling repeatable,
-auditable provisioning aligned with Azure Landing Zone principles and the Cloud
-Adoption Framework.
-
-- **🎯 Business Strategy**: 1 (Developer Experience Platform Strategy)
-- **💪 Business Capabilities**: 5 (Developer Workstation Provisioning, Identity
-  & Access Management, Secrets Management, Centralized Monitoring, Network
-  Isolation)
-- **🔄 Value Streams**: 1 (Developer Onboarding & Self-Service)
-- **⚙️ Business Processes**: 3 (Environment Provisioning, Change Management,
-  Cleanup & Decommissioning)
-- **🛎️ Business Services**: 3 (Dev Box Pool Service, Catalog Sync Service,
-  Environment Type Service)
-- **🏢 Business Functions**: 2 (Platform Engineering, Project Delivery)
-- **👥 Business Roles & Actors**: 4 (Platform Engineering Team, eShop
-  Developers, Dev Manager, Dev Box User)
-- **📏 Business Rules**: 4 (Tagging Policy, RBAC Least Privilege, Naming
-  Convention, Schema Validation)
-- **⚡ Business Events**: 2 (Provisioning Trigger, Configuration Change)
-- **📦 Business Objects/Entities**: Not detected
-- **📊 KPIs & Metrics**: Not detected
-
 ---
 
 ## 2. 🗺️ Architecture Landscape
@@ -69,7 +18,7 @@ Adoption Framework.
 ### 🔭 Overview
 
 This section provides an inventory of all Business layer components detected in
-the DevExp-DevBox repository, organized by the 11 canonical TOGAF Business
+the DevExp-DevBox repository, organized by the 11 canonical Business
 Architecture component types.
 
 The repository's business architecture is centered on a configuration-driven
@@ -404,13 +353,13 @@ significantly.
 
 This section provides detailed specifications for each Business layer component
 identified in the Architecture Landscape. Components are organized by the 11
-canonical TOGAF Business Architecture types, with each entry including purpose,
+canonical Business Architecture types, with each entry including purpose,
 capabilities, and relationships.
 
 The catalog serves as the authoritative reference for understanding the business
 intent behind the DevExp-DevBox platform's configuration-driven architecture.
 All component descriptions focus on business semantics rather than
-implementation details, consistent with the TOGAF Business Architecture scope.
+implementation details, consistent with the Business Architecture scope.
 
 ### 5.1 🎯 Business Strategy
 
