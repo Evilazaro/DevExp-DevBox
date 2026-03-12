@@ -249,8 +249,9 @@ authenticates with Azure and your source control platform, securely stores
 tokens in the `azd` environment, and then provisions the entire landing zone —
 all in a single command.
 
-> [!WARNING] Provisioning creates Azure resources that incur costs. Review the
-> YAML configuration in `infra/settings/` before running `azd provision`. Use
+> [!WARNING]  
+> Provisioning creates Azure resources that incur costs. Review the YAML
+> configuration in `infra/settings/` before running `azd provision`. Use
 > `cleanSetUp.ps1` to tear down all resources when they are no longer needed.
 
 **1. Clone the repository**
@@ -552,10 +553,10 @@ resource naming), `AZURE_LOCATION` (target Azure region), and `KEY_VAULT_SECRET`
 (source control token stored securely in Key Vault). These are populated
 automatically by the `preprovision` hook.
 
-> [!TIP] Each YAML file references a co-located JSON Schema (`$schema` directive
-> at the top of the file). Validate your changes against the schema before
-> deploying to catch naming violations, missing required fields, and invalid
-> values early.
+> [!TIP]  
+> Each YAML file references a co-located JSON Schema (`$schema` directive at the
+> top of the file). Validate your changes against the schema before deploying to
+> catch naming violations, missing required fields, and invalid values early.
 
 | File                                                         | Description                                                                                                    |
 | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
@@ -788,8 +789,9 @@ All contributions must meet the project's Definition of Done criteria, which
 include passing validation checks, maintaining code quality standards, and
 following the branching conventions defined in the contribution guidelines.
 
-> [!CAUTION] All Bicep templates must use `@secure()` decorators for sensitive
-> parameters and follow the existing modular patterns. Breaking changes to YAML
+> [!CAUTION]  
+> All Bicep templates must use `@secure()` decorators for sensitive parameters
+> and follow the existing modular patterns. Breaking changes to YAML
 > configuration schemas require corresponding schema updates.
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
