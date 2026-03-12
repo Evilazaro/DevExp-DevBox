@@ -768,9 +768,9 @@ flowchart LR
     classDef target fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef future fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#A19F9D
 
-    L1["Level 1: Ad-hoc\n✅ Achieved"]:::achieved
-    L2["Level 2: Managed\n⬅️ Current State"]:::current
-    L3["Level 3: Defined\n🎯 Target"]:::target
+    L1["Level 1: Ad-hoc<br>✅ Achieved"]:::achieved
+    L2["Level 2: Managed<br>⬅️ Current State"]:::current
+    L3["Level 3: Defined<br>🎯 Target"]:::target
     L4["Level 4: Measured"]:::future
     L5["Level 5: Optimized"]:::future
 
@@ -999,23 +999,23 @@ flowchart TD
     classDef detail fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 
     subgraph FactTable["Fact: Configuration Deployment"]
-        FACT["📊 Deployment Event\nenvironment, location, timestamp"]:::core
+        FACT["📊 Deployment Event<br>environment, location, timestamp"]:::core
     end
     style FactTable fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Dimensions["Configuration Dimensions"]
-        DIM_DC["🏢 DevCenter Dimension\nname, identity, sync status"]:::data
-        DIM_PROJ["📁 Project Dimension\nname, description, network type"]:::data
-        DIM_SEC["🔑 Security Dimension\nKV name, RBAC model, retention"]:::data
-        DIM_RG["📦 Resource Group Dimension\nname, tier, create flag"]:::data
+        DIM_DC["🏢 DevCenter Dimension<br>name, identity, sync status"]:::data
+        DIM_PROJ["📁 Project Dimension<br>name, description, network type"]:::data
+        DIM_SEC["🔑 Security Dimension<br>KV name, RBAC model, retention"]:::data
+        DIM_RG["📦 Resource Group Dimension<br>name, tier, create flag"]:::data
     end
     style Dimensions fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph DetailDimensions["Detail Dimensions"]
-        DD_POOL["💻 Pool\nVM SKU, image"]:::detail
-        DD_CAT["📚 Catalog\ntype, URI, branch"]:::detail
-        DD_ENV["🌍 EnvironmentType\nname, target"]:::detail
-        DD_TAG["🏷️ Tags\n7-key taxonomy"]:::detail
+        DD_POOL["💻 Pool<br>VM SKU, image"]:::detail
+        DD_CAT["📚 Catalog<br>type, URI, branch"]:::detail
+        DD_ENV["🌍 EnvironmentType<br>name, target"]:::detail
+        DD_TAG["🏷️ Tags<br>7-key taxonomy"]:::detail
     end
     style DetailDimensions fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -1060,9 +1060,9 @@ flowchart LR
     classDef config fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 
     subgraph CurrentSchemas["Current Schema Versions (v1.0)"]
-        S1["📋 devcenter.schema.json\nDraft-07 | 15+ properties"]:::schema
-        S2["📋 security.schema.json\nDraft-07 | 8 properties"]:::schema
-        S3["📋 azureResources.schema.json\nDraft-07 | 6 properties"]:::schema
+        S1["📋 devcenter.schema.json<br>Draft-07 | 15+ properties"]:::schema
+        S2["📋 security.schema.json<br>Draft-07 | 8 properties"]:::schema
+        S3["📋 azureResources.schema.json<br>Draft-07 | 6 properties"]:::schema
     end
     style CurrentSchemas fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -1204,14 +1204,14 @@ flowchart LR
     style Producers fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Contracts["Output Contracts"]
-        C_WID["WORKSPACE_ID\nstring"]:::contract
-        C_KVN["KEY_VAULT_NAME\nstring"]:::contract
-        C_KVS["KEY_VAULT_SECRET_ID\nstring"]:::contract
-        C_KVE["KEY_VAULT_ENDPOINT\nstring"]:::contract
-        C_DCN["DEV_CENTER_NAME\nstring"]:::contract
-        C_NET["networkConnectionName\nstring"]:::contract
-        C_CATN["CATALOG_NAME\nstring"]:::contract
-        C_PN["PROJECT_NAME\nstring"]:::contract
+        C_WID["WORKSPACE_ID<br>string"]:::contract
+        C_KVN["KEY_VAULT_NAME<br>string"]:::contract
+        C_KVS["KEY_VAULT_SECRET_ID<br>string"]:::contract
+        C_KVE["KEY_VAULT_ENDPOINT<br>string"]:::contract
+        C_DCN["DEV_CENTER_NAME<br>string"]:::contract
+        C_NET["networkConnectionName<br>string"]:::contract
+        C_CATN["CATALOG_NAME<br>string"]:::contract
+        C_PN["PROJECT_NAME<br>string"]:::contract
     end
     style Contracts fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -1524,26 +1524,26 @@ flowchart TD
     classDef phase3 fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef orchestrator fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
-    MAIN["⚙️ main.bicep\nOrchestrator"]:::orchestrator
+    MAIN["⚙️ main.bicep<br>Orchestrator"]:::orchestrator
 
     subgraph Phase1["Phase 1: Monitoring"]
-        MON["📊 logAnalytics.bicep\n→ WORKSPACE_ID, WORKSPACE_NAME"]:::phase1
+        MON["📊 logAnalytics.bicep<br>→ WORKSPACE_ID, WORKSPACE_NAME"]:::phase1
     end
     style Phase1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Phase2["Phase 2: Security"]
-        SEC["🔒 security.bicep\n→ KV_NAME, KV_SECRET_ID, KV_ENDPOINT"]:::phase2
-        KV["🔑 keyVault.bicep\n→ KV_NAME, KV_ENDPOINT"]:::phase2
-        SECRET["🔐 secret.bicep\n→ SECRET_IDENTIFIER"]:::phase2
+        SEC["🔒 security.bicep<br>→ KV_NAME, KV_SECRET_ID, KV_ENDPOINT"]:::phase2
+        KV["🔑 keyVault.bicep<br>→ KV_NAME, KV_ENDPOINT"]:::phase2
+        SECRET["🔐 secret.bicep<br>→ SECRET_IDENTIFIER"]:::phase2
     end
     style Phase2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Phase3["Phase 3: Workload"]
-        WL["📦 workload.bicep\n→ DC_NAME, PROJECTS"]:::phase3
-        DC["🏢 devCenter.bicep\n→ DEV_CENTER_NAME"]:::phase3
-        PROJ["📁 project.bicep\n→ PROJECT_NAME, PROJECT_ID"]:::phase3
-        CONN["🌐 connectivity.bicep\n→ networkConnectionName"]:::phase3
-        CAT["📚 catalog.bicep\n→ CATALOG_NAME"]:::phase3
+        WL["📦 workload.bicep<br>→ DC_NAME, PROJECTS"]:::phase3
+        DC["🏢 devCenter.bicep<br>→ DEV_CENTER_NAME"]:::phase3
+        PROJ["📁 project.bicep<br>→ PROJECT_NAME, PROJECT_ID"]:::phase3
+        CONN["🌐 connectivity.bicep<br>→ networkConnectionName"]:::phase3
+        CAT["📚 catalog.bicep<br>→ CATALOG_NAME"]:::phase3
     end
     style Phase3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
