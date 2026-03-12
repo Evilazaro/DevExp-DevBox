@@ -199,6 +199,208 @@ data.
 | Secret Storage Protection | Secrets stored with content type metadata, enabled flag, and diagnostic auditing | Confidential   |
 | Network Isolation         | VNet with subnet segmentation and Azure AD Join domain type for Dev Boxes        | Internal       |
 
+#### 🗺️ Data Domain Map
+
+```mermaid
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: "16px"
+---
+flowchart TD
+    accTitle: DevExp-DevBox Data Domain Map
+    accDescr: Shows the three primary data domains (Workload, Security, Monitoring) and their constituent data entities
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+
+    subgraph WorkloadDomain["Workload Domain"]
+        DC["🏢 DevCenter"]:::core
+        PROJ["📁 Project"]:::core
+        POOL["💻 Pool"]:::core
+        CAT["📚 Catalog"]:::core
+        ENV["🌍 EnvironmentType"]:::core
+    end
+    style WorkloadDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph SecurityDomain["Security Domain"]
+        KV["🔑 Key Vault"]:::danger
+        SEC["🔐 Secret"]:::danger
+        RBAC["👤 RBAC Assignments"]:::danger
+    end
+    style SecurityDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph MonitoringDomain["Monitoring Domain"]
+        LA["📊 Log Analytics"]:::success
+        DIAG["📡 Diagnostic Settings"]:::success
+    end
+    style MonitoringDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    DC --> PROJ
+    PROJ --> POOL
+    PROJ --> CAT
+    DC --> ENV
+    DC --> RBAC
+    KV --> SEC
+    RBAC --> KV
+    LA --> DIAG
+    DIAG --> DC
+    DIAG --> KV
+```
+
+#### 🗄️ Storage Tier Diagram
+
+```mermaid
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: "16px"
+---
+flowchart LR
+    accTitle: DevExp-DevBox Storage Tier Architecture
+    accDescr: Shows the four storage tiers from version-controlled config files through Azure managed services
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+
+    subgraph Tier1["Tier 1: Version-Controlled Config"]
+        YAML["📄 YAML Files (3)"]:::data
+        SCHEMA["📋 JSON Schemas (3)"]:::data
+    end
+    style Tier1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Tier2["Tier 2: Secret Store"]
+        KVS["🔑 Azure Key Vault"]:::danger
+    end
+    style Tier2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Tier3["Tier 3: Telemetry Store"]
+        LAS["📊 Log Analytics Workspace"]:::success
+    end
+    style Tier3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Tier4["Tier 4: Resource State"]
+        ARM["☁️ Azure Resource Manager"]:::core
+    end
+    style Tier4 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    YAML -->|"validates against"| SCHEMA
+    YAML -->|"loadYamlContent()"| ARM
+    ARM -->|"provisions"| KVS
+    ARM -->|"provisions"| LAS
+    KVS -->|"diagnostics"| LAS
+    ARM -->|"diagnostics"| LAS
+```
+
+#### 🌐 Data Zone Topology
+
+```mermaid
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: "16px"
+---
+flowchart TD
+    accTitle: DevExp-DevBox Data Zone Topology
+    accDescr: Shows the logical data zones aligned with Azure Landing Zone tiers including configuration, security, monitoring, and workload zones
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+
+    subgraph ConfigZone["Configuration Zone (Git Repository)"]
+        CZ1["📄 devcenter.yaml"]:::data
+        CZ2["📄 security.yaml"]:::data
+        CZ3["📄 azureResources.yaml"]:::data
+        CZ4["📋 devcenter.schema.json"]:::data
+        CZ5["📋 security.schema.json"]:::data
+        CZ6["📋 azureResources.schema.json"]:::data
+    end
+    style ConfigZone fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph SecurityZone["Security Zone (security-RG)"]
+        SZ1["🔑 Key Vault"]:::danger
+        SZ2["🔐 Secrets"]:::danger
+    end
+    style SecurityZone fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph MonitoringZone["Monitoring Zone (monitoring-RG)"]
+        MZ1["📊 Log Analytics"]:::success
+        MZ2["📡 AzureActivity Solution"]:::success
+    end
+    style MonitoringZone fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph WorkloadZone["Workload Zone (workload-RG)"]
+        WZ1["🏢 Dev Center"]:::core
+        WZ2["📁 Projects"]:::core
+        WZ3["💻 Pools"]:::core
+        WZ4["🌐 Network"]:::core
+    end
+    style WorkloadZone fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph IdentityZone["Identity Zone (Cross-Cutting)"]
+        IZ1["👤 RBAC Assignments"]:::warning
+        IZ2["🏷️ Azure AD Groups"]:::warning
+    end
+    style IdentityZone fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    ConfigZone -->|"deploys to"| SecurityZone
+    ConfigZone -->|"deploys to"| MonitoringZone
+    ConfigZone -->|"deploys to"| WorkloadZone
+    IdentityZone -->|"secures"| SecurityZone
+    IdentityZone -->|"secures"| WorkloadZone
+    MonitoringZone -->|"monitors"| SecurityZone
+    MonitoringZone -->|"monitors"| WorkloadZone
+```
+
 ### 📊 Summary
 
 The data landscape encompasses 47 components across all 11 canonical data types.
@@ -273,6 +475,74 @@ established governance standards.
 | Confidential   | Secrets, keys, and credentials requiring encryption at rest and RBAC access control | Key Vault secrets (gha-token), Key Vault endpoints, secret identifiers   |
 | Internal       | Platform configuration and operational data not exposed to end users                | Dev Center settings, resource group configs, RBAC role definitions, tags |
 | Public         | No public-classified data detected in configuration files                           | Not detected                                                             |
+
+#### 🏛️ Data Principle Hierarchy
+
+```mermaid
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: "16px"
+---
+flowchart TD
+    accTitle: DevExp-DevBox Data Principle Hierarchy
+    accDescr: Shows the hierarchical relationship between data architecture principles from strategic pillars to implementation practices
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    classDef strategic fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef principle fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef practice fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+
+    subgraph Strategic["Strategic Pillars"]
+        SP1["🎯 Configuration as Single Source of Truth"]:::strategic
+        SP2["🛡️ Security-First Governance"]:::strategic
+    end
+    style Strategic fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Principles["Core Principles"]
+        P1["📋 Schema-First Validation"]:::principle
+        P2["🔒 Least Privilege Access"]:::principle
+        P3["📦 Functional Domain Isolation"]:::principle
+        P4["📜 Immutable Configuration"]:::principle
+        P5["🔀 Separation of Concerns"]:::principle
+    end
+    style Principles fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph Practices["Implementation Practices"]
+        PR1["📄 YAML-over-JSON for authoring"]:::practice
+        PR2["⚙️ Type-safe Bicep parameters"]:::practice
+        PR3["📝 AZURE_ output contracts"]:::practice
+        PR4["🏷️ Wildcard tag support"]:::practice
+        PR5["👤 Scoped RBAC role assignments"]:::practice
+        PR6["📊 Diagnostic settings on resources"]:::practice
+    end
+    style Practices fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    SP1 --> P1
+    SP1 --> P4
+    SP2 --> P2
+    SP2 --> P3
+    SP1 --> P5
+    P1 --> PR1
+    P1 --> PR2
+    P4 --> PR3
+    P3 --> PR4
+    P2 --> PR5
+    P5 --> PR6
+```
 
 ---
 
@@ -398,6 +668,64 @@ flowchart LR
 | Access Control     | 80% — RBAC at 3 scopes                      | 100%         | No conditional access or JIT policies      |
 | Audit Coverage     | 70% — diagnostic settings on key resources  | 100%         | Not all resources have diagnostic settings |
 
+#### 📊 Quality Heatmap
+
+```mermaid
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: "16px"
+---
+flowchart LR
+    accTitle: DevExp-DevBox Data Quality Heatmap
+    accDescr: Visual heatmap showing quality dimension scores across data domains with color-coded assessments
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    classDef high fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef medium fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef low fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+
+    subgraph SchemaQuality["Schema Coverage: 100%"]
+        SQ1["✅ devcenter.yaml"]:::high
+        SQ2["✅ security.yaml"]:::high
+        SQ3["✅ azureResources.yaml"]:::high
+    end
+    style SchemaQuality fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph NamingQuality["Naming Consistency: 90%"]
+        NQ1["✅ AZURE_ output prefix"]:::high
+        NQ2["⚠️ Resource name variations"]:::medium
+    end
+    style NamingQuality fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph AccessQuality["Access Control: 80%"]
+        AQ1["✅ Multi-scope RBAC"]:::high
+        AQ2["⚠️ No conditional access"]:::medium
+        AQ3["❌ No JIT policies"]:::low
+    end
+    style AccessQuality fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    subgraph AuditQuality["Audit Coverage: 70%"]
+        AU1["✅ Key Vault diagnostics"]:::high
+        AU2["⚠️ Partial resource coverage"]:::medium
+        AU3["❌ Missing diagnostic targets"]:::low
+    end
+    style AuditQuality fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+```
+
 ### ✅ Compliance Posture
 
 | Control                | Status      |
@@ -408,6 +736,49 @@ flowchart LR
 | Purge Protection       | Implemented |
 | Network Segmentation   | Implemented |
 | Diagnostic Logging     | Implemented |
+
+#### 📊 Governance Maturity Matrix
+
+```mermaid
+---
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: "16px"
+---
+flowchart LR
+    accTitle: DevExp-DevBox Data Governance Maturity Matrix
+    accDescr: Shows the current data maturity level assessment from Level 1 Ad-hoc through Level 5 Optimized with current position at Level 2 Managed
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    classDef achieved fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef current fill:#EFF6FC,stroke:#0078D4,stroke-width:3px,color:#323130
+    classDef target fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef future fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#A19F9D
+
+    L1["Level 1: Ad-hoc\n✅ Achieved"]:::achieved
+    L2["Level 2: Managed\n⬅️ Current State"]:::current
+    L3["Level 3: Defined\n🎯 Target"]:::target
+    L4["Level 4: Measured"]:::future
+    L5["Level 5: Optimized"]:::future
+
+    L1 -->|"YAML configs + basic RBAC"| L2
+    L2 -->|"Data catalog + automated quality"| L3
+    L3 -->|"SLAs + anomaly detection"| L4
+    L4 -->|"Self-service + real-time dashboards"| L5
+```
 
 ### 📊 Summary
 
