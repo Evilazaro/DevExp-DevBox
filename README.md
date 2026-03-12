@@ -557,77 +557,223 @@ automatically by the `preprovision` hook.
 > deploying to catch naming violations, missing required fields, and invalid
 > values early.
 
-| File                                                         | Description                                                                                   | Schema                       |
-| ------------------------------------------------------------ | --------------------------------------------------------------------------------------------- | ---------------------------- |
-| 📁 `infra/settings/resourceOrganization/azureResources.yaml` | Resource group names, descriptions, creation flags, and governance tags                       | `azureResources.schema.json` |
-| 🔒 `infra/settings/security/security.yaml`                   | Key Vault name, purge protection, soft delete, RBAC authorization, and secret configuration   | `security.schema.json`       |
-| ⚙️ `infra/settings/workload/devcenter.yaml`                  | Dev Center name, identity, catalogs, environment types, projects, pools, and network settings | `devcenter.schema.json`      |
+| File                                                         | Description                                                                                                    |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| 📁 `infra/settings/resourceOrganization/azureResources.yaml` | Resource group names, descriptions, creation flags, and governance tags                                        |
+| 🔒 `infra/settings/security/security.yaml`                   | Key Vault creation flag, vault settings, secret configuration, and governance tags                             |
+| ⚙️ `infra/settings/workload/devcenter.yaml`                  | Dev Center name, identity, RBAC, catalogs, environment types, projects, pools, networking, and governance tags |
+
+---
 
 **Resource Organization (`azureResources.yaml`):**
 
 Defines the three resource groups that segment the landing zone by function.
 Each group can be toggled on or off with the `create` flag and tagged
-independently for cost management and governance.
+independently for cost management and governance. All three groups (`workload`,
+`security`, `monitoring`) are required by the schema. Each group must include
+`create`, `name`, `description`, and `tags`.
 
-| Parameter              | Description                                                                                                       | Default             |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------- |
-| 📦 `workload.name`     | Workload resource group name prefix                                                                               | `devexp-workload`   |
-| 📦 `workload.create`   | Whether to create the workload group                                                                              | `true`              |
-| 🔒 `security.name`     | Security resource group name prefix                                                                               | `devexp-security`   |
-| 🔒 `security.create`   | Whether to create the security group                                                                              | `true`              |
-| 📊 `monitoring.name`   | Monitoring resource group name prefix                                                                             | `devexp-monitoring` |
-| 📊 `monitoring.create` | Whether to create the monitoring group                                                                            | `true`              |
-| 🏷️ `*.tags`            | Governance tags (`environment`, `division`, `team`, `project`, `costCenter`, `owner`, `landingZone`, `resources`) | See file            |
+| Parameter                   | Type      | Description                                                            | Required | Default             |
+| --------------------------- | --------- | ---------------------------------------------------------------------- | -------- | ------------------- |
+| 📦 `workload.create`        | `boolean` | Whether to create the workload resource group                          | ✅       | `true`              |
+| 📦 `workload.name`          | `string`  | Workload resource group name (1–90 chars, alphanumeric, `.`, `_`, `-`) | ✅       | `devexp-workload`   |
+| 📦 `workload.description`   | `string`  | Purpose of the workload resource group                                 | ✅       | —                   |
+| 🔒 `security.create`        | `boolean` | Whether to create the security resource group                          | ✅       | `true`              |
+| 🔒 `security.name`          | `string`  | Security resource group name                                           | ✅       | `devexp-security`   |
+| 🔒 `security.description`   | `string`  | Purpose of the security resource group                                 | ✅       | —                   |
+| 📊 `monitoring.create`      | `boolean` | Whether to create the monitoring resource group                        | ✅       | `true`              |
+| 📊 `monitoring.name`        | `string`  | Monitoring resource group name                                         | ✅       | `devexp-monitoring` |
+| 📊 `monitoring.description` | `string`  | Purpose of the monitoring resource group                               | ✅       | —                   |
+| 🏷️ `*.tags`                 | `object`  | Governance tags applied to each resource group                         | ✅       | See governance tags |
+
+---
 
 **Security (`security.yaml`):**
 
 Configures the Azure Key Vault used to store source control tokens and other
 sensitive values. All settings follow Azure security best practices by default.
+The `create` flag controls whether a new Key Vault is provisioned or an existing
+one is used.
 
-| Parameter                               | Description                             | Default     |
-| --------------------------------------- | --------------------------------------- | ----------- |
-| 🔐 `keyVault.name`                      | Key Vault name prefix                   | `contoso`   |
-| 🔑 `keyVault.secretName`                | Name of the secret storing the token    | `gha-token` |
-| 🔒 `keyVault.enablePurgeProtection`     | Prevent permanent deletion of vault     | `true`      |
-| 🗑️ `keyVault.enableSoftDelete`          | Enable soft delete for recovery         | `true`      |
-| 📅 `keyVault.softDeleteRetentionInDays` | Retention period for soft-deleted items | `7`         |
-| 🔑 `keyVault.enableRbacAuthorization`   | Use RBAC instead of access policies     | `true`      |
-| 🏷️ `keyVault.tags`                      | Governance tags for the Key Vault       | See file    |
+| Parameter                               | Type      | Description                                                            | Required | Default             |
+| --------------------------------------- | --------- | ---------------------------------------------------------------------- | -------- | ------------------- |
+| ✅ `create`                             | `boolean` | Whether to create a new Key Vault or use an existing one               | ✅       | `true`              |
+| 🔐 `keyVault.name`                      | `string`  | Globally unique Key Vault name (3–24 chars, alphanumeric and hyphens)  | ✅       | `contoso`           |
+| 📝 `keyVault.description`               | `string`  | Purpose of this Key Vault                                              |          | —                   |
+| 🔑 `keyVault.secretName`                | `string`  | Name of the secret storing the source control token (1–127 chars)      |          | `gha-token`         |
+| 🔒 `keyVault.enablePurgeProtection`     | `boolean` | Prevent permanent deletion of vault (irreversible once enabled)        |          | `true`              |
+| 🗑️ `keyVault.enableSoftDelete`          | `boolean` | Enable soft delete for recovery of deleted secrets                     |          | `true`              |
+| 📅 `keyVault.softDeleteRetentionInDays` | `integer` | Retention period for soft-deleted items (7–90 days)                    |          | `90`                |
+| 🔑 `keyVault.enableRbacAuthorization`   | `boolean` | Use Azure RBAC for data plane authorization instead of access policies |          | `true`              |
+| 🏷️ `keyVault.tags`                      | `object`  | Governance tags for the Key Vault resource                             | ✅       | See governance tags |
 
-**Workload — Dev Center (`devcenter.yaml`):**
+---
 
-The largest configuration surface. Defines the Dev Center resource, its identity
-and RBAC assignments, global catalogs, environment types, and one or more
+**Workload — Dev Center Core Settings (`devcenter.yaml`):**
+
+The largest configuration surface. Defines the Dev Center resource, its managed
+identity, RBAC assignments, global catalogs, environment types, and one or more
 projects — each with its own pools, catalogs, networking, identity, and tags.
 
-| Parameter                                    | Description                                          | Default                                                 |
-| -------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------- |
-| ⚙️ `name`                                    | Dev Center resource name                             | `devexp-devcenter`                                      |
-| 🔄 `catalogItemSyncEnableStatus`             | Enable automatic catalog synchronization             | `Enabled`                                               |
-| 🌐 `microsoftHostedNetworkEnableStatus`      | Enable Microsoft-hosted networking for Dev Boxes     | `Enabled`                                               |
-| 📊 `installAzureMonitorAgentEnableStatus`    | Install Azure Monitor agent on provisioned Dev Boxes | `Enabled`                                               |
-| 🔑 `identity.type`                           | Managed identity type for the Dev Center             | `SystemAssigned`                                        |
-| 🔒 `identity.roleAssignments.devCenter[]`    | RBAC roles for the Dev Center managed identity       | Contributor, User Access Administrator, Key Vault roles |
-| 👥 `identity.roleAssignments.orgRoleTypes[]` | Organizational role definitions (e.g., Dev Manager)  | Platform Engineering Team                               |
-| 📋 `catalogs[]`                              | Dev Center-level Git catalogs (tasks, environments)  | Microsoft devcenter-catalog                             |
-| 🌍 `environmentTypes[]`                      | SDLC environment types (dev, staging, UAT)           | dev, staging, UAT                                       |
+| Parameter                                 | Type     | Description                                                                   | Required | Default             |
+| ----------------------------------------- | -------- | ----------------------------------------------------------------------------- | -------- | ------------------- |
+| ⚙️ `name`                                 | `string` | Dev Center resource name (1–63 chars)                                         | ✅       | `devexp-devcenter`  |
+| 🔄 `catalogItemSyncEnableStatus`          | `string` | Automatic catalog synchronization (`Enabled` / `Disabled`)                    |          | `Enabled`           |
+| 🌐 `microsoftHostedNetworkEnableStatus`   | `string` | Microsoft-hosted networking for Dev Boxes (`Enabled` / `Disabled`)            |          | `Enabled`           |
+| 📊 `installAzureMonitorAgentEnableStatus` | `string` | Install Azure Monitor agent on provisioned Dev Boxes (`Enabled` / `Disabled`) |          | `Enabled`           |
+| 🏷️ `tags`                                 | `object` | Top-level governance tags for the Dev Center resource                         |          | See governance tags |
+
+**Workload — Dev Center Identity & RBAC (`identity`):**
+
+Controls how the Dev Center authenticates with Azure and what permissions it
+holds. The managed identity is used to access Key Vault secrets, manage
+subscriptions, and assign roles. Organizational role types define Azure AD
+group-based RBAC bindings for platform teams (e.g., Dev Managers who administer
+projects but do not consume Dev Boxes).
+
+| Parameter                                                           | Type     | Description                                                                                      | Required | Default          |
+| ------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------ | -------- | ---------------- |
+| 🔑 `identity.type`                                                  | `string` | Managed identity type: `SystemAssigned`, `UserAssigned`, `SystemAssignedUserAssigned`, or `None` | ✅       | `SystemAssigned` |
+| 🔒 `identity.roleAssignments.devCenter[].id`                        | `string` | GUID of the Azure RBAC role definition                                                           | ✅       | —                |
+| 🔒 `identity.roleAssignments.devCenter[].name`                      | `string` | Display name of the RBAC role (e.g., `Contributor`)                                              | ✅       | —                |
+| 🔒 `identity.roleAssignments.devCenter[].scope`                     | `string` | Role scope: `Subscription`, `ResourceGroup`, `Tenant`, or `ManagementGroup`                      | ✅       | —                |
+| 👥 `identity.roleAssignments.orgRoleTypes[].type`                   | `string` | Organizational role type (e.g., `DevManager`, `ProjectAdmin`)                                    | ✅       | —                |
+| 👥 `identity.roleAssignments.orgRoleTypes[].azureADGroupId`         | `string` | Azure AD group object ID (GUID)                                                                  | ✅       | —                |
+| 👥 `identity.roleAssignments.orgRoleTypes[].azureADGroupName`       | `string` | Azure AD group display name                                                                      | ✅       | —                |
+| 👥 `identity.roleAssignments.orgRoleTypes[].azureRBACRoles[].name`  | `string` | RBAC role display name (e.g., `DevCenter Project Admin`)                                         |          | —                |
+| 👥 `identity.roleAssignments.orgRoleTypes[].azureRBACRoles[].id`    | `string` | RBAC role definition GUID                                                                        |          | —                |
+| 👥 `identity.roleAssignments.orgRoleTypes[].azureRBACRoles[].scope` | `string` | Role scope (e.g., `ResourceGroup`)                                                               |          | —                |
+
+**Workload — Dev Center Catalogs (`catalogs[]`):**
+
+Dev Center-level catalogs attach Git repositories containing reusable tasks,
+environment definitions, or image definitions. Catalogs sync on a scheduled
+basis. Private repositories require a source control token stored in Key Vault.
+
+| Parameter                  | Type     | Description                                                           | Required | Default   |
+| -------------------------- | -------- | --------------------------------------------------------------------- | -------- | --------- |
+| 📋 `catalogs[].name`       | `string` | Unique catalog name within the Dev Center                             | ✅       | —         |
+| 📋 `catalogs[].type`       | `string` | Repository type: `gitHub` or `adoGit`                                 | ✅       | —         |
+| 👁️ `catalogs[].visibility` | `string` | Repository visibility: `public` or `private` (private requires token) |          | `private` |
+| 🔗 `catalogs[].uri`        | `string` | Git repository URI                                                    | ✅       | —         |
+| 🌿 `catalogs[].branch`     | `string` | Branch to sync catalog content from                                   |          | `main`    |
+| 📁 `catalogs[].path`       | `string` | Path within the repository to catalog content                         |          | —         |
+
+**Workload — Dev Center Environment Types (`environmentTypes[]`):**
+
+Environment types represent SDLC stages available at the Dev Center level.
+Projects inherit from these types and can scope them further. Each type can
+optionally target a specific Azure subscription for deployment.
+
+| Parameter                                  | Type     | Description                                                              | Required | Default |
+| ------------------------------------------ | -------- | ------------------------------------------------------------------------ | -------- | ------- |
+| 🌍 `environmentTypes[].name`               | `string` | Environment type name (e.g., `dev`, `staging`, `UAT`, `prod`)            | ✅       | —       |
+| 🎯 `environmentTypes[].deploymentTargetId` | `string` | Target Azure subscription ID; empty string uses the default subscription |          | `""`    |
+
+---
 
 **Workload — Projects (`devcenter.yaml` → `projects[]`):**
 
-| Parameter                        | Description                                                          | Default (eShop)                         |
-| -------------------------------- | -------------------------------------------------------------------- | --------------------------------------- |
-| 📦 `name`                        | Project name within the Dev Center                                   | `eShop`                                 |
-| 📝 `description`                 | Project description                                                  | `eShop project.`                        |
-| 🌐 `network.virtualNetworkType`  | Network type (`Managed` or `Unmanaged`)                              | `Managed`                               |
-| 🌐 `network.addressPrefixes`     | VNet CIDR address space                                              | `10.0.0.0/16`                           |
-| 🌐 `network.subnets[]`           | Subnet definitions with address prefixes                             | `10.0.1.0/24`                           |
-| 🔑 `identity.roleAssignments[]`  | Azure AD group RBAC bindings (Dev Box User, Contributor, etc.)       | eShop Developers group                  |
-| 💻 `pools[].name`                | Dev Box pool name                                                    | `backend-engineer`, `frontend-engineer` |
-| 💻 `pools[].vmSku`               | VM SKU for pool instances                                            | `general_i_32c128gb512ssd_v2`           |
-| 💻 `pools[].imageDefinitionName` | Image definition used by the pool                                    | `eShop-backend-engineer`                |
-| 🌍 `environmentTypes[]`          | Project-scoped environment types                                     | dev, staging, UAT                       |
-| 📋 `catalogs[]`                  | Project-scoped catalogs (`environmentDefinition`, `imageDefinition`) | environments, devboxImages              |
-| 🏷️ `tags`                        | Project-level governance tags                                        | See file                                |
+Each project is an independent unit within the Dev Center with its own
+networking, identity, pools, catalogs, environment types, and tags. Only `name`
+is required — all other properties are optional and default to sensible values.
+
+_Project Core:_
+
+| Parameter        | Type     | Description                               | Required | Default             |
+| ---------------- | -------- | ----------------------------------------- | -------- | ------------------- |
+| 📦 `name`        | `string` | Unique project name within the Dev Center | ✅       | —                   |
+| 📝 `description` | `string` | Human-readable project description        |          | —                   |
+| 🏷️ `tags`        | `object` | Project-level governance tags             |          | See governance tags |
+
+_Project Network (`network`):_
+
+Controls virtual network configuration for Dev Box connectivity within the
+project. When `virtualNetworkType` is `Managed`, Microsoft handles the network
+infrastructure. When `Unmanaged`, the accelerator provisions a customer-managed
+VNet with the specified address space and subnets in a dedicated resource group.
+
+| Parameter                                       | Type      | Description                                                    | Required | Default             |
+| ----------------------------------------------- | --------- | -------------------------------------------------------------- | -------- | ------------------- |
+| 🌐 `network.name`                               | `string`  | Virtual network name                                           | ✅       | —                   |
+| 🌐 `network.create`                             | `boolean` | Whether to create a new VNet or use an existing one            | ✅       | `true`              |
+| 🌐 `network.resourceGroupName`                  | `string`  | Resource group for network resources                           |          | —                   |
+| 🌐 `network.virtualNetworkType`                 | `string`  | `Managed` (Microsoft-hosted) or `Unmanaged` (customer-managed) |          | `Managed`           |
+| 🌐 `network.addressPrefixes[]`                  | `array`   | VNet CIDR address spaces (e.g., `10.0.0.0/16`)                 |          | —                   |
+| 🌐 `network.subnets[].name`                     | `string`  | Subnet name                                                    | ✅       | —                   |
+| 🌐 `network.subnets[].properties.addressPrefix` | `string`  | Subnet CIDR range (e.g., `10.0.1.0/24`)                        | ✅       | —                   |
+| 🏷️ `network.tags`                               | `object`  | Governance tags for network resources                          |          | See governance tags |
+
+_Project Identity & RBAC (`identity`):_
+
+Defines the managed identity type and Azure AD group-based role assignments for
+the project. Each role assignment binds an Azure AD group to one or more RBAC
+roles at a specified scope, following the principle of least privilege.
+
+| Parameter                                              | Type     | Description                                                               | Required | Default          |
+| ------------------------------------------------------ | -------- | ------------------------------------------------------------------------- | -------- | ---------------- |
+| 🔑 `identity.type`                                     | `string` | `SystemAssigned`, `UserAssigned`, `SystemAssignedUserAssigned`, or `None` | ✅       | `SystemAssigned` |
+| 👥 `identity.roleAssignments[].azureADGroupId`         | `string` | Azure AD group object ID (GUID)                                           | ✅       | —                |
+| 👥 `identity.roleAssignments[].azureADGroupName`       | `string` | Azure AD group display name                                               | ✅       | —                |
+| 🔒 `identity.roleAssignments[].azureRBACRoles[].name`  | `string` | RBAC role display name (e.g., `Dev Box User`, `Contributor`)              |          | —                |
+| 🔒 `identity.roleAssignments[].azureRBACRoles[].id`    | `string` | RBAC role definition GUID                                                 |          | —                |
+| 🔒 `identity.roleAssignments[].azureRBACRoles[].scope` | `string` | Role scope: `Project` or `ResourceGroup`                                  |          | —                |
+
+_Project Pools (`pools[]`):_
+
+Dev Box pools define role-specific developer workstation configurations. Each
+pool references an image definition from a project catalog and a VM SKU that
+determines compute, memory, and storage capacity.
+
+| Parameter                        | Type     | Description                                                                      | Required | Default |
+| -------------------------------- | -------- | -------------------------------------------------------------------------------- | -------- | ------- |
+| 💻 `pools[].name`                | `string` | Pool name (e.g., `backend-engineer`, `frontend-engineer`)                        | ✅       | —       |
+| 💻 `pools[].imageDefinitionName` | `string` | Image definition name from a project catalog                                     | ✅       | —       |
+| 💻 `pools[].vmSku`               | `string` | Azure VM SKU (e.g., `general_i_32c128gb512ssd_v2`, `general_i_16c64gb256ssd_v2`) |          | —       |
+
+_Project Catalogs (`catalogs[]`):_
+
+Project-level catalogs differ from Dev Center catalogs — they use
+`sourceControl` to specify the Git provider and `type` to declare the catalog
+content kind: `environmentDefinition` for Azure Deployment Environments or
+`imageDefinition` for custom Dev Box images. Private repositories authenticate
+using the source control token stored in Key Vault.
+
+| Parameter                     | Type     | Description                                                        | Required | Default   |
+| ----------------------------- | -------- | ------------------------------------------------------------------ | -------- | --------- |
+| 📋 `catalogs[].name`          | `string` | Unique catalog name within the project                             | ✅       | —         |
+| 📋 `catalogs[].type`          | `string` | Catalog content type: `environmentDefinition` or `imageDefinition` | ✅       | —         |
+| 📋 `catalogs[].sourceControl` | `string` | Source control provider: `gitHub` or `adoGit`                      |          | —         |
+| 👁️ `catalogs[].visibility`    | `string` | `public` or `private` (private requires token in Key Vault)        |          | `private` |
+| 🔗 `catalogs[].uri`           | `string` | Git repository URI                                                 | ✅       | —         |
+| 🌿 `catalogs[].branch`        | `string` | Branch to sync from                                                |          | `main`    |
+| 📁 `catalogs[].path`          | `string` | Path within the repository to catalog content                      |          | —         |
+
+_Project Environment Types (`environmentTypes[]`):_
+
+| Parameter                                  | Type     | Description                                                           | Required | Default |
+| ------------------------------------------ | -------- | --------------------------------------------------------------------- | -------- | ------- |
+| 🌍 `environmentTypes[].name`               | `string` | Environment type name (must match a Dev Center-level type)            | ✅       | —       |
+| 🎯 `environmentTypes[].deploymentTargetId` | `string` | Target Azure subscription; empty string uses the default subscription |          | `""`    |
+
+---
+
+**Governance Tags:**
+
+All configuration files share a consistent tag schema for cost management,
+ownership tracking, and operational governance. Tags are applied to every Azure
+resource created by the accelerator.
+
+| Tag              | Type     | Description                                          | Example Values                                                 |
+| ---------------- | -------- | ---------------------------------------------------- | -------------------------------------------------------------- |
+| 🏷️ `environment` | `string` | Deployment environment identifier                    | `dev`, `test`, `staging`, `prod`                               |
+| 🏷️ `division`    | `string` | Organizational division responsible for the resource | `Platforms`                                                    |
+| 🏷️ `team`        | `string` | Team responsible for managing the resource           | `DevExP`                                                       |
+| 🏷️ `project`     | `string` | Project name for cost allocation and tracking        | `Contoso-DevExp-DevBox`                                        |
+| 🏷️ `costCenter`  | `string` | Cost center for financial tracking and billing       | `IT`                                                           |
+| 🏷️ `owner`       | `string` | Resource owner or responsible party                  | `Contoso`                                                      |
+| 🏷️ `landingZone` | `string` | Azure landing zone classification                    | `Workload`, `security`                                         |
+| 🏷️ `resources`   | `string` | Type of resources contained                          | `ResourceGroup`, `DevCenter`, `KeyVault`, `Network`, `Project` |
 
 ## 🤝 Contributing
 
