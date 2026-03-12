@@ -1,8 +1,23 @@
-# Data Architecture - DevExp-DevBox
+# 📐 Data Architecture - DevExp-DevBox
 
-## Section 1: Executive Summary
+---
 
-### Overview
+## Quick TOC
+
+| #   | Section                                                               |
+| --- | --------------------------------------------------------------------- |
+| 1   | [📊 Executive Summary](#section-1-executive-summary)                  |
+| 2   | [🗺️ Architecture Landscape](#section-2-architecture-landscape)        |
+| 3   | [📏 Architecture Principles](#section-3-architecture-principles)      |
+| 4   | [📍 Current State Baseline](#section-4-current-state-baseline)        |
+| 5   | [📦 Component Catalog](#section-5-component-catalog)                  |
+| 8   | [🔗 Dependencies & Integration](#section-8-dependencies--integration) |
+
+---
+
+## 📊 Section 1: Executive Summary
+
+### 🔭 Overview
 
 The DevExp-DevBox repository implements a configuration-driven
 Infrastructure-as-Code (IaC) platform for provisioning Azure Dev Center
@@ -26,19 +41,17 @@ data architecture supports a self-service model where configuration changes
 propagate through schema validation gates before reaching Azure resource
 provisioning.
 
-### Key Findings
+### 🔑 Key Findings
 
-| Metric                       | Value               | Assessment                                                                   |
-| ---------------------------- | ------------------- | ---------------------------------------------------------------------------- |
-| Total Data Assets Identified | 47                  | Comprehensive coverage across all 11 canonical types                         |
-| Configuration Schemas        | 3 JSON Schema files | Strong structural validation                                                 |
-| Configuration Data Files     | 3 YAML files        | Centralized declarative state                                                |
-| Bicep Module Contracts       | 6 output contracts  | Well-defined producer-consumer interfaces                                    |
-| RBAC Policy Definitions      | 12 role assignments | Granular access governance                                                   |
-| Average Confidence Score     | 0.85                | High confidence — strong filename, path, and content signals                 |
-| Data Maturity Level          | 2 — Managed         | Structured configs, schema validation, RBAC; no automated quality dashboards |
+| Metric                       | Value               | Assessment                                           |
+| ---------------------------- | ------------------- | ---------------------------------------------------- |
+| Total Data Assets Identified | 47                  | Comprehensive coverage across all 11 canonical types |
+| Configuration Schemas        | 3 JSON Schema files | Strong structural validation                         |
+| Configuration Data Files     | 3 YAML files        | Centralized declarative state                        |
+| Bicep Module Contracts       | 6 output contracts  | Well-defined producer-consumer interfaces            |
+| RBAC Policy Definitions      | 12 role assignments | Granular access governance                           |
 
-### Data Quality Scorecard
+### 📋 Data Quality Scorecard
 
 | Quality Dimension | Score | Assessment                                                                    |
 | ----------------- | ----- | ----------------------------------------------------------------------------- |
@@ -48,7 +61,7 @@ provisioning.
 | Timeliness        | 75%   | Configuration changes require manual deployment; no automated drift detection |
 | Governance        | 80%   | RBAC defined at multiple scopes; no formal data catalog or lineage tooling    |
 
-### Coverage Summary
+### 📈 Coverage Summary
 
 The data architecture achieves Level 2 (Managed) maturity on the TOGAF Data
 Maturity Scale. Configuration schemas provide structural governance, RBAC
@@ -61,9 +74,9 @@ Azure Purview.
 
 ---
 
-## Section 2: Architecture Landscape
+## 🗺️ Section 2: Architecture Landscape
 
-### Overview
+### 🔭 Overview
 
 The DevExp-DevBox data landscape is organized around a three-tier landing zone
 model (workload, security, monitoring) where each tier has dedicated
@@ -84,49 +97,49 @@ managed by Azure Resource Manager. This GitOps-aligned approach ensures
 auditability, reproducibility, and rollback capability for all configuration
 data.
 
-### 2.1 Data Entities
+### 🏢 2.1 Data Entities
 
-| Name            | Description                                                         | Source                                                        | Confidence | Classification |
-| --------------- | ------------------------------------------------------------------- | ------------------------------------------------------------- | ---------- | -------------- |
-| DevCenter       | Root platform entity with identity, catalogs, and environment types | infra/settings/workload/devcenter.yaml:21-24                  | 0.95       | Internal       |
-| Project         | Team-scoped workspace within a Dev Center with pools and catalogs   | infra/settings/workload/devcenter.yaml:93-167                 | 0.95       | Internal       |
-| Pool            | Dev Box provisioning pool with VM SKU and image definition          | infra/settings/workload/devcenter.yaml:138-143                | 0.90       | Internal       |
-| Catalog         | Git repository reference for environment or image definitions       | infra/settings/workload/devcenter.yaml:73-80                  | 0.90       | Internal       |
-| EnvironmentType | Deployment lifecycle stage (dev, staging, UAT)                      | infra/settings/workload/devcenter.yaml:83-91                  | 0.88       | Internal       |
-| ResourceGroup   | Azure resource container with tagging and naming conventions        | infra/settings/resourceOrganization/azureResources.yaml:17-30 | 0.92       | Internal       |
+| Name            | Description                                                         | Classification |
+| --------------- | ------------------------------------------------------------------- | -------------- |
+| DevCenter       | Root platform entity with identity, catalogs, and environment types | Internal       |
+| Project         | Team-scoped workspace within a Dev Center with pools and catalogs   | Internal       |
+| Pool            | Dev Box provisioning pool with VM SKU and image definition          | Internal       |
+| Catalog         | Git repository reference for environment or image definitions       | Internal       |
+| EnvironmentType | Deployment lifecycle stage (dev, staging, UAT)                      | Internal       |
+| ResourceGroup   | Azure resource container with tagging and naming conventions        | Internal       |
 
-### 2.2 Data Models
+### 📊 2.2 Data Models
 
-| Name                   | Description                                                                 | Source                                                              | Confidence | Classification |
-| ---------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------- | ---------- | -------------- |
-| DevCenterConfig Schema | JSON Schema defining Dev Center structure with identity, catalogs, projects | infra/settings/workload/devcenter.schema.json:1-10                  | 0.95       | Internal       |
-| SecurityConfig Schema  | JSON Schema defining Key Vault configuration with retention and RBAC        | infra/settings/security/security.schema.json:1-10                   | 0.95       | Internal       |
-| AzureResources Schema  | JSON Schema defining 3-tier landing zone resource group organization        | infra/settings/resourceOrganization/azureResources.schema.json:1-10 | 0.95       | Internal       |
+| Name                   | Description                                                                 | Classification |
+| ---------------------- | --------------------------------------------------------------------------- | -------------- |
+| DevCenterConfig Schema | JSON Schema defining Dev Center structure with identity, catalogs, projects | Internal       |
+| SecurityConfig Schema  | JSON Schema defining Key Vault configuration with retention and RBAC        | Internal       |
+| AzureResources Schema  | JSON Schema defining 3-tier landing zone resource group organization        | Internal       |
 
-### 2.3 Data Stores
+### 🗄️ 2.3 Data Stores
 
-| Name                     | Description                                                                | Source                                       | Confidence | Classification |
-| ------------------------ | -------------------------------------------------------------------------- | -------------------------------------------- | ---------- | -------------- |
-| Azure Key Vault          | Secure secret and key storage with RBAC, soft delete, and purge protection | src/security/keyVault.bicep:44-67            | 0.92       | Confidential   |
-| Log Analytics Workspace  | Centralized telemetry and diagnostic data repository                       | src/management/logAnalytics.bicep:38-50      | 0.90       | Internal       |
-| YAML Configuration Store | Version-controlled configuration files in Git repository                   | infra/settings/workload/devcenter.yaml:1-167 | 0.85       | Internal       |
+| Name                     | Description                                                                | Classification |
+| ------------------------ | -------------------------------------------------------------------------- | -------------- |
+| Azure Key Vault          | Secure secret and key storage with RBAC, soft delete, and purge protection | Confidential   |
+| Log Analytics Workspace  | Centralized telemetry and diagnostic data repository                       | Internal       |
+| YAML Configuration Store | Version-controlled configuration files in Git repository                   | Internal       |
 
-### 2.4 Data Flows
+### 🔀 2.4 Data Flows
 
-| Name                          | Description                                                                       | Source                                           | Confidence | Classification |
-| ----------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------ | ---------- | -------------- |
-| Config-to-Deployment Pipeline | YAML config loaded via loadYamlContent into Bicep parameters for Azure deployment | infra/main.bicep:36-37                           | 0.92       | Internal       |
-| Secret Provisioning Flow      | Secure secret value flows from deployment parameter to Key Vault storage          | src/security/secret.bicep:21-31                  | 0.90       | Confidential   |
-| Diagnostic Telemetry Flow     | Resource metrics and logs flow to Log Analytics via diagnostic settings           | src/management/logAnalytics.bicep:63-86          | 0.88       | Internal       |
-| RBAC Assignment Flow          | Identity principal IDs flow through role assignment modules to Azure RBAC         | src/identity/devCenterRoleAssignment.bicep:28-38 | 0.85       | Internal       |
+| Name                          | Description                                                                       | Classification |
+| ----------------------------- | --------------------------------------------------------------------------------- | -------------- |
+| Config-to-Deployment Pipeline | YAML config loaded via loadYamlContent into Bicep parameters for Azure deployment | Internal       |
+| Secret Provisioning Flow      | Secure secret value flows from deployment parameter to Key Vault storage          | Confidential   |
+| Diagnostic Telemetry Flow     | Resource metrics and logs flow to Log Analytics via diagnostic settings           | Internal       |
+| RBAC Assignment Flow          | Identity principal IDs flow through role assignment modules to Azure RBAC         | Internal       |
 
-### 2.5 Data Services
+### ⚙️ 2.5 Data Services
 
-| Name                        | Description                                                             | Source                                    | Confidence | Classification |
-| --------------------------- | ----------------------------------------------------------------------- | ----------------------------------------- | ---------- | -------------- |
-| DevCenter Resource Provider | Azure resource provider managing Dev Center lifecycle and configuration | src/workload/core/devCenter.bicep:163-189 | 0.90       | Internal       |
-| Key Vault Service           | Azure managed service for secret, key, and certificate operations       | src/security/keyVault.bicep:44-67         | 0.90       | Confidential   |
-| Log Analytics Service       | Azure monitoring service for log ingestion, querying, and alerting      | src/management/logAnalytics.bicep:38-50   | 0.88       | Internal       |
+| Name                        | Description                                                             | Classification |
+| --------------------------- | ----------------------------------------------------------------------- | -------------- |
+| DevCenter Resource Provider | Azure resource provider managing Dev Center lifecycle and configuration | Internal       |
+| Key Vault Service           | Azure managed service for secret, key, and certificate operations       | Confidential   |
+| Log Analytics Service       | Azure monitoring service for log ingestion, querying, and alerting      | Internal       |
 
 ### 2.6 Data Governance
 
