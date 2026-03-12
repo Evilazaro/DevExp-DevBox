@@ -221,7 +221,7 @@ The setup scripts validate all prerequisites automatically and provide clear
 error messages when dependencies are missing. Platform-specific instructions are
 available for both Windows (PowerShell) and Linux/macOS (Bash) environments.
 
-> [!IMPORTANT] You must have **Owner** or **Contributor + User Access
+> [!IMPORTANT] "\\n" You must have **Owner** or **Contributor + User Access
 > Administrator** permissions on your Azure subscription to deploy this
 > accelerator, as it creates resource groups and role assignments at the
 > subscription scope.
