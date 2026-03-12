@@ -97,22 +97,6 @@ documentation, issue templates, and deployment scripts.
 | Provisioning Trigger | **Lifecycle event** triggered by `azd provision` command that initiates the preprovision hook, executes setup scripts, and deploys the full landing zone |
 | Configuration Change | **Governance event** triggered by YAML configuration updates that flow through the PR-based change management process before infrastructure deployment   |
 
-### 2.10 📦 Business Objects/Entities (0)
-
-**Status**: Not detected in analyzed files. The repository defines
-infrastructure resources and configuration models rather than canonical business
-domain entities (e.g., Customer, Order, Product). Business objects are implicit
-within the Dev Box provisioning domain but not explicitly modeled as standalone
-documents.
-
-### 2.11 📊 KPIs & Metrics (0)
-
-**Status**: Not detected in analyzed files. While the repository emphasizes
-monitoring (Log Analytics, diagnostic settings), no explicit business KPI
-definitions, SLA targets, or performance dashboards were found in the source.
-CONTRIBUTING.md references "Exit metrics" for Epics but does not define specific
-measurable KPIs.
-
 ### 🗂️ Business Capability Map
 
 ```mermaid
@@ -578,19 +562,6 @@ implementation details, consistent with the Business Architecture scope.
 | **📝 Name**          | Configuration Change                                                                                                                                                                                                         |
 | **📝 Description**   | Governance event triggered when YAML configuration files are updated, flowing through the PR-based change management process with required issue linking, label application, and validation before infrastructure deployment |
 | **🔗 Relationships** | Triggers: Change Management process; Affects: All YAML configuration files; Governed by: CONTRIBUTING.md guidelines                                                                                                          |
-
-### 5.10 📦 Business Objects/Entities (0)
-
-**Status**: Not detected. The repository models infrastructure resources (Dev
-Center, Projects, Pools, VNets) rather than canonical business domain entities.
-Business objects are implicit within the developer experience domain but are not
-formalized as standalone documents or data models.
-
-### 5.11 📊 KPIs & Metrics (0)
-
-**Status**: Not detected. While CONTRIBUTING.md references "Exit metrics" for
-Epics and the repository tracks cost allocation through tagging, no explicit KPI
-definitions, SLA targets, or performance measurement frameworks were found.
 
 ### 🔀 Component Relationships — Business Process Flow
 
