@@ -30,7 +30,7 @@ in a single command.
 - [✨ Features](#-features)
 - [📋 Requirements](#-requirements)
 - [🚀 Quick Start](#-quick-start)
-- [ Usage](#-usage)
+- [💻 Usage](#-usage)
 - [⚙️ Configuration](#️-configuration)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
