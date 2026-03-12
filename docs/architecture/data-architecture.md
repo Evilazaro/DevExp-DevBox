@@ -434,19 +434,14 @@ automated configuration validation in CI/CD pipelines.
 The Component Catalog provides a detailed inventory of all identified data
 components organized by the 11 canonical TOGAF data component types. Each
 component is documented with its classification, storage characteristics,
-ownership, retention policy, freshness SLA, source systems, downstream
-consumers, and source file traceability.
+ownership, retention policy, freshness SLA, source systems, and downstream
+consumers.
 
 The catalog reflects the configuration-driven nature of the DevExp-DevBox
 platform, where data components primarily represent infrastructure configuration
 entities rather than traditional application data. Components are scoped to the
 three functional domains (workload, security, monitoring) and interact through
 well-defined Bicep module output contracts.
-
-All components have been evaluated against the confidence scoring formula (30%
-filename + 25% path + 35% content + 10% cross-reference) with a minimum
-threshold of 0.7. Components below threshold have been excluded. Source file
-references use the mandatory `path/file.ext:line-range` plain text format.
 
 ### 🏢 5.1 Data Entities
 
