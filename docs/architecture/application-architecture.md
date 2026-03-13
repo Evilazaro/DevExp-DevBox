@@ -1737,6 +1737,17 @@ flowchart TB
     accTitle: Module Dependency Call Graph
     accDescr: Shows the complete Bicep module dependency chain from the main orchestrator through monitoring, security, and workload domains with all downstream module references
 
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
     MAIN("📦 main.bicep"):::core
 
     MAIN -->|"scope: monitoringRG"| MON("📊 logAnalytics.bicep"):::data
@@ -1807,6 +1818,17 @@ flowchart LR
     accTitle: Configuration to Deployment Data Flow Diagram
     accDescr: Shows data flow from YAML configuration files through JSON Schema validation and Bicep compilation to Azure Resource Manager deployment with output chaining between modules
 
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
     subgraph configInput["Configuration Input"]
         YAML1("📄 devcenter.yaml"):::data
         YAML2("📄 security.yaml"):::data
@@ -1875,6 +1897,17 @@ flowchart LR
     accTitle: Event Subscription Map Diagram
     accDescr: Shows diagnostic telemetry flow from all Azure resources to the centralized Log Analytics workspace
 
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
     DC("🏗️ DevCenter"):::core
     KV("🔑 Key Vault"):::data
     VNET("🔌 Virtual Network"):::neutral
@@ -1929,6 +1962,17 @@ flowchart TB
     accTitle: Integration Pattern Matrix Diagram
     accDescr: Shows the four integration patterns used across the platform and which components implement each pattern
 
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
     subgraph patterns["🔗 Integration Patterns"]
         CaC("📄 Configuration-as-Code"):::data
         MC("🧱 Module Composition"):::core
@@ -1940,6 +1984,8 @@ flowchart TB
     MC -->|"23 modules"| MAIN("📦 Main Orchestrator"):::core
     OC -->|"8 outputs"| CHAIN("🔗 Parameter Passing"):::neutral
     DS -->|"4 resources"| LA("📊 Log Analytics"):::data
+
+    style patterns fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
