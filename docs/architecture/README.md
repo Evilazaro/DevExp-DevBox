@@ -72,6 +72,17 @@ flowchart TB
     accTitle: BDAT Architecture Framework — DevExp-DevBox
     accDescr: Shows the four BDAT architecture layers, their key questions, component types, and vertical traceability relationships for the DevExp-DevBox platform
 
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
     subgraph business["🏢 Business Layer — 25 Components"]
         direction LR
         B1("🎯 Strategy &<br/>Capabilities"):::core
@@ -86,7 +97,7 @@ flowchart TB
         A3("🔗 Integration<br/>Patterns"):::success
     end
 
-    subgraph data["📐 Data Layer — 47 Components"]
+    subgraph dataLayer["📐 Data Layer — 47 Components"]
         direction LR
         D1("📄 Entities &<br/>Models"):::data
         D2("🔀 Flows &<br/>Transformations"):::data
@@ -108,22 +119,24 @@ flowchart TB
     end
 
     business -->|"realized by"| application
-    application -->|"persists in"| data
-    data -->|"hosted on"| technology
+    application -->|"persists in"| dataLayer
+    dataLayer -->|"hosted on"| technology
     crosscut -.-|"spans all layers"| business
     crosscut -.-|"spans all layers"| technology
 
+    %% Centralized classDefs
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
 
-    style business fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style application fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
-    style data fill:#F3F2F1,stroke:#8764B8,stroke-width:2px,color:#323130
+    %% Subgraph styling (5 subgraphs = 5 style directives)
+    style business fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style application fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style dataLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style technology fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style crosscut fill:#FDE7E9,stroke:#D13438,stroke-width:1px,color:#323130
+    style crosscut fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ### 📋 Layer Definitions
