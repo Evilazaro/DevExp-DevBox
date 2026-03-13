@@ -2008,3 +2008,8 @@ and Azure Monitor (REST). The **Configuration-as-Code integration pattern**
 ensures that all deployment-time decisions are declarative, schema-validated,
 and version-controlled through the three YAML configuration files and their
 companion JSON Schemas.
+
+---
+
+Created by Evilazaro Alves | Principal Cloud Solution Architect | Cloud
+Platforms and AI Apps | Microsoft

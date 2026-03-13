@@ -312,3 +312,8 @@ When updating architecture documentation:
 
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) for general repository contribution
 guidelines.
+
+---
+
+Created by Evilazaro Alves | Principal Cloud Solution Architect | Cloud
+Platforms and AI Apps | Microsoft

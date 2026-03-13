@@ -20,9 +20,9 @@ built on **Microsoft Azure DevCenter** and **Azure Dev Box**. It provisions
 cloud-hosted developer workstations (Dev Boxes) with role-specific
 configurations for development teams, managed centrally through a DevCenter with
 version-controlled catalogs and environment types. The platform is deployed
-exclusively via Infrastructure-as-Code (Azure Bicep) using the Azure Developer
-CLI (`azd`), following Azure Landing Zone principles with three isolated
-resource groups by function: workload, security, and monitoring.
+exclusively via **Infrastructure-as-Code** (Azure Bicep) using the Azure
+Developer CLI (`azd`), following **Azure Landing Zone principles** with **three
+isolated resource groups** by function: workload, security, and monitoring.
 
 ### 📊 Infrastructure Component Summary
 
@@ -63,8 +63,8 @@ resource groups by function: workload, security, and monitoring.
 
 ## 🗺️ Section 2: Architecture Landscape
 
-The ContosoDevExp technology ecosystem is organized around three Azure Landing
-Zones and an Azure DevCenter providing centralized developer workstation
+The ContosoDevExp technology ecosystem is organized around **three Azure Landing
+Zones** and an Azure DevCenter providing centralized developer workstation
 management. The topology spans cloud-managed compute (Dev Box), managed network
 (Microsoft-hosted), key-based secrets management, GitHub catalog integration,
 and centralized observability.
@@ -375,10 +375,10 @@ redeploy behavior without manual state management.
 
 ### 🗺️ Resource Topology Overview
 
-The ContosoDevExp platform deploys to a single Azure subscription across three
-dedicated resource groups. The topology follows a hub-and-spoke reference
-pattern where the DevCenter acts as the central management plane for all Dev Box
-provisioning.
+The ContosoDevExp platform deploys to a **single Azure subscription** across
+three dedicated resource groups. The topology follows a **hub-and-spoke
+reference pattern** where the DevCenter acts as the central management plane for
+all Dev Box provisioning.
 
 | 📁 Resource Group      | ⚙️ Function            | 🔑 Key Resources                           | 🏷️ Naming Pattern                |
 | ---------------------- | ---------------------- | ------------------------------------------ | -------------------------------- |
@@ -1018,9 +1018,9 @@ flowchart TB
 
 ### 📊 Resource Dependency Graph
 
-The ContosoDevExp platform has a strict deployment dependency chain enforced via
-Bicep `dependsOn` clauses in `infra/main.bicep`. The chain must be honored
-during deployment and destruction.
+The ContosoDevExp platform has a **strict deployment dependency chain** enforced
+via Bicep `dependsOn` clauses in `infra/main.bicep`. The chain **must** be
+honored during deployment and destruction.
 
 **Deployment Order (sequential)**:
 
@@ -1235,3 +1235,8 @@ flowchart TB
 
 _✅ Mermaid Verification: 7/7 diagrams | Score: 100/100 | Violations: 0 | All
 AZURE/FLUENT v1.1 gates passed_
+
+---
+
+Created by Evilazaro Alves | Principal Cloud Solution Architect | Cloud
+Platforms and AI Apps | Microsoft

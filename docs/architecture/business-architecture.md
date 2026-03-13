@@ -849,3 +849,8 @@ The primary integration risk is the coupling between Dev Box pool image
 definitions and external Git catalogs — catalog synchronization failures would
 prevent new Dev Box provisioning. Implementing health monitoring for catalog
 sync status would mitigate this dependency risk.
+
+---
+
+Created by Evilazaro Alves | Principal Cloud Solution Architect | Cloud
+Platforms and AI Apps | Microsoft
