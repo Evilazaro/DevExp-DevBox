@@ -25,14 +25,14 @@ platform.
 
 ---
 
-## Document Index
+## 📂 Document Index
 
-| Document                                                | Layer       | Components | Description                                                                               |
-| ------------------------------------------------------- | ----------- | ---------: | ----------------------------------------------------------------------------------------- |
-| [Business Architecture](business-architecture.md)       | Business    |         25 | Strategy, capabilities, value streams, processes, roles, rules, and governance            |
-| [Application Architecture](application-architecture.md) | Application |         29 | Services, components, interfaces, collaborations, integration patterns, and contracts     |
-| [Data Architecture](data-architecture.md)               | Data        |         47 | Entities, models, stores, flows, governance, quality rules, and security classification   |
-| [Technology Architecture](technology-architecture.md)   | Technology  |         21 | Compute, networking, security infrastructure, monitoring, identity, and deployment models |
+| 📄 Document                                             | 🏷️ Layer    | 🔢 Components | 📝 Description                                                                            |
+| ------------------------------------------------------- | ----------- | ------------: | ----------------------------------------------------------------------------------------- |
+| [Business Architecture](business-architecture.md)       | Business    |            25 | Strategy, capabilities, value streams, processes, roles, rules, and governance            |
+| [Application Architecture](application-architecture.md) | Application |            29 | Services, components, interfaces, collaborations, integration patterns, and contracts     |
+| [Data Architecture](data-architecture.md)               | Data        |            47 | Entities, models, stores, flows, governance, quality rules, and security classification   |
+| [Technology Architecture](technology-architecture.md)   | Technology  |            21 | Compute, networking, security infrastructure, monitoring, identity, and deployment models |
 
 ---
 
@@ -99,12 +99,12 @@ flowchart TB
 
 ---
 
-## Layer Relationships
+## 🔗 Layer Relationships
 
 Each document addresses a distinct architectural concern. Together they provide
 full traceability from business intent to infrastructure deployment.
 
-| From            | To              | Relationship                                      | Example                                                   |
+| 🔷 From         | 🔷 To           | 🔄 Relationship                                   | 💡 Example                                                |
 | --------------- | --------------- | ------------------------------------------------- | --------------------------------------------------------- |
 | **Business**    | **Application** | Capabilities are realized by application services | Developer Workstation Provisioning → Dev Box Pool Service |
 | **Application** | **Data**        | Services produce and consume data assets          | Workload Orchestrator → DevCenterConfig YAML              |
@@ -127,9 +127,9 @@ full traceability from business intent to infrastructure deployment.
 through Azure DevCenter, deployed entirely via Infrastructure-as-Code (Azure
 Bicep) using the Azure Developer CLI (`azd`).
 
-### Core Capabilities
+### 💪 Core Capabilities
 
-| Capability                             | Description                                                                                                |
+| 💪 Capability                          | 📝 Description                                                                                             |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | **Developer Workstation Provisioning** | On-demand, role-specific Dev Boxes (backend: 32-core/128GB, frontend: 16-core/64GB)                        |
 | **Identity & Access Management**       | Azure AD group-based RBAC with least-privilege scoping at subscription, resource group, and project levels |
@@ -137,9 +137,9 @@ Bicep) using the Azure Developer CLI (`azd`).
 | **Centralized Monitoring**             | Log Analytics workspace with diagnostic telemetry from all provisioned resources                           |
 | **Network Isolation**                  | Project-scoped virtual networks with subnet segmentation and Azure AD-joined connections                   |
 
-### Azure Landing Zone Structure
+### ☁️ Azure Landing Zone Structure
 
-| Resource Group         | Function               | Key Resources                              |
+| 📁 Resource Group      | ⚙️ Function            | 🔑 Key Resources                           |
 | ---------------------- | ---------------------- | ------------------------------------------ |
 | `devexp-workload-RG`   | Developer Workstations | DevCenter, Projects, Pools, Catalogs       |
 | `devexp-security-RG`   | Secrets Management     | Key Vault, Secrets                         |
@@ -147,9 +147,9 @@ Bicep) using the Azure Developer CLI (`azd`).
 
 ---
 
-## Audience Guide
+## 👥 Audience Guide
 
-| Role                           | Start With                                              | Key Sections                                                |
+| 👤 Role                        | 📄 Start With                                           | 📌 Key Sections                                             |
 | ------------------------------ | ------------------------------------------------------- | ----------------------------------------------------------- |
 | **Executive / Stakeholder**    | [Business Architecture](business-architecture.md)       | Executive Summary, Business Strategy, Value Streams         |
 | **Solution Architect**         | [Application Architecture](application-architecture.md) | Architecture Landscape, Principles, Component Catalog       |
@@ -159,9 +159,9 @@ Bicep) using the Azure Developer CLI (`azd`).
 
 ---
 
-## Key Metrics at a Glance
+## 📊 Key Metrics at a Glance
 
-|                            Metric | Value                                               |
+|                         📏 Metric | 🔢 Value                                            |
 | --------------------------------: | --------------------------------------------------- |
 | **Total Architecture Components** | 122                                                 |
 |           **BDAT Layers Covered** | 4 / 4                                               |
@@ -174,19 +174,19 @@ Bicep) using the Azure Developer CLI (`azd`).
 
 ---
 
-## Architecture Principles
+## 🧭 Architecture Principles
 
 The following cross-cutting principles are observed across all four layers:
 
-| Principle                       | Layers  | Description                                                                  |
-| ------------------------------- | ------- | ---------------------------------------------------------------------------- |
-| **Configuration-Driven Design** | B, A, D | All settings externalized in YAML, validated by JSON Schema                  |
-| **Modular Composition**         | A, T    | Single-responsibility Bicep modules with clear input/output contracts        |
-| **Least-Privilege Access**      | B, D, T | RBAC scoped to minimum required level; group-based identity governance       |
-| **Landing Zone Alignment**      | B, A, T | Three isolated resource groups (workload, security, monitoring)              |
-| **Diagnostic Observability**    | A, D, T | All resources emit logs and metrics to centralized Log Analytics             |
-| **Immutable Infrastructure**    | D, T    | Declarative IaC with idempotent deployment; config version-controlled in Git |
-| **Schema-First Validation**     | D       | Every configuration file validated against a companion JSON Schema           |
+| 🧭 Principle                    | 🏷️ Layers | 📝 Description                                                               |
+| ------------------------------- | --------- | ---------------------------------------------------------------------------- |
+| **Configuration-Driven Design** | B, A, D   | All settings externalized in YAML, validated by JSON Schema                  |
+| **Modular Composition**         | A, T      | Single-responsibility Bicep modules with clear input/output contracts        |
+| **Least-Privilege Access**      | B, D, T   | RBAC scoped to minimum required level; group-based identity governance       |
+| **Landing Zone Alignment**      | B, A, T   | Three isolated resource groups (workload, security, monitoring)              |
+| **Diagnostic Observability**    | A, D, T   | All resources emit logs and metrics to centralized Log Analytics             |
+| **Immutable Infrastructure**    | D, T      | Declarative IaC with idempotent deployment; config version-controlled in Git |
+| **Schema-First Validation**     | D         | Every configuration file validated against a companion JSON Schema           |
 
 ---
 
