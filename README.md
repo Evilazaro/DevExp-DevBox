@@ -28,6 +28,7 @@ Dev Center in a single command.
 
 - [📖 Overview](#-overview)
 - [🏗️ Architecture](#️-architecture)
+  - [📚 Detailed Architecture Documentation](#-detailed-architecture-documentation)
 - [✨ Features](#-features)
 - [📋 Requirements](#-requirements)
 - [🚀 Quick Start](#-quick-start)
@@ -184,6 +185,40 @@ flowchart TB
 | 💻 **Dev Box Pools**       | VM-backed developer workstations with configurable SKUs and image definitions         |
 | 🔌 **Network Connection**  | Azure AD-joined network connections attaching VNets to Dev Center                     |
 | 🔒 **RBAC Assignments**    | Role assignments at subscription, resource group, and project scopes                  |
+
+### 📚 Detailed Architecture Documentation
+
+The [`docs/architecture/`](docs/architecture/) folder contains comprehensive
+architecture documentation following the **BDAT framework** (Business, Data,
+Application, Technology) — **122 total components** across four architectural
+layers with full vertical traceability.
+
+| Document                                                                  | Layer       | Components | Key Topics                                                                        |
+| ------------------------------------------------------------------------- | ----------- | ---------: | --------------------------------------------------------------------------------- |
+| [Business Architecture](docs/architecture/business-architecture.md)       | Business    |         25 | Strategy, capabilities, value streams, processes, roles, governance rules         |
+| [Application Architecture](docs/architecture/application-architecture.md) | Application |         29 | Modular Bicep composition, deployment topology, module contracts, output chaining |
+| [Data Architecture](docs/architecture/data-architecture.md)               | Data        |         47 | JSON Schemas, YAML configurations, DAG deployment pattern, data quality scorecard |
+| [Technology Architecture](docs/architecture/technology-architecture.md)   | Technology  |         21 | Compute, networking, security infrastructure, monitoring, identity services       |
+
+Key architectural highlights documented across these layers:
+
+- **Deployment Flow** — A 3-phase DAG sequence (monitoring → security →
+  workload) with cross-module output chaining documented in the
+  [Application Architecture](docs/architecture/application-architecture.md)
+- **Security Posture** — RBAC authorization, soft delete, purge protection, and
+  managed identities are active; credential rotation automation, private
+  endpoints, and multi-region DR are identified as gaps in the
+  [Technology Architecture](docs/architecture/technology-architecture.md)
+- **Data Maturity** — Level 2 (Managed) with schema-validated configurations and
+  governance tags across all resources, detailed in the
+  [Data Architecture](docs/architecture/data-architecture.md)
+- **Business Alignment** — Platform capabilities mapped to value streams with
+  traceable business rules and KPIs in the
+  [Business Architecture](docs/architecture/business-architecture.md)
+
+> [!NOTE] See the
+> [Architecture Documentation Index](docs/architecture/README.md) for reading
+> order recommendations, audience guides, and cross-layer traceability matrices.
 
 ## ✨ Features
 
