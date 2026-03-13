@@ -216,9 +216,10 @@ Key architectural highlights documented across these layers:
   traceable business rules and KPIs in the
   [Business Architecture](docs/architecture/business-architecture.md)
 
-> [!NOTE] See the
-> [Architecture Documentation Index](docs/architecture/README.md) for reading
-> order recommendations, audience guides, and cross-layer traceability matrices.
+> [!NOTE]
+> See the [Architecture Documentation Index](docs/architecture/README.md) for
+> reading order recommendations, audience guides, and cross-layer traceability
+> matrices.
 
 ## ✨ Features
 
