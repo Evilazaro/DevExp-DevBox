@@ -501,32 +501,28 @@ flowchart TD
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef strategic fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef principle fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef practice fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-
     subgraph Strategic["Strategic Pillars"]
-        SP1["🎯 Configuration as Single Source of Truth"]:::strategic
-        SP2["🛡️ Security-First Governance"]:::strategic
+        SP1("🎯 Configuration as Single Source of Truth"):::core
+        SP2("🛡️ Security-First Governance"):::core
     end
     style Strategic fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Principles["Core Principles"]
-        P1["📋 Schema-First Validation"]:::principle
-        P2["🔒 Least Privilege Access"]:::principle
-        P3["📦 Functional Domain Isolation"]:::principle
-        P4["📜 Immutable Configuration"]:::principle
-        P5["🔀 Separation of Concerns"]:::principle
+        P1("📋 Schema-First Validation"):::data
+        P2("🔒 Least Privilege Access"):::data
+        P3("📦 Functional Domain Isolation"):::data
+        P4("📜 Immutable Configuration"):::data
+        P5("🔀 Separation of Concerns"):::data
     end
     style Principles fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Practices["Implementation Practices"]
-        PR1["📄 YAML-over-JSON for authoring"]:::practice
-        PR2["⚙️ Type-safe Bicep parameters"]:::practice
-        PR3["📝 AZURE_ output contracts"]:::practice
-        PR4["🏷️ Wildcard tag support"]:::practice
-        PR5["👤 Scoped RBAC role assignments"]:::practice
-        PR6["📊 Diagnostic settings on resources"]:::practice
+        PR1("📄 YAML-over-JSON for authoring"):::success
+        PR2("⚙️ Type-safe Bicep parameters"):::success
+        PR3("📝 AZURE_ output contracts"):::success
+        PR4("🏷️ Wildcard tag support"):::success
+        PR5("👤 Scoped RBAC role assignments"):::success
+        PR6("📊 Diagnostic settings on resources"):::success
     end
     style Practices fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -541,6 +537,11 @@ flowchart TD
     P3 --> PR4
     P2 --> PR5
     P5 --> PR6
+
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+
 ```
 
 ---
@@ -693,36 +694,36 @@ flowchart LR
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef high fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef medium fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef low fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-
     subgraph SchemaQuality["Schema Coverage: 100%"]
-        SQ1["✅ devcenter.yaml"]:::high
-        SQ2["✅ security.yaml"]:::high
-        SQ3["✅ azureResources.yaml"]:::high
+        SQ1("✅ devcenter.yaml"):::success
+        SQ2("✅ security.yaml"):::success
+        SQ3("✅ azureResources.yaml"):::success
     end
     style SchemaQuality fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph NamingQuality["Naming Consistency: 90%"]
-        NQ1["✅ AZURE_ output prefix"]:::high
-        NQ2["⚠️ Resource name variations"]:::medium
+        NQ1("✅ AZURE_ output prefix"):::success
+        NQ2("⚠️ Resource name variations"):::warning
     end
     style NamingQuality fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph AccessQuality["Access Control: 80%"]
-        AQ1["✅ Multi-scope RBAC"]:::high
-        AQ2["⚠️ No conditional access"]:::medium
-        AQ3["❌ No JIT policies"]:::low
+        AQ1("✅ Multi-scope RBAC"):::success
+        AQ2("⚠️ No conditional access"):::warning
+        AQ3("❌ No JIT policies"):::danger
     end
     style AccessQuality fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph AuditQuality["Audit Coverage: 70%"]
-        AU1["✅ Key Vault diagnostics"]:::high
-        AU2["⚠️ Partial resource coverage"]:::medium
-        AU3["❌ Missing diagnostic targets"]:::low
+        AU1("✅ Key Vault diagnostics"):::success
+        AU2("⚠️ Partial resource coverage"):::warning
+        AU3("❌ Missing diagnostic targets"):::danger
     end
     style AuditQuality fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
 ```
 
 ### ✅ Compliance Posture
@@ -762,16 +763,16 @@ flowchart LR
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef achieved fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef current fill:#EFF6FC,stroke:#0078D4,stroke-width:3px,color:#323130
-    classDef target fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef future fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#A19F9D
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    L1["Level 1: Ad-hoc<br>✅ Achieved"]:::achieved
-    L2["Level 2: Managed<br>⬅️ Current State"]:::current
-    L3["Level 3: Defined<br>🎯 Target"]:::target
-    L4["Level 4: Measured"]:::future
-    L5["Level 5: Optimized"]:::future
+    L1("Level 1: Ad-hoc<br>✅ Achieved"):::success
+    L2("Level 2: Managed<br>⬅️ Current State"):::core
+    L3("Level 3: Defined<br>🎯 Target"):::warning
+    L4("Level 4: Measured"):::neutral
+    L5("Level 5: Optimized"):::neutral
 
     L1 -->|"YAML configs + basic RBAC"| L2
     L2 -->|"Data catalog + automated quality"| L3
@@ -992,28 +993,24 @@ flowchart TD
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef detail fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-
     subgraph FactTable["Fact: Configuration Deployment"]
-        FACT["📊 Deployment Event<br>environment, location, timestamp"]:::core
+        FACT("📊 Deployment Event<br>environment, location, timestamp"):::core
     end
     style FactTable fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Dimensions["Configuration Dimensions"]
-        DIM_DC["🏢 DevCenter Dimension<br>name, identity, sync status"]:::data
-        DIM_PROJ["📁 Project Dimension<br>name, description, network type"]:::data
-        DIM_SEC["🔑 Security Dimension<br>KV name, RBAC model, retention"]:::data
-        DIM_RG["📦 Resource Group Dimension<br>name, tier, create flag"]:::data
+        DIM_DC("🏢 DevCenter Dimension<br>name, identity, sync status"):::data
+        DIM_PROJ("📁 Project Dimension<br>name, description, network type"):::data
+        DIM_SEC("🔑 Security Dimension<br>KV name, RBAC model, retention"):::data
+        DIM_RG("📦 Resource Group Dimension<br>name, tier, create flag"):::data
     end
     style Dimensions fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph DetailDimensions["Detail Dimensions"]
-        DD_POOL["💻 Pool<br>VM SKU, image"]:::detail
-        DD_CAT["📚 Catalog<br>type, URI, branch"]:::detail
-        DD_ENV["🌍 EnvironmentType<br>name, target"]:::detail
-        DD_TAG["🏷️ Tags<br>7-key taxonomy"]:::detail
+        DD_POOL("💻 Pool<br>VM SKU, image"):::success
+        DD_CAT("📚 Catalog<br>type, URI, branch"):::success
+        DD_ENV("🌍 EnvironmentType<br>name, target"):::success
+        DD_TAG("🏷️ Tags<br>7-key taxonomy"):::success
     end
     style DetailDimensions fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -1025,6 +1022,10 @@ flowchart TD
     DIM_DC --> DD_ENV
     DIM_PROJ --> DD_POOL
     DIM_RG --> DD_TAG
+
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
 #### ⏳ Schema Evolution Timeline
@@ -1053,28 +1054,24 @@ flowchart LR
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef current fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef schema fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef config fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-
     subgraph CurrentSchemas["Current Schema Versions (v1.0)"]
-        S1["📋 devcenter.schema.json<br>Draft-07 | 15+ properties"]:::schema
-        S2["📋 security.schema.json<br>Draft-07 | 8 properties"]:::schema
-        S3["📋 azureResources.schema.json<br>Draft-07 | 6 properties"]:::schema
+        S1("📋 devcenter.schema.json<br>Draft-07 | 15+ properties"):::data
+        S2("📋 security.schema.json<br>Draft-07 | 8 properties"):::data
+        S3("📋 azureResources.schema.json<br>Draft-07 | 6 properties"):::data
     end
     style CurrentSchemas fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Validations["Schema Validation Targets"]
-        C1["📄 devcenter.yaml"]:::config
-        C2["📄 security.yaml"]:::config
-        C3["📄 azureResources.yaml"]:::config
+        C1("📄 devcenter.yaml"):::success
+        C2("📄 security.yaml"):::success
+        C3("📄 azureResources.yaml"):::success
     end
     style Validations fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph BicepTypes["Bicep User-Defined Types"]
-        B1["⚙️ KeyVaultSettings type"]:::current
-        B2["⚙️ Tags type (* : string)"]:::current
-        B3["⚙️ DevCenterConfig type"]:::current
+        B1("⚙️ KeyVaultSettings type"):::core
+        B2("⚙️ Tags type (* : string)"):::core
+        B3("⚙️ DevCenterConfig type"):::core
     end
     style BicepTypes fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -1084,6 +1081,10 @@ flowchart LR
     C1 -->|"consumed by"| B3
     C2 -->|"consumed by"| B1
     C3 -->|"consumed by"| B2
+
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
 ### 🗄️ 5.3 Data Stores
@@ -1187,38 +1188,34 @@ flowchart LR
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef producer fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef contract fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef consumer fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-
     subgraph Producers["Producer Modules"]
-        P_MON["📊 logAnalytics.bicep"]:::producer
-        P_SEC["🔒 security.bicep"]:::producer
-        P_DC["🏢 devCenter.bicep"]:::producer
-        P_CONN["🌐 connectivity.bicep"]:::producer
-        P_CAT["📚 catalog.bicep"]:::producer
-        P_PROJ["📁 project.bicep"]:::producer
+        P_MON("📊 logAnalytics.bicep"):::core
+        P_SEC("🔒 security.bicep"):::core
+        P_DC("🏢 devCenter.bicep"):::core
+        P_CONN("🌐 connectivity.bicep"):::core
+        P_CAT("📚 catalog.bicep"):::core
+        P_PROJ("📁 project.bicep"):::core
     end
     style Producers fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Contracts["Output Contracts"]
-        C_WID["WORKSPACE_ID<br>string"]:::contract
-        C_KVN["KEY_VAULT_NAME<br>string"]:::contract
-        C_KVS["KEY_VAULT_SECRET_ID<br>string"]:::contract
-        C_KVE["KEY_VAULT_ENDPOINT<br>string"]:::contract
-        C_DCN["DEV_CENTER_NAME<br>string"]:::contract
-        C_NET["networkConnectionName<br>string"]:::contract
-        C_CATN["CATALOG_NAME<br>string"]:::contract
-        C_PN["PROJECT_NAME<br>string"]:::contract
+        C_WID("WORKSPACE_ID<br>string"):::data
+        C_KVN("KEY_VAULT_NAME<br>string"):::data
+        C_KVS("KEY_VAULT_SECRET_ID<br>string"):::data
+        C_KVE("KEY_VAULT_ENDPOINT<br>string"):::data
+        C_DCN("DEV_CENTER_NAME<br>string"):::data
+        C_NET("networkConnectionName<br>string"):::data
+        C_CATN("CATALOG_NAME<br>string"):::data
+        C_PN("PROJECT_NAME<br>string"):::data
     end
     style Contracts fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Consumers["Consumer Modules"]
-        CO_SEC["🔒 security.bicep"]:::consumer
-        CO_WL["📦 workload.bicep"]:::consumer
-        CO_PROJ["📁 project.bicep"]:::consumer
-        CO_POOL["💻 projectPool.bicep"]:::consumer
-        CO_MAIN["⚙️ main.bicep"]:::consumer
+        CO_SEC("🔒 security.bicep"):::success
+        CO_WL("📦 workload.bicep"):::success
+        CO_PROJ("📁 project.bicep"):::success
+        CO_POOL("💻 projectPool.bicep"):::success
+        CO_MAIN("⚙️ main.bicep"):::success
     end
     style Consumers fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -1240,6 +1237,10 @@ flowchart LR
     C_NET --> CO_POOL
     C_CATN --> CO_MAIN
     C_PN --> CO_MAIN
+
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
 ### 🔐 5.11 Data Security
@@ -1332,38 +1333,33 @@ flowchart LR
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef extract fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef transform fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef load fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef validate fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-
     subgraph Extract["Extract"]
-        E1["📄 devcenter.yaml"]:::extract
-        E2["📄 security.yaml"]:::extract
-        E3["📄 azureResources.yaml"]:::extract
+        E1("📄 devcenter.yaml"):::data
+        E2("📄 security.yaml"):::data
+        E3("📄 azureResources.yaml"):::data
     end
     style Extract fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Validate["Schema Validation Gate"]
-        V1["📋 devcenter.schema.json"]:::validate
-        V2["📋 security.schema.json"]:::validate
-        V3["📋 azureResources.schema.json"]:::validate
+        V1("📋 devcenter.schema.json"):::warning
+        V2("📋 security.schema.json"):::warning
+        V3("📋 azureResources.schema.json"):::warning
     end
     style Validate fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Transform["Transform (Bicep)"]
-        T1["⚙️ loadYamlContent()"]:::transform
-        T2["⚙️ Resource Name Construction"]:::transform
-        T3["⚙️ Tag Enrichment via union()"]:::transform
-        T4["⚙️ uniqueString() Derivation"]:::transform
+        T1("⚙️ loadYamlContent()"):::core
+        T2("⚙️ Resource Name Construction"):::core
+        T3("⚙️ Tag Enrichment via union()"):::core
+        T4("⚙️ uniqueString() Derivation"):::core
     end
     style Transform fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Load["Load (Azure Resources)"]
-        L1["☁️ Resource Groups (3)"]:::load
-        L2["☁️ Dev Center + Projects"]:::load
-        L3["☁️ Key Vault + Secrets"]:::load
-        L4["☁️ Log Analytics"]:::load
+        L1("☁️ Resource Groups (3)"):::success
+        L2("☁️ Dev Center + Projects"):::success
+        L3("☁️ Key Vault + Secrets"):::success
+        L4("☁️ Log Analytics"):::success
     end
     style Load fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -1380,6 +1376,11 @@ flowchart LR
     T3 --> L2
     T4 --> L3
     T2 --> L4
+
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
 
 #### 📊 Data Lineage Diagram
