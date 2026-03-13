@@ -536,9 +536,9 @@ Provisioning Azure resources (azd provision)
 SUCCESS: Your application was provisioned in Azure.
 ```
 
-> [!NOTE] Dev Box pools may take several minutes to become available after
-> provisioning as image synchronization and network attachment complete in the
-> background.
+> [!NOTE]  
+> Dev Box pools may take several minutes to become available after provisioning
+> as image synchronization and network attachment complete in the background.
 
 ## ⚙️ Configuration
 

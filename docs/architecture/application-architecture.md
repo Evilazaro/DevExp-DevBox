@@ -25,11 +25,11 @@ Found**: 29
 
 The DevExp-DevBox repository implements a Developer Experience Platform built on
 Azure DevCenter using Infrastructure as Code (Bicep). The Application layer
-encompasses 29 identified components distributed across all Application
+encompasses **29 identified components** distributed across all Application
 Architecture component types. The platform provisions self-service developer
 workstations (Dev Boxes) with managed networking, identity governance, secrets
-management, and centralized monitoring. The architecture follows a modular Bicep
-composition pattern where a subscription-scoped orchestrator
+management, and centralized monitoring. The architecture follows a **modular
+Bicep composition pattern** where a **subscription-scoped orchestrator**
 (`infra/main.bicep`) delegates to domain-specific modules organized into five
 functional layers: Workload, Security, Connectivity, Identity, and Management.
 
@@ -37,10 +37,10 @@ The four primary Application Services — DevCenter Core, Workload Orchestrator,
 Security Orchestrator, and Connectivity Orchestrator — coordinate 11 modular
 Application Components through well-defined Bicep module interfaces.
 Configuration is driven by three YAML files validated against companion JSON
-Schemas, implementing a Configuration-as-Code integration pattern. Identity and
-access management is handled through six specialized RBAC modules supporting
-both SystemAssigned managed identities and Azure AD group assignments at
-subscription, resource group, and project scopes.
+Schemas, implementing a **Configuration-as-Code integration pattern**. Identity
+and access management is handled through **six specialized RBAC modules**
+supporting both SystemAssigned managed identities and Azure AD group assignments
+at subscription, resource group, and project scopes.
 
 CI/CD hooks are present via Azure Developer CLI (`azd`), structured setup
 scripts validate prerequisites, and deployment targets are schema-validated.
@@ -372,12 +372,12 @@ flowchart TB
 
 ### 📊 Summary
 
-The Architecture Landscape reveals a well-structured IaC platform with 29
-components distributed across all Application Architecture types. The Workload
+The Architecture Landscape reveals a well-structured IaC platform with **29
+components** distributed across all Application Architecture types. The Workload
 domain contains the highest concentration of components (12), followed by
 Identity (4) and Security (3).
 
-The platform follows a clear separation of concerns: workload provisioning,
+The platform follows a clear **separation of concerns**: workload provisioning,
 security management, network connectivity, identity governance, and operational
 monitoring are each isolated into dedicated Bicep module directories.
 Cross-cutting concerns such as diagnostic logging and RBAC assignment are
@@ -479,10 +479,10 @@ flowchart LR
 
 ### Overview
 
-The DevExp-DevBox platform is currently deployed as a single-subscription Azure
-landing zone using the Azure Developer CLI (`azd`) for provisioning
-orchestration. The deployment follows a sequential dependency chain: Monitoring
-→ Security → Workload. All resources target the `2025-05-01` or
+The DevExp-DevBox platform is currently deployed as a **single-subscription
+Azure landing zone** using the Azure Developer CLI (`azd`) for provisioning
+orchestration. The deployment follows a **sequential dependency chain**:
+Monitoring → Security → Workload. All resources target the `2025-05-01` or
 `2026-01-01-preview` ARM API versions. The platform supports both Linux/macOS
 (`setUp.sh`) and Windows (`setUp.ps1`) deployment environments.
 
@@ -639,15 +639,15 @@ flowchart LR
 
 The platform is in the Active deployment state with all core resources
 provisioned via ARM API versions ranging from 2025-05-01 to 2026-01-01-preview.
-The deployment chain follows a strict sequential ordering (Monitoring → Security
-→ Workload) enforced through Bicep `dependsOn` declarations. Pre-provision hooks
-validate Azure CLI authentication, source control platform configuration, and
-environment variable availability before deployment begins.
+The deployment chain follows a **strict sequential ordering** (Monitoring →
+Security → Workload) enforced through Bicep `dependsOn` declarations.
+Pre-provision hooks validate Azure CLI authentication, source control platform
+configuration, and environment variable availability before deployment begins.
 
 The current baseline supports a single project (eShop) with two Dev Box pools
 (backend-engineer, frontend-engineer) connected via a Managed VNet. Environment
 types (dev, staging, UAT) are provisioned at both DevCenter and project scopes.
-The platform is ready for multi-project expansion through the existing
+The platform is **ready for multi-project expansion** through the existing
 array-based project iteration pattern in workload.bicep.
 
 ---
@@ -1714,10 +1714,10 @@ Bicep module composition pattern.
 
 This section documents all inter-module dependencies, data flows, and
 integration patterns within the DevExp-DevBox platform. The architecture follows
-a hierarchical module composition pattern where the subscription-scoped
-orchestrator delegates to domain-specific modules in a strict sequential order.
-Cross-cutting dependencies include diagnostic telemetry streaming, RBAC identity
-assignment chains, and configuration loading from YAML files.
+a **hierarchical module composition pattern** where the subscription-scoped
+orchestrator delegates to domain-specific modules in a **strict sequential
+order**. Cross-cutting dependencies include diagnostic telemetry streaming, RBAC
+identity assignment chains, and configuration loading from YAML files.
 
 #### 🔗 Module Dependency Graph
 
@@ -1994,17 +1994,17 @@ flowchart TB
 
 ### 📊 Summary
 
-The DevExp-DevBox platform implements a deep module dependency tree with 16
-service-to-service module reference calls and 8 output-chaining relationships.
-The dependency flow is strictly sequential: Monitoring → Security → Workload →
-DevCenter → Projects → Pools, enforced through Bicep `dependsOn` declarations
-and output parameter passing.
+The DevExp-DevBox platform implements a deep module dependency tree with **16
+service-to-service module reference calls** and **8 output-chaining
+relationships**. The dependency flow is strictly sequential: Monitoring →
+Security → Workload → DevCenter → Projects → Pools, enforced through Bicep
+`dependsOn` declarations and output parameter passing.
 
 All cross-cutting concerns (diagnostic telemetry, RBAC assignments,
 configuration loading) are centralized into reusable modules. Five external
 systems are integrated via standard protocols: Azure Resource Manager (REST),
 Microsoft Entra ID (OAuth/OIDC), GitHub (HTTPS/Git), Azure DevOps (HTTPS/Git),
-and Azure Monitor (REST). The Configuration-as-Code integration pattern ensures
-that all deployment-time decisions are declarative, schema-validated, and
-version-controlled through the three YAML configuration files and their
+and Azure Monitor (REST). The **Configuration-as-Code integration pattern**
+ensures that all deployment-time decisions are declarative, schema-validated,
+and version-controlled through the three YAML configuration files and their
 companion JSON Schemas.

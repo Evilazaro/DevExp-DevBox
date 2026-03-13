@@ -19,9 +19,9 @@
 
 ### 🔭 Overview
 
-The DevExp-DevBox repository implements a configuration-driven
-Infrastructure-as-Code (IaC) platform for provisioning Azure Dev Center
-environments. The data architecture follows a declarative model where YAML
+The DevExp-DevBox repository implements a **configuration-driven
+Infrastructure-as-Code** (IaC) platform for provisioning Azure Dev Center
+environments. The data architecture follows a **declarative model** where YAML
 configuration files define the desired state, JSON Schema files enforce
 structural validation, and Bicep modules translate these configurations into
 Azure resource deployments. This approach establishes a clear separation between
@@ -63,13 +63,14 @@ provisioning.
 
 ### 📈 Coverage Summary
 
-The data architecture achieves Level 2 (Managed) maturity on the Data Maturity
-Scale. Configuration schemas provide structural governance, RBAC policies
-enforce access control, and tagging strategies enable cost allocation. Gaps
-exist in automated data quality monitoring, schema versioning workflows, and
-formal data lineage documentation. Advancing to Level 3 (Defined) would require
-implementing a centralized data catalog, automated schema drift detection, and
-data lineage tracking through tools such as Azure Data Catalog or Azure Purview.
+The data architecture achieves **Level 2 (Managed) maturity** on the Data
+Maturity Scale. Configuration schemas provide structural governance, RBAC
+policies enforce access control, and tagging strategies enable cost allocation.
+Gaps exist in automated data quality monitoring, schema versioning workflows,
+and formal data lineage documentation. Advancing to Level 3 (Defined) would
+require implementing a centralized data catalog, automated schema drift
+detection, and data lineage tracking through tools such as Azure Data Catalog or
+Azure Purview.
 
 ---
 
@@ -77,22 +78,22 @@ data lineage tracking through tools such as Azure Data Catalog or Azure Purview.
 
 ### 🔭 Overview
 
-The DevExp-DevBox data landscape is organized around a three-tier landing zone
-model (workload, security, monitoring) where each tier has dedicated
+The DevExp-DevBox data landscape is organized around a **three-tier landing zone
+model** (workload, security, monitoring) where each tier has dedicated
 configuration schemas, resource groups, and tagging policies. The configuration
 data flows from YAML definition files through JSON Schema validation into Bicep
 module parameters, ultimately materializing as Azure resource configurations.
 
-The data ecosystem employs a hierarchical entity model where a Dev Center is the
-root aggregate containing Projects, which in turn contain Pools, Catalogs, and
-Environment Types. Cross-cutting concerns such as identity management, network
-connectivity, and secret storage are modeled as separate data domains with
-explicit interface contracts defined through Bicep module outputs.
+The data ecosystem employs a **hierarchical entity model** where a Dev Center is
+the root aggregate containing Projects, which in turn contain Pools, Catalogs,
+and Environment Types. Cross-cutting concerns such as identity management,
+network connectivity, and secret storage are modeled as separate data domains
+with explicit interface contracts defined through Bicep module outputs.
 
-Storage architecture is entirely configuration-based — the platform does not
+Storage architecture is entirely **configuration-based** — the platform does not
 manage runtime databases or data lakes. Instead, data persists as
-version-controlled YAML/JSON files in the repository and as Azure resource state
-managed by Azure Resource Manager. This GitOps-aligned approach ensures
+**version-controlled YAML/JSON files** in the repository and as Azure resource
+state managed by Azure Resource Manager. This GitOps-aligned approach ensures
 auditability, reproducibility, and rollback capability for all configuration
 data.
 
@@ -402,12 +403,12 @@ flowchart TD
 
 ### 📊 Summary
 
-The data landscape encompasses 47 components across all 11 canonical data types.
-The architecture follows a configuration-driven pattern where 3 YAML files
-define desired state, 3 JSON Schemas enforce structural validation, and 23 Bicep
-modules translate configurations into Azure resources. Data governance is strong
-with 12 RBAC role assignments across subscription, resource group, and project
-scopes.
+The data landscape encompasses **47 components** across all 11 canonical data
+types. The architecture follows a **configuration-driven pattern** where 3 YAML
+files define desired state, 3 JSON Schemas enforce structural validation, and 23
+Bicep modules translate configurations into Azure resources. Data governance is
+strong with 12 RBAC role assignments across subscription, resource group, and
+project scopes.
 
 Key gaps include the absence of automated schema drift detection, no formal data
 lineage tooling, and limited runtime data quality monitoring. Advancing the data
@@ -782,11 +783,11 @@ flowchart LR
 
 ### 📊 Summary
 
-The current state baseline reveals a well-structured configuration-driven data
-architecture. Strengths include 100% schema coverage for configuration files,
-multi-scope RBAC governance, and comprehensive diagnostic logging on critical
-resources. The three-tier landing zone model (workload, security, monitoring)
-provides effective domain isolation.
+The current state baseline reveals a well-structured **configuration-driven data
+architecture**. Strengths include **100% schema coverage** for configuration
+files, **multi-scope RBAC governance**, and comprehensive diagnostic logging on
+critical resources. The three-tier landing zone model (workload, security,
+monitoring) provides effective domain isolation.
 
 Key gaps requiring attention include: absence of automated schema drift
 detection between YAML configs and deployed Azure state, lack of formal data
@@ -1253,13 +1254,13 @@ flowchart LR
 
 ### 📊 Summary
 
-The Component Catalog documents 47 data components across all 11 canonical
-types. The dominant pattern is configuration-as-data, where YAML files define
-desired state, JSON Schemas enforce structural validation, and Bicep modules
-consume validated configuration to produce Azure resources. The strongest
-coverage is in Data Entities (6), Data Governance (6), and Data Contracts (6),
-reflecting the platform's emphasis on structure, access control, and module
-interoperability.
+The Component Catalog documents **47 data components** across all 11 canonical
+types. The dominant pattern is **configuration-as-data**, where YAML files
+define desired state, JSON Schemas enforce structural validation, and Bicep
+modules consume validated configuration to produce Azure resources. The
+strongest coverage is in Data Entities (6), Data Governance (6), and Data
+Contracts (6), reflecting the platform's emphasis on structure, access control,
+and module interoperability.
 
 Key gaps include the absence of runtime data quality monitoring (no automated
 drift detection between configuration and deployed state), limited data lineage
@@ -1278,16 +1279,17 @@ output contracts against consumer expectations.
 
 The Dependencies and Integration section maps the data flow patterns,
 producer-consumer relationships, and cross-module dependencies within the
-DevExp-DevBox platform. The architecture follows a directed acyclic graph (DAG)
-pattern where the main orchestrator (`main.bicep`) coordinates deployment of
-monitoring, security, and workload modules in a specific dependency order.
+DevExp-DevBox platform. The architecture follows a **directed acyclic graph
+(DAG) pattern** where the main orchestrator (`main.bicep`) coordinates
+deployment of monitoring, security, and workload modules in a specific
+dependency order.
 
-Data integration is achieved through Bicep module output contracts, where
+Data integration is achieved through **Bicep module output contracts**, where
 upstream modules export typed values that downstream modules consume as
-parameters. This pattern creates explicit, compile-time verified dependencies
-between modules, ensuring that data flows are traceable and type-safe. The
-`loadYamlContent()` function serves as the primary data ingestion mechanism,
-loading configuration from YAML files into the deployment pipeline.
+parameters. This pattern creates **explicit, compile-time verified
+dependencies** between modules, ensuring that data flows are traceable and
+type-safe. The `loadYamlContent()` function serves as the primary data ingestion
+mechanism, loading configuration from YAML files into the deployment pipeline.
 
 The platform employs three distinct integration patterns: configuration loading
 (YAML → Bicep), module output chaining (monitoring → security → workload), and
@@ -1568,12 +1570,12 @@ Event Grid for configuration change events or Azure Policy for drift detection.
 
 ### 📊 Summary
 
-The DevExp-DevBox data integration architecture follows a well-structured DAG
-pattern with three deployment phases: monitoring (phase 1), security (phase 2),
-and workload (phase 3). Each phase produces typed output contracts consumed by
-subsequent phases, creating a traceable dependency chain. The platform uses 7
-distinct data flow patterns spanning configuration ingestion, module output
-chaining, diagnostic forwarding, and secret injection.
+The DevExp-DevBox data integration architecture follows a well-structured **DAG
+pattern** with **three deployment phases**: monitoring (phase 1), security
+(phase 2), and workload (phase 3). Each phase produces **typed output
+contracts** consumed by subsequent phases, creating a traceable dependency
+chain. The platform uses 7 distinct data flow patterns spanning configuration
+ingestion, module output chaining, diagnostic forwarding, and secret injection.
 
 Key integration risks include the absence of formal contract versioning (changes
 to module outputs could silently break consumers), no automated contract testing
