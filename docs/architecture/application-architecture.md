@@ -75,8 +75,19 @@ flowchart TB
     accTitle: DevExp-DevBox System Context Diagram
     accDescr: Shows the DevExp-DevBox platform boundary with external actors and systems including platform engineers, developers, Azure Resource Manager, GitHub repositories, and Azure AD
 
-    PlatEng("👤 Platform Engineer") --> AZD("⚙️ Azure Developer CLI"):::core
-    Dev("👤 Developer") --> DevBox("🖥️ Dev Box Portal"):::core
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    PlatEng("👤 Platform Engineer"):::external --> AZD("⚙️ Azure Developer CLI"):::core
+    Dev("👤 Developer"):::external --> DevBox("🖥️ Dev Box Portal"):::core
     AZD --> Orchestrator("📦 IaC Orchestrator"):::core
 
     subgraph platform["DevExp-DevBox Platform"]
@@ -117,6 +128,17 @@ config:
 flowchart TB
     accTitle: Application Service Ecosystem Map
     accDescr: Shows all application components grouped by functional domain including workload, security, connectivity, identity, and management layers
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
 
     Main("📦 Main Orchestrator"):::core
 
@@ -201,6 +223,17 @@ flowchart TB
     accTitle: Integration Tier Architecture Diagram
     accDescr: Shows the three-tier integration architecture from orchestration through domain services to infrastructure resources
 
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
     subgraph tier1["🔷 Tier 1 — Orchestration"]
         MAIN("📦 Main Orchestrator"):::core
         AZD("⚙️ Azure Developer CLI"):::core
@@ -229,9 +262,9 @@ flowchart TB
     SEC -->|"module ref"| KV
     CONN -->|"module ref"| VNET
 
-    style tier1 fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style tier1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style tier2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style tier3 fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    style tier3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -413,6 +446,17 @@ flowchart LR
     accTitle: Architecture Principle Relationship Diagram
     accDescr: Shows how the five architecture principles relate to and reinforce each other
 
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
     P1("🧱 Modular Composition"):::core
     P2("📄 Configuration-as-Code"):::core
     P3("🛡️ Least-Privilege Access"):::core
@@ -491,6 +535,17 @@ flowchart TB
     accTitle: Current State Baseline Architecture Diagram
     accDescr: Shows the current Azure subscription layout with three resource groups containing workload, security, and monitoring resources with their dependency relationships
 
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
     subgraph sub["☁️ Azure Subscription"]
         subgraph monRG["📊 Monitoring Resource Group"]
             LA("📊 Log Analytics Workspace"):::data
@@ -547,6 +602,17 @@ flowchart LR
     accTitle: Protocol Matrix Diagram
     accDescr: Shows how different protocols connect the system layers from configuration through compilation to deployment
 
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
     subgraph protocols["🔌 Protocol Usage"]
         YAML["📄 YAML Config"]:::data
         JSON["📋 JSON Schema"]:::neutral
@@ -560,6 +626,8 @@ flowchart LR
     BICEP -->|"compiles to"| ARM
     ARM -->|"provisions"| AZURE["☁️ Azure Resources"]:::external
     GIT -->|"syncs catalogs"| AZURE
+
+    style protocols fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -609,6 +677,17 @@ config:
 flowchart TB
     accTitle: Component Detail Diagram for Workload Domain
     accDescr: Shows detailed component interactions within the workload domain including DevCenter, projects, pools, catalogs, and environment types
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
 
     WL("⚙️ Workload Service"):::core
     DC("🏗️ DevCenter Core"):::core
