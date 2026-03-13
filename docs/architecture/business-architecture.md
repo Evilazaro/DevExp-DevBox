@@ -26,8 +26,8 @@ The DevExp-DevBox repository implements an **Azure Dev Box Adoption & Deployment
 Accelerator** that enables platform engineering teams to deliver self-service
 developer workstations at enterprise scale. This Business Architecture analysis
 examines the strategic capabilities, value streams, business processes, and
-governance structures documented across the repository's configuration-driven
-Infrastructure-as-Code model.
+governance structures documented across the repository's **configuration-driven
+Infrastructure-as-Code** model.
 
 ---
 
@@ -37,8 +37,8 @@ This section provides an inventory of all Business layer components detected in
 the DevExp-DevBox repository, organized by the 11 canonical Business
 Architecture component types.
 
-The repository's business architecture is centered on a configuration-driven
-platform engineering model where YAML files define business-level settings
+The repository's business architecture is centered on a **configuration-driven
+platform engineering model** where YAML files define business-level settings
 (teams, projects, roles, environments) and Bicep modules implement
 infrastructure delivery. Business intent is observable in configuration files,
 documentation, issue templates, and deployment scripts.
@@ -181,9 +181,9 @@ flowchart TB
 
 ### 📝 Summary
 
-The Architecture Landscape identifies 25 Business layer components across 9 of
-11 canonical types, with strongest coverage in Business Capabilities (5),
-Business Roles & Actors (4), and Business Rules (4).
+The Architecture Landscape identifies **25 Business layer components** across
+**9 of 11 canonical types**, with strongest coverage in Business Capabilities
+(5), Business Roles & Actors (4), and Business Rules (4).
 
 Two component types — Business Objects/Entities and KPIs & Metrics — were not
 detected. The repository focuses on infrastructure platform delivery rather than
@@ -224,8 +224,8 @@ Architecture as observed in the DevExp-DevBox repository. The analysis is based
 on configuration files, deployment scripts, documentation, and governance
 artifacts found in the specified folder paths.
 
-The platform operates as a single-project deployment (eShop) with a well-defined
-capability model and role-based access structure.
+The platform operates as a **single-project deployment** (eShop) with a
+well-defined capability model and **role-based access structure**.
 
 ### 🌡️ Business Capability Heatmap
 
@@ -670,9 +670,9 @@ adoption, provisioning time, and cost efficiency.
 
 This section maps the cross-component dependencies and integration patterns
 observed in the DevExp-DevBox Business Architecture. The platform follows a
-layered dependency model where monitoring is deployed first, followed by
-security, then workload resources — reflecting both technical dependencies and
-business priority sequencing.
+**layered dependency model** where monitoring is deployed first, followed by
+security, then workload resources — reflecting both **technical dependencies**
+and business priority sequencing.
 
 Integration points span Azure services (Dev Center, Key Vault, Log Analytics,
 Virtual Networks), external source control platforms (GitHub, Azure DevOps), and
@@ -835,14 +835,15 @@ flowchart LR
 
 ### 📝 Summary
 
-The dependency analysis reveals a tightly integrated platform with clear
-deployment sequencing: Monitoring → Security → Workload. All five business
-capabilities are interdependent, with Developer Workstation Provisioning as the
-central capability requiring Identity & Access Management, Secrets Management,
-Network Isolation, and Centralized Monitoring as supporting dependencies.
-External integrations with GitHub, Azure DevOps, and Azure Active Directory
-create external dependency points that are managed through configuration-driven
-catalog synchronization and Azure AD group-based identity governance.
+The dependency analysis reveals a tightly integrated platform with **clear
+deployment sequencing**: Monitoring → Security → Workload. All five business
+capabilities are interdependent, with **Developer Workstation Provisioning** as
+the central capability requiring Identity & Access Management, Secrets
+Management, Network Isolation, and Centralized Monitoring as supporting
+dependencies. External integrations with GitHub, Azure DevOps, and Azure Active
+Directory create external dependency points that are managed through
+configuration-driven catalog synchronization and Azure AD group-based identity
+governance.
 
 The primary integration risk is the coupling between Dev Box pool image
 definitions and external Git catalogs — catalog synchronization failures would

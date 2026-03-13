@@ -10,18 +10,19 @@
 **Overview**
 
 DevExp-DevBox is a production-ready **Azure Dev Box Adoption & Deployment
-Accelerator** that provisions and configures a complete Azure Dev Center landing
-zone through modular, configuration-driven Infrastructure-as-Code. It enables
-platform engineering teams to deliver self-service developer workstations at
-enterprise scale with built-in security, monitoring, and network isolation.
+Accelerator** that provisions and configures a complete **Azure Dev Center
+landing zone** through modular, **configuration-driven Infrastructure-as-Code**.
+It enables platform engineering teams to deliver **self-service developer
+workstations** at enterprise scale with built-in security, monitoring, and
+network isolation.
 
-The accelerator uses a declarative YAML configuration model validated by JSON
-Schemas, deploys through the Azure Developer CLI (`azd`), and implements Azure
-Landing Zone principles with resource group segmentation across workload,
-security, and monitoring boundaries. Cross-platform setup scripts for PowerShell
-and Bash automate authentication, token management, and environment
-initialization so that teams can go from zero to a fully provisioned Dev Center
-in a single command.
+The accelerator uses a **declarative YAML configuration model** validated by
+JSON Schemas, deploys through the **Azure Developer CLI** (`azd`), and
+implements **Azure Landing Zone principles** with resource group segmentation
+across workload, security, and monitoring boundaries. Cross-platform setup
+scripts for PowerShell and Bash automate authentication, token management, and
+environment initialization so that teams can go from zero to a fully provisioned
+Dev Center in a single command.
 
 ## 📑 Table of Contents
 
@@ -39,18 +40,18 @@ in a single command.
 
 **Overview**
 
-The system follows a modular, layered architecture orchestrated by a root Bicep
-template (`infra/main.bicep`) that deploys resources across three dedicated
-resource groups aligned with Azure Landing Zone principles. Each layer —
-monitoring, security, and workload — is encapsulated in its own Bicep module
-with clear input/output contracts, while YAML configuration files drive all
-business-level settings.
+The system follows a **modular, layered architecture** orchestrated by a root
+Bicep template (`infra/main.bicep`) that deploys resources across **three
+dedicated resource groups** aligned with Azure Landing Zone principles. Each
+layer — monitoring, security, and workload — is encapsulated in its own Bicep
+module with **clear input/output contracts**, while YAML configuration files
+drive all business-level settings.
 
 The workload layer provisions the Azure Dev Center and iterates over project
-definitions to create project-scoped resources including Dev Box pools,
+definitions to create **project-scoped resources** including Dev Box pools,
 catalogs, environment types, network connections, and RBAC assignments. Identity
-and connectivity modules are shared across projects, ensuring consistent
-governance without duplication.
+and connectivity modules are shared across projects, ensuring **consistent
+governance** without duplication.
 
 ```mermaid
 ---
@@ -193,9 +194,9 @@ engineering teams that need to automate developer workstation provisioning at
 scale. The accelerator handles the full lifecycle from infrastructure deployment
 through project configuration, with governance built into every layer.
 
-Each feature is implemented through modular Bicep templates and validated YAML
-configuration, enabling teams to customize behavior without modifying
-infrastructure code. The architecture supports multiple projects, each with
+Each feature is implemented through **modular Bicep templates** and validated
+YAML configuration, enabling teams to customize behavior without modifying
+infrastructure code. The architecture supports **multiple projects**, each with
 independent networking, identity, and catalog configurations.
 
 | Feature                       | Description                                                                                                                                   |
@@ -243,12 +244,12 @@ available for both Windows (PowerShell) and Linux/macOS (Bash) environments.
 **Overview**
 
 The accelerator is deployed exclusively through the Azure Developer CLI (`azd`).
-Running `azd provision` triggers a `preprovision` hook that executes the
+Running `azd provision` triggers a **`preprovision` hook** that executes the
 platform-appropriate setup script (`setUp.sh` on Linux/macOS, or via
 `azure-pwh.yaml` on Windows). The hook validates all prerequisites,
-authenticates with Azure and your source control platform, securely stores
-tokens in the `azd` environment, and then provisions the entire landing zone —
-all in a single command.
+authenticates with Azure and your source control platform, **securely stores
+tokens** in the `azd` environment, and then provisions the entire landing zone —
+all in a **single command**.
 
 > [!WARNING]  
 > Provisioning creates Azure resources that incur costs. Review the YAML
@@ -377,12 +378,13 @@ AZURE_DEV_CENTER_PROJECTS=["eShop"]
 
 **Overview**
 
-All infrastructure changes follow a single workflow: edit the YAML configuration
-under `infra/settings/`, then run `azd provision` to apply. The Bicep templates
-read configuration at deployment time with `loadYamlContent()`, so every feature
-— projects, pools, catalogs, environment types, networking, identity, security,
-and monitoring — is managed declaratively. Developers access their workstations
-through the Azure Developer Portal or Azure CLI after provisioning.
+All infrastructure changes follow a **single workflow**: edit the YAML
+configuration under `infra/settings/`, then run `azd provision` to apply. The
+Bicep templates read configuration at deployment time with
+**`loadYamlContent()`**, so every feature — projects, pools, catalogs,
+environment types, networking, identity, security, and monitoring — is **managed
+declaratively**. Developers access their workstations through the Azure
+Developer Portal or Azure CLI after provisioning.
 
 **Add a new Dev Center project**
 
@@ -542,11 +544,12 @@ SUCCESS: Your application was provisioned in Azure.
 
 **Overview**
 
-All infrastructure behavior is driven by three YAML configuration files located
-under `infra/settings/`. Each file has a corresponding JSON Schema that
-validates structure and values before deployment. The Bicep templates use the
-`loadYamlContent()` function to read these files at deployment time, so changes
-take effect on the next `azd provision` run without modifying any template code.
+All infrastructure behavior is driven by **three YAML configuration files**
+located under `infra/settings/`. Each file has a corresponding **JSON Schema**
+that validates structure and values before deployment. The Bicep templates use
+the `loadYamlContent()` function to read these files at deployment time, so
+changes take effect on the next `azd provision` run without modifying any
+template code.
 
 The `azd` environment also requires three parameters managed through
 `infra/main.parameters.json`: `AZURE_ENV_NAME` (environment name used in
@@ -786,8 +789,8 @@ organized around Epics, Features, and Tasks. The project uses GitHub issue forms
 for structured issue creation and enforces engineering standards for Bicep
 templates, PowerShell scripts, and Markdown documentation.
 
-All contributions must meet the project's Definition of Done criteria, which
-include passing validation checks, maintaining code quality standards, and
+All contributions **must** meet the project's **Definition of Done** criteria,
+which include passing validation checks, maintaining code quality standards, and
 following the branching conventions defined in the contribution guidelines.
 
 > [!CAUTION]  

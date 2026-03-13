@@ -154,7 +154,7 @@ canonical component types it catalogs.
 
 ### 📐 Standardized Section Structure
 
-Every BDAT document follows a consistent internal structure to ensure
+Every BDAT document follows a **consistent internal structure** to ensure
 navigability, comparability, and completeness across layers:
 
 | #️⃣ Section | 📌 Title                      | 🎯 Purpose                                                                               |
@@ -188,8 +188,8 @@ infrastructure exists without purpose and no business need goes unimplemented.
 
 ### 🔀 Cross-Cutting Concerns
 
-Three concerns span all four BDAT layers. Each is documented within its most
-relevant layer but has implications across the entire stack:
+Three concerns span all four BDAT layers. Each is documented within its **most
+relevant layer** but has implications across the entire stack:
 
 | 🔀 Concern              | 📍 Primary Layer        | 🌐 Impact Across Layers                                                                                                              |
 | ----------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -210,7 +210,7 @@ relevant layer but has implications across the entire stack:
 ## 📋 Platform Summary
 
 **DevExp-DevBox** provisions cloud-hosted developer workstations (Dev Boxes)
-through Azure DevCenter, deployed entirely via Infrastructure-as-Code (Azure
+through Azure DevCenter, deployed entirely via **Infrastructure-as-Code** (Azure
 Bicep) using the Azure Developer CLI (`azd`).
 
 ### 💪 Core Capabilities
@@ -303,7 +303,7 @@ When updating architecture documentation:
   across files
 - **Diagrams**: Use Mermaid with the Azure/Fluent Architecture Pattern v1.1
   (semantic classDefs, `accTitle`/`accDescr`, Fluent UI palette)
-- **Traceability**: Every component must be traceable to source files in the
+- **Traceability**: Every component **must** be traceable to source files in the
   repository
 - **Tables**: Use consistent table formatting with emoji column headers matching
   the existing style
