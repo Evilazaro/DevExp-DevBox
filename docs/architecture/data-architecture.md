@@ -763,11 +763,6 @@ flowchart LR
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-
     L1("Level 1: Ad-hoc<br>✅ Achieved"):::success
     L2("Level 2: Managed<br>⬅️ Current State"):::core
     L3("Level 3: Defined<br>🎯 Target"):::warning
@@ -778,6 +773,11 @@ flowchart LR
     L2 -->|"Data catalog + automated quality"| L3
     L3 -->|"SLAs + anomaly detection"| L4
     L4 -->|"Self-service + real-time dashboards"| L5
+
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ### 📊 Summary
