@@ -7,9 +7,20 @@ Components Found**: 21 **Sections Generated**: 1, 2, 3, 4, 5, 8
 
 ---
 
-## Section 1: Executive Summary
+## 📋 Quick Table of Contents
 
-### Infrastructure Portfolio Overview
+- [🏗️ Section 1: Executive Summary](#️-section-1-executive-summary)
+- [🗺️ Section 2: Architecture Landscape](#️-section-2-architecture-landscape)
+- [📐 Section 3: Architecture Principles](#-section-3-architecture-principles)
+- [📊 Section 4: Current State Baseline](#-section-4-current-state-baseline)
+- [🗂️ Section 5: Component Catalog](#️-section-5-component-catalog)
+- [🔗 Section 8: Dependencies & Integration](#-section-8-dependencies--integration)
+
+---
+
+## 🏗️ Section 1: Executive Summary
+
+### 🏗️ Infrastructure Portfolio Overview
 
 The **ContosoDevExp** platform is an Azure-native developer experience platform
 built on **Microsoft Azure DevCenter** and **Azure Dev Box**. It provisions
@@ -20,24 +31,24 @@ exclusively via Infrastructure-as-Code (Azure Bicep) using the Azure Developer
 CLI (`azd`), following Azure Landing Zone principles with three isolated
 resource groups by function: workload, security, and monitoring.
 
-### Infrastructure Component Summary
+### 📊 Infrastructure Component Summary
 
-| Component Type             | Detected Count | Confidence   | Primary Sources                                                               |
-| -------------------------- | -------------- | ------------ | ----------------------------------------------------------------------------- |
-| Compute Resources          | 3              | 0.96 (High)  | `src/workload/core/devCenter.bicep`, `src/workload/project/projectPool.bicep` |
-| Storage Systems            | 0              | —            | Not detected                                                                  |
-| Network Infrastructure     | 3              | 0.92 (High)  | `src/connectivity/`, `infra/settings/workload/devcenter.yaml`                 |
-| Container Platforms        | 0              | —            | Not detected                                                                  |
-| Cloud Services (PaaS/SaaS) | 5              | 0.93 (High)  | `src/workload/`, `infra/settings/workload/devcenter.yaml`                     |
-| Security Infrastructure    | 3              | 0.98 (High)  | `src/security/`, `src/identity/`                                              |
-| Messaging Infrastructure   | 0              | —            | Not detected                                                                  |
-| Monitoring & Observability | 3              | 0.96 (High)  | `src/management/logAnalytics.bicep`                                           |
-| Identity & Access          | 4              | 0.94 (High)  | `src/identity/`, `infra/settings/workload/devcenter.yaml`                     |
-| API Management             | 0              | —            | Not detected                                                                  |
-| Caching Infrastructure     | 0              | —            | Not detected                                                                  |
-| **Total**                  | **21**         | **0.95 avg** | —                                                                             |
+| 📦 Component Type             | 🔢 Detected Count |
+| ----------------------------- | ----------------- |
+| Compute Resources             | 3                 |
+| Storage Systems               | 0                 |
+| Network Infrastructure        | 3                 |
+| Container Platforms           | 0                 |
+| Cloud Services (PaaS/SaaS)    | 5                 |
+| Security Infrastructure       | 3                 |
+| Messaging Infrastructure      | 0                 |
+| Monitoring & Observability    | 3                 |
+| Identity & Access             | 4                 |
+| API Management                | 0                 |
+| Caching Infrastructure        | 0                 |
+| **Total**                     | **21**            |
 
-### Key Architecture Characteristics
+### ✨ Key Architecture Characteristics
 
 - **Deployment Model**: Fully declarative IaC (Azure Bicep) deployed via Azure
   Developer CLI (`azd`)
@@ -55,24 +66,9 @@ resource groups by function: workload, security, and monitoring.
   (microsoft/devcenter-catalog) and project-specific environment/image
   definitions (Evilazaro/eShop)
 
-### Infrastructure Maturity Assessment
-
-| Indicator               | Status               | Source Evidence                                                                                                         |
-| ----------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Infrastructure-as-Code  | ✅ Fully Implemented | 20+ Bicep modules across `src/`                                                                                         |
-| Landing Zone Separation | ✅ Fully Implemented | Three resource groups by function in `infra/settings/resourceOrganization/azureResources.yaml`                          |
-| Managed Identity        | ✅ Fully Implemented | `SystemAssigned` on DevCenter (`src/workload/core/devCenter.bicep`) and Projects (`src/workload/project/project.bicep`) |
-| Secrets Management      | ✅ Fully Implemented | Key Vault RBAC auth in `infra/settings/security/security.yaml`                                                          |
-| Centralized Monitoring  | ✅ Fully Implemented | Log Analytics + diagnostic settings on all resources                                                                    |
-| Resource Tagging        | ✅ Fully Implemented | 7-tag schema: `environment`, `division`, `team`, `project`, `costCenter`, `owner`, `resources`                          |
-| Configuration-as-Code   | ✅ Fully Implemented | YAML settings in `infra/settings/` for all resources                                                                    |
-| Network Security        | 🔶 Partial           | Managed VNet active; Unmanaged VNet code available in `src/connectivity/`                                               |
-| High Availability       | ⬜ Not Detected      | Single-region; no explicit availability zone configuration in source                                                    |
-| Disaster Recovery       | ⬜ Not Detected      | No DR topology configuration detected in source files                                                                   |
-
 ---
 
-## Section 2: Architecture Landscape
+## 🗺️ Section 2: Architecture Landscape
 
 The ContosoDevExp technology ecosystem is organized around three Azure Landing
 Zones and an Azure DevCenter providing centralized developer workstation
@@ -80,25 +76,25 @@ management. The topology spans cloud-managed compute (Dev Box), managed network
 (Microsoft-hosted), key-based secrets management, GitHub catalog integration,
 and centralized observability.
 
-### 2.1 Compute Resources (3)
+### ⚙️ 2.1 Compute Resources (3)
 
-| Component              | Type            | Deployment Model | SKU / Size                                                        | Confidence |
-| ---------------------- | --------------- | ---------------- | ----------------------------------------------------------------- | ---------- |
-| devexp-devcenter       | Azure DevCenter | PaaS             | Standard                                                          | 0.96       |
-| backend-engineer pool  | Dev Box Pool    | PaaS             | `general_i_32c128gb512ssd_v2` (32 vCPU / 128 GB RAM / 512 GB SSD) | 0.95       |
-| frontend-engineer pool | Dev Box Pool    | PaaS             | `general_i_16c64gb256ssd_v2` (16 vCPU / 64 GB RAM / 256 GB SSD)   | 0.95       |
+| ⚙️ Component              | 📋 Type            | 🚀 Deployment Model | 📐 SKU / Size                                                        |
+| ---------------------- | --------------- | ---------------- | ----------------------------------------------------------------- |
+| devexp-devcenter       | Azure DevCenter | PaaS             | Standard                                                          |
+| backend-engineer pool  | Dev Box Pool    | PaaS             | `general_i_32c128gb512ssd_v2` (32 vCPU / 128 GB RAM / 512 GB SSD) |
+| frontend-engineer pool | Dev Box Pool    | PaaS             | `general_i_16c64gb256ssd_v2` (16 vCPU / 64 GB RAM / 256 GB SSD)   |
 
-### 2.2 Storage Systems (0)
+### 💾 2.2 Storage Systems (0)
 
 Not detected in source files.
 
-### 2.3 Network Infrastructure (3)
+### 🔌 2.3 Network Infrastructure (3)
 
-| Component                     | Type                      | Deployment Model   | Configuration                                                 | Confidence |
-| ----------------------------- | ------------------------- | ------------------ | ------------------------------------------------------------- | ---------- |
-| Microsoft-Hosted Network      | DevCenter Managed Network | PaaS-Managed       | Enabled via `microsoftHostedNetworkEnableStatus: Enabled`     | 0.93       |
-| Azure Virtual Network (eShop) | Customer VNet             | IaaS (conditional) | 10.0.0.0/16, subnet eShop-subnet 10.0.1.0/24 — Unmanaged only | 0.90       |
-| DevCenter Network Connection  | VNet Attachment           | PaaS (conditional) | `AzureADJoin` domain type — Unmanaged VNet projects only      | 0.90       |
+| 🔌 Component                     | 📋 Type                      | 🚀 Deployment Model   | ⚙️ Configuration                                                 |
+| ----------------------------- | ------------------------- | ------------------ | ------------------------------------------------------------- |
+| Microsoft-Hosted Network      | DevCenter Managed Network | PaaS-Managed       | Enabled via `microsoftHostedNetworkEnableStatus: Enabled`     |
+| Azure Virtual Network (eShop) | Customer VNet             | IaaS (conditional) | 10.0.0.0/16, subnet eShop-subnet 10.0.1.0/24 — Unmanaged only |
+| DevCenter Network Connection  | VNet Attachment           | PaaS (conditional) | `AzureADJoin` domain type — Unmanaged VNet projects only      |
 
 > **Note**: The current eShop project configuration uses
 > `virtualNetworkType: Managed`, so the Customer VNet and Network Connection
@@ -106,60 +102,60 @@ Not detected in source files.
 > deployed only for Unmanaged VNet projects. Microsoft-hosted networking is the
 > active configuration.
 
-### 2.4 Container Platforms (0)
+### 🐳 2.4 Container Platforms (0)
 
 Not detected in source files.
 
-### 2.5 Cloud Services (5)
+### ☁️ 2.5 Cloud Services (5)
 
-| Component                      | Type                      | Deployment Model | Configuration                                                                    | Confidence |
-| ------------------------------ | ------------------------- | ---------------- | -------------------------------------------------------------------------------- | ---------- |
-| eShop project                  | DevCenter Project         | PaaS             | SystemAssigned identity, EnvironmentDefinition + ImageDefinition catalogs        | 0.95       |
-| customTasks catalog            | DevCenter Catalog         | PaaS             | GitHub sync, `microsoft/devcenter-catalog`, branch: main, path: ./Tasks          | 0.93       |
-| environments (project catalog) | DevCenter Project Catalog | PaaS             | GitHub sync, `Evilazaro/eShop`, branch: main, path: /.devcenter/environments     | 0.93       |
-| devboxImages (project catalog) | DevCenter Project Catalog | PaaS             | GitHub sync, `Evilazaro/eShop`, branch: main, path: /.devcenter/imageDefinitions | 0.93       |
-| ContosoDevExp (azd)            | Deployment Platform       | CLI/SaaS         | Azure Developer CLI project with `preprovision` hook                             | 0.88       |
+| ☁️ Component                      | 📋 Type                      | 🚀 Deployment Model | ⚙️ Configuration                                                                    |
+| ------------------------------ | ------------------------- | ---------------- | -------------------------------------------------------------------------------- |
+| eShop project                  | DevCenter Project         | PaaS             | SystemAssigned identity, EnvironmentDefinition + ImageDefinition catalogs        |
+| customTasks catalog            | DevCenter Catalog         | PaaS             | GitHub sync, `microsoft/devcenter-catalog`, branch: main, path: ./Tasks          |
+| environments (project catalog) | DevCenter Project Catalog | PaaS             | GitHub sync, `Evilazaro/eShop`, branch: main, path: /.devcenter/environments     |
+| devboxImages (project catalog) | DevCenter Project Catalog | PaaS             | GitHub sync, `Evilazaro/eShop`, branch: main, path: /.devcenter/imageDefinitions |
+| ContosoDevExp (azd)            | Deployment Platform       | CLI/SaaS         | Azure Developer CLI project with `preprovision` hook                             |
 
-### 2.6 Security Infrastructure (3)
+### 🔒 2.6 Security Infrastructure (3)
 
-| Component             | Type             | Deployment Model | Configuration                                                        | Confidence |
-| --------------------- | ---------------- | ---------------- | -------------------------------------------------------------------- | ---------- |
-| contoso-{unique}-kv   | Azure Key Vault  | PaaS             | Standard SKU, RBAC authorization, purge protection, soft delete 7d   | 0.99       |
-| gha-token (secret)    | Key Vault Secret | PaaS             | GitHub Actions token, content type `text/plain`, enabled             | 0.97       |
-| RBAC Role Assignments | Azure RBAC       | Control Plane    | 7 role definitions across Subscription, ResourceGroup, Project scope | 0.95       |
+| 🔒 Component             | 📋 Type             | 🚀 Deployment Model | ⚙️ Configuration                                                        |
+| --------------------- | ---------------- | ---------------- | -------------------------------------------------------------------- |
+| contoso-{unique}-kv   | Azure Key Vault  | PaaS             | Standard SKU, RBAC authorization, purge protection, soft delete 7d   |
+| gha-token (secret)    | Key Vault Secret | PaaS             | GitHub Actions token, content type `text/plain`, enabled             |
+| RBAC Role Assignments | Azure RBAC       | Control Plane    | 7 role definitions across Subscription, ResourceGroup, Project scope |
 
-### 2.7 Messaging Infrastructure (0)
-
-Not detected in source files.
-
-### 2.8 Monitoring & Observability (3)
-
-| Component                         | Type                    | Deployment Model | Configuration                                                   | Confidence |
-| --------------------------------- | ----------------------- | ---------------- | --------------------------------------------------------------- | ---------- |
-| logAnalytics-{unique}             | Log Analytics Workspace | PaaS             | PerGB2018 SKU, allLogs + AllMetrics diagnostic collection       | 0.97       |
-| AzureActivity solution            | Log Analytics Solution  | PaaS             | AzureActivity solution from OMSGallery/Microsoft                | 0.94       |
-| Diagnostic Settings (4 instances) | Resource Diagnostics    | PaaS             | Applied to DevCenter, Key Vault, VNet, and Log Analytics itself | 0.96       |
-
-### 2.9 Identity & Access (4)
-
-| Component                            | Type               | Deployment Model | Configuration                                                                     | Confidence |
-| ------------------------------------ | ------------------ | ---------------- | --------------------------------------------------------------------------------- | ---------- |
-| DevCenter Managed Identity           | System-Assigned MI | PaaS             | Contributor + User Access Admin (Subscription), Key Vault roles (RG)              | 0.96       |
-| DevCenter Project Identity           | System-Assigned MI | PaaS             | Project-scoped RBAC + Key Vault Secrets User per project                          | 0.95       |
-| Platform Engineering Team (AD group) | Azure AD Group     | SaaS             | DevCenter Project Admin scoped to ResourceGroup                                   | 0.93       |
-| eShop Developers (AD group)          | Azure AD Group     | SaaS             | Dev Box User + Contributor + Deployment Environment User + Key Vault Secrets User | 0.93       |
-
-### 2.10 API Management (0)
+### 📨 2.7 Messaging Infrastructure (0)
 
 Not detected in source files.
 
-### 2.11 Caching Infrastructure (0)
+### 📊 2.8 Monitoring & Observability (3)
+
+| 📊 Component                         | 📋 Type                    | 🚀 Deployment Model | ⚙️ Configuration                                                   |
+| --------------------------------- | ----------------------- | ---------------- | --------------------------------------------------------------- |
+| logAnalytics-{unique}             | Log Analytics Workspace | PaaS             | PerGB2018 SKU, allLogs + AllMetrics diagnostic collection       |
+| AzureActivity solution            | Log Analytics Solution  | PaaS             | AzureActivity solution from OMSGallery/Microsoft                |
+| Diagnostic Settings (4 instances) | Resource Diagnostics    | PaaS             | Applied to DevCenter, Key Vault, VNet, and Log Analytics itself |
+
+### 👤 2.9 Identity & Access (4)
+
+| 👤 Component                            | 📋 Type               | 🚀 Deployment Model | ⚙️ Configuration                                                                     |
+| ------------------------------------ | ------------------ | ---------------- | --------------------------------------------------------------------------------- |
+| DevCenter Managed Identity           | System-Assigned MI | PaaS             | Contributor + User Access Admin (Subscription), Key Vault roles (RG)              |
+| DevCenter Project Identity           | System-Assigned MI | PaaS             | Project-scoped RBAC + Key Vault Secrets User per project                          |
+| Platform Engineering Team (AD group) | Azure AD Group     | SaaS             | DevCenter Project Admin scoped to ResourceGroup                                   |
+| eShop Developers (AD group)          | Azure AD Group     | SaaS             | Dev Box User + Contributor + Deployment Environment User + Key Vault Secrets User |
+
+### 🔗 2.10 API Management (0)
+
+Not detected in source files.
+
+### 🗄️ 2.11 Caching Infrastructure (0)
 
 Not detected in source files.
 
 ---
 
-### Infrastructure Context Diagram
+### 🗃️ Infrastructure Context Diagram
 
 ```mermaid
 ---
@@ -234,7 +230,7 @@ flowchart TB
 
 ---
 
-### DevCenter Resource Map
+### 🗺️ DevCenter Resource Map
 
 ```mermaid
 ---
@@ -308,180 +304,98 @@ flowchart LR
 
 ---
 
-## Section 3: Architecture Principles
+## 📐 Section 3: Architecture Principles
 
 The following infrastructure principles are directly observable from source
-files in the workspace. Each principle is substantiated with specific source
-file references.
+files in the workspace.
 
-### 1. Infrastructure-as-Code (IaC)
+### 1. 🏗️ Infrastructure-as-Code (IaC)
 
 **Principle**: All Azure resources are defined declaratively in Bicep modules.
 No manual resource creation is required or supported.
 
-**Evidence**:
-
-- 20+ modular `.bicep` files across `src/` (connectivity, identity, management,
-  security, workload)
-- Entry point: `infra/main.bicep` — orchestrates all module deployments at
-  subscription scope
-- Deployment tooling: `azure.yaml` — Azure Developer CLI (`azd`) project with
-  `preprovision` hook
-
 **Observable Pattern**: Each resource type has a dedicated Bicep module (e.g.,
 `logAnalytics.bicep`, `keyVault.bicep`, `devCenter.bicep`), enabling independent
-versioning and reuse. Source: `infra/main.bicep:1-155`
+versioning and reuse.
 
-### 2. Configuration-as-Code
+### 2. 📄 Configuration-as-Code
 
 **Principle**: Resource settings, naming, tagging, environment types, and role
 configurations are managed in version-controlled YAML files separate from
 deployment templates.
 
-**Evidence**:
-
-- `infra/settings/workload/devcenter.yaml` — DevCenter name, catalogs,
-  environment types, project pools, identity role assignments
-- `infra/settings/security/security.yaml` — Key Vault configuration (purge
-  protection, soft delete, RBAC auth)
-- `infra/settings/resourceOrganization/azureResources.yaml` — Resource group
-  naming and tagging strategy
-
 **Observable Pattern**: Bicep modules use `loadYamlContent()` to consume
 configuration files at deploy time, decoupling infrastructure logic from
-environment-specific values. Source: `src/workload/workload.bicep:40-42`
+environment-specific values.
 
-### 3. Least Privilege Access
+### 3. 🔐 Least Privilege Access
 
 **Principle**: Role assignments are scoped to the minimum necessary Azure scope
 (Subscription, ResourceGroup, or Project) and use purpose-specific built-in
 roles.
 
-**Evidence**:
-
-- DevCenter MI: `Contributor` + `User Access Administrator` at Subscription
-  scope (required for DevCenter service operation)
-- DevCenter MI: `Key Vault Secrets User` + `Key Vault Secrets Officer` at
-  ResourceGroup scope (not Subscription)
-- eShop Developers AD Group: `Dev Box User` + `Deployment Environment User` at
-  Project scope
-- Platform Engineering Team: `DevCenter Project Admin` at ResourceGroup scope
-
-Source: `infra/settings/workload/devcenter.yaml:28-44`,
-`src/identity/devCenterRoleAssignment.bicep:20-40`,
-`src/identity/orgRoleAssignment.bicep:24-38`
-
-### 4. Defense in Depth
+### 4. 🛡️ Defense in Depth
 
 **Principle**: Multiple independent security controls protect sensitive assets
 (secrets, identities, network access) in layers.
 
-**Evidence**:
-
-- Key Vault with `enableRbacAuthorization: true` — no access policies, uses RBAC
-  only
-- Key Vault with `enablePurgeProtection: true` + `enableSoftDelete: true` —
-  prevents accidental or malicious permanent deletion
-- Secrets accessed via `secretIdentifier` URI (not plaintext value) passed
-  between modules
-- Managed Identities eliminate static credentials for service-to-service
-  authentication
-- Diagnostic Settings log all Key Vault operations to Log Analytics for audit
-
-Source: `infra/settings/security/security.yaml:19-26`,
-`src/security/keyVault.bicep:40-80`, `src/security/secret.bicep:15-35`
-
-### 5. Cloud-Native Design
+### 5. ☁️ Cloud-Native Design
 
 **Principle**: The platform uses exclusively Azure PaaS and managed services —
 no customer-managed operating systems or unmanaged virtual machines.
 
-**Evidence**:
+**Observable Pattern**: Every compute, network, security, and observability
+resource in the deployment is a managed Azure service with no OS-level
+management required.
 
-- Azure DevCenter (`Microsoft.DevCenter/devcenters`) — fully managed PaaS
-- Dev Box Pools (`Microsoft.DevCenter/projects/pools`) — VM provisioning is
-  managed by Azure DevCenter service
-- Log Analytics Workspace — managed observability PaaS
-- Azure Key Vault — managed secrets PaaS
-- Network: `microsoftHostedNetworkEnableStatus: Enabled` — Microsoft-managed
-  VNet for Dev Boxes
-
-Source: `src/workload/core/devCenter.bicep:135-165`,
-`infra/settings/workload/devcenter.yaml:20-21`
-
-### 6. Separation of Concerns
+### 6. 📏 Separation of Concerns
 
 **Principle**: Resources are segregated into purpose-specific resource groups,
 isolating security, monitoring, and workload resources.
 
-**Evidence**:
+**Observable Pattern**: Three dedicated resource groups (`devexp-security-RG`,
+`devexp-monitoring-RG`, `devexp-workload-RG`) ensure blast-radius containment
+and independent lifecycle management per function.
 
-- `devexp-security-RG` — Key Vault and secrets management only
-- `devexp-monitoring-RG` — Log Analytics Workspace and observability solutions
-  only
-- `devexp-workload-RG` — Azure DevCenter and developer workstation resources
-  only
-- Each resource group has independent tagging with `landingZone` classification
-
-Source: `infra/settings/resourceOrganization/azureResources.yaml:1-72`,
-`infra/main.bicep:50-90`
-
-### 7. Observable Infrastructure
+### 7. 🔭 Observable Infrastructure
 
 **Principle**: All provisioned resources stream telemetry (logs and metrics) to
 a central Log Analytics Workspace.
 
-**Evidence**:
+**Observable Pattern**: `logAnalyticsId` is threaded as a required parameter
+through all Bicep modules, enforcing diagnostic settings as a non-optional
+architectural constraint.
 
-- `Microsoft.Insights/diagnosticSettings` resources on: DevCenter
-  (`src/workload/core/devCenter.bicep`), Key Vault
-  (`src/security/secret.bicep`), Virtual Network
-  (`src/connectivity/vnet.bicep`), Log Analytics Workspace itself
-  (`src/management/logAnalytics.bicep`)
-- `categoryGroup: 'allLogs'` + `category: 'AllMetrics'` — full telemetry
-  collection
-- `logAnalyticsId` parameter threaded through all modules to enforce diagnostic
-  settings
-
-Source: `src/management/logAnalytics.bicep:55-97`
-
-### 8. Immutable Infrastructure
+### 8. 🚧 Immutable Infrastructure
 
 **Principle**: Resources are replaced rather than mutated. Bicep templates are
 idempotent and declarative; deployment via `azd` ensures consistent
 desired-state enforcement.
 
-**Evidence**:
-
-- All Bicep resources use declarative `resource` blocks — no imperative mutation
-- `uniqueString()` suffix on Log Analytics and Key Vault names prevents naming
-  collisions on re-deployment
-- `azure.yaml` `preprovision` hook runs setup scripts before `azd provision` to
-  validate environment state
-
-Source: `src/management/logAnalytics.bicep:30-34`,
-`src/security/keyVault.bicep:8-10`, `azure.yaml:11-30`
+**Observable Pattern**: All Bicep `resource` blocks are declarative with
+`uniqueString()` suffixes to prevent naming collisions, ensuring consistent
+redeploy behavior without manual state management.
 
 ---
 
-## Section 4: Current State Baseline
+## 📊 Section 4: Current State Baseline
 
-### Resource Topology Overview
+### 🗺️ Resource Topology Overview
 
 The ContosoDevExp platform deploys to a single Azure subscription across three
 dedicated resource groups. The topology follows a hub-and-spoke reference
 pattern where the DevCenter acts as the central management plane for all Dev Box
 provisioning.
 
-| Resource Group         | Function               | Key Resources                              | Naming Pattern                   |
+| 📁 Resource Group         | ⚙️ Function               | 🔑 Key Resources                              | 🏷️ Naming Pattern                   |
 | ---------------------- | ---------------------- | ------------------------------------------ | -------------------------------- |
 | `devexp-security-RG`   | Secrets Management     | Azure Key Vault, Key Vault Secrets         | `{name}-{envName}-{location}-RG` |
 | `devexp-monitoring-RG` | Observability          | Log Analytics Workspace, Activity Solution | `{name}-{envName}-{location}-RG` |
 | `devexp-workload-RG`   | Developer Workstations | Azure DevCenter, Projects, Pools           | `{name}-{envName}-{location}-RG` |
 
-### Current Deployment Models
+### 🚀 Current Deployment Models
 
-| Resource                | Deployment Model | Justification                                        |
+| ☁️ Resource                | 🚀 Deployment Model | 📝 Justification                                        |
 | ----------------------- | ---------------- | ---------------------------------------------------- |
 | Azure DevCenter         | PaaS             | Fully managed developer workstation platform         |
 | Dev Box Pools           | PaaS             | VM provisioning managed by DevCenter service         |
@@ -491,9 +405,9 @@ provisioning.
 | Identity (Azure AD)     | SaaS             | Microsoft-managed identity platform                  |
 | VNet (conditional)      | IaaS             | Customer-managed VNet for Unmanaged network projects |
 
-### Availability Posture
+### 📈 Availability Posture
 
-| Resource                | SLA    | Configuration                     | Notes                                  |
+| ☁️ Resource                | 📈 SLA    | ⚙️ Configuration                     | 📝 Notes                                  |
 | ----------------------- | ------ | --------------------------------- | -------------------------------------- |
 | Azure DevCenter         | 99.99% | Standard tier                     | No explicit zone redundancy configured |
 | Azure Key Vault         | 99.99% | Standard SKU, soft delete enabled | No geo-replication configured          |
@@ -503,26 +417,25 @@ provisioning.
 
 > **Availability Gap**: No multi-region deployment, availability zone
 > configuration, or DR failover policy is detected in source files. Resources
-> are deployed to a single region (`${AZURE_LOCATION}` parameter). Source:
-> `infra/main.parameters.json:1-14`
+> are deployed to a single region (`${AZURE_LOCATION}` parameter).
 
-### Security Configuration Status
+### 🔐 Security Configuration Status
 
-| Control                  | Status          | Configuration Detail                                             | Source                                        |
-| ------------------------ | --------------- | ---------------------------------------------------------------- | --------------------------------------------- |
-| Secrets at Rest          | ✅ Active       | Azure Key Vault — HSM-backed Standard SKU                        | `src/security/keyVault.bicep:40-80`           |
-| RBAC Authorization       | ✅ Active       | `enableRbacAuthorization: true` — no legacy access policies      | `infra/settings/security/security.yaml:26`    |
-| Soft Delete              | ✅ Active       | `enableSoftDelete: true`, retention 7 days                       | `infra/settings/security/security.yaml:23-24` |
-| Purge Protection         | ✅ Active       | `enablePurgeProtection: true`                                    | `infra/settings/security/security.yaml:22`    |
-| Managed Identity Auth    | ✅ Active       | SystemAssigned on DevCenter and all Projects                     | `infra/settings/workload/devcenter.yaml:25`   |
-| Diagnostic Audit Logging | ✅ Active       | `allLogs` category on Key Vault → Log Analytics                  | `src/security/secret.bicep:37-67`             |
-| Network Isolation        | 🔶 Partial      | Microsoft-Hosted VNet (current); Customer VNet support available | `infra/settings/workload/devcenter.yaml:104`  |
-| Credential Rotation      | ⬜ Not Detected | No automated secret rotation configuration in source             | —                                             |
-| Private Endpoints        | ⬜ Not Detected | No `Microsoft.Network/privateEndpoints` resources in source      | —                                             |
+| 🔐 Control                  | ✅ Status          | ⚙️ Configuration Detail                                             |
+| ------------------------ | --------------- | ---------------------------------------------------------------- |
+| Secrets at Rest          | ✅ Active       | Azure Key Vault — HSM-backed Standard SKU                        |
+| RBAC Authorization       | ✅ Active       | `enableRbacAuthorization: true` — no legacy access policies      |
+| Soft Delete              | ✅ Active       | `enableSoftDelete: true`, retention 7 days                       |
+| Purge Protection         | ✅ Active       | `enablePurgeProtection: true`                                    |
+| Managed Identity Auth    | ✅ Active       | SystemAssigned on DevCenter and all Projects                     |
+| Diagnostic Audit Logging | ✅ Active       | `allLogs` category on Key Vault → Log Analytics                  |
+| Network Isolation        | 🔶 Partial      | Microsoft-Hosted VNet (current); Customer VNet support available |
+| Credential Rotation      | ⬜ Not Detected | No automated secret rotation configuration in source             |
+| Private Endpoints        | ⬜ Not Detected | No `Microsoft.Network/privateEndpoints` resources in source      |
 
 ---
 
-### Network Baseline Diagram
+### 🔌 Network Baseline Diagram
 
 ```mermaid
 ---
@@ -594,7 +507,7 @@ flowchart TB
 
 ---
 
-### Security Zone Diagram
+### 🔐 Security Zone Diagram
 
 ```mermaid
 ---
@@ -676,15 +589,15 @@ flowchart LR
 
 ---
 
-## Section 5: Component Catalog
+## 🗂️ Section 5: Component Catalog
 
-### 5.1 Compute Resources
+### ⚙️ 5.1 Compute Resources
 
-| Resource Name          | Resource Type   | Deployment Model | SKU                           | Region              | Availability SLA | Cost Tag                                                                   | Source                                          |
-| ---------------------- | --------------- | ---------------- | ----------------------------- | ------------------- | ---------------- | -------------------------------------------------------------------------- | ----------------------------------------------- |
-| devexp-devcenter       | Azure DevCenter | PaaS             | Standard                      | `${AZURE_LOCATION}` | 99.99%           | `costCenter:IT`, `environment:dev`, `team:DevExP`, `project:DevExP-DevBox` | `src/workload/core/devCenter.bicep:135-165`     |
-| backend-engineer pool  | Dev Box Pool    | PaaS             | `general_i_32c128gb512ssd_v2` | `${AZURE_LOCATION}` | 99.9%            | `project:DevExP-DevBox`, `team:DevExP`                                     | `src/workload/project/projectPool.bicep:54-100` |
-| frontend-engineer pool | Dev Box Pool    | PaaS             | `general_i_16c64gb256ssd_v2`  | `${AZURE_LOCATION}` | 99.9%            | `project:DevExP-DevBox`, `team:DevExP`                                     | `src/workload/project/projectPool.bicep:54-100` |
+| 🔑 Resource Name          | 📋 Resource Type   | 🚀 Deployment Model | 📐 SKU                           | 🌍 Region              | 📈 Availability SLA | 🏷️ Cost Tag                                                                   |
+| ---------------------- | --------------- | ---------------- | ----------------------------- | ------------------- | ---------------- | -------------------------------------------------------------------------- |
+| devexp-devcenter       | Azure DevCenter | PaaS             | Standard                      | `${AZURE_LOCATION}` | 99.99%           | `costCenter:IT`, `environment:dev`, `team:DevExP`, `project:DevExP-DevBox` |
+| backend-engineer pool  | Dev Box Pool    | PaaS             | `general_i_32c128gb512ssd_v2` | `${AZURE_LOCATION}` | 99.9%            | `project:DevExP-DevBox`, `team:DevExP`                                     |
+| frontend-engineer pool | Dev Box Pool    | PaaS             | `general_i_16c64gb256ssd_v2`  | `${AZURE_LOCATION}` | 99.9%            | `project:DevExP-DevBox`, `team:DevExP`                                     |
 
 **Security Posture:**
 
@@ -713,18 +626,9 @@ flowchart LR
 - **EOL/EOS**: Azure DevCenter API version `2026-01-01-preview` (preview);
   transition to GA API recommended when available
 
-**Confidence Score**: 0.965 (High)
-
-- Filename: `devCenter.bicep` matches `*.bicep` (1.0) × 0.30 = 0.300
-- Path: `/src/workload/core/` workload indicator (0.9) × 0.25 = 0.225
-- Content: `Microsoft.DevCenter/devcenters@2026-01-01-preview` resource
-  declaration (1.0) × 0.35 = 0.350
-- Cross-reference: Referenced by `workload.bicep`, `devcenter.yaml` (0.9) × 0.10
-  = 0.090
-
 ---
 
-### 5.2 Storage Systems
+### 💾 5.2 Storage Systems
 
 **Status**: Not detected in current infrastructure configuration.
 
@@ -750,13 +654,13 @@ resource group with lifecycle management policies.
 
 ---
 
-### 5.3 Network Infrastructure
+### 🔌 5.3 Network Infrastructure
 
-| Resource Name               | Resource Type                | Deployment Model | SKU      | Region              | Availability SLA | Cost Tag                               | Source                                           |
-| --------------------------- | ---------------------------- | ---------------- | -------- | ------------------- | ---------------- | -------------------------------------- | ------------------------------------------------ |
-| Microsoft-Hosted Network    | DevCenter Managed Network    | PaaS-Managed     | N/A      | `${AZURE_LOCATION}` | 99.9%            | N/A (Microsoft-managed)                | `infra/settings/workload/devcenter.yaml:20-21`   |
-| eShop VNet (conditional)    | Azure Virtual Network        | IaaS             | Standard | `${AZURE_LOCATION}` | 99.9%            | `environment:dev`, `resources:Network` | `src/connectivity/vnet.bicep:35-55`              |
-| netconn-eShop (conditional) | DevCenter Network Connection | PaaS             | N/A      | `${AZURE_LOCATION}` | N/A              | N/A                                    | `src/connectivity/networkConnection.bicep:15-50` |
+| 🔑 Resource Name               | 📋 Resource Type                | 🚀 Deployment Model | 📐 SKU      | 🌍 Region              | 📈 Availability SLA | 🏷️ Cost Tag                               |
+| --------------------------- | ---------------------------- | ---------------- | -------- | ------------------- | ---------------- | -------------------------------------- |
+| Microsoft-Hosted Network    | DevCenter Managed Network    | PaaS-Managed     | N/A      | `${AZURE_LOCATION}` | 99.9%            | N/A (Microsoft-managed)                |
+| eShop VNet (conditional)    | Azure Virtual Network        | IaaS             | Standard | `${AZURE_LOCATION}` | 99.9%            | `environment:dev`, `resources:Network` |
+| netconn-eShop (conditional) | DevCenter Network Connection | PaaS             | N/A      | `${AZURE_LOCATION}` | N/A              | N/A                                    |
 
 **Security Posture:**
 
@@ -781,18 +685,9 @@ resource group with lifecycle management policies.
   `virtualNetworkType` in `devcenter.yaml`
 - **EOL/EOS**: Azure Virtual Network (N/A — evergreen service)
 
-**Confidence Score**: 0.920 (High)
-
-- Filename: `vnet.bicep` matches `*.bicep` (1.0) × 0.30 = 0.300
-- Path: `/src/connectivity/` network indicator (1.0) × 0.25 = 0.250
-- Content: `Microsoft.Network/virtualNetworks@2025-05-01` resource declaration
-  (1.0) × 0.35 = 0.350
-- Cross-reference: Referenced by `connectivity.bicep`; conditional deployment
-  (0.2) × 0.10 = 0.020
-
 ---
 
-### 5.4 Container Platforms
+### 🐳 5.4 Container Platforms
 
 **Status**: Not detected in current infrastructure configuration.
 
@@ -814,15 +709,15 @@ Bicep template. Dev Box pools use VM-based compute, not containerized runtimes.
 
 ---
 
-### 5.5 Cloud Services
+### ☁️ 5.5 Cloud Services
 
-| Resource Name        | Resource Type             | Deployment Model | SKU      | Region              | Availability SLA | Cost Tag                                                        | Source                                            |
-| -------------------- | ------------------------- | ---------------- | -------- | ------------------- | ---------------- | --------------------------------------------------------------- | ------------------------------------------------- |
-| eShop project        | DevCenter Project         | PaaS             | Standard | `${AZURE_LOCATION}` | 99.99%           | `environment:dev`, `project:DevExP-DevBox`, `resources:Project` | `src/workload/project/project.bicep:140-175`      |
-| customTasks catalog  | DevCenter Catalog         | PaaS             | N/A      | N/A                 | 99.99%           | N/A                                                             | `src/workload/core/catalog.bicep:38-66`           |
-| environments catalog | DevCenter Project Catalog | PaaS             | N/A      | N/A                 | 99.99%           | N/A                                                             | `src/workload/project/projectCatalog.bicep:40-70` |
-| devboxImages catalog | DevCenter Project Catalog | PaaS             | N/A      | N/A                 | 99.99%           | N/A                                                             | `src/workload/project/projectCatalog.bicep:40-70` |
-| ContosoDevExp (azd)  | Azure Developer CLI       | CLI              | N/A      | N/A                 | N/A              | N/A                                                             | `azure.yaml:1-30`                                 |
+| 🔑 Resource Name        | 📋 Resource Type             | 🚀 Deployment Model | 📐 SKU      | 🌍 Region              | 📈 Availability SLA | 🏷️ Cost Tag                                                        |
+| -------------------- | ------------------------- | ---------------- | -------- | ------------------- | ---------------- | --------------------------------------------------------------- |
+| eShop project        | DevCenter Project         | PaaS             | Standard | `${AZURE_LOCATION}` | 99.99%           | `environment:dev`, `project:DevExP-DevBox`, `resources:Project` |
+| customTasks catalog  | DevCenter Catalog         | PaaS             | N/A      | N/A                 | 99.99%           | N/A                                                             |
+| environments catalog | DevCenter Project Catalog | PaaS             | N/A      | N/A                 | 99.99%           | N/A                                                             |
+| devboxImages catalog | DevCenter Project Catalog | PaaS             | N/A      | N/A                 | 99.99%           | N/A                                                             |
+| ContosoDevExp (azd)  | Azure Developer CLI       | CLI              | N/A      | N/A                 | N/A              | N/A                                                             |
 
 **Security Posture:**
 
@@ -848,24 +743,15 @@ Bicep template. Dev Box pools use VM-based compute, not containerized runtimes.
 - **Secret Rotation**: `secretIdentifier` parameter updated via Key Vault secret
   versioning; no infrastructure re-deployment required
 
-**Confidence Score**: 0.950 (High)
-
-- Filename: `project.bicep` matches `*.bicep` (1.0) × 0.30 = 0.300
-- Path: `/src/workload/project/` workload indicator (0.9) × 0.25 = 0.225
-- Content: `Microsoft.DevCenter/projects@2026-01-01-preview` resource
-  declaration (1.0) × 0.35 = 0.350
-- Cross-reference: Referenced by `workload.bicep`, `devcenter.yaml` (0.75) ×
-  0.10 = 0.075
-
 ---
 
-### 5.6 Security Infrastructure
+### 🔒 5.6 Security Infrastructure
 
-| Resource Name         | Resource Type    | Deployment Model | SKU        | Region              | Availability SLA | Cost Tag                                                   | Source                                                                                           |
-| --------------------- | ---------------- | ---------------- | ---------- | ------------------- | ---------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| contoso-{unique}-kv   | Azure Key Vault  | PaaS             | Standard A | `${AZURE_LOCATION}` | 99.99%           | `environment:dev`, `costCenter:IT`, `landingZone:security` | `src/security/keyVault.bicep:40-80`                                                              |
-| gha-token             | Key Vault Secret | PaaS             | N/A        | N/A                 | 99.99%           | N/A                                                        | `src/security/secret.bicep:15-35`                                                                |
-| RBAC Role Assignments | Azure RBAC       | Control Plane    | N/A        | Subscription/RG     | 99.99%           | N/A                                                        | `src/identity/devCenterRoleAssignment.bicep:20-40`, `src/identity/orgRoleAssignment.bicep:24-38` |
+| 🔑 Resource Name         | 📋 Resource Type    | 🚀 Deployment Model | 📐 SKU        | 🌍 Region              | 📈 Availability SLA | 🏷️ Cost Tag                                                   |
+| --------------------- | ---------------- | ---------------- | ---------- | ------------------- | ---------------- | ---------------------------------------------------------- |
+| contoso-{unique}-kv   | Azure Key Vault  | PaaS             | Standard A | `${AZURE_LOCATION}` | 99.99%           | `environment:dev`, `costCenter:IT`, `landingZone:security` |
+| gha-token             | Key Vault Secret | PaaS             | N/A        | N/A                 | 99.99%           | N/A                                                        |
+| RBAC Role Assignments | Azure RBAC       | Control Plane    | N/A        | Subscription/RG     | 99.99%           | N/A                                                        |
 
 **Security Posture:**
 
@@ -895,18 +781,9 @@ Bicep template. Dev Box pools use VM-based compute, not containerized runtimes.
   prevents permanent deletion
 - **EOL/EOS**: Key Vault API version `2025-05-01` (current stable); no EOL
 
-**Confidence Score**: 0.990 (High)
-
-- Filename: `keyVault.bicep` matches `*.bicep` (1.0) × 0.30 = 0.300
-- Path: `/src/security/` security indicator (1.0) × 0.25 = 0.250
-- Content: `Microsoft.KeyVault/vaults@2025-05-01` resource declaration (1.0) ×
-  0.35 = 0.350
-- Cross-reference: Referenced by `security.bicep`, `secret.bicep`, `main.bicep`
-  (0.9) × 0.10 = 0.090
-
 ---
 
-### 5.7 Messaging Infrastructure
+### 📨 5.7 Messaging Infrastructure
 
 **Status**: Not detected in current infrastructure configuration.
 
@@ -931,13 +808,13 @@ with DevCenter system topics provides a native integration path.
 
 ---
 
-### 5.8 Monitoring & Observability
+### 📊 5.8 Monitoring & Observability
 
-| Resource Name            | Resource Type           | Deployment Model | SKU       | Region              | Availability SLA | Cost Tag                                                             | Source                                                                                                                                                          |
-| ------------------------ | ----------------------- | ---------------- | --------- | ------------------- | ---------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| logAnalytics-{unique}    | Log Analytics Workspace | PaaS             | PerGB2018 | `${AZURE_LOCATION}` | 99.9%            | `environment:dev`, `resourceType:Log Analytics`, `module:monitoring` | `src/management/logAnalytics.bicep:35-53`                                                                                                                       |
-| AzureActivity solution   | Log Analytics Solution  | PaaS             | N/A       | `${AZURE_LOCATION}` | 99.9%            | N/A                                                                  | `src/management/logAnalytics.bicep:55-70`                                                                                                                       |
-| Diagnostic Settings (×4) | Resource Diagnostics    | PaaS             | N/A       | All resources       | N/A              | N/A                                                                  | `src/management/logAnalytics.bicep:72-97`, `src/workload/core/devCenter.bicep:168-200`, `src/security/secret.bicep:37-67`, `src/connectivity/vnet.bicep:90-120` |
+| 🔑 Resource Name            | 📋 Resource Type           | 🚀 Deployment Model | 📐 SKU       | 🌍 Region              | 📈 Availability SLA | 🏷️ Cost Tag                                                             |
+| ------------------------ | ----------------------- | ---------------- | --------- | ------------------- | ---------------- | -------------------------------------------------------------------- |
+| logAnalytics-{unique}    | Log Analytics Workspace | PaaS             | PerGB2018 | `${AZURE_LOCATION}` | 99.9%            | `environment:dev`, `resourceType:Log Analytics`, `module:monitoring` |
+| AzureActivity solution   | Log Analytics Solution  | PaaS             | N/A       | `${AZURE_LOCATION}` | 99.9%            | N/A                                                                  |
+| Diagnostic Settings (×4) | Resource Diagnostics    | PaaS             | N/A       | All resources       | N/A              | N/A                                                                  |
 
 **Security Posture:**
 
@@ -965,29 +842,20 @@ with DevCenter system topics provides a native integration path.
 - **EOL/EOS**: Log Analytics API version `2025-07-01` (current); evergreen
   service
 
-**Confidence Score**: 0.965 (High)
-
-- Filename: `logAnalytics.bicep` matches `*.bicep` (1.0) × 0.30 = 0.300
-- Path: `/src/management/` management indicator (0.9) × 0.25 = 0.225
-- Content: `Microsoft.OperationalInsights/workspaces@2025-07-01` resource
-  declaration (1.0) × 0.35 = 0.350
-- Cross-reference: Referenced by `main.bicep`, `devCenter.bicep`,
-  `secret.bicep`, `vnet.bicep` (0.9) × 0.10 = 0.090
-
 ---
 
-### 5.9 Identity & Access
+### 👤 5.9 Identity & Access
 
-| Resource Name              | Resource Type      | Deployment Model | SKU | Region              | Availability SLA | Cost Tag | Source                                           |
-| -------------------------- | ------------------ | ---------------- | --- | ------------------- | ---------------- | -------- | ------------------------------------------------ |
-| DevCenter Managed Identity | System-Assigned MI | PaaS             | N/A | `${AZURE_LOCATION}` | 99.99%           | N/A      | `infra/settings/workload/devcenter.yaml:25-44`   |
-| DevCenter Project Identity | System-Assigned MI | PaaS             | N/A | `${AZURE_LOCATION}` | 99.99%           | N/A      | `src/workload/project/project.bicep:140-180`     |
-| Platform Engineering Team  | Azure AD Group     | SaaS             | N/A | N/A                 | 99.99%           | N/A      | `infra/settings/workload/devcenter.yaml:41-43`   |
-| eShop Developers           | Azure AD Group     | SaaS             | N/A | N/A                 | 99.99%           | N/A      | `infra/settings/workload/devcenter.yaml:112-135` |
+| 🔑 Resource Name              | 📋 Resource Type      | 🚀 Deployment Model | 📐 SKU | 🌍 Region              | 📈 Availability SLA | 🏷️ Cost Tag |
+| -------------------------- | ------------------ | ---------------- | --- | ------------------- | ---------------- | -------- |
+| DevCenter Managed Identity | System-Assigned MI | PaaS             | N/A | `${AZURE_LOCATION}` | 99.99%           | N/A      |
+| DevCenter Project Identity | System-Assigned MI | PaaS             | N/A | `${AZURE_LOCATION}` | 99.99%           | N/A      |
+| Platform Engineering Team  | Azure AD Group     | SaaS             | N/A | N/A                 | 99.99%           | N/A      |
+| eShop Developers           | Azure AD Group     | SaaS             | N/A | N/A                 | 99.99%           | N/A      |
 
 **Role Assignment Matrix:**
 
-| Principal                  | Role Name                   | Role ID                                | Scope         |
+| 👤 Principal                  | 🔐 Role Name                   | 🆔 Role ID                                | 📍 Scope         |
 | -------------------------- | --------------------------- | -------------------------------------- | ------------- |
 | DevCenter Managed Identity | Contributor                 | `b24988ac-6180-42a0-ab88-20f7382dd24c` | Subscription  |
 | DevCenter Managed Identity | User Access Administrator   | `18d7d88d-d35e-4fb5-a5c3-7773c20a72d9` | Subscription  |
@@ -1025,18 +893,9 @@ with DevCenter system topics provides a native integration path.
 - **Scope Enforcement**: `devCenterRoleAssignment.bicep` enforces
   `scope == 'Subscription'` gate before creating subscription-scope assignments
 
-**Confidence Score**: 0.940 (High)
-
-- Filename: `orgRoleAssignment.bicep` matches `*.bicep` (1.0) × 0.30 = 0.300
-- Path: `/src/identity/` identity indicator (1.0) × 0.25 = 0.250
-- Content: `Microsoft.Authorization/roleAssignments@2022-04-01` resource
-  declarations (1.0) × 0.35 = 0.350
-- Cross-reference: Referenced by `devCenter.bicep`, `project.bicep`,
-  `devcenter.yaml` (0.4) × 0.10 = 0.040
-
 ---
 
-### 5.10 API Management
+### 🔗 5.10 API Management
 
 **Status**: Not detected in current infrastructure configuration.
 
@@ -1057,7 +916,7 @@ Boxes) which do not require API gateway management.
 
 ---
 
-### 5.11 Caching Infrastructure
+### 🗄️ 5.11 Caching Infrastructure
 
 **Status**: Not detected in current infrastructure configuration.
 
@@ -1081,7 +940,7 @@ caching layers.
 
 ---
 
-### Resource Dependency Flow Diagram
+### 🔄 Resource Dependency Flow Diagram
 
 ```mermaid
 ---
@@ -1162,9 +1021,9 @@ flowchart TB
 
 ---
 
-## Section 8: Dependencies & Integration
+## 🔗 Section 8: Dependencies & Integration
 
-### Resource Dependency Graph
+### 📊 Resource Dependency Graph
 
 The ContosoDevExp platform has a strict deployment dependency chain enforced via
 Bicep `dependsOn` clauses in `infra/main.bicep`. The chain must be honored
@@ -1180,20 +1039,18 @@ during deployment and destruction.
                            └── 5. Projects (eShop + pools + catalogs)  [parallel iteration]
 ```
 
-Source: `infra/main.bicep:93-155`
-
 **Module Dependency Matrix**:
 
-| Module         | Depends On                               | Produces                                                                                | Consumed By            |
+| 📦 Module         | ⬅️ Depends On                               | ➡️ Produces                                                                                | 🔄 Consumed By            |
 | -------------- | ---------------------------------------- | --------------------------------------------------------------------------------------- | ---------------------- |
 | `logAnalytics` | `monitoringRg`                           | `AZURE_LOG_ANALYTICS_WORKSPACE_ID`, `AZURE_LOG_ANALYTICS_WORKSPACE_NAME`                | `security`, `workload` |
 | `security`     | `securityRg`, `logAnalytics`             | `AZURE_KEY_VAULT_NAME`, `AZURE_KEY_VAULT_SECRET_IDENTIFIER`, `AZURE_KEY_VAULT_ENDPOINT` | `workload`             |
 | `workload`     | `workloadRg`, `logAnalytics`, `security` | `AZURE_DEV_CENTER_NAME`, `AZURE_DEV_CENTER_PROJECTS`                                    | Output only            |
 | `connectivity` | `workload` (devCenterName)               | `networkConnectionName`, `networkType`                                                  | `projectPool`          |
 
-### Network Connectivity Map
+### 🌐 Network Connectivity Map
 
-| Source              | Destination           | Protocol / Port       | Direction | Purpose                               |
+| 📡 Source              | 🎯 Destination           | 🔌 Protocol / Port       | ↕️ Direction | 📝 Purpose                               |
 | ------------------- | --------------------- | --------------------- | --------- | ------------------------------------- |
 | Developer Client    | Dev Box VM            | RDP (3389) / SSH (22) | Inbound   | Developer remote workstation access   |
 | Dev Box VM          | Microsoft-Hosted VNet | Internal routing      | Outbound  | VM network isolation                  |
@@ -1203,18 +1060,18 @@ Source: `infra/main.bicep:93-155`
 | Azure DevCenter     | Log Analytics         | HTTPS (443)           | Outbound  | Diagnostic telemetry streaming        |
 | Azure Monitor Agent | Log Analytics         | HTTPS (443)           | Outbound  | Dev Box agent telemetry collection    |
 
-### External Service Integrations
+### 🤝 External Service Integrations
 
-| External Service                     | Integration Type     | Configuration                                            | Source                                           |
-| ------------------------------------ | -------------------- | -------------------------------------------------------- | ------------------------------------------------ |
-| GitHub (microsoft/devcenter-catalog) | Catalog Sync         | Scheduled sync, public repo, branch: main, path: ./Tasks | `infra/settings/workload/devcenter.yaml:56-60`   |
-| GitHub (Evilazaro/eShop)             | Project Catalog Sync | Scheduled sync, private repo, secretIdentifier from KV   | `infra/settings/workload/devcenter.yaml:157-176` |
-| Azure Developer CLI (azd)            | Deployment Platform  | `preprovision` hook runs `setup.sh` before provisioning  | `azure.yaml:11-30`                               |
-| Azure AD                             | Identity Provider    | Azure AD-joined Dev Boxes; group-based RBAC              | `infra/settings/workload/devcenter.yaml:25`      |
+| 🌍 External Service                     | 🔄 Integration Type     | ⚙️ Configuration                                            |
+| ------------------------------------ | -------------------- | -------------------------------------------------------- |
+| GitHub (microsoft/devcenter-catalog) | Catalog Sync         | Scheduled sync, public repo, branch: main, path: ./Tasks |
+| GitHub (Evilazaro/eShop)             | Project Catalog Sync | Scheduled sync, private repo, secretIdentifier from KV   |
+| Azure Developer CLI (azd)            | Deployment Platform  | `preprovision` hook runs `setup.sh` before provisioning  |
+| Azure AD                             | Identity Provider    | Azure AD-joined Dev Boxes; group-based RBAC              |
 
-### Service-to-Infrastructure Bindings
+### 🔄 Service-to-Infrastructure Bindings
 
-| Service               | Infrastructure Dependency | Binding Mechanism                                 | Configuration Reference                     |
+| 🔄 Service               | 🏗️ Infrastructure Dependency | 🔗 Binding Mechanism                                 | ⚙️ Configuration Reference                     |
 | --------------------- | ------------------------- | ------------------------------------------------- | ------------------------------------------- |
 | Azure DevCenter       | Azure Key Vault           | `secretIdentifier` parameter via Managed Identity | `src/workload/workload.bicep:31-33`         |
 | Azure DevCenter       | Log Analytics Workspace   | `logAnalyticsId` → diagnostic settings            | `src/workload/workload.bicep:29-30`         |
@@ -1225,7 +1082,7 @@ Source: `infra/main.bicep:93-155`
 
 ---
 
-### Developer Workflow Network Flow Diagram
+### 💻 Developer Workflow Network Flow Diagram
 
 ```mermaid
 ---
@@ -1307,7 +1164,7 @@ flowchart LR
 
 ---
 
-### Service-Infrastructure Mapping Diagram
+### 🗺️ Service-Infrastructure Mapping Diagram
 
 ```mermaid
 ---
