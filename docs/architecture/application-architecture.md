@@ -614,17 +614,17 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph protocols["🔌 Protocol Usage"]
-        YAML["📄 YAML Config"]:::data
-        JSON["📋 JSON Schema"]:::neutral
-        BICEP["⚙️ Bicep Modules"]:::core
-        ARM["☁️ ARM REST API"]:::core
-        GIT["🐙 Git HTTPS"]:::external
+        YAML("📄 YAML Config"):::data
+        JSON("📋 JSON Schema"):::neutral
+        BICEP("⚙️ Bicep Modules"):::core
+        ARM("☁️ ARM REST API"):::core
+        GIT("🐙 Git HTTPS"):::external
     end
 
     YAML -->|"validated by"| JSON
     JSON -->|"loaded into"| BICEP
     BICEP -->|"compiles to"| ARM
-    ARM -->|"provisions"| AZURE["☁️ Azure Resources"]:::external
+    ARM -->|"provisions"| AZURE("☁️ Azure Resources"):::external
     GIT -->|"syncs catalogs"| AZURE
 
     style protocols fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
