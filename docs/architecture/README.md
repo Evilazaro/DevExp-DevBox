@@ -64,7 +64,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---

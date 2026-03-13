@@ -67,7 +67,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---
@@ -121,7 +121,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---
@@ -215,7 +215,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---
@@ -438,7 +438,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---
@@ -527,7 +527,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---
@@ -594,7 +594,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---
@@ -670,7 +670,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---
@@ -721,7 +721,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
 ---
 sequenceDiagram
     accTitle: Deployment Sequence Diagram
@@ -1729,7 +1729,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---
@@ -1810,7 +1810,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---
@@ -1889,7 +1889,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---
@@ -1954,7 +1954,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: '16px'
+    fontSize: "14px"
   flowchart:
     htmlLabels: true
 ---

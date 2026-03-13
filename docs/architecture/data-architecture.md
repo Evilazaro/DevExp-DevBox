@@ -207,7 +207,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart TD
     accTitle: DevExp-DevBox Data Domain Map
@@ -272,7 +272,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart LR
     accTitle: DevExp-DevBox Storage Tier Architecture
@@ -332,7 +332,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart TD
     accTitle: DevExp-DevBox Data Zone Topology
@@ -484,7 +484,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart TD
     accTitle: DevExp-DevBox Data Principle Hierarchy
@@ -586,7 +586,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart LR
     accTitle: Data Architecture Baseline - Configuration Pipeline
@@ -677,7 +677,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart LR
     accTitle: DevExp-DevBox Data Quality Heatmap
@@ -746,7 +746,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart LR
     accTitle: DevExp-DevBox Data Governance Maturity Matrix
@@ -830,7 +830,7 @@ config:
   theme: base
   look: classic
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 erDiagram
     accTitle: DevExp-DevBox Entity Relationship Diagram
@@ -976,7 +976,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart TD
     accTitle: DevExp-DevBox Configuration Dimensional Model
@@ -1037,7 +1037,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart LR
     accTitle: DevExp-DevBox Schema Evolution Timeline
@@ -1171,7 +1171,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart LR
     accTitle: DevExp-DevBox Data Contract Map
@@ -1316,7 +1316,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart LR
     accTitle: DevExp-DevBox ETL Configuration Flow
@@ -1392,7 +1392,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart TD
     accTitle: DevExp-DevBox Module Dependency and Data Flow Graph
@@ -1500,7 +1500,7 @@ config:
   look: classic
   layout: dagre
   themeVariables:
-    fontSize: "16px"
+    fontSize: "14px"
 ---
 flowchart TD
     accTitle: DevExp-DevBox Producer-Consumer Dependency Matrix
