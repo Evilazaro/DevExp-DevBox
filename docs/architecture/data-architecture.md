@@ -224,30 +224,25 @@ flowchart TD
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-
     subgraph WorkloadDomain["Workload Domain"]
-        DC["🏢 DevCenter"]:::core
-        PROJ["📁 Project"]:::core
-        POOL["💻 Pool"]:::core
-        CAT["📚 Catalog"]:::core
-        ENV["🌍 EnvironmentType"]:::core
+        DC("🏢 DevCenter"):::core
+        PROJ("📁 Project"):::core
+        POOL("💻 Pool"):::core
+        CAT("📚 Catalog"):::core
+        ENV("🌍 EnvironmentType"):::core
     end
     style WorkloadDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph SecurityDomain["Security Domain"]
-        KV["🔑 Key Vault"]:::danger
-        SEC["🔐 Secret"]:::danger
-        RBAC["👤 RBAC Assignments"]:::danger
+        KV("🔑 Key Vault"):::danger
+        SEC("🔐 Secret"):::danger
+        RBAC("👤 RBAC Assignments"):::danger
     end
     style SecurityDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph MonitoringDomain["Monitoring Domain"]
-        LA["📊 Log Analytics"]:::success
-        DIAG["📡 Diagnostic Settings"]:::success
+        LA("📊 Log Analytics"):::success
+        DIAG("📡 Diagnostic Settings"):::success
     end
     style MonitoringDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -261,6 +256,11 @@ flowchart TD
     LA --> DIAG
     DIAG --> DC
     DIAG --> KV
+
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
 ```
 
 #### 🗄️ Storage Tier Diagram
@@ -289,29 +289,24 @@ flowchart LR
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-
     subgraph Tier1["Tier 1: Version-Controlled Config"]
-        YAML["📄 YAML Files (3)"]:::data
-        SCHEMA["📋 JSON Schemas (3)"]:::data
+        YAML("📄 YAML Files (3)"):::data
+        SCHEMA("📋 JSON Schemas (3)"):::data
     end
     style Tier1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Tier2["Tier 2: Secret Store"]
-        KVS["🔑 Azure Key Vault"]:::danger
+        KVS("🔑 Azure Key Vault"):::danger
     end
     style Tier2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Tier3["Tier 3: Telemetry Store"]
-        LAS["📊 Log Analytics Workspace"]:::success
+        LAS("📊 Log Analytics Workspace"):::success
     end
     style Tier3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Tier4["Tier 4: Resource State"]
-        ARM["☁️ Azure Resource Manager"]:::core
+        ARM("☁️ Azure Resource Manager"):::core
     end
     style Tier4 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -321,6 +316,11 @@ flowchart LR
     ARM -->|"provisions"| LAS
     KVS -->|"diagnostics"| LAS
     ARM -->|"diagnostics"| LAS
+
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
 #### 🌐 Data Zone Topology
@@ -349,45 +349,39 @@ flowchart TD
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-
     subgraph ConfigZone["Configuration Zone (Git Repository)"]
-        CZ1["📄 devcenter.yaml"]:::data
-        CZ2["📄 security.yaml"]:::data
-        CZ3["📄 azureResources.yaml"]:::data
-        CZ4["📋 devcenter.schema.json"]:::data
-        CZ5["📋 security.schema.json"]:::data
-        CZ6["📋 azureResources.schema.json"]:::data
+        CZ1("📄 devcenter.yaml"):::data
+        CZ2("📄 security.yaml"):::data
+        CZ3("📄 azureResources.yaml"):::data
+        CZ4("📋 devcenter.schema.json"):::data
+        CZ5("📋 security.schema.json"):::data
+        CZ6("📋 azureResources.schema.json"):::data
     end
     style ConfigZone fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph SecurityZone["Security Zone (security-RG)"]
-        SZ1["🔑 Key Vault"]:::danger
-        SZ2["🔐 Secrets"]:::danger
+        SZ1("🔑 Key Vault"):::danger
+        SZ2("🔐 Secrets"):::danger
     end
     style SecurityZone fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph MonitoringZone["Monitoring Zone (monitoring-RG)"]
-        MZ1["📊 Log Analytics"]:::success
-        MZ2["📡 AzureActivity Solution"]:::success
+        MZ1("📊 Log Analytics"):::success
+        MZ2("📡 AzureActivity Solution"):::success
     end
     style MonitoringZone fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph WorkloadZone["Workload Zone (workload-RG)"]
-        WZ1["🏢 Dev Center"]:::core
-        WZ2["📁 Projects"]:::core
-        WZ3["💻 Pools"]:::core
-        WZ4["🌐 Network"]:::core
+        WZ1("🏢 Dev Center"):::core
+        WZ2("📁 Projects"):::core
+        WZ3("💻 Pools"):::core
+        WZ4("🌐 Network"):::core
     end
     style WorkloadZone fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph IdentityZone["Identity Zone (Cross-Cutting)"]
-        IZ1["👤 RBAC Assignments"]:::warning
-        IZ2["🏷️ Azure AD Groups"]:::warning
+        IZ1("👤 RBAC Assignments"):::warning
+        IZ2("🏷️ Azure AD Groups"):::warning
     end
     style IdentityZone fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -398,6 +392,12 @@ flowchart TD
     IdentityZone -->|"secures"| WorkloadZone
     MonitoringZone -->|"monitors"| SecurityZone
     MonitoringZone -->|"monitors"| WorkloadZone
+
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
 
 ### 📊 Summary
@@ -603,36 +603,31 @@ flowchart LR
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
-
     subgraph ConfigTier["Configuration Tier"]
-        Y1["📄 devcenter.yaml"]:::data
-        Y2["📄 security.yaml"]:::data
-        Y3["📄 azureResources.yaml"]:::data
+        Y1("📄 devcenter.yaml"):::data
+        Y2("📄 security.yaml"):::data
+        Y3("📄 azureResources.yaml"):::data
     end
     style ConfigTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph ValidationTier["Validation Tier"]
-        S1["📋 devcenter.schema.json"]:::core
-        S2["📋 security.schema.json"]:::core
-        S3["📋 azureResources.schema.json"]:::core
+        S1("📋 devcenter.schema.json"):::core
+        S2("📋 security.schema.json"):::core
+        S3("📋 azureResources.schema.json"):::core
     end
     style ValidationTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph DeploymentTier["Deployment Tier"]
-        B1["⚙️ main.bicep"]:::success
-        B2["⚙️ workload.bicep"]:::success
-        B3["⚙️ security.bicep"]:::success
+        B1("⚙️ main.bicep"):::success
+        B2("⚙️ workload.bicep"):::success
+        B3("⚙️ security.bicep"):::success
     end
     style DeploymentTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph AzureResources["Azure Resources"]
-        A1["☁️ Dev Center"]:::external
-        A2["☁️ Key Vault"]:::external
-        A3["☁️ Log Analytics"]:::external
+        A1("☁️ Dev Center"):::external
+        A2("☁️ Key Vault"):::external
+        A3("☁️ Log Analytics"):::external
     end
     style AzureResources fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -647,6 +642,11 @@ flowchart LR
     B2 --> A1
     B3 --> A2
     B1 --> A3
+
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
 ### 📦 Storage Distribution
@@ -1409,50 +1409,43 @@ flowchart TD
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
-
     subgraph ConfigLayer["Configuration Layer"]
-        DC["📄 devcenter.yaml"]:::data
-        SC["📄 security.yaml"]:::data
-        RC["📄 azureResources.yaml"]:::data
+        DC("📄 devcenter.yaml"):::data
+        SC("📄 security.yaml"):::data
+        RC("📄 azureResources.yaml"):::data
     end
     style ConfigLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Orchestrator["Orchestrator"]
-        MAIN["⚙️ main.bicep"]:::core
+        MAIN("⚙️ main.bicep"):::core
     end
     style Orchestrator fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph MonitoringDomain["Monitoring Domain"]
-        MON["📊 logAnalytics.bicep"]:::success
+        MON("📊 logAnalytics.bicep"):::success
     end
     style MonitoringDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph SecurityDomain["Security Domain"]
-        SEC["🔒 security.bicep"]:::danger
-        KV["🔑 keyVault.bicep"]:::danger
-        SECRET["🔐 secret.bicep"]:::danger
+        SEC("🔒 security.bicep"):::danger
+        KV("🔑 keyVault.bicep"):::danger
+        SECRET("🔐 secret.bicep"):::danger
     end
     style SecurityDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph WorkloadDomain["Workload Domain"]
-        WL["📦 workload.bicep"]:::core
-        DCC["🏢 devCenter.bicep"]:::core
-        PROJ["📁 project.bicep"]:::core
-        CONN["🌐 connectivity.bicep"]:::core
-        CAT["📚 catalog.bicep"]:::core
+        WL("📦 workload.bicep"):::core
+        DCC("🏢 devCenter.bicep"):::core
+        PROJ("📁 project.bicep"):::core
+        CONN("🌐 connectivity.bicep"):::core
+        CAT("📚 catalog.bicep"):::core
     end
     style WorkloadDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph IdentityDomain["Identity Domain"]
-        DCRA["👤 devCenterRoleAssignment"]:::warning
-        PIRA["👤 projectIdentityRoleAssignment"]:::warning
-        ORGRA["👤 orgRoleAssignment"]:::warning
+        DCRA("👤 devCenterRoleAssignment"):::warning
+        PIRA("👤 projectIdentityRoleAssignment"):::warning
+        ORGRA("👤 orgRoleAssignment"):::warning
     end
     style IdentityDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -1477,6 +1470,12 @@ flowchart TD
     DCC --> DCRA
     DCC --> ORGRA
     PROJ --> PIRA
+
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
 ```
 
 ### 🤝 Producer-Consumer Relationships
@@ -1583,10 +1582,5 @@ upstream modules fail to produce expected outputs. Recommended improvements
 include implementing Bicep module interface testing, adopting semantic
 versioning for module output contracts, and adding Azure Monitor alerts for
 deployment pipeline failures that may indicate data integration issues.
-
----
-
-_Document generated by BDAT Data Layer Documentation Assistant v3.2.0_
-_Framework: 10 Data Architecture_
 
 <!-- SECTION COUNT AUDIT: Found 6 sections. Required: 9. Status: PASS -->
