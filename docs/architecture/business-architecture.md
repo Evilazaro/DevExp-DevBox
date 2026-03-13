@@ -1,5 +1,25 @@
 # 🏗️ Business Architecture — DevExp-DevBox
 
+## 📑 Table of Contents
+
+- [1. 📋 Executive Summary](#1--executive-summary)
+- [2. 🗺️ Architecture Landscape](#2-️-architecture-landscape)
+  - [2.1 🎯 Business Strategy](#21--business-strategy-1)
+  - [2.2 💪 Business Capabilities](#22--business-capabilities-5)
+  - [2.3 🔄 Value Streams](#23--value-streams-1)
+  - [2.4 ⚙️ Business Processes](#24-️-business-processes-3)
+  - [2.5 🛎️ Business Services](#25-️-business-services-3)
+  - [2.6 🏢 Business Functions](#26--business-functions-2)
+  - [2.7 👥 Business Roles & Actors](#27--business-roles--actors-4)
+  - [2.8 📏 Business Rules](#28--business-rules-4)
+  - [2.9 ⚡ Business Events](#29--business-events-2)
+- [3. 🧭 Architecture Principles](#3--architecture-principles)
+- [4. 📍 Current State Baseline](#4--current-state-baseline)
+- [5. 📚 Component Catalog](#5--component-catalog)
+- [8. 🔗 Dependencies & Integration](#8--dependencies--integration)
+
+---
+
 ## 1. 📋 Executive Summary
 
 The DevExp-DevBox repository implements an **Azure Dev Box Adoption & Deployment
