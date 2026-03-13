@@ -11,7 +11,7 @@ Found**: 29
 | #️⃣ Section | 📌 Title                                                               | 📝 Description                             |
 | ---------- | ---------------------------------------------------------------------- | ------------------------------------------ |
 | 1          | [📋 Executive Summary](#-section-1-executive-summary)                  | Portfolio overview and architecture scope  |
-| 2          | [🗺️ Architecture Landscape](#️-section-2-architecture-landscape)        | Component inventory across 11 TOGAF types  |
+| 2          | [🗺️ Architecture Landscape](#️-section-2-architecture-landscape)        | Component inventory across types           |
 | 3          | [🏛️ Architecture Principles](#️-section-3-architecture-principles)      | Design principles observed in source       |
 | 4          | [📍 Current State Baseline](#-section-4-current-state-baseline)        | Service topology and deployment state      |
 | 5          | [📦 Component Catalog](#-section-5-component-catalog)                  | Detailed specifications for all components |
@@ -25,7 +25,7 @@ Found**: 29
 
 The DevExp-DevBox repository implements a Developer Experience Platform built on
 Azure DevCenter using Infrastructure as Code (Bicep). The Application layer
-encompasses 29 identified components distributed across all 11 TOGAF Application
+encompasses 29 identified components distributed across all Application
 Architecture component types. The platform provisions self-service developer
 workstations (Dev Boxes) with managed networking, identity governance, secrets
 management, and centralized monitoring. The architecture follows a modular Bicep
@@ -55,7 +55,7 @@ definitions, and distributed tracing.
 
 This section catalogs all Application layer components identified through
 pattern-based scanning of the repository root folder. Components are classified
-into 11 TOGAF-aligned subsections. The DevExp-DevBox platform is an Azure
+into -aligned subsections. The DevExp-DevBox platform is an Azure
 DevCenter-based Infrastructure as Code system composed of Bicep modules, YAML
 configuration files, JSON validation schemas, and deployment automation scripts.
 
@@ -340,9 +340,9 @@ flowchart TB
 ### 📊 Summary
 
 The Architecture Landscape reveals a well-structured IaC platform with 29
-components distributed across all 11 TOGAF Application Architecture types. The
-Workload domain contains the highest concentration of components (12), followed
-by Identity (4) and Security (3).
+components distributed across all Application Architecture types. The Workload
+domain contains the highest concentration of components (12), followed by
+Identity (4) and Security (3).
 
 The platform follows a clear separation of concerns: workload provisioning,
 security management, network connectivity, identity governance, and operational
@@ -589,10 +589,10 @@ array-based project iteration pattern in workload.bicep.
 ### Overview
 
 This section provides detailed specifications for all 29 Application layer
-components organized into 11 TOGAF-aligned subsections. Each component includes
-the six mandatory sub-attributes: Service Type, API Surface, Dependencies,
-Resilience, Scaling, and Health. Components deployed as Azure PaaS services use
-the platform-managed template for resilience, scaling, and health attributes.
+components organized into -aligned subsections. Each component includes the six
+mandatory sub-attributes: Service Type, API Surface, Dependencies, Resilience,
+Scaling, and Health. Components deployed as Azure PaaS services use the
+platform-managed template for resilience, scaling, and health attributes.
 
 ```mermaid
 ---
@@ -1619,7 +1619,7 @@ Interactive: true — Requires user confirmation.
 
 ### 📊 Summary
 
-The Component Catalog documents 29 components across all 11 TOGAF Application
+The Component Catalog documents 29 components across all Application
 Architecture types. The dominant service type is PaaS (Azure-managed resources),
 with all resilience, scaling, and health attributes governed by the Azure
 platform. The four Application Services (Main Orchestrator, DevCenter Core,
