@@ -23,9 +23,14 @@ platform.
   - [🔀 Cross-Cutting Concerns](#-cross-cutting-concerns)
   - [📖 Reading Order](#-reading-order)
 - [📋 Platform Summary](#-platform-summary)
+  - [💪 Core Capabilities](#-core-capabilities)
+  - [⚡ Deployment Flow](#-deployment-flow)
+  - [🔒 Security Posture](#-security-posture)
+  - [☁️ Azure Landing Zone Structure](#️-azure-landing-zone-structure)
 - [👥 Audience Guide](#-audience-guide)
 - [📊 Key Metrics at a Glance](#-key-metrics-at-a-glance)
 - [🧭 Architecture Principles](#-architecture-principles)
+- [📈 Known Gaps & Improvement Areas](#-known-gaps--improvement-areas)
 - [🚀 Getting Started](#-getting-started)
 - [🤝 Contributing](#-contributing)
 
@@ -39,6 +44,25 @@ platform.
 | [Application Architecture](application-architecture.md) | Application |            29 | Services, components, interfaces, collaborations, integration patterns, and contracts     |
 | [Data Architecture](data-architecture.md)               | Data        |            47 | Entities, models, stores, flows, governance, quality rules, and security classification   |
 | [Technology Architecture](technology-architecture.md)   | Technology  |            21 | Compute, networking, security infrastructure, monitoring, identity, and deployment models |
+
+### 🔍 Topic Quick Reference
+
+Use the table below to jump directly to the most relevant section for a given
+topic across the architecture documentation.
+
+| 🔍 Topic                               | 📄 Section                                                                                                                                               | 🏷️ Layer             |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| Business capabilities & value streams  | [Business Capabilities](business-architecture.md#22--business-capabilities-5)                                                                            | Business             |
+| Roles, actors & RBAC governance        | [Business Roles](business-architecture.md#27--business-roles--actors-4), [Security Config](technology-architecture.md#-section-4-current-state-baseline) | Business, Technology |
+| Deployment model & service topology    | [Current State Baseline](application-architecture.md#-section-4-current-state-baseline)                                                                  | Application          |
+| Module composition & Bicep structure   | [Architecture Principles](application-architecture.md#️-section-3-architecture-principles)                                                                | Application          |
+| Integration patterns & output chaining | [Dependencies & Integration](application-architecture.md#-section-8-dependencies--integration)                                                           | Application          |
+| Configuration schemas & data models    | [Data Models](data-architecture.md#️-section-2-architecture-landscape)                                                                                    | Data                 |
+| Data quality & maturity assessment     | [Executive Summary](data-architecture.md#-section-1-executive-summary)                                                                                   | Data                 |
+| Data lineage & dependency flows        | [Dependencies & Integration](data-architecture.md#-section-8-dependencies--integration)                                                                  | Data                 |
+| Infrastructure components & VM SKUs    | [Compute Resources](technology-architecture.md#️-section-2-architecture-landscape)                                                                        | Technology           |
+| Network topology & connectivity        | [Network Baseline](technology-architecture.md#-section-4-current-state-baseline)                                                                         | Technology           |
+| External service integrations          | [Dependencies & Integration](technology-architecture.md#-section-8-dependencies--integration)                                                            | Technology           |
 
 ---
 
@@ -223,6 +247,50 @@ Bicep) using the Azure Developer CLI (`azd`).
 | **Centralized Monitoring**             | Log Analytics workspace with diagnostic telemetry from all provisioned resources                           |
 | **Network Isolation**                  | Project-scoped virtual networks with subnet segmentation and Azure AD-joined connections                   |
 
+### ⚡ Deployment Flow
+
+The platform follows a **strict three-phase sequential deployment** orchestrated
+by the root Bicep template (`infra/main.bicep`). Each phase produces typed
+outputs consumed by subsequent phases, forming a directed acyclic graph (DAG):
+
+1. **Phase 1 — Monitoring**: Provisions the Log Analytics workspace and emits
+   `AZURE_LOG_ANALYTICS_WORKSPACE_ID` consumed by all downstream modules
+2. **Phase 2 — Security**: Provisions Key Vault, stores secrets, and emits
+   `AZURE_KEY_VAULT_SECRET_IDENTIFIER` for catalog authentication
+3. **Phase 3 — Workload**: Provisions DevCenter, iterates over project
+   definitions to create pools, catalogs, environment types, and RBAC
+   assignments
+
+This dependency chain ensures that monitoring and security infrastructure is
+always available before workload resources are created. For full deployment
+topology details, see the
+[Current State Baseline](application-architecture.md#-section-4-current-state-baseline)
+in Application Architecture and the
+[Data Lineage](data-architecture.md#-section-8-dependencies--integration) in
+Data Architecture.
+
+### 🔒 Security Posture
+
+The platform implements defense-in-depth security controls validated across the
+[Technology Architecture](technology-architecture.md#-section-4-current-state-baseline)
+and [Data Architecture](data-architecture.md#-section-3-architecture-principles)
+layers:
+
+| 🔐 Control               | ✅ Status | 📄 Details                                                                                                                   |
+| ------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Secrets at rest          | Active    | Azure Key Vault — HSM-backed, RBAC authorization, soft delete (7d), purge protection                                         |
+| Identity & RBAC          | Active    | SystemAssigned managed identities; 12 scoped role assignments across subscription, RG, and project levels                    |
+| Diagnostic audit logging | Active    | `allLogs` + `AllMetrics` streamed to Log Analytics from all resources                                                        |
+| Network isolation        | Active    | Microsoft-hosted managed VNet (default); customer VNet support available for unmanaged projects                              |
+| Schema validation        | Active    | 3 JSON Schema files enforce configuration structure before deployment                                                        |
+| Credential rotation      | Gap       | No automated secret rotation detected — see [Security Config](technology-architecture.md#-section-4-current-state-baseline)  |
+| Private endpoints        | Gap       | No private endpoint resources detected — see [Security Config](technology-architecture.md#-section-4-current-state-baseline) |
+
+For the full security configuration status and data classification taxonomy, see
+[Data Classification](data-architecture.md#-section-3-architecture-principles)
+and
+[Security Infrastructure](technology-architecture.md#️-section-2-architecture-landscape).
+
 ### ☁️ Azure Landing Zone Structure
 
 | 📁 Resource Group      | ⚙️ Function            | 🔑 Key Resources                           |
@@ -235,13 +303,13 @@ Bicep) using the Azure Developer CLI (`azd`).
 
 ## 👥 Audience Guide
 
-| 👤 Role                        | 📄 Start With                                           | 📌 Key Sections                                             |
-| ------------------------------ | ------------------------------------------------------- | ----------------------------------------------------------- |
-| **Executive / Stakeholder**    | [Business Architecture](business-architecture.md)       | Executive Summary, Business Strategy, Value Streams         |
-| **Solution Architect**         | [Application Architecture](application-architecture.md) | Architecture Landscape, Principles, Component Catalog       |
-| **Data Engineer / Analyst**    | [Data Architecture](data-architecture.md)               | Data Entities, Data Flows, Governance, Quality Rules        |
-| **Platform / DevOps Engineer** | [Technology Architecture](technology-architecture.md)   | Compute Resources, Network Baseline, Security Configuration |
-| **Security Reviewer**          | [Data Architecture](data-architecture.md)               | Data Security, RBAC Policies, Classification Taxonomy       |
+| 👤 Role                        | 📄 Start With                                           | 📌 Key Sections                                                                                                                                                                                                                                      |
+| ------------------------------ | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Executive / Stakeholder**    | [Business Architecture](business-architecture.md)       | [Executive Summary](business-architecture.md#1--executive-summary), [Business Strategy](business-architecture.md#21--business-strategy-1), [Value Streams](business-architecture.md#23--value-streams-1)                                             |
+| **Solution Architect**         | [Application Architecture](application-architecture.md) | [Architecture Landscape](application-architecture.md#️-section-2-architecture-landscape), [Principles](application-architecture.md#️-section-3-architecture-principles), [Component Catalog](application-architecture.md#-section-5-component-catalog) |
+| **Data Engineer / Analyst**    | [Data Architecture](data-architecture.md)               | [Data Entities](data-architecture.md#️-section-2-architecture-landscape), [Data Flows](data-architecture.md#-section-8-dependencies--integration), [Quality Rules](data-architecture.md#-section-3-architecture-principles)                           |
+| **Platform / DevOps Engineer** | [Technology Architecture](technology-architecture.md)   | [Compute Resources](technology-architecture.md#️-section-2-architecture-landscape), [Network Baseline](technology-architecture.md#-section-4-current-state-baseline), [Security Config](technology-architecture.md#-section-4-current-state-baseline) |
+| **Security Reviewer**          | [Data Architecture](data-architecture.md)               | [Data Security](data-architecture.md#-section-3-architecture-principles), [RBAC Policies](business-architecture.md#28--business-rules-4), [Classification Taxonomy](data-architecture.md#-section-3-architecture-principles)                         |
 
 ---
 
@@ -264,15 +332,33 @@ Bicep) using the Azure Developer CLI (`azd`).
 
 The following cross-cutting principles are observed across all four layers:
 
-| 🧭 Principle                    | 🏷️ Layers | 📝 Description                                                               |
-| ------------------------------- | --------- | ---------------------------------------------------------------------------- |
-| **Configuration-Driven Design** | B, A, D   | All settings externalized in YAML, validated by JSON Schema                  |
-| **Modular Composition**         | A, T      | Single-responsibility Bicep modules with clear input/output contracts        |
-| **Least-Privilege Access**      | B, D, T   | RBAC scoped to minimum required level; group-based identity governance       |
-| **Landing Zone Alignment**      | B, A, T   | Three isolated resource groups (workload, security, monitoring)              |
-| **Diagnostic Observability**    | A, D, T   | All resources emit logs and metrics to centralized Log Analytics             |
-| **Immutable Infrastructure**    | D, T      | Declarative IaC with idempotent deployment; config version-controlled in Git |
-| **Schema-First Validation**     | D         | Every configuration file validated against a companion JSON Schema           |
+| 🧭 Principle                    | 🏷️ Layers | 📝 Description                                                               | 📄 Details                                                                                                                                                                           |
+| ------------------------------- | --------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Configuration-Driven Design** | B, A, D   | All settings externalized in YAML, validated by JSON Schema                  | [Application Principles](application-architecture.md#️-section-3-architecture-principles), [Data Principles](data-architecture.md#-section-3-architecture-principles)                 |
+| **Modular Composition**         | A, T      | Single-responsibility Bicep modules with clear input/output contracts        | [Application Principles](application-architecture.md#️-section-3-architecture-principles), [Technology Principles](technology-architecture.md#-section-3-architecture-principles)     |
+| **Least-Privilege Access**      | B, D, T   | RBAC scoped to minimum required level; group-based identity governance       | [Business Rules](business-architecture.md#28--business-rules-4), [Technology Principles](technology-architecture.md#-section-3-architecture-principles)                              |
+| **Landing Zone Alignment**      | B, A, T   | Three isolated resource groups (workload, security, monitoring)              | [Technology Baseline](technology-architecture.md#-section-4-current-state-baseline), [Data Principles](data-architecture.md#-section-3-architecture-principles)                      |
+| **Diagnostic Observability**    | A, D, T   | All resources emit logs and metrics to centralized Log Analytics             | [Application Dependencies](application-architecture.md#-section-8-dependencies--integration), [Technology Principles](technology-architecture.md#-section-3-architecture-principles) |
+| **Immutable Infrastructure**    | D, T      | Declarative IaC with idempotent deployment; config version-controlled in Git | [Technology Principles](technology-architecture.md#-section-3-architecture-principles), [Data Principles](data-architecture.md#-section-3-architecture-principles)                   |
+| **Schema-First Validation**     | D         | Every configuration file validated against a companion JSON Schema           | [Data Principles](data-architecture.md#-section-3-architecture-principles)                                                                                                           |
+
+---
+
+## 📈 Known Gaps & Improvement Areas
+
+The following gaps have been identified across the four architecture layers.
+Each links to the source section where the gap is documented.
+
+| 🏷️ Area                       | 📝 Gap Description                                                                                                 | 📄 Source                                                                             |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| **Automated Testing**         | No automated integration tests or formal SLO definitions for the deployment pipeline                               | [Application Baseline](application-architecture.md#-section-4-current-state-baseline) |
+| **Credential Rotation**       | No automated secret rotation configuration detected in Key Vault                                                   | [Technology Baseline](technology-architecture.md#-section-4-current-state-baseline)   |
+| **Private Endpoints**         | No `Microsoft.Network/privateEndpoints` resources for Key Vault or Log Analytics                                   | [Technology Baseline](technology-architecture.md#-section-4-current-state-baseline)   |
+| **Multi-Region / DR**         | Single-region deployment with no availability zone configuration or disaster recovery failover policy              | [Technology Baseline](technology-architecture.md#-section-4-current-state-baseline)   |
+| **Business KPIs**             | No explicit business metrics for measuring platform adoption, provisioning latency, or cost efficiency             | [Business Baseline](business-architecture.md#4--current-state-baseline)               |
+| **Data Maturity**             | Level 2 (Managed) — gaps in automated drift detection, schema versioning workflows, and data lineage documentation | [Data Executive Summary](data-architecture.md#-section-1-executive-summary)           |
+| **Contract Versioning**       | No formal semantic versioning for Bicep module output contracts between producers and consumers                    | [Data Dependencies](data-architecture.md#-section-8-dependencies--integration)        |
+| **Catalog Health Monitoring** | No health monitoring for external catalog synchronization; sync failures could block Dev Box provisioning          | [Business Dependencies](business-architecture.md#8--dependencies--integration)        |
 
 ---
 
@@ -280,17 +366,27 @@ The following cross-cutting principles are observed across all four layers:
 
 1. **Understand the business context** — Read the
    [Executive Summary](business-architecture.md#1--executive-summary) in
-   Business Architecture
+   Business Architecture to learn the strategic intent, capabilities, and value
+   streams driving the platform
 2. **Explore the system design** — Review the
    [System Context Diagram](application-architecture.md#️-section-2-architecture-landscape)
-   in Application Architecture
+   and
+   [Component Catalog](application-architecture.md#-section-5-component-catalog)
+   in Application Architecture for the full module inventory
 3. **Understand the data landscape** — Check the
-   [Data Domain Map](data-architecture.md#️-section-2-architecture-landscape) in
-   Data Architecture
+   [Data Domain Map](data-architecture.md#️-section-2-architecture-landscape) and
+   [Data Quality Scorecard](data-architecture.md#-section-1-executive-summary)
+   in Data Architecture for entity models and maturity assessment
 4. **Review infrastructure** — Examine the
    [Infrastructure Context](technology-architecture.md#️-section-2-architecture-landscape)
-   in Technology Architecture
-5. **Deploy the platform** — Follow the instructions in the repository
+   and
+   [Security Configuration](technology-architecture.md#-section-4-current-state-baseline)
+   in Technology Architecture for resource topology and security controls
+5. **Trace dependencies** — Follow the
+   [Output Chaining Map](application-architecture.md#-section-8-dependencies--integration)
+   and [Data Lineage](data-architecture.md#-section-8-dependencies--integration)
+   to understand how modules connect
+6. **Deploy the platform** — Follow the instructions in the repository
    [README](../../README.md)
 
 ---
