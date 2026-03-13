@@ -852,5 +852,7 @@ sync status would mitigate this dependency risk.
 
 ---
 
-Created by Evilazaro Alves | Principal Cloud Solution Architect | Cloud
-Platforms and AI Apps | Microsoft
+## Created by
+
+**Evilazaro Alves | Principal Cloud Solution Architect | Cloud Platforms and AI
+Apps | Microsoft**

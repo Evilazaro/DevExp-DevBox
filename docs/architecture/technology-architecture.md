@@ -1238,5 +1238,7 @@ AZURE/FLUENT v1.1 gates passed_
 
 ---
 
-Created by Evilazaro Alves | Principal Cloud Solution Architect | Cloud
-Platforms and AI Apps | Microsoft
+## Created by
+
+**Evilazaro Alves | Principal Cloud Solution Architect | Cloud Platforms and AI
+Apps | Microsoft**

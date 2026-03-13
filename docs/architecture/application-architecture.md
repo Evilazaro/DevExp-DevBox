@@ -2011,5 +2011,7 @@ companion JSON Schemas.
 
 ---
 
-Created by Evilazaro Alves | Principal Cloud Solution Architect | Cloud
-Platforms and AI Apps | Microsoft
+## Created by
+
+**Evilazaro Alves | Principal Cloud Solution Architect | Cloud Platforms and AI
+Apps | Microsoft**

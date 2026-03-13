@@ -810,5 +810,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
 
 This project is licensed under the [MIT License](LICENSE).
 
-Created by Evilazaro Alves | Principal Cloud Solution Architect | Cloud
-Platforms and AI Apps | Microsoft
+## Created by
+
+**Evilazaro Alves | Principal Cloud Solution Architect | Cloud Platforms and AI
+Apps | Microsoft**

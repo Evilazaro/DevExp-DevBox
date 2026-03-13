@@ -1587,5 +1587,7 @@ deployment pipeline failures that may indicate data integration issues.
 
 ## <!-- SECTION COUNT AUDIT: Found 6 sections. Required: 9. Status: PASS -->
 
-Created by Evilazaro Alves | Principal Cloud Solution Architect | Cloud
-Platforms and AI Apps | Microsoft
+## Created by
+
+**Evilazaro Alves | Principal Cloud Solution Architect | Cloud Platforms and AI
+Apps | Microsoft**
