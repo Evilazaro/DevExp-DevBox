@@ -1518,31 +1518,26 @@ flowchart TD
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    classDef phase1 fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef phase2 fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    classDef phase3 fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef orchestrator fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-
-    MAIN["⚙️ main.bicep<br>Orchestrator"]:::orchestrator
+    MAIN("⚙️ main.bicep<br>Orchestrator"):::warning
 
     subgraph Phase1["Phase 1: Monitoring"]
-        MON["📊 logAnalytics.bicep<br>→ WORKSPACE_ID, WORKSPACE_NAME"]:::phase1
+        MON("📊 logAnalytics.bicep<br>→ WORKSPACE_ID, WORKSPACE_NAME"):::success
     end
     style Phase1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Phase2["Phase 2: Security"]
-        SEC["🔒 security.bicep<br>→ KV_NAME, KV_SECRET_ID, KV_ENDPOINT"]:::phase2
-        KV["🔑 keyVault.bicep<br>→ KV_NAME, KV_ENDPOINT"]:::phase2
-        SECRET["🔐 secret.bicep<br>→ SECRET_IDENTIFIER"]:::phase2
+        SEC("🔒 security.bicep<br>→ KV_NAME, KV_SECRET_ID, KV_ENDPOINT"):::danger
+        KV("🔑 keyVault.bicep<br>→ KV_NAME, KV_ENDPOINT"):::danger
+        SECRET("🔐 secret.bicep<br>→ SECRET_IDENTIFIER"):::danger
     end
     style Phase2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     subgraph Phase3["Phase 3: Workload"]
-        WL["📦 workload.bicep<br>→ DC_NAME, PROJECTS"]:::phase3
-        DC["🏢 devCenter.bicep<br>→ DEV_CENTER_NAME"]:::phase3
-        PROJ["📁 project.bicep<br>→ PROJECT_NAME, PROJECT_ID"]:::phase3
-        CONN["🌐 connectivity.bicep<br>→ networkConnectionName"]:::phase3
-        CAT["📚 catalog.bicep<br>→ CATALOG_NAME"]:::phase3
+        WL("📦 workload.bicep<br>→ DC_NAME, PROJECTS"):::core
+        DC("🏢 devCenter.bicep<br>→ DEV_CENTER_NAME"):::core
+        PROJ("📁 project.bicep<br>→ PROJECT_NAME, PROJECT_ID"):::core
+        CONN("🌐 connectivity.bicep<br>→ networkConnectionName"):::core
+        CAT("📚 catalog.bicep<br>→ CATALOG_NAME"):::core
     end
     style Phase3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
@@ -1557,6 +1552,11 @@ flowchart TD
     PROJ --> CONN
     PROJ --> CAT
     CONN -->|"networkConnectionName"| PROJ
+
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
 
 #### 🔄 CDC Topology
