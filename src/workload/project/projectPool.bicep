@@ -51,34 +51,6 @@ resource project 'Microsoft.DevCenter/projects@2026-01-01-preview' existing = {
   name: projectName
 }
 
-// @description('DevBox Pool resources - creates pools for image definition catalogs')
-// resource pool 'Microsoft.DevCenter/projects/pools@2026-01-01-preview' = [
-//   for (catalog, i) in catalogs: if (catalog.type == 'imageDefinition') {
-//     name: '${name}-${i}-pool'
-//     location: location
-//     parent: project
-//     properties: {
-//       devBoxDefinitionType: 'Value'
-//       devBoxDefinitionName: '~Catalog~${catalog.name}~${imageDefinitionName}'
-//       devBoxDefinition: {
-//         imageReference: {
-//           id: '${project.id}/images/~Catalog~${catalog.name}~${imageDefinitionName}'
-//         }
-//         sku: {
-//           name: vmSku
-//         }
-//       }
-//       networkConnectionName: networkConnectionName
-//       licenseType: 'Windows_Client'
-//       localAdministrator: 'Enabled'
-//       singleSignOnStatus: 'Enabled'
-//       displayName: name
-//       virtualNetworkType: networkType
-//       managedVirtualNetworkRegions: (networkType == 'Managed') ? [location] : []
-//     }
-//   }
-// ]
-
 @description('DevBox Pool resources - creates pools for image definition catalogs')
 resource pool 'Microsoft.DevCenter/projects/pools@2026-01-01-preview' = [
   for (catalog, i) in catalogs: if (catalog.type == 'imageDefinition') {
@@ -87,7 +59,15 @@ resource pool 'Microsoft.DevCenter/projects/pools@2026-01-01-preview' = [
     parent: project
     properties: {
       devBoxDefinitionType: 'Value'
-      devBoxDefinitionName: imageDefinitionName
+      devBoxDefinitionName: '~Catalog~${catalog.name}~${imageDefinitionName}'
+      devBoxDefinition: {
+        imageReference: {
+          id: '${project.id}/images/~Catalog~${catalog.name}~${imageDefinitionName}'
+        }
+        sku: {
+          name: vmSku
+        }
+      }
       networkConnectionName: networkConnectionName
       licenseType: 'Windows_Client'
       localAdministrator: 'Enabled'

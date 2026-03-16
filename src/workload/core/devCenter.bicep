@@ -1,6 +1,6 @@
 // Common variables for reuse
 @description('Name of the DevCenter instance from configuration')
-var devCenterName = config.name
+var devCenterName = '${config.name}-core2'
 
 @description('Principal ID of the DevCenter managed identity')
 var devCenterPrincipalId = devcenter.identity.principalId
@@ -179,12 +179,12 @@ resource devcenter 'Microsoft.DevCenter/devcenters@2026-01-01-preview' = {
 }
 
 @description('Deployed Dev Center name')
-output AZURE_DEV_CENTER_NAME string = devCenterName
+output AZURE_DEV_CENTER_NAME string = devcenter.name
 
 // Monitoring configuration
 @description('Log Analytics Diagnostic Settings')
 resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name: '${devCenterName}-diagnostics'
+  name: '${devcenter.name}-diagnostics'
   scope: devcenter
   properties: {
     logAnalyticsDestinationType: 'AzureDiagnostics'
@@ -252,7 +252,7 @@ module catalog 'catalog.bicep' = [
   for (catalog, i) in catalogs: {
     scope: resourceGroup()
     params: {
-      devCenterName: devCenterName
+      devCenterName: devcenter.name
       catalogConfig: catalog
       secretIdentifier: secretIdentifier
     }
@@ -268,7 +268,7 @@ module environment 'environmentType.bicep' = [
   for (environment, i) in environmentTypes: {
     scope: resourceGroup()
     params: {
-      devCenterName: devCenterName
+      devCenterName: devcenter.name
       environmentConfig: environment
     }
     dependsOn: [
