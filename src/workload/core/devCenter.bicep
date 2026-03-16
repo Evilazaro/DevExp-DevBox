@@ -1,6 +1,6 @@
 // Common variables for reuse
 @description('Name of the DevCenter instance from configuration')
-var devCenterName = '${config.name}-coreDev2'
+var devCenterName = config.name
 
 @description('Principal ID of the DevCenter managed identity')
 var devCenterPrincipalId = devcenter.identity.principalId
