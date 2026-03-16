@@ -257,6 +257,9 @@ module connectivity '../../connectivity/connectivity.bicep' = {
     logAnalyticsId: logAnalyticsId
     location: location
   }
+  dependsOn: [
+    project
+  ]
 }
 
 @description('Configure DevBox pools for the project')
