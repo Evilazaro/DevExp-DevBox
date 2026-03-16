@@ -233,6 +233,11 @@ module projectCatalogs 'projectCatalog.bicep' = [
       catalogConfig: catalog
       secretIdentifier: secretIdentifier
     }
+    dependsOn: [
+      projectIdentity
+      projectIdentityRG
+      projectADGroup
+    ]
   }
 ]
 
@@ -245,6 +250,11 @@ module environmentTypes 'projectEnvironmentType.bicep' = [
       environmentConfig: envType
       location: location
     }
+    dependsOn: [
+      projectIdentity
+      projectIdentityRG
+      projectADGroup
+    ]
   }
 ]
 
@@ -262,25 +272,25 @@ module connectivity '../../connectivity/connectivity.bicep' = {
   ]
 }
 
-@description('Configure DevBox pools for the project')
-module pools 'projectPool.bicep' = [
-  for (pool, i) in projectPools: {
-    scope: resourceGroup()
-    params: {
-      name: pool.name
-      projectName: project.name
-      catalogs: catalogs
-      imageDefinitionName: pool.imageDefinitionName
-      vmSku: pool.vmSku
-      networkConnectionName: connectivity.outputs.networkConnectionName
-      networkType: connectivity.outputs.networkType
-      location: location
-    }
-    dependsOn: [
-      projectCatalogs
-    ]
-  }
-]
+// @description('Configure DevBox pools for the project')
+// module pools 'projectPool.bicep' = [
+//   for (pool, i) in projectPools: {
+//     scope: resourceGroup()
+//     params: {
+//       name: pool.name
+//       projectName: project.name
+//       catalogs: catalogs
+//       imageDefinitionName: pool.imageDefinitionName
+//       vmSku: pool.vmSku
+//       networkConnectionName: connectivity.outputs.networkConnectionName
+//       networkType: connectivity.outputs.networkType
+//       location: location
+//     }
+//     dependsOn: [
+//       projectCatalogs
+//     ]
+//   }
+// ]
 
 @description('The name of the deployed project')
 output AZURE_PROJECT_NAME string = project.name
