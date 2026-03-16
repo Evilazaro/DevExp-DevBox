@@ -27,7 +27,7 @@ hooks:
         else
             echo "Existing SOURCE_CONTROL_PLATFORM is set to '${SOURCE_CONTROL_PLATFORM}'."
         fi      
-        ./setup.sh -e ${AZURE_ENV_NAME} -s ${SOURCE_CONTROL_PLATFORM}
+        ./setUp.sh -e ${AZURE_ENV_NAME} -s ${SOURCE_CONTROL_PLATFORM}
     windows:
       shell: pwsh
       continueOnError: false
@@ -44,10 +44,10 @@ hooks:
             Write-Output "Existing SOURCE_CONTROL_PLATFORM is set to '$($env:SOURCE_CONTROL_PLATFORM)'."
         }
 
-        # Run setup.sh (use bash if available)
+        # Run setUp.sh (use bash if available)
         if (Get-Command bash -ErrorAction SilentlyContinue) {
-            & bash -c "./setup.sh -e $env:AZURE_ENV_NAME -s $env:SOURCE_CONTROL_PLATFORM"
+            & bash -c "./setUp.sh -e $env:AZURE_ENV_NAME -s $env:SOURCE_CONTROL_PLATFORM"
         } else {
-            Write-Output "bash not found; attempting to execute ./setup.sh directly"
-            & ./setup.sh -e $env:AZURE_ENV_NAME -s $env:SOURCE_CONTROL_PLATFORM
+            Write-Output "bash not found; attempting to execute ./setUp.sh directly"
+            & ./setUp.sh -e $env:AZURE_ENV_NAME -s $env:SOURCE_CONTROL_PLATFORM
         }
