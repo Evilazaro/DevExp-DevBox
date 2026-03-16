@@ -55,6 +55,18 @@ var securityRgName = createResourceGroupName.security
 var monitoringRgName = createResourceGroupName.monitoring
 var workloadRgName = createResourceGroupName.workload
 
+// Workload resources
+@description('Workload Resource Group for DevCenter resources')
+resource workloadRg 'Microsoft.Resources/resourceGroups@2025-04-01' = if (landingZones.workload.create) {
+  name: workloadRgName
+  location: location
+  tags: union(landingZones.workload.tags, {
+    component: 'workload'
+  })
+}
+
+output WORKLOAD_AZURE_RESOURCE_GROUP_NAME string = workloadRg.name
+
 // Security resources
 @description('Security Resource Group for Key Vault and related resources')
 resource securityRg 'Microsoft.Resources/resourceGroups@2025-04-01' = if (landingZones.security.create) {
@@ -78,18 +90,6 @@ resource monitoringRg 'Microsoft.Resources/resourceGroups@2025-04-01' = if (land
 }
 
 output MONITORING_AZURE_RESOURCE_GROUP_NAME string = monitoringRg.name
-
-// Workload resources
-@description('Workload Resource Group for DevCenter resources')
-resource workloadRg 'Microsoft.Resources/resourceGroups@2025-04-01' = if (landingZones.workload.create) {
-  name: workloadRgName
-  location: location
-  tags: union(landingZones.workload.tags, {
-    component: 'workload'
-  })
-}
-
-output WORKLOAD_AZURE_RESOURCE_GROUP_NAME string = workloadRg.name
 
 // Module deployments with improved names and organization
 @description('Log Analytics Workspace for centralized monitoring')
