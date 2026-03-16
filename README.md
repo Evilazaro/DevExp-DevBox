@@ -216,10 +216,9 @@ Key architectural highlights documented across these layers:
   traceable business rules and KPIs in the
   [Business Architecture](docs/architecture/business-architecture.md)
 
-> [!NOTE]
-> See the [Architecture Documentation Index](docs/architecture/README.md) for
-> reading order recommendations, audience guides, and cross-layer traceability
-> matrices.
+> [!NOTE] See the
+> [Architecture Documentation Index](docs/architecture/README.md) for reading
+> order recommendations, audience guides, and cross-layer traceability matrices.
 
 ## ✨ Features
 
@@ -327,7 +326,7 @@ You have logged in. Now let us find all the subscriptions...
 Logged in to Azure.
 ```
 
-**3. Provision the landing zone (Linux/macOS)**
+**3. Provision the landing zone (Linux/macOS) and (Windows)**
 
 The `azure.yaml` configuration file defines a `preprovision` hook that
 automatically runs `setUp.sh` before Bicep deployment:
@@ -345,31 +344,6 @@ azd provision -e dev
 ✅ GitHub CLI authenticated
 🔐 GitHub token stored securely in memory
 ✅ Azure Developer CLI environment 'dev' initialized successfully
-Provisioning Azure resources (azd provision)
-(✓) Done: Resource group: devexp-monitoring-dev-eastus2-RG
-(✓) Done: Resource group: devexp-security-dev-eastus2-RG
-(✓) Done: Resource group: devexp-workload-dev-eastus2-RG
-
-SUCCESS: Your application was provisioned in Azure.
-```
-
-**3. Provision the landing zone (Windows)**
-
-On Windows, rename `azure-pwh.yaml` to `azure.yaml` (or use the `-config` flag)
-to use the PowerShell-based hook:
-
-```powershell
-Copy-Item azure-pwh.yaml azure.yaml -Force
-azd provision -e dev
-```
-
-**Expected output:**
-
-```text
-SOURCE_CONTROL_PLATFORM is not set. Setting it to 'github' by default.
-✅ Prerequisites validated
-✅ Azure authentication confirmed
-🔐 GitHub token stored securely in memory
 Provisioning Azure resources (azd provision)
 (✓) Done: Resource group: devexp-monitoring-dev-eastus2-RG
 (✓) Done: Resource group: devexp-security-dev-eastus2-RG
