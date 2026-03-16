@@ -51,9 +51,15 @@ var createResourceGroupName = {
     : landingZones.workload.name
 }
 
-var securityRgName = createResourceGroupName.security
-var monitoringRgName = createResourceGroupName.monitoring
-var workloadRgName = createResourceGroupName.workload
+var securityRgName = (landingZones.workload.create == true) && (landingZones.security.create == false)
+  ? createResourceGroupName.workload
+  : landingZones.security.name
+var monitoringRgName = (landingZones.workload.create == true) && (landingZones.monitoring.create == false)
+  ? createResourceGroupName.workload
+  : landingZones.monitoring.name
+var workloadRgName = (landingZones.workload.create == true)
+  ? createResourceGroupName.workload
+  : landingZones.workload.name
 
 // Workload resources
 @description('Workload Resource Group for DevCenter resources')
