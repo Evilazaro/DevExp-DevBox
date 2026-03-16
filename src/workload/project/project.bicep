@@ -276,6 +276,9 @@ module pools 'projectPool.bicep' = [
       networkType: connectivity.outputs.networkType
       location: location
     }
+    dependsOn: [
+      projectCatalogs
+    ]
   }
 ]
 
