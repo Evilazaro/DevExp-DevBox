@@ -137,10 +137,10 @@ projects:
     # Best practice: Create role-specific pools with appropriate tools and settings
     pools:
       - name: 'backend-engineer' # Pool for backend engineers
-        imageDefinitionName: 'backend' # Image definition for backend
+        imageDefinitionName: 'eshop-backend-dev' # Image definition for backend
         vmSku: general_i_32c128gb512ssd_v2 # VM SKU for backend pool
       - name: 'frontend-engineer' # Pool for frontend engineers
-        imageDefinitionName: 'frontend' # Image definition for frontend
+        imageDefinitionName: 'eshop-frontend-dev' # Image definition for frontend
         vmSku: general_i_16c64gb256ssd_v2 # VM SKU for frontend pool
 
     # Project-specific environment types
