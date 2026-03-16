@@ -32,8 +32,8 @@ workload:
 # =============================================================================
 # Security-related resources (Key Vaults, NSGs, Defender, etc.)
 security:
-  create: true
-  name: devexp-security
+  create: false
+  name: devexp-workload
   description: prodExp
   tags:
     environment: dev # Deployment environment
@@ -50,8 +50,8 @@ security:
 # =============================================================================
 # Monitoring and observability resources
 monitoring:
-  create: true
-  name: devexp-monitoring
+  create: false
+  name: devexp-workload
   description: prodExp
   tags:
     environment: dev # Deployment environment
