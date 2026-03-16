@@ -1107,11 +1107,11 @@ flowchart LR
 
 ### ⚙️ 5.5 Data Services
 
-| Component                   | Description                                                                                                        | Classification | Storage      | Owner                | Retention    | Freshness SLA | Source Systems        | Consumers                                    |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------ | -------------- | ------------ | -------------------- | ------------ | ------------- | --------------------- | -------------------------------------------- |
-| DevCenter Resource Provider | Microsoft.DevCenter/devcenters@2026-01-01-preview API managing Dev Center lifecycle, catalogs, projects, and pools | Internal       | Not detected | Platform Engineering | Not detected | real-time     | Configuration modules | Azure Portal, CLI, SDK consumers             |
-| Key Vault API               | Microsoft.KeyVault/vaults@2025-05-01 API for secret CRUD operations with RBAC authorization                        | Confidential   | Key-Value    | Security Team        | 7d           | real-time     | Security module       | Catalog authentication, deployment pipelines |
-| Log Analytics API           | Microsoft.OperationalInsights/workspaces@2025-07-01 API for log ingestion and query                                | Internal       | Data Lake    | Operations Team      | Not detected | real-time     | Diagnostic settings   | Operations dashboards, alerts                |
+| Component                   | Description                                                                                                | Classification | Storage      | Owner                | Retention    | Freshness SLA | Source Systems        | Consumers                                    |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------- | -------------- | ------------ | -------------------- | ------------ | ------------- | --------------------- | -------------------------------------------- |
+| DevCenter Resource Provider | Microsoft.DevCenter/devcenters@2025-02-01 API managing Dev Center lifecycle, catalogs, projects, and pools | Internal       | Not detected | Platform Engineering | Not detected | real-time     | Configuration modules | Azure Portal, CLI, SDK consumers             |
+| Key Vault API               | Microsoft.KeyVault/vaults@2025-05-01 API for secret CRUD operations with RBAC authorization                | Confidential   | Key-Value    | Security Team        | 7d           | real-time     | Security module       | Catalog authentication, deployment pipelines |
+| Log Analytics API           | Microsoft.OperationalInsights/workspaces@2025-07-01 API for log ingestion and query                        | Internal       | Data Lake    | Operations Team      | Not detected | real-time     | Diagnostic settings   | Operations dashboards, alerts                |
 
 ### 🛡️ 5.6 Data Governance
 

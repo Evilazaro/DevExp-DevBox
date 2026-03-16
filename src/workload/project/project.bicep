@@ -157,12 +157,12 @@ type PoolConfig = {
 }
 
 @description('Reference to existing DevCenter')
-resource devCenter 'Microsoft.DevCenter/devcenters@2026-01-01-preview' existing = {
+resource devCenter 'Microsoft.DevCenter/devcenters@2025-02-01' existing = {
   name: devCenterName
 }
 
 @description('DevCenter Project resource')
-resource project 'Microsoft.DevCenter/projects@2026-01-01-preview' = {
+resource project 'Microsoft.DevCenter/projects@2025-02-01' = {
   name: name
   location: location
   identity: {

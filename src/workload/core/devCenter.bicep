@@ -1,6 +1,6 @@
 // Common variables for reuse
 @description('Name of the DevCenter instance from configuration')
-var devCenterName = config.name
+var devCenterName = '${config.name}-coreDev2'
 
 @description('Principal ID of the DevCenter managed identity')
 var devCenterPrincipalId = devcenter.identity.principalId
@@ -158,7 +158,7 @@ type EnvironmentTypeConfig = {
 
 // Main DevCenter resource
 @description('Dev Center Resource')
-resource devcenter 'Microsoft.DevCenter/devcenters@2026-01-01-preview' = {
+resource devcenter 'Microsoft.DevCenter/devcenters@2025-02-01' = {
   name: devCenterName
   location: location
   identity: {

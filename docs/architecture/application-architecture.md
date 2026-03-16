@@ -1065,10 +1065,10 @@ sequenceDiagram
 
 **🔌 API Surface:**
 
-| 🔌 Endpoint Type | #️⃣ Count | 🔗 Protocol  | 📝 Description                                                             |
-| ---------------- | -------- | ------------ | -------------------------------------------------------------------------- |
-| ARM Resources    | 2        | ARM REST API | networkConnections@2026-01-01-preview, attachednetworks@2026-01-01-preview |
-| Bicep Outputs    | 3        | Bicep        | vnetAttachmentName, networkConnectionId, attachedNetworkId                 |
+| 🔌 Endpoint Type | #️⃣ Count | 🔗 Protocol  | 📝 Description                                             |
+| ---------------- | -------- | ------------ | ---------------------------------------------------------- |
+| ARM Resources    | 2        | ARM REST API | networkConnections@2025-02-01, attachednetworks@2025-02-01 |
+| Bicep Outputs    | 3        | Bicep        | vnetAttachmentName, networkConnectionId, attachedNetworkId |
 
 **🔗 Dependencies:**
 
@@ -1107,7 +1107,7 @@ sequenceDiagram
 | 🔌 Endpoint Type  | #️⃣ Count | 🔗 Protocol      | 📝 Description                                                                                             |
 | ----------------- | -------- | ---------------- | ---------------------------------------------------------------------------------------------------------- |
 | Bicep Parameters  | 11       | Bicep            | name, logAnalyticsId, devCenterName, catalogs, pools, network, identity, tags, and others                  |
-| ARM Resource      | 1        | ARM REST API     | Microsoft.DevCenter/projects@2026-01-01-preview                                                            |
+| ARM Resource      | 1        | ARM REST API     | Microsoft.DevCenter/projects@2025-02-01                                                                    |
 | Bicep Outputs     | 2        | Bicep            | AZURE_PROJECT_NAME, AZURE_PROJECT_ID                                                                       |
 | Module References | 6        | Module Reference | projectIdentity, projectIdentityRG, projectADGroup, projectCatalogs, environmentTypes, connectivity, pools |
 
@@ -1150,10 +1150,10 @@ sequenceDiagram
 
 **🔌 API Surface:**
 
-| 🔌 Endpoint Type | #️⃣ Count | 🔗 Protocol  | 📝 Description                                        |
-| ---------------- | -------- | ------------ | ----------------------------------------------------- |
-| ARM Resource     | 1        | ARM REST API | Microsoft.DevCenter/projects/pools@2026-01-01-preview |
-| Bicep Outputs    | 1        | Bicep        | poolNames (array)                                     |
+| 🔌 Endpoint Type | #️⃣ Count | 🔗 Protocol  | 📝 Description                                |
+| ---------------- | -------- | ------------ | --------------------------------------------- |
+| ARM Resource     | 1        | ARM REST API | Microsoft.DevCenter/projects/pools@2025-02-01 |
+| Bicep Outputs    | 1        | Bicep        | poolNames (array)                             |
 
 **🔗 Dependencies:**
 
@@ -1234,9 +1234,8 @@ sequenceDiagram
 | **Component Name** | DevCenter ARM Interface |
 | **Service Type**   | ARM API                 |
 
-**API Surface:** ARM Resource Type —
-`Microsoft.DevCenter/devcenters@2026-01-01-preview` (Preview API — subject to
-breaking changes)
+**API Surface:** ARM Resource Type — `Microsoft.DevCenter/devcenters@2025-02-01`
+(Preview API — subject to breaking changes)
 
 **Dependencies:** Azure Resource Manager (Upstream, REST API) — Resource
 deployment engine
@@ -1406,10 +1405,10 @@ read-only secret access)
 
 **🔌 API Surface:**
 
-| 🔌 Endpoint Type | #️⃣ Count | 🔗 Protocol  | 📝 Description                                             |
-| ---------------- | -------- | ------------ | ---------------------------------------------------------- |
-| ARM Resource     | 1        | ARM REST API | Microsoft.DevCenter/devcenters/catalogs@2026-01-01-preview |
-| Bicep Outputs    | 1        | Bicep        | AZURE_DEV_CENTER_CATALOG_NAME                              |
+| 🔌 Endpoint Type | #️⃣ Count | 🔗 Protocol  | 📝 Description                                     |
+| ---------------- | -------- | ------------ | -------------------------------------------------- |
+| ARM Resource     | 1        | ARM REST API | Microsoft.DevCenter/devcenters/catalogs@2025-02-01 |
+| Bicep Outputs    | 1        | Bicep        | AZURE_DEV_CENTER_CATALOG_NAME                      |
 
 **🔗 Dependencies:**
 
@@ -1432,7 +1431,7 @@ use secretIdentifier)
 | **Service Type**   | Configuration               |
 
 **API Surface:** ARM Resource —
-`Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview`
+`Microsoft.DevCenter/devcenters/environmentTypes@2025-02-01`
 
 **🛡️ Resilience:** Name-based idempotency — Environment type names are unique
 per DevCenter
@@ -1447,7 +1446,7 @@ per DevCenter
 | **Service Type**   | Configuration                |
 
 **API Surface:** ARM Resource —
-`Microsoft.DevCenter/projects/catalogs@2026-01-01-preview`
+`Microsoft.DevCenter/projects/catalogs@2025-02-01`
 
 **🛡️ Resilience:** Scheduled sync — Automatic synchronization
 
@@ -1461,7 +1460,7 @@ per DevCenter
 | **Service Type**   | Configuration                    |
 
 **API Surface:** ARM Resource —
-`Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview`
+`Microsoft.DevCenter/projects/environmentTypes@2025-02-01`
 
 **🛡️ Resilience:** SystemAssigned identity auto-provisioned — Creator role:
 Contributor (b24988ac)

@@ -24,12 +24,12 @@ var roles = [
 ]
 
 @description('Reference to the existing DevCenter project')
-resource project 'Microsoft.DevCenter/projects@2026-01-01-preview' existing = {
+resource project 'Microsoft.DevCenter/projects@2025-02-01' existing = {
   name: projectName
 }
 
 @description('Project Environment Type resource for deployment environments')
-resource environmentType 'Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview' = {
+resource environmentType 'Microsoft.DevCenter/projects/environmentTypes@2025-02-01' = {
   name: environmentConfig.name
   location: location
   parent: project
