@@ -214,6 +214,9 @@ module devCenterIdentityRoleAssignment '../../identity/devCenterRoleAssignment.b
       principalId: devCenterPrincipalId
       scope: role.scope
     }
+    dependsOn: [
+      devcenter
+    ]
   }
 ]
 
@@ -253,6 +256,9 @@ module catalog 'catalog.bicep' = [
       catalogConfig: catalog
       secretIdentifier: secretIdentifier
     }
+    dependsOn: [
+      devcenter
+    ]
   }
 ]
 
@@ -265,5 +271,8 @@ module environment 'environmentType.bicep' = [
       devCenterName: devCenterName
       environmentConfig: environment
     }
+    dependsOn: [
+      devcenter
+    ]
   }
 ]
