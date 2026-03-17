@@ -50,7 +50,7 @@ infrastructure, and the Azure DevCenter with its projects.
 
 ```mermaid
 ---
-title: "<b>DevExp-DevBox System Architecture</b>"
+title: "DevExp-DevBox System Architecture"
 config:
   theme: base
   look: classic
