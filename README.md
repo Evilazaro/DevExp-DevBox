@@ -419,32 +419,55 @@ to co-locate those resources in the workload RG (the default).
 ```yaml
 workload:
   create: true
-  name: devexp-workload # Actual RG = devexp-workload-<env>-<region>-RG
+  name: devexp-workload            # Actual RG = devexp-workload-<env>-<region>-RG
   description: prodExp
   tags:
     environment: dev
     division: Platforms
     team: DevExP
-    project: DevExP-DevBox
+    project: Contoso-DevExp-DevBox
     costCenter: IT
     owner: Contoso
-    resources: DevCenter
+    landingZone: Workload           # Azure Landing Zone classification
+    resources: ResourceGroup
 
 security:
-  create: false # true = separate <name>-security-RG
+  create: false                    # true = separate <name>-<env>-<region>-RG
   name: devexp-workload
+  description: prodExp
+  tags:
+    environment: dev
+    division: Platforms
+    team: DevExP
+    project: Contoso-DevExp-DevBox
+    costCenter: IT
+    owner: Contoso
+    landingZone: Workload
+    resources: ResourceGroup
 
 monitoring:
-  create: false # true = separate <name>-monitoring-RG
+  create: false                    # true = separate <name>-<env>-<region>-RG
   name: devexp-workload
+  description: prodExp
+  tags:
+    environment: dev
+    division: Platforms
+    team: DevExP
+    project: Contoso-DevExp-DevBox
+    costCenter: IT
+    owner: Contoso
+    landingZone: Workload
+    resources: ResourceGroup
 ```
 
-| Field                  | Type   | Description                                            |
-| ---------------------- | ------ | ------------------------------------------------------ |
-| 🏗️ `workload.create`   | bool   | Always `true` — main workload RG is always provisioned |
-| 🔒 `security.create`   | bool   | `false` deploys Key Vault into the workload RG         |
-| 📊 `monitoring.create` | bool   | `false` deploys Log Analytics into the workload RG     |
-| 🏷️ `*.name`            | string | RG base name; actual name appends `<ENV>-<region>-RG`  |
+| Field | Type | Description |
+| --- | --- | --- |
+| 🏗️ `workload.create` | bool | Always `true` — main workload RG is always provisioned |
+| 🔒 `security.create` | bool | `false` deploys Key Vault into the workload RG; `true` creates a dedicated security RG |
+| 📊 `monitoring.create` | bool | `false` deploys Log Analytics into the workload RG; `true` creates a dedicated monitoring RG |
+| 🏷️ `*.name` | string | RG base name; actual name appends `-<ENV>-<region>-RG` |
+| 📝 `*.description` | string | Human-readable description stored as an RG tag |
+| 🗂️ `*.tags.landingZone` | string | Azure Landing Zone classification (e.g., `Workload`, `Security`, `Monitoring`) |
 
 ---
 
@@ -456,26 +479,32 @@ field is a prefix — deployed name is `<name>-<unique>-kv` for global uniquenes
 ```yaml
 create: true
 keyVault:
-  name: contoso # Deployed as contoso-<unique>-kv
+  name: contoso                    # Deployed as contoso-<unique>-kv
   description: Development Environment Key Vault
-  secretName: gha-token # Secret name (matches KEY_VAULT_SECRET azd variable)
+  secretName: gha-token            # Secret name (matches KEY_VAULT_SECRET azd variable)
   enablePurgeProtection: true
   enableSoftDelete: true
-  softDeleteRetentionInDays: 7 # Minimum 7 days per Azure policy
-  enableRbacAuthorization: true # RBAC access control (not legacy access policies)
+  softDeleteRetentionInDays: 7     # Minimum 7 days per Azure policy
+  enableRbacAuthorization: true    # RBAC access control (not legacy access policies)
   tags:
     environment: dev
     division: Platforms
     team: DevExP
+    project: Contoso-DevExp-DevBox
+    costCenter: IT
+    owner: Contoso
+    landingZone: security          # Distinguishes this RG in the landing zone topology
+    resources: ResourceGroup
 ```
 
-| Field                          | Type   | Description                                                     |
-| ------------------------------ | ------ | --------------------------------------------------------------- |
-| 🏷️ `name`                      | string | Key Vault name prefix                                           |
-| 🔑 `secretName`                | string | Name of the secret holding the PAT (`gha-token`)                |
-| 🔒 `enablePurgeProtection`     | bool   | Block permanent deletion; required for compliance               |
-| 🗑️ `softDeleteRetentionInDays` | int    | Days before soft-deleted vault/secrets are purged (min: 7)      |
-| 🛡️ `enableRbacAuthorization`   | bool   | `true` = roles control access; `false` = legacy access policies |
+| Field | Type | Description |
+| --- | --- | --- |
+| 🏷️ `name` | string | Key Vault name prefix; globally unique suffix is appended automatically |
+| 🔑 `secretName` | string | Name of the secret holding the PAT (`gha-token`) |
+| 🔒 `enablePurgeProtection` | bool | Block permanent deletion; required for many compliance frameworks |
+| 🗑️ `softDeleteRetentionInDays` | int | Days before soft-deleted vault/secrets are purged (min: 7, max: 90) |
+| 🛡️ `enableRbacAuthorization` | bool | `true` = Azure RBAC controls access; `false` = legacy Key Vault access policies |
+| 🗺️ `tags.landingZone` | string | Azure Landing Zone classification; `security` distinguishes this tier from the workload RG |
 
 ---
 
@@ -502,9 +531,19 @@ installAzureMonitorAgentEnableStatus: Enabled
 
 #### DevCenter Identity and Role Assignments
 
-The DevCenter uses a **system-assigned managed identity**. Roles are split into
-`devCenter` (roles for the managed identity) and `orgRoleTypes` (roles granted
-to Azure AD groups for managing the DevCenter).
+The DevCenter uses a **system-assigned managed identity** — `type: SystemAssigned`
+means Azure manages the identity lifecycle. The schema also supports
+`UserAssigned` (bring your own managed identity), `SystemAssignedUserAssigned`
+(both), and `None` (no managed identity). Roles are split into `devCenter`
+(roles for the managed identity itself) and `orgRoleTypes` (roles granted to
+Azure AD groups for managing the DevCenter).
+
+| `identity.type` | Description |
+| --- | --- |
+| `SystemAssigned` | Azure creates and manages the identity; deleted when the DevCenter is deleted |
+| `UserAssigned` | Bring your own pre-existing managed identity; survives DevCenter deletion |
+| `SystemAssignedUserAssigned` | Both a system-assigned and one or more user-assigned identities |
+| `None` | No managed identity; catalog sync and role delegation will not function |
 
 ```yaml
 identity:
@@ -542,6 +581,30 @@ The `DevManager` org role type grants the `Platform Engineering Team` group the
 `DevCenter Project Admin` role at resource group scope — members can create and
 manage projects without subscription-level permissions.
 
+To add a `ProjectAdmin` org role type, which grants direct project
+administration rights to a specific group, append another entry:
+
+```yaml
+    orgRoleTypes:
+      - type: DevManager
+        azureADGroupId: 5a1d1455-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+        azureADGroupName: Platform Engineering Team
+        azureRBACRoles:
+          - name: DevCenter Project Admin
+            id: 331c37c6-af14-46d9-b9f4-e1909e1b95a0
+            scope: ResourceGroup
+      - type: ProjectAdmin
+        azureADGroupId: aabbccdd-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+        azureADGroupName: DevCenter Admins
+        azureRBACRoles:
+          - name: DevCenter Project Admin
+            id: 331c37c6-af14-46d9-b9f4-e1909e1b95a0
+            scope: ResourceGroup
+```
+
+Valid role assignment scopes for `devCenter` role assignments: `Subscription`,
+`ResourceGroup`, `ManagementGroup`, `Tenant`, `Project`.
+
 #### Shared DevCenter Catalog
 
 A DevCenter-level catalog provides task definitions shared by all projects:
@@ -578,9 +641,44 @@ environmentTypes:
     deploymentTargetId: ''
 ```
 
-Set `deploymentTargetId` to a subscription ID to cross-deploy that environment
-type's resources into a different subscription (e.g., a production
-subscription).
+Set `deploymentTargetId` to a full subscription resource ID to cross-deploy
+that environment type's resources into a different subscription
+(e.g., a dedicated staging or production subscription):
+
+```yaml
+environmentTypes:
+  - name: dev
+    deploymentTargetId: ''                   # empty = same subscription as DevCenter
+  - name: staging
+    deploymentTargetId: '/subscriptions/11111111-2222-3333-4444-555555555555'
+  - name: UAT
+    deploymentTargetId: '/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
+```
+
+The target subscription must have the Dev Center resource provider registered
+and the DevCenter managed identity must have `Contributor` rights in that
+subscription.
+
+#### DevCenter Top-Level Tags
+
+The DevCenter resource itself accepts a `tags` block that is applied to the
+DevCenter ARM resource (separate from project-level or RG-level tags):
+
+```yaml
+tags:
+  environment: dev
+  division: Platforms
+  team: DevExP
+  project: Contoso-DevExp-DevBox
+  costCenter: IT
+  owner: Contoso
+  resources: DevCenter
+```
+
+Modify these values to match your organization's tagging policy. The same
+`tags` schema (`environment`, `division`, `team`, `project`, `costCenter`,
+`owner`, `resources`) applies uniformly across the DevCenter, all projects,
+all networks, and all resource groups.
 
 ---
 
@@ -591,25 +689,44 @@ own network, identity, pools, catalogs, and environment types.
 
 #### Project Network
 
+**Managed VNet (default)** — Azure creates and manages the VNet lifecycle:
+
 ```yaml
 network:
   name: eShop
   create: true
   resourceGroupName: eShop-connectivity-RG
-  virtualNetworkType: Managed # Managed = Azure manages VNet lifecycle
+  virtualNetworkType: Managed
   addressPrefixes:
     - 10.0.0.0/16
   subnets:
     - name: eShop-subnet
       properties:
         addressPrefix: 10.0.1.0/24
+  tags:
+    environment: dev
+    team: DevExP
 ```
 
-| Field                   | Values                  | Description                                                               |
-| ----------------------- | ----------------------- | ------------------------------------------------------------------------- |
-| 🌐 `virtualNetworkType` | `Managed` / `Unmanaged` | `Managed` = Azure creates and owns the VNet; `Unmanaged` = bring your own |
-| 📋 `addressPrefixes`    | CIDR list               | VNet address space                                                        |
-| 🔀 `subnets`            | array                   | Subnet definitions injected into `src/connectivity/vnet.bicep`            |
+**Unmanaged VNet (bring your own)** — reference an existing VNet instead of
+creating one. Set `virtualNetworkType: Unmanaged` and `create: false`;
+`addressPrefixes` and `subnets` are ignored (the existing VNet's configuration
+applies):
+
+```yaml
+network:
+  name: existing-devbox-vnet      # Must match the existing VNet name
+  create: false
+  resourceGroupName: network-hub-RG
+  virtualNetworkType: Unmanaged
+```
+
+| Field | Values | Description |
+| --- | --- | --- |
+| 🌐 `virtualNetworkType` | `Managed` / `Unmanaged` | `Managed` = Azure creates/manages the VNet; `Unmanaged` = use an existing VNet |
+| 🏗️ `create` | bool | `true` = provision the VNet; `false` = attach to an existing VNet |
+| 📋 `addressPrefixes` | CIDR list | Required when `create: true`; ignored when `create: false` |
+| 🔀 `subnets` | array | Required when `create: true`; ignored when `create: false` |
 
 #### Project Identity and RBAC
 
@@ -627,10 +744,10 @@ identity:
           id: b24988ac-6180-42a0-ab88-20f7382dd24c
           scope: Project
         - name: Dev Box User
-          id: 45d50f46-d9eb-4364-b99b-1d01a21f81ec
+          id: 45d50f46-0b78-4001-a660-4198cbe8cd05
           scope: Project
         - name: Deployment Environment User
-          id: 18e40d4e-3a0e-4e6b-8201-8cd2a71cce67
+          id: 18e40d4e-8d2e-438d-97e1-9528336e149c
           scope: Project
         - name: Key Vault Secrets User
           id: 4633458b-17de-408a-b874-0445c86b69e6
