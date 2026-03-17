@@ -628,22 +628,9 @@ catalogs:
 #### Environment Types
 
 Environment types map logical names (`dev`, `staging`, `UAT`) to deployment
-target subscription IDs. An empty `deploymentTargetId` uses the DevCenter's own
-subscription.
-
-```yaml
-environmentTypes:
-  - name: dev
-    deploymentTargetId: '' # '' = same subscription as DevCenter
-  - name: staging
-    deploymentTargetId: ''
-  - name: UAT
-    deploymentTargetId: ''
-```
-
-Set `deploymentTargetId` to a full subscription resource ID to cross-deploy
-that environment type's resources into a different subscription
-(e.g., a dedicated staging or production subscription):
+target subscription IDs. An empty `deploymentTargetId` uses the DevCenter's
+own subscription; a full subscription resource ID cross-deploys resources to a
+different subscription (e.g., a dedicated staging or production subscription):
 
 ```yaml
 environmentTypes:
@@ -653,6 +640,7 @@ environmentTypes:
     deploymentTargetId: '/subscriptions/11111111-2222-3333-4444-555555555555'
   - name: UAT
     deploymentTargetId: '/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
+```
 ```
 
 The target subscription must have the Dev Center resource provider registered
@@ -757,13 +745,45 @@ identity:
           scope: ResourceGroup
 ```
 
-| Role                             | Scope         | Purpose                                                     |
-| -------------------------------- | ------------- | ----------------------------------------------------------- |
-| 🔧 `Contributor`                 | Project       | Create and manage project-level resources                   |
-| 🖥️ `Dev Box User`                | Project       | Request and connect to Dev Boxes in the project's pools     |
-| 🚀 `Deployment Environment User` | Project       | Create deployment environments from environment definitions |
-| 🔑 `Key Vault Secrets User`      | ResourceGroup | Read catalog secrets from Key Vault                         |
-| 🔐 `Key Vault Secrets Officer`   | ResourceGroup | Read and rotate catalog secrets                             |
+| Role | Scope | Purpose |
+| --- | --- | --- |
+| 🔧 `Contributor` | Project | Create and manage project-level resources |
+| 🖥️ `Dev Box User` | Project | Request and connect to Dev Boxes in the project's pools |
+| 🚀 `Deployment Environment User` | Project | Create deployment environments from environment definitions |
+| 🔑 `Key Vault Secrets User` | ResourceGroup | Read catalog secrets from Key Vault |
+| 🔐 `Key Vault Secrets Officer` | ResourceGroup | Read and rotate catalog secrets |
+
+The `roleAssignments` array accepts **multiple groups**. To grant a second
+group read-only access (e.g., a QA team that only needs Dev Box User rights):
+
+```yaml
+identity:
+  type: SystemAssigned
+  roleAssignments:
+    - azureADGroupId: 9d42a792-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+      azureADGroupName: eShop Engineers
+      azureRBACRoles:
+        - name: Contributor
+          id: b24988ac-6180-42a0-ab88-20f7382dd24c
+          scope: Project
+        - name: Dev Box User
+          id: 45d50f46-0b78-4001-a660-4198cbe8cd05
+          scope: Project
+        - name: Deployment Environment User
+          id: 18e40d4e-8d2e-438d-97e1-9528336e149c
+          scope: Project
+    - azureADGroupId: ccccdddd-XXXX-XXXX-XXXX-XXXXXXXXXXXX   # second group
+      azureADGroupName: eShop QA Team
+      azureRBACRoles:
+        - name: Dev Box User
+          id: 45d50f46-0b78-4001-a660-4198cbe8cd05
+          scope: Project
+```
+
+The `identity.type` field supports the same values as the DevCenter identity:
+`SystemAssigned` (default), `UserAssigned`, `SystemAssignedUserAssigned`, or
+`None`. Use `UserAssigned` when you need the project's managed identity to
+survive project deletion or to share an identity across multiple projects.
 
 #### Dev Box Pools
 
@@ -811,37 +831,63 @@ catalogs:
     path: /.devcenter/imageDefinitions
 ```
 
-| Catalog Type               | Purpose                                                         |
-| -------------------------- | --------------------------------------------------------------- |
-| 🚀 `environmentDefinition` | IaC templates users deploy as named environments (dev, staging) |
-| 🖼️ `imageDefinition`       | Image builder pipelines producing custom Dev Box OS images      |
+| Catalog Type | `type` value | `sourceControl` | Purpose |
+| --- | --- | --- | --- |
+| 🚀 Environment catalog | `environmentDefinition` | `gitHub` / `adoGit` | ARM/Bicep templates users deploy as named environments |
+| 🖼️ Image catalog | `imageDefinition` | `gitHub` / `adoGit` | Image builder pipelines that produce custom Dev Box OS images |
 
-To add a catalog pointing to a private Azure DevOps repository:
+> [!NOTE]
+> **DevCenter-level catalogs** (the `catalogs` block directly under the DevCenter
+> root in `devcenter.yaml`) use `type: gitHub` or `type: adoGit` to identify
+> the source control platform. **Project-level catalogs** use `type:
+> environmentDefinition` or `type: imageDefinition` to identify the *catalog
+> content type*, and use the separate `sourceControl` field (`gitHub` /
+> `adoGit`) to identify the source control platform.
+
+To add a project catalog pointing to a **private Azure DevOps** repository:
 
 ```yaml
-- name: my-ado-catalog
-  type: environmentDefinition
-  sourceControl: adoGit
-  visibility: private
-  uri: https://dev.azure.com/contososa2/DevExp-DevBox/_git/devcenter-catalog
-  branch: main
-  path: /environments
+    catalogs:
+      - name: ado-environments
+        type: environmentDefinition
+        sourceControl: adoGit
+        visibility: private         # Reads PAT (AZURE_DEVOPS_EXT_PAT) from Key Vault
+        uri: https://dev.azure.com/contososa2/DevExp-DevBox/_git/devcenter-catalog
+        branch: main
+        path: /environments
+```
+
+To add a **private DevCenter-level** shared task catalog (backed by a private ADO repo):
+
+```yaml
+catalogs:
+  - name: customTasks
+    type: adoGit                    # DevCenter catalog uses type for the source control
+    visibility: private             # Reads PAT from Key Vault secret
+    uri: https://dev.azure.com/contososa2/DevExp-DevBox/_git/devcenter-catalog
+    branch: main
+    path: ./Tasks
 ```
 
 #### Project Environment Types
 
 Each project independently enables a subset of the DevCenter-level environment
-types. Set `deploymentTargetId` to cross-deploy to a different subscription:
+types defined at the DevCenter root. The project-level `deploymentTargetId`
+overrides the DevCenter-level value for that environment type within this
+project:
 
 ```yaml
-environmentTypes:
-  - name: dev
-    deploymentTargetId: ''
-  - name: staging
-    deploymentTargetId: ''
-  - name: UAT
-    deploymentTargetId: ''
+    environmentTypes:
+      - name: dev
+        deploymentTargetId: ''     # inherits DevCenter default (same subscription)
+      - name: staging
+        deploymentTargetId: '/subscriptions/11111111-2222-3333-4444-555555555555'
+      - name: UAT
+        deploymentTargetId: ''
 ```
+
+Only list the environment types you want enabled for this project. Omitting
+`staging` here does not remove it from other projects or from the DevCenter.
 
 #### Resource Tags
 
@@ -852,10 +898,10 @@ tags:
   environment: dev
   division: Platforms
   team: DevExP
-  project: DevExP-DevBox
+  project: Contoso-DevExp-DevBox   # Must match the project tag in azureResources.yaml
   costCenter: IT
   owner: Contoso
-  resources: DevCenter
+  resources: Project               # Use 'Project' here; DevCenter root uses 'DevCenter'
 ```
 
 ---
