@@ -19,12 +19,12 @@ Platform engineering teams face mounting pressure to onboard developers quickly
 while enforcing security, governance, and consistent tooling across multiple
 teams and projects. DevExp-DevBox delivers an opinionated, policy-compliant
 Azure Dev Box deployment accelerator that eliminates manual portal configuration
-and applies Azure Landing Zone principles, least-privilege RBAC, and full
-observability from day one.
+and applies **Azure Landing Zone principles**, **least-privilege RBAC**, and
+**full observability** from day one.
 
 Deploying DevExp-DevBox provisions an Azure DevCenter with role-specific Dev Box
 pools, catalog-backed image and task definitions sourced from GitHub or Azure
-DevOps, Azure Key Vault for secure token management, Log Analytics for
+DevOps, **Azure Key Vault** for secure token management, **Log Analytics** for
 diagnostics, and optional virtual network connectivity — all orchestrated
 through the Azure Developer CLI (`azd`) and declarative YAML configuration
 files.
@@ -185,11 +185,11 @@ specific CLI tools and Azure permissions before running `azd provision`. All
 required tools must be authenticated and configured on the machine that executes
 the deployment.
 
-The platform engineer running the deployment needs Owner or Contributor access
-on the target Azure subscription. Azure AD (Entra ID) groups for the DevManager
-role (`Platform Engineering Team`) and project teams (`eShop Engineers`) must
-exist before deployment, as the Bicep modules reference their group object IDs
-for RBAC assignments.
+The platform engineer running the deployment needs **Owner or Contributor**
+access on the target Azure subscription. Azure AD (Entra ID) groups for the
+DevManager role (`Platform Engineering Team`) and project teams
+(`eShop Engineers`) **must exist before deployment**, as the Bicep modules
+reference their group object IDs for RBAC assignments.
 
 | Requirement            | Description                                                                     | Minimum Version |
 | ---------------------- | ------------------------------------------------------------------------------- | --------------- |
@@ -220,7 +220,7 @@ validate dependencies, authenticate against the chosen source control platform,
 and write the required secrets into the azd environment file. After the hook
 completes, `azd` deploys the Bicep infrastructure at subscription scope.
 
-Before provisioning, update the Azure AD group object IDs in
+Before provisioning, **update the Azure AD group object IDs** in
 `infra/settings/workload/devcenter.yaml` to match real groups in your tenant.
 See [Azure AD Group Configuration](#azure-ad-group-configuration) for details.
 
@@ -278,9 +278,10 @@ The full set of azd environment variables consumed by
 
 ### Step 3 — Update Configuration Files
 
-Edit the three YAML configuration files before provisioning. At minimum, replace
-the placeholder Azure AD group IDs in `infra/settings/workload/devcenter.yaml`.
-See the [Configuration](#configuration) section for all available settings.
+Edit the three YAML configuration files before provisioning. At minimum,
+**replace the placeholder Azure AD group IDs** in
+`infra/settings/workload/devcenter.yaml`. See the
+[Configuration](#configuration) section for all available settings.
 
 ### Step 4 — Provision
 
@@ -396,9 +397,9 @@ registration, and the `AZURE_CREDENTIALS` GitHub secret:
 
 All DevExp-DevBox configuration lives in three YAML files under
 `infra/settings/`. They are loaded at deployment time by `infra/main.bicep`
-using `loadYamlContent()` — no code changes are required to adjust DevCenter
+using `loadYamlContent()` — **no code changes are required** to adjust DevCenter
 topology, project layout, or Key Vault settings. Edit a YAML file and run
-`azd provision` to apply changes; Bicep deployments are idempotent.
+`azd provision` to apply changes; Bicep deployments are **idempotent**.
 
 ```text
 infra/settings/
@@ -644,9 +645,9 @@ environmentTypes:
     deploymentTargetId: '/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
 ```
 
-The target subscription must have the Dev Center resource provider registered
-and the DevCenter managed identity must have `Contributor` rights in that
-subscription.
+The target subscription **must** have the Dev Center resource provider
+registered and the DevCenter managed identity **must** have `Contributor` rights
+in that subscription.
 
 #### DevCenter Top-Level Tags
 
@@ -1090,10 +1091,10 @@ and Tasks as the three-tier issue hierarchy. All contributions must follow the
 branch naming conventions, link to a parent issue, and provide validation
 evidence before merge. This ensures every change is traceable and testable.
 
-Infrastructure changes must be idempotent, parameterized, and free of hard-coded
-environment specifics. PowerShell scripts must be compatible with PowerShell 7+
-and provide clear, actionable error messages. Documentation changes must
-accompany infrastructure changes in the same pull request.
+Infrastructure changes **must be idempotent, parameterized**, and free of
+hard-coded environment specifics. PowerShell scripts **must** be compatible with
+**PowerShell 7+** and provide clear, actionable error messages. Documentation
+changes **must** accompany infrastructure changes in the **same pull request**.
 
 ### Issue and Branch Conventions
 
@@ -1111,12 +1112,12 @@ docs/101-update-deployment-guide
 
 ### Pull Request Requirements
 
-Every pull request must:
+Every pull request **must**:
 
 - Reference the issue it closes (e.g., `Closes #123`)
 - Include a summary of changes and test/validation evidence
-- Pass `what-if` or equivalent validation for Bicep changes
-- Update documentation in the same PR as code changes
+- Pass `what-if` or equivalent **validation** for Bicep changes
+- Update documentation in the **same PR** as code changes
 
 ### Engineering Standards
 
@@ -1130,13 +1131,13 @@ Every pull request must:
 
 ### Definition of Done
 
-A Feature PR is considered complete when:
+A Feature PR is considered **complete** when:
 
-1. All acceptance criteria in the linked issue are met
-2. Bicep changes validated with `az deployment sub what-if`
-3. Successful deployment confirmed in a sandbox subscription
-4. Documentation updated in the same PR
-5. All child tasks closed
+1. **All acceptance criteria** in the linked issue are met
+2. Bicep changes **validated** with `az deployment sub what-if`
+3. **Successful deployment** confirmed in a sandbox subscription
+4. Documentation **updated in the same PR**
+5. **All child tasks closed**
 
 ## License
 

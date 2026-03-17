@@ -18,7 +18,7 @@ This project follows a **product-oriented** delivery model:
 
 ### Issue Types
 
-Use the GitHub Issue Forms:
+**Use the GitHub Issue Forms:**
 
 - **Epic**: `.github/ISSUE_TEMPLATE/epic.yml`
 - **Feature**: `.github/ISSUE_TEMPLATE/feature.yml`
@@ -79,7 +79,7 @@ Each PR **must**:
   - **Parameterized** (no hard-coded environment specifics)
   - **Idempotent**
   - **Reusable** across environments
-- Prefer consistent naming and centralized tagging patterns.
+- **Prefer consistent naming and centralized tagging patterns.**
 - **Avoid** embedding secrets in code or parameters.
 
 ### PowerShell
