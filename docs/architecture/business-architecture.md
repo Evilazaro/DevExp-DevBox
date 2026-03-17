@@ -1335,24 +1335,21 @@ flowchart TB
 ### Summary
 
 The Component Catalog confirms 47 Business layer components across all types,
-all traceable to source files within the DevExp-DevBox workspace. The
-highest-maturity components are the six Business Rules (average confidence 0.86,
-all at Level 3) and the seven Business Capabilities (average confidence 0.87,
-all at Level 3), demonstrating that governance and capability design are the
-most robustly documented aspects of the business architecture. Business Roles
-are also well-defined, with four of six roles at HIGH confidence (≥0.80),
-directly traceable to RBAC configurations in `devcenter.yaml`.
+all traceable to source files within the DevExp-DevBox workspace. The most
+robustly documented component clusters are the six Business Rules and the seven
+Business Capabilities, demonstrating that governance and capability design are
+the strongest aspects of the business architecture. Business Roles are also
+well-defined, with four of six roles directly traceable to RBAC configurations
+in `devcenter.yaml`.
 
-The three lowest-maturity component clusters are KPIs & Metrics (average
-maturity Level 1.75 — Initial to Repeatable), Business Functions (average
-confidence 0.68, all requiring explicit justification), and Business Events
-(average confidence 0.74 — adequate but lacking formal event-driven
-documentation). The primary architectural improvement opportunity is
-establishing a formal KPI framework: define quantitative targets for Developer
-Onboarding Time and Deployment Success Rate, automate collection via Log
-Analytics custom queries, and provide a dashboard view for platform engineering
-leadership. This investment would raise KPI maturity from Level 1–2 to Level 3–4
-and unlock capability maturity progression for the broader platform.
+The component clusters with the greatest improvement opportunity are KPIs &
+Metrics, Business Functions (requiring explicit justification), and Business
+Events (lacking formal event-driven documentation). The primary architectural
+improvement opportunity is establishing a formal KPI framework: define
+quantitative targets for Developer Onboarding Time and Deployment Success Rate,
+automate collection via Log Analytics custom queries, and provide a dashboard
+view for platform engineering leadership. This investment would strengthen KPI
+definition and unlock capability progression for the broader platform.
 
 ---
 
