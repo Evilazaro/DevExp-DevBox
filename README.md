@@ -212,6 +212,14 @@ The following steps deploy a complete Dev Box environment using default settings
 from `infra/settings/workload/devcenter.yaml` and
 `infra/settings/resourceOrganization/azureResources.yaml`.
 
+> [!IMPORTANT] Before running `azd up`, update the Azure AD group object IDs in
+> `infra/settings/workload/devcenter.yaml`. The placeholder `azureADGroupId`
+> values under `identity.roleAssignments.orgRoleTypes` and each project's
+> `identity.roleAssignments` must be replaced with real Entra ID group object
+> IDs from your tenant. See the
+> [Azure AD Group Configuration](#azure-ad-group-configuration) section for
+> details.
+
 **1. Clone the repository:**
 
 ```bash
@@ -233,6 +241,13 @@ gh auth login
 azd env new my-devbox-env
 azd env set AZURE_LOCATION eastus
 azd env set KEY_VAULT_SECRET <your-github-pat>
+```
+
+Optionally, set the source control platform (default is `github`):
+
+```bash
+# Use Azure DevOps instead of GitHub
+azd env set SOURCE_CONTROL_PLATFORM adogit
 ```
 
 **4. Deploy:**
@@ -341,6 +356,51 @@ the `preprovision` hook in `azure.yaml`. They can also be run manually:
 | 🌍 `EnvName` / `--env-name`             | `-e`       | Azure environment name                         | Required |
 | 🔌 `SourceControl` / `--source-control` | `-s`       | Source control platform (`github` or `adogit`) | `github` |
 
+### Verifying the Deployment
+
+After `azd up` completes, confirm the DevCenter and its projects provisioned
+successfully:
+
+```bash
+# Show DevCenter provisioning state
+az devcenter admin devcenter show \
+  --name devexp-devcenter \
+  --resource-group devexp-workload-<env-name>-<location>-RG \
+  --query provisioningState -o tsv
+```
+
+```bash
+# List all projects under the DevCenter
+az devcenter admin project list \
+  --query "[].{Name:name, State:provisioningState}" \
+  -o table
+```
+
+Expected output:
+
+```text
+Name    State
+------  ---------
+eShop   Succeeded
+```
+
+You can also inspect the `azd` environment outputs to retrieve the deployed
+resource names:
+
+```bash
+azd env get-values
+```
+
+Key output variables provisioned by `infra/main.bicep`:
+
+| Output Variable                         | Description                                               |
+| --------------------------------------- | --------------------------------------------------------- |
+| 🖥️ `AZURE_DEV_CENTER_NAME`              | Name of the deployed Azure DevCenter (`devexp-devcenter`) |
+| 📁 `AZURE_DEV_CENTER_PROJECTS`          | Array of deployed project names (e.g., `["eShop"]`)       |
+| 🔑 `AZURE_KEY_VAULT_NAME`               | Name of the provisioned Key Vault                         |
+| 🔗 `AZURE_KEY_VAULT_ENDPOINT`           | URI endpoint of the Key Vault                             |
+| 📊 `AZURE_LOG_ANALYTICS_WORKSPACE_NAME` | Name of the Log Analytics Workspace                       |
+
 ### Adding a New Project
 
 To add a new DevCenter project alongside the existing `eShop` project, append a
@@ -441,6 +501,62 @@ The DevCenter managed identity is automatically assigned the following roles
 | 🔐 User Access Administrator | Subscription   | RBAC delegation for projects        |
 | 🔑 Key Vault Secrets User    | Resource Group | Read catalog secrets from Key Vault |
 | 🗝️ Key Vault Secrets Officer | Resource Group | Manage catalog secrets in Key Vault |
+
+### Azure AD Group Configuration
+
+**Overview**
+
+The `devcenter.yaml` file contains placeholder Azure AD group object IDs that
+control who can manage Dev Box infrastructure and who can use Dev Boxes. These
+placeholder GUIDs must be replaced with the real Entra ID group object IDs from
+your tenant before running `azd up`. The Bicep modules reference these IDs
+directly when creating subscription-level role assignments.
+
+Two group types need to be configured:
+
+**DevManager group** — members manage Dev Box pool definitions and project
+settings but typically do not consume Dev Boxes themselves:
+
+```yaml
+# infra/settings/workload/devcenter.yaml
+identity:
+  roleAssignments:
+    orgRoleTypes:
+      - type: DevManager
+        azureADGroupId: '<your-platform-engineering-group-id>'
+        azureADGroupName: 'Platform Engineering Team'
+```
+
+**Project team groups** — members receive Dev Box User and Deployment
+Environment User roles, allowing them to create and access Dev Boxes:
+
+```yaml
+# infra/settings/workload/devcenter.yaml
+projects:
+  - name: 'eShop'
+    identity:
+      roleAssignments:
+        - azureADGroupId: '<your-eshop-engineers-group-id>'
+          azureADGroupName: 'eShop Engineers'
+```
+
+To retrieve the object ID for an existing Entra ID group:
+
+```bash
+# Get DevManager group ID
+az ad group show --group "Platform Engineering Team" --query id -o tsv
+
+# Get project team group ID
+az ad group show --group "eShop Engineers" --query id -o tsv
+```
+
+> [!NOTE] If the Azure AD groups do not yet exist in your tenant, create them
+> first:
+>
+> ```bash
+> az ad group create --display-name "Platform Engineering Team" --mail-nickname PlatformEng
+> az ad group create --display-name "eShop Engineers" --mail-nickname eShopEngineers
+> ```
 
 ## Contributing
 
