@@ -1,0 +1,510 @@
+# DevExp-DevBox
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Azure Dev Box](https://img.shields.io/badge/Azure-Dev_Box-0078D4?logo=microsoftazure&logoColor=white)](https://learn.microsoft.com/en-us/azure/dev-box/)
+[![azd Compatible](https://img.shields.io/badge/azd-compatible-0078D4?logo=microsoft&logoColor=white)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/)
+[![Bicep IaC](https://img.shields.io/badge/IaC-Bicep-00BCF2)](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/)
+[![GitHub Stars](https://img.shields.io/github/stars/Evilazaro/DevExp-DevBox?style=social)](https://github.com/Evilazaro/DevExp-DevBox)
+
+A production-grade **Microsoft Dev Box Accelerator** that provisions
+cloud-hosted, role-optimized developer workstations on Azure — driven by
+configuration-as-code YAML and deployed with a single `azd up` command.
+
+## Overview
+
+**Overview**
+
+Platform engineering teams face mounting pressure to onboard developers quickly
+while enforcing security, governance, and consistent tooling across multiple
+teams and projects. DevExp-DevBox delivers an opinionated, policy-compliant
+Azure Dev Box deployment accelerator that eliminates manual portal configuration
+and applies Azure Landing Zone principles, least-privilege RBAC, and full
+observability from day one.
+
+Deploying DevExp-DevBox provisions an Azure DevCenter with role-specific Dev Box
+pools, catalog-backed image and task definitions sourced from GitHub or Azure
+DevOps, Azure Key Vault for secure token management, Log Analytics for
+diagnostics, and optional virtual network connectivity — all orchestrated
+through the Azure Developer CLI (`azd`) and declarative YAML configuration
+files.
+
+## Table of Contents
+
+- [Architecture](#architecture)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Quick Start](#quick-start)
+- [Deployment](#deployment)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Architecture
+
+The accelerator follows a layered Infrastructure as Code architecture: a
+platform engineer runs `azd up`, which triggers the platform setup scripts
+(`setUp.sh` on Linux/macOS, `setUp.ps1` on Windows), then deploys Bicep modules
+at subscription scope to create resource groups, security services, monitoring
+infrastructure, and the Azure DevCenter with its projects.
+
+```mermaid
+---
+title: "DevExp-DevBox System Architecture"
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: DevExp-DevBox System Architecture
+    accDescr: End-to-end architecture diagram showing platform engineer provisioning workflow, Azure Developer CLI orchestration, and Azure resource topology for the Microsoft Dev Box accelerator
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph devEnv["🖥️ Local Environment"]
+        dev("👤 Platform Engineer"):::neutral
+        azdUp("⚙️ azd up"):::core
+        setScript("📜 setUp Script"):::core
+    end
+
+    subgraph azureSub["☁️ Azure Subscription"]
+        subgraph monitoringLayer["📊 Monitoring — devexp-workload RG"]
+            la("📊 Log Analytics Workspace"):::data
+        end
+        subgraph securityLayer["🔒 Security — devexp-workload RG"]
+            kv("🔑 Azure Key Vault"):::warning
+        end
+        subgraph workloadLayer["🏗️ Workload — devexp-workload RG"]
+            dc("🖥️ Azure DevCenter"):::core
+            catalog("📚 Shared Catalog"):::neutral
+            envTypes("🌍 Environment Types"):::neutral
+            subgraph eShopProject["📁 Project: eShop"]
+                proj("📁 eShop Project"):::core
+                pools("⚙️ Dev Box Pools"):::success
+                projCatalog("📚 Project Catalogs"):::neutral
+                vnet("🔌 Virtual Network"):::neutral
+            end
+        end
+    end
+
+    dev -->|"executes"| azdUp
+    azdUp -->|"invokes"| setScript
+    setScript -->|"deploys"| la
+    setScript -->|"deploys"| kv
+    setScript -->|"deploys"| dc
+    dc -->|"syncs"| catalog
+    dc -->|"defines"| envTypes
+    dc -->|"hosts"| proj
+    proj -->|"provisions"| pools
+    proj -->|"registers"| projCatalog
+    proj -->|"connects"| vnet
+    la -.->|"monitors"| dc
+    kv -.->|"secrets for"| dc
+
+    style devEnv fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style azureSub fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style monitoringLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style securityLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style workloadLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style eShopProject fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    %% Centralized semantic classDefs (Phase 5 compliant)
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+```
+
+**Component Roles:**
+
+| Component            | Role                                                                      | Source File                               |
+| -------------------- | ------------------------------------------------------------------------- | ----------------------------------------- |
+| 🖥️ Azure DevCenter   | Central hub managing Dev Box definitions, catalogs, and environment types | `src/workload/core/devCenter.bicep`       |
+| 📁 DevCenter Project | Team-scoped workspace grouping Dev Box pools and catalogs (e.g., eShop)   | `src/workload/project/project.bicep`      |
+| ⚙️ Dev Box Pools     | Role-specific VM configurations (`backend-engineer`, `frontend-engineer`) | `infra/settings/workload/devcenter.yaml`  |
+| 📚 Catalogs          | GitHub-backed repositories for image definitions and custom tasks         | `src/workload/core/catalog.bicep`         |
+| 🌍 Environment Types | Pre-configured deployment targets: `dev`, `staging`, `UAT`                | `src/workload/core/environmentType.bicep` |
+| 🔑 Azure Key Vault   | Centralized storage for the GitHub Actions token used by catalogs         | `src/security/keyVault.bicep`             |
+| 📊 Log Analytics     | Workspace receiving diagnostics from DevCenter, Key Vault, and VNets      | `src/management/logAnalytics.bicep`       |
+| 🔌 Virtual Network   | Optional unmanaged VNet for Dev Box network connectivity                  | `src/connectivity/vnet.bicep`             |
+
+## Features
+
+**Overview**
+
+DevExp-DevBox targets platform engineering teams who need to provision
+standardized developer workstations without managing individual portal
+configurations or writing infrastructure code from scratch. The accelerator
+codifies Azure Landing Zone resource organization, pre-wires RBAC for common
+roles, and integrates catalog-backed image definitions to deliver a repeatable,
+auditable onboarding path.
+
+Every component is controlled through YAML configuration files that live
+alongside the Bicep modules. Changes to Dev Box pool sizes, image definitions,
+environment types, and RBAC assignments require only a YAML edit and a
+re-deployment — no portal access, no manual steps.
+
+| Feature                        | Description                                                                                  | Status    |
+| ------------------------------ | -------------------------------------------------------------------------------------------- | --------- |
+| 🚀 One-command Deployment      | Entire Dev Box environment provisioned via `azd up` with pre-provision hooks                 | ✅ Stable |
+| 📋 Config-as-Code              | All resources defined in YAML (`azureResources.yaml`, `devcenter.yaml`, `security.yaml`)     | ✅ Stable |
+| 🔒 Key Vault Integration       | Automated Key Vault provisioning with RBAC authorization and soft-delete protection          | ✅ Stable |
+| 🏢 Landing Zone Aligned        | Workload, security, and monitoring resource groups follow Azure Landing Zone principles      | ✅ Stable |
+| ⚙️ Role-Specific Dev Box Pools | Pre-configured pools for `backend-engineer` and `frontend-engineer` personas                 | ✅ Stable |
+| 🌍 Multi-Environment Support   | Dev, Staging, and UAT environment types provisioned per DevCenter project                    | ✅ Stable |
+| 📊 Built-in Observability      | Log Analytics Workspace with AzureActivity solution and diagnostic settings on all resources | ✅ Stable |
+
+> [!NOTE] The security and monitoring resource groups are **shared with the
+> workload resource group by default** (`create: false` in
+> `infra/settings/resourceOrganization/azureResources.yaml`). Set `create: true`
+> for either to deploy them into dedicated resource groups for stricter
+> isolation.
+
+## Requirements
+
+**Overview**
+
+DevExp-DevBox deploys infrastructure at Azure subscription scope, which requires
+specific CLI tools and Azure permissions before the first `azd up` run. All
+required tools must be authenticated and configured on the machine that executes
+the deployment.
+
+The platform engineer running the deployment needs Owner or Contributor access
+on the target Azure subscription. Azure AD (Entra ID) groups for the DevManager
+role (`Platform Engineering Team`) and project teams (`eShop Engineers`) must
+exist before deployment, as the Bicep modules reference their group object IDs
+for RBAC assignments.
+
+| Requirement            | Description                                                                     | Minimum Version |
+| ---------------------- | ------------------------------------------------------------------------------- | --------------- |
+| ☁️ Azure Subscription  | Active subscription with Owner or Contributor role grant                        | Any             |
+| ⚙️ Azure Developer CLI | `azd` for environment initialization and `azd up` deployment                    | ≥ 1.10.0        |
+| 🔧 Azure CLI           | `az` for authentication and subscription-scoped operations                      | ≥ 2.60.0        |
+| 🐱 GitHub CLI          | `gh` for GitHub authentication when `SOURCE_CONTROL_PLATFORM=github`            | ≥ 2.0.0         |
+| 🔑 GitHub PAT          | Personal access token with `repo` scope for catalog access and Key Vault secret | N/A             |
+| 🏢 Azure AD Groups     | Pre-created Entra ID groups for DevManager and project team RBAC assignments    | N/A             |
+| 🌐 PowerShell          | PowerShell for Windows deployment via `setUp.ps1`                               | ≥ 7.0           |
+| 📦 Bash                | Bash for Linux/macOS deployment via `setUp.sh`                                  | ≥ 5.0           |
+
+> [!WARNING] The `KEY_VAULT_SECRET` environment variable must be set to a valid
+> GitHub Personal Access Token (PAT) with `repo` scope **before** running
+> `azd up`. This token is stored in Azure Key Vault and used by the DevCenter
+> catalog to authenticate to GitHub repositories.
+
+## Quick Start
+
+The following steps deploy a complete Dev Box environment using default settings
+from `infra/settings/workload/devcenter.yaml` and
+`infra/settings/resourceOrganization/azureResources.yaml`.
+
+**1. Clone the repository:**
+
+```bash
+git clone https://github.com/Evilazaro/DevExp-DevBox.git
+cd DevExp-DevBox
+```
+
+**2. Authenticate with Azure and GitHub:**
+
+```bash
+az login
+azd auth login
+gh auth login
+```
+
+**3. Create and configure the azd environment:**
+
+```bash
+azd env new my-devbox-env
+azd env set AZURE_LOCATION eastus
+azd env set KEY_VAULT_SECRET <your-github-pat>
+```
+
+**4. Deploy:**
+
+```bash
+azd up
+```
+
+**Expected output:**
+
+```text
+Provisioning Azure resources (azd provision)...
+
+  (✓) Done: Resource group: devexp-workload-my-devbox-env-eastus-RG
+  (✓) Done: Log Analytics Workspace
+  (✓) Done: Key Vault: contoso-<unique>-kv
+  (✓) Done: Azure DevCenter: devexp-devcenter
+  (✓) Done: Project: eShop
+
+SUCCESS: Your Azure Developer Experience environment is ready.
+DevCenter: devexp-devcenter
+Projects:  eShop
+```
+
+> [!TIP] To use **Azure DevOps** instead of GitHub as the source control
+> provider, set `azd env set SOURCE_CONTROL_PLATFORM adogit` before running
+> `azd up`. The default value is `github`.
+
+## Deployment
+
+### Environment Variables
+
+The following environment variables are consumed by `infra/main.parameters.json`
+and the pre-provision hooks in `azure.yaml`:
+
+| Variable                     | Description                                                       | Where to Set                          |
+| ---------------------------- | ----------------------------------------------------------------- | ------------------------------------- |
+| 🌍 `AZURE_ENV_NAME`          | Environment name used in resource naming (`dev`, `test`, `prod`)  | `azd env new <name>`                  |
+| 📍 `AZURE_LOCATION`          | Azure region for deployment (e.g., `eastus`, `westeurope`)        | `azd env set AZURE_LOCATION`          |
+| 🔑 `KEY_VAULT_SECRET`        | GitHub PAT or token stored in Key Vault as `gha-token`            | `azd env set KEY_VAULT_SECRET`        |
+| 🔌 `SOURCE_CONTROL_PLATFORM` | Source control platform: `github` or `adogit` (default: `github`) | `azd env set SOURCE_CONTROL_PLATFORM` |
+
+### Supported Azure Regions
+
+The deployment accepts the following `AZURE_LOCATION` values as defined in
+`infra/main.bicep`:
+
+```text
+eastus  eastus2  westus  westus2  westus3  centralus
+northeurope  westeurope  southeastasia  australiaeast
+japaneast  uksouth  canadacentral  swedencentral
+switzerlandnorth  germanywestcentral
+```
+
+### Cleanup
+
+To remove all deployed Azure resources and clean up GitHub secrets and service
+principals, run:
+
+```powershell
+.\cleanSetUp.ps1 -EnvName "my-devbox-env" -Location "eastus"
+```
+
+The `cleanSetUp.ps1` script deletes subscription-level deployments, role
+assignments, the Azure AD app registration
+(`ContosoDevEx GitHub Actions Enterprise App`), the `AZURE_CREDENTIALS` GitHub
+secret, and all resource groups created during deployment.
+
+## Usage
+
+### Accessing Dev Boxes
+
+After deployment, members of the `eShop Engineers` Azure AD group can access
+their role-specific Dev Boxes through the
+[Microsoft Dev Box portal](https://devbox.microsoft.com).
+
+Available Dev Box pools in the `eShop` project:
+
+| Pool Name              | Image Definition     | VM SKU                        | Target Persona      |
+| ---------------------- | -------------------- | ----------------------------- | ------------------- |
+| ⚙️ `backend-engineer`  | `eshop-backend-dev`  | `general_i_32c128gb512ssd_v2` | Backend developers  |
+| 🖥️ `frontend-engineer` | `eshop-frontend-dev` | `general_i_16c64gb256ssd_v2`  | Frontend developers |
+
+### Running Setup Scripts Directly
+
+The `setUp.sh` and `setUp.ps1` scripts are invoked automatically by `azd up` via
+the `preprovision` hook in `azure.yaml`. They can also be run manually:
+
+**Linux / macOS:**
+
+```bash
+./setUp.sh -e "my-devbox-env" -s "github"
+```
+
+**Windows (PowerShell):**
+
+```powershell
+.\setUp.ps1 -EnvName "my-devbox-env" -SourceControl "github"
+```
+
+**Script parameters:**
+
+| Parameter                               | Short Flag | Description                                    | Default  |
+| --------------------------------------- | ---------- | ---------------------------------------------- | -------- |
+| 🌍 `EnvName` / `--env-name`             | `-e`       | Azure environment name                         | Required |
+| 🔌 `SourceControl` / `--source-control` | `-s`       | Source control platform (`github` or `adogit`) | `github` |
+
+### Adding a New Project
+
+To add a new DevCenter project alongside the existing `eShop` project, append a
+new entry to the `projects` array in `infra/settings/workload/devcenter.yaml`
+following the same structure, then run:
+
+```bash
+azd up
+```
+
+## Configuration
+
+**Overview**
+
+All DevExp-DevBox configuration is expressed in three YAML files located under
+`infra/settings/`. These files are loaded directly by the Bicep modules at
+deployment time using the `loadYamlContent()` function — no Bicep parameter
+changes are needed for most configuration adjustments. This
+configuration-as-code approach ensures that resource definitions are
+version-controlled and reviewable via pull requests.
+
+Editing a YAML file and running `azd up` is sufficient to apply changes. The
+Bicep modules are idempotent, so repeated deployments converge to the declared
+state without duplicating resources.
+
+### Configuration Files
+
+| File                                                         | Controls                                                | Key Settings                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------- | ------------------------------------------------------------------------- |
+| 📁 `infra/settings/resourceOrganization/azureResources.yaml` | Resource group topology                                 | `workload`, `security`, `monitoring` landing zone creation flags and tags |
+| 🖥️ `infra/settings/workload/devcenter.yaml`                  | DevCenter, projects, pools, catalogs, environment types | DevCenter name, project definitions, Dev Box pool SKUs, catalog URIs      |
+| 🔑 `infra/settings/security/security.yaml`                   | Azure Key Vault configuration                           | Key Vault name, soft-delete settings, RBAC authorization                  |
+
+### Resource Group Organization (`azureResources.yaml`)
+
+By default all resources share a single workload resource group. Set
+`create: true` on `security` or `monitoring` to provision dedicated resource
+groups:
+
+```yaml
+workload:
+  create: true
+  name: devexp-workload
+
+security:
+  create: false # Set true to deploy a separate security RG
+  name: devexp-workload
+
+monitoring:
+  create: false # Set true to deploy a separate monitoring RG
+  name: devexp-workload
+```
+
+### DevCenter Configuration (`devcenter.yaml`)
+
+Key settings that control DevCenter behavior:
+
+```yaml
+name: 'devexp-devcenter'
+catalogItemSyncEnableStatus: 'Enabled'
+microsoftHostedNetworkEnableStatus: 'Enabled'
+installAzureMonitorAgentEnableStatus: 'Enabled'
+```
+
+To add a Dev Box pool to an existing project, append to the project's `pools`
+array:
+
+```yaml
+pools:
+  - name: 'fullstack-engineer'
+    imageDefinitionName: 'eshop-fullstack-dev'
+    vmSku: general_i_32c128gb512ssd_v2
+```
+
+### Key Vault Configuration (`security.yaml`)
+
+Controls the Key Vault name (a unique suffix is appended automatically),
+soft-delete retention, and the name of the secret holding the GitHub token:
+
+```yaml
+keyVault:
+  name: contoso # Results in: contoso-<uniqueString>-kv
+  secretName: gha-token # Name of the Key Vault secret
+  enablePurgeProtection: true
+  enableSoftDelete: true
+  softDeleteRetentionInDays: 7
+  enableRbacAuthorization: true
+```
+
+### RBAC Configuration
+
+The DevCenter managed identity is automatically assigned the following roles
+(configured in `devcenter.yaml` under `identity.roleAssignments.devCenter`):
+
+| Role                         | Scope          | Purpose                             |
+| ---------------------------- | -------------- | ----------------------------------- |
+| 🔧 Contributor               | Subscription   | DevCenter resource management       |
+| 🔐 User Access Administrator | Subscription   | RBAC delegation for projects        |
+| 🔑 Key Vault Secrets User    | Resource Group | Read catalog secrets from Key Vault |
+| 🗝️ Key Vault Secrets Officer | Resource Group | Manage catalog secrets in Key Vault |
+
+## Contributing
+
+**Overview**
+
+DevExp-DevBox follows a product-oriented delivery model with Epics, Features,
+and Tasks as the three-tier issue hierarchy. All contributions must follow the
+branch naming conventions, link to a parent issue, and provide validation
+evidence before merge. This ensures every change is traceable and testable.
+
+Infrastructure changes must be idempotent, parameterized, and free of hard-coded
+environment specifics. PowerShell scripts must be compatible with PowerShell 7+
+and provide clear, actionable error messages. Documentation changes must
+accompany infrastructure changes in the same pull request.
+
+### Issue and Branch Conventions
+
+Use GitHub Issue Forms for creating issues (`.github/ISSUE_TEMPLATE/` contains
+`epic.yml`, `feature.yml`, `task.yml`).
+
+Branch naming follows the pattern `<type>/<issue-number>-<short-name>`:
+
+```text
+feature/123-dev-center-baseline
+task/456-add-backend-pool
+fix/789-vnet-address-prefix
+docs/101-update-deployment-guide
+```
+
+### Pull Request Requirements
+
+Every pull request must:
+
+- Reference the issue it closes (e.g., `Closes #123`)
+- Include a summary of changes and test/validation evidence
+- Pass `what-if` or equivalent validation for Bicep changes
+- Update documentation in the same PR as code changes
+
+### Engineering Standards
+
+| Standard          | Requirement                                                                                    |
+| ----------------- | ---------------------------------------------------------------------------------------------- |
+| 🏗️ Bicep Modules  | Must be parameterized, idempotent, and reusable across environments                            |
+| 🔒 Secrets        | Must never be embedded in code or parameters — always use Key Vault references                 |
+| 🐞 Error Handling | PowerShell scripts must fail fast with actionable messages (`$ErrorActionPreference = 'Stop'`) |
+| 📋 Documentation  | Every module must document purpose, inputs, outputs, and troubleshooting notes                 |
+| ✅ Validation     | Feature PRs must include successful deployment evidence from a sandbox subscription            |
+
+### Definition of Done
+
+A Feature PR is considered complete when:
+
+1. All acceptance criteria in the linked issue are met
+2. Bicep changes validated with `az deployment sub what-if`
+3. Successful deployment confirmed in a sandbox subscription
+4. Documentation updated in the same PR
+5. All child tasks closed
+
+## License
+
+This project is licensed under the **MIT License**. See the [`LICENSE`](LICENSE)
+file for full terms.
+
+```text
+MIT License
+Copyright (c) 2025 Evilázaro Alves
+```
+
+This accelerator is provided as-is for adoption and customization by platform
+engineering teams. Contributions are welcome under the same license terms.
