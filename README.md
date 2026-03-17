@@ -212,7 +212,8 @@ The following steps deploy a complete Dev Box environment using default settings
 from `infra/settings/workload/devcenter.yaml` and
 `infra/settings/resourceOrganization/azureResources.yaml`.
 
-> [!IMPORTANT] Before running `azd up`, update the Azure AD group object IDs in
+> [!IMPORTANT]  
+> Before running `azd up`, update the Azure AD group object IDs in
 > `infra/settings/workload/devcenter.yaml`. The placeholder `azureADGroupId`
 > values under `identity.roleAssignments.orgRoleTypes` and each project's
 > `identity.roleAssignments` must be replaced with real Entra ID group object
@@ -550,8 +551,8 @@ az ad group show --group "Platform Engineering Team" --query id -o tsv
 az ad group show --group "eShop Engineers" --query id -o tsv
 ```
 
-> [!NOTE] If the Azure AD groups do not yet exist in your tenant, create them
-> first:
+> [!NOTE]  
+> If the Azure AD groups do not yet exist in your tenant, create them first:
 >
 > ```bash
 > az ad group create --display-name "Platform Engineering Team" --mail-nickname PlatformEng
