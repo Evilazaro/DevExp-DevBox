@@ -4,10 +4,10 @@
 
 | #   | Section                                                       | Description                                           |
 | --- | ------------------------------------------------------------- | ----------------------------------------------------- |
-| 1   | [🗒️ Executive Summary](#1-executive-summary)                  | Platform overview, component counts, maturity summary |
+| 1   | [🗒️ Executive Summary](#1-executive-summary)                  | Platform overview, component counts, strategic summary |
 | 2   | [🗺️ Architecture Landscape](#2-architecture-landscape)        | All component types with inventory tables             |
 | 3   | [📐 Architecture Principles](#3-architecture-principles)      | 5 guiding principles evidenced from source            |
-| 4   | [📊 Current State Baseline](#4-current-state-baseline)        | As-is maturity, gap analysis, process flows           |
+| 4   | [📊 Current State Baseline](#4-current-state-baseline)        | As-is gaps, process flows, capability analysis        |
 | 5   | [📦 Component Catalog](#5-component-catalog)                  | Detailed specifications for all 47 components         |
 | 8   | [🔗 Dependencies & Integration](#8-dependencies--integration) | Cross-layer dependencies, alignment matrix            |
 
@@ -25,13 +25,7 @@ reflects a single strategic initiative — the ContosoDevExp platform — organi
 around seven documented business capabilities, two value streams, and a
 structured contribution model that follows a product-oriented delivery approach.
 
-The business architecture demonstrates **Level 3 capability maturity** (Defined
-— standardized, documented processes) across all seven capabilities, with strong
-observable evidence of governance practices through the product-oriented
-delivery model, mandatory labeling rules, docs-as-code policy, and RBAC
-least-privilege enforcement. The primary business gap is the absence of explicit
-KPI measurement systems or dashboards; current KPIs are stated as qualitative
-status indicators rather than quantitatively tracked metrics.
+The business architecture reflects well-defined, standardized practices across all seven capabilities, with strong observable evidence of governance through the product-oriented delivery model, mandatory labeling rules, docs-as-code policy, and RBAC least-privilege enforcement. The primary business gap is the absence of explicit KPI measurement systems or dashboards; current KPIs are stated as qualitative status indicators rather than quantitatively tracked metrics.
 
 ---
 
@@ -42,8 +36,7 @@ status indicators rather than quantitatively tracked metrics.
 The Architecture Landscape catalogs all Business layer components identified
 within the DevExp-DevBox repository, organized across the eleven Business
 Architecture component types. Each component is traceable to a source file
-within the analyzed workspace and scored against the confidence formula (30%
-filename + 25% path + 35% content + 10% cross-reference).
+within the analyzed workspace.
 
 The landscape is organized around a single strategic platform product — the
 ContosoDevExp Developer Experience accelerator — which delivers developer
@@ -56,154 +49,123 @@ Q3=YES, Q4=NO).
 All Azure resource configuration files (`devcenter.yaml`, `azure.yaml`,
 `security.yaml`, `azureResources.yaml`, Bicep modules, scripts) are correctly
 classified as Application/Technology layer and excluded as Business components.
-They appear solely as source evidence in the **Source** column for roles, rules,
-and business objects where the Business intent is observable within their
-content.
+They are referenced as supporting evidence within component descriptions where
+the Business intent is observable in their content.
 
 ### 2.1 🎯 Business Strategy (1)
 
-| Name                                         | Description                                                                                                                                                                                                                                                                                    | Maturity    |
-| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 🎯 Platform Engineering Accelerator Strategy | Production-grade Dev Box platform strategy targeting platform engineering teams to provision cloud-hosted, role-optimized developer workstations on Azure, enforced by configuration-as-code YAML and Azure Developer CLI, aligned with Azure Landing Zone principles and least-privilege RBAC | 3 — Defined |
+| Name                                         | Description
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 🎯 Platform Engineering Accelerator Strategy | Production-grade Dev Box platform strategy targeting platform engineering teams to provision cloud-hosted, role-optimized developer workstations on Azure, enforced by configuration-as-code YAML and Azure Developer CLI, aligned with Azure Landing Zone principles and least-privilege RBAC
 
 ### 2.2 ⚡ Business Capabilities (7)
 
-| Name                                      | Description                                                                                                                                                    | Maturity    |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 🚀 Automated Provisioning                 | Entire Dev Box environment provisioned via `azd provision` with pre-provision hooks; eliminates manual portal configuration                                    | 3 — Defined |
-| 📋 Config-as-Code                         | All resources defined in YAML configuration files (`azureResources.yaml`, `devcenter.yaml`, `security.yaml`); changes require YAML edit and re-deployment only | 3 — Defined |
-| 🔒 Security Management                    | Automated Key Vault provisioning with RBAC authorization, soft-delete protection, and GitHub PAT secure storage                                                | 3 — Defined |
-| 🏢 Landing Zone Alignment                 | Workload, security, and monitoring resource groups follow Azure Landing Zone principles with tag-based governance                                              | 3 — Defined |
-| ⚙️ Role-Specific Workstation Provisioning | Pre-configured Dev Box pools for `backend-engineer` and `frontend-engineer` personas with appropriate VM SKUs                                                  | 3 — Defined |
-| 🌍 Multi-Environment Support              | Dev, Staging, and UAT environment types provisioned per DevCenter project; supports SDLC stage targeting                                                       | 3 — Defined |
-| 📊 Built-in Observability                 | Log Analytics Workspace with AzureActivity solution and diagnostic settings on all Azure resources                                                             | 3 — Defined |
+| Name                                      | Description
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 🚀 Automated Provisioning                 | Entire Dev Box environment provisioned via `azd provision` with pre-provision hooks; eliminates manual portal configuration
+| 📋 Config-as-Code                         | All resources defined in YAML configuration files (`azureResources.yaml`, `devcenter.yaml`, `security.yaml`); changes require YAML edit and re-deployment only
+| 🔒 Security Management                    | Automated Key Vault provisioning with RBAC authorization, soft-delete protection, and GitHub PAT secure storage
+| 🏢 Landing Zone Alignment                 | Workload, security, and monitoring resource groups follow Azure Landing Zone principles with tag-based governance
+| ⚙️ Role-Specific Workstation Provisioning | Pre-configured Dev Box pools for `backend-engineer` and `frontend-engineer` personas with appropriate VM SKUs
+| 🌍 Multi-Environment Support              | Dev, Staging, and UAT environment types provisioned per DevCenter project; supports SDLC stage targeting
+| 📊 Built-in Observability                 | Log Analytics Workspace with AzureActivity solution and diagnostic settings on all Azure resources
 
 ### 2.3 🌊 Value Streams (2)
 
-| Name                                  | Description                                                                                                                                                                                               | Maturity    |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 🌊 Developer Onboarding Value Stream  | End-to-end value delivery from zero developer tooling to fully provisioned, role-specific Dev Box workstation: Platform Engineer configures → azd provisions → Developers self-serve Dev Boxes via portal | 3 — Defined |
-| 🚀 Platform Provisioning Value Stream | Automated infrastructure delivery flow: authenticate → create azd environment → update configuration → `azd provision` → verify resources; orchestrated via pre-provision hooks                           | 3 — Defined |
+| Name                                  | Description
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 🌊 Developer Onboarding Value Stream  | End-to-end value delivery from zero developer tooling to fully provisioned, role-specific Dev Box workstation: Platform Engineer configures → azd provisions → Developers self-serve Dev Boxes via portal
+| 🚀 Platform Provisioning Value Stream | Automated infrastructure delivery flow: authenticate → create azd environment → update configuration → `azd provision` → verify resources; orchestrated via pre-provision hooks
 
 ### 2.4 🔄 Business Processes (2)
 
-| Name                    | Description                                                                                                                                                                                        | Maturity    |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 🔄 Provisioning Process | Five-step deployment process: (1) Authenticate with Azure/GitHub CLI, (2) Create azd environment, (3) Update YAML configuration, (4) Run `azd provision`, (5) Verify and access deployed resources | 3 — Defined |
-| 🤝 Contribution Process | Product-oriented delivery workflow: Epic → Feature → Task hierarchy with mandatory labeling, linking rules, branch naming conventions, and PR review requirements                                  | 3 — Defined |
+| Name                    | Description
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 🔄 Provisioning Process | Five-step deployment process: (1) Authenticate with Azure/GitHub CLI, (2) Create azd environment, (3) Update YAML configuration, (4) Run `azd provision`, (5) Verify and access deployed resources
+| 🤝 Contribution Process | Product-oriented delivery workflow: Epic → Feature → Task hierarchy with mandatory labeling, linking rules, branch naming conventions, and PR review requirements
 
 ### 2.5 🛎️ Business Services (3)
 
-| Name                              | Description                                                                                                                                          | Maturity    |
-| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 🚀 Dev Box Accelerator Service    | Primary platform service delivering standardized developer workstation provisioning with security guardrails; consumed by platform engineering teams | 3 — Defined |
-| 🌍 Environment Management Service | Service managing dev/staging/UAT lifecycle across DevCenter projects; enables SDLC-aligned deployment targeting                                      | 3 — Defined |
-| 📚 Catalog Management Service     | GitHub-backed catalog service providing image definitions and custom task repositories; enables catalog-backed Dev Box pool images                   | 3 — Defined |
+| Name                              | Description
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------
+| 🚀 Dev Box Accelerator Service    | Primary platform service delivering standardized developer workstation provisioning with security guardrails; consumed by platform engineering teams
+| 🌍 Environment Management Service | Service managing dev/staging/UAT lifecycle across DevCenter projects; enables SDLC-aligned deployment targeting
+| 📚 Catalog Management Service     | GitHub-backed catalog service providing image definitions and custom task repositories; enables catalog-backed Dev Box pool images
 
 ### 2.6 🏭 Business Functions (3)
 
-| Name                                   | Description                                                                                                                                                                                        | Maturity       |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| 🏗️ Platform Engineering Function       | Organizational function responsible for designing, deploying, and operating the Dev Box platform; owns all provisioning and configuration decisions                                                | 3 — Defined    |
-| ⚙️ Infrastructure Automation Function  | Technical function responsible for developing and maintaining parameterized, idempotent, reusable Bicep IaC modules and automation scripts                                                         | 3 — Defined    |
-| 📝 Documentation & Governance Function | Function enforcing docs-as-code policy, maintaining architecture documentation, and ensuring every module/script has purpose, inputs/outputs, usage, and troubleshooting documented in the same PR | 2 — Repeatable |
+| Name                                   | Description
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 🏗️ Platform Engineering Function       | Organizational function responsible for designing, deploying, and operating the Dev Box platform; owns all provisioning and configuration decisions
+| ⚙️ Infrastructure Automation Function  | Technical function responsible for developing and maintaining parameterized, idempotent, reusable Bicep IaC modules and automation scripts
+| 📝 Documentation & Governance Function | Function enforcing docs-as-code policy, maintaining architecture documentation, and ensuring every module/script has purpose, inputs/outputs, usage, and troubleshooting documented in the same PR
 
-> **Confidence Justification (N-4)**: Business Functions (Platform Engineering,
-> Infrastructure Automation, Documentation & Governance) receive confidence
-> scores of 0.67–0.69 because the repository type (IaC accelerator) lacks
-> dedicated `/business/functions/` documentation paths. These functions are
-> clearly inferable from `CONTRIBUTING.md` which explicitly defines
-> organizational responsibilities and standards. Included per N-4 with explicit
-> justification: functions are directly observable from the product-oriented
-> delivery model and engineering standards sections; no fabrication required.
 
 ### 2.7 👥 Business Roles & Actors (6)
 
-| Name                                       | Description                                                                                                                                       | Maturity       |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| 👤 Platform Engineer                       | Primary actor who executes `azd provision`, manages YAML configuration, authenticates with Azure and GitHub CLI, and owns the deployment pipeline | 3 — Defined    |
-| 🏢 Dev Manager (Platform Engineering Team) | Azure AD group role with DevCenter Project Admin scope; configures Dev Box definitions, oversees project-level deployment settings                | 3 — Defined    |
-| 🧑‍💻 Backend Developer                       | Engineer persona consuming `backend-engineer` Dev Box pool (32 vCPU, 128 GB RAM, 512 GB SSD); member of eShop Engineers Azure AD group            | 3 — Defined    |
-| 🎨 Frontend Developer                      | Engineer persona consuming `frontend-engineer` Dev Box pool (16 vCPU, 64 GB RAM, 256 GB SSD); member of eShop Engineers Azure AD group            | 3 — Defined    |
-| 👥 eShop Engineers Team                    | Azure AD security group holding Contributor, Dev Box User, and Deployment Environment User RBAC roles scoped to the eShop DevCenter project       | 3 — Defined    |
-| 🔒 Security / Compliance Role              | Review actor responsible for approving security-relevant infrastructure changes as defined in the PR template checklist                           | 2 — Repeatable |
+| Name                                       | Description
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------
+| 👤 Platform Engineer                       | Primary actor who executes `azd provision`, manages YAML configuration, authenticates with Azure and GitHub CLI, and owns the deployment pipeline
+| 🏢 Dev Manager (Platform Engineering Team) | Azure AD group role with DevCenter Project Admin scope; configures Dev Box definitions, oversees project-level deployment settings
+| 🧑‍💻 Backend Developer                       | Engineer persona consuming `backend-engineer` Dev Box pool (32 vCPU, 128 GB RAM, 512 GB SSD); member of eShop Engineers Azure AD group
+| 🎨 Frontend Developer                      | Engineer persona consuming `frontend-engineer` Dev Box pool (16 vCPU, 64 GB RAM, 256 GB SSD); member of eShop Engineers Azure AD group
+| 👥 eShop Engineers Team                    | Azure AD security group holding Contributor, Dev Box User, and Deployment Environment User RBAC roles scoped to the eShop DevCenter project
+| 🔒 Security / Compliance Role              | Review actor responsible for approving security-relevant infrastructure changes as defined in the PR template checklist
 
 ### 2.8 📏 Business Rules (6)
 
-| Name                                    | Description                                                                                                                                                                                                                | Maturity    |
-| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 🏷️ Issue Labeling Rule                  | Every GitHub issue MUST carry: a `type:` label (epic/feature/task), at least one `area:` label, a `priority:` label (p0/p1/p2), and a `status:` label                                                                      | 3 — Defined |
-| 🔗 Issue Linking Rule                   | Every Feature MUST reference its parent Epic; every Task MUST reference its parent Feature; Epics must maintain a child issues list                                                                                        | 3 — Defined |
-| ⚙️ Infrastructure Parameterization Rule | All Bicep modules MUST be parameterized (no hard-coded environment values), idempotent, and reusable across environments; no secrets in code or parameters                                                                 | 3 — Defined |
-| 📝 Docs-as-Code Rule                    | Documentation MUST be updated in the same PR as code changes; every module/script MUST document purpose, inputs/outputs, usage examples, and troubleshooting notes                                                         | 3 — Defined |
-| 🔑 Least-Privilege RBAC Rule            | Role assignments follow principle of least privilege; DevCenter Project Admin, Key Vault Secrets User/Officer, Dev Box User, and Deployment Environment User are the only roles assigned, scoped to minimal required scope | 3 — Defined |
-| 🛡️ Security Governance Rule             | Key Vault MUST have purge protection enabled, soft delete enabled (7-day minimum retention), and RBAC authorization; GitHub PAT tokens MUST be stored as Key Vault secrets, never in environment files or code             | 3 — Defined |
+| Name                                    | Description
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 🏷️ Issue Labeling Rule                  | Every GitHub issue MUST carry: a `type:` label (epic/feature/task), at least one `area:` label, a `priority:` label (p0/p1/p2), and a `status:` label
+| 🔗 Issue Linking Rule                   | Every Feature MUST reference its parent Epic; every Task MUST reference its parent Feature; Epics must maintain a child issues list
+| ⚙️ Infrastructure Parameterization Rule | All Bicep modules MUST be parameterized (no hard-coded environment values), idempotent, and reusable across environments; no secrets in code or parameters
+| 📝 Docs-as-Code Rule                    | Documentation MUST be updated in the same PR as code changes; every module/script MUST document purpose, inputs/outputs, usage examples, and troubleshooting notes
+| 🔑 Least-Privilege RBAC Rule            | Role assignments follow principle of least privilege; DevCenter Project Admin, Key Vault Secrets User/Officer, Dev Box User, and Deployment Environment User are the only roles assigned, scoped to minimal required scope
+| 🛡️ Security Governance Rule             | Key Vault MUST have purge protection enabled, soft delete enabled (7-day minimum retention), and RBAC authorization; GitHub PAT tokens MUST be stored as Key Vault secrets, never in environment files or code
 
 ### 2.9 ⚡ Business Events (5)
 
-| Name                         | Description                                                                                                                                                                     | Maturity       |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| 🚀 Provisioning Requested    | Trigger event: Platform Engineer executes `azd provision`, initiating the pre-provision hook and full deployment pipeline                                                       | 3 — Defined    |
-| ✅ Pre-provision Validation  | Validation event: setUp script verifies CLI tool availability (az, azd, gh), confirms authentication, and writes secrets to azd environment file before Bicep deployment begins | 3 — Defined    |
-| 🔀 PR Merge Event            | Change deployment trigger: code merged to main branch after mandatory checklist validation (problem-first, scope, no breaking changes)                                          | 3 — Defined    |
-| 🏁 Epic Completion Event     | Portfolio milestone: all child Features and Tasks closed within scope; Epic outcome delivered and measurable platform capability is operational                                 | 2 — Repeatable |
-| 🧹 Environment Cleanup Event | Decommission trigger: `cleanSetUp.ps1` invoked to remove all provisioned Azure resources, role assignments, Azure AD app registration, and GitHub secrets                       | 3 — Defined    |
+| Name                         | Description
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 🚀 Provisioning Requested    | Trigger event: Platform Engineer executes `azd provision`, initiating the pre-provision hook and full deployment pipeline
+| ✅ Pre-provision Validation  | Validation event: setUp script verifies CLI tool availability (az, azd, gh), confirms authentication, and writes secrets to azd environment file before Bicep deployment begins
+| 🔀 PR Merge Event            | Change deployment trigger: code merged to main branch after mandatory checklist validation (problem-first, scope, no breaking changes)
+| 🏁 Epic Completion Event     | Portfolio milestone: all child Features and Tasks closed within scope; Epic outcome delivered and measurable platform capability is operational
+| 🧹 Environment Cleanup Event | Decommission trigger: `cleanSetUp.ps1` invoked to remove all provisioned Azure resources, role assignments, Azure AD app registration, and GitHub secrets
 
-> **Confidence Justification (N-4)**: Epic Completion Event (0.68) is included
-> because it is directly documented in `.github/ISSUE_TEMPLATE/epic.yml` as the
-> intended milestone for delivering measurable platform outcomes. The lower
-> score reflects the `.github/` path not matching standard Business layer path
-> patterns; the content clearly documents organizational delivery milestones and
-> is not system implementation.
 
 ### 2.10 🗄️ Business Objects/Entities (8)
 
-| Name                                   | Description                                                                                                                                                                     | Maturity    |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 📦 Dev Box Accelerator (ContosoDevExp) | The primary deployable product artifact; the Azure Developer CLI project named `ContosoDevExp` representing the overall platform product                                        | 3 — Defined |
-| 🏗️ DevCenter Project (eShop)           | Team-scoped workspace object grouping Dev Box pools, catalogs, environment types, and network configuration for the eShop engineering team                                      | 3 — Defined |
-| 🖥️ Dev Box Pool                        | Role-specific VM configuration object defining image definition, VM SKU, and network assignment; instances: `backend-engineer`, `frontend-engineer`                             | 3 — Defined |
-| 🌍 Environment Type                    | Pre-configured deployment target object representing an SDLC stage; instances: `dev`, `staging`, `UAT`                                                                          | 3 — Defined |
-| 📚 Shared Catalog                      | GitHub-backed repository object providing centralized image definitions and custom task definitions for the DevCenter                                                           | 3 — Defined |
-| 👥 Azure AD Group                      | Entra ID security group object used for RBAC assignment; instances: `Platform Engineering Team` (Dev Managers), `eShop Engineers` (project team)                                | 3 — Defined |
-| 🔑 GitHub PAT Token (gha-token)        | Credential object — GitHub Personal Access Token with `repo` scope stored as Azure Key Vault secret `gha-token`; used by DevCenter catalog for GitHub repository authentication | 3 — Defined |
-| 📋 Work Item (Epic / Feature / Task)   | Hierarchical work tracking object representing platform delivery units: Epic (capability outcome) → Feature (deliverable within Epic) → Task (concrete unit of work)            | 3 — Defined |
+| Name                                   | Description
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 📦 Dev Box Accelerator (ContosoDevExp) | The primary deployable product artifact; the Azure Developer CLI project named `ContosoDevExp` representing the overall platform product
+| 🏗️ DevCenter Project (eShop)           | Team-scoped workspace object grouping Dev Box pools, catalogs, environment types, and network configuration for the eShop engineering team
+| 🖥️ Dev Box Pool                        | Role-specific VM configuration object defining image definition, VM SKU, and network assignment; instances: `backend-engineer`, `frontend-engineer`
+| 🌍 Environment Type                    | Pre-configured deployment target object representing an SDLC stage; instances: `dev`, `staging`, `UAT`
+| 📚 Shared Catalog                      | GitHub-backed repository object providing centralized image definitions and custom task definitions for the DevCenter
+| 👥 Azure AD Group                      | Entra ID security group object used for RBAC assignment; instances: `Platform Engineering Team` (Dev Managers), `eShop Engineers` (project team)
+| 🔑 GitHub PAT Token (gha-token)        | Credential object — GitHub Personal Access Token with `repo` scope stored as Azure Key Vault secret `gha-token`; used by DevCenter catalog for GitHub repository authentication
+| 📋 Work Item (Epic / Feature / Task)   | Hierarchical work tracking object representing platform delivery units: Epic (capability outcome) → Feature (deliverable within Epic) → Task (concrete unit of work)
 
 ### 2.11 📈 KPIs & Metrics (4)
 
-| Name                                  | Description                                                                                                                                                         | Maturity       |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| 📈 Feature Availability Rate          | Status indicator for all seven documented capabilities; currently tracked as binary (✅ Stable / ❌ Unavailable) rather than quantitative availability percentage   | 2 — Repeatable |
-| 🚀 Deployment Success Rate            | Observable deployment success tracked via `azd provision` expected output (resource provisioning state); no automated success percentage tracking currently present | 2 — Repeatable |
-| ⏱️ Developer Onboarding Time          | Time-to-first-Dev-Box metric implied by the strategic objective ("onboard developers quickly"); no quantitative target or measurement mechanism documented          | 1 — Initial    |
-| ✅ Definition of Done Completion Rate | Task closure rate measured against Definition of Done criteria defined in task issue templates; currently tracked per-issue, not aggregated                         | 2 — Repeatable |
+| Name                                  | Description
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 📈 Feature Availability Rate          | Status indicator for all seven documented capabilities; currently tracked as binary (✅ Stable / ❌ Unavailable) rather than quantitative availability percentage
+| 🚀 Deployment Success Rate            | Observable deployment success tracked via `azd provision` expected output (resource provisioning state); no automated success percentage tracking currently present
+| ⏱️ Developer Onboarding Time          | Time-to-first-Dev-Box metric implied by the strategic objective ("onboard developers quickly"); no quantitative target or measurement mechanism documented
+| ✅ Definition of Done Completion Rate | Task closure rate measured against Definition of Done criteria defined in task issue templates; currently tracked per-issue, not aggregated
 
-> **Confidence Justification (N-4)**: Developer Onboarding Time (0.68) is
-> included because the strategic objective explicitly states "quickly onboard
-> developers" (`README.md:18`), establishing this as an intended business
-> metric. The absence of quantitative measurement elevates it to KPI _intent_
-> rather than a fully defined KPI; maturity is correctly set to Level 1
-> (Initial/Ad-hoc). Included to document the gap for future KPI definition work.
 
 ### Summary
 
 The Business Architecture landscape of DevExp-DevBox reveals a coherent,
 governance-first platform strategy with 47 components distributed across all 11
 Business Architecture types. Seven business capabilities are all at Level 3
-maturity (Defined), supported by six explicitly documented business rules, six
-actor roles with RBAC alignment, and a structured product-oriented delivery
-model. The average confidence score of 0.74 reflects strong content signal in
-source documentation despite the absence of dedicated business documentation
-directories — a characteristic expected in IaC accelerator repositories.
+supported by six explicitly documented business rules, six actor roles with RBAC
+alignment, and a structured product-oriented delivery model.
 
-The primary gap areas are: (1) KPIs remain at Level 1–2 maturity (Initial to
-Repeatable) with no quantitative measurement infrastructure (no dashboards,
-SLOs, or automated tracking); (2) Value streams are documented but not formally
-modeled as BPMN diagrams; (3) Business Functions lack dedicated organizational
-documentation beyond what can be inferred from `CONTRIBUTING.md`. Recommended
-next steps include establishing a KPI dashboard aligned to the Developer
-Onboarding Time and Deployment Success Rate metrics, and formalizing the value
-stream models using BPMN notation.
+The primary gap areas are: (1) KPIs have no quantitative measurement infrastructure (no dashboards, SLOs, or automated tracking); (2) Value streams are documented but not formally modeled as BPMN diagrams; (3) Business Functions lack dedicated organizational documentation beyond what can be inferred from `CONTRIBUTING.md`. Recommended next steps include establishing a KPI dashboard aligned to the Developer Onboarding Time and Deployment Success Rate metrics, and formalizing the value stream models using BPMN notation.
 
 ---
 
@@ -505,40 +467,38 @@ and resource group tagging in all YAML configuration files.
 
 The Current State Baseline captures the as-is state of the DevExp-DevBox
 Business Architecture as of March 2026, based on observable evidence in the
-source files. All seven business capabilities are at **Level 3 — Defined**
-maturity, meaning processes are standardized and documented but lack
-quantitative measurement (KPIs remain at Level 1–2). The business architecture
-is internally consistent — roles, rules, processes, and capabilities align — but
-shows a capability maturity ceiling at Level 3 due to the absence of automated
-metric collection and continuous improvement practices.
+source files. All seven business capabilities reflect standardized, documented
+practices with clear ownership and consistent governance across the platform.
+The business architecture is internally consistent — roles, rules, processes,
+and capabilities align — though lacking quantitative measurement infrastructure
+for automated metric collection and continuous improvement.
 
 Two value streams are documented: the Developer Onboarding Value Stream and the
-Platform Provisioning Value Stream. Both are at Level 3 maturity with clear
-ownership (Platform Engineer) and defined steps, but neither is formally modeled
-in BPMN notation. The platform's business process topology is simple (two
-primary processes) and well-structured, with the Contribution Process
-introducing governance controls that prevent capability degradation.
+Platform Provisioning Value Stream. Both have clear ownership (Platform Engineer)
+and defined steps, but neither is formally modeled in BPMN notation. The
+platform's business process topology is simple (two primary processes) and
+well-structured, with the Contribution Process introducing governance controls
+that prevent capability degradation.
 
 The primary as-is gaps are: absence of KPI dashboards, no formal SLA/SLO
 definitions for the Dev Box provisioning service, and no quantitative tracking
-of developer onboarding time or deployment success rates. These gaps limit the
-architecture's ability to progress to Level 4 (Measured) maturity.
+of developer onboarding time or deployment success rates.
 
 ---
 
-### 📊 Business Capability Maturity Baseline
+### 📊 Business Capability Gap Analysis
 
-| 🏷️ Capability                             | 🎯 Current Maturity | 🔼 Gap to Level 4                                 |
-| ----------------------------------------- | ------------------- | ------------------------------------------------- |
-| 🚀 Automated Provisioning                 | 🟡 3 — Defined      | Add provisioning SLO + automated success tracking |
-| 📋 Config-as-Code                         | 🟡 3 — Defined      | Add schema linting in CI pipeline                 |
-| 🔒 Security Management                    | 🟡 3 — Defined      | Add secret rotation automation                    |
-| 🏢 Landing Zone Alignment                 | 🟡 3 — Defined      | Add Azure Policy enforcement                      |
-| ⚙️ Role-Specific Workstation Provisioning | 🟡 3 — Defined      | Add pool utilization metrics                      |
-| 🌍 Multi-Environment Support              | 🟡 3 — Defined      | Add environment promotion workflows               |
-| 📊 Built-in Observability                 | 🟡 3 — Defined      | Add custom alerts + runbook automation            |
+| 🏷️ Capability                             | 🔼 Recommended Next Step                          |
+| ----------------------------------------- | ------------------------------------------------- |
+| 🚀 Automated Provisioning                 | Add provisioning SLO + automated success tracking |
+| 📋 Config-as-Code                         | Add schema linting in CI pipeline                 |
+| 🔒 Security Management                    | Add secret rotation automation                    |
+| 🏢 Landing Zone Alignment                 | Add Azure Policy enforcement                      |
+| ⚙️ Role-Specific Workstation Provisioning | Add pool utilization metrics                      |
+| 🌍 Multi-Environment Support              | Add environment promotion workflows               |
+| 📊 Built-in Observability                 | Add custom alerts + runbook automation            |
 
-### 🌡️ Capability Maturity Heatmap
+### 🌡️ Capability Platform Status
 
 ```mermaid
 ---
@@ -699,20 +659,20 @@ flowchart TB
 
 ### Summary
 
-The current state baseline reveals a well-structured Level 3 (Defined) business
-architecture with consistent evidence across all seven capabilities and two
-primary business processes. The platform delivers standardized developer
-workstation provisioning with clear ownership, mandatory governance rules, and
-documented deployment steps — all hallmarks of Defined maturity.
+The current state baseline reveals a well-structured business architecture with
+consistent evidence across all seven capabilities and two primary business
+processes. The platform delivers standardized developer workstation provisioning
+with clear ownership, mandatory governance rules, and documented deployment
+steps.
 
-The primary risks and gaps limiting progression to Level 4 (Measured) are the
-absence of quantitative KPI tracking (Feature Availability Rate and Deployment
-Success Rate are binary indicators, not percentage metrics), no automated secret
-rotation for the GitHub PAT, and the lack of Azure Policy enforcement for tag
-compliance. Prioritized next steps: (1) implement a KPI dashboard using Log
-Analytics custom queries for deployment success and time-to-provision metrics;
-(2) add GitHub Actions workflow for automated PAT rotation using Key Vault event
-triggers; (3) define Azure Policy initiatives for tag compliance enforcement.
+The primary risks and gaps are the absence of quantitative KPI tracking (Feature
+Availability Rate and Deployment Success Rate are binary indicators, not
+percentage metrics), no automated secret rotation for the GitHub PAT, and the
+lack of Azure Policy enforcement for tag compliance. Prioritized next steps:
+(1) implement a KPI dashboard using Log Analytics custom queries for deployment
+success and time-to-provision metrics; (2) add GitHub Actions workflow for
+automated PAT rotation using Key Vault event triggers; (3) define Azure Policy
+initiatives for tag compliance enforcement.
 
 ---
 
@@ -723,19 +683,14 @@ triggers; (3) define Azure Policy initiatives for tag compliance enforcement.
 The Component Catalog provides detailed specifications for each of the 47
 Business layer components discovered in the DevExp-DevBox repository. Components
 are organized across all Business Architecture subsections (5.1–5.11), each with
-expanded attributes: Name, Description, Source, Confidence Score, Maturity
-Level, and Relationships. All components are traceable to source files within
-the analyzed workspace.
+expanded attributes: Name, Description, and Relationships. All components are
+traceable to source files within the analyzed workspace.
 
 This catalog serves as the authoritative reference for Business layer component
 specifications. For high-level summaries and inventory counts, refer to Section
 2 (Architecture Landscape). The catalog's purpose is to document _how_ each
 component functions within the business architecture — its triggers, ownership,
 dependencies, and lifecycle — rather than simply listing its existence.
-
-Components below the 0.70 confidence threshold are included where explicitly
-justified per Constraint N-4; justifications appear inline within the relevant
-subsection.
 
 ---
 
@@ -750,7 +705,6 @@ the DevExp-DevBox platform.
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Platform Engineering Accelerator Strategy                                                                                                                                                                                                                                                                                                                                                          |
 | **📝 Description**   | Production-grade Microsoft Dev Box Accelerator strategy targeting platform engineering teams at Contoso (and similar enterprises) to provision cloud-hosted, role-optimized developer workstations on Azure, driven by configuration-as-code and deployed via Azure Developer CLI. The strategy enforces Azure Landing Zone principles, least-privilege RBAC, and full observability from day one. |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                                                                                                                                                                                                  |
 | **🔗 Relationships** | Enables → All 7 Business Capabilities; Realized by → Platform Provisioning Value Stream; Governed by → Product-Oriented Delivery Principle (P-3)                                                                                                                                                                                                                                                   |
 
 ---
@@ -767,7 +721,6 @@ trigger, and relationship attributes.
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Automated Provisioning                                                                                                                       |
 | **📝 Description**   | Entire Dev Box environment provisioned via `azd provision` with pre-provision hooks; eliminates manual portal configuration                  |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                            |
 | **🔗 Relationships** | Enabled by → Config-as-Code; Monitored by → Built-in Observability; Triggers → Provisioning Requested Event; Executed by → Platform Engineer |
 
 #### 5.2.2 Config-as-Code
@@ -776,7 +729,6 @@ trigger, and relationship attributes.
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Config-as-Code                                                                                                                                                                                                                                  |
 | **📝 Description**   | All Azure resources defined in three YAML configuration files — `devcenter.yaml`, `azureResources.yaml`, `security.yaml` — loaded at deployment time by Bicep modules via `loadYamlContent()`; changes require only YAML edit and re-deployment |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                                               |
 | **🔗 Relationships** | Configures → Automated Provisioning, Security Management, Multi-Environment Support; Enforced by → Infrastructure Parameterization Rule                                                                                                         |
 
 #### 5.2.3 Security Management
@@ -785,7 +737,6 @@ trigger, and relationship attributes.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **🏷️ Name**          | Security Management                                                                                                                                                            |
 | **📝 Description**   | Automated Key Vault provisioning with RBAC authorization, soft-delete protection, purge protection, and secure storage of GitHub PAT tokens; eliminates manual secret handling |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                              |
 | **🔗 Relationships** | Enforces → Least-Privilege RBAC Rule, Security Governance Rule; Manages → GitHub PAT Token (gha-token) object; Supports → Catalog Management Service                           |
 
 #### 5.2.4 Landing Zone Alignment
@@ -794,7 +745,6 @@ trigger, and relationship attributes.
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Landing Zone Alignment                                                                                                                                                                                                      |
 | **📝 Description**   | Workload, security, and monitoring resource groups follow Azure Landing Zone principles; all resources carry mandatory governance tags (`environment`, `division`, `team`, `project`, `costCenter`, `owner`, `landingZone`) |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                           |
 | **🔗 Relationships** | Organizes → DevCenter Project (eShop), Dev Box Pools; Enforces → Azure Landing Zone Alignment Principle (P-5)                                                                                                               |
 
 #### 5.2.5 Role-Specific Workstation Provisioning
@@ -803,7 +753,6 @@ trigger, and relationship attributes.
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Role-Specific Workstation Provisioning                                                                                                                                                                                             |
 | **📝 Description**   | Pre-configured Dev Box pools for `backend-engineer` and `frontend-engineer` personas with role-appropriate VM SKUs (32 vCPU/128 GB for backend, 16 vCPU/64 GB for frontend); image definitions sourced from GitHub project catalog |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                                  |
 | **🔗 Relationships** | Enables → Developer Onboarding Value Stream; Consumes → Dev Box Pool objects; Serves → Backend Developer, Frontend Developer roles                                                                                                 |
 
 #### 5.2.6 Multi-Environment Support
@@ -812,7 +761,6 @@ trigger, and relationship attributes.
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Multi-Environment Support                                                                                                                                                     |
 | **📝 Description**   | Dev, Staging, and UAT environment types provisioned per DevCenter project; supports SDLC-aligned deployment targeting with configurable deployment target IDs per environment |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                             |
 | **🔗 Relationships** | Manages → Environment Type object (dev, staging, UAT); Supports → Role-Specific Workstation Provisioning; Enabled by → Config-as-Code                                         |
 
 #### 5.2.7 Built-in Observability
@@ -821,7 +769,6 @@ trigger, and relationship attributes.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **🏷️ Name**          | Built-in Observability                                                                                                                                                                     |
 | **📝 Description**   | Log Analytics Workspace with AzureActivity solution and diagnostic settings configured on all Azure resources (DevCenter, Key Vault, VNets); provides platform-wide operational visibility |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                          |
 | **🔗 Relationships** | Monitors → Automated Provisioning, Role-Specific Workstation Provisioning; Enables → Deployment Success Rate KPI; Managed by → Infrastructure Automation Function                          |
 
 ---
@@ -837,7 +784,6 @@ DevExp-DevBox platform, from trigger to value delivered.
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Developer Onboarding Value Stream                                                                                                                                                                                                                                                                                |
 | **📝 Description**   | End-to-end value delivery from zero developer tooling to fully provisioned, role-specific Dev Box workstation accessible from the Microsoft Dev Box portal. Flow: Platform Engineer configures YAML → `azd provision` orchestrates → Azure DevCenter deploys → Dev Box Pools provisioned → Developers self-serve |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                                                                                                                |
 | **🔗 Relationships** | Delivered by → Role-Specific Workstation Provisioning capability; Executed by → Platform Engineer role; Enables → Backend Developer, Frontend Developer roles                                                                                                                                                    |
 
 #### 5.3.2 Platform Provisioning Value Stream
@@ -846,7 +792,6 @@ DevExp-DevBox platform, from trigger to value delivered.
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Platform Provisioning Value Stream                                                                                                                                                                                                                        |
 | **📝 Description**   | Automated infrastructure delivery from engineer authentication through complete Azure resource deployment: authenticate (Step 1) → create azd environment (Step 2) → update configuration (Step 3) → `azd provision` (Step 4) → verify resources (Step 5) |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                                                         |
 | **🔗 Relationships** | Depends on → Platform Engineer role; Executes → Provisioning Process; Triggers → Provisioning Requested Event, Pre-provision Validation Event                                                                                                             |
 
 ---
@@ -862,7 +807,6 @@ DevExp-DevBox platform, including trigger, owner, step count, and related rules.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Provisioning Process                                                                                                |
 | **📝 Description**   | Five-step deployment process for provisioning the DevExp-DevBox infrastructure                                      |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                   |
 | **🔗 Relationships** | Owned by → Platform Engineer; Triggers → Provisioning Requested Event; Part of → Platform Provisioning Value Stream |
 
 **Process Steps**:
@@ -885,7 +829,6 @@ Infrastructure Parameterization Rule
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Contribution Process                                                                                                                                  |
 | **📝 Description**   | Product-oriented delivery workflow governing all changes to the platform: Epic definition → Feature scoping → Task implementation → PR review → Merge |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                     |
 | **🔗 Relationships** | Governed by → Documentation & Governance Function; Triggers → PR Merge Event; Enforces → Issue Labeling Rule, Issue Linking Rule, Docs-as-Code Rule   |
 
 **Process Steps**:
@@ -915,7 +858,6 @@ platform provides.
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Dev Box Accelerator Service                                                                                                                                                                                                            |
 | **📝 Description**   | Primary platform service provisioning standardized developer workstations with security guardrails, RBAC controls, and observability — consumed by platform engineering teams to onboard developers without manual infrastructure work |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                                      |
 | **🔗 Relationships** | Delivered by → All 7 Business Capabilities; Consumed by → Platform Engineer, eShop Engineers Team; Realized through → Developer Onboarding Value Stream                                                                                |
 
 #### 5.5.2 Environment Management Service
@@ -924,7 +866,6 @@ platform provides.
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Environment Management Service                                                                                                                                                |
 | **📝 Description**   | Service governing the lifecycle of dev/staging/UAT deployment environments within each DevCenter project; enables SDLC-aligned deployment targeting and environment isolation |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                             |
 | **🔗 Relationships** | Manages → Environment Type entity; Consumed by → eShop Engineers Team; Enabled by → Multi-Environment Support capability                                                      |
 
 #### 5.5.3 Catalog Management Service
@@ -933,7 +874,6 @@ platform provides.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Catalog Management Service                                                                                                                                                      |
 | **📝 Description**   | GitHub-backed catalog service providing centralized, version-controlled image definitions (`devboxImages`) and custom task repositories (`environments`) for DevCenter projects |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                               |
 | **🔗 Relationships** | Manages → Shared Catalog entity; Secured by → Security Management capability (GitHub PAT stored in Key Vault); Governs → Role-Specific Workstation Provisioning capability      |
 
 ---
@@ -943,11 +883,6 @@ platform provides.
 This subsection documents the three Business Functions observable in
 `CONTRIBUTING.md`.
 
-> **Confidence Justification**: Business Functions receive confidence scores of
-> 0.67–0.69. These functions are clearly inferable from `CONTRIBUTING.md`
-> organizational responsibilities and standards; the lower scores reflect the
-> absence of dedicated `/business/functions/` paths in this IaC repository.
-> Included per Constraint N-4 with explicit justification.
 
 #### 5.6.1 Platform Engineering Function
 
@@ -955,7 +890,6 @@ This subsection documents the three Business Functions observable in
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Platform Engineering Function                                                                                                                                                                      |
 | **📝 Description**   | Core organizational function responsible for designing, operating, and governing the DevExp-DevBox platform; owns all provisioning workflows, YAML configuration, and Bicep module decision rights |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                  |
 | **🔗 Relationships** | Executes → Provisioning Process; Led by → Platform Engineer, Dev Manager roles; Delivers → Dev Box Accelerator Service                                                                             |
 
 #### 5.6.2 Infrastructure Automation Function
@@ -964,7 +898,6 @@ This subsection documents the three Business Functions observable in
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Infrastructure Automation Function                                                                                                                                          |
 | **📝 Description**   | Technical function responsible for developing and maintaining parameterized, idempotent, reusable Bicep IaC modules and cross-platform automation scripts (PowerShell/Bash) |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                           |
 | **🔗 Relationships** | Implements → All 7 Business Capabilities; Enforces → Infrastructure Parameterization Rule; Part of → Platform Engineering Function                                          |
 
 #### 5.6.3 Documentation & Governance Function
@@ -973,7 +906,6 @@ This subsection documents the three Business Functions observable in
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **🏷️ Name**          | Documentation & Governance Function                                                                                                                                                                    |
 | **📝 Description**   | Function enforcing docs-as-code policy, maintaining architecture documentation currency, and ensuring every module/script has complete documentation (purpose, inputs/outputs, usage, troubleshooting) |
-| **🎯 Maturity**      | Level 2 — Repeatable                                                                                                                                                                                   |
 | **🔗 Relationships** | Enforces → Docs-as-Code Rule; Governs → Contribution Process; Supports → Platform Engineering Function                                                                                                 |
 
 ---
@@ -989,7 +921,6 @@ assignments and interaction patterns.
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Platform Engineer                                                                                                                                                           |
 | **📝 Description**   | Primary deployment actor who executes `azd provision`, edits YAML configuration files, manages azd environment variables, and performs platform upgrades                    |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                           |
 | **🔗 Relationships** | Executes → Provisioning Process; Triggers → Provisioning Requested Event; Member of → Platform Engineering Function; Requires → Owner/Contributor Azure subscription access |
 
 #### 5.7.2 Dev Manager
@@ -998,7 +929,6 @@ assignments and interaction patterns.
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Dev Manager (Platform Engineering Team)                                                                                                                                                                                 |
 | **📝 Description**   | Azure AD group role holder with DevCenter Project Admin RBAC scope; configures Dev Box definitions and project-level settings. Azure AD Group: `Platform Engineering Team` (ID: `5a1d1455-e771-4c19-aa03-fb4a08418f22`) |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                       |
 | **🔗 Relationships** | Manages → DevCenter Project; Part of → Dev Manager identity; RBAC Role → DevCenter Project Admin (scope: ResourceGroup)                                                                                                 |
 
 #### 5.7.3 Backend Developer
@@ -1007,7 +937,6 @@ assignments and interaction patterns.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **🏷️ Name**          | Backend Developer                                                                                                                                                                                                  |
 | **📝 Description**   | Engineer persona consuming the `backend-engineer` Dev Box pool; allocated a high-spec workstation (32 vCPU, 128 GB RAM, 512 GB SSD) appropriate for backend/server-side development with `eshop-backend-dev` image |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                  |
 | **🔗 Relationships** | Consumes → `backend-engineer` Dev Box Pool; Member of → eShop Engineers Team; Served by → Role-Specific Workstation Provisioning capability                                                                        |
 
 #### 5.7.4 Frontend Developer
@@ -1016,7 +945,6 @@ assignments and interaction patterns.
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Frontend Developer                                                                                                                                                                                         |
 | **📝 Description**   | Engineer persona consuming the `frontend-engineer` Dev Box pool; allocated a standard workstation (16 vCPU, 64 GB RAM, 256 GB SSD) appropriate for frontend/UI development with `eshop-frontend-dev` image |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                          |
 | **🔗 Relationships** | Consumes → `frontend-engineer` Dev Box Pool; Member of → eShop Engineers Team; Served by → Role-Specific Workstation Provisioning capability                                                               |
 
 #### 5.7.5 eShop Engineers Team
@@ -1025,7 +953,6 @@ assignments and interaction patterns.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | eShop Engineers Team                                                                                                                                                                                                      |
 | **📝 Description**   | Azure AD security group (ID: `9d42a792-2d74-441d-8bcb-71009371725f`) holding Contributor, Dev Box User, Deployment Environment User (project scope), and Key Vault Secrets User/Officer (resource group scope) RBAC roles |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                         |
 | **🔗 Relationships** | Contains → Backend Developer, Frontend Developer roles; Assigned to → eShop DevCenter Project; RBAC Roles → Contributor, Dev Box User, Deployment Environment User                                                        |
 
 #### 5.7.6 Security / Compliance Role
@@ -1034,7 +961,6 @@ assignments and interaction patterns.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **🏷️ Name**          | Security / Compliance Role                                                                                                                             |
 | **📝 Description**   | Review actor in the PR process responsible for approving security-relevant infrastructure changes; identified as a distinct persona in the PR template |
-| **🎯 Maturity**      | Level 2 — Repeatable                                                                                                                                   |
 | **🔗 Relationships** | Reviews → PRs with security scope; Enforces → Least-Privilege RBAC Rule, Security Governance Rule; Part of → Documentation & Governance Function       |
 
 ---
@@ -1050,7 +976,6 @@ related components.
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Issue Labeling Rule                                                                                                                                                                                  |
 | **📝 Description**   | Every GitHub issue MUST carry: a `type:` label (epic/feature/task), at least one `area:` label from the approved list, a `priority:` label (p0/p1/p2), and a `status:` label tracking workflow state |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                    |
 | **🔗 Relationships** | Enforces → Contribution Process; Required by → Issue Linking Rule; Governs → Work Item object                                                                                                        |
 
 #### 5.8.2 Issue Linking Rule
@@ -1059,7 +984,6 @@ related components.
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Issue Linking Rule                                                                                                                                                                      |
 | **📝 Description**   | Features MUST reference parent Epic via issue number; Tasks MUST reference parent Feature; Epics maintain a child issues list — ensures complete traceability from outcome to work unit |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                       |
 | **🔗 Relationships** | Enforces → Contribution Process; Depends on → Issue Labeling Rule; Governs → Work Item object (Epic/Feature/Task hierarchy)                                                             |
 
 #### 5.8.3 Infrastructure Parameterization Rule
@@ -1068,7 +992,6 @@ related components.
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Infrastructure Parameterization Rule                                                                                                                                                          |
 | **📝 Description**   | All Bicep modules MUST: be parameterized (no hard-coded environment values), be idempotent (safe for re-runs), be reusable across environments; secrets MUST NOT appear in code or parameters |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                             |
 | **🔗 Relationships** | Governs → Infrastructure Automation Function; Enables → Config-as-Code capability; Enforces → Security Governance Rule                                                                        |
 
 #### 5.8.4 Docs-as-Code Rule
@@ -1077,7 +1000,6 @@ related components.
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Docs-as-Code Rule                                                                                                                                                                               |
 | **📝 Description**   | Documentation MUST be updated in the same PR as code changes; every module/script MUST document: purpose, inputs/outputs, usage examples, and troubleshooting notes — no deferred documentation |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                               |
 | **🔗 Relationships** | Governs → Documentation & Governance Function; Enforced via → PR Merge Event; Supports → Documentation & Governance Function                                                                    |
 
 #### 5.8.5 Least-Privilege RBAC Rule
@@ -1086,7 +1008,6 @@ related components.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **🏷️ Name**          | Least-Privilege RBAC Rule                                                                                                                                                                                                                                                |
 | **📝 Description**   | All role assignments use minimum required RBAC permissions scoped to the smallest applicable Azure scope (ResourceGroup preferred over Subscription); approved roles: DevCenter Project Admin, Key Vault Secrets User/Officer, Dev Box User, Deployment Environment User |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                                                                        |
 | **🔗 Relationships** | Governs → Dev Manager, eShop Engineers Team roles; Enforces → Security Management capability; Required by → Security Governance Rule                                                                                                                                     |
 
 #### 5.8.6 Security Governance Rule
@@ -1095,7 +1016,6 @@ related components.
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Security Governance Rule                                                                                                                                                                                                                                             |
 | **📝 Description**   | Azure Key Vault MUST have purge protection enabled, soft delete with 7-day minimum retention, and RBAC authorization; GitHub PAT tokens MUST be stored exclusively as Key Vault secrets; no plaintext secrets in configuration files, environment variables, or code |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                                                                    |
 | **🔗 Relationships** | Governs → GitHub PAT Token (gha-token) object; Enables → Security Management capability; Enforced by → Least-Privilege RBAC Rule                                                                                                                                     |
 
 ---
@@ -1111,7 +1031,6 @@ business processes in the DevExp-DevBox platform.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **🏷️ Name**          | Provisioning Requested                                                                                                                                       |
 | **📝 Description**   | Initiating trigger event when Platform Engineer executes `azd provision` from the command line, starting the pre-provision hook and full deployment pipeline |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                            |
 | **🔗 Relationships** | Triggered by → Platform Engineer; Starts → Platform Provisioning Value Stream; Results in → Pre-provision Validation Event                                   |
 
 #### 5.9.2 Pre-provision Validation
@@ -1120,7 +1039,6 @@ business processes in the DevExp-DevBox platform.
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Pre-provision Validation                                                                                                                                                                |
 | **📝 Description**   | Validation event firing before Bicep deployment; setUp script verifies CLI tools (az, azd, gh), confirms authentication status, and writes required secrets to the azd environment file |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                       |
 | **🔗 Relationships** | Triggered by → Provisioning Requested; Executed by → setUp.sh / setUp.ps1 (evidence); Validates → Platform Engineer authentication state                                                |
 
 #### 5.9.3 PR Merge Event
@@ -1129,7 +1047,6 @@ business processes in the DevExp-DevBox platform.
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | PR Merge Event                                                                                                                                                                                                 |
 | **📝 Description**   | Change deployment trigger when code is merged to the main branch after mandatory PR checklist validation; gates: problem-first framing, controlled scope, no undocumented breaking changes, required approvals |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                              |
 | **🔗 Relationships** | Triggered by → Contribution Process completion; Enforces → Docs-as-Code Rule; Closes → Work Item (Feature/Task)                                                                                                |
 
 #### 5.9.4 Epic Completion Event
@@ -1138,7 +1055,6 @@ business processes in the DevExp-DevBox platform.
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Epic Completion Event                                                                                                                                       |
 | **📝 Description**   | Portfolio milestone event when all child Features and Tasks within an Epic are closed; signals that a measurable platform capability is now operational     |
-| **🎯 Maturity**      | Level 2 — Repeatable                                                                                                                                        |
 | **🔗 Relationships** | Triggered by → Contribution Process (all child items closed); Results in → new Business Capability; Governed by → Product-Oriented Delivery Principle (P-3) |
 
 #### 5.9.5 Environment Cleanup Event
@@ -1147,7 +1063,6 @@ business processes in the DevExp-DevBox platform.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **🏷️ Name**          | Environment Cleanup Event                                                                                                                                                                        |
 | **📝 Description**   | Decommissioning trigger when `cleanSetUp.ps1` is invoked to remove all provisioned Azure resources, role assignments, Azure AD app registrations, and GitHub secrets from the target environment |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                |
 | **🔗 Relationships** | Triggered by → Platform Engineer; Reverses → Provisioning Requested Event outcomes; Clears → Dev Box Accelerator (ContosoDevExp) deployment                                                      |
 
 ---
@@ -1163,7 +1078,6 @@ attributes and lifecycle information.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Dev Box Accelerator (ContosoDevExp)                                                                                                               |
 | **📝 Description**   | The primary deployable product artifact; the Azure Developer CLI project named `ContosoDevExp` representing the entire platform product lifecycle |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                 |
 | **🔗 Relationships** | Contains → DevCenter Project (eShop), all capabilities; Deployed by → Platform Provisioning Value Stream                                          |
 
 #### 5.10.2 DevCenter Project (eShop)
@@ -1172,7 +1086,6 @@ attributes and lifecycle information.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | DevCenter Project (eShop)                                                                                                                               |
 | **📝 Description**   | Team-scoped workspace object grouping Dev Box pools, catalogs, environment types, and network configuration for the eShop engineering team              |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                       |
 | **🔗 Relationships** | Contains → Dev Box Pool (backend-engineer, frontend-engineer), Environment Type (dev, staging, UAT), Shared Catalog; Assigned to → eShop Engineers Team |
 
 #### 5.10.3 Dev Box Pool
@@ -1181,7 +1094,6 @@ attributes and lifecycle information.
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Dev Box Pool                                                                                                                                                                                          |
 | **📝 Description**   | Role-specific VM configuration object defining image definition, VM SKU, and network assignment; instances: `backend-engineer` (32 vCPU/128 GB/512 GB) and `frontend-engineer` (16 vCPU/64 GB/256 GB) |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                     |
 | **🔗 Relationships** | Part of → DevCenter Project (eShop); Consumed by → Backend Developer, Frontend Developer; Provisioned by → Role-Specific Workstation Provisioning capability                                          |
 
 #### 5.10.4 Environment Type
@@ -1190,7 +1102,6 @@ attributes and lifecycle information.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Environment Type                                                                                                                                              |
 | **📝 Description**   | Pre-configured deployment target representing an SDLC stage; instances: `dev`, `staging`, `UAT`; configurable deployment target ID for subscription targeting |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                             |
 | **🔗 Relationships** | Part of → DevCenter Project (eShop); Managed by → Environment Management Service; Enables → Multi-Environment Support capability                              |
 
 #### 5.10.5 Shared Catalog
@@ -1199,7 +1110,6 @@ attributes and lifecycle information.
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Shared Catalog                                                                                                                                      |
 | **📝 Description**   | GitHub-backed repository object at `microsoft/devcenter-catalog` providing centralized `customTasks` definitions (`./Tasks` path) for the DevCenter |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                   |
 | **🔗 Relationships** | Used by → Azure DevCenter; Secured by → GitHub PAT Token (gha-token); Managed by → Catalog Management Service                                       |
 
 #### 5.10.6 Azure AD Group
@@ -1208,7 +1118,6 @@ attributes and lifecycle information.
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Azure AD Group                                                                                                                                                                                                                                |
 | **📝 Description**   | Entra ID security group used for RBAC assignment; instances: `Platform Engineering Team` (Dev Manager RBAC, ID: `5a1d1455-e771-4c19-aa03-fb4a08418f22`) and `eShop Engineers` (project team RBAC, ID: `9d42a792-2d74-441d-8bcb-71009371725f`) |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                                                             |
 | **🔗 Relationships** | Contains → Dev Manager role, eShop Engineers Team; Enforces → Least-Privilege RBAC Rule; Must exist before → Provisioning Process                                                                                                             |
 
 #### 5.10.7 GitHub PAT Token (gha-token)
@@ -1217,7 +1126,6 @@ attributes and lifecycle information.
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | GitHub PAT Token (gha-token)                                                                                                                                                              |
 | **📝 Description**   | Credential object — GitHub Personal Access Token with `repo` scope stored as Azure Key Vault secret named `gha-token`; retrieved automatically from `gh auth token` if not explicitly set |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                         |
 | **🔗 Relationships** | Stored in → Azure Key Vault; Used by → Shared Catalog, DevCenter Project Catalogs; Governed by → Security Governance Rule                                                                 |
 
 #### 5.10.8 Work Item (Epic / Feature / Task)
@@ -1226,7 +1134,6 @@ attributes and lifecycle information.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Work Item (Epic / Feature / Task)                                                                                                                                                                       |
 | **📝 Description**   | Hierarchical work tracking entity representing platform delivery units: Epic (measurable capability outcome) → Feature (concrete deliverable within Epic) → Task (concrete unit of implementation work) |
-| **🎯 Maturity**      | Level 3 — Defined                                                                                                                                                                                       |
 | **🔗 Relationships** | Governs → Contribution Process; Triggers → Epic Completion Event (on closure); Enforced by → Issue Labeling Rule, Issue Linking Rule                                                                    |
 
 ---
@@ -1243,7 +1150,6 @@ significant investment opportunity in quantitative measurement.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **🏷️ Name**          | Feature Availability Rate                                                                                                                              |
 | **📝 Description**   | Status tracking for all seven documented capabilities; currently binary (✅ Stable / ❌ Unavailable) rather than percentage-based availability metrics |
-| **🎯 Maturity**      | Level 2 — Repeatable                                                                                                                                   |
 | **🔗 Relationships** | Measures → All 7 Business Capabilities; Reported in → README.md Features table; Gap → needs percentage measurement + SLO definition                    |
 
 #### 5.11.2 Deployment Success Rate
@@ -1252,7 +1158,6 @@ significant investment opportunity in quantitative measurement.
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Deployment Success Rate                                                                                                                 |
 | **📝 Description**   | Observable deployment success tracked via `azd provision` expected output; no automated success percentage collection currently present |
-| **🎯 Maturity**      | Level 2 — Repeatable                                                                                                                    |
 | **🔗 Relationships** | Measures → Provisioning Process; Enabled by → Built-in Observability capability; Gap → needs Log Analytics query automation             |
 
 #### 5.11.3 Developer Onboarding Time
@@ -1261,7 +1166,6 @@ significant investment opportunity in quantitative measurement.
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **🏷️ Name**          | Developer Onboarding Time                                                                                                                                                |
 | **📝 Description**   | Time-to-first-Dev-Box metric implied by the strategic objective of "onboarding developers quickly"; no quantitative target or automated measurement mechanism documented |
-| **🎯 Maturity**      | Level 1 — Initial                                                                                                                                                        |
 | **🔗 Relationships** | Measures → Developer Onboarding Value Stream; Strategic goal → reduce time; Gap → needs definition of baseline, target, and measurement                                  |
 
 #### 5.11.4 Definition of Done Completion Rate
@@ -1270,7 +1174,6 @@ significant investment opportunity in quantitative measurement.
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **🏷️ Name**          | Definition of Done Completion Rate                                                                                                                                   |
 | **📝 Description**   | Task closure rate measured against Definition of Done criteria in task issue templates; currently tracked manually per-issue, not aggregated across sprints or epics |
-| **🎯 Maturity**      | Level 2 — Repeatable                                                                                                                                                 |
 | **🔗 Relationships** | Measures → Contribution Process; Governed by → Issue Labeling Rule; Gap → needs aggregated reporting                                                                 |
 
 ---
