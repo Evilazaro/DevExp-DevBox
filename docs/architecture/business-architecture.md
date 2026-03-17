@@ -1,6 +1,19 @@
-# Business Architecture — DevExp-DevBox
+# 🏗️ Business Architecture — DevExp-DevBox
 
-## 1. Executive Summary
+## 📋 Quick Table of Contents
+
+| #   | Section                                                       | Description                                           |
+| --- | ------------------------------------------------------------- | ----------------------------------------------------- |
+| 1   | [🗒️ Executive Summary](#1-executive-summary)                  | Platform overview, component counts, maturity summary |
+| 2   | [🗺️ Architecture Landscape](#2-architecture-landscape)        | All 11 TOGAF component types with inventory tables    |
+| 3   | [📐 Architecture Principles](#3-architecture-principles)      | 5 guiding principles evidenced from source            |
+| 4   | [📊 Current State Baseline](#4-current-state-baseline)        | As-is maturity, gap analysis, process flows           |
+| 5   | [📦 Component Catalog](#5-component-catalog)                  | Detailed specifications for all 47 components         |
+| 8   | [🔗 Dependencies & Integration](#8-dependencies--integration) | Cross-layer dependencies, alignment matrix            |
+
+---
+
+## 1. 🗒️ Executive Summary
 
 ### Overview
 
@@ -22,7 +35,7 @@ status indicators rather than quantitatively tracked metrics.
 
 ---
 
-## 2. Architecture Landscape
+## 2. 🗺️ Architecture Landscape
 
 ### Overview
 
@@ -47,13 +60,13 @@ They appear solely as source evidence in the **Source** column for roles, rules,
 and business objects where the Business intent is observable within their
 content.
 
-### 2.1 Business Strategy (1)
+### 2.1 🎯 Business Strategy (1)
 
 | Name                                      | Description                                                                                                                                                                                                                                                                                    | Maturity    |
 | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | Platform Engineering Accelerator Strategy | Production-grade Dev Box platform strategy targeting platform engineering teams to provision cloud-hosted, role-optimized developer workstations on Azure, enforced by configuration-as-code YAML and Azure Developer CLI, aligned with Azure Landing Zone principles and least-privilege RBAC | 3 — Defined |
 
-### 2.2 Business Capabilities (7)
+### 2.2 ⚡ Business Capabilities (7)
 
 | Name                                   | Description                                                                                                                                                    | Maturity    |
 | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
@@ -65,21 +78,21 @@ content.
 | Multi-Environment Support              | Dev, Staging, and UAT environment types provisioned per DevCenter project; supports SDLC stage targeting                                                       | 3 — Defined |
 | Built-in Observability                 | Log Analytics Workspace with AzureActivity solution and diagnostic settings on all Azure resources                                                             | 3 — Defined |
 
-### 2.3 Value Streams (2)
+### 2.3 🌊 Value Streams (2)
 
 | Name                               | Description                                                                                                                                                                                               | Maturity    |
 | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | Developer Onboarding Value Stream  | End-to-end value delivery from zero developer tooling to fully provisioned, role-specific Dev Box workstation: Platform Engineer configures → azd provisions → Developers self-serve Dev Boxes via portal | 3 — Defined |
 | Platform Provisioning Value Stream | Automated infrastructure delivery flow: authenticate → create azd environment → update configuration → `azd provision` → verify resources; orchestrated via pre-provision hooks                           | 3 — Defined |
 
-### 2.4 Business Processes (2)
+### 2.4 🔄 Business Processes (2)
 
 | Name                 | Description                                                                                                                                                                                        | Maturity    |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | Provisioning Process | Five-step deployment process: (1) Authenticate with Azure/GitHub CLI, (2) Create azd environment, (3) Update YAML configuration, (4) Run `azd provision`, (5) Verify and access deployed resources | 3 — Defined |
 | Contribution Process | Product-oriented delivery workflow: Epic → Feature → Task hierarchy with mandatory labeling, linking rules, branch naming conventions, and PR review requirements                                  | 3 — Defined |
 
-### 2.5 Business Services (3)
+### 2.5 🛎️ Business Services (3)
 
 | Name                           | Description                                                                                                                                          | Maturity    |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
@@ -87,7 +100,7 @@ content.
 | Environment Management Service | Service managing dev/staging/UAT lifecycle across DevCenter projects; enables SDLC-aligned deployment targeting                                      | 3 — Defined |
 | Catalog Management Service     | GitHub-backed catalog service providing image definitions and custom task repositories; enables catalog-backed Dev Box pool images                   | 3 — Defined |
 
-### 2.6 Business Functions (3)
+### 2.6 🏭 Business Functions (3)
 
 | Name                                | Description                                                                                                                                                                                        | Maturity       |
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
@@ -104,7 +117,7 @@ content.
 > justification: functions are directly observable from the product-oriented
 > delivery model and engineering standards sections; no fabrication required.
 
-### 2.7 Business Roles & Actors (6)
+### 2.7 👥 Business Roles & Actors (6)
 
 | Name                                    | Description                                                                                                                                       | Maturity       |
 | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
@@ -115,7 +128,7 @@ content.
 | eShop Engineers Team                    | Azure AD security group holding Contributor, Dev Box User, and Deployment Environment User RBAC roles scoped to the eShop DevCenter project       | 3 — Defined    |
 | Security / Compliance Role              | Review actor responsible for approving security-relevant infrastructure changes as defined in the PR template checklist                           | 2 — Repeatable |
 
-### 2.8 Business Rules (6)
+### 2.8 📏 Business Rules (6)
 
 | Name                                 | Description                                                                                                                                                                                                                | Maturity    |
 | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
@@ -126,7 +139,7 @@ content.
 | Least-Privilege RBAC Rule            | Role assignments follow principle of least privilege; DevCenter Project Admin, Key Vault Secrets User/Officer, Dev Box User, and Deployment Environment User are the only roles assigned, scoped to minimal required scope | 3 — Defined |
 | Security Governance Rule             | Key Vault MUST have purge protection enabled, soft delete enabled (7-day minimum retention), and RBAC authorization; GitHub PAT tokens MUST be stored as Key Vault secrets, never in environment files or code             | 3 — Defined |
 
-### 2.9 Business Events (5)
+### 2.9 ⚡ Business Events (5)
 
 | Name                      | Description                                                                                                                                                                     | Maturity       |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
@@ -143,7 +156,7 @@ content.
 > patterns; the content clearly documents organizational delivery milestones and
 > is not system implementation.
 
-### 2.10 Business Objects/Entities (8)
+### 2.10 🗄️ Business Objects/Entities (8)
 
 | Name                                | Description                                                                                                                                                                     | Maturity    |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
@@ -156,7 +169,7 @@ content.
 | GitHub PAT Token (gha-token)        | Credential object — GitHub Personal Access Token with `repo` scope stored as Azure Key Vault secret `gha-token`; used by DevCenter catalog for GitHub repository authentication | 3 — Defined |
 | Work Item (Epic / Feature / Task)   | Hierarchical work tracking object representing platform delivery units: Epic (capability outcome) → Feature (deliverable within Epic) → Task (concrete unit of work)            | 3 — Defined |
 
-### 2.11 KPIs & Metrics (4)
+### 2.11 📈 KPIs & Metrics (4)
 
 | Name                               | Description                                                                                                                                                         | Maturity       |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
@@ -194,7 +207,7 @@ stream models using BPMN notation.
 
 ---
 
-### Business Capability Map
+### 🗺️ Business Capability Map
 
 ```mermaid
 ---
@@ -270,7 +283,7 @@ flowchart TB
 
 ---
 
-### Developer Onboarding Value Stream
+### 🌊 Developer Onboarding Value Stream
 
 ```mermaid
 ---
@@ -344,7 +357,7 @@ flowchart LR
 
 ---
 
-## 3. Architecture Principles
+## 3. 📐 Architecture Principles
 
 ### Overview
 
@@ -366,7 +379,7 @@ directly visible.
 
 ---
 
-### Principle P-1: Configuration-First Design
+### 📋 Principle P-1: Configuration-First Design
 
 **Statement**: All business and operational decisions are expressed as code in
 YAML configuration files; no manual portal configuration is the target state.
@@ -389,7 +402,7 @@ Config-as-Code capability and all three YAML configuration files
 
 ---
 
-### Principle P-2: Least-Privilege Security by Default
+### 🔒 Principle P-2: Least-Privilege Security by Default
 
 **Statement**: All identity and access management decisions default to the
 minimum privilege required; permissions are additive, not subtractive.
@@ -415,7 +428,7 @@ authorization mode in `devcenter.yaml` and `security.yaml`.
 
 ---
 
-### Principle P-3: Product-Oriented Delivery
+### 🎁 Principle P-3: Product-Oriented Delivery
 
 **Statement**: Platform capabilities are delivered through structured work items
 (Epic → Feature → Task) with defined acceptance criteria and Definition of Done;
@@ -438,7 +451,7 @@ GitHub Issue template hierarchy.
 
 ---
 
-### Principle P-4: Docs-as-Code
+### 📝 Principle P-4: Docs-as-Code
 
 **Statement**: Documentation is a first-class deliverable maintained in the same
 repository and updated in the same PR as the code it describes.
@@ -461,7 +474,7 @@ Documentation standards section.
 
 ---
 
-### Principle P-5: Azure Landing Zone Alignment
+### 🏢 Principle P-5: Azure Landing Zone Alignment
 
 **Statement**: All resource organization, tagging, and governance decisions
 follow Azure Landing Zone principles; deviation requires explicit documented
@@ -486,7 +499,7 @@ and resource group tagging in all YAML configuration files.
 
 ---
 
-## 4. Current State Baseline
+## 4. 📊 Current State Baseline
 
 ### Overview
 
@@ -513,19 +526,19 @@ architecture's ability to progress to Level 4 (Measured) maturity.
 
 ---
 
-### Business Capability Maturity Baseline
+### 📊 Business Capability Maturity Baseline
 
-| Capability                             | Current Maturity | Gap to Level 4                                    |
-| -------------------------------------- | ---------------- | ------------------------------------------------- |
-| Automated Provisioning                 | 3 — Defined      | Add provisioning SLO + automated success tracking |
-| Config-as-Code                         | 3 — Defined      | Add schema linting in CI pipeline                 |
-| Security Management                    | 3 — Defined      | Add secret rotation automation                    |
-| Landing Zone Alignment                 | 3 — Defined      | Add Azure Policy enforcement                      |
-| Role-Specific Workstation Provisioning | 3 — Defined      | Add pool utilization metrics                      |
-| Multi-Environment Support              | 3 — Defined      | Add environment promotion workflows               |
-| Built-in Observability                 | 3 — Defined      | Add custom alerts + runbook automation            |
+| 🏷️ Capability                             | 🎯 Current Maturity | 🔼 Gap to Level 4                                 |
+| ----------------------------------------- | ------------------- | ------------------------------------------------- |
+| 🚀 Automated Provisioning                 | 🟡 3 — Defined      | Add provisioning SLO + automated success tracking |
+| 📋 Config-as-Code                         | 🟡 3 — Defined      | Add schema linting in CI pipeline                 |
+| 🔒 Security Management                    | 🟡 3 — Defined      | Add secret rotation automation                    |
+| 🏢 Landing Zone Alignment                 | 🟡 3 — Defined      | Add Azure Policy enforcement                      |
+| ⚙️ Role-Specific Workstation Provisioning | 🟡 3 — Defined      | Add pool utilization metrics                      |
+| 🌍 Multi-Environment Support              | 🟡 3 — Defined      | Add environment promotion workflows               |
+| 📊 Built-in Observability                 | 🟡 3 — Defined      | Add custom alerts + runbook automation            |
 
-### Capability Maturity Heatmap
+### 🌡️ Capability Maturity Heatmap
 
 ```mermaid
 ---
@@ -588,7 +601,7 @@ flowchart LR
 
 ---
 
-### Provisioning Business Process Flow
+### 🔄 Provisioning Business Process Flow
 
 ```mermaid
 ---
@@ -674,15 +687,15 @@ flowchart TB
 
 ---
 
-### Current State Gap Analysis
+### 🔍 Current State Gap Analysis
 
-| Domain                | Current State                             | Gap                                          | Priority |
-| --------------------- | ----------------------------------------- | -------------------------------------------- | -------- |
-| KPI Measurement       | Qualitative status indicators (✅ Stable) | No quantitative tracking, no dashboards      | High     |
-| Value Stream Modeling | Textual step-by-step documentation        | No BPMN notation, no formal flow modeling    | Medium   |
-| Environment Promotion | Manual environment progression            | No automated promotion workflow              | Medium   |
-| Secret Rotation       | Manual PAT token replacement              | No automated rotation or expiry notification | High     |
-| Azure Policy          | Tag-based governance in YAML              | No Azure Policy enforcement in subscription  | Medium   |
+| 🏷️ Domain                | 📍 Current State                          | ⚠️ Gap                                       | 🔺 Priority |
+| ------------------------ | ----------------------------------------- | -------------------------------------------- | ----------- |
+| 📈 KPI Measurement       | Qualitative status indicators (✅ Stable) | No quantitative tracking, no dashboards      | 🔴 High     |
+| 🌊 Value Stream Modeling | Textual step-by-step documentation        | No BPMN notation, no formal flow modeling    | 🟠 Medium   |
+| 🌍 Environment Promotion | Manual environment progression            | No automated promotion workflow              | 🟠 Medium   |
+| 🔑 Secret Rotation       | Manual PAT token replacement              | No automated rotation or expiry notification | 🔴 High     |
+| 🏢 Azure Policy          | Tag-based governance in YAML              | No Azure Policy enforcement in subscription  | 🟠 Medium   |
 
 ### Summary
 
@@ -703,7 +716,7 @@ triggers; (3) define Azure Policy initiatives for tag compliance enforcement.
 
 ---
 
-## 5. Component Catalog
+## 5. 📦 Component Catalog
 
 ### Overview
 
@@ -726,7 +739,7 @@ subsection.
 
 ---
 
-### 5.1 Business Strategy Specifications
+### 5.1 🎯 Business Strategy Specifications
 
 This subsection documents the single Business Strategy component identified for
 the DevExp-DevBox platform.
@@ -742,7 +755,7 @@ the DevExp-DevBox platform.
 
 ---
 
-### 5.2 Business Capabilities Specifications
+### 5.2 ⚡ Business Capabilities Specifications
 
 This subsection provides detailed specifications for all seven business
 capabilities identified in the DevExp-DevBox platform, each with ownership,
@@ -813,7 +826,7 @@ trigger, and relationship attributes.
 
 ---
 
-### 5.3 Value Streams Specifications
+### 5.3 🌊 Value Streams Specifications
 
 This subsection documents the two business value streams observable in the
 DevExp-DevBox platform, from trigger to value delivered.
@@ -838,7 +851,7 @@ DevExp-DevBox platform, from trigger to value delivered.
 
 ---
 
-### 5.4 Business Processes Specifications
+### 5.4 🔄 Business Processes Specifications
 
 This subsection details the two Business Processes documented for the
 DevExp-DevBox platform, including trigger, owner, step count, and related rules.
@@ -891,7 +904,7 @@ Docs-as-Code Rule; Infrastructure Parameterization Rule
 
 ---
 
-### 5.5 Business Services Specifications
+### 5.5 🛎️ Business Services Specifications
 
 This subsection documents the three Business Services that the DevExp-DevBox
 platform provides.
@@ -925,7 +938,7 @@ platform provides.
 
 ---
 
-### 5.6 Business Functions Specifications
+### 5.6 🏭 Business Functions Specifications
 
 This subsection documents the three Business Functions observable in
 `CONTRIBUTING.md`.
@@ -965,7 +978,7 @@ This subsection documents the three Business Functions observable in
 
 ---
 
-### 5.7 Business Roles & Actors Specifications
+### 5.7 👥 Business Roles & Actors Specifications
 
 This subsection documents all six Business Roles and Actors with RBAC
 assignments and interaction patterns.
@@ -1026,7 +1039,7 @@ assignments and interaction patterns.
 
 ---
 
-### 5.8 Business Rules Specifications
+### 5.8 📏 Business Rules Specifications
 
 This subsection details all six Business Rules with enforcement mechanisms and
 related components.
@@ -1087,7 +1100,7 @@ related components.
 
 ---
 
-### 5.9 Business Events Specifications
+### 5.9 ⚡ Business Events Specifications
 
 This subsection documents the five Business Events that trigger or result from
 business processes in the DevExp-DevBox platform.
@@ -1139,7 +1152,7 @@ business processes in the DevExp-DevBox platform.
 
 ---
 
-### 5.10 Business Objects/Entities Specifications
+### 5.10 🗄️ Business Objects/Entities Specifications
 
 This subsection documents all eight Business Objects/Entities with their
 attributes and lifecycle information.
@@ -1218,7 +1231,7 @@ attributes and lifecycle information.
 
 ---
 
-### 5.11 KPIs & Metrics Specifications
+### 5.11 📈 KPIs & Metrics Specifications
 
 This subsection documents the four KPI and metric constructs observed in the
 DevExp-DevBox platform. All KPIs are at Level 1–2 maturity, indicating
@@ -1262,7 +1275,7 @@ significant investment opportunity in quantitative measurement.
 
 ---
 
-### Business Role Interaction Diagram
+### 👥 Business Role Interaction Diagram
 
 ```mermaid
 ---
@@ -1336,7 +1349,7 @@ flowchart TB
 
 ---
 
-### Business Object Model
+### 🗄️ Business Object Model
 
 ```mermaid
 ---
@@ -1432,7 +1445,7 @@ and unlock capability maturity progression for the broader platform.
 
 ---
 
-## 8. Dependencies & Integration
+## 8. 🔗 Dependencies & Integration
 
 ### Overview
 
@@ -1461,39 +1474,39 @@ objects.
 
 ---
 
-### Cross-Layer Business Dependencies
+### 🔗 Cross-Layer Business Dependencies
 
-| Business Component                     | Depends On (Layer)                      | Dependency Type           | Integration Mechanism                                        |
-| -------------------------------------- | --------------------------------------- | ------------------------- | ------------------------------------------------------------ |
-| Automated Provisioning (Capability)    | azd CLI (Technology)                    | Runtime dependency        | `azure.yaml` pre-provision hook                              |
-| Config-as-Code (Capability)            | Bicep `loadYamlContent()` (Application) | Data dependency           | YAML consumed by Bicep at deployment time                    |
-| Security Management (Capability)       | Azure Key Vault (Technology)            | Service dependency        | Key Vault secrets API via managed identity                   |
-| Landing Zone Alignment (Capability)    | Azure Resource Groups (Technology)      | Organizational dependency | `azureResources.yaml` resource group definitions             |
-| Role-Specific Workstation Provisioning | Azure DevCenter (Technology)            | Service dependency        | DevCenter API via Bicep deployment                           |
-| Built-in Observability (Capability)    | Log Analytics Workspace (Technology)    | Service dependency        | Diagnostic settings API                                      |
-| Dev Manager Role                       | Entra ID (Technology)                   | Identity dependency       | Azure AD group object `5a1d1455-e771-4c19-aa03-fb4a08418f22` |
-| eShop Engineers Team                   | Entra ID (Technology)                   | Identity dependency       | Azure AD group object `9d42a792-2d74-441d-8bcb-71009371725f` |
-| Catalog Management Service             | GitHub (External)                       | External dependency       | GitHub repository via PAT authentication                     |
-| GitHub PAT Token                       | Azure Key Vault (Technology)            | Storage dependency        | Key Vault secret `gha-token`                                 |
-| Contribution Process                   | GitHub Issues / PRs (External)          | Tooling dependency        | GitHub issue templates and PR workflow                       |
-
----
-
-### Capability-to-Technology Alignment Matrix
-
-| Business Capability                    | Application Layer Component                                | Technology Layer                            | Alignment Status |
-| -------------------------------------- | ---------------------------------------------------------- | ------------------------------------------- | ---------------- |
-| Automated Provisioning                 | `infra/main.bicep` (orchestration)                         | Azure Developer CLI, Azure Resource Manager | ✅ Aligned       |
-| Config-as-Code                         | `devcenter.yaml`, `azureResources.yaml`, `security.yaml`   | JSON Schema validation, YAML parser         | ✅ Aligned       |
-| Security Management                    | `src/security/keyVault.bicep`, `src/security/secret.bicep` | Azure Key Vault                             | ✅ Aligned       |
-| Landing Zone Alignment                 | `src/connectivity/resourceGroup.bicep`                     | Azure Resource Groups                       | ✅ Aligned       |
-| Role-Specific Workstation Provisioning | `src/workload/project/projectPool.bicep`                   | Azure DevCenter Dev Box service             | ✅ Aligned       |
-| Multi-Environment Support              | `src/workload/core/environmentType.bicep`                  | Azure DevCenter Environment Types           | ✅ Aligned       |
-| Built-in Observability                 | `src/management/logAnalytics.bicep`                        | Azure Monitor Log Analytics                 | ✅ Aligned       |
+| 🏷️ Business Component                     | 🔌 Depends On (Layer)                      | 🔗 Dependency Type        | ⚙️ Integration Mechanism                                     |
+| ----------------------------------------- | ------------------------------------------ | ------------------------- | ------------------------------------------------------------ |
+| 🚀 Automated Provisioning (Capability)    | ⚙️ azd CLI (Technology)                    | Runtime dependency        | `azure.yaml` pre-provision hook                              |
+| 📋 Config-as-Code (Capability)            | 📄 Bicep `loadYamlContent()` (Application) | Data dependency           | YAML consumed by Bicep at deployment time                    |
+| 🔒 Security Management (Capability)       | 🔑 Azure Key Vault (Technology)            | Service dependency        | Key Vault secrets API via managed identity                   |
+| 🏢 Landing Zone Alignment (Capability)    | ☁️ Azure Resource Groups (Technology)      | Organizational dependency | `azureResources.yaml` resource group definitions             |
+| ⚙️ Role-Specific Workstation Provisioning | 🖥️ Azure DevCenter (Technology)            | Service dependency        | DevCenter API via Bicep deployment                           |
+| 📊 Built-in Observability (Capability)    | 📊 Log Analytics Workspace (Technology)    | Service dependency        | Diagnostic settings API                                      |
+| 🏢 Dev Manager Role                       | 🔐 Entra ID (Technology)                   | Identity dependency       | Azure AD group object `5a1d1455-e771-4c19-aa03-fb4a08418f22` |
+| 👥 eShop Engineers Team                   | 🔐 Entra ID (Technology)                   | Identity dependency       | Azure AD group object `9d42a792-2d74-441d-8bcb-71009371725f` |
+| 🛎️ Catalog Management Service             | 🐱 GitHub (External)                       | External dependency       | GitHub repository via PAT authentication                     |
+| 🔑 GitHub PAT Token                       | 🔑 Azure Key Vault (Technology)            | Storage dependency        | Key Vault secret `gha-token`                                 |
+| 🔄 Contribution Process                   | 🐱 GitHub Issues / PRs (External)          | Tooling dependency        | GitHub issue templates and PR workflow                       |
 
 ---
 
-### Integration Dependency Diagram
+### 🔧 Capability-to-Technology Alignment Matrix
+
+| ⚡ Business Capability                    | 📄 Application Layer Component                             | ☁️ Technology Layer                         | 🔗 Alignment Status |
+| ----------------------------------------- | ---------------------------------------------------------- | ------------------------------------------- | ------------------- |
+| 🚀 Automated Provisioning                 | `infra/main.bicep` (orchestration)                         | Azure Developer CLI, Azure Resource Manager | ✅ Aligned          |
+| 📋 Config-as-Code                         | `devcenter.yaml`, `azureResources.yaml`, `security.yaml`   | JSON Schema validation, YAML parser         | ✅ Aligned          |
+| 🔒 Security Management                    | `src/security/keyVault.bicep`, `src/security/secret.bicep` | Azure Key Vault                             | ✅ Aligned          |
+| 🏢 Landing Zone Alignment                 | `src/connectivity/resourceGroup.bicep`                     | Azure Resource Groups                       | ✅ Aligned          |
+| ⚙️ Role-Specific Workstation Provisioning | `src/workload/project/projectPool.bicep`                   | Azure DevCenter Dev Box service             | ✅ Aligned          |
+| 🌍 Multi-Environment Support              | `src/workload/core/environmentType.bicep`                  | Azure DevCenter Environment Types           | ✅ Aligned          |
+| 📊 Built-in Observability                 | `src/management/logAnalytics.bicep`                        | Azure Monitor Log Analytics                 | ✅ Aligned          |
+
+---
+
+### 🔗 Integration Dependency Diagram
 
 ```mermaid
 ---
@@ -1574,15 +1587,15 @@ flowchart LR
 
 ---
 
-### External Dependencies
+### 🌐 External Dependencies
 
-| Dependency                             | Type                    | Owner                     | Integration Risk                                             | Mitigation                                                                             |
-| -------------------------------------- | ----------------------- | ------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
-| Microsoft Entra ID (Azure AD)          | Identity provider       | Contoso IT / Azure tenant | HIGH — pre-existing AD groups must exist before provisioning | Document group IDs in `devcenter.yaml`; validate group existence in pre-provision hook |
-| GitHub (`microsoft/devcenter-catalog`) | External catalog source | Microsoft (public)        | MEDIUM — public repository availability                      | PAT token stored in Key Vault; `catalogItemSyncEnableStatus: Enabled` retries          |
-| GitHub (`Evilazaro/eShop`)             | Private project catalog | eShop Team                | HIGH — private repo requires valid PAT                       | Platform Engineer must maintain PAT currency; Key Vault soft-delete provides recovery  |
-| Azure Developer CLI (azd)              | Deployment toolchain    | Microsoft                 | LOW — version-pinned at ≥1.10.0                              | Documented minimum version; pre-provision validation checks version                    |
-| Azure Subscription (Owner/Contributor) | Runtime environment     | Contoso Cloud Team        | HIGH — subscription access required                          | Pre-documented requirement; deployment fails cleanly without access                    |
+| 🔌 Dependency                             | 🏷️ Type                 | 👤 Owner                  | ⚠️ Integration Risk                                             | 🛡️ Mitigation                                                                          |
+| ----------------------------------------- | ----------------------- | ------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| 🔐 Microsoft Entra ID (Azure AD)          | Identity provider       | Contoso IT / Azure tenant | 🔴 HIGH — pre-existing AD groups must exist before provisioning | Document group IDs in `devcenter.yaml`; validate group existence in pre-provision hook |
+| 🐱 GitHub (`microsoft/devcenter-catalog`) | External catalog source | Microsoft (public)        | 🟠 MEDIUM — public repository availability                      | PAT token stored in Key Vault; `catalogItemSyncEnableStatus: Enabled` retries          |
+| 🐱 GitHub (`Evilazaro/eShop`)             | Private project catalog | eShop Team                | 🔴 HIGH — private repo requires valid PAT                       | Platform Engineer must maintain PAT currency; Key Vault soft-delete provides recovery  |
+| ⚙️ Azure Developer CLI (azd)              | Deployment toolchain    | Microsoft                 | 🟢 LOW — version-pinned at ≥1.10.0                              | Documented minimum version; pre-provision validation checks version                    |
+| ☁️ Azure Subscription (Owner/Contributor) | Runtime environment     | Contoso Cloud Team        | 🔴 HIGH — subscription access required                          | Pre-documented requirement; deployment fails cleanly without access                    |
 
 ### Summary
 
