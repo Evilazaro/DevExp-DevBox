@@ -43,9 +43,9 @@ files.
 
 The accelerator follows a layered Infrastructure as Code architecture: a
 platform engineer runs `azd provision`, which triggers the `preprovision` hook
-in `azure.yaml` (running `setUp.sh` on Linux/macOS or `setUp.ps1` on Windows
-to validate tools, authenticate, and write secrets), then deploys Bicep modules
-at subscription scope to create resource groups, security services, monitoring
+in `azure.yaml` (running `setUp.sh` on Linux/macOS or `setUp.ps1` on Windows to
+validate tools, authenticate, and write secrets), then deploys Bicep modules at
+subscription scope to create resource groups, security services, monitoring
 infrastructure, and the Azure DevCenter with its projects.
 
 ```mermaid
@@ -200,11 +200,12 @@ for RBAC assignments.
 | 🌐 PowerShell          | PowerShell for Windows deployment via `setUp.ps1`                               | ≥ 7.0           |
 | 📦 Bash                | Bash for Linux/macOS deployment via `setUp.sh`                                  | ≥ 5.0           |
 
-> [!WARNING] The `KEY_VAULT_SECRET` environment variable must be set to a valid
-> GitHub Personal Access Token (PAT) with `repo` scope before running
-> `azd provision`. If not set, `setUp.sh` / `setUp.ps1` will attempt to retrieve
-> it automatically via `gh auth token`. This token is stored in Azure Key Vault
-> and used by the DevCenter catalog to authenticate to GitHub repositories.
+> [!WARNING]  
+> The `KEY_VAULT_SECRET` environment variable must be set to a valid GitHub
+> Personal Access Token (PAT) with `repo` scope before running `azd provision`.
+> If not set, `setUp.sh` / `setUp.ps1` will attempt to retrieve it automatically
+> via `gh auth token`. This token is stored in Azure Key Vault and used by the
+> DevCenter catalog to authenticate to GitHub repositories.
 
 ## Getting Started
 
@@ -268,10 +269,10 @@ The full set of azd environment variables consumed by
 | 🔑 `KEY_VAULT_SECRET`        | GitHub PAT or Azure DevOps PAT stored as `gha-token` in Key Vault | `azd env set KEY_VAULT_SECRET <token>` or auto-retrieved via `gh auth token` |
 | 🔌 `SOURCE_CONTROL_PLATFORM` | Source control provider: `github` (default) or `adogit`           | `azd env set SOURCE_CONTROL_PLATFORM adogit`                                 |
 
-> [!NOTE] `KEY_VAULT_SECRET` is optional at this stage. If not set, the
-> `preprovision` hook calls `gh auth token` automatically to retrieve it from
-> the authenticated GitHub CLI session, then writes it to
-> `.azure/<env-name>/.env`.
+> [!NOTE]  
+> `KEY_VAULT_SECRET` is optional at this stage. If not set, the `preprovision`
+> hook calls `gh auth token` automatically to retrieve it from the authenticated
+> GitHub CLI session, then writes it to `.azure/<env-name>/.env`.
 
 ### Step 3 — Update Configuration Files
 
@@ -391,11 +392,11 @@ registration, and the `AZURE_CREDENTIALS` GitHub secret:
 
 ## Configuration
 
-All DevExp-DevBox configuration lives in three YAML files under `infra/settings/`.
-They are loaded at deployment time by `infra/main.bicep` using
-`loadYamlContent()` — no code changes are required to adjust DevCenter topology,
-project layout, or Key Vault settings. Edit a YAML file and run `azd provision`
-to apply changes; Bicep deployments are idempotent.
+All DevExp-DevBox configuration lives in three YAML files under
+`infra/settings/`. They are loaded at deployment time by `infra/main.bicep`
+using `loadYamlContent()` — no code changes are required to adjust DevCenter
+topology, project layout, or Key Vault settings. Edit a YAML file and run
+`azd provision` to apply changes; Bicep deployments are idempotent.
 
 ```text
 infra/settings/
@@ -418,7 +419,7 @@ to co-locate those resources in the workload RG (the default).
 ```yaml
 workload:
   create: true
-  name: devexp-workload          # Actual RG = devexp-workload-<env>-<region>-RG
+  name: devexp-workload # Actual RG = devexp-workload-<env>-<region>-RG
   description: prodExp
   tags:
     environment: dev
@@ -430,20 +431,20 @@ workload:
     resources: DevCenter
 
 security:
-  create: false                  # true = separate <name>-security-RG
+  create: false # true = separate <name>-security-RG
   name: devexp-workload
 
 monitoring:
-  create: false                  # true = separate <name>-monitoring-RG
+  create: false # true = separate <name>-monitoring-RG
   name: devexp-workload
 ```
 
-| Field | Type | Description |
-| --- | --- | --- |
-| 🏗️ `workload.create` | bool | Always `true` — main workload RG is always provisioned |
-| 🔒 `security.create` | bool | `false` deploys Key Vault into the workload RG |
-| 📊 `monitoring.create` | bool | `false` deploys Log Analytics into the workload RG |
-| 🏷️ `*.name` | string | RG base name; actual name appends `<ENV>-<region>-RG` |
+| Field                  | Type   | Description                                            |
+| ---------------------- | ------ | ------------------------------------------------------ |
+| 🏗️ `workload.create`   | bool   | Always `true` — main workload RG is always provisioned |
+| 🔒 `security.create`   | bool   | `false` deploys Key Vault into the workload RG         |
+| 📊 `monitoring.create` | bool   | `false` deploys Log Analytics into the workload RG     |
+| 🏷️ `*.name`            | string | RG base name; actual name appends `<ENV>-<region>-RG`  |
 
 ---
 
@@ -455,26 +456,26 @@ field is a prefix — deployed name is `<name>-<unique>-kv` for global uniquenes
 ```yaml
 create: true
 keyVault:
-  name: contoso                  # Deployed as contoso-<unique>-kv
+  name: contoso # Deployed as contoso-<unique>-kv
   description: Development Environment Key Vault
-  secretName: gha-token          # Secret name (matches KEY_VAULT_SECRET azd variable)
+  secretName: gha-token # Secret name (matches KEY_VAULT_SECRET azd variable)
   enablePurgeProtection: true
   enableSoftDelete: true
-  softDeleteRetentionInDays: 7   # Minimum 7 days per Azure policy
-  enableRbacAuthorization: true  # RBAC access control (not legacy access policies)
+  softDeleteRetentionInDays: 7 # Minimum 7 days per Azure policy
+  enableRbacAuthorization: true # RBAC access control (not legacy access policies)
   tags:
     environment: dev
     division: Platforms
     team: DevExP
 ```
 
-| Field | Type | Description |
-| --- | --- | --- |
-| 🏷️ `name` | string | Key Vault name prefix |
-| 🔑 `secretName` | string | Name of the secret holding the PAT (`gha-token`) |
-| 🔒 `enablePurgeProtection` | bool | Block permanent deletion; required for compliance |
-| 🗑️ `softDeleteRetentionInDays` | int | Days before soft-deleted vault/secrets are purged (min: 7) |
-| 🛡️ `enableRbacAuthorization` | bool | `true` = roles control access; `false` = legacy access policies |
+| Field                          | Type   | Description                                                     |
+| ------------------------------ | ------ | --------------------------------------------------------------- |
+| 🏷️ `name`                      | string | Key Vault name prefix                                           |
+| 🔑 `secretName`                | string | Name of the secret holding the PAT (`gha-token`)                |
+| 🔒 `enablePurgeProtection`     | bool   | Block permanent deletion; required for compliance               |
+| 🗑️ `softDeleteRetentionInDays` | int    | Days before soft-deleted vault/secrets are purged (min: 7)      |
+| 🛡️ `enableRbacAuthorization`   | bool   | `true` = roles control access; `false` = legacy access policies |
 
 ---
 
@@ -487,17 +488,17 @@ resources: identity, catalogs, environment types, and projects.
 
 ```yaml
 name: devexp-devcenter
-catalogItemSyncEnableStatus: Enabled      # Auto-sync catalog items when repos update
+catalogItemSyncEnableStatus: Enabled # Auto-sync catalog items when repos update
 microsoftHostedNetworkEnableStatus: Enabled
 installAzureMonitorAgentEnableStatus: Enabled
 ```
 
-| Field | Values | Description |
-| --- | --- | --- |
-| 🏷️ `name` | string | DevCenter resource name |
-| 🔄 `catalogItemSyncEnableStatus` | `Enabled` / `Disabled` | Auto-synchronize catalog items when the backing repo branch changes |
-| 🌐 `microsoftHostedNetworkEnableStatus` | `Enabled` / `Disabled` | Allow Dev Boxes on Microsoft-hosted network alongside custom VNets |
-| 📊 `installAzureMonitorAgentEnableStatus` | `Enabled` / `Disabled` | Install Azure Monitor Agent on all Dev Boxes at creation time |
+| Field                                     | Values                 | Description                                                         |
+| ----------------------------------------- | ---------------------- | ------------------------------------------------------------------- |
+| 🏷️ `name`                                 | string                 | DevCenter resource name                                             |
+| 🔄 `catalogItemSyncEnableStatus`          | `Enabled` / `Disabled` | Auto-synchronize catalog items when the backing repo branch changes |
+| 🌐 `microsoftHostedNetworkEnableStatus`   | `Enabled` / `Disabled` | Allow Dev Boxes on Microsoft-hosted network alongside custom VNets  |
+| 📊 `installAzureMonitorAgentEnableStatus` | `Enabled` / `Disabled` | Install Azure Monitor Agent on all Dev Boxes at creation time       |
 
 #### DevCenter Identity and Role Assignments
 
@@ -512,29 +513,30 @@ identity:
     devCenter:
       - name: Contributor
         id: b24988ac-6180-42a0-ab88-20f7382dd24c
-        scope: Subscription          # Create project resources
+        scope: Subscription # Create project resources
       - name: User Access Administrator
         id: 18d7d88d-d35e-4fb5-a5c3-7773c20a72d9
-        scope: Subscription          # Delegate roles to project identities
+        scope: Subscription # Delegate roles to project identities
       - name: Key Vault Secrets User
         id: 4633458b-17de-408a-b874-0445c86b69e6
-        scope: ResourceGroup         # Read catalog PAT secrets
+        scope: ResourceGroup # Read catalog PAT secrets
       - name: Key Vault Secrets Officer
         id: b86a8fe4-44ce-4948-aee5-eccb2c155cd7
-        scope: ResourceGroup         # Rotate catalog PAT secrets
+        scope: ResourceGroup # Rotate catalog PAT secrets
     orgRoleTypes:
       - type: DevManager
-        azureADGroupId: 5a1d1455-XXXX-XXXX-XXXX-XXXXXXXXXXXX   # ← Replace
+        azureADGroupId: 5a1d1455-XXXX-XXXX-XXXX-XXXXXXXXXXXX # ← Replace
         azureADGroupName: Platform Engineering Team
         azureRBACRoles:
           - name: DevCenter Project Admin
-            id: 331c37c6-2a8c-45e4-a6dd-e6abb8fc1820
+            id: 331c37c6-af14-46d9-b9f4-e1909e1b95a0
             scope: ResourceGroup
 ```
 
-> [!IMPORTANT]
+> [!IMPORTANT]  
 > Replace all `azureADGroupId` values with real Entra ID group object IDs from
-> your tenant. See [Azure AD Group Configuration](#azure-ad-group-configuration).
+> your tenant. See
+> [Azure AD Group Configuration](#azure-ad-group-configuration).
 
 The `DevManager` org role type grants the `Platform Engineering Team` group the
 `DevCenter Project Admin` role at resource group scope — members can create and
@@ -548,28 +550,28 @@ A DevCenter-level catalog provides task definitions shared by all projects:
 catalogs:
   - name: customTasks
     type: gitHub
-    visibility: public             # No PAT required for public repos
+    visibility: public # No PAT required for public repos
     uri: https://github.com/microsoft/devcenter-catalog.git
     branch: main
     path: ./Tasks
 ```
 
-| Field | Values | Description |
-| --- | --- | --- |
-| 🔗 `type` | `gitHub` / `adoGit` | Source control provider |
-| 👁️ `visibility` | `public` / `private` | `private` = reads PAT from Key Vault secret |
-| 📂 `path` | string | Path within the repo containing catalog items |
+| Field           | Values               | Description                                   |
+| --------------- | -------------------- | --------------------------------------------- |
+| 🔗 `type`       | `gitHub` / `adoGit`  | Source control provider                       |
+| 👁️ `visibility` | `public` / `private` | `private` = reads PAT from Key Vault secret   |
+| 📂 `path`       | string               | Path within the repo containing catalog items |
 
 #### Environment Types
 
 Environment types map logical names (`dev`, `staging`, `UAT`) to deployment
-target subscription IDs. An empty `deploymentTargetId` uses the DevCenter's
-own subscription.
+target subscription IDs. An empty `deploymentTargetId` uses the DevCenter's own
+subscription.
 
 ```yaml
 environmentTypes:
   - name: dev
-    deploymentTargetId: ''     # '' = same subscription as DevCenter
+    deploymentTargetId: '' # '' = same subscription as DevCenter
   - name: staging
     deploymentTargetId: ''
   - name: UAT
@@ -577,7 +579,8 @@ environmentTypes:
 ```
 
 Set `deploymentTargetId` to a subscription ID to cross-deploy that environment
-type's resources into a different subscription (e.g., a production subscription).
+type's resources into a different subscription (e.g., a production
+subscription).
 
 ---
 
@@ -589,24 +592,24 @@ own network, identity, pools, catalogs, and environment types.
 #### Project Network
 
 ```yaml
-    network:
-      name: eShop
-      create: true
-      resourceGroupName: eShop-connectivity-RG
-      virtualNetworkType: Managed            # Managed = Azure manages VNet lifecycle
-      addressPrefixes:
-        - 10.0.0.0/16
-      subnets:
-        - name: eShop-subnet
-          properties:
-            addressPrefix: 10.0.1.0/24
+network:
+  name: eShop
+  create: true
+  resourceGroupName: eShop-connectivity-RG
+  virtualNetworkType: Managed # Managed = Azure manages VNet lifecycle
+  addressPrefixes:
+    - 10.0.0.0/16
+  subnets:
+    - name: eShop-subnet
+      properties:
+        addressPrefix: 10.0.1.0/24
 ```
 
-| Field | Values | Description |
-| --- | --- | --- |
+| Field                   | Values                  | Description                                                               |
+| ----------------------- | ----------------------- | ------------------------------------------------------------------------- |
 | 🌐 `virtualNetworkType` | `Managed` / `Unmanaged` | `Managed` = Azure creates and owns the VNet; `Unmanaged` = bring your own |
-| 📋 `addressPrefixes` | CIDR list | VNet address space |
-| 🔀 `subnets` | array | Subnet definitions injected into `src/connectivity/vnet.bicep` |
+| 📋 `addressPrefixes`    | CIDR list               | VNet address space                                                        |
+| 🔀 `subnets`            | array                   | Subnet definitions injected into `src/connectivity/vnet.bicep`            |
 
 #### Project Identity and RBAC
 
@@ -614,36 +617,36 @@ Each project has a system-assigned managed identity plus Azure AD group roles
 that grant team members access to Dev Boxes and deployment environments:
 
 ```yaml
-    identity:
-      type: SystemAssigned
-      roleAssignments:
-        - azureADGroupId: 9d42a792-XXXX-XXXX-XXXX-XXXXXXXXXXXX   # ← Replace
-          azureADGroupName: eShop Engineers
-          azureRBACRoles:
-            - name: Contributor
-              id: b24988ac-6180-42a0-ab88-20f7382dd24c
-              scope: Project
-            - name: Dev Box User
-              id: 45d50f46-d9eb-4364-b99b-1d01a21f81ec
-              scope: Project
-            - name: Deployment Environment User
-              id: 18e40d4e-3a0e-4e6b-8201-8cd2a71cce67
-              scope: Project
-            - name: Key Vault Secrets User
-              id: 4633458b-17de-408a-b874-0445c86b69e6
-              scope: ResourceGroup
-            - name: Key Vault Secrets Officer
-              id: b86a8fe4-44ce-4948-aee5-eccb2c155cd7
-              scope: ResourceGroup
+identity:
+  type: SystemAssigned
+  roleAssignments:
+    - azureADGroupId: 9d42a792-XXXX-XXXX-XXXX-XXXXXXXXXXXX # ← Replace
+      azureADGroupName: eShop Engineers
+      azureRBACRoles:
+        - name: Contributor
+          id: b24988ac-6180-42a0-ab88-20f7382dd24c
+          scope: Project
+        - name: Dev Box User
+          id: 45d50f46-d9eb-4364-b99b-1d01a21f81ec
+          scope: Project
+        - name: Deployment Environment User
+          id: 18e40d4e-3a0e-4e6b-8201-8cd2a71cce67
+          scope: Project
+        - name: Key Vault Secrets User
+          id: 4633458b-17de-408a-b874-0445c86b69e6
+          scope: ResourceGroup
+        - name: Key Vault Secrets Officer
+          id: b86a8fe4-44ce-4948-aee5-eccb2c155cd7
+          scope: ResourceGroup
 ```
 
-| Role | Scope | Purpose |
-| --- | --- | --- |
-| 🔧 `Contributor` | Project | Create and manage project-level resources |
-| 🖥️ `Dev Box User` | Project | Request and connect to Dev Boxes in the project's pools |
-| 🚀 `Deployment Environment User` | Project | Create deployment environments from environment definitions |
-| 🔑 `Key Vault Secrets User` | ResourceGroup | Read catalog secrets from Key Vault |
-| 🔐 `Key Vault Secrets Officer` | ResourceGroup | Read and rotate catalog secrets |
+| Role                             | Scope         | Purpose                                                     |
+| -------------------------------- | ------------- | ----------------------------------------------------------- |
+| 🔧 `Contributor`                 | Project       | Create and manage project-level resources                   |
+| 🖥️ `Dev Box User`                | Project       | Request and connect to Dev Boxes in the project's pools     |
+| 🚀 `Deployment Environment User` | Project       | Create deployment environments from environment definitions |
+| 🔑 `Key Vault Secrets User`      | ResourceGroup | Read catalog secrets from Key Vault                         |
+| 🔐 `Key Vault Secrets Officer`   | ResourceGroup | Read and rotate catalog secrets                             |
 
 #### Dev Box Pools
 
@@ -651,22 +654,22 @@ Pools bind an image definition (from the project's `devboxImages` catalog) to a
 VM SKU. Add or modify pool entries to change available Dev Box configurations:
 
 ```yaml
-    pools:
-      - name: backend-engineer
-        imageDefinitionName: eshop-backend-dev    # Must match image in devboxImages catalog
-        vmSku: general_i_32c128gb512ssd_v2        # 32 vCPU · 128 GB RAM · 512 GB SSD
-      - name: frontend-engineer
-        imageDefinitionName: eshop-frontend-dev
-        vmSku: general_i_16c64gb256ssd_v2         # 16 vCPU · 64 GB RAM · 256 GB SSD
+pools:
+  - name: backend-engineer
+    imageDefinitionName: eshop-backend-dev # Must match image in devboxImages catalog
+    vmSku: general_i_32c128gb512ssd_v2 # 32 vCPU · 128 GB RAM · 512 GB SSD
+  - name: frontend-engineer
+    imageDefinitionName: eshop-frontend-dev
+    vmSku: general_i_16c64gb256ssd_v2 # 16 vCPU · 64 GB RAM · 256 GB SSD
 ```
 
 Common `vmSku` values supported by Azure Dev Box:
 
-| SKU | vCPU | RAM | SSD |
-| --- | --- | --- | --- |
-| ⚡ `general_i_8c32gb256ssd_v2` | 8 | 32 GB | 256 GB |
-| ⚙️ `general_i_16c64gb256ssd_v2` | 16 | 64 GB | 256 GB |
-| 🖥️ `general_i_32c128gb512ssd_v2` | 32 | 128 GB | 512 GB |
+| SKU                              | vCPU | RAM    | SSD    |
+| -------------------------------- | ---- | ------ | ------ |
+| ⚡ `general_i_8c32gb256ssd_v2`   | 8    | 32 GB  | 256 GB |
+| ⚙️ `general_i_16c64gb256ssd_v2`  | 16   | 64 GB  | 256 GB |
+| 🖥️ `general_i_32c128gb512ssd_v2` | 32   | 128 GB | 512 GB |
 
 #### Project Catalogs
 
@@ -674,38 +677,38 @@ Each project uses two catalogs backed by the same source repository, each
 serving a different catalog item type:
 
 ```yaml
-    catalogs:
-      - name: environments
-        type: environmentDefinition   # ARM/Bicep templates users deploy as named environments
-        sourceControl: gitHub
-        visibility: private           # Reads PAT from DevCenter Key Vault secret
-        uri: https://github.com/Evilazaro/eShop.git
-        branch: main
-        path: /.devcenter/environments
-      - name: devboxImages
-        type: imageDefinition         # Custom Dev Box image pipeline definitions
-        sourceControl: gitHub
-        visibility: private
-        uri: https://github.com/Evilazaro/eShop.git
-        branch: main
-        path: /.devcenter/imageDefinitions
+catalogs:
+  - name: environments
+    type: environmentDefinition # ARM/Bicep templates users deploy as named environments
+    sourceControl: gitHub
+    visibility: private # Reads PAT from DevCenter Key Vault secret
+    uri: https://github.com/Evilazaro/eShop.git
+    branch: main
+    path: /.devcenter/environments
+  - name: devboxImages
+    type: imageDefinition # Custom Dev Box image pipeline definitions
+    sourceControl: gitHub
+    visibility: private
+    uri: https://github.com/Evilazaro/eShop.git
+    branch: main
+    path: /.devcenter/imageDefinitions
 ```
 
-| Catalog Type | Purpose |
-| --- | --- |
+| Catalog Type               | Purpose                                                         |
+| -------------------------- | --------------------------------------------------------------- |
 | 🚀 `environmentDefinition` | IaC templates users deploy as named environments (dev, staging) |
-| 🖼️ `imageDefinition` | Image builder pipelines producing custom Dev Box OS images |
+| 🖼️ `imageDefinition`       | Image builder pipelines producing custom Dev Box OS images      |
 
 To add a catalog pointing to a private Azure DevOps repository:
 
 ```yaml
-      - name: my-ado-catalog
-        type: environmentDefinition
-        sourceControl: adoGit
-        visibility: private
-        uri: https://dev.azure.com/contososa2/DevExp-DevBox/_git/devcenter-catalog
-        branch: main
-        path: /environments
+- name: my-ado-catalog
+  type: environmentDefinition
+  sourceControl: adoGit
+  visibility: private
+  uri: https://dev.azure.com/contososa2/DevExp-DevBox/_git/devcenter-catalog
+  branch: main
+  path: /environments
 ```
 
 #### Project Environment Types
@@ -714,13 +717,13 @@ Each project independently enables a subset of the DevCenter-level environment
 types. Set `deploymentTargetId` to cross-deploy to a different subscription:
 
 ```yaml
-    environmentTypes:
-      - name: dev
-        deploymentTargetId: ''
-      - name: staging
-        deploymentTargetId: ''
-      - name: UAT
-        deploymentTargetId: ''
+environmentTypes:
+  - name: dev
+    deploymentTargetId: ''
+  - name: staging
+    deploymentTargetId: ''
+  - name: UAT
+    deploymentTargetId: ''
 ```
 
 #### Resource Tags
@@ -728,28 +731,28 @@ types. Set `deploymentTargetId` to cross-deploy to a different subscription:
 Tags applied at the project level propagate to all project child resources:
 
 ```yaml
-    tags:
-      environment: dev
-      division: Platforms
-      team: DevExP
-      project: DevExP-DevBox
-      costCenter: IT
-      owner: Contoso
-      resources: DevCenter
+tags:
+  environment: dev
+  division: Platforms
+  team: DevExP
+  project: DevExP-DevBox
+  costCenter: IT
+  owner: Contoso
+  resources: DevCenter
 ```
 
 ---
 
 ### Azure AD Group Configuration
 
-DevExp-DevBox requires two categories of Azure AD groups. Replace the placeholder
-`azureADGroupId` values in `devcenter.yaml` with real object IDs before
-provisioning.
+DevExp-DevBox requires two categories of Azure AD groups. Replace the
+placeholder `azureADGroupId` values in `devcenter.yaml` with real object IDs
+before provisioning.
 
-| Group | YAML Key | Role Granted | Scope |
-| --- | --- | --- | --- |
-| 🏗️ Platform Engineering Team | `identity.roleAssignments.orgRoleTypes[0].azureADGroupId` | DevCenter Project Admin | ResourceGroup |
-| 👨‍💻 eShop Engineers | `projects[0].identity.roleAssignments[0].azureADGroupId` | Dev Box User + Deployment Environment User + Contributor | Project |
+| Group                        | YAML Key                                                  | Role Granted                                             | Scope         |
+| ---------------------------- | --------------------------------------------------------- | -------------------------------------------------------- | ------------- |
+| 🏗️ Platform Engineering Team | `identity.roleAssignments.orgRoleTypes[0].azureADGroupId` | DevCenter Project Admin                                  | ResourceGroup |
+| 👨‍💻 eShop Engineers           | `projects[0].identity.roleAssignments[0].azureADGroupId`  | Dev Box User + Deployment Environment User + Contributor | Project       |
 
 Retrieve existing group object IDs:
 
@@ -787,7 +790,7 @@ projects:
           azureADGroupName: eShop Engineers
 ```
 
-> [!NOTE]
+> [!NOTE]  
 > Group IDs are tenant-specific. The placeholder values in the shipped
 > `devcenter.yaml` must be replaced with real object IDs from your Entra ID
 > tenant before running `azd provision`.
