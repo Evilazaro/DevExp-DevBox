@@ -237,22 +237,22 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph coreDelivery["🚀 Core Delivery Capabilities"]
-        AP("🚀 Automated Provisioning\n[Maturity: 3 — Defined]"):::warning
-        CAC("📋 Config-as-Code\n[Maturity: 3 — Defined]"):::warning
+        AP("🚀 Automated Provisioning<br>[Maturity: 3 — Defined]"):::warning
+        CAC("📋 Config-as-Code<br>[Maturity: 3 — Defined]"):::warning
     end
 
     subgraph security["🔒 Security & Compliance Capabilities"]
-        SM("🔒 Security Management\n[Maturity: 3 — Defined]"):::warning
-        LZA("🏢 Landing Zone Alignment\n[Maturity: 3 — Defined]"):::warning
+        SM("🔒 Security Management<br>[Maturity: 3 — Defined]"):::warning
+        LZA("🏢 Landing Zone Alignment<br>[Maturity: 3 — Defined]"):::warning
     end
 
     subgraph workload["⚙️ Workload Capabilities"]
-        RSWP("⚙️ Role-Specific Workstation\nProvisioning\n[Maturity: 3 — Defined]"):::warning
-        MES("🌍 Multi-Environment Support\n[Maturity: 3 — Defined]"):::warning
+        RSWP("⚙️ Role-Specific Workstation<br>Provisioning<br>[Maturity: 3 — Defined]"):::warning
+        MES("🌍 Multi-Environment Support<br>[Maturity: 3 — Defined]"):::warning
     end
 
     subgraph observability["📊 Observability Capabilities"]
-        BO("📊 Built-in Observability\n[Maturity: 3 — Defined]"):::warning
+        BO("📊 Built-in Observability<br>[Maturity: 3 — Defined]"):::warning
     end
 
     AP -->|"enables"| RSWP
@@ -313,22 +313,22 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph input["📥 Value Trigger"]
-        PE("👤 Platform Engineer\nConfigures YAML"):::neutral
+        PE("👤 Platform Engineer<br>Configures YAML"):::neutral
     end
 
     subgraph automation["⚙️ Automation Stage"]
-        AZD("⚙️ azd provision\nOrchestrates Deployment"):::core
-        SETUP("📜 setUp Script\nValidates + Secrets"):::core
+        AZD("⚙️ azd provision<br>Orchestrates Deployment"):::core
+        SETUP("📜 setUp Script<br>Validates + Secrets"):::core
     end
 
     subgraph azure["☁️ Azure Provisioning Stage"]
-        DC("🖥️ Azure DevCenter\nProvisioned"):::core
-        POOL("⚙️ Dev Box Pools\nCreated"):::success
-        ENV("🌍 Environment Types\nConfigured"):::success
+        DC("🖥️ Azure DevCenter<br>Provisioned"):::core
+        POOL("⚙️ Dev Box Pools<br>Created"):::success
+        ENV("🌍 Environment Types<br>Configured"):::success
     end
 
     subgraph output["✅ Value Delivered"]
-        DEV("🧑‍💻 Developer\nSelf-Serves Dev Box"):::success
+        DEV("🧑‍💻 Developer<br>Self-Serves Dev Box"):::success
     end
 
     PE -->|"executes"| AZD
@@ -576,13 +576,13 @@ flowchart LR
     end
 
     subgraph capabilities["⚡ Current Capability Maturity (as-is)"]
-        CAP_AP("🚀 Automated Provisioning\nLevel 3 — Defined"):::warning
-        CAP_CAC("📋 Config-as-Code\nLevel 3 — Defined"):::warning
-        CAP_SM("🔒 Security Management\nLevel 3 — Defined"):::warning
-        CAP_LZA("🏢 Landing Zone Alignment\nLevel 3 — Defined"):::warning
-        CAP_RSWP("⚙️ Role-Specific Provisioning\nLevel 3 — Defined"):::warning
-        CAP_MES("🌍 Multi-Environment Support\nLevel 3 — Defined"):::warning
-        CAP_BO("📊 Built-in Observability\nLevel 3 — Defined"):::warning
+        CAP_AP("🚀 Automated Provisioning<br>Level 3 — Defined"):::warning
+        CAP_CAC("📋 Config-as-Code<br>Level 3 — Defined"):::warning
+        CAP_SM("🔒 Security Management<br>Level 3 — Defined"):::warning
+        CAP_LZA("🏢 Landing Zone Alignment<br>Level 3 — Defined"):::warning
+        CAP_RSWP("⚙️ Role-Specific Provisioning<br>Level 3 — Defined"):::warning
+        CAP_MES("🌍 Multi-Environment Support<br>Level 3 — Defined"):::warning
+        CAP_BO("📊 Built-in Observability<br>Level 3 — Defined"):::warning
     end
 
     style legend fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -642,22 +642,22 @@ flowchart TB
     end
 
     subgraph config["📋 Step 3 — Update Configuration"]
-        S3A("📋 Edit devcenter.yaml\nUpdate AD Group IDs"):::warning
-        S3B("📋 Edit azureResources.yaml\nResource org settings"):::warning
-        S3C("📋 Edit security.yaml\nKey Vault settings"):::warning
+        S3A("📋 Edit devcenter.yaml<br>Update AD Group IDs"):::warning
+        S3B("📋 Edit azureResources.yaml<br>Resource org settings"):::warning
+        S3C("📋 Edit security.yaml<br>Key Vault settings"):::warning
     end
 
     subgraph provision["🚀 Step 4 — Provision"]
         S4A("🚀 azd provision"):::core
-        S4B("📜 Pre-provision Hook\nsetUp.sh / setUp.ps1"):::core
-        S4C{{"✔️ Validation\nPasses?"}}:::neutral
-        S4D("⚙️ Bicep Deployment\nat Subscription Scope"):::core
+        S4B("📜 Pre-provision Hook<br>setUp.sh / setUp.ps1"):::core
+        S4C{{"✔️ Validation<br>Passes?"}}:::neutral
+        S4D("⚙️ Bicep Deployment<br>at Subscription Scope"):::core
     end
 
     subgraph verify["✅ Step 5 — Verify"]
         S5A("✅ azd env get-values"):::success
-        S5B("✅ Confirm DevCenter\nProvisioningState"):::success
-        S5C("✅ Developer Access\nPortal"):::success
+        S5B("✅ Confirm DevCenter<br>ProvisioningState"):::success
+        S5C("✅ Developer Access<br>Portal"):::success
     end
 
     S1A --> S1B --> S1C --> S2A
@@ -1305,21 +1305,21 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph admins["🛠️ Platform Administration Roles"]
-        PE("👤 Platform Engineer\n[Provisioning Owner]"):::core
-        DM("🏢 Dev Manager\n[Project Admin]"):::core
-        SC("🔒 Security/Compliance\n[Review Role]"):::warning
+        PE("👤 Platform Engineer<br>[Provisioning Owner]"):::core
+        DM("🏢 Dev Manager<br>[Project Admin]"):::core
+        SC("🔒 Security/Compliance<br>[Review Role]"):::warning
     end
 
     subgraph devs["🧑‍💻 Developer Roles"]
-        BD("🧑‍💻 Backend Developer\n[backend-engineer pool]"):::success
-        FD("🎨 Frontend Developer\n[frontend-engineer pool]"):::success
-        EE("👥 eShop Engineers Team\n[Azure AD Group]"):::success
+        BD("🧑‍💻 Backend Developer<br>[backend-engineer pool]"):::success
+        FD("🎨 Frontend Developer<br>[frontend-engineer pool]"):::success
+        EE("👥 eShop Engineers Team<br>[Azure AD Group]"):::success
     end
 
     subgraph platform["🖥️ Platform Services & Objects"]
-        DBA("🚀 Dev Box Accelerator\nService"):::neutral
-        DCP("📁 DevCenter Project\n(eShop)"):::neutral
-        KV("🔑 Key Vault\n(Secrets)"):::data
+        DBA("🚀 Dev Box Accelerator<br>Service"):::neutral
+        DCP("📁 DevCenter Project<br>(eShop)"):::neutral
+        KV("🔑 Key Vault<br>(Secrets)"):::data
     end
 
     PE -->|"provisions"| DBA
@@ -1378,22 +1378,22 @@ flowchart TB
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    DBA("🚀 Dev Box Accelerator\n(ContosoDevExp)"):::core
+    DBA("🚀 Dev Box Accelerator<br>(ContosoDevExp)"):::core
 
     subgraph project["📁 Project Objects"]
-        DCP("📁 DevCenter Project\n(eShop)"):::core
-        DBP("⚙️ Dev Box Pool\n(backend-engineer /\nfrontend-engineer)"):::core
-        ET("🌍 Environment Type\n(dev / staging / UAT)"):::core
-        CAT("📚 Shared Catalog\n(customTasks)"):::neutral
+        DCP("📁 DevCenter Project<br>(eShop)"):::core
+        DBP("⚙️ Dev Box Pool<br>(backend-engineer /<br>frontend-engineer)"):::core
+        ET("🌍 Environment Type<br>(dev / staging / UAT)"):::core
+        CAT("📚 Shared Catalog<br>(customTasks)"):::neutral
     end
 
     subgraph identity["🔐 Identity & Security Objects"]
-        AAD("🏢 Azure AD Group\n(Platform Eng Team /\neShop Engineers)"):::warning
-        PAT("🔑 GitHub PAT Token\n(gha-token)"):::data
+        AAD("🏢 Azure AD Group<br>(Platform Eng Team /<br>eShop Engineers)"):::warning
+        PAT("🔑 GitHub PAT Token<br>(gha-token)"):::data
     end
 
     subgraph governance["📋 Governance Objects"]
-        WI("📋 Work Item\n(Epic / Feature / Task)"):::neutral
+        WI("📋 Work Item<br>(Epic / Feature / Task)"):::neutral
     end
 
     DBA -->|"hosts"| DCP
@@ -1544,10 +1544,10 @@ flowchart LR
     end
 
     subgraph app["⚙️ Application Layer"]
-        MAIN("⚙️ main.bicep\nOrchestration"):::warning
-        YAML("📄 YAML Config Files\ndevcenter / security / azureResources"):::warning
-        BICEP_SEC("🔒 keyVault.bicep\nsecret.bicep"):::warning
-        BICEP_WL("🖥️ devCenter.bicep\nproject.bicep / pool.bicep"):::warning
+        MAIN("⚙️ main.bicep<br>Orchestration"):::warning
+        YAML("📄 YAML Config Files<br>devcenter / security / azureResources"):::warning
+        BICEP_SEC("🔒 keyVault.bicep<br>secret.bicep"):::warning
+        BICEP_WL("🖥️ devCenter.bicep<br>project.bicep / pool.bicep"):::warning
     end
 
     subgraph tech["☁️ Technology Layer"]
@@ -1555,7 +1555,7 @@ flowchart LR
         AKV("🔑 Azure Key Vault"):::data
         ADC("🖥️ Azure DevCenter"):::data
         ENTRA("🏢 Microsoft Entra ID"):::data
-        GH("🐱 GitHub\n(Catalog Repos)"):::external
+        GH("🐱 GitHub<br>(Catalog Repos)"):::external
     end
 
     CAP_AP -->|"realized by"| MAIN
