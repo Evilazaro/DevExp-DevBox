@@ -641,7 +641,6 @@ environmentTypes:
   - name: UAT
     deploymentTargetId: '/subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
 ```
-```
 
 The target subscription must have the Dev Center resource provider registered
 and the DevCenter managed identity must have `Contributor` rights in that
