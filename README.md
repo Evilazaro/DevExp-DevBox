@@ -57,10 +57,12 @@ config:
   layout: dagre
   flowchart:
     htmlLabels: true
+  themeVariables:
+    fontSize: '16px'
 ---
 flowchart TB
     accTitle: DevExp-DevBox System Architecture
-    accDescr: End-to-end architecture diagram showing platform engineer provisioning workflow, Azure Developer CLI orchestration, and Azure resource topology for the Microsoft Dev Box accelerator
+    accDescr: Deployment workflow from platform engineer to Azure DevCenter, with Key Vault, Log Analytics, Dev Box pools, and virtual network connectivity
 
     %% ═══════════════════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
@@ -419,7 +421,7 @@ to co-locate those resources in the workload RG (the default).
 ```yaml
 workload:
   create: true
-  name: devexp-workload            # Actual RG = devexp-workload-<env>-<region>-RG
+  name: devexp-workload # Actual RG = devexp-workload-<env>-<region>-RG
   description: prodExp
   tags:
     environment: dev
@@ -428,11 +430,11 @@ workload:
     project: Contoso-DevExp-DevBox
     costCenter: IT
     owner: Contoso
-    landingZone: Workload           # Azure Landing Zone classification
+    landingZone: Workload # Azure Landing Zone classification
     resources: ResourceGroup
 
 security:
-  create: false                    # true = separate <name>-<env>-<region>-RG
+  create: false # true = separate <name>-<env>-<region>-RG
   name: devexp-workload
   description: prodExp
   tags:
@@ -446,7 +448,7 @@ security:
     resources: ResourceGroup
 
 monitoring:
-  create: false                    # true = separate <name>-<env>-<region>-RG
+  create: false # true = separate <name>-<env>-<region>-RG
   name: devexp-workload
   description: prodExp
   tags:
@@ -460,14 +462,14 @@ monitoring:
     resources: ResourceGroup
 ```
 
-| Field | Type | Description |
-| --- | --- | --- |
-| 🏗️ `workload.create` | bool | Always `true` — main workload RG is always provisioned |
-| 🔒 `security.create` | bool | `false` deploys Key Vault into the workload RG; `true` creates a dedicated security RG |
-| 📊 `monitoring.create` | bool | `false` deploys Log Analytics into the workload RG; `true` creates a dedicated monitoring RG |
-| 🏷️ `*.name` | string | RG base name; actual name appends `-<ENV>-<region>-RG` |
-| 📝 `*.description` | string | Human-readable description stored as an RG tag |
-| 🗂️ `*.tags.landingZone` | string | Azure Landing Zone classification (e.g., `Workload`, `Security`, `Monitoring`) |
+| Field                   | Type   | Description                                                                                  |
+| ----------------------- | ------ | -------------------------------------------------------------------------------------------- |
+| 🏗️ `workload.create`    | bool   | Always `true` — main workload RG is always provisioned                                       |
+| 🔒 `security.create`    | bool   | `false` deploys Key Vault into the workload RG; `true` creates a dedicated security RG       |
+| 📊 `monitoring.create`  | bool   | `false` deploys Log Analytics into the workload RG; `true` creates a dedicated monitoring RG |
+| 🏷️ `*.name`             | string | RG base name; actual name appends `-<ENV>-<region>-RG`                                       |
+| 📝 `*.description`      | string | Human-readable description stored as an RG tag                                               |
+| 🗂️ `*.tags.landingZone` | string | Azure Landing Zone classification (e.g., `Workload`, `Security`, `Monitoring`)               |
 
 ---
 
@@ -479,13 +481,13 @@ field is a prefix — deployed name is `<name>-<unique>-kv` for global uniquenes
 ```yaml
 create: true
 keyVault:
-  name: contoso                    # Deployed as contoso-<unique>-kv
+  name: contoso # Deployed as contoso-<unique>-kv
   description: Development Environment Key Vault
-  secretName: gha-token            # Secret name (matches KEY_VAULT_SECRET azd variable)
+  secretName: gha-token # Secret name (matches KEY_VAULT_SECRET azd variable)
   enablePurgeProtection: true
   enableSoftDelete: true
-  softDeleteRetentionInDays: 7     # Minimum 7 days per Azure policy
-  enableRbacAuthorization: true    # RBAC access control (not legacy access policies)
+  softDeleteRetentionInDays: 7 # Minimum 7 days per Azure policy
+  enableRbacAuthorization: true # RBAC access control (not legacy access policies)
   tags:
     environment: dev
     division: Platforms
@@ -493,18 +495,18 @@ keyVault:
     project: Contoso-DevExp-DevBox
     costCenter: IT
     owner: Contoso
-    landingZone: security          # Distinguishes this RG in the landing zone topology
+    landingZone: security # Distinguishes this RG in the landing zone topology
     resources: ResourceGroup
 ```
 
-| Field | Type | Description |
-| --- | --- | --- |
-| 🏷️ `name` | string | Key Vault name prefix; globally unique suffix is appended automatically |
-| 🔑 `secretName` | string | Name of the secret holding the PAT (`gha-token`) |
-| 🔒 `enablePurgeProtection` | bool | Block permanent deletion; required for many compliance frameworks |
-| 🗑️ `softDeleteRetentionInDays` | int | Days before soft-deleted vault/secrets are purged (min: 7, max: 90) |
-| 🛡️ `enableRbacAuthorization` | bool | `true` = Azure RBAC controls access; `false` = legacy Key Vault access policies |
-| 🗺️ `tags.landingZone` | string | Azure Landing Zone classification; `security` distinguishes this tier from the workload RG |
+| Field                          | Type   | Description                                                                                |
+| ------------------------------ | ------ | ------------------------------------------------------------------------------------------ |
+| 🏷️ `name`                      | string | Key Vault name prefix; globally unique suffix is appended automatically                    |
+| 🔑 `secretName`                | string | Name of the secret holding the PAT (`gha-token`)                                           |
+| 🔒 `enablePurgeProtection`     | bool   | Block permanent deletion; required for many compliance frameworks                          |
+| 🗑️ `softDeleteRetentionInDays` | int    | Days before soft-deleted vault/secrets are purged (min: 7, max: 90)                        |
+| 🛡️ `enableRbacAuthorization`   | bool   | `true` = Azure RBAC controls access; `false` = legacy Key Vault access policies            |
+| 🗺️ `tags.landingZone`          | string | Azure Landing Zone classification; `security` distinguishes this tier from the workload RG |
 
 ---
 
@@ -531,19 +533,19 @@ installAzureMonitorAgentEnableStatus: Enabled
 
 #### DevCenter Identity and Role Assignments
 
-The DevCenter uses a **system-assigned managed identity** — `type: SystemAssigned`
-means Azure manages the identity lifecycle. The schema also supports
-`UserAssigned` (bring your own managed identity), `SystemAssignedUserAssigned`
-(both), and `None` (no managed identity). Roles are split into `devCenter`
-(roles for the managed identity itself) and `orgRoleTypes` (roles granted to
-Azure AD groups for managing the DevCenter).
+The DevCenter uses a **system-assigned managed identity** —
+`type: SystemAssigned` means Azure manages the identity lifecycle. The schema
+also supports `UserAssigned` (bring your own managed identity),
+`SystemAssignedUserAssigned` (both), and `None` (no managed identity). Roles are
+split into `devCenter` (roles for the managed identity itself) and
+`orgRoleTypes` (roles granted to Azure AD groups for managing the DevCenter).
 
-| `identity.type` | Description |
-| --- | --- |
-| `SystemAssigned` | Azure creates and manages the identity; deleted when the DevCenter is deleted |
-| `UserAssigned` | Bring your own pre-existing managed identity; survives DevCenter deletion |
-| `SystemAssignedUserAssigned` | Both a system-assigned and one or more user-assigned identities |
-| `None` | No managed identity; catalog sync and role delegation will not function |
+| `identity.type`              | Description                                                                   |
+| ---------------------------- | ----------------------------------------------------------------------------- |
+| `SystemAssigned`             | Azure creates and manages the identity; deleted when the DevCenter is deleted |
+| `UserAssigned`               | Bring your own pre-existing managed identity; survives DevCenter deletion     |
+| `SystemAssignedUserAssigned` | Both a system-assigned and one or more user-assigned identities               |
+| `None`                       | No managed identity; catalog sync and role delegation will not function       |
 
 ```yaml
 identity:
@@ -585,21 +587,21 @@ To add a `ProjectAdmin` org role type, which grants direct project
 administration rights to a specific group, append another entry:
 
 ```yaml
-    orgRoleTypes:
-      - type: DevManager
-        azureADGroupId: 5a1d1455-XXXX-XXXX-XXXX-XXXXXXXXXXXX
-        azureADGroupName: Platform Engineering Team
-        azureRBACRoles:
-          - name: DevCenter Project Admin
-            id: 331c37c6-af14-46d9-b9f4-e1909e1b95a0
-            scope: ResourceGroup
-      - type: ProjectAdmin
-        azureADGroupId: aabbccdd-XXXX-XXXX-XXXX-XXXXXXXXXXXX
-        azureADGroupName: DevCenter Admins
-        azureRBACRoles:
-          - name: DevCenter Project Admin
-            id: 331c37c6-af14-46d9-b9f4-e1909e1b95a0
-            scope: ResourceGroup
+orgRoleTypes:
+  - type: DevManager
+    azureADGroupId: 5a1d1455-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    azureADGroupName: Platform Engineering Team
+    azureRBACRoles:
+      - name: DevCenter Project Admin
+        id: 331c37c6-af14-46d9-b9f4-e1909e1b95a0
+        scope: ResourceGroup
+  - type: ProjectAdmin
+    azureADGroupId: aabbccdd-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    azureADGroupName: DevCenter Admins
+    azureRBACRoles:
+      - name: DevCenter Project Admin
+        id: 331c37c6-af14-46d9-b9f4-e1909e1b95a0
+        scope: ResourceGroup
 ```
 
 Valid role assignment scopes for `devCenter` role assignments: `Subscription`,
@@ -628,14 +630,14 @@ catalogs:
 #### Environment Types
 
 Environment types map logical names (`dev`, `staging`, `UAT`) to deployment
-target subscription IDs. An empty `deploymentTargetId` uses the DevCenter's
-own subscription; a full subscription resource ID cross-deploys resources to a
+target subscription IDs. An empty `deploymentTargetId` uses the DevCenter's own
+subscription; a full subscription resource ID cross-deploys resources to a
 different subscription (e.g., a dedicated staging or production subscription):
 
 ```yaml
 environmentTypes:
   - name: dev
-    deploymentTargetId: ''                   # empty = same subscription as DevCenter
+    deploymentTargetId: '' # empty = same subscription as DevCenter
   - name: staging
     deploymentTargetId: '/subscriptions/11111111-2222-3333-4444-555555555555'
   - name: UAT
@@ -662,10 +664,10 @@ tags:
   resources: DevCenter
 ```
 
-Modify these values to match your organization's tagging policy. The same
-`tags` schema (`environment`, `division`, `team`, `project`, `costCenter`,
-`owner`, `resources`) applies uniformly across the DevCenter, all projects,
-all networks, and all resource groups.
+Modify these values to match your organization's tagging policy. The same `tags`
+schema (`environment`, `division`, `team`, `project`, `costCenter`, `owner`,
+`resources`) applies uniformly across the DevCenter, all projects, all networks,
+and all resource groups.
 
 ---
 
@@ -702,18 +704,18 @@ applies):
 
 ```yaml
 network:
-  name: existing-devbox-vnet      # Must match the existing VNet name
+  name: existing-devbox-vnet # Must match the existing VNet name
   create: false
   resourceGroupName: network-hub-RG
   virtualNetworkType: Unmanaged
 ```
 
-| Field | Values | Description |
-| --- | --- | --- |
+| Field                   | Values                  | Description                                                                    |
+| ----------------------- | ----------------------- | ------------------------------------------------------------------------------ |
 | 🌐 `virtualNetworkType` | `Managed` / `Unmanaged` | `Managed` = Azure creates/manages the VNet; `Unmanaged` = use an existing VNet |
-| 🏗️ `create` | bool | `true` = provision the VNet; `false` = attach to an existing VNet |
-| 📋 `addressPrefixes` | CIDR list | Required when `create: true`; ignored when `create: false` |
-| 🔀 `subnets` | array | Required when `create: true`; ignored when `create: false` |
+| 🏗️ `create`             | bool                    | `true` = provision the VNet; `false` = attach to an existing VNet              |
+| 📋 `addressPrefixes`    | CIDR list               | Required when `create: true`; ignored when `create: false`                     |
+| 🔀 `subnets`            | array                   | Required when `create: true`; ignored when `create: false`                     |
 
 #### Project Identity and RBAC
 
@@ -744,16 +746,16 @@ identity:
           scope: ResourceGroup
 ```
 
-| Role | Scope | Purpose |
-| --- | --- | --- |
-| 🔧 `Contributor` | Project | Create and manage project-level resources |
-| 🖥️ `Dev Box User` | Project | Request and connect to Dev Boxes in the project's pools |
-| 🚀 `Deployment Environment User` | Project | Create deployment environments from environment definitions |
-| 🔑 `Key Vault Secrets User` | ResourceGroup | Read catalog secrets from Key Vault |
-| 🔐 `Key Vault Secrets Officer` | ResourceGroup | Read and rotate catalog secrets |
+| Role                             | Scope         | Purpose                                                     |
+| -------------------------------- | ------------- | ----------------------------------------------------------- |
+| 🔧 `Contributor`                 | Project       | Create and manage project-level resources                   |
+| 🖥️ `Dev Box User`                | Project       | Request and connect to Dev Boxes in the project's pools     |
+| 🚀 `Deployment Environment User` | Project       | Create deployment environments from environment definitions |
+| 🔑 `Key Vault Secrets User`      | ResourceGroup | Read catalog secrets from Key Vault                         |
+| 🔐 `Key Vault Secrets Officer`   | ResourceGroup | Read and rotate catalog secrets                             |
 
-The `roleAssignments` array accepts **multiple groups**. To grant a second
-group read-only access (e.g., a QA team that only needs Dev Box User rights):
+The `roleAssignments` array accepts **multiple groups**. To grant a second group
+read-only access (e.g., a QA team that only needs Dev Box User rights):
 
 ```yaml
 identity:
@@ -771,7 +773,7 @@ identity:
         - name: Deployment Environment User
           id: 18e40d4e-8d2e-438d-97e1-9528336e149c
           scope: Project
-    - azureADGroupId: ccccdddd-XXXX-XXXX-XXXX-XXXXXXXXXXXX   # second group
+    - azureADGroupId: ccccdddd-XXXX-XXXX-XXXX-XXXXXXXXXXXX # second group
       azureADGroupName: eShop QA Team
       azureRBACRoles:
         - name: Dev Box User
@@ -830,39 +832,39 @@ catalogs:
     path: /.devcenter/imageDefinitions
 ```
 
-| Catalog Type | `type` value | `sourceControl` | Purpose |
-| --- | --- | --- | --- |
-| 🚀 Environment catalog | `environmentDefinition` | `gitHub` / `adoGit` | ARM/Bicep templates users deploy as named environments |
-| 🖼️ Image catalog | `imageDefinition` | `gitHub` / `adoGit` | Image builder pipelines that produce custom Dev Box OS images |
+| Catalog Type           | `type` value            | `sourceControl`     | Purpose                                                       |
+| ---------------------- | ----------------------- | ------------------- | ------------------------------------------------------------- |
+| 🚀 Environment catalog | `environmentDefinition` | `gitHub` / `adoGit` | ARM/Bicep templates users deploy as named environments        |
+| 🖼️ Image catalog       | `imageDefinition`       | `gitHub` / `adoGit` | Image builder pipelines that produce custom Dev Box OS images |
 
-> [!NOTE]
-> **DevCenter-level catalogs** (the `catalogs` block directly under the DevCenter
-> root in `devcenter.yaml`) use `type: gitHub` or `type: adoGit` to identify
-> the source control platform. **Project-level catalogs** use `type:
-> environmentDefinition` or `type: imageDefinition` to identify the *catalog
-> content type*, and use the separate `sourceControl` field (`gitHub` /
+> [!NOTE] **DevCenter-level catalogs** (the `catalogs` block directly under the
+> DevCenter root in `devcenter.yaml`) use `type: gitHub` or `type: adoGit` to
+> identify the source control platform. **Project-level catalogs** use
+> `type: environmentDefinition` or `type: imageDefinition` to identify the
+> _catalog content type_, and use the separate `sourceControl` field (`gitHub` /
 > `adoGit`) to identify the source control platform.
 
 To add a project catalog pointing to a **private Azure DevOps** repository:
 
 ```yaml
-    catalogs:
-      - name: ado-environments
-        type: environmentDefinition
-        sourceControl: adoGit
-        visibility: private         # Reads PAT (AZURE_DEVOPS_EXT_PAT) from Key Vault
-        uri: https://dev.azure.com/contososa2/DevExp-DevBox/_git/devcenter-catalog
-        branch: main
-        path: /environments
+catalogs:
+  - name: ado-environments
+    type: environmentDefinition
+    sourceControl: adoGit
+    visibility: private # Reads PAT (AZURE_DEVOPS_EXT_PAT) from Key Vault
+    uri: https://dev.azure.com/contososa2/DevExp-DevBox/_git/devcenter-catalog
+    branch: main
+    path: /environments
 ```
 
-To add a **private DevCenter-level** shared task catalog (backed by a private ADO repo):
+To add a **private DevCenter-level** shared task catalog (backed by a private
+ADO repo):
 
 ```yaml
 catalogs:
   - name: customTasks
-    type: adoGit                    # DevCenter catalog uses type for the source control
-    visibility: private             # Reads PAT from Key Vault secret
+    type: adoGit # DevCenter catalog uses type for the source control
+    visibility: private # Reads PAT from Key Vault secret
     uri: https://dev.azure.com/contososa2/DevExp-DevBox/_git/devcenter-catalog
     branch: main
     path: ./Tasks
@@ -876,13 +878,13 @@ overrides the DevCenter-level value for that environment type within this
 project:
 
 ```yaml
-    environmentTypes:
-      - name: dev
-        deploymentTargetId: ''     # inherits DevCenter default (same subscription)
-      - name: staging
-        deploymentTargetId: '/subscriptions/11111111-2222-3333-4444-555555555555'
-      - name: UAT
-        deploymentTargetId: ''
+environmentTypes:
+  - name: dev
+    deploymentTargetId: '' # inherits DevCenter default (same subscription)
+  - name: staging
+    deploymentTargetId: '/subscriptions/11111111-2222-3333-4444-555555555555'
+  - name: UAT
+    deploymentTargetId: ''
 ```
 
 Only list the environment types you want enabled for this project. Omitting
@@ -897,10 +899,10 @@ tags:
   environment: dev
   division: Platforms
   team: DevExP
-  project: Contoso-DevExp-DevBox   # Must match the project tag in azureResources.yaml
+  project: Contoso-DevExp-DevBox # Must match the project tag in azureResources.yaml
   costCenter: IT
   owner: Contoso
-  resources: Project               # Use 'Project' here; DevCenter root uses 'DevCenter'
+  resources: Project # Use 'Project' here; DevCenter root uses 'DevCenter'
 ```
 
 ---
@@ -967,7 +969,7 @@ hypothetical `payments` project:
 
 ```yaml
 projects:
-  - name: eShop          # existing project — leave untouched
+  - name: eShop # existing project — leave untouched
     # ...
 
   - name: payments
@@ -980,7 +982,7 @@ projects:
       resourceGroupName: payments-connectivity-RG
       virtualNetworkType: Managed
       addressPrefixes:
-        - 10.1.0.0/16    # must not overlap with eShop (10.0.0.0/16)
+        - 10.1.0.0/16 # must not overlap with eShop (10.0.0.0/16)
       subnets:
         - name: payments-subnet
           properties:
@@ -998,7 +1000,7 @@ projects:
     identity:
       type: SystemAssigned
       roleAssignments:
-        - azureADGroupId: <payments-engineers-group-object-id>   # ← Replace
+        - azureADGroupId: <payments-engineers-group-object-id> # ← Replace
           azureADGroupName: Payments Engineers
           azureRBACRoles:
             - name: Contributor
@@ -1020,7 +1022,7 @@ projects:
     # --- Dev Box Pools ---
     pools:
       - name: payments-engineer
-        imageDefinitionName: payments-dev        # must exist in the devboxImages catalog below
+        imageDefinitionName: payments-dev # must exist in the devboxImages catalog below
         vmSku: general_i_16c64gb256ssd_v2
 
     # --- Environment Types (subset of the DevCenter-level types) ---
