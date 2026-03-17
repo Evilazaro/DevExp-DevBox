@@ -6,9 +6,7 @@
 [![Bicep IaC](https://img.shields.io/badge/IaC-Bicep-00BCF2)](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/)
 [![GitHub Stars](https://img.shields.io/github/stars/Evilazaro/DevExp-DevBox?style=social)](https://github.com/Evilazaro/DevExp-DevBox)
 
-A production-grade **Microsoft Dev Box Accelerator** that provisions
-cloud-hosted, role-optimized developer workstations on Azure — driven by
-configuration-as-code YAML and deployed with a single `azd up` command.
+A production-grade **Microsoft Dev Box Accelerator** that provisions cloud-hosted, role-optimized developer workstations on Azure — driven by configuration-as-code YAML and deployed via the Azure Developer CLI (`azd provision`).
 
 ## Overview
 
@@ -33,9 +31,7 @@ files.
 - [Architecture](#architecture)
 - [Features](#features)
 - [Requirements](#requirements)
-- [Quick Start](#quick-start)
-- [Deployment](#deployment)
-- [Usage](#usage)
+- [Getting Started](#getting-started)
 - [Configuration](#configuration)
 - [Contributing](#contributing)
 - [License](#license)
@@ -159,7 +155,7 @@ re-deployment — no portal access, no manual steps.
 
 | Feature                        | Description                                                                                  | Status    |
 | ------------------------------ | -------------------------------------------------------------------------------------------- | --------- |
-| 🚀 One-command Deployment      | Entire Dev Box environment provisioned via `azd up` with pre-provision hooks                 | ✅ Stable |
+| 🚀 Automated Provisioning      | Entire Dev Box environment provisioned via `azd provision` with pre-provision hooks          | ✅ Stable |
 | 📋 Config-as-Code              | All resources defined in YAML (`azureResources.yaml`, `devcenter.yaml`, `security.yaml`)     | ✅ Stable |
 | 🔒 Key Vault Integration       | Automated Key Vault provisioning with RBAC authorization and soft-delete protection          | ✅ Stable |
 | 🏢 Landing Zone Aligned        | Workload, security, and monitoring resource groups follow Azure Landing Zone principles      | ✅ Stable |
@@ -200,102 +196,47 @@ for RBAC assignments.
 | 🌐 PowerShell          | PowerShell for Windows deployment via `setUp.ps1`                               | ≥ 7.0           |
 | 📦 Bash                | Bash for Linux/macOS deployment via `setUp.sh`                                  | ≥ 5.0           |
 
-> [!WARNING]  
-> The `KEY_VAULT_SECRET` environment variable must be set to a valid GitHub
-> Personal Access Token (PAT) with `repo` scope **before** running `azd up`.
-> This token is stored in Azure Key Vault and used by the DevCenter catalog to
-> authenticate to GitHub repositories.
+> [!WARNING]
+> The `KEY_VAULT_SECRET` environment variable must be set to a valid GitHub Personal Access Token (PAT) with `repo` scope before running `azd provision`. If not set, `setUp.sh` / `setUp.ps1` will attempt to retrieve it automatically via `gh auth token`. This token is stored in Azure Key Vault and used by the DevCenter catalog to authenticate to GitHub repositories.
 
-## Quick Start
+## Getting Started
 
-The following steps deploy a complete Dev Box environment using default settings
-from `infra/settings/workload/devcenter.yaml` and
-`infra/settings/resourceOrganization/azureResources.yaml`.
+**Overview**
 
-> [!IMPORTANT]  
-> Before running `azd up`, update the Azure AD group object IDs in
-> `infra/settings/workload/devcenter.yaml`. The placeholder `azureADGroupId`
-> values under `identity.roleAssignments.orgRoleTypes` and each project's
-> `identity.roleAssignments` must be replaced with real Entra ID group object
-> IDs from your tenant. See the
-> [Azure AD Group Configuration](#azure-ad-group-configuration) section for
-> details.
+The provisioning flow is driven by the Azure Developer CLI (`azd`). Running
+`azd provision` triggers the `preprovision` hook in `azure.yaml`, which
+automatically invokes `setUp.sh` (Linux/macOS) or `setUp.ps1` (Windows) to
+validate dependencies, authenticate against the chosen source control platform,
+and write the required secrets into the azd environment file. After the hook
+completes, `azd` deploys the Bicep infrastructure at subscription scope.
 
-**1. Clone the repository:**
+Before provisioning, update the Azure AD group object IDs in
+`infra/settings/workload/devcenter.yaml` to match real groups in your tenant.
+See [Azure AD Group Configuration](#azure-ad-group-configuration) for details.
 
-```bash
-git clone https://github.com/Evilazaro/DevExp-DevBox.git
-cd DevExp-DevBox
-```
-
-**2. Authenticate with Azure and GitHub:**
+### Step 1 — Authenticate
 
 ```bash
 az login
 azd auth login
-gh auth login
+gh auth login        # Only required when SOURCE_CONTROL_PLATFORM=github (default)
 ```
 
-**3. Create and configure the azd environment:**
+For Azure DevOps, authenticate the `az devops` extension instead:
+
+```bash
+az extension add --name azure-devops
+az devops login      # Prompts for PAT
+```
+
+### Step 2 — Create the azd Environment
 
 ```bash
 azd env new my-devbox-env
 azd env set AZURE_LOCATION eastus
-azd env set KEY_VAULT_SECRET <your-github-pat>
 ```
 
-Optionally, set the source control platform (default is `github`):
-
-```bash
-# Use Azure DevOps instead of GitHub
-azd env set SOURCE_CONTROL_PLATFORM adogit
-```
-
-**4. Deploy:**
-
-```bash
-azd up
-```
-
-**Expected output:**
-
-```text
-Provisioning Azure resources (azd provision)...
-
-  (✓) Done: Resource group: devexp-workload-my-devbox-env-eastus-RG
-  (✓) Done: Log Analytics Workspace
-  (✓) Done: Key Vault: contoso-<unique>-kv
-  (✓) Done: Azure DevCenter: devexp-devcenter
-  (✓) Done: Project: eShop
-
-SUCCESS: Your Azure Developer Experience environment is ready.
-DevCenter: devexp-devcenter
-Projects:  eShop
-```
-
-> [!TIP]  
-> To use **Azure DevOps** instead of GitHub as the source control provider, set
-> `azd env set SOURCE_CONTROL_PLATFORM adogit` before running `azd up`. The
-> default value is `github`.
-
-## Deployment
-
-### Environment Variables
-
-The following environment variables are consumed by `infra/main.parameters.json`
-and the pre-provision hooks in `azure.yaml`:
-
-| Variable                     | Description                                                       | Where to Set                          |
-| ---------------------------- | ----------------------------------------------------------------- | ------------------------------------- |
-| 🌍 `AZURE_ENV_NAME`          | Environment name used in resource naming (`dev`, `test`, `prod`)  | `azd env new <name>`                  |
-| 📍 `AZURE_LOCATION`          | Azure region for deployment (e.g., `eastus`, `westeurope`)        | `azd env set AZURE_LOCATION`          |
-| 🔑 `KEY_VAULT_SECRET`        | GitHub PAT or token stored in Key Vault as `gha-token`            | `azd env set KEY_VAULT_SECRET`        |
-| 🔌 `SOURCE_CONTROL_PLATFORM` | Source control platform: `github` or `adogit` (default: `github`) | `azd env set SOURCE_CONTROL_PLATFORM` |
-
-### Supported Azure Regions
-
-The deployment accepts the following `AZURE_LOCATION` values as defined in
-`infra/main.bicep`:
+Supported `AZURE_LOCATION` values (from `infra/main.bicep`):
 
 ```text
 eastus  eastus2  westus  westus2  westus3  centralus
@@ -304,44 +245,114 @@ japaneast  uksouth  canadacentral  swedencentral
 switzerlandnorth  germanywestcentral
 ```
 
-### Cleanup
+To use Azure DevOps as the source control provider instead of GitHub:
 
-To remove all deployed Azure resources and clean up GitHub secrets and service
-principals, run:
-
-```powershell
-.\cleanSetUp.ps1 -EnvName "my-devbox-env" -Location "eastus"
+```bash
+azd env set SOURCE_CONTROL_PLATFORM adogit
 ```
 
-The `cleanSetUp.ps1` script deletes subscription-level deployments, role
-assignments, the Azure AD app registration
-(`ContosoDevEx GitHub Actions Enterprise App`), the `AZURE_CREDENTIALS` GitHub
-secret, and all resource groups created during deployment.
+The full set of azd environment variables consumed by `infra/main.parameters.json`
+and the `preprovision` hook:
 
-## Usage
+| Variable | Description | How to Set |
+| --- | --- | --- |
+| 🌍 `AZURE_ENV_NAME` | Environment name used in resource group naming | `azd env new <name>` |
+| 📍 `AZURE_LOCATION` | Azure region for all deployed resources | `azd env set AZURE_LOCATION <region>` |
+| 🔑 `KEY_VAULT_SECRET` | GitHub PAT or Azure DevOps PAT stored as `gha-token` in Key Vault | `azd env set KEY_VAULT_SECRET <token>` or auto-retrieved via `gh auth token` |
+| 🔌 `SOURCE_CONTROL_PLATFORM` | Source control provider: `github` (default) or `adogit` | `azd env set SOURCE_CONTROL_PLATFORM adogit` |
 
-### Accessing Dev Boxes
+> [!NOTE]
+> `KEY_VAULT_SECRET` is optional at this stage. If not set, the `preprovision`
+> hook calls `gh auth token` automatically to retrieve it from the authenticated
+> GitHub CLI session, then writes it to `.azure/<env-name>/.env`.
 
-After deployment, members of the `eShop Engineers` Azure AD group can access
-their role-specific Dev Boxes through the
-[Microsoft Dev Box portal](https://devbox.microsoft.com).
+### Step 3 — Update Configuration Files
 
-Available Dev Box pools in the `eShop` project:
+Edit the three YAML configuration files before provisioning. At minimum, replace
+the placeholder Azure AD group IDs in `infra/settings/workload/devcenter.yaml`.
+See the [Configuration](#configuration) section for all available settings.
 
-| Pool Name              | Image Definition     | VM SKU                        | Target Persona      |
-| ---------------------- | -------------------- | ----------------------------- | ------------------- |
-| ⚙️ `backend-engineer`  | `eshop-backend-dev`  | `general_i_32c128gb512ssd_v2` | Backend developers  |
-| 🖥️ `frontend-engineer` | `eshop-frontend-dev` | `general_i_16c64gb256ssd_v2`  | Frontend developers |
+### Step 4 — Provision
+
+```bash
+azd provision
+```
+
+The `preprovision` hook in `azure.yaml` first runs `setUp.sh`/`setUp.ps1` to
+validate tools (`az`, `azd`, `gh`/`jq`), verify authentication, and write
+secrets to the env file. `azd` then deploys the Bicep modules at subscription
+scope.
+
+**Expected output:**
+
+```text
+Running preprovision hook...
+  ✅ Azure authentication verified
+  ✅ GitHub authentication verified
+  ✅ GitHub token stored in .azure/my-devbox-env/.env
+
+Provisioning Azure resources...
+  (✓) Done: Resource group: devexp-workload-my-devbox-env-eastus-RG
+  (✓) Done: Log Analytics Workspace
+  (✓) Done: Key Vault: contoso-<unique>-kv
+  (✓) Done: Azure DevCenter: devexp-devcenter
+  (✓) Done: Project: eShop
+
+SUCCESS: Your up-to-date infrastructure is now provisioned.
+```
+
+### Step 5 — Verify and Access
+
+After provisioning, retrieve deployed resource names:
+
+```bash
+azd env get-values
+```
+
+Key output variables emitted by `infra/main.bicep`:
+
+| Output Variable | Description |
+| --- | --- |
+| 🖥️ `AZURE_DEV_CENTER_NAME` | Name of the deployed Azure DevCenter (`devexp-devcenter`) |
+| 📁 `AZURE_DEV_CENTER_PROJECTS` | Array of deployed project names (e.g., `["eShop"]`) |
+| 🔑 `AZURE_KEY_VAULT_NAME` | Full name of the provisioned Key Vault (`contoso-<unique>-kv`) |
+| 🔗 `AZURE_KEY_VAULT_ENDPOINT` | URI endpoint of the Key Vault (`https://contoso-<unique>-kv.vault.azure.net/`) |
+| 🔐 `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | Full URI of the stored secret (`gha-token`) |
+| 📊 `AZURE_LOG_ANALYTICS_WORKSPACE_NAME` | Name of the Log Analytics Workspace |
+| 🆔 `AZURE_LOG_ANALYTICS_WORKSPACE_ID` | Resource ID of the Log Analytics Workspace |
+
+Confirm the DevCenter and projects provisioned successfully:
+
+```bash
+az devcenter admin devcenter show \
+  --name devexp-devcenter \
+  --resource-group devexp-workload-my-devbox-env-eastus-RG \
+  --query provisioningState -o tsv
+
+az devcenter admin project list \
+  --query "[].{Name:name, State:provisioningState}" -o table
+```
+
+Members of the `eShop Engineers` Azure AD group can now access their Dev Boxes
+through the [Microsoft Dev Box portal](https://devbox.microsoft.com):
+
+| Pool | Image Definition | VM SKU | Persona |
+| --- | --- | --- | --- |
+| ⚙️ `backend-engineer` | `eshop-backend-dev` | `general_i_32c128gb512ssd_v2` (32 vCPU, 128 GB RAM, 512 GB SSD) | 🧑‍💻 Backend developers |
+| 🖥️ `frontend-engineer` | `eshop-frontend-dev` | `general_i_16c64gb256ssd_v2` (16 vCPU, 64 GB RAM, 256 GB SSD) | 🎨 Frontend developers |
 
 ### Running Setup Scripts Directly
 
-The `setUp.sh` and `setUp.ps1` scripts are invoked automatically by `azd up` via
-the `preprovision` hook in `azure.yaml`. They can also be run manually:
+`setUp.sh` and `setUp.ps1` are called automatically by `azd provision` via the
+`preprovision` hook. They can also be run standalone — for example, to
+re-initialize credentials without re-provisioning:
 
 **Linux / macOS:**
 
 ```bash
 ./setUp.sh -e "my-devbox-env" -s "github"
+# or interactively (prompts for platform selection):
+./setUp.sh -e "my-devbox-env"
 ```
 
 **Windows (PowerShell):**
@@ -350,67 +361,26 @@ the `preprovision` hook in `azure.yaml`. They can also be run manually:
 .\setUp.ps1 -EnvName "my-devbox-env" -SourceControl "github"
 ```
 
-**Script parameters:**
+| Parameter | Short Flag | Description | Default |
+| --- | --- | --- | --- |
+| 🌍 `EnvName` / `--env-name` | `-e` | Name of the azd environment | Required |
+| 🔌 `SourceControl` / `--source-control` | `-s` | Source control platform (`github` or `adogit`) | Interactive prompt |
 
-| Parameter                               | Short Flag | Description                                    | Default  |
-| --------------------------------------- | ---------- | ---------------------------------------------- | -------- |
-| 🌍 `EnvName` / `--env-name`             | `-e`       | Azure environment name                         | Required |
-| 🔌 `SourceControl` / `--source-control` | `-s`       | Source control platform (`github` or `adogit`) | `github` |
+### Cleanup
 
-### Verifying the Deployment
+To remove all provisioned Azure resources, role assignments, the Azure AD app
+registration, and the `AZURE_CREDENTIALS` GitHub secret:
 
-After `azd up` completes, confirm the DevCenter and its projects provisioned
-successfully:
-
-```bash
-# Show DevCenter provisioning state
-az devcenter admin devcenter show \
-  --name devexp-devcenter \
-  --resource-group devexp-workload-<env-name>-<location>-RG \
-  --query provisioningState -o tsv
+```powershell
+.\cleanSetUp.ps1 -EnvName "my-devbox-env" -Location "eastus"
 ```
 
-```bash
-# List all projects under the DevCenter
-az devcenter admin project list \
-  --query "[].{Name:name, State:provisioningState}" \
-  -o table
-```
-
-Expected output:
-
-```text
-Name    State
-------  ---------
-eShop   Succeeded
-```
-
-You can also inspect the `azd` environment outputs to retrieve the deployed
-resource names:
-
-```bash
-azd env get-values
-```
-
-Key output variables provisioned by `infra/main.bicep`:
-
-| Output Variable                         | Description                                               |
-| --------------------------------------- | --------------------------------------------------------- |
-| 🖥️ `AZURE_DEV_CENTER_NAME`              | Name of the deployed Azure DevCenter (`devexp-devcenter`) |
-| 📁 `AZURE_DEV_CENTER_PROJECTS`          | Array of deployed project names (e.g., `["eShop"]`)       |
-| 🔑 `AZURE_KEY_VAULT_NAME`               | Name of the provisioned Key Vault                         |
-| 🔗 `AZURE_KEY_VAULT_ENDPOINT`           | URI endpoint of the Key Vault                             |
-| 📊 `AZURE_LOG_ANALYTICS_WORKSPACE_NAME` | Name of the Log Analytics Workspace                       |
-
-### Adding a New Project
-
-To add a new DevCenter project alongside the existing `eShop` project, append a
-new entry to the `projects` array in `infra/settings/workload/devcenter.yaml`
-following the same structure, then run:
-
-```bash
-azd up
-```
+| Parameter | Description | Default |
+| --- | --- | --- |
+| 🌍 `-EnvName` | Environment name used during provisioning | `gitHub` |
+| 📍 `-Location` | Azure region where resources were deployed | `eastus2` |
+| 🏢 `-AppDisplayName` | Azure AD app registration display name to delete | `ContosoDevEx GitHub Actions Enterprise App` |
+| 🔑 `-GhSecretName` | GitHub secret name to remove | `AZURE_CREDENTIALS` |
 
 ## Configuration
 
