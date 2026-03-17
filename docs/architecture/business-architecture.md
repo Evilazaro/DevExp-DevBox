@@ -194,7 +194,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Business Capability Map
-    accDescr: Shows all seven business capabilities organized by domain with maturity levels and dependencies. All capabilities are at Level 3 Defined maturity.
+    accDescr: Shows all seven business capabilities organized by domain with dependencies and platform integration.
 
     %% ═══════════════════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
@@ -522,8 +522,8 @@ config:
     htmlLabels: true
 ---
 flowchart LR
-    accTitle: Business Capability Maturity Baseline Heatmap
-    accDescr: Heatmap showing current maturity level for each of the seven business capabilities. All capabilities are at Level 3 Defined maturity, shown in warning yellow color.
+    accTitle: Business Capability Platform Status
+    accDescr: Platform status overview for each of the seven business capabilities, showing current operational readiness using color-coded status indicators.
 
     %% ═══════════════════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
@@ -536,15 +536,15 @@ flowchart LR
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    subgraph legend["📊 Maturity Legend"]
-        L1("🔴 Level 1 — Initial"):::danger
-        L2("🟠 Level 2 — Repeatable"):::warning
-        L3("🟡 Level 3 — Defined"):::warning
-        L4("🟢 Level 4 — Measured"):::success
-        L5("✅ Level 5 — Optimized"):::success
+    subgraph legend["📊 Status Legend"]
+        L1("🔴 Not Started"):::danger
+        L2("🟠 In Progress"):::warning
+        L3("🟡 Defined"):::warning
+        L4("🟢 Measured"):::success
+        L5("✅ Optimized"):::success
     end
 
-    subgraph capabilities["⚡ Current Capability Maturity (as-is)"]
+    subgraph capabilities["⚡ Current Capability Status (as-is)"]
         CAP_AP("🚀 Automated Provisioning"):::warning
         CAP_CAC("📋 Config-as-Code"):::warning
         CAP_SM("🔒 Security Management"):::warning
@@ -1149,7 +1149,7 @@ attributes and lifecycle information.
 ### 5.11 📈 KPIs & Metrics Specifications
 
 This subsection documents the four KPI and metric constructs observed in the
-DevExp-DevBox platform. All KPIs are at Level 1–2 maturity, indicating
+DevExp-DevBox platform. All KPIs are in early-stage definition, indicating
 significant investment opportunity in quantitative measurement.
 
 #### 5.11.1 Feature Availability Rate
