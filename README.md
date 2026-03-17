@@ -6,7 +6,10 @@
 [![Bicep IaC](https://img.shields.io/badge/IaC-Bicep-00BCF2)](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/)
 [![GitHub Stars](https://img.shields.io/github/stars/Evilazaro/DevExp-DevBox?style=social)](https://github.com/Evilazaro/DevExp-DevBox)
 
-A production-grade **Microsoft Dev Box Accelerator** that provisions cloud-hosted, role-optimized developer workstations on Azure — driven by configuration-as-code YAML and deployed via the Azure Developer CLI (`azd provision`).
+A production-grade **Microsoft Dev Box Accelerator** that provisions
+cloud-hosted, role-optimized developer workstations on Azure — driven by
+configuration-as-code YAML and deployed via the Azure Developer CLI
+(`azd provision`).
 
 ## Overview
 
@@ -196,8 +199,11 @@ for RBAC assignments.
 | 🌐 PowerShell          | PowerShell for Windows deployment via `setUp.ps1`                               | ≥ 7.0           |
 | 📦 Bash                | Bash for Linux/macOS deployment via `setUp.sh`                                  | ≥ 5.0           |
 
-> [!WARNING]
-> The `KEY_VAULT_SECRET` environment variable must be set to a valid GitHub Personal Access Token (PAT) with `repo` scope before running `azd provision`. If not set, `setUp.sh` / `setUp.ps1` will attempt to retrieve it automatically via `gh auth token`. This token is stored in Azure Key Vault and used by the DevCenter catalog to authenticate to GitHub repositories.
+> [!WARNING] The `KEY_VAULT_SECRET` environment variable must be set to a valid
+> GitHub Personal Access Token (PAT) with `repo` scope before running
+> `azd provision`. If not set, `setUp.sh` / `setUp.ps1` will attempt to retrieve
+> it automatically via `gh auth token`. This token is stored in Azure Key Vault
+> and used by the DevCenter catalog to authenticate to GitHub repositories.
 
 ## Getting Started
 
@@ -251,20 +257,20 @@ To use Azure DevOps as the source control provider instead of GitHub:
 azd env set SOURCE_CONTROL_PLATFORM adogit
 ```
 
-The full set of azd environment variables consumed by `infra/main.parameters.json`
-and the `preprovision` hook:
+The full set of azd environment variables consumed by
+`infra/main.parameters.json` and the `preprovision` hook:
 
-| Variable | Description | How to Set |
-| --- | --- | --- |
-| 🌍 `AZURE_ENV_NAME` | Environment name used in resource group naming | `azd env new <name>` |
-| 📍 `AZURE_LOCATION` | Azure region for all deployed resources | `azd env set AZURE_LOCATION <region>` |
-| 🔑 `KEY_VAULT_SECRET` | GitHub PAT or Azure DevOps PAT stored as `gha-token` in Key Vault | `azd env set KEY_VAULT_SECRET <token>` or auto-retrieved via `gh auth token` |
-| 🔌 `SOURCE_CONTROL_PLATFORM` | Source control provider: `github` (default) or `adogit` | `azd env set SOURCE_CONTROL_PLATFORM adogit` |
+| Variable                     | Description                                                       | How to Set                                                                   |
+| ---------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 🌍 `AZURE_ENV_NAME`          | Environment name used in resource group naming                    | `azd env new <name>`                                                         |
+| 📍 `AZURE_LOCATION`          | Azure region for all deployed resources                           | `azd env set AZURE_LOCATION <region>`                                        |
+| 🔑 `KEY_VAULT_SECRET`        | GitHub PAT or Azure DevOps PAT stored as `gha-token` in Key Vault | `azd env set KEY_VAULT_SECRET <token>` or auto-retrieved via `gh auth token` |
+| 🔌 `SOURCE_CONTROL_PLATFORM` | Source control provider: `github` (default) or `adogit`           | `azd env set SOURCE_CONTROL_PLATFORM adogit`                                 |
 
-> [!NOTE]
-> `KEY_VAULT_SECRET` is optional at this stage. If not set, the `preprovision`
-> hook calls `gh auth token` automatically to retrieve it from the authenticated
-> GitHub CLI session, then writes it to `.azure/<env-name>/.env`.
+> [!NOTE] `KEY_VAULT_SECRET` is optional at this stage. If not set, the
+> `preprovision` hook calls `gh auth token` automatically to retrieve it from
+> the authenticated GitHub CLI session, then writes it to
+> `.azure/<env-name>/.env`.
 
 ### Step 3 — Update Configuration Files
 
@@ -311,15 +317,15 @@ azd env get-values
 
 Key output variables emitted by `infra/main.bicep`:
 
-| Output Variable | Description |
-| --- | --- |
-| 🖥️ `AZURE_DEV_CENTER_NAME` | Name of the deployed Azure DevCenter (`devexp-devcenter`) |
-| 📁 `AZURE_DEV_CENTER_PROJECTS` | Array of deployed project names (e.g., `["eShop"]`) |
-| 🔑 `AZURE_KEY_VAULT_NAME` | Full name of the provisioned Key Vault (`contoso-<unique>-kv`) |
-| 🔗 `AZURE_KEY_VAULT_ENDPOINT` | URI endpoint of the Key Vault (`https://contoso-<unique>-kv.vault.azure.net/`) |
-| 🔐 `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | Full URI of the stored secret (`gha-token`) |
-| 📊 `AZURE_LOG_ANALYTICS_WORKSPACE_NAME` | Name of the Log Analytics Workspace |
-| 🆔 `AZURE_LOG_ANALYTICS_WORKSPACE_ID` | Resource ID of the Log Analytics Workspace |
+| Output Variable                         | Description                                                                    |
+| --------------------------------------- | ------------------------------------------------------------------------------ |
+| 🖥️ `AZURE_DEV_CENTER_NAME`              | Name of the deployed Azure DevCenter (`devexp-devcenter`)                      |
+| 📁 `AZURE_DEV_CENTER_PROJECTS`          | Array of deployed project names (e.g., `["eShop"]`)                            |
+| 🔑 `AZURE_KEY_VAULT_NAME`               | Full name of the provisioned Key Vault (`contoso-<unique>-kv`)                 |
+| 🔗 `AZURE_KEY_VAULT_ENDPOINT`           | URI endpoint of the Key Vault (`https://contoso-<unique>-kv.vault.azure.net/`) |
+| 🔐 `AZURE_KEY_VAULT_SECRET_IDENTIFIER`  | Full URI of the stored secret (`gha-token`)                                    |
+| 📊 `AZURE_LOG_ANALYTICS_WORKSPACE_NAME` | Name of the Log Analytics Workspace                                            |
+| 🆔 `AZURE_LOG_ANALYTICS_WORKSPACE_ID`   | Resource ID of the Log Analytics Workspace                                     |
 
 Confirm the DevCenter and projects provisioned successfully:
 
@@ -336,10 +342,10 @@ az devcenter admin project list \
 Members of the `eShop Engineers` Azure AD group can now access their Dev Boxes
 through the [Microsoft Dev Box portal](https://devbox.microsoft.com):
 
-| Pool | Image Definition | VM SKU | Persona |
-| --- | --- | --- | --- |
-| ⚙️ `backend-engineer` | `eshop-backend-dev` | `general_i_32c128gb512ssd_v2` (32 vCPU, 128 GB RAM, 512 GB SSD) | 🧑‍💻 Backend developers |
-| 🖥️ `frontend-engineer` | `eshop-frontend-dev` | `general_i_16c64gb256ssd_v2` (16 vCPU, 64 GB RAM, 256 GB SSD) | 🎨 Frontend developers |
+| Pool                   | Image Definition     | VM SKU                                                          | Persona                |
+| ---------------------- | -------------------- | --------------------------------------------------------------- | ---------------------- |
+| ⚙️ `backend-engineer`  | `eshop-backend-dev`  | `general_i_32c128gb512ssd_v2` (32 vCPU, 128 GB RAM, 512 GB SSD) | 🧑‍💻 Backend developers  |
+| 🖥️ `frontend-engineer` | `eshop-frontend-dev` | `general_i_16c64gb256ssd_v2` (16 vCPU, 64 GB RAM, 256 GB SSD)   | 🎨 Frontend developers |
 
 ### Running Setup Scripts Directly
 
@@ -361,10 +367,10 @@ re-initialize credentials without re-provisioning:
 .\setUp.ps1 -EnvName "my-devbox-env" -SourceControl "github"
 ```
 
-| Parameter | Short Flag | Description | Default |
-| --- | --- | --- | --- |
-| 🌍 `EnvName` / `--env-name` | `-e` | Name of the azd environment | Required |
-| 🔌 `SourceControl` / `--source-control` | `-s` | Source control platform (`github` or `adogit`) | Interactive prompt |
+| Parameter                               | Short Flag | Description                                    | Default            |
+| --------------------------------------- | ---------- | ---------------------------------------------- | ------------------ |
+| 🌍 `EnvName` / `--env-name`             | `-e`       | Name of the azd environment                    | Required           |
+| 🔌 `SourceControl` / `--source-control` | `-s`       | Source control platform (`github` or `adogit`) | Interactive prompt |
 
 ### Cleanup
 
@@ -375,12 +381,12 @@ registration, and the `AZURE_CREDENTIALS` GitHub secret:
 .\cleanSetUp.ps1 -EnvName "my-devbox-env" -Location "eastus"
 ```
 
-| Parameter | Description | Default |
-| --- | --- | --- |
-| 🌍 `-EnvName` | Environment name used during provisioning | `gitHub` |
-| 📍 `-Location` | Azure region where resources were deployed | `eastus2` |
+| Parameter            | Description                                      | Default                                      |
+| -------------------- | ------------------------------------------------ | -------------------------------------------- |
+| 🌍 `-EnvName`        | Environment name used during provisioning        | `gitHub`                                     |
+| 📍 `-Location`       | Azure region where resources were deployed       | `eastus2`                                    |
 | 🏢 `-AppDisplayName` | Azure AD app registration display name to delete | `ContosoDevEx GitHub Actions Enterprise App` |
-| 🔑 `-GhSecretName` | GitHub secret name to remove | `AZURE_CREDENTIALS` |
+| 🔑 `-GhSecretName`   | GitHub secret name to remove                     | `AZURE_CREDENTIALS`                          |
 
 ## Configuration
 
