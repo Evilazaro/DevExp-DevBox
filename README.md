@@ -167,8 +167,9 @@ re-deployment — no portal access, no manual steps.
 | 🌍 Multi-Environment Support   | Dev, Staging, and UAT environment types provisioned per DevCenter project                    | ✅ Stable |
 | 📊 Built-in Observability      | Log Analytics Workspace with AzureActivity solution and diagnostic settings on all resources | ✅ Stable |
 
-> [!NOTE] The security and monitoring resource groups are **shared with the
-> workload resource group by default** (`create: false` in
+> [!NOTE]  
+> The security and monitoring resource groups are **shared with the workload
+> resource group by default** (`create: false` in
 > `infra/settings/resourceOrganization/azureResources.yaml`). Set `create: true`
 > for either to deploy them into dedicated resource groups for stricter
 > isolation.
@@ -199,10 +200,11 @@ for RBAC assignments.
 | 🌐 PowerShell          | PowerShell for Windows deployment via `setUp.ps1`                               | ≥ 7.0           |
 | 📦 Bash                | Bash for Linux/macOS deployment via `setUp.sh`                                  | ≥ 5.0           |
 
-> [!WARNING] The `KEY_VAULT_SECRET` environment variable must be set to a valid
-> GitHub Personal Access Token (PAT) with `repo` scope **before** running
-> `azd up`. This token is stored in Azure Key Vault and used by the DevCenter
-> catalog to authenticate to GitHub repositories.
+> [!WARNING]  
+> The `KEY_VAULT_SECRET` environment variable must be set to a valid GitHub
+> Personal Access Token (PAT) with `repo` scope **before** running `azd up`.
+> This token is stored in Azure Key Vault and used by the DevCenter catalog to
+> authenticate to GitHub repositories.
 
 ## Quick Start
 
@@ -255,9 +257,10 @@ DevCenter: devexp-devcenter
 Projects:  eShop
 ```
 
-> [!TIP] To use **Azure DevOps** instead of GitHub as the source control
-> provider, set `azd env set SOURCE_CONTROL_PLATFORM adogit` before running
-> `azd up`. The default value is `github`.
+> [!TIP]  
+> To use **Azure DevOps** instead of GitHub as the source control provider, set
+> `azd env set SOURCE_CONTROL_PLATFORM adogit` before running `azd up`. The
+> default value is `github`.
 
 ## Deployment
 
