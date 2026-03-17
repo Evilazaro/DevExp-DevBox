@@ -962,13 +962,122 @@ projects:
 ### Adding a New Project
 
 To add a project alongside `eShop`, append a new entry to the `projects` array
-in `devcenter.yaml` following the same structure, then re-run:
+in `infra/settings/workload/devcenter.yaml`. Below is a complete example for a
+hypothetical `payments` project:
+
+```yaml
+projects:
+  - name: eShop          # existing project — leave untouched
+    # ...
+
+  - name: payments
+    description: Payments microservice platform.
+
+    # --- Network ---
+    network:
+      name: payments
+      create: true
+      resourceGroupName: payments-connectivity-RG
+      virtualNetworkType: Managed
+      addressPrefixes:
+        - 10.1.0.0/16    # must not overlap with eShop (10.0.0.0/16)
+      subnets:
+        - name: payments-subnet
+          properties:
+            addressPrefix: 10.1.1.0/24
+      tags:
+        environment: dev
+        division: Platforms
+        team: Payments
+        project: Contoso-DevExp-DevBox
+        costCenter: IT
+        owner: Contoso
+        resources: Network
+
+    # --- Identity & RBAC ---
+    identity:
+      type: SystemAssigned
+      roleAssignments:
+        - azureADGroupId: <payments-engineers-group-object-id>   # ← Replace
+          azureADGroupName: Payments Engineers
+          azureRBACRoles:
+            - name: Contributor
+              id: b24988ac-6180-42a0-ab88-20f7382dd24c
+              scope: Project
+            - name: Dev Box User
+              id: 45d50f46-0b78-4001-a660-4198cbe8cd05
+              scope: Project
+            - name: Deployment Environment User
+              id: 18e40d4e-8d2e-438d-97e1-9528336e149c
+              scope: Project
+            - name: Key Vault Secrets User
+              id: 4633458b-17de-408a-b874-0445c86b69e6
+              scope: ResourceGroup
+            - name: Key Vault Secrets Officer
+              id: b86a8fe4-44ce-4948-aee5-eccb2c155cd7
+              scope: ResourceGroup
+
+    # --- Dev Box Pools ---
+    pools:
+      - name: payments-engineer
+        imageDefinitionName: payments-dev        # must exist in the devboxImages catalog below
+        vmSku: general_i_16c64gb256ssd_v2
+
+    # --- Environment Types (subset of the DevCenter-level types) ---
+    environmentTypes:
+      - name: dev
+        deploymentTargetId: ''
+      - name: staging
+        deploymentTargetId: ''
+
+    # --- Catalogs ---
+    catalogs:
+      - name: environments
+        type: environmentDefinition
+        sourceControl: gitHub
+        visibility: private
+        uri: https://github.com/Evilazaro/payments.git
+        branch: main
+        path: /.devcenter/environments
+      - name: devboxImages
+        type: imageDefinition
+        sourceControl: gitHub
+        visibility: private
+        uri: https://github.com/Evilazaro/payments.git
+        branch: main
+        path: /.devcenter/imageDefinitions
+
+    # --- Tags ---
+    tags:
+      environment: dev
+      division: Platforms
+      team: Payments
+      project: Contoso-DevExp-DevBox
+      costCenter: IT
+      owner: Contoso
+      resources: Project
+```
+
+Create the required Azure AD group before provisioning:
+
+```bash
+az ad group create \
+  --display-name "Payments Engineers" \
+  --mail-nickname "PaymentsEngineers"
+
+az ad group show --group "Payments Engineers" --query id -o tsv
+# ↑ paste this ID into azureADGroupId above
+```
+
+Then provision:
 
 ```bash
 azd provision
 ```
 
-Bicep's idempotent deployment model ensures existing resources are not affected.
+Bicep's idempotent deployment model ensures the existing `eShop` project and all
+other resources are not affected. Only the new `payments` project and its child
+resources are created.
 
 ## Contributing
 
