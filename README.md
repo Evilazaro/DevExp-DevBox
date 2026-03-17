@@ -57,8 +57,7 @@ config:
   layout: dagre
   flowchart:
     htmlLabels: true
-  themeVariables:
-    fontSize: '16px'
+
 ---
 flowchart TB
     accTitle: DevExp-DevBox System Architecture
