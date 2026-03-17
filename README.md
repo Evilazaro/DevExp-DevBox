@@ -58,7 +58,7 @@ config:
   flowchart:
     htmlLabels: true
   themeVariables:
-    fontSize: '25px'
+    fontSize: '18px'
 ---
 flowchart TB
     accTitle: DevExp-DevBox System Architecture
