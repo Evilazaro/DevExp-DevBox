@@ -660,14 +660,14 @@ Instruction.
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy          | Configuration    |
-| ---------- | ----------------- | ---------------- |
-| Horizontal | PaaS auto-scaling | Per pricing tier |
-| Vertical   | SKU upgrade       | Manual selection |
+| 📐 Dimension | 📈 Strategy       | ⚙️ Configuration |
+| ------------ | ----------------- | ---------------- |
+| Horizontal   | PaaS auto-scaling | Per pricing tier |
+| Vertical     | SKU upgrade       | Manual selection |
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration    |
+| 💊 Probe Type         | ⚙️ Configuration |
 | --------------------- | ---------------- |
 | Azure Resource Health | Platform-managed |
 
