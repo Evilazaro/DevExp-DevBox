@@ -338,10 +338,10 @@ flowchart LR
 ### 📝 Summary
 
 The DevExp-DevBox data landscape encompasses 46 components distributed across
-all 11 canonical TOGAF Data Architecture component types. The most densely
-populated types are Data Entities (10) driven by the rich YAML configuration
-model and Data Security (6) reflecting the security-first posture of the Key
-Vault integration. All three data storage tiers — file-based YAML, Azure cloud
+all 11 canonical Data Architecture component types. The most densely populated
+types are Data Entities (10) driven by the rich YAML configuration model and
+Data Security (6) reflecting the security-first posture of the Key Vault
+integration. All three data storage tiers — file-based YAML, Azure cloud
 services, and external Git repositories — are clearly separated and
 purpose-specific.
 
@@ -364,8 +364,8 @@ derived directly from observable patterns in the source code. These principles
 are not explicitly documented as a policy manifest in the repository, but are
 consistently applied across all configuration, security, and observability data
 components. The principles reflect best practices from the Azure
-Well-Architected Framework, TOGAF 10 Data Architecture, and Microsoft's Cloud
-Adoption Framework for Landing Zones.
+Well-Architected Framework, Data Architecture, and Microsoft's Cloud Adoption
+Framework for Landing Zones.
 
 Schema-first design is the most prominent principle: all declarative
 configuration data is authored against a formally defined JSON Schema contract
@@ -625,10 +625,10 @@ matures toward production usage.
 
 This section provides a comprehensive inventory of all 46 data components
 identified across the DevExp-DevBox workspace. Components are organized across
-all 11 canonical TOGAF Data Architecture types in subsections 5.1 through 5.11.
-Each component entry includes data classification, storage type, ownership,
-retention policy, freshness SLA, source-system references, downstream consumers,
-and source file traceability. The catalog was produced through analysis of all
+all 11 canonical Data Architecture types in subsections 5.1 through 5.11. Each
+component entry includes data classification, storage type, ownership, retention
+policy, freshness SLA, source-system references, downstream consumers, and
+source file traceability. The catalog was produced through analysis of all
 infrastructure source files under the workspace root with a confidence threshold
 of 0.70 applied.
 
@@ -858,10 +858,10 @@ Violations: 0
 ### 📝 Summary
 
 The DevExp-DevBox data component catalog documents 46 components spread across
-all 11 canonical TOGAF Data Architecture types, confirming comprehensive data
-coverage for this IaC platform. The dominant patterns are configuration-as-data
-(10 entities, 5 models, 3 contracts all representing structured YAML and JSON
-Schema assets) and security-first data protection (6 security controls spanning
+all 11 canonical Data Architecture types, confirming comprehensive data coverage
+for this IaC platform. The dominant patterns are configuration-as-data (10
+entities, 5 models, 3 contracts all representing structured YAML and JSON Schema
+assets) and security-first data protection (6 security controls spanning
 encryption, access governance, and audit logging). All 46 components have valid
 source file traceability with line ranges, and zero fabricated components were
 introduced.
