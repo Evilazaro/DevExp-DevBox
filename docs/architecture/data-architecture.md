@@ -1,79 +1,5 @@
 # Data Architecture - DevExp-DevBox
 
-**Generated**: 2026-03-17T00:00:00Z **Session ID**:
-a1b2c3d4-e5f6-7890-abcd-ef1234567890 **Quality Level**: comprehensive **Data
-Assets Found**: 46 **Target Layer**: Data **Analysis Scope**: ["."] (full
-workspace — all source files under d:\DevExp-DevBox)
-
----
-
-```yaml
-data_layer_reasoning:
-  phase: 'Data Layer Analysis'
-  step1_scope:
-    folder_paths: ['.']
-    target_layer: 'Data'
-    expected_component_types:
-      - 'Data Entities'
-      - 'Data Models'
-      - 'Data Stores'
-      - 'Data Flows'
-      - 'Data Services'
-      - 'Data Governance'
-      - 'Data Quality Rules'
-      - 'Master Data'
-      - 'Data Transformations'
-      - 'Data Contracts'
-      - 'Data Security'
-    confidence_threshold: 0.7
-  step2_evidence:
-    files_scanned:
-      - 'infra/main.bicep'
-      - 'infra/main.parameters.json'
-      - 'infra/settings/resourceOrganization/azureResources.yaml'
-      - 'infra/settings/resourceOrganization/azureResources.schema.json'
-      - 'infra/settings/security/security.yaml'
-      - 'infra/settings/security/security.schema.json'
-      - 'infra/settings/workload/devcenter.yaml'
-      - 'infra/settings/workload/devcenter.schema.json'
-      - 'src/security/keyVault.bicep'
-      - 'src/security/secret.bicep'
-      - 'src/security/security.bicep'
-      - 'src/management/logAnalytics.bicep'
-      - 'src/workload/workload.bicep'
-      - 'src/workload/core/devCenter.bicep'
-      - 'src/workload/core/catalog.bicep'
-      - 'src/connectivity/vnet.bicep'
-  step3_classification:
-    total_candidates: 46
-    by_type:
-      data_entities: 10
-      data_models: 5
-      data_stores: 3
-      data_flows: 4
-      data_services: 2
-      data_governance: 3
-      data_quality_rules: 4
-      master_data: 3
-      data_transformations: 3
-      data_contracts: 3
-      data_security: 6
-  step4_constraints:
-    all_components_from_folder_paths: true
-    all_source_refs_valid: true
-    all_11_types_present: true
-    confidence_threshold_met: true
-  step5_validation:
-    mermaid_erd_ready: true
-    no_fabricated_components: true
-    cross_references_verified: true
-    error_conditions_none:
-      'E-003 not triggered — 46 components found (threshold: 8)'
-  step6_proceed_to_documentation: true
-```
-
----
-
 ## Section 1: Executive Summary
 
 ### Overview
@@ -366,17 +292,17 @@ flowchart LR
     end
 
     subgraph T2["☁️ Tier 2 — Azure Cloud Data Services"]
-        KV("🗝️ Azure Key Vault\nSecret Store")
-        LAW("📊 Log Analytics\nWorkspace")
+        KV("🗝️ Azure Key Vault<br>Secret Store")
+        LAW("📊 Log Analytics<br>Workspace")
     end
 
     subgraph T3["🌐 Tier 3 — External Catalog Repository"]
-        GH("🐙 GitHub\nmicrosoft/devcenter-catalog")
-        ESHOP_GH("🐙 GitHub\nEvilazaro/eShop")
+        GH("🐙 GitHub<br>microsoft/devcenter-catalog")
+        ESHOP_GH("🐙 GitHub<br>Evilazaro/eShop")
     end
 
-    T1 -->|"loadYamlContent()\ncompile-time read"| T2
-    T2 -->|"diagnosticSettings\ntelemetry write"| LAW
+    T1 -->|"loadYamlContent()<br>compile-time read"| T2
+    T2 -->|"diagnosticSettings<br>telemetry write"| LAW
     T3 -->|"scheduled catalog sync"| KV
 
     style T1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -545,31 +471,31 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph DEPLOY["🚀 Deployment — Compile-Time Data Processing"]
-        YAML_CFG("📄 YAML Config Files\n(infra/settings/*)")
-        SCHEMAS("📋 JSON Schema Contracts\n(*.schema.json)")
-        PARAMS("📋 Deployment Parameters\n(main.parameters.json)")
-        BICEP("⚙️ Bicep Compiler\n(loadYamlContent)")
+        YAML_CFG("📄 YAML Config Files<br>(infra/settings/*)")
+        SCHEMAS("📋 JSON Schema Contracts<br>(*.schema.json)")
+        PARAMS("📋 Deployment Parameters<br>(main.parameters.json)")
+        BICEP("⚙️ Bicep Compiler<br>(loadYamlContent)")
         SCHEMAS -->|"validates"| YAML_CFG
         YAML_CFG -->|"loaded by"| BICEP
         PARAMS -->|"bound to"| BICEP
     end
 
-    subgraph SEC_RG["🔒 Security Resource Group\n(devexp-workload)"]
-        KV("🗝️ Azure Key Vault\ncontoso-{unique}-kv")
+    subgraph SEC_RG["🔒 Security Resource Group<br>(devexp-workload)"]
+        KV("🗝️ Azure Key Vault<br>contoso-{unique}-kv")
         KV_SECRET("🔑 gha-token Secret")
         KV --> KV_SECRET
     end
 
-    subgraph MON_RG["📊 Monitoring Resource Group\n(devexp-workload)"]
-        LAW("📊 Log Analytics Workspace\nlogAnalytics-{unique}")
-        DIAG_LOG("📈 Diagnostic Data\n(allLogs + AllMetrics)")
+    subgraph MON_RG["📊 Monitoring Resource Group<br>(devexp-workload)"]
+        LAW("📊 Log Analytics Workspace<br>logAnalytics-{unique}")
+        DIAG_LOG("📈 Diagnostic Data<br>(allLogs + AllMetrics)")
         DIAG_LOG --> LAW
     end
 
-    subgraph WLK_RG["🖥️ Workload Resource Group\n(devexp-workload)"]
-        DEVCENTER("🖥️ Dev Center\ndevexp-devcenter")
+    subgraph WLK_RG["🖥️ Workload Resource Group<br>(devexp-workload)"]
+        DEVCENTER("🖥️ Dev Center<br>devexp-devcenter")
         PROJECT("📁 eShop Project")
-        CATALOG("📚 customTasks Catalog\n(microsoft/devcenter-catalog)")
+        CATALOG("📚 customTasks Catalog<br>(microsoft/devcenter-catalog)")
         DEVCENTER --> PROJECT
         DEVCENTER --> CATALOG
     end
@@ -577,9 +503,9 @@ flowchart TB
     BICEP -->|"provisions"| KV
     BICEP -->|"provisions"| LAW
     BICEP -->|"provisions"| DEVCENTER
-    KV_SECRET -->|"secretIdentifier\n(URI reference)"| DEVCENTER
-    LAW -->|"workspace ID\n(output)"| KV
-    LAW -->|"workspace ID\n(output)"| DEVCENTER
+    KV_SECRET -->|"secretIdentifier<br>(URI reference)"| DEVCENTER
+    LAW -->|"workspace ID<br>(output)"| KV
+    LAW -->|"workspace ID<br>(output)"| DEVCENTER
     KV -->|"allLogs"| DIAG_LOG
     DEVCENTER -->|"allLogs"| DIAG_LOG
 
@@ -1133,25 +1059,25 @@ flowchart LR
         AZ_YAML("📄 azureResources.yaml")
         SEC_YAML("📄 security.yaml")
         DC_YAML("📄 devcenter.yaml")
-        PARAM("📋 Deployment Params\n(KEY_VAULT_SECRET)")
+        PARAM("📋 Deployment Params<br>(KEY_VAULT_SECRET)")
     end
 
     subgraph PIPE["⚙️ Data Pipeline — Bicep Compiler"]
-        LOAD("🔄 loadYamlContent()\nYAML → Object")
-        BIND("🔗 Parameter Binding\n@secure() secretValue")
-        TRANSFORM("⚙️ uniqueString()\nName Construction")
+        LOAD("🔄 loadYamlContent()<br>YAML → Object")
+        BIND("🔗 Parameter Binding<br>@secure() secretValue")
+        TRANSFORM("⚙️ uniqueString()<br>Name Construction")
     end
 
     subgraph PROV["☁️ Provisioned Data Services"]
-        KV("🗝️ Azure Key Vault\nSecret Store")
-        LAW("📊 Log Analytics\nWorkspace")
-        DC("🖥️ Dev Center\nWorkload")
+        KV("🗝️ Azure Key Vault<br>Secret Store")
+        LAW("📊 Log Analytics<br>Workspace")
+        DC("🖥️ Dev Center<br>Workload")
     end
 
     subgraph OBS["📈 Observability Data Stream"]
         DIAG_KV("📈 KV Diagnostics")
         DIAG_DC("📈 DevCenter Diagnostics")
-        SINK("📊 Log Analytics\nData Sink")
+        SINK("📊 Log Analytics<br>Data Sink")
     end
 
     AZ_YAML -->|"configures RGs"| LOAD
@@ -1228,20 +1154,20 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph AUTH["✏️ Authoring — IDE Validation"]
-        YAML_W("✏️ YAML Author\n(VS Code)") -->|"writes"| YAML_FILES("📄 YAML Config Files")
-        SCHEMAS("📋 JSON Schema\nContracts") -->|"validates via\nyaml-language-server"| YAML_FILES
+        YAML_W("✏️ YAML Author<br>(VS Code)") -->|"writes"| YAML_FILES("📄 YAML Config Files")
+        SCHEMAS("📋 JSON Schema<br>Contracts") -->|"validates via<br>yaml-language-server"| YAML_FILES
     end
 
     subgraph COMPILE["⚙️ Compile — Bicep Toolchain"]
-        MAIN_B("⚙️ main.bicep") -->|"loadYamlContent"| AZ_VAR("📦 landingZones\nvariable")
-        SEC_B("⚙️ security.bicep") -->|"loadYamlContent"| SEC_VAR("📦 securitySettings\nvariable")
-        WORK_B("⚙️ workload.bicep") -->|"loadYamlContent"| DC_VAR("📦 devCenterSettings\nvariable")
+        MAIN_B("⚙️ main.bicep") -->|"loadYamlContent"| AZ_VAR("📦 landingZones<br>variable")
+        SEC_B("⚙️ security.bicep") -->|"loadYamlContent"| SEC_VAR("📦 securitySettings<br>variable")
+        WORK_B("⚙️ workload.bicep") -->|"loadYamlContent"| DC_VAR("📦 devCenterSettings<br>variable")
     end
 
     subgraph DEPLOY["🚀 Deploy — ARM/Bicep"]
-        KV_MOD("🗝️ keyVault.bicep\nmodule")
-        LAW_MOD("📊 logAnalytics.bicep\nmodule")
-        DC_MOD("🖥️ devCenter.bicep\nmodule")
+        KV_MOD("🗝️ keyVault.bicep<br>module")
+        LAW_MOD("📊 logAnalytics.bicep<br>module")
+        DC_MOD("🖥️ devCenter.bicep<br>module")
     end
 
     YAML_FILES -->|"read at compile time"| COMPILE
