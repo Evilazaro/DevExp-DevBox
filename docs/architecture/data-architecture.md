@@ -477,9 +477,9 @@ flowchart TB
     ROOT --> L2
     ROOT --> L3
 
-    style L1 fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    style L2 fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#323130
-    style L3 fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style L1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style L2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style L3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     %% Centralized classDef declarations
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
