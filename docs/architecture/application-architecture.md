@@ -540,7 +540,7 @@ Instruction.
 
 #### 📊 5.1.1 Monitoring Module
 
-| Attribute          | Value                                |
+| 🏷️ Attribute       | 💡 Value                             |
 | ------------------ | ------------------------------------ |
 | **Component Name** | Monitoring Module                    |
 | **Service Type**   | PaaS                                 |
@@ -584,7 +584,7 @@ Instruction.
 
 #### 🔒 5.1.2 Security Module
 
-| Attribute          | Value                          |
+| 🏷️ Attribute       | 💡 Value                       |
 | ------------------ | ------------------------------ |
 | **Component Name** | Security Module                |
 | **Service Type**   | PaaS                           |
@@ -629,7 +629,7 @@ Instruction.
 
 #### 🏗️ 5.1.3 Workload Module
 
-| Attribute          | Value                          |
+| 🏷️ Attribute       | 💡 Value                       |
 | ------------------ | ------------------------------ |
 | **Component Name** | Workload Module                |
 | **Service Type**   | PaaS                           |
@@ -675,7 +675,7 @@ Instruction.
 
 #### 🖥️ 5.1.4 DevCenter Module
 
-| Attribute          | Value                                |
+| 🏷️ Attribute       | 💡 Value                             |
 | ------------------ | ------------------------------------ |
 | **Component Name** | DevCenter Module                     |
 | **Service Type**   | PaaS                                 |
@@ -721,7 +721,7 @@ Instruction.
 
 #### 📁 5.1.5 Project Module (eShop)
 
-| Attribute          | Value                                 |
+| 🏷️ Attribute       | 💡 Value                              |
 | ------------------ | ------------------------------------- |
 | **Component Name** | Project Module (eShop)                |
 | **Service Type**   | PaaS                                  |
@@ -768,7 +768,7 @@ Instruction.
 
 #### 🔌 5.1.6 Connectivity Module
 
-| Attribute          | Value                                  |
+| 🏷️ Attribute       | 💡 Value                               |
 | ------------------ | -------------------------------------- |
 | **Component Name** | Connectivity Module                    |
 | **Service Type**   | PaaS                                   |
@@ -813,7 +813,7 @@ Instruction.
 
 #### ⚙️ 5.2.1 Azure Developer CLI (azd)
 
-| Attribute          | Value               |
+| 🏷️ Attribute       | 💡 Value            |
 | ------------------ | ------------------- |
 | **Component Name** | Azure Developer CLI |
 | **Service Type**   | CLI Tool            |
@@ -843,7 +843,7 @@ Instruction.
 
 #### 🪩 5.2.2 AZD Preprovision Hook
 
-| Attribute          | Value                 |
+| 🏷️ Attribute       | 💡 Value              |
 | ------------------ | --------------------- |
 | **Component Name** | AZD Preprovision Hook |
 | **Service Type**   | Scheduled Job         |
@@ -875,7 +875,7 @@ pipeline
 
 #### 📜 5.2.3 setUp Scripts
 
-| Attribute          | Value                   |
+| 🏷️ Attribute       | 💡 Value                |
 | ------------------ | ----------------------- |
 | **Component Name** | setUp Scripts           |
 | **Service Type**   | Scheduled Job           |
@@ -905,7 +905,7 @@ pipeline
 
 #### 📚 5.2.4 Hugo Static Site Generator
 
-| Attribute          | Value                      |
+| 🏷️ Attribute       | 💡 Value                   |
 | ------------------ | -------------------------- |
 | **Component Name** | Hugo Static Site Generator |
 | **Service Type**   | Background Worker          |
@@ -937,7 +937,7 @@ output
 
 #### ⚡ 5.2.5 Bicep Compiler / ARM Engine
 
-| Attribute          | Value                       |
+| 🏷️ Attribute       | 💡 Value                    |
 | ------------------ | --------------------------- |
 | **Component Name** | Bicep Compiler / ARM Engine |
 | **Service Type**   | Platform Runtime            |
@@ -972,7 +972,7 @@ output
 
 #### 📄 5.3.1 azureResources.yaml Interface
 
-| Attribute          | Value                                                      |
+| 🏷️ Attribute       | 💡 Value                                                   |
 | ------------------ | ---------------------------------------------------------- |
 | **Component Name** | azureResources.yaml Interface                              |
 | **Service Type**   | Configuration                                              |
@@ -1004,7 +1004,7 @@ is a breaking change
 
 #### 📄 5.3.2 devcenter.yaml Interface
 
-| Attribute          | Value                                     |
+| 🏷️ Attribute       | 💡 Value                                  |
 | ------------------ | ----------------------------------------- |
 | **Component Name** | devcenter.yaml Interface                  |
 | **Service Type**   | Configuration                             |
@@ -1031,7 +1031,7 @@ configuration.
 
 #### 📄 5.3.3 security.yaml Interface
 
-| Attribute          | Value                                    |
+| 🏷️ Attribute       | 💡 Value                                 |
 | ------------------ | ---------------------------------------- |
 | **Component Name** | security.yaml Interface                  |
 | **Service Type**   | Configuration                            |
@@ -1058,7 +1058,7 @@ configuration.
 
 #### 📤 5.3.4 Bicep Output Contracts
 
-| Attribute          | Value                    |
+| 🏷️ Attribute       | 💡 Value                 |
 | ------------------ | ------------------------ |
 | **Component Name** | Bicep Output Contracts   |
 | **Service Type**   | API Contract             |
@@ -1083,7 +1083,7 @@ break.
 
 #### 🔄 5.4.1 Module Deployment Pipeline
 
-| Attribute          | Value                      |
+| 🏷️ Attribute       | 💡 Value                   |
 | ------------------ | -------------------------- |
 | **Component Name** | Module Deployment Pipeline |
 | **Service Type**   | Service Orchestration      |
@@ -1154,7 +1154,7 @@ sequenceDiagram
 
 #### ⚙️ 5.5.1 Platform Provisioning Function
 
-| Attribute          | Value                          |
+| 🏷️ Attribute       | 💡 Value                       |
 | ------------------ | ------------------------------ |
 | **Component Name** | Platform Provisioning Function |
 | **Service Type**   | Provisioning Service           |
@@ -1184,7 +1184,7 @@ subscription scope (assigned to DevCenter managed identity per
 
 #### 🔐 5.5.2 Secret Management Function
 
-| Attribute          | Value                        |
+| 🏷️ Attribute       | 💡 Value                     |
 | ------------------ | ---------------------------- |
 | **Component Name** | Secret Management Function   |
 | **Service Type**   | Security Function            |
@@ -1211,7 +1211,7 @@ Vault resource group (assigned in `devcenter.yaml:42-45`).
 
 #### ☁️ 5.6.1 ARM Deployment API Interaction
 
-| Attribute          | Value                          |
+| 🏷️ Attribute       | 💡 Value                       |
 | ------------------ | ------------------------------ |
 | **Component Name** | ARM Deployment API Interaction |
 | **Service Type**   | Request/Response               |
