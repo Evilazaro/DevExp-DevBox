@@ -120,7 +120,7 @@ flowchart TB
         svc6("🔌 Connectivity Module"):::neutral
     end
 
-    subgraph contracts["📋 Application Interfaces (YAML Contracts)"]
+    subgraph contracts["📋 Application Contracts (YAML)"]
         iface1("📄 azureResources.yaml"):::data
         iface2("📄 devcenter.yaml"):::data
         iface3("📄 security.yaml"):::data
@@ -139,9 +139,9 @@ flowchart TB
         plat3("📊 Log Analytics"):::data
     end
 
-    runtime --> services
-    services --> contracts
-    services --> platform
+    runtime -->|"use"| services
+    services -->|"implement"| contracts
+    services -->|"consume"| platform
 
     style services fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style contracts fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -155,7 +155,7 @@ flowchart TB
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🗺️ Service Ecosystem Map
 
@@ -221,9 +221,9 @@ flowchart LR
     wlMod -->|"provision"| dc
     connMod -->|"provision"| vnet
 
-    style configTier fill:#F3F2F1,stroke:#8764B8,stroke-width:2px,color:#323130
-    style orchTier fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style provTier fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style configTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style orchTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style provTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style platTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -232,7 +232,7 @@ flowchart LR
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🔗 Integration Tier Architecture
 
@@ -291,8 +291,8 @@ flowchart TB
     kv -->|"secretUri"| dc
     dc -->|"HTTPS sync"| gh
 
-    style tier1 fill:#F3F2F1,stroke:#8764B8,stroke-width:2px,color:#323130
-    style tier2 fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style tier1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style tier2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style tier3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -302,7 +302,7 @@ flowchart TB
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -561,9 +561,9 @@ flowchart TB
     sec -->|"audits via"| obs
     cac -->|"feeds config to"| obs
 
-    style foundations fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style secPrinciples fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
-    style opsPrinciples fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
+    style foundations fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style secPrinciples fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style opsPrinciples fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -572,7 +572,7 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -706,8 +706,8 @@ flowchart TB
 
     style local fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style sub fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style workloadRG fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style projectRG fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style workloadRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style projectRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style connRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -717,7 +717,7 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🔍 Architecture Gap Heatmap
 
@@ -750,15 +750,15 @@ flowchart TB
 
     subgraph isolation["📦 Resource Isolation"]
         rg1("✅ Workload RG — dedicated"):::success
-        rg2("⚠️ Security RG — shares workload by default"):::warning
-        rg3("⚠️ Monitoring RG — shares workload by default"):::warning
+        rg2("⚠️ Security RG — shared workload RG"):::warning
+        rg3("⚠️ Monitoring RG — shared workload RG"):::warning
         rg4("✅ Connectivity RG — conditional"):::success
     end
 
     subgraph resilience["🛡️ Resilience"]
         retry("✅ ARM idempotent retry"):::success
         kvsecret("⚠️ Single KV Secret for all catalogs"):::warning
-        cb("⚠️ No custom circuit breaker — platform only"):::warning
+        cb("⚠️ No circuit breaker (platform only)"):::warning
     end
 
     subgraph observability["👁️ Observability"]
@@ -766,6 +766,9 @@ flowchart TB
         mon("✅ Log Analytics — centralized"):::success
         health("⚠️ Health probes — platform-managed only"):::warning
     end
+
+    isolation -->|"shapes"| resilience
+    resilience -->|"informs"| observability
 
     style isolation fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style resilience fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -778,7 +781,7 @@ flowchart TB
     classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 📡 Protocol Matrix Diagram
 
@@ -835,9 +838,9 @@ flowchart LR
     kvHttps -->|"ARM resource"| arm
     hook -->|"execute"| setUp
 
-    style armGroup fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style httpsGroup fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
-    style configGroup fill:#F3F2F1,stroke:#8764B8,stroke-width:2px,color:#323130
+    style armGroup fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style httpsGroup fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style configGroup fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style shellGroup fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -846,7 +849,7 @@ flowchart LR
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🏗️ Summary
 
@@ -940,11 +943,11 @@ flowchart TB
     project --> pool
     project --> connectivity
 
-    style monGrp fill:#F3F2F1,stroke:#8764B8,stroke-width:2px,color:#323130
-    style secGrp fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
-    style wlGrp fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style coreGrp fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style projGrp fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style monGrp fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style secGrp fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style wlGrp fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style coreGrp fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style projGrp fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -953,7 +956,7 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -1537,7 +1540,7 @@ sequenceDiagram
     accTitle: DevExp-DevBox Module Deployment Sequence
     accDescr: Sequential deployment order from azd provision through monitoring, security, workload modules to Azure DevCenter provisioning
 
-    participant eng as 👤 Platform Engineer
+    actor eng as 👤 Platform Engineer
     participant azd as ⚙️ azd CLI
     participant hook as 🪝 preprovision hook
     participant arm as ☁️ ARM Engine
@@ -1567,7 +1570,7 @@ sequenceDiagram
     azd-->>eng: Provisioning complete
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 97/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### ⚙️ Deployment State Machine
 
@@ -1607,7 +1610,7 @@ flowchart TB
     done(["✅ Provisioned"]):::success
     fail(["❌ Failed"]):::danger
 
-    init --> precheck
+    init -->|"azd provision"| precheck
     precheck -->|"✅ hook exit 0"| compile
     precheck -->|"❌ hook non-zero"| fail
     compile -->|"✅ ARM valid"| monDeploy
@@ -1626,7 +1629,7 @@ flowchart TB
     classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -2045,9 +2048,9 @@ flowchart LR
     kvSecId -->|"\u2192 workload"| dcName
     kvSecId -->|"\u2192 workload"| dcProjects
 
-    style monContract fill:#F3F2F1,stroke:#8764B8,stroke-width:2px,color:#323130
-    style secContract fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
-    style wlContract fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style monContract fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style secContract fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style wlContract fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -2055,7 +2058,7 @@ flowchart LR
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -2225,9 +2228,9 @@ flowchart LR
     proj --> conn
 
     style entry fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style monitoring fill:#F3F2F1,stroke:#8764B8,stroke-width:2px,color:#323130
-    style security fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
-    style workload fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style monitoring fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style security fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style workload fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -2236,7 +2239,7 @@ flowchart LR
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🔗 Service-to-Service Dependency Table
 
@@ -2342,8 +2345,8 @@ flowchart LR
     dc --> evt6 --> ghRepo
 
     style publishers fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style events fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
-    style subscribers fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style events fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style subscribers fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -2352,7 +2355,7 @@ flowchart LR
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🔄 Integration Pattern Matrix
 
@@ -2410,7 +2413,7 @@ flowchart TB
     condCreate -->|"if() guards"| secConnRG
     yamlInject -->|"loadYamlContent()"| wlSecMain
 
-    style patterns fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style patterns fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style consumers fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -2419,7 +2422,7 @@ flowchart TB
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🌊 Data Flow Diagram
 
@@ -2480,8 +2483,8 @@ flowchart TB
     kv     -->|"secretUri (not value)"| dc
     dc     -->|"scheduled sync"| gh
 
-    style config fill:#F3F2F1,stroke:#8764B8,stroke-width:2px,color:#323130
-    style bicep fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style config fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style bicep fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style azure fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -2491,7 +2494,7 @@ flowchart TB
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🔗 Summary
 
