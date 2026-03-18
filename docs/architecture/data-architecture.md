@@ -384,15 +384,15 @@ collectively establish the data trust model for the platform.
 
 ### 🏛️ Core Data Principles
 
-| 🏛️ Principle                | Description                                                                                       | Observable Evidence                                                           |
-| --------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| Schema-First Design         | All configuration data is authored against formal JSON Schema contracts before consumption        | yaml-language-server directives in all YAML files; three \*.schema.json files |
-| Privacy-by-Design           | Secrets are never stored in plaintext configuration files; all sensitive parameters use @secure() | @secure() on secretValue, secretIdentifier; Key Vault for secret storage      |
-| Infrastructure-as-Data      | Platform configuration is structured data with formal types, constraints, and validation rules    | Bicep user-defined types, @minLength, @allowed decorators                     |
-| RBAC-Only Access            | All data store access uses Azure RBAC authorization; legacy access policies are disabled          | enableRbacAuthorization: true in Key Vault configuration                      |
-| Immutable-Data Protection   | Deleted data assets cannot be immediately destroyed; recovery windows are enforced                | enableSoftDelete: true (7 days), enablePurgeProtection: true                  |
-| Telemetry-by-Default        | All Azure data services emit diagnostic logs and metrics for auditability and observability       | diagnosticSettings resources on Key Vault, DevCenter, VNet, Log Analytics     |
-| Uniform Governance Metadata | All data assets carry a consistent tag schema for ownership, cost attribution, and classification | Tags applied in all YAML configs and Bicep resource declarations              |
+| 🏛️ Principle                | Description                                                                                       |
+| --------------------------- | ------------------------------------------------------------------------------------------------- |
+| Schema-First Design         | All configuration data is authored against formal JSON Schema contracts before consumption        |
+| Privacy-by-Design           | Secrets are never stored in plaintext configuration files; all sensitive parameters use @secure() |
+| Infrastructure-as-Data      | Platform configuration is structured data with formal types, constraints, and validation rules    |
+| RBAC-Only Access            | All data store access uses Azure RBAC authorization; legacy access policies are disabled          |
+| Immutable-Data Protection   | Deleted data assets cannot be immediately destroyed; recovery windows are enforced                |
+| Telemetry-by-Default        | All Azure data services emit diagnostic logs and metrics for auditability and observability       |
+| Uniform Governance Metadata | All data assets carry a consistent tag schema for ownership, cost attribution, and classification |
 
 ### 📐 Data Schema Design Standards
 
@@ -576,12 +576,12 @@ workload resource group rather than deploy dedicated groups.
 
 **Current Level: 2 (Managed)** — bordering Level 3
 
-| 🎯 Criterion      | Level 1   | Level 2                        | Level 3                     | Current Evidence                                    |
-| ----------------- | --------- | ------------------------------ | --------------------------- | --------------------------------------------------- |
-| Data catalog      | ❌ None   | ✅ Basic dictionary            | ❌ Centralized              | JSON Schemas serve as lightweight data dictionaries |
-| ETL management    | ❌ Manual | ✅ Scheduled (loadYamlContent) | ❌ Automated quality checks | YAML loading is compile-time deterministic          |
-| Schema versioning | ❌ None   | ✅ Tracked in Git              | ❌ Registry in use          | Schema files are Git-versioned                      |
-| Access control    | ❌ Ad-hoc | ✅ Role-based                  | ✅ RBAC                     | enableRbacAuthorization: true                       |
+| 🎯 Criterion      | Level 1   | Level 2                        | Level 3                     |
+| ----------------- | --------- | ------------------------------ | --------------------------- |
+| Data catalog      | ❌ None   | ✅ Basic dictionary            | ❌ Centralized              |
+| ETL management    | ❌ Manual | ✅ Scheduled (loadYamlContent) | ❌ Automated quality checks |
+| Schema versioning | ❌ None   | ✅ Tracked in Git              | ❌ Registry in use          |
+| Access control    | ❌ Ad-hoc | ✅ Role-based                  | ✅ RBAC                     |
 
 **Justification**: Level 2 is fully met. Level 3 partially met — schema
 contracts are present and RBAC is configured, but no centralized data catalog or
