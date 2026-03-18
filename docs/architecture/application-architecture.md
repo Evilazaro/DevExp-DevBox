@@ -1,12 +1,5 @@
 # Application Architecture — DevExp-DevBox
 
-**Generated**: 2026-03-18T00:00:00Z **Session ID**:
-a3f7c820-1d4b-4e92-b561-devbox-app-001 **Target Layer**: Application **Quality
-Level**: Comprehensive **Repository**: Evilazaro/DevExp-DevBox **Components
-Found**: 18 **Average Confidence**: 0.87
-
----
-
 ## 📑 Quick Table of Contents
 
 | 🔢 # | 🔗 Section                                                    | 📝 Description                                                    |
@@ -2513,29 +2506,3 @@ deterministic deployment ordering. The main integration risk is the single Key
 Vault Secret as the sole authentication mechanism for all catalog sources — a
 rotation or expiry of this secret would halt all catalog synchronization across
 all projects.
-
----
-
-## ✅ Validation Summary
-
-### 🔍 Gate Compliance Report
-
-| 🔍 Gate                        | 🚦 Status | 📊 Score | 📋 Notes                                         |
-| ------------------------------ | --------- | -------- | ------------------------------------------------ |
-| All 9 sections present         | ✅ PASS   | 100/100  | Sections 1–5 and 8 generated per output_sections |
-| All 11 subsections in §2       | ✅ PASS   | 100/100  | Subsections 2.1–2.11 all present                 |
-| All 11 subsections in §5       | ✅ PASS   | 100/100  | Subsections 5.1–5.11 all present                 |
-| Source traceability (ST-001–8) | ✅ PASS   | 100/100  | All sources in `path/file.ext:*` format          |
-| No markdown links in source    | ✅ PASS   | 100/100  | No `](` patterns in any source cell              |
-| Mermaid diagrams ≥95/100       | ✅ PASS   | 100/100  | 13 diagrams, all scored 97–98/100                |
-| accTitle + accDescr present    | ✅ PASS   | 100/100  | All 13 diagrams have accessibility declarations  |
-| AZURE/FLUENT v1.1 palette      | ✅ PASS   | 100/100  | 7 classDefs used, all from approved palette      |
-| Governance block present       | ✅ PASS   | 100/100  | 10-line block in all flowchart diagrams          |
-| Subgraph style directives      | ✅ PASS   | 100/100  | No `class subgraphId` used on any subgraph       |
-| No fabricated components       | ✅ PASS   | 100/100  | All 18 components traced to source files         |
-| Confidence threshold ≥0.7      | ✅ PASS   | 100/100  | Lowest component confidence: 0.78 (events)       |
-| Emoji icons on all nodes       | ✅ PASS   | 100/100  | All flowchart nodes have emoji prefix            |
-| No color hierarchy encoding    | ✅ PASS   | 100/100  | Colors are semantic (core/warning/data/success)  |
-| WCAG AA contrast               | ✅ PASS   | 100/100  | Dark #323130 text on light fills throughout      |
-
-**Final Score: 100/100** ✅
