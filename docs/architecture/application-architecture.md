@@ -20,9 +20,9 @@ Found**: 18 **Average Confidence**: 0.87
 
 ---
 
-## 1. Executive Summary
+## 🗒️ 1. Executive Summary
 
-### Overview
+### 🗒️ Overview
 
 The **DevExp-DevBox** application layer is a production-grade, cloud-native
 Infrastructure-as-Code (IaC) platform that provisions and manages Microsoft Dev
@@ -72,9 +72,9 @@ itself.
 
 ---
 
-## 2. Architecture Landscape
+## 🗺️ 2. Architecture Landscape
 
-### Overview
+### 🗺️ Overview
 
 The Architecture Landscape catalogs all Application layer components identified
 within the DevExp-DevBox workspace, organized across the eleven TOGAF
@@ -159,7 +159,7 @@ flowchart TB
 
 ---
 
-### 2.1 Application Services
+### ⚙️ 2.1 Application Services
 
 Application Services are the discrete deployable Bicep modules that expose
 well-defined parameter interfaces and output contracts, composing the platform's
@@ -174,7 +174,7 @@ deployment pipeline.
 | Project Module      | Creates DevCenter Projects with pools, catalogs, environment types | PaaS         |
 | Connectivity Module | Provisions VNet, subnets, and network connections for Dev Box      | PaaS         |
 
-### 2.2 Application Components
+### 🧩 2.2 Application Components
 
 Application Components are the modular, deployable software units that
 encapsulate the behavioral logic of the platform's provisioning lifecycle.
@@ -187,7 +187,7 @@ encapsulate the behavioral logic of the platform's provisioning lifecycle.
 | Hugo Static Site Generator  | Builds and serves documentation site from markdown source           | Background Worker |
 | setUp Scripts               | bash/PowerShell scripts for tool validation, auth, secret writing   | Scheduled Job     |
 
-### 2.3 Application Interfaces
+### 🔌 2.3 Application Interfaces
 
 Application Interfaces are the formal contracts defining how modules communicate
 with the configuration layer and with the Azure Resource Manager API.
@@ -199,7 +199,7 @@ with the configuration layer and with the Azure Resource Manager API.
 | security.yaml Interface       | YAML contract for Key Vault settings and secret configuration       | Configuration |
 | Bicep Output Contracts        | Typed output declarations exported between modules                  | API Contract  |
 
-### 2.4 Application Collaborations
+### 🤝 2.4 Application Collaborations
 
 Application Collaborations describe how Bicep modules cooperate via `dependsOn`
 chains and output–parameter wiring to achieve end-to-end platform provisioning.
@@ -208,7 +208,7 @@ chains and output–parameter wiring to achieve end-to-end platform provisioning
 | -------------------------- | --------------------------------------------------------------------- | --------------------- |
 | Module Deployment Pipeline | Sequential orchestration: Monitoring → Security → Workload → Projects | Service Orchestration |
 
-### 2.5 Application Functions
+### ⚡ 2.5 Application Functions
 
 Application Functions are the logical groupings of behavior that define the two
 primary capabilities the platform delivers.
@@ -218,7 +218,7 @@ primary capabilities the platform delivers.
 | Platform Provisioning | End-to-end resource group, infrastructure, and DevCenter deployment function | Provisioning Service |
 | Secret Management     | Secure token creation, storage, and injection into DevCenter catalogs        | Security Function    |
 
-### 2.6 Application Interactions
+### 💬 2.6 Application Interactions
 
 Application Interactions are the runtime communication patterns between
 application modules and Azure platform services.
@@ -229,7 +229,7 @@ application modules and Azure platform services.
 | Key Vault Secret Reference     | Modules retrieve secret URI from Key Vault output; DevCenter uses it for catalog auth | Request/Response |
 | Log Analytics Ingestion        | All provisioned resources push diagnostic logs and metrics to Log Analytics           | Async Push       |
 
-### 2.7 Application Events
+### 📣 2.7 Application Events
 
 Application Events are the lifecycle triggers and notifications within the
 provisioning pipeline.
@@ -239,7 +239,7 @@ provisioning pipeline.
 | AZD Preprovision Event    | Fires before Bicep deployment; triggers setUp scripts for tool validation/auth     | Lifecycle Hook |
 | ARM Deployment Completion | ARM deployment state change event signals module output availability to dependents | Platform Event |
 
-### 2.8 Application Data Objects
+### 🗃️ 2.8 Application Data Objects
 
 Application Data Objects are the structured data types used across the
 application layer.
@@ -250,7 +250,7 @@ application layer.
 | DevCenterConfig DTO | Bicep user-defined type for DevCenter name, identity, catalog sync, and features | Data Transfer Object |
 | ProjectConfig DTO   | Bicep user-defined type for project name, pools, catalogs, environment types     | Data Transfer Object |
 
-### 2.9 Integration Patterns
+### 🔄 2.9 Integration Patterns
 
 Integration Patterns are the standard approaches used to connect application
 modules and platform services.
@@ -261,7 +261,7 @@ modules and platform services.
 | Key Vault Reference Injection | Secret URI passed as `secretIdentifier` param — never the secret value itself        | Secure Integration |
 | Conditional Resource Creation | `if()` guards on module declarations enable create/reuse branching for all resources | Branching Pattern  |
 
-### 2.10 Service Contracts
+### 📝 2.10 Service Contracts
 
 Service Contracts are the formal agreements governing how modules expose and
 consume capabilities.
@@ -272,7 +272,7 @@ consume capabilities.
 | YAML Configuration Schema      | JSON Schema files (`*.schema.json`) formally validate all YAML configuration inputs          | Schema Contract  |
 | Bicep Typed Parameter Contract | `@description` decorators and user-defined types enforce parameter shape and validation      | API Contract     |
 
-### 2.11 Application Dependencies
+### 📦 2.11 Application Dependencies
 
 Application Dependencies are the external libraries, frameworks, and platform
 services that the application layer consumes.
@@ -288,9 +288,9 @@ services that the application layer consumes.
 
 ---
 
-## 3. Architecture Principles
+## 📐 3. Architecture Principles
 
-### Overview
+### 📐 Overview
 
 The following design principles are directly evidenced in the DevExp-DevBox
 source files. Each principle is observable from concrete implementation
@@ -366,9 +366,9 @@ parameter.
 
 ---
 
-## 4. Current State Baseline
+## 📊 4. Current State Baseline
 
-### Overview
+### 📊 Overview
 
 The current state of the DevExp-DevBox application layer reflects a
 well-structured, single-pipeline deployment system targeting Microsoft Azure.
@@ -509,7 +509,7 @@ flowchart TB
 
 ✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
 
-### Summary
+### 🏗️ Summary
 
 The DevExp-DevBox platform is in a well-defined operational state with all core
 modules deployed and versioned against current Azure API versions. The
@@ -525,9 +525,9 @@ set to `true` to enable full isolation without code changes.
 
 ---
 
-## 5. Component Catalog
+## 📦 5. Component Catalog
 
-### Overview
+### 📦 Overview
 
 This catalog provides detailed specifications for each application component
 classified across the 11 TOGAF subsections. For Azure PaaS components,
@@ -536,7 +536,7 @@ Instruction.
 
 ---
 
-### 5.1 Application Services
+### ⚙️ 5.1 Application Services
 
 #### 5.1.1 Monitoring Module
 
@@ -809,7 +809,7 @@ Instruction.
 
 ---
 
-### 5.2 Application Components
+### 🧩 5.2 Application Components
 
 #### 5.2.1 Azure Developer CLI (azd)
 
@@ -968,7 +968,7 @@ output
 
 ---
 
-### 5.3 Application Interfaces
+### 🔌 5.3 Application Interfaces
 
 #### 5.3.1 azureResources.yaml Interface
 
@@ -1079,7 +1079,7 @@ break.
 
 ---
 
-### 5.4 Application Collaborations
+### 🤝 5.4 Application Collaborations
 
 #### 5.4.1 Module Deployment Pipeline
 
@@ -1150,7 +1150,7 @@ sequenceDiagram
 
 ---
 
-### 5.5 Application Functions
+### ⚡ 5.5 Application Functions
 
 #### 5.5.1 Platform Provisioning Function
 
@@ -1207,7 +1207,7 @@ Vault resource group (assigned in `devcenter.yaml:42-45`).
 
 ---
 
-### 5.6 Application Interactions
+### 💬 5.6 Application Interactions
 
 #### 5.6.1 ARM Deployment API Interaction
 
@@ -1272,7 +1272,7 @@ service at runtime.
 
 ---
 
-### 5.7 Application Events
+### 📣 5.7 Application Events
 
 #### 5.7.1 AZD Preprovision Event
 
@@ -1321,7 +1321,7 @@ No opt-out; the hook is mandatory.
 
 ---
 
-### 5.8 Application Data Objects
+### 🗃️ 5.8 Application Data Objects
 
 #### 5.8.1 LandingZone DTO
 
@@ -1386,7 +1386,7 @@ Dev Box SKUs.
 
 ---
 
-### 5.9 Integration Patterns
+### 🔄 5.9 Integration Patterns
 
 #### 5.9.1 Module Composition Pattern
 
@@ -1449,7 +1449,7 @@ a valid resource name.
 
 ---
 
-### 5.10 Service Contracts
+### 📝 5.10 Service Contracts
 
 #### 5.10.1 Bicep Module Output Contract
 
@@ -1516,7 +1516,7 @@ Adding optional properties with `?` suffix is backward-compatible.
 
 ---
 
-### 5.11 Application Dependencies
+### 📦 5.11 Application Dependencies
 
 #### 5.11.1 Azure Developer CLI (azd)
 
@@ -1605,9 +1605,9 @@ version; update via `npm run update:hugo` script defined in `package.json`
 
 ---
 
-## 8. Dependencies & Integration
+## 🔗 8. Dependencies & Integration
 
-### Overview
+### 🔗 Overview
 
 This section documents all integration relationships between application layer
 components, platform services, and external systems. Every dependency referenced
@@ -1820,7 +1820,7 @@ flowchart TB
 
 ✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
 
-### Summary
+### 🔗 Summary
 
 The DevExp-DevBox integration architecture is a tightly coupled, unidirectional
 dependency pipeline with no circular dependencies and no message broker
@@ -1840,7 +1840,7 @@ all projects.
 
 ---
 
-## Validation Summary
+## ✅ Validation Summary
 
 ### Gate Compliance Report
 
