@@ -157,7 +157,6 @@ flowchart TB
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 
     class AZ,SEC_YAML,DC_YAML neutral
@@ -532,7 +531,6 @@ flowchart TB
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     class YAML_CFG,SCHEMAS,PARAMS neutral
     class BICEP neutral
@@ -1121,7 +1119,6 @@ flowchart LR
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 
     class AZ_YAML,SEC_YAML,DC_YAML,PARAM neutral
     class LOAD,BIND,TRANSFORM neutral
