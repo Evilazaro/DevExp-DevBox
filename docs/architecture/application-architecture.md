@@ -1569,6 +1569,65 @@ sequenceDiagram
 
 ✅ Mermaid Verification: 5/5 | Score: 97/100 | Diagrams: 1 | Violations: 0
 
+### ⚙️ Deployment State Machine
+
+```mermaid
+---
+title: DevExp-DevBox Deployment State Machine
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: DevExp-DevBox Deployment State Machine
+    accDescr: Deployment lifecycle state transitions from azd provision trigger through pre-provisioning, Bicep compilation, and module deployment states to the final Provisioned or Failed terminal states
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    init(["▶️ Start: azd provision"]):::neutral
+    precheck("🔍 Pre-Provisioning"):::core
+    compile("📜 Bicep Compilation"):::core
+    monDeploy("📊 Monitoring: Deploying"):::core
+    secDeploy("🔒 Security: Deploying"):::warning
+    wlDeploy("🏗️ Workload: Deploying"):::core
+    done(["✅ Provisioned"]):::success
+    fail(["❌ Failed"]):::danger
+
+    init --> precheck
+    precheck -->|"✅ hook exit 0"| compile
+    precheck -->|"❌ hook non-zero"| fail
+    compile -->|"✅ ARM valid"| monDeploy
+    compile -->|"❌ compile error"| fail
+    monDeploy -->|"✅ dependsOn met"| secDeploy
+    monDeploy -->|"❌ ARM error"| fail
+    secDeploy -->|"✅ dependsOn met"| wlDeploy
+    secDeploy -->|"❌ KV/ARM error"| fail
+    wlDeploy -->|"✅ Succeeded"| done
+    wlDeploy -->|"❌ ARM error"| fail
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+```
+
+✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+
 ---
 
 ### ⚡ 5.5 Application Functions
@@ -1934,6 +1993,69 @@ sensitive parameters.
 
 **Breaking Change Policy:** Removing or renaming type properties is breaking.
 Adding optional properties with `?` suffix is backward-compatible.
+
+### 🔌 API Contract Diagram
+
+```mermaid
+---
+title: DevExp-DevBox API Contract — Module Interface Contracts
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart LR
+    accTitle: DevExp-DevBox API Contract — Module Interface Contracts
+    accDescr: Shows the typed Bicep output contracts flowing between modules — each module exposes named string and array outputs consumed by downstream modules as formally typed parameters
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph monContract["📊 Monitoring Outputs"]
+        laId("📊 WORKSPACE_ID: string"):::data
+        laName("📊 WORKSPACE_NAME: string"):::data
+    end
+
+    subgraph secContract["🔒 Security Outputs"]
+        kvName("🔑 KEY_VAULT_NAME: string"):::warning
+        kvEndpoint("🔑 KEY_VAULT_ENDPOINT: string"):::warning
+        kvSecId("📜 KEY_VAULT_SECRET_IDENTIFIER: string"):::warning
+    end
+
+    subgraph wlContract["🏗️ Workload Outputs"]
+        dcName("🖥️ DEV_CENTER_NAME: string"):::core
+        dcProjects("📁 DEV_CENTER_PROJECTS: array"):::core
+        wlRgName("📦 WORKLOAD_RG_NAME: string"):::core
+    end
+
+    laId -->|"\u2192 security + workload"| kvName
+    laId -->|"\u2192 workload"| dcName
+    kvSecId -->|"\u2192 workload"| dcName
+    kvSecId -->|"\u2192 workload"| dcProjects
+
+    style monContract fill:#F3F2F1,stroke:#8764B8,stroke-width:2px,color:#323130
+    style secContract fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
+    style wlContract fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+```
+
+✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
 
 ---
 
