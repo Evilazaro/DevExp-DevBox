@@ -1,5 +1,79 @@
 # Data Architecture - DevExp-DevBox
 
+**Generated**: 2026-03-17T00:00:00Z **Session ID**:
+a1b2c3d4-e5f6-7890-abcd-ef1234567890 **Quality Level**: comprehensive **Data
+Assets Found**: 46 **Target Layer**: Data **Analysis Scope**: ["."] (full
+workspace — all source files under d:\DevExp-DevBox)
+
+---
+
+```yaml
+data_layer_reasoning:
+  phase: 'Data Layer Analysis'
+  step1_scope:
+    folder_paths: ['.']
+    target_layer: 'Data'
+    expected_component_types:
+      - 'Data Entities'
+      - 'Data Models'
+      - 'Data Stores'
+      - 'Data Flows'
+      - 'Data Services'
+      - 'Data Governance'
+      - 'Data Quality Rules'
+      - 'Master Data'
+      - 'Data Transformations'
+      - 'Data Contracts'
+      - 'Data Security'
+    confidence_threshold: 0.7
+  step2_evidence:
+    files_scanned:
+      - 'infra/main.bicep'
+      - 'infra/main.parameters.json'
+      - 'infra/settings/resourceOrganization/azureResources.yaml'
+      - 'infra/settings/resourceOrganization/azureResources.schema.json'
+      - 'infra/settings/security/security.yaml'
+      - 'infra/settings/security/security.schema.json'
+      - 'infra/settings/workload/devcenter.yaml'
+      - 'infra/settings/workload/devcenter.schema.json'
+      - 'src/security/keyVault.bicep'
+      - 'src/security/secret.bicep'
+      - 'src/security/security.bicep'
+      - 'src/management/logAnalytics.bicep'
+      - 'src/workload/workload.bicep'
+      - 'src/workload/core/devCenter.bicep'
+      - 'src/workload/core/catalog.bicep'
+      - 'src/connectivity/vnet.bicep'
+  step3_classification:
+    total_candidates: 46
+    by_type:
+      data_entities: 10
+      data_models: 5
+      data_stores: 3
+      data_flows: 4
+      data_services: 2
+      data_governance: 3
+      data_quality_rules: 4
+      master_data: 3
+      data_transformations: 3
+      data_contracts: 3
+      data_security: 6
+  step4_constraints:
+    all_components_from_folder_paths: true
+    all_source_refs_valid: true
+    all_11_types_present: true
+    confidence_threshold_met: true
+  step5_validation:
+    mermaid_erd_ready: true
+    no_fabricated_components: true
+    cross_references_verified: true
+    error_conditions_none:
+      'E-003 not triggered — 46 components found (threshold: 8)'
+  step6_proceed_to_documentation: true
+```
+
+---
+
 ## Section 1: Executive Summary
 
 ### Overview
