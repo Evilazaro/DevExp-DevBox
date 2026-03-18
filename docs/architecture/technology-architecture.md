@@ -1236,21 +1236,21 @@ shared caching layer in the current architecture.
 The following dependency relationships are directly traceable to Bicep module
 `dependsOn` declarations and parameter references in `infra/main.bicep`.
 
-| Dependent Resource                  | Depends On                                       | Dependency Type            | Source                                             |
-| ----------------------------------- | ------------------------------------------------ | -------------------------- | -------------------------------------------------- |
-| Log Analytics Workspace             | devexp-workload RG                               | Resource Group scope       | `infra/main.bicep:90-105`                          |
-| Key Vault                           | devexp-workload RG, Log Analytics                | Resource + Parameter       | `infra/main.bicep:105-135`                         |
-| Key Vault Secret                    | Key Vault, Log Analytics                         | Parent resource + param    | `src/security/secret.bicep:15-30`                  |
-| Azure DevCenter                     | devexp-workload RG, Log Analytics, Key Vault     | Resource + Parameter       | `infra/main.bicep:135-155`                         |
-| DevCenter Catalog                   | Azure DevCenter, Key Vault Secret                | Parent resource + secretId | `src/workload/core/devCenter.bicep:*`              |
-| Environment Types (dev/staging/UAT) | Azure DevCenter                                  | Parent resource            | `src/workload/core/environmentType.bicep:*`        |
-| VNet (eShop)                        | eShop-connectivity-RG, Log Analytics             | Scope + parameter          | `src/connectivity/connectivity.bicep:20-35`        |
-| Network Connection (netconn-eShop)  | Azure DevCenter, VNet Subnet                     | Parent resource + subnetId | `src/connectivity/networkConnection.bicep:17-43`   |
-| DevCenter Project (eShop)           | Azure DevCenter, Log Analytics, Key Vault Secret | Parent + params            | `src/workload/project/project.bicep:1-100`         |
-| Dev Box Pools (backend/frontend)    | DevCenter Project, Catalogs, Network Connection  | Parent + params            | `src/workload/project/projectPool.bicep:47-100`    |
-| Role Assignments (Subscription)     | Azure DevCenter MI principal ID                  | Subscription scope         | `src/identity/devCenterRoleAssignment.bicep:25-45` |
-| Role Assignments (RG)               | AAD Group IDs, RG scope                          | Resource Group scope       | `src/identity/orgRoleAssignment.bicep:25-45`       |
-| Key Vault Access (Project MI)       | eShop Project MI principal ID                    | Key Vault RBAC             | `src/identity/keyVaultAccess.bicep:8-17`           |
+| 📦 Dependent Resource               | 🔗 Depends On                                    | 🔄 Dependency Type         |
+| ----------------------------------- | ------------------------------------------------ | -------------------------- |
+| Log Analytics Workspace             | devexp-workload RG                               | Resource Group scope       |
+| Key Vault                           | devexp-workload RG, Log Analytics                | Resource + Parameter       |
+| Key Vault Secret                    | Key Vault, Log Analytics                         | Parent resource + param    |
+| Azure DevCenter                     | devexp-workload RG, Log Analytics, Key Vault     | Resource + Parameter       |
+| DevCenter Catalog                   | Azure DevCenter, Key Vault Secret                | Parent resource + secretId |
+| Environment Types (dev/staging/UAT) | Azure DevCenter                                  | Parent resource            |
+| VNet (eShop)                        | eShop-connectivity-RG, Log Analytics             | Scope + parameter          |
+| Network Connection (netconn-eShop)  | Azure DevCenter, VNet Subnet                     | Parent resource + subnetId |
+| DevCenter Project (eShop)           | Azure DevCenter, Log Analytics, Key Vault Secret | Parent + params            |
+| Dev Box Pools (backend/frontend)    | DevCenter Project, Catalogs, Network Connection  | Parent + params            |
+| Role Assignments (Subscription)     | Azure DevCenter MI principal ID                  | Subscription scope         |
+| Role Assignments (RG)               | AAD Group IDs, RG scope                          | Resource Group scope       |
+| Key Vault Access (Project MI)       | eShop Project MI principal ID                    | Key Vault RBAC             |
 
 ### 🔄 8.2 Deployment Dependency Chain
 
@@ -1272,7 +1272,7 @@ Step 6: RBAC Role Assignments (DevCenter principal ID, AAD group IDs)
 
 ### 🔌 8.3 Service-to-Infrastructure Bindings
 
-| Service              | Infrastructure Binding       | Binding Type          | Configuration                                                                    |
+| 🔌 Service           | 🔗 Infrastructure Binding    | 🔄 Binding Type       | ⚙️ Configuration                                                                 |
 | -------------------- | ---------------------------- | --------------------- | -------------------------------------------------------------------------------- |
 | DevCenter Catalog    | Key Vault Secret (gha-token) | secretIdentifier      | `src/workload/core/catalog.bicep`: `secretIdentifier` param for private repos    |
 | DevCenter Diagnostic | Log Analytics Workspace      | workspaceId           | `src/workload/core/devCenter.bicep`: `logAnalyticsId` param → diagnosticSettings |
@@ -1284,13 +1284,13 @@ Step 6: RBAC Role Assignments (DevCenter principal ID, AAD group IDs)
 
 ### 🌐 8.4 External Service Integrations
 
-| External Service                       | Integration Type            | Auth Method            | Source                                                           |
-| -------------------------------------- | --------------------------- | ---------------------- | ---------------------------------------------------------------- |
-| GitHub (`microsoft/devcenter-catalog`) | Public catalog sync         | None (public repo)     | `infra/settings/workload/devcenter.yaml:64-69`                   |
-| GitHub (`Evilazaro/eShop`)             | Private image + env catalog | GitHub PAT (gha-token) | `infra/settings/workload/devcenter.yaml:142-153`                 |
-| Microsoft Entra ID (Azure AD)          | Dev Box authentication      | AzureADJoin            | `src/connectivity/networkConnection.bicep:22` (`domainJoinType`) |
-| Azure Subscription (deployment target) | azd provisioning            | Azure CLI auth         | `azure.yaml:preprovision hook`                                   |
-| Azure Developer CLI (azd)              | Deployment orchestration    | azd env variables      | `azure.yaml`, `infra/main.parameters.json`                       |
+| 🌐 External Service                    | 🔄 Integration Type          | 🔒 Auth Method         |
+| -------------------------------------- | --------------------------- | ---------------------- |
+| GitHub (`microsoft/devcenter-catalog`) | Public catalog sync         | None (public repo)     |
+| GitHub (`Evilazaro/eShop`)             | Private image + env catalog | GitHub PAT (gha-token) |
+| Microsoft Entra ID (Azure AD)          | Dev Box authentication      | AzureADJoin            |
+| Azure Subscription (deployment target) | azd provisioning            | Azure CLI auth         |
+| Azure Developer CLI (azd)              | Deployment orchestration    | azd env variables      |
 
 ### 🗺️ 8.5 Dependencies & Integration Diagram
 
