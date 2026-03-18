@@ -1,5 +1,19 @@
 # Data Architecture - DevExp-DevBox
 
+## Quick TOC
+
+- [Section 1: Executive Summary](#section-1-executive-summary)
+- [Section 2: Architecture Landscape](#section-2-architecture-landscape)
+- [Section 3: Architecture Principles](#section-3-architecture-principles)
+- [Section 4: Current State Baseline](#section-4-current-state-baseline)
+- [Section 5: Component Catalog](#section-5-component-catalog)
+- [Section 6: Architecture Decisions](#section-6-architecture-decisions)
+- [Section 7: Architecture Standards](#section-7-architecture-standards)
+- [Section 8: Dependencies & Integration](#section-8-dependencies--integration)
+- [Section 9: Governance & Management](#section-9-governance--management)
+
+---
+
 ## Section 1: Executive Summary
 
 ### Overview
