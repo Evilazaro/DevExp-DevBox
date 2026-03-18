@@ -1,6 +1,6 @@
 ﻿# Data Architecture - DevExp-DevBox
 
-## Quick TOC
+## 📑 Quick TOC
 
 - [📋 Section 1: Executive Summary](#-section-1-executive-summary)
 - [🗺️ Section 2: Architecture Landscape](#️-section-2-architecture-landscape)
