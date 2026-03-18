@@ -1233,7 +1233,7 @@ re-run idempotently.
 
 #### 🔑 5.6.2 Key Vault Secret Reference Interaction
 
-| Attribute          | Value                                  |
+| 🏷️ Attribute       | 💡 Value                               |
 | ------------------ | -------------------------------------- |
 | **Component Name** | Key Vault Secret Reference Interaction |
 | **Service Type**   | Request/Response                       |
@@ -1254,7 +1254,7 @@ service at runtime.
 
 #### 📊 5.6.3 Log Analytics Diagnostic Ingestion
 
-| Attribute          | Value                                   |
+| 🏷️ Attribute       | 💡 Value                                |
 | ------------------ | --------------------------------------- |
 | **Component Name** | Log Analytics Diagnostic Ingestion      |
 | **Service Type**   | Async Push                              |
@@ -1276,7 +1276,7 @@ service at runtime.
 
 #### 🪩 5.7.1 AZD Preprovision Event
 
-| Attribute          | Value                  |
+| 🏷️ Attribute       | 💡 Value               |
 | ------------------ | ---------------------- |
 | **Component Name** | AZD Preprovision Event |
 | **Service Type**   | Lifecycle Hook         |
@@ -1302,7 +1302,7 @@ No opt-out; the hook is mandatory.
 
 #### ✅ 5.7.2 ARM Deployment Completion Event
 
-| Attribute          | Value                           |
+| 🏷️ Attribute       | 💡 Value                        |
 | ------------------ | ------------------------------- |
 | **Component Name** | ARM Deployment Completion Event |
 | **Service Type**   | Platform Event                  |
@@ -1325,7 +1325,7 @@ No opt-out; the hook is mandatory.
 
 #### 🗃️ 5.8.1 LandingZone DTO
 
-| Attribute          | Value                             |
+| 🏷️ Attribute       | 💡 Value                          |
 | ------------------ | --------------------------------- |
 | **Component Name** | LandingZone DTO                   |
 | **Service Type**   | Data Transfer Object              |
@@ -1349,7 +1349,7 @@ gate controlling conditional resource instantiation; `tags` propagated via
 
 #### 🗃️ 5.8.2 DevCenterConfig DTO
 
-| Attribute          | Value                                   |
+| 🏷️ Attribute       | 💡 Value                                |
 | ------------------ | --------------------------------------- |
 | **Component Name** | DevCenterConfig DTO                     |
 | **Service Type**   | Data Transfer Object                    |
@@ -1368,7 +1368,7 @@ union type.
 
 #### 🗃️ 5.8.3 ProjectConfig DTO
 
-| Attribute          | Value                                     |
+| 🏷️ Attribute       | 💡 Value                                  |
 | ------------------ | ----------------------------------------- |
 | **Component Name** | ProjectConfig DTO                         |
 | **Service Type**   | Data Transfer Object                      |
@@ -1390,7 +1390,7 @@ Dev Box SKUs.
 
 #### 🔄 5.9.1 Module Composition Pattern
 
-| Attribute          | Value                      |
+| 🏷️ Attribute       | 💡 Value                   |
 | ------------------ | -------------------------- |
 | **Component Name** | Module Composition Pattern |
 | **Service Type**   | Orchestration              |
@@ -1410,7 +1410,7 @@ outputs as string/array
 
 #### 🔑 5.9.2 Key Vault Reference Injection Pattern
 
-| Attribute          | Value                                 |
+| 🏷️ Attribute       | 💡 Value                              |
 | ------------------ | ------------------------------------- |
 | **Component Name** | Key Vault Reference Injection Pattern |
 | **Service Type**   | Secure Integration                    |
@@ -1431,7 +1431,7 @@ DevCenter runtime.
 
 #### 🌿 5.9.3 Conditional Resource Creation Pattern
 
-| Attribute          | Value                                 |
+| 🏷️ Attribute       | 💡 Value                              |
 | ------------------ | ------------------------------------- |
 | **Component Name** | Conditional Resource Creation Pattern |
 | **Service Type**   | Branching Pattern                     |
@@ -1453,7 +1453,7 @@ a valid resource name.
 
 #### 📤 5.10.1 Bicep Module Output Contract
 
-| Attribute          | Value                        |
+| 🏷️ Attribute       | 💡 Value                     |
 | ------------------ | ---------------------------- |
 | **Component Name** | Bicep Module Output Contract |
 | **Service Type**   | Module Interface             |
@@ -1480,7 +1480,7 @@ updates.
 
 #### 📋 5.10.2 YAML Configuration Schema Contract
 
-| Attribute          | Value                                                             |
+| 🏷️ Attribute       | 💡 Value                                                          |
 | ------------------ | ----------------------------------------------------------------- |
 | **Component Name** | YAML Configuration Schema Contract                                |
 | **Service Type**   | Schema Contract                                                   |
@@ -1499,7 +1499,7 @@ a breaking change. Additive fields with defaults are backward-compatible.
 
 #### 📝 5.10.3 Bicep Typed Parameter Contract
 
-| Attribute          | Value                                    |
+| 🏷️ Attribute       | 💡 Value                                 |
 | ------------------ | ---------------------------------------- |
 | **Component Name** | Bicep Typed Parameter Contract           |
 | **Service Type**   | API Contract                             |
@@ -1520,7 +1520,7 @@ Adding optional properties with `?` suffix is backward-compatible.
 
 #### ⚙️ 5.11.1 Azure Developer CLI (azd)
 
-| Attribute          | Value                          |
+| 🏷️ Attribute       | 💡 Value                       |
 | ------------------ | ------------------------------ |
 | **Component Name** | Azure Developer CLI dependency |
 | **Service Type**   | CLI Framework                  |
@@ -1535,7 +1535,7 @@ reproducibility
 
 #### ⚡ 5.11.2 Bicep Language / ARM Engine
 
-| Attribute          | Value                                  |
+| 🏷️ Attribute       | 💡 Value                               |
 | ------------------ | -------------------------------------- |
 | **Component Name** | Bicep Language / ARM Engine dependency |
 | **Service Type**   | Platform Runtime                       |
@@ -1550,7 +1550,7 @@ changes reviewed via PR
 
 #### 🖥️ 5.11.3 Azure DevCenter Service
 
-| Attribute          | Value                                |
+| 🏷️ Attribute       | 💡 Value                             |
 | ------------------ | ------------------------------------ |
 | **Component Name** | Azure DevCenter Service dependency   |
 | **Service Type**   | Platform Service                     |
@@ -1564,7 +1564,7 @@ Policy:** API version is a code change; test in non-production before upgrading
 
 #### 🔑 5.11.4 Azure Key Vault Service
 
-| Attribute          | Value                              |
+| 🏷️ Attribute       | 💡 Value                           |
 | ------------------ | ---------------------------------- |
 | **Component Name** | Azure Key Vault Service dependency |
 | **Service Type**   | Platform Service                   |
@@ -1578,7 +1578,7 @@ version is a code change; RBAC model changes require role assignment review
 
 #### 📊 5.11.5 Log Analytics Workspace Service
 
-| Attribute          | Value                                      |
+| 🏷️ Attribute       | 💡 Value                                   |
 | ------------------ | ------------------------------------------ |
 | **Component Name** | Log Analytics Workspace Service dependency |
 | **Service Type**   | Platform Service                           |
@@ -1593,7 +1593,7 @@ migration
 
 #### 📚 5.11.6 Hugo Extended
 
-| Attribute          | Value                    |
+| 🏷️ Attribute       | 💡 Value                 |
 | ------------------ | ------------------------ |
 | **Component Name** | Hugo Extended dependency |
 | **Service Type**   | Build Tool               |
