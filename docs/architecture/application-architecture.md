@@ -305,7 +305,7 @@ comprehensive quality level.
 | Immutable Infrastructure via IaC    | All resources defined in `.bicep` modules; no portal-click provisioning evidenced in source        | Full             |
 | Observability-First                 | `src/management/logAnalytics.bicep:*`, diagnostic settings in `secret.bicep:29-55`, `vnet.bicep:*` | Full             |
 
-### Principle 1: Configuration-as-Code
+### 📄 Principle 1: Configuration-as-Code
 
 All platform resource configuration is declared in version-controlled YAML files
 (`devcenter.yaml`, `security.yaml`, `azureResources.yaml`), each validated by a
@@ -317,7 +317,7 @@ auditable, and repeatable without code changes.
 - **Source**: infra/settings/security/security.yaml:1-\*
 - **Source**: infra/settings/resourceOrganization/azureResources.yaml:1-\*
 
-### Principle 2: Least-Privilege RBAC
+### 🔐 Principle 2: Least-Privilege RBAC
 
 All identity role assignments follow the principle of least privilege. The
 DevCenter managed identity receives only the specific role GUIDs required
@@ -329,7 +329,7 @@ subscription-wide admin.
 - **Source**: src/workload/core/devCenter.bicep:\*
 - **Source**: infra/settings/workload/devcenter.yaml:35-55
 
-### Principle 3: Secure-by-Default (Secrets Hygiene)
+### 🔒 Principle 3: Secure-by-Default (Secrets Hygiene)
 
 Secrets are never passed as plaintext through module chains. The pattern is:
 `@secure() param secretValue` → Key Vault → `output secretUri` → downstream
@@ -341,7 +341,7 @@ modules receive only the URI, never the value. Key Vault is configured with
 - **Source**: src/security/secret.bicep:1-\*
 - **Source**: infra/settings/security/security.yaml:20-30
 
-### Principle 4: Immutable Infrastructure via IaC
+### 🧱 Principle 4: Immutable Infrastructure via IaC
 
 Every Azure resource (resource groups, networking, Key Vault, Log Analytics,
 DevCenter, Projects, Pools) is declared in a Bicep module. There is no evidence
@@ -352,7 +352,7 @@ reproducible from source.
 - **Source**: infra/main.bicep:1-\*
 - **Source**: azure.yaml:1-\*
 
-### Principle 5: Observability-First
+### 👁️ Principle 5: Observability-First
 
 Diagnostic settings (`Microsoft.Insights/diagnosticSettings`) are applied to
 every major resource: the Log Analytics Workspace itself, Key Vault secrets, and
@@ -378,7 +378,7 @@ services. The platform is currently configured to deploy one DevCenter instance
 (`devexp-devcenter`) with one project (`eShop`) hosting two Dev Box pools, three
 environment types, and two catalogs.
 
-### Service Topology Table
+### 🗺️ Service Topology Table
 
 | Service / Module     | Deployment Target     | Protocol     | Status      | Version                |
 | -------------------- | --------------------- | ------------ | ----------- | ---------------------- |
@@ -389,7 +389,7 @@ environment types, and two catalogs.
 | eShop Project Module | devexp-workload RG    | ARM REST API | Active      | Bicep / API 2025-02-01 |
 | Connectivity Module  | eShop-connectivity-RG | ARM REST API | Conditional | Bicep / API 2025-05-01 |
 
-### Deployment State Summary
+### 🚀 Deployment State Summary
 
 The platform deploys to a single Azure subscription at subscription scope
 (`targetScope = 'subscription'`). Resource groups are created conditionally
@@ -399,7 +399,7 @@ resources into the workload resource group (`devexp-workload`). This is a
 **shared-resource-group** topology appropriate for the accelerator's default
 configuration.
 
-### Protocol Inventory
+### 📡 Protocol Inventory
 
 | Protocol     | Usage                                         | Consumers                            |
 | ------------ | --------------------------------------------- | ------------------------------------ |
@@ -408,7 +408,7 @@ configuration.
 | HTTPS/TLS    | Hugo documentation site serving               | Documentation consumers              |
 | Shell/PWSH   | setUp scripts for pre-provisioning validation | azure.yaml preprovision hook         |
 
-### Versioning Status
+### 📌 Versioning Status
 
 | Resource Type                            | API Version        | Status  |
 | ---------------------------------------- | ------------------ | ------- |
@@ -421,7 +421,7 @@ configuration.
 | Microsoft.Insights/diagnosticSettings    | 2021-05-01-preview | Stable  |
 | Microsoft.Authorization/roleAssignments  | 2022-04-01         | Current |
 
-### Current State Baseline Diagram
+### 📊 Current State Baseline Diagram
 
 ```mermaid
 ---
@@ -1616,7 +1616,7 @@ unidirectional, output-wired dependency model where each module consumes outputs
 from its upstream modules and produces outputs for downstream consumers — there
 are no circular dependencies.
 
-### Service-to-Service Call Graph
+### 📊 Service-to-Service Call Graph
 
 ```mermaid
 ---
@@ -1695,7 +1695,7 @@ flowchart LR
 
 ✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
 
-### Service-to-Service Dependency Table
+### 🔗 Service-to-Service Dependency Table
 
 | Caller Module    | Called Module / Service                | Protocol | Data Passed                                     | Direction  |
 | ---------------- | -------------------------------------- | -------- | ----------------------------------------------- | ---------- |
@@ -1715,7 +1715,7 @@ flowchart LR
 | devCenter.bicep  | core/catalog.bicep                     | ARM      | `catalogConfig`, `secretIdentifier`             | Downstream |
 | devCenter.bicep  | core/environmentType.bicep             | ARM      | `environmentConfig`                             | Downstream |
 
-### External API Dependency Table
+### 🌐 External API Dependency Table
 
 | Service                  | API Version               | Usage                                                | Auth Model                    |
 | ------------------------ | ------------------------- | ---------------------------------------------------- | ----------------------------- |
@@ -1727,7 +1727,7 @@ flowchart LR
 | GitHub (catalog source)  | N/A                       | `https://github.com/microsoft/devcenter-catalog.git` | gha-token (Key Vault)         |
 | GitHub (eShop catalogs)  | N/A                       | `https://github.com/Evilazaro/eShop.git`             | gha-token (Key Vault)         |
 
-### Event Subscription Map
+### 📣 Event Subscription Map
 
 | Event                       | Publisher         | Subscriber(s)                    | Trigger                        |
 | --------------------------- | ----------------- | -------------------------------- | ------------------------------ |
@@ -1738,7 +1738,7 @@ flowchart LR
 | workload module complete    | ARM Engine        | azd output store                 | ARM deployment Succeeded state |
 | DevCenter catalog scheduled | Azure DevCenter   | GitHub repository                | Scheduled sync cadence         |
 
-### Integration Pattern Matrix
+### 🔄 Integration Pattern Matrix
 
 | Pattern                       | Modules Using It                               | Protocol   | Error Handling                          |
 | ----------------------------- | ---------------------------------------------- | ---------- | --------------------------------------- |
@@ -1748,7 +1748,7 @@ flowchart LR
 | YAML Config Injection         | workload, security, main (all loadYamlContent) | YAML/Bicep | Schema validation error at compile time |
 | Diagnostic Settings Push      | logAnalytics, secret, vnet modules             | HTTPS      | Async; non-blocking to main deployment  |
 
-### Data Flow Diagram
+### 🌊 Data Flow Diagram
 
 ```mermaid
 ---
@@ -1842,7 +1842,7 @@ all projects.
 
 ## ✅ Validation Summary
 
-### Gate Compliance Report
+### 🔍 Gate Compliance Report
 
 | Gate                           | Status  | Score   | Notes                                            |
 | ------------------------------ | ------- | ------- | ------------------------------------------------ |
