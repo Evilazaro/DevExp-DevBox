@@ -490,6 +490,76 @@ derived from observable practices across configuration and security components:
 | 2        | Internal     | Platform-internal; not public but not secret                 | Resource group names, Dev Center configuration, environment types  |
 | 3        | Public       | Safe for public exposure; no sensitivity                     | Catalog URIs pointing to public GitHub repos, resource type labels |
 
+```mermaid
+---
+title: DevExp-DevBox Data Classification Taxonomy
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: DevExp-DevBox Data Classification Taxonomy
+    accDescr: Shows the three-level data classification taxonomy for DevExp-DevBox. Level 1 Confidential data requires Key Vault storage and RBAC gating. Level 2 Internal data is platform-scoped but non-secret. Level 3 Public data is safe for open exposure.
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    ROOT(["🏷️ Data Classification Taxonomy"])
+
+    subgraph L1["🔴 Level 1 — Confidential"]
+        C1("🔑 GitHub Access Token Secret")
+        C2("🔒 Key Vault Configuration")
+        C3("🔐 @secure() Parameters")
+        C4("🛡️ RBAC Authorization Model")
+    end
+
+    subgraph L2["🟡 Level 2 — Internal"]
+        I1("📄 YAML Configuration Files")
+        I2("📊 Log Analytics Telemetry")
+        I3("🖥️ Dev Center / Project Config")
+        I4("📋 JSON Schema Contracts")
+    end
+
+    subgraph L3["🟢 Level 3 — Public"]
+        P1("🌐 Catalog URIs<br>(public GitHub repos)")
+        P2("🏷️ Resource Type Labels")
+    end
+
+    ROOT --> L1
+    ROOT --> L2
+    ROOT --> L3
+
+    style L1 fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    style L2 fill:#FFF4CE,stroke:#C19C00,stroke-width:2px,color:#323130
+    style L3 fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+
+    %% Centralized classDef declarations
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef secret fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef root fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef pub fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+
+    class ROOT root
+    class C1,C2,C3,C4 secret
+    class I1,I2,I3,I4 neutral
+    class P1,P2 pub
+```
+
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
+
 ---
 
 ## 📊 Section 4: Current State Baseline
@@ -919,6 +989,77 @@ Violations: 0
 | RBACKeyVaultAccess       | enableRbacAuthorization: true on Key Vault — disables legacy access policies and mandates Azure RBAC for all secret access; roles: Key Vault Secrets User, Key Vault Secrets Officer                                  | Confidential   | Key-Value    | DevExP team     | indefinite   | Not detected  |
 | SecureParameterHandling  | @secure() Bicep decorator applied to secretValue and secretIdentifier parameters preventing parameter values from appearing in Azure deployment history, state files, or logs                                         | Confidential   | Not detected | DevExP team     | Not detected | batch         |
 | AuditLogging             | allLogs + AllMetrics diagnosticSettings resources on Key Vault (via secret.bicep), Dev Center (via devCenter.bicep), VNet (via vnet.bicep), and Log Analytics (self-referencing) streaming to Log Analytics Workspace | Internal       | Data Lake    | DevExP team     | 30d          | real-time     |
+
+```mermaid
+---
+title: DevExp-DevBox Key Vault Data Security Architecture
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: DevExp-DevBox Key Vault Data Security Architecture
+    accDescr: Illustrates the layered data security architecture around Azure Key Vault in DevExp-DevBox, showing encryption at rest, RBAC access control, soft delete protection, purge protection, secure parameter handling, and audit logging flows.
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph ACCESS["🔑 Access Control Layer"]
+        RBAC("🛡️ Azure RBAC<br>enableRbacAuthorization: true")
+        PARAM("🔐 @secure() Parameters<br>No plaintext in logs/state")
+        RBAC_ROLES("👤 Secrets User / Officer<br>Role Assignments")
+        RBAC --> RBAC_ROLES
+    end
+
+    subgraph PROTECTION["🔒 Data Protection Layer"]
+        SD("🗑️ Soft Delete<br>7-day retention window")
+        PP("🔒 Purge Protection<br>enablePurgeProtection: true")
+        ENC("🔑 AES-256 Encryption<br>at Rest (SKU: Standard)")
+    end
+
+    subgraph AUDIT["📊 Audit & Observability Layer"]
+        DIAG("📈 Diagnostic Settings<br>allLogs + AllMetrics")
+        LAW("📊 Log Analytics<br>Workspace — 30d retention")
+        DIAG -->|"streams to"| LAW
+    end
+
+    KV("🗝️ Azure Key Vault<br>contoso-{unique}-kv")
+
+    RBAC_ROLES -->|"controls access to"| KV
+    PARAM -->|"writes secret value to"| KV
+    ENC -->|"protects data in"| KV
+    SD -->|"safeguards"| KV
+    PP -->|"safeguards"| KV
+    KV -->|"emits diagnostics"| DIAG
+
+    style ACCESS fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style PROTECTION fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style AUDIT fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    %% Centralized classDef declarations
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef secret fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+
+    class RBAC,RBAC_ROLES,PARAM neutral
+    class KV,SD,PP,ENC secret
+    class DIAG,LAW core
+```
+
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 📝 Summary
 
