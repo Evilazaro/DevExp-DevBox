@@ -11,28 +11,6 @@
 
 ---
 
-```yaml
-data_layer_reasoning:
-  session_id: 'devexp-devbox-data-arch-2026-03-18'
-  target_layer: 'Data'
-  quality_level: 'comprehensive'
-  output_sections: [1, 2, 3, 4, 5, 8]
-  folder_paths_scanned:
-    - 'infra/settings/'
-    - 'src/'
-    - 'infra/'
-  components_identified: 46
-  confidence_threshold: 0.70
-  layer_boundary_violations: 0
-  fabricated_components: 0
-  mermaid_diagrams_validated: 8
-  negative_constraints_checked: true
-  gate_rsn_complete: true
-  sections_documented: [1, 2, 3, 4, 5, 8]
-  all_components_have_source_ref: true
-  proceed: true
-```
-
 ## 📋 Section 1: Executive Summary
 
 ### 🔍 Overview
@@ -65,49 +43,6 @@ authoring), RBAC-based access control (Key Vault uses
 purge protection enabled). The overall data maturity is assessed at **Level 2
 (Managed)** with elements of **Level 3 (Defined)** emerging through the formal
 schema contracts and tagged governance model.
-
-### 🔍 Key Findings
-
-| 📊 Metric                           | Value                  |
-| ----------------------------------- | ---------------------- |
-| Total Components Identified         | 46                     |
-| 🧩 Data Entities                    | 10                     |
-| 📐 Data Models                      | 5                      |
-| 🗄️ Data Stores                      | 3                      |
-| 🔄 Data Flows                       | 4                      |
-| ⚙️ Data Services                    | 2                      |
-| 🔒 Data Governance Controls         | 3                      |
-| ✅ Data Quality Rules               | 4                      |
-| 👑 Master Data Records              | 3                      |
-| 🔀 Data Transformations             | 3                      |
-| 📜 Data Contracts                   | 3                      |
-| 🔐 Data Security Controls           | 6                      |
-| 📊 Mermaid Diagrams (Comprehensive) | 8                      |
-| 🔗 Components with Traceability     | 46 (100%)              |
-| 🎯 Data Governance Maturity Level   | Level 2 (Managed)      |
-| 🛡️ Fabricated Components            | 0 (Anti-Hallucination) |
-
-### 📈 Data Quality Scorecard
-
-| 📈 Quality Dimension | Score | Assessment                                                            |
-| -------------------- | ----- | --------------------------------------------------------------------- |
-| Schema Coverage      | 100%  | All YAML configs have companion JSON Schema contracts (draft 2020-12) |
-| Secret Management    | 95%   | Key Vault RBAC + purge protection; 7-day soft delete retention gap    |
-| Observability        | 90%   | allLogs + AllMetrics on all resources; no alerting rules detected     |
-| Data Classification  | 70%   | Environment tags applied; sensitivity classification labels absent    |
-| Governance Maturity  | 65%   | RBAC configured; stewardship roles and ownership docs not detected    |
-| CI/CD Validation     | 40%   | IDE yaml-language-server only; no pipeline enforcement gate detected  |
-
-### 🗂️ Coverage Summary
-
-The Data Architecture documentation covers 100% of the 46 identified data
-components across all 11 canonical TOGAF Data Architecture types. All components
-are traceable to source files with zero fabricated entries. Data governance
-maturity is assessed at **Level 2 (Managed)** with Level 3 (Defined) elements
-present through formal JSON Schema contracts and consistent RBAC authorization.
-Primary coverage gaps are in operational governance: secret rotation, data
-stewardship role documentation, sensitivity classification labeling, and CI/CD
-pipeline enforcement of schema validation rules.
 
 ---
 
