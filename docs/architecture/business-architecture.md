@@ -208,22 +208,22 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph coreDelivery["🚀 Core Delivery Capabilities"]
-        AP("🚀 Automated Provisioning"):::warning
-        CAC("📋 Config-as-Code"):::warning
+        AP("🚀 Automated Provisioning"):::neutral
+        CAC("📋 Config-as-Code"):::neutral
     end
 
     subgraph security["🔒 Security & Compliance Capabilities"]
-        SM("🔒 Security Management"):::warning
-        LZA("🏢 Landing Zone Alignment"):::warning
+        SM("🔒 Security Management"):::neutral
+        LZA("🏢 Landing Zone Alignment"):::neutral
     end
 
     subgraph workload["⚙️ Workload Capabilities"]
-        RSWP("⚙️ Role-Specific Workstation<br>Provisioning"):::warning
-        MES("🌍 Multi-Environment Support"):::warning
+        RSWP("⚙️ Role-Specific Workstation<br>Provisioning"):::neutral
+        MES("🌍 Multi-Environment Support"):::neutral
     end
 
     subgraph observability["📊 Observability Capabilities"]
-        BO("📊 Built-in Observability"):::warning
+        BO("📊 Built-in Observability"):::neutral
     end
 
     AP -->|"enables"| RSWP
@@ -242,15 +242,9 @@ flowchart TB
     style observability fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -318,13 +312,9 @@ flowchart LR
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -557,16 +547,12 @@ flowchart LR
     style legend fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style capabilities fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 97/100 | Diagrams: 1 | Violations: 0
+> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -647,12 +633,9 @@ flowchart TB
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -1251,12 +1234,10 @@ flowchart TB
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -1321,14 +1302,11 @@ flowchart TB
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -1484,14 +1462,12 @@ flowchart LR
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
