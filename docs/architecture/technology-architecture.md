@@ -1392,7 +1392,7 @@ flowchart TB
         dc("🖥️ Azure DevCenter<br/>Step 4"):::core
         proj("📁 eShop Project<br/>Step 4 — parallel"):::core
         vnet("🌐 VNet: eShop<br/>Step 5 — conditional"):::neutral
-        pools("⚙️ Dev Box Pools<br/>Step 4 — parallel"):::success
+        pools("⚙️ Dev Box Pools<br/>Step 4 — parallel"):::core
     end
 
     rg -->|"scope anchor"| la
@@ -1414,7 +1414,6 @@ flowchart TB
     %% Centralized semantic classDefs (AZURE/FLUENT v1.1)
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
@@ -1426,13 +1425,13 @@ flowchart TB
 
 **Diagram Compliance Report — Fig 7**:
 
-| Gate    | Criterion                                                                                     | Result  |
-| ------- | --------------------------------------------------------------------------------------------- | ------- |
-| Phase 1 | Direction declared (TB), nesting ≤ 3, no color hierarchy                                      | ✅ PASS |
-| Phase 2 | 6 semantic classes ≤ limit (note: 6 classes used — justified by external service distinction) | ✅ PASS |
-| Phase 3 | Dark text (#323130), WCAG AA contrast throughout                                              | ✅ PASS |
-| Phase 4 | accTitle + accDescr at diagram root, emoji on all nodes                                       | ✅ PASS |
-| Phase 5 | Governance block, centralized classDefs, style on all subgraphs                               | ✅ PASS |
+| Gate    | Criterion                                                                       | Result  |
+| ------- | ------------------------------------------------------------------------------- | ------- |
+| Phase 1 | Direction declared (TB), nesting ≤ 3, no color hierarchy                        | ✅ PASS |
+| Phase 2 | 5 semantic classes ≤ 5 limit (`neutral`, `core`, `warning`, `data`, `external`) | ✅ PASS |
+| Phase 3 | Dark text (#323130), WCAG AA contrast throughout                                | ✅ PASS |
+| Phase 4 | accTitle + accDescr at diagram root, emoji on all nodes                         | ✅ PASS |
+| Phase 5 | Governance block, centralized classDefs, style on all subgraphs                 | ✅ PASS |
 
 ✅ **Mermaid Verification: 5/5 | Score: 100/100**
 
