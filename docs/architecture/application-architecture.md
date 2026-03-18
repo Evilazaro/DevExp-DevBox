@@ -548,20 +548,20 @@ Instruction.
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                                         |
-| ------------- | ----- | -------- | --------------------------------------------------- |
-| ARM Output    | 2     | ARM REST | `AZURE_LOG_ANALYTICS_WORKSPACE_ID`, `_NAME` outputs |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                                      |
+| ---------------- | -------- | ----------- | --------------------------------------------------- |
+| ARM Output       | 2        | ARM REST    | `AZURE_LOG_ANALYTICS_WORKSPACE_ID`, `_NAME` outputs |
 
 **Dependencies:**
 
-| Dependency         | Direction  | Protocol | Purpose                         |
-| ------------------ | ---------- | -------- | ------------------------------- |
-| Azure ARM API      | Downstream | HTTPS    | Resource deployment             |
-| devexp-workload RG | Downstream | ARM      | Target resource group for scope |
+| 📦 Dependency      | ➡️ Direction | 📡 Protocol | 🎯 Purpose                      |
+| ------------------ | ------------ | ----------- | ------------------------------- |
+| Azure ARM API      | Downstream   | HTTPS       | Resource deployment             |
+| devexp-workload RG | Downstream   | ARM         | Target resource group for scope |
 
 **Resilience (Platform-Managed):**
 
-| Aspect          | Configuration           | Notes            |
+| 🛡️ Aspect       | ⚙️ Configuration        | 📋 Notes         |
 | --------------- | ----------------------- | ---------------- |
 | Retry Policy    | Azure SDK defaults      | Platform-managed |
 | Circuit Breaker | Not applicable          | PaaS service     |
@@ -569,14 +569,14 @@ Instruction.
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy          | Configuration     |
-| ---------- | ----------------- | ----------------- |
-| Horizontal | PaaS auto-scaling | Per pricing tier  |
-| Vertical   | SKU upgrade       | PerGB2018 default |
+| 📐 Dimension | 📈 Strategy       | ⚙️ Configuration  |
+| ------------ | ----------------- | ----------------- |
+| Horizontal   | PaaS auto-scaling | Per pricing tier  |
+| Vertical     | SKU upgrade       | PerGB2018 default |
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration    |
+| 💊 Probe Type         | ⚙️ Configuration |
 | --------------------- | ---------------- |
 | Azure Resource Health | Platform-managed |
 
@@ -592,21 +592,21 @@ Instruction.
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                                               |
-| ------------- | ----- | -------- | --------------------------------------------------------- |
-| ARM Output    | 3     | ARM REST | `AZURE_KEY_VAULT_NAME`, `_ENDPOINT`, `_SECRET_IDENTIFIER` |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                                            |
+| ---------------- | -------- | ----------- | --------------------------------------------------------- |
+| ARM Output       | 3        | ARM REST    | `AZURE_KEY_VAULT_NAME`, `_ENDPOINT`, `_SECRET_IDENTIFIER` |
 
 **Dependencies:**
 
-| Dependency        | Direction  | Protocol | Purpose                             |
-| ----------------- | ---------- | -------- | ----------------------------------- |
-| Monitoring Module | Upstream   | ARM      | Receives Log Analytics ID for diags |
-| keyVault.bicep    | Downstream | ARM      | Provisions Key Vault resource       |
-| secret.bicep      | Downstream | ARM      | Creates GitHub token secret         |
+| 📦 Dependency     | ➡️ Direction | 📡 Protocol | 🎯 Purpose                          |
+| ----------------- | ------------ | ----------- | ----------------------------------- |
+| Monitoring Module | Upstream     | ARM         | Receives Log Analytics ID for diags |
+| keyVault.bicep    | Downstream   | ARM         | Provisions Key Vault resource       |
+| secret.bicep      | Downstream   | ARM         | Creates GitHub token secret         |
 
 **Resilience (Platform-Managed):**
 
-| Aspect           | Configuration            | Notes            |
+| 🛡️ Aspect        | ⚙️ Configuration         | 📋 Notes         |
 | ---------------- | ------------------------ | ---------------- |
 | Retry Policy     | Azure SDK defaults       | Platform-managed |
 | Soft Delete      | Enabled, 7-day retention | Key Vault config |
@@ -614,14 +614,14 @@ Instruction.
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy          | Configuration |
-| ---------- | ----------------- | ------------- |
-| Horizontal | PaaS auto-scaling | Standard SKU  |
-| Vertical   | Not applicable    | PaaS service  |
+| 📐 Dimension | 📈 Strategy       | ⚙️ Configuration |
+| ------------ | ----------------- | ---------------- |
+| Horizontal   | PaaS auto-scaling | Standard SKU     |
+| Vertical     | Not applicable    | PaaS service     |
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration    |
+| 💊 Probe Type         | ⚙️ Configuration |
 | --------------------- | ---------------- |
 | Azure Resource Health | Platform-managed |
 
@@ -637,22 +637,22 @@ Instruction.
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                                          |
-| ------------- | ----- | -------- | ---------------------------------------------------- |
-| ARM Output    | 2     | ARM REST | `AZURE_DEV_CENTER_NAME`, `AZURE_DEV_CENTER_PROJECTS` |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                                       |
+| ---------------- | -------- | ----------- | ---------------------------------------------------- |
+| ARM Output       | 2        | ARM REST    | `AZURE_DEV_CENTER_NAME`, `AZURE_DEV_CENTER_PROJECTS` |
 
 **Dependencies:**
 
-| Dependency        | Direction  | Protocol | Purpose                                      |
-| ----------------- | ---------- | -------- | -------------------------------------------- |
-| Monitoring Module | Upstream   | ARM      | Log Analytics ID for DevCenter diagnostics   |
-| Security Module   | Upstream   | ARM      | Key Vault secret identifier for catalog auth |
-| devCenter.bicep   | Downstream | ARM      | Deploys DevCenter core resource              |
-| project.bicep     | Downstream | ARM      | Deploys one or more DevCenter Projects       |
+| 📦 Dependency     | ➡️ Direction | 📡 Protocol | 🎯 Purpose                                   |
+| ----------------- | ------------ | ----------- | -------------------------------------------- |
+| Monitoring Module | Upstream     | ARM         | Log Analytics ID for DevCenter diagnostics   |
+| Security Module   | Upstream     | ARM         | Key Vault secret identifier for catalog auth |
+| devCenter.bicep   | Downstream   | ARM         | Deploys DevCenter core resource              |
+| project.bicep     | Downstream   | ARM         | Deploys one or more DevCenter Projects       |
 
 **Resilience (Platform-Managed):**
 
-| Aspect          | Configuration           | Notes             |
+| 🛡️ Aspect       | ⚙️ Configuration        | 📋 Notes          |
 | --------------- | ----------------------- | ----------------- |
 | Retry Policy    | Azure SDK defaults      | Platform-managed  |
 | Circuit Breaker | Not applicable          | PaaS service      |
@@ -683,37 +683,37 @@ Instruction.
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description             |
-| ------------- | ----- | -------- | ----------------------- |
-| ARM Output    | 1     | ARM REST | `AZURE_DEV_CENTER_NAME` |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description          |
+| ---------------- | -------- | ----------- | ----------------------- |
+| ARM Output       | 1        | ARM REST    | `AZURE_DEV_CENTER_NAME` |
 
 **Dependencies:**
 
-| Dependency              | Direction  | Protocol | Purpose                              |
-| ----------------------- | ---------- | -------- | ------------------------------------ |
-| Workload Module         | Upstream   | ARM      | Receives log analytics ID, secret ID |
-| catalog.bicep           | Downstream | ARM      | Attaches GitHub catalog to DevCenter |
-| environmentType.bicep   | Downstream | ARM      | Creates dev/staging/UAT env types    |
-| devCenterRoleAssignment | Downstream | ARM      | Grants subscription-scoped RBAC      |
-| orgRoleAssignment       | Downstream | ARM      | Grants project team RBAC             |
+| 📦 Dependency           | ➡️ Direction | 📡 Protocol | 🎯 Purpose                           |
+| ----------------------- | ------------ | ----------- | ------------------------------------ |
+| Workload Module         | Upstream     | ARM         | Receives log analytics ID, secret ID |
+| catalog.bicep           | Downstream   | ARM         | Attaches GitHub catalog to DevCenter |
+| environmentType.bicep   | Downstream   | ARM         | Creates dev/staging/UAT env types    |
+| devCenterRoleAssignment | Downstream   | ARM         | Grants subscription-scoped RBAC      |
+| orgRoleAssignment       | Downstream   | ARM         | Grants project team RBAC             |
 
 **Resilience (Platform-Managed):**
 
-| Aspect          | Configuration      | Notes            |
+| 🛡️ Aspect       | ⚙️ Configuration   | 📋 Notes         |
 | --------------- | ------------------ | ---------------- |
 | Retry Policy    | Azure SDK defaults | Platform-managed |
 | Circuit Breaker | Not applicable     | PaaS service     |
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy          | Configuration    |
-| ---------- | ----------------- | ---------------- |
-| Horizontal | PaaS auto-scaling | Per pricing tier |
-| Vertical   | SKU upgrade       | Manual selection |
+| 📐 Dimension | 📈 Strategy       | ⚙️ Configuration |
+| ------------ | ----------------- | ---------------- |
+| Horizontal   | PaaS auto-scaling | Per pricing tier |
+| Vertical     | SKU upgrade       | Manual selection |
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration    |
+| 💊 Probe Type         | ⚙️ Configuration |
 | --------------------- | ---------------- |
 | Azure Resource Health | Platform-managed |
 
@@ -729,38 +729,38 @@ Instruction.
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description          |
-| ------------- | ----- | -------- | -------------------- |
-| ARM Output    | 1     | ARM REST | `AZURE_PROJECT_NAME` |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description       |
+| ---------------- | -------- | ----------- | -------------------- |
+| ARM Output       | 1        | ARM REST    | `AZURE_PROJECT_NAME` |
 
 **Dependencies:**
 
-| Dependency                    | Direction  | Protocol | Purpose                                         |
-| ----------------------------- | ---------- | -------- | ----------------------------------------------- |
-| DevCenter Module              | Upstream   | ARM      | DevCenter ID for project association            |
-| projectCatalog.bicep          | Downstream | ARM      | Attaches environment + image catalogs           |
-| projectEnvironmentType.bicep  | Downstream | ARM      | Creates project-scoped env types                |
-| projectPool.bicep             | Downstream | ARM      | Creates backend/frontend Dev Box pools          |
-| projectIdentityRoleAssignment | Downstream | ARM      | Project-level RBAC for managed identity         |
-| connectivity.bicep            | Downstream | ARM      | Virtual network for Managed/Unmanaged Dev Boxes |
+| 📦 Dependency                 | ➡️ Direction | 📡 Protocol | 🎯 Purpose                                      |
+| ----------------------------- | ------------ | ----------- | ----------------------------------------------- |
+| DevCenter Module              | Upstream     | ARM         | DevCenter ID for project association            |
+| projectCatalog.bicep          | Downstream   | ARM         | Attaches environment + image catalogs           |
+| projectEnvironmentType.bicep  | Downstream   | ARM         | Creates project-scoped env types                |
+| projectPool.bicep             | Downstream   | ARM         | Creates backend/frontend Dev Box pools          |
+| projectIdentityRoleAssignment | Downstream   | ARM         | Project-level RBAC for managed identity         |
+| connectivity.bicep            | Downstream   | ARM         | Virtual network for Managed/Unmanaged Dev Boxes |
 
 **Resilience (Platform-Managed):**
 
-| Aspect          | Configuration      | Notes            |
+| 🛡️ Aspect       | ⚙️ Configuration   | 📋 Notes         |
 | --------------- | ------------------ | ---------------- |
 | Retry Policy    | Azure SDK defaults | Platform-managed |
 | Circuit Breaker | Not applicable     | PaaS service     |
 
 **Scaling (Platform-Managed):**
 
-| Dimension                      | Strategy                    | Configuration       |
+| 📐 Dimension                   | 📈 Strategy                 | ⚙️ Configuration    |
 | ------------------------------ | --------------------------- | ------------------- |
 | Dev Box Pool backend-engineer  | general_i_32c128gb512ssd_v2 | 32 vCPU, 128 GB RAM |
 | Dev Box Pool frontend-engineer | general_i_16c64gb256ssd_v2  | 16 vCPU, 64 GB RAM  |
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration    |
+| 💊 Probe Type         | ⚙️ Configuration |
 | --------------------- | ---------------- |
 | Azure Resource Health | Platform-managed |
 
@@ -776,34 +776,34 @@ Instruction.
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                            |
-| ------------- | ----- | -------- | -------------------------------------- |
-| ARM Output    | 2     | ARM REST | `networkConnectionName`, `networkType` |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                         |
+| ---------------- | -------- | ----------- | -------------------------------------- |
+| ARM Output       | 2        | ARM REST    | `networkConnectionName`, `networkType` |
 
 **Dependencies:**
 
-| Dependency          | Direction  | Protocol | Purpose                              |
-| ------------------- | ---------- | -------- | ------------------------------------ |
-| Project Module      | Upstream   | ARM      | Invoked per project network config   |
-| vnet.bicep          | Downstream | ARM      | Virtual network provisioning         |
-| networkConnection   | Downstream | ARM      | Creates DevCenter network attachment |
-| resourceGroup.bicep | Downstream | ARM      | Creates connectivity resource group  |
+| 📦 Dependency       | ➡️ Direction | 📡 Protocol | 🎯 Purpose                           |
+| ------------------- | ------------ | ----------- | ------------------------------------ |
+| Project Module      | Upstream     | ARM         | Invoked per project network config   |
+| vnet.bicep          | Downstream   | ARM         | Virtual network provisioning         |
+| networkConnection   | Downstream   | ARM         | Creates DevCenter network attachment |
+| resourceGroup.bicep | Downstream   | ARM         | Creates connectivity resource group  |
 
 **Resilience (Platform-Managed):**
 
-| Aspect       | Configuration      | Notes            |
+| 🛡️ Aspect    | ⚙️ Configuration   | 📋 Notes         |
 | ------------ | ------------------ | ---------------- |
 | Retry Policy | Azure SDK defaults | Platform-managed |
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy       | Configuration   |
-| ---------- | -------------- | --------------- |
-| Horizontal | Not applicable | Network service |
+| 📐 Dimension | 📈 Strategy    | ⚙️ Configuration |
+| ------------ | -------------- | ---------------- |
+| Horizontal   | Not applicable | Network service  |
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration    |
+| 💊 Probe Type         | ⚙️ Configuration |
 | --------------------- | ---------------- |
 | Azure Resource Health | Platform-managed |
 
@@ -821,17 +821,17 @@ Instruction.
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                             |
-| ------------- | ----- | -------- | --------------------------------------- |
-| CLI Commands  | 2     | shell    | `azd provision`, (implied `azd deploy`) |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                          |
+| ---------------- | -------- | ----------- | --------------------------------------- |
+| CLI Commands     | 2        | shell       | `azd provision`, (implied `azd deploy`) |
 
 **Dependencies:**
 
-| Dependency     | Direction  | Protocol | Purpose                                 |
-| -------------- | ---------- | -------- | --------------------------------------- |
-| azure.yaml     | Upstream   | YAML     | Hook and target configuration           |
-| Bicep Compiler | Downstream | Compiler | Deploys compiled ARM templates to Azure |
-| setUp scripts  | Downstream | shell    | Pre-provisioning validation and auth    |
+| 📦 Dependency  | ➡️ Direction | 📡 Protocol | 🎯 Purpose                              |
+| -------------- | ------------ | ----------- | --------------------------------------- |
+| azure.yaml     | Upstream     | YAML        | Hook and target configuration           |
+| Bicep Compiler | Downstream   | Compiler    | Deploys compiled ARM templates to Azure |
+| setUp scripts  | Downstream   | shell       | Pre-provisioning validation and auth    |
 
 **Resilience:** Not specified in source — requires operational documentation
 
@@ -851,17 +851,17 @@ Instruction.
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                                  |
-| ------------- | ----- | -------- | -------------------------------------------- |
-| Shell Script  | 2     | sh/pwsh  | `setUp.sh` (POSIX) and `setUp.ps1` (Windows) |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                               |
+| ---------------- | -------- | ----------- | -------------------------------------------- |
+| Shell Script     | 2        | sh/pwsh     | `setUp.sh` (POSIX) and `setUp.ps1` (Windows) |
 
 **Dependencies:**
 
-| Dependency                      | Direction  | Protocol | Purpose                                        |
-| ------------------------------- | ---------- | -------- | ---------------------------------------------- |
-| SOURCE_CONTROL_PLATFORM env var | Upstream   | ENV      | Defaults to 'github' if unset                  |
-| AZURE_ENV_NAME env var          | Upstream   | ENV      | Passed to setUp scripts                        |
-| setUp.sh / setUp.ps1            | Downstream | shell    | Validates tools, authenticates, writes secrets |
+| 📦 Dependency                   | ➡️ Direction | 📡 Protocol | 🎯 Purpose                                     |
+| ------------------------------- | ------------ | ----------- | ---------------------------------------------- |
+| SOURCE_CONTROL_PLATFORM env var | Upstream     | ENV         | Defaults to 'github' if unset                  |
+| AZURE_ENV_NAME env var          | Upstream     | ENV         | Passed to setUp scripts                        |
+| setUp.sh / setUp.ps1            | Downstream   | shell       | Validates tools, authenticates, writes secrets |
 
 **Resilience:** `continueOnError: false` — pipeline halts on any preprovision
 failure
@@ -883,16 +883,16 @@ pipeline
 
 **API Surface:**
 
-| Endpoint Type  | Count | Protocol | Description                                       |
-| -------------- | ----- | -------- | ------------------------------------------------- |
-| CLI Parameters | 2     | shell    | `-e AZURE_ENV_NAME`, `-s SOURCE_CONTROL_PLATFORM` |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                                    |
+| ---------------- | -------- | ----------- | ------------------------------------------------- |
+| CLI Parameters   | 2        | shell       | `-e AZURE_ENV_NAME`, `-s SOURCE_CONTROL_PLATFORM` |
 
 **Dependencies:**
 
-| Dependency       | Direction  | Protocol | Purpose                                      |
-| ---------------- | ---------- | -------- | -------------------------------------------- |
-| az CLI           | Downstream | shell    | Azure authentication and resource validation |
-| AZD Preprovision | Upstream   | shell    | Invoked by hook before Bicep deployment      |
+| 📦 Dependency    | ➡️ Direction | 📡 Protocol | 🎯 Purpose                                   |
+| ---------------- | ------------ | ----------- | -------------------------------------------- |
+| az CLI           | Downstream   | shell       | Azure authentication and resource validation |
+| AZD Preprovision | Upstream     | shell       | Invoked by hook before Bicep deployment      |
 
 **Resilience:** `set -e` (bash) / `$ErrorActionPreference = 'Stop'` (PowerShell)
 — fail-fast
@@ -913,18 +913,18 @@ pipeline
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                                   |
-| ------------- | ----- | -------- | --------------------------------------------- |
-| npm Scripts   | 5     | npm      | build, build:production, build:preview, serve |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                                |
+| ---------------- | -------- | ----------- | --------------------------------------------- |
+| npm Scripts      | 5        | npm         | build, build:production, build:preview, serve |
 
 **Dependencies:**
 
-| Dependency    | Direction  | Protocol | Purpose                            |
-| ------------- | ---------- | -------- | ---------------------------------- |
-| hugo-extended | Downstream | npm      | Static site compilation (v0.136.2) |
-| autoprefixer  | Downstream | npm      | CSS post-processing                |
-| postcss-cli   | Downstream | npm      | CSS processing pipeline            |
-| Docsy theme   | Downstream | Hugo     | Technical documentation theme      |
+| 📦 Dependency | ➡️ Direction | 📡 Protocol | 🎯 Purpose                         |
+| ------------- | ------------ | ----------- | ---------------------------------- |
+| hugo-extended | Downstream   | npm         | Static site compilation (v0.136.2) |
+| autoprefixer  | Downstream   | npm         | CSS post-processing                |
+| postcss-cli   | Downstream   | npm         | CSS processing pipeline            |
+| Docsy theme   | Downstream   | Hugo        | Technical documentation theme      |
 
 **Resilience:** Not specified in source — requires operational documentation
 
@@ -945,16 +945,16 @@ output
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                                  |
-| ------------- | ----- | -------- | -------------------------------------------- |
-| ARM REST      | N/A   | HTTPS    | Submits deployment to Azure Resource Manager |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                               |
+| ---------------- | -------- | ----------- | -------------------------------------------- |
+| ARM REST         | N/A      | HTTPS       | Submits deployment to Azure Resource Manager |
 
 **Dependencies:**
 
-| Dependency         | Direction  | Protocol | Purpose                        |
-| ------------------ | ---------- | -------- | ------------------------------ |
-| Azure Subscription | Downstream | ARM      | Deployment target              |
-| All `.bicep` files | Upstream   | Bicep    | Source modules for compilation |
+| 📦 Dependency      | ➡️ Direction | 📡 Protocol | 🎯 Purpose                     |
+| ------------------ | ------------ | ----------- | ------------------------------ |
+| Azure Subscription | Downstream   | ARM         | Deployment target              |
+| All `.bicep` files | Upstream     | Bicep       | Source modules for compilation |
 
 **Resilience:** Platform-managed by Azure Resource Manager
 
@@ -962,7 +962,7 @@ output
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration    |
+| 💊 Probe Type         | ⚙️ Configuration |
 | --------------------- | ---------------- |
 | ARM Deployment Status | Platform-managed |
 
@@ -980,16 +980,16 @@ output
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                                        |
-| ------------- | ----- | -------- | -------------------------------------------------- |
-| YAML Config   | 3     | YAML     | `workload`, `security`, `monitoring` landing zones |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                                     |
+| ---------------- | -------- | ----------- | -------------------------------------------------- |
+| YAML Config      | 3        | YAML        | `workload`, `security`, `monitoring` landing zones |
 
 **Dependencies:**
 
-| Dependency                 | Direction  | Protocol    | Purpose                              |
-| -------------------------- | ---------- | ----------- | ------------------------------------ |
-| azureResources.schema.json | Upstream   | JSON Schema | Contract validation of config values |
-| infra/main.bicep           | Downstream | Bicep       | Consumed via `loadYamlContent()`     |
+| 📦 Dependency              | ➡️ Direction | 📡 Protocol | 🎯 Purpose                           |
+| -------------------------- | ------------ | ----------- | ------------------------------------ |
+| azureResources.schema.json | Upstream     | JSON Schema | Contract validation of config values |
+| infra/main.bicep           | Downstream   | Bicep       | Consumed via `loadYamlContent()`     |
 
 **Contract Details:** `create` (bool), `name` (string), `tags` (object). Schema:
 `azureResources.schema.json`
@@ -1012,16 +1012,16 @@ is a breaking change
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                                                |
-| ------------- | ----- | -------- | ---------------------------------------------------------- |
-| YAML Config   | 6     | YAML     | name, identity, catalogs, environmentTypes, projects, tags |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                                             |
+| ---------------- | -------- | ----------- | ---------------------------------------------------------- |
+| YAML Config      | 6        | YAML        | name, identity, catalogs, environmentTypes, projects, tags |
 
 **Dependencies:**
 
-| Dependency            | Direction  | Protocol    | Purpose                          |
-| --------------------- | ---------- | ----------- | -------------------------------- |
-| devcenter.schema.json | Upstream   | JSON Schema | Contract validation              |
-| workload.bicep        | Downstream | Bicep       | Consumed via `loadYamlContent()` |
+| 📦 Dependency         | ➡️ Direction | 📡 Protocol | 🎯 Purpose                       |
+| --------------------- | ------------ | ----------- | -------------------------------- |
+| devcenter.schema.json | Upstream     | JSON Schema | Contract validation              |
+| workload.bicep        | Downstream   | Bicep       | Consumed via `loadYamlContent()` |
 
 **Contract Details:** Full DevCenter topology including projects array with
 nested pools, catalogs, environment types, RBAC groups, and network
@@ -1039,16 +1039,16 @@ configuration.
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                                   |
-| ------------- | ----- | -------- | --------------------------------------------- |
-| YAML Config   | 2     | YAML     | `create` flag, `keyVault` configuration block |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                                |
+| ---------------- | -------- | ----------- | --------------------------------------------- |
+| YAML Config      | 2        | YAML        | `create` flag, `keyVault` configuration block |
 
 **Dependencies:**
 
-| Dependency           | Direction  | Protocol    | Purpose                          |
-| -------------------- | ---------- | ----------- | -------------------------------- |
-| security.schema.json | Upstream   | JSON Schema | Contract validation              |
-| security.bicep       | Downstream | Bicep       | Consumed via `loadYamlContent()` |
+| 📦 Dependency        | ➡️ Direction | 📡 Protocol | 🎯 Purpose                       |
+| -------------------- | ------------ | ----------- | -------------------------------- |
+| security.schema.json | Upstream     | JSON Schema | Contract validation              |
+| security.bicep       | Downstream   | Bicep       | Consumed via `loadYamlContent()` |
 
 **Contract Details:** `create` (bool), `keyVault.name`, `enablePurgeProtection`,
 `enableSoftDelete`, `softDeleteRetentionInDays`, `enableRbacAuthorization`,
@@ -1066,9 +1066,9 @@ configuration.
 
 **API Surface:**
 
-| Endpoint Type | Count | Protocol | Description                                                      |
-| ------------- | ----- | -------- | ---------------------------------------------------------------- |
-| ARM Outputs   | 8     | ARM REST | WORKSPACE_ID, KV_NAME, KV_ENDPOINT, SECRET_ID, DC_NAME, PROJECTS |
+| 🔌 Endpoint Type | 🔢 Count | 📡 Protocol | 📝 Description                                                   |
+| ---------------- | -------- | ----------- | ---------------------------------------------------------------- |
+| ARM Outputs      | 8        | ARM REST    | WORKSPACE_ID, KV_NAME, KV_ENDPOINT, SECRET_ID, DC_NAME, PROJECTS |
 
 **Dependencies:** Consumed by `azd` CLI to populate environment variable store
 post-deployment
