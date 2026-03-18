@@ -401,13 +401,13 @@ flowchart TB
 
 **Diagram Compliance Report — Fig 1**:
 
-| Gate    | Criterion                                                               | Result  |
-| ------- | ----------------------------------------------------------------------- | ------- |
-| Phase 1 | Direction declared (TB), nesting ≤ 3, no color hierarchy                | ✅ PASS |
-| Phase 2 | All nodes use approved semantic classDefs, 5 classes ≤ limit            | ✅ PASS |
-| Phase 3 | Dark text (#323130) on light backgrounds, WCAG AA                       | ✅ PASS |
-| Phase 4 | accTitle + accDescr at diagram root, all nodes have emoji               | ✅ PASS |
-| Phase 5 | Governance block present, classDefs centralized, style on all subgraphs | ✅ PASS |
+| 🔢 Gate | 🏷️ Criterion                                                            | ✅ Result |
+| ------- | ----------------------------------------------------------------------- | --------- |
+| Phase 1 | Direction declared (TB), nesting ≤ 3, no color hierarchy                | ✅ PASS   |
+| Phase 2 | All nodes use approved semantic classDefs, 5 classes ≤ limit            | ✅ PASS   |
+| Phase 3 | Dark text (#323130) on light backgrounds, WCAG AA                       | ✅ PASS   |
+| Phase 4 | accTitle + accDescr at diagram root, all nodes have emoji               | ✅ PASS   |
+| Phase 5 | Governance block present, classDefs centralized, style on all subgraphs | ✅ PASS   |
 
 ✅ **Mermaid Verification: 5/5 | Score: 100/100**
 
@@ -475,7 +475,7 @@ flowchart LR
 
 **Diagram Compliance Report — Fig 2**:
 
-| Gate    | Criterion                                                       | Result  |
+| 🔢 Gate | 🏷️ Criterion                                                    | ✅ Result |
 | ------- | --------------------------------------------------------------- | ------- |
 | Phase 1 | Direction declared (LR), nesting ≤ 3, no color hierarchy        | ✅ PASS |
 | Phase 2 | 4 semantic classes ≤ 5 limit, all nodes assigned classDef       | ✅ PASS |
@@ -1284,7 +1284,7 @@ Step 6: RBAC Role Assignments (DevCenter principal ID, AAD group IDs)
 
 ### 🌐 8.4 External Service Integrations
 
-| 🌐 External Service                    | 🔄 Integration Type          | 🔒 Auth Method         |
+| 🌐 External Service                    | 🔄 Integration Type         | 🔒 Auth Method         |
 | -------------------------------------- | --------------------------- | ---------------------- |
 | GitHub (`microsoft/devcenter-catalog`) | Public catalog sync         | None (public repo)     |
 | GitHub (`Evilazaro/eShop`)             | Private image + env catalog | GitHub PAT (gha-token) |
