@@ -1219,9 +1219,9 @@ Vault resource group (assigned in `devcenter.yaml:42-45`).
 
 **Protocol Details:**
 
-| Protocol | Version  | Format   | Retry Policy                                |
-| -------- | -------- | -------- | ------------------------------------------- |
-| HTTPS    | TLS 1.2+ | ARM JSON | Azure SDK defaults (3 retries, exp backoff) |
+| 📡 Protocol | 📌 Version | 📄 Format | 🔄 Retry Policy                             |
+| ----------- | ---------- | --------- | ------------------------------------------- |
+| HTTPS       | TLS 1.2+   | ARM JSON  | Azure SDK defaults (3 retries, exp backoff) |
 
 **Message Format:** ARM deployment JSON compiled from Bicep source files
 
@@ -1241,9 +1241,9 @@ re-run idempotently.
 
 **Protocol Details:**
 
-| Protocol | Version  | Format    | Retry Policy       |
-| -------- | -------- | --------- | ------------------ |
-| HTTPS    | TLS 1.2+ | JSON REST | Azure SDK defaults |
+| 📡 Protocol | 📌 Version | 📄 Format | 🔄 Retry Policy    |
+| ----------- | ---------- | --------- | ------------------ |
+| HTTPS       | TLS 1.2+   | JSON REST | Azure SDK defaults |
 
 **Security:** Secret URI (not value) is passed as `secretIdentifier` parameter
 to all downstream modules (`workload.bicep`, `devCenter.bicep`, `catalog.bicep`,
@@ -1262,9 +1262,9 @@ service at runtime.
 
 **Protocol Details:**
 
-| Protocol | Version  | Format    | Pattern               |
-| -------- | -------- | --------- | --------------------- |
-| HTTPS    | TLS 1.2+ | JSON logs | Async fire-and-forget |
+| 📡 Protocol | 📌 Version | 📄 Format | 🔄 Pattern            |
+| ----------- | ---------- | --------- | --------------------- |
+| HTTPS       | TLS 1.2+   | JSON logs | Async fire-and-forget |
 
 **Scope:** Diagnostic settings applied to Log Analytics Workspace, Key Vault
 (via `secret.bicep`), and Virtual Networks (via `vnet.bicep`). All use
@@ -1284,7 +1284,7 @@ service at runtime.
 
 **Event Schema:**
 
-| Field           | Value        | Description                                |
+| 🏷️ Field        | 💡 Value     | 📝 Description                             |
 | --------------- | ------------ | ------------------------------------------ |
 | hook type       | preprovision | Fires before Bicep deployment              |
 | posix shell     | sh           | Bash script for Linux/macOS                |
@@ -1310,7 +1310,7 @@ No opt-out; the hook is mandatory.
 
 **Event Schema:**
 
-| Field          | Value                  | Description                                |
+| 🏷️ Field       | 💡 Value               | 📝 Description                             |
 | -------------- | ---------------------- | ------------------------------------------ |
 | event type     | ARM deployment state   | ProvisioningState = Succeeded / Failed     |
 | output payload | ARM deployment outputs | Key/value map of module outputs            |
@@ -1461,16 +1461,16 @@ a valid resource name.
 
 **Contract Definition:**
 
-| Output Name                        | Type   | Consumer                   |
-| ---------------------------------- | ------ | -------------------------- |
-| AZURE_LOG_ANALYTICS_WORKSPACE_ID   | string | security, workload modules |
-| AZURE_KEY_VAULT_NAME               | string | azd environment variables  |
-| AZURE_KEY_VAULT_ENDPOINT           | string | azd environment variables  |
-| AZURE_KEY_VAULT_SECRET_IDENTIFIER  | string | workload module            |
-| AZURE_DEV_CENTER_NAME              | string | azd environment variables  |
-| AZURE_DEV_CENTER_PROJECTS          | array  | azd environment variables  |
-| WORKLOAD_AZURE_RESOURCE_GROUP_NAME | string | azd environment variables  |
-| SECURITY_AZURE_RESOURCE_GROUP_NAME | string | azd environment variables  |
+| 📤 Output Name                     | 🏷️ Type | 👥 Consumer                |
+| ---------------------------------- | ------- | -------------------------- |
+| AZURE_LOG_ANALYTICS_WORKSPACE_ID   | string  | security, workload modules |
+| AZURE_KEY_VAULT_NAME               | string  | azd environment variables  |
+| AZURE_KEY_VAULT_ENDPOINT           | string  | azd environment variables  |
+| AZURE_KEY_VAULT_SECRET_IDENTIFIER  | string  | workload module            |
+| AZURE_DEV_CENTER_NAME              | string  | azd environment variables  |
+| AZURE_DEV_CENTER_PROJECTS          | array   | azd environment variables  |
+| WORKLOAD_AZURE_RESOURCE_GROUP_NAME | string  | azd environment variables  |
+| SECURITY_AZURE_RESOURCE_GROUP_NAME | string  | azd environment variables  |
 
 **SLA:** Contract stability guaranteed within major Bicep API versions.
 **Breaking Change Policy:** Output name changes are breaking — require consumer
