@@ -9,14 +9,14 @@ Found**: 18 **Average Confidence**: 0.87
 
 ## 📑 Quick Table of Contents
 
-| #   | Section                                                       | Description                                                       |
-| --- | ------------------------------------------------------------- | ----------------------------------------------------------------- |
-| 1   | [🗒️ Executive Summary](#1-executive-summary)                  | Application portfolio overview, service counts, maturity          |
-| 2   | [🗺️ Architecture Landscape](#2-architecture-landscape)        | All 11 application component types with inventory tables          |
-| 3   | [📐 Architecture Principles](#3-architecture-principles)      | Design principles evidenced from source files                     |
-| 4   | [📊 Current State Baseline](#4-current-state-baseline)        | Existing service topology, deployment state, health posture       |
-| 5   | [📦 Component Catalog](#5-component-catalog)                  | Detailed specifications for all application components            |
-| 8   | [🔗 Dependencies & Integration](#8-dependencies--integration) | Service-to-service dependencies, data flows, integration patterns |
+| 🔢 # | 🔗 Section                                                    | 📝 Description                                                    |
+| ---- | ------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 1    | [🗒️ Executive Summary](#1-executive-summary)                  | Application portfolio overview, service counts, maturity          |
+| 2    | [🗺️ Architecture Landscape](#2-architecture-landscape)        | All 11 application component types with inventory tables          |
+| 3    | [📐 Architecture Principles](#3-architecture-principles)      | Design principles evidenced from source files                     |
+| 4    | [📊 Current State Baseline](#4-current-state-baseline)        | Existing service topology, deployment state, health posture       |
+| 5    | [📦 Component Catalog](#5-component-catalog)                  | Detailed specifications for all application components            |
+| 8    | [🔗 Dependencies & Integration](#8-dependencies--integration) | Service-to-service dependencies, data flows, integration patterns |
 
 ---
 
@@ -56,19 +56,19 @@ itself.
 
 **Component Summary**:
 
-| TOGAF Component Type       | Count | Avg Confidence | Maturity Signal                                     |
-| -------------------------- | ----- | -------------- | --------------------------------------------------- |
-| Application Services       | 6     | 0.91           | All modules have typed params and output contracts  |
-| Application Components     | 5     | 0.85           | AZD CLI orchestration, Hugo SSG, Bicep runtime      |
-| Application Interfaces     | 4     | 0.88           | YAML + JSON Schema validated contracts              |
-| Application Collaborations | 1     | 0.82           | Module dependency chain in main.bicep               |
-| Application Functions      | 2     | 0.90           | Provisioning function, Secret management function   |
-| Application Interactions   | 3     | 0.83           | ARM API, Key Vault API, Log Analytics ingestion     |
-| Application Events         | 2     | 0.78           | AZD lifecycle hooks (preprovision)                  |
-| Application Data Objects   | 3     | 0.86           | LandingZone, DevCenterConfig, ProjectConfig DTOs    |
-| Integration Patterns       | 3     | 0.84           | Module composition, Key Vault ref, ARM deployment   |
-| Service Contracts          | 3     | 0.87           | Bicep output contracts, YAML schema contracts       |
-| Application Dependencies   | 6     | 0.88           | AZD CLI, Bicep, Azure ARM, Key Vault, Log Analytics |
+| 🧩 TOGAF Component Type    | 🔢 Count | 📈 Avg Confidence | 🏆 Maturity Signal                                  |
+| -------------------------- | -------- | ----------------- | --------------------------------------------------- |
+| Application Services       | 6        | 0.91              | All modules have typed params and output contracts  |
+| Application Components     | 5        | 0.85              | AZD CLI orchestration, Hugo SSG, Bicep runtime      |
+| Application Interfaces     | 4        | 0.88              | YAML + JSON Schema validated contracts              |
+| Application Collaborations | 1        | 0.82              | Module dependency chain in main.bicep               |
+| Application Functions      | 2        | 0.90              | Provisioning function, Secret management function   |
+| Application Interactions   | 3        | 0.83              | ARM API, Key Vault API, Log Analytics ingestion     |
+| Application Events         | 2        | 0.78              | AZD lifecycle hooks (preprovision)                  |
+| Application Data Objects   | 3        | 0.86              | LandingZone, DevCenterConfig, ProjectConfig DTOs    |
+| Integration Patterns       | 3        | 0.84              | Module composition, Key Vault ref, ARM deployment   |
+| Service Contracts          | 3        | 0.87              | Bicep output contracts, YAML schema contracts       |
+| Application Dependencies   | 6        | 0.88              | AZD CLI, Bicep, Azure ARM, Key Vault, Log Analytics |
 
 ---
 
@@ -165,21 +165,21 @@ Application Services are the discrete deployable Bicep modules that expose
 well-defined parameter interfaces and output contracts, composing the platform's
 deployment pipeline.
 
-| Name                | Description                                                        | Service Type |
-| ------------------- | ------------------------------------------------------------------ | ------------ |
-| Monitoring Module   | Deploys Log Analytics Workspace and diagnostic solutions           | PaaS         |
-| Security Module     | Deploys Key Vault, secrets, and diagnostic settings                | PaaS         |
-| Workload Module     | Orchestrates DevCenter, projects, and connectivity deployment      | PaaS         |
-| DevCenter Module    | Provisions Azure DevCenter with identity, catalogs, environments   | PaaS         |
-| Project Module      | Creates DevCenter Projects with pools, catalogs, environment types | PaaS         |
-| Connectivity Module | Provisions VNet, subnets, and network connections for Dev Box      | PaaS         |
+| 🏷️ Name             | 📝 Description                                                     | ⚙️ Service Type |
+| ------------------- | ------------------------------------------------------------------ | --------------- |
+| Monitoring Module   | Deploys Log Analytics Workspace and diagnostic solutions           | PaaS            |
+| Security Module     | Deploys Key Vault, secrets, and diagnostic settings                | PaaS            |
+| Workload Module     | Orchestrates DevCenter, projects, and connectivity deployment      | PaaS            |
+| DevCenter Module    | Provisions Azure DevCenter with identity, catalogs, environments   | PaaS            |
+| Project Module      | Creates DevCenter Projects with pools, catalogs, environment types | PaaS            |
+| Connectivity Module | Provisions VNet, subnets, and network connections for Dev Box      | PaaS            |
 
 ### 🧩 2.2 Application Components
 
 Application Components are the modular, deployable software units that
 encapsulate the behavioral logic of the platform's provisioning lifecycle.
 
-| Name                        | Description                                                         | Service Type      |
+| 🏷️ Name                     | 📝 Description                                                      | ⚙️ Service Type   |
 | --------------------------- | ------------------------------------------------------------------- | ----------------- |
 | Azure Developer CLI (azd)   | Orchestrates the full provisioning lifecycle via hooks and Bicep    | CLI Tool          |
 | Bicep Compiler / ARM Engine | Compiles Bicep to ARM JSON and submits deployments to Azure         | Platform Runtime  |
@@ -192,19 +192,19 @@ encapsulate the behavioral logic of the platform's provisioning lifecycle.
 Application Interfaces are the formal contracts defining how modules communicate
 with the configuration layer and with the Azure Resource Manager API.
 
-| Name                          | Description                                                         | Service Type  |
-| ----------------------------- | ------------------------------------------------------------------- | ------------- |
-| azureResources.yaml Interface | YAML contract for resource group organization (validated by schema) | Configuration |
-| devcenter.yaml Interface      | YAML contract for DevCenter, project, pool, and catalog config      | Configuration |
-| security.yaml Interface       | YAML contract for Key Vault settings and secret configuration       | Configuration |
-| Bicep Output Contracts        | Typed output declarations exported between modules                  | API Contract  |
+| 🏷️ Name                       | 📝 Description                                                      | ⚙️ Service Type |
+| ----------------------------- | ------------------------------------------------------------------- | --------------- |
+| azureResources.yaml Interface | YAML contract for resource group organization (validated by schema) | Configuration   |
+| devcenter.yaml Interface      | YAML contract for DevCenter, project, pool, and catalog config      | Configuration   |
+| security.yaml Interface       | YAML contract for Key Vault settings and secret configuration       | Configuration   |
+| Bicep Output Contracts        | Typed output declarations exported between modules                  | API Contract    |
 
 ### 🤝 2.4 Application Collaborations
 
 Application Collaborations describe how Bicep modules cooperate via `dependsOn`
 chains and output–parameter wiring to achieve end-to-end platform provisioning.
 
-| Name                       | Description                                                           | Service Type          |
+| 🏷️ Name                    | 📝 Description                                                        | ⚙️ Service Type       |
 | -------------------------- | --------------------------------------------------------------------- | --------------------- |
 | Module Deployment Pipeline | Sequential orchestration: Monitoring → Security → Workload → Projects | Service Orchestration |
 
@@ -213,7 +213,7 @@ chains and output–parameter wiring to achieve end-to-end platform provisioning
 Application Functions are the logical groupings of behavior that define the two
 primary capabilities the platform delivers.
 
-| Name                  | Description                                                                  | Service Type         |
+| 🏷️ Name               | 📝 Description                                                               | ⚙️ Service Type      |
 | --------------------- | ---------------------------------------------------------------------------- | -------------------- |
 | Platform Provisioning | End-to-end resource group, infrastructure, and DevCenter deployment function | Provisioning Service |
 | Secret Management     | Secure token creation, storage, and injection into DevCenter catalogs        | Security Function    |
@@ -223,7 +223,7 @@ primary capabilities the platform delivers.
 Application Interactions are the runtime communication patterns between
 application modules and Azure platform services.
 
-| Name                           | Description                                                                           | Service Type     |
+| 🏷️ Name                        | 📝 Description                                                                        | ⚙️ Service Type  |
 | ------------------------------ | ------------------------------------------------------------------------------------- | ---------------- |
 | ARM Deployment API Interaction | Bicep compiler submits ARM deployment REST requests to Azure Resource Manager         | Request/Response |
 | Key Vault Secret Reference     | Modules retrieve secret URI from Key Vault output; DevCenter uses it for catalog auth | Request/Response |
@@ -234,17 +234,17 @@ application modules and Azure platform services.
 Application Events are the lifecycle triggers and notifications within the
 provisioning pipeline.
 
-| Name                      | Description                                                                        | Service Type   |
-| ------------------------- | ---------------------------------------------------------------------------------- | -------------- |
-| AZD Preprovision Event    | Fires before Bicep deployment; triggers setUp scripts for tool validation/auth     | Lifecycle Hook |
-| ARM Deployment Completion | ARM deployment state change event signals module output availability to dependents | Platform Event |
+| 🏷️ Name                   | 📝 Description                                                                     | ⚙️ Service Type |
+| ------------------------- | ---------------------------------------------------------------------------------- | --------------- |
+| AZD Preprovision Event    | Fires before Bicep deployment; triggers setUp scripts for tool validation/auth     | Lifecycle Hook  |
+| ARM Deployment Completion | ARM deployment state change event signals module output availability to dependents | Platform Event  |
 
 ### 🗃️ 2.8 Application Data Objects
 
 Application Data Objects are the structured data types used across the
 application layer.
 
-| Name                | Description                                                                      | Service Type         |
+| 🏷️ Name             | 📝 Description                                                                   | ⚙️ Service Type      |
 | ------------------- | -------------------------------------------------------------------------------- | -------------------- |
 | LandingZone DTO     | Bicep user-defined type encoding resource group name, create flag, and tags      | Data Transfer Object |
 | DevCenterConfig DTO | Bicep user-defined type for DevCenter name, identity, catalog sync, and features | Data Transfer Object |
@@ -255,7 +255,7 @@ application layer.
 Integration Patterns are the standard approaches used to connect application
 modules and platform services.
 
-| Name                          | Description                                                                          | Service Type       |
+| 🏷️ Name                       | 📝 Description                                                                       | ⚙️ Service Type    |
 | ----------------------------- | ------------------------------------------------------------------------------------ | ------------------ |
 | Module Composition Pattern    | Bicep modules composed via `module` keyword with explicit param/output wiring        | Orchestration      |
 | Key Vault Reference Injection | Secret URI passed as `secretIdentifier` param — never the secret value itself        | Secure Integration |
@@ -266,7 +266,7 @@ modules and platform services.
 Service Contracts are the formal agreements governing how modules expose and
 consume capabilities.
 
-| Name                           | Description                                                                                  | Service Type     |
+| 🏷️ Name                        | 📝 Description                                                                               | ⚙️ Service Type  |
 | ------------------------------ | -------------------------------------------------------------------------------------------- | ---------------- |
 | Bicep Module Output Contract   | Each module declares typed `output` blocks consumed by downstream modules via `outputs.PROP` | Module Interface |
 | YAML Configuration Schema      | JSON Schema files (`*.schema.json`) formally validate all YAML configuration inputs          | Schema Contract  |
@@ -277,7 +277,7 @@ consume capabilities.
 Application Dependencies are the external libraries, frameworks, and platform
 services that the application layer consumes.
 
-| Name                        | Description                                                                      | Service Type     |
+| 🏷️ Name                     | 📝 Description                                                                   | ⚙️ Service Type  |
 | --------------------------- | -------------------------------------------------------------------------------- | ---------------- |
 | Azure Developer CLI (azd)   | Orchestration runtime; interprets azure.yaml hooks and triggers Bicep deployment | CLI Framework    |
 | Bicep Language / ARM Engine | IaC compiler and Azure deployment engine; processes all `.bicep` source files    | Platform Runtime |
@@ -297,13 +297,13 @@ source files. Each principle is observable from concrete implementation
 decisions, not aspirational guidance. Five principles are documented at the
 comprehensive quality level.
 
-| Principle                           | Evidence (Source)                                                                                  | Compliance Level |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------- |
-| Configuration-as-Code               | `infra/settings/workload/devcenter.yaml:1-*`, `infra/settings/security/security.yaml:1-*`          | Full             |
-| Least-Privilege RBAC                | `src/workload/core/devCenter.bicep:*`, `src/identity/devCenterRoleAssignment.bicep:*`              | Full             |
-| Secure-by-Default (Secrets Hygiene) | `src/security/secret.bicep:1-*`, `src/security/keyVault.bicep:40-55`, `infra/main.bicep:1-*`       | Full             |
-| Immutable Infrastructure via IaC    | All resources defined in `.bicep` modules; no portal-click provisioning evidenced in source        | Full             |
-| Observability-First                 | `src/management/logAnalytics.bicep:*`, diagnostic settings in `secret.bicep:29-55`, `vnet.bicep:*` | Full             |
+| 📐 Principle                        | 📂 Evidence (Source)                                                                               | ✅ Compliance Level |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------- |
+| Configuration-as-Code               | `infra/settings/workload/devcenter.yaml:1-*`, `infra/settings/security/security.yaml:1-*`          | Full                |
+| Least-Privilege RBAC                | `src/workload/core/devCenter.bicep:*`, `src/identity/devCenterRoleAssignment.bicep:*`              | Full                |
+| Secure-by-Default (Secrets Hygiene) | `src/security/secret.bicep:1-*`, `src/security/keyVault.bicep:40-55`, `infra/main.bicep:1-*`       | Full                |
+| Immutable Infrastructure via IaC    | All resources defined in `.bicep` modules; no portal-click provisioning evidenced in source        | Full                |
+| Observability-First                 | `src/management/logAnalytics.bicep:*`, diagnostic settings in `secret.bicep:29-55`, `vnet.bicep:*` | Full                |
 
 ### 📄 Principle 1: Configuration-as-Code
 
@@ -380,7 +380,7 @@ environment types, and two catalogs.
 
 ### 🗺️ Service Topology Table
 
-| Service / Module     | Deployment Target     | Protocol     | Status      | Version                |
+| ⚙️ Service / Module  | 🎯 Deployment Target  | 📡 Protocol  | 🔄 Status   | 📌 Version             |
 | -------------------- | --------------------- | ------------ | ----------- | ---------------------- |
 | Monitoring Module    | devexp-workload RG    | ARM REST API | Active      | Bicep / API 2025-07-01 |
 | Security Module      | devexp-workload RG    | ARM REST API | Active      | Bicep / API 2025-05-01 |
@@ -401,7 +401,7 @@ configuration.
 
 ### 📡 Protocol Inventory
 
-| Protocol     | Usage                                         | Consumers                            |
+| 📡 Protocol  | 🔧 Usage                                      | 👥 Consumers                         |
 | ------------ | --------------------------------------------- | ------------------------------------ |
 | ARM REST API | All resource CRUD operations via Bicep        | All modules                          |
 | HTTPS/TLS    | Key Vault URI (`vaultUri`) calls              | Workload, DevCenter, Project modules |
@@ -410,16 +410,16 @@ configuration.
 
 ### 📌 Versioning Status
 
-| Resource Type                            | API Version        | Status  |
-| ---------------------------------------- | ------------------ | ------- |
-| Microsoft.Resources/resourceGroups       | 2025-04-01         | Current |
-| Microsoft.KeyVault/vaults                | 2025-05-01         | Current |
-| Microsoft.DevCenter/devcenters           | 2025-02-01         | Current |
-| Microsoft.DevCenter/projects             | 2025-02-01         | Current |
-| Microsoft.Network/virtualNetworks        | 2025-05-01         | Current |
-| Microsoft.OperationalInsights/workspaces | 2025-07-01         | Current |
-| Microsoft.Insights/diagnosticSettings    | 2021-05-01-preview | Stable  |
-| Microsoft.Authorization/roleAssignments  | 2022-04-01         | Current |
+| 📦 Resource Type                         | 📌 API Version     | 🔄 Status |
+| ---------------------------------------- | ------------------ | --------- |
+| Microsoft.Resources/resourceGroups       | 2025-04-01         | Current   |
+| Microsoft.KeyVault/vaults                | 2025-05-01         | Current   |
+| Microsoft.DevCenter/devcenters           | 2025-02-01         | Current   |
+| Microsoft.DevCenter/projects             | 2025-02-01         | Current   |
+| Microsoft.Network/virtualNetworks        | 2025-05-01         | Current   |
+| Microsoft.OperationalInsights/workspaces | 2025-07-01         | Current   |
+| Microsoft.Insights/diagnosticSettings    | 2021-05-01-preview | Stable    |
+| Microsoft.Authorization/roleAssignments  | 2022-04-01         | Current   |
 
 ### 📊 Current State Baseline Diagram
 
@@ -538,7 +538,7 @@ Instruction.
 
 ### ⚙️ 5.1 Application Services
 
-#### 5.1.1 Monitoring Module
+#### 📊 5.1.1 Monitoring Module
 
 | Attribute          | Value                                |
 | ------------------ | ------------------------------------ |
@@ -582,7 +582,7 @@ Instruction.
 
 ---
 
-#### 5.1.2 Security Module
+#### 🔒 5.1.2 Security Module
 
 | Attribute          | Value                          |
 | ------------------ | ------------------------------ |
@@ -627,7 +627,7 @@ Instruction.
 
 ---
 
-#### 5.1.3 Workload Module
+#### 🏗️ 5.1.3 Workload Module
 
 | Attribute          | Value                          |
 | ------------------ | ------------------------------ |
@@ -673,7 +673,7 @@ Instruction.
 
 ---
 
-#### 5.1.4 DevCenter Module
+#### 🖥️ 5.1.4 DevCenter Module
 
 | Attribute          | Value                                |
 | ------------------ | ------------------------------------ |
@@ -719,7 +719,7 @@ Instruction.
 
 ---
 
-#### 5.1.5 Project Module (eShop)
+#### 📁 5.1.5 Project Module (eShop)
 
 | Attribute          | Value                                 |
 | ------------------ | ------------------------------------- |
@@ -766,7 +766,7 @@ Instruction.
 
 ---
 
-#### 5.1.6 Connectivity Module
+#### 🔌 5.1.6 Connectivity Module
 
 | Attribute          | Value                                  |
 | ------------------ | -------------------------------------- |
@@ -811,7 +811,7 @@ Instruction.
 
 ### 🧩 5.2 Application Components
 
-#### 5.2.1 Azure Developer CLI (azd)
+#### ⚙️ 5.2.1 Azure Developer CLI (azd)
 
 | Attribute          | Value               |
 | ------------------ | ------------------- |
@@ -841,7 +841,7 @@ Instruction.
 
 ---
 
-#### 5.2.2 AZD Preprovision Hook
+#### 🪩 5.2.2 AZD Preprovision Hook
 
 | Attribute          | Value                 |
 | ------------------ | --------------------- |
@@ -873,7 +873,7 @@ pipeline
 
 ---
 
-#### 5.2.3 setUp Scripts
+#### 📜 5.2.3 setUp Scripts
 
 | Attribute          | Value                   |
 | ------------------ | ----------------------- |
@@ -903,7 +903,7 @@ pipeline
 
 ---
 
-#### 5.2.4 Hugo Static Site Generator
+#### 📚 5.2.4 Hugo Static Site Generator
 
 | Attribute          | Value                      |
 | ------------------ | -------------------------- |
@@ -935,7 +935,7 @@ output
 
 ---
 
-#### 5.2.5 Bicep Compiler / ARM Engine
+#### ⚡ 5.2.5 Bicep Compiler / ARM Engine
 
 | Attribute          | Value                       |
 | ------------------ | --------------------------- |
@@ -970,7 +970,7 @@ output
 
 ### 🔌 5.3 Application Interfaces
 
-#### 5.3.1 azureResources.yaml Interface
+#### 📄 5.3.1 azureResources.yaml Interface
 
 | Attribute          | Value                                                      |
 | ------------------ | ---------------------------------------------------------- |
@@ -1002,7 +1002,7 @@ is a breaking change
 
 ---
 
-#### 5.3.2 devcenter.yaml Interface
+#### 📄 5.3.2 devcenter.yaml Interface
 
 | Attribute          | Value                                     |
 | ------------------ | ----------------------------------------- |
@@ -1029,7 +1029,7 @@ configuration.
 
 ---
 
-#### 5.3.3 security.yaml Interface
+#### 📄 5.3.3 security.yaml Interface
 
 | Attribute          | Value                                    |
 | ------------------ | ---------------------------------------- |
@@ -1056,7 +1056,7 @@ configuration.
 
 ---
 
-#### 5.3.4 Bicep Output Contracts
+#### 📤 5.3.4 Bicep Output Contracts
 
 | Attribute          | Value                    |
 | ------------------ | ------------------------ |
@@ -1081,7 +1081,7 @@ break.
 
 ### 🤝 5.4 Application Collaborations
 
-#### 5.4.1 Module Deployment Pipeline
+#### 🔄 5.4.1 Module Deployment Pipeline
 
 | Attribute          | Value                      |
 | ------------------ | -------------------------- |
@@ -1152,7 +1152,7 @@ sequenceDiagram
 
 ### ⚡ 5.5 Application Functions
 
-#### 5.5.1 Platform Provisioning Function
+#### ⚙️ 5.5.1 Platform Provisioning Function
 
 | Attribute          | Value                          |
 | ------------------ | ------------------------------ |
@@ -1182,7 +1182,7 @@ subscription scope (assigned to DevCenter managed identity per
 
 ---
 
-#### 5.5.2 Secret Management Function
+#### 🔐 5.5.2 Secret Management Function
 
 | Attribute          | Value                        |
 | ------------------ | ---------------------------- |
@@ -1209,7 +1209,7 @@ Vault resource group (assigned in `devcenter.yaml:42-45`).
 
 ### 💬 5.6 Application Interactions
 
-#### 5.6.1 ARM Deployment API Interaction
+#### ☁️ 5.6.1 ARM Deployment API Interaction
 
 | Attribute          | Value                          |
 | ------------------ | ------------------------------ |
@@ -1231,7 +1231,7 @@ re-run idempotently.
 
 ---
 
-#### 5.6.2 Key Vault Secret Reference Interaction
+#### 🔑 5.6.2 Key Vault Secret Reference Interaction
 
 | Attribute          | Value                                  |
 | ------------------ | -------------------------------------- |
@@ -1252,7 +1252,7 @@ service at runtime.
 
 ---
 
-#### 5.6.3 Log Analytics Diagnostic Ingestion
+#### 📊 5.6.3 Log Analytics Diagnostic Ingestion
 
 | Attribute          | Value                                   |
 | ------------------ | --------------------------------------- |
@@ -1274,7 +1274,7 @@ service at runtime.
 
 ### 📣 5.7 Application Events
 
-#### 5.7.1 AZD Preprovision Event
+#### 🪩 5.7.1 AZD Preprovision Event
 
 | Attribute          | Value                  |
 | ------------------ | ---------------------- |
@@ -1300,7 +1300,7 @@ No opt-out; the hook is mandatory.
 
 ---
 
-#### 5.7.2 ARM Deployment Completion Event
+#### ✅ 5.7.2 ARM Deployment Completion Event
 
 | Attribute          | Value                           |
 | ------------------ | ------------------------------- |
@@ -1323,7 +1323,7 @@ No opt-out; the hook is mandatory.
 
 ### 🗃️ 5.8 Application Data Objects
 
-#### 5.8.1 LandingZone DTO
+#### 🗃️ 5.8.1 LandingZone DTO
 
 | Attribute          | Value                             |
 | ------------------ | --------------------------------- |
@@ -1347,7 +1347,7 @@ gate controlling conditional resource instantiation; `tags` propagated via
 
 ---
 
-#### 5.8.2 DevCenterConfig DTO
+#### 🗃️ 5.8.2 DevCenterConfig DTO
 
 | Attribute          | Value                                   |
 | ------------------ | --------------------------------------- |
@@ -1366,7 +1366,7 @@ union type.
 
 ---
 
-#### 5.8.3 ProjectConfig DTO
+#### 🗃️ 5.8.3 ProjectConfig DTO
 
 | Attribute          | Value                                     |
 | ------------------ | ----------------------------------------- |
@@ -1388,7 +1388,7 @@ Dev Box SKUs.
 
 ### 🔄 5.9 Integration Patterns
 
-#### 5.9.1 Module Composition Pattern
+#### 🔄 5.9.1 Module Composition Pattern
 
 | Attribute          | Value                      |
 | ------------------ | -------------------------- |
@@ -1408,7 +1408,7 @@ outputs as string/array
 
 ---
 
-#### 5.9.2 Key Vault Reference Injection Pattern
+#### 🔑 5.9.2 Key Vault Reference Injection Pattern
 
 | Attribute          | Value                                 |
 | ------------------ | ------------------------------------- |
@@ -1429,7 +1429,7 @@ DevCenter runtime.
 
 ---
 
-#### 5.9.3 Conditional Resource Creation Pattern
+#### 🌿 5.9.3 Conditional Resource Creation Pattern
 
 | Attribute          | Value                                 |
 | ------------------ | ------------------------------------- |
@@ -1451,7 +1451,7 @@ a valid resource name.
 
 ### 📝 5.10 Service Contracts
 
-#### 5.10.1 Bicep Module Output Contract
+#### 📤 5.10.1 Bicep Module Output Contract
 
 | Attribute          | Value                        |
 | ------------------ | ---------------------------- |
@@ -1478,7 +1478,7 @@ updates.
 
 ---
 
-#### 5.10.2 YAML Configuration Schema Contract
+#### 📋 5.10.2 YAML Configuration Schema Contract
 
 | Attribute          | Value                                                             |
 | ------------------ | ----------------------------------------------------------------- |
@@ -1497,7 +1497,7 @@ a breaking change. Additive fields with defaults are backward-compatible.
 
 ---
 
-#### 5.10.3 Bicep Typed Parameter Contract
+#### 📝 5.10.3 Bicep Typed Parameter Contract
 
 | Attribute          | Value                                    |
 | ------------------ | ---------------------------------------- |
@@ -1518,7 +1518,7 @@ Adding optional properties with `?` suffix is backward-compatible.
 
 ### 📦 5.11 Application Dependencies
 
-#### 5.11.1 Azure Developer CLI (azd)
+#### ⚙️ 5.11.1 Azure Developer CLI (azd)
 
 | Attribute          | Value                          |
 | ------------------ | ------------------------------ |
@@ -1533,7 +1533,7 @@ reproducibility
 
 ---
 
-#### 5.11.2 Bicep Language / ARM Engine
+#### ⚡ 5.11.2 Bicep Language / ARM Engine
 
 | Attribute          | Value                                  |
 | ------------------ | -------------------------------------- |
@@ -1548,7 +1548,7 @@ changes reviewed via PR
 
 ---
 
-#### 5.11.3 Azure DevCenter Service
+#### 🖥️ 5.11.3 Azure DevCenter Service
 
 | Attribute          | Value                                |
 | ------------------ | ------------------------------------ |
@@ -1562,7 +1562,7 @@ Policy:** API version is a code change; test in non-production before upgrading
 
 ---
 
-#### 5.11.4 Azure Key Vault Service
+#### 🔑 5.11.4 Azure Key Vault Service
 
 | Attribute          | Value                              |
 | ------------------ | ---------------------------------- |
@@ -1576,7 +1576,7 @@ version is a code change; RBAC model changes require role assignment review
 
 ---
 
-#### 5.11.5 Log Analytics Workspace Service
+#### 📊 5.11.5 Log Analytics Workspace Service
 
 | Attribute          | Value                                      |
 | ------------------ | ------------------------------------------ |
@@ -1591,7 +1591,7 @@ migration
 
 ---
 
-#### 5.11.6 Hugo Extended
+#### 📚 5.11.6 Hugo Extended
 
 | Attribute          | Value                    |
 | ------------------ | ------------------------ |
@@ -1697,27 +1697,27 @@ flowchart LR
 
 ### 🔗 Service-to-Service Dependency Table
 
-| Caller Module    | Called Module / Service                | Protocol | Data Passed                                     | Direction  |
-| ---------------- | -------------------------------------- | -------- | ----------------------------------------------- | ---------- |
-| infra/main.bicep | src/management/logAnalytics.bicep      | ARM      | `name` param                                    | Downstream |
-| infra/main.bicep | src/security/security.bicep            | ARM      | `secretValue`, `logAnalyticsId`                 | Downstream |
-| infra/main.bicep | src/workload/workload.bicep            | ARM      | `logAnalyticsId`, `secretIdentifier`            | Downstream |
-| security.bicep   | keyVault.bicep                         | ARM      | `keyvaultSettings`, `tags`                      | Downstream |
-| security.bicep   | secret.bicep                           | ARM      | `keyVaultName`, `secretValue`, `logAnalyticsId` | Downstream |
-| workload.bicep   | core/devCenter.bicep                   | ARM      | Full `devCenterSettings` config                 | Downstream |
-| workload.bicep   | project/project.bicep                  | ARM      | Per-project config from YAML                    | Downstream |
-| project.bicep    | connectivity.bicep                     | ARM      | `projectNetwork`, `logAnalyticsId`              | Downstream |
-| project.bicep    | projectCatalog.bicep                   | ARM      | `catalogConfig`, `secretIdentifier`             | Downstream |
-| project.bicep    | projectEnvironmentType.bicep           | ARM      | `environmentConfig`                             | Downstream |
-| project.bicep    | projectPool.bicep                      | ARM      | Pool config + catalogs                          | Downstream |
-| devCenter.bicep  | identity/devCenterRoleAssignment.bicep | ARM      | `id`, `principalId`, `scope`                    | Downstream |
-| devCenter.bicep  | identity/orgRoleAssignment.bicep       | ARM      | `principalId`, `roles[]`                        | Downstream |
-| devCenter.bicep  | core/catalog.bicep                     | ARM      | `catalogConfig`, `secretIdentifier`             | Downstream |
-| devCenter.bicep  | core/environmentType.bicep             | ARM      | `environmentConfig`                             | Downstream |
+| 🔵 Caller Module | 🎯 Called Module / Service             | 📡 Protocol | 📦 Data Passed                                  | ➡️ Direction |
+| ---------------- | -------------------------------------- | ----------- | ----------------------------------------------- | ------------ |
+| infra/main.bicep | src/management/logAnalytics.bicep      | ARM         | `name` param                                    | Downstream   |
+| infra/main.bicep | src/security/security.bicep            | ARM         | `secretValue`, `logAnalyticsId`                 | Downstream   |
+| infra/main.bicep | src/workload/workload.bicep            | ARM         | `logAnalyticsId`, `secretIdentifier`            | Downstream   |
+| security.bicep   | keyVault.bicep                         | ARM         | `keyvaultSettings`, `tags`                      | Downstream   |
+| security.bicep   | secret.bicep                           | ARM         | `keyVaultName`, `secretValue`, `logAnalyticsId` | Downstream   |
+| workload.bicep   | core/devCenter.bicep                   | ARM         | Full `devCenterSettings` config                 | Downstream   |
+| workload.bicep   | project/project.bicep                  | ARM         | Per-project config from YAML                    | Downstream   |
+| project.bicep    | connectivity.bicep                     | ARM         | `projectNetwork`, `logAnalyticsId`              | Downstream   |
+| project.bicep    | projectCatalog.bicep                   | ARM         | `catalogConfig`, `secretIdentifier`             | Downstream   |
+| project.bicep    | projectEnvironmentType.bicep           | ARM         | `environmentConfig`                             | Downstream   |
+| project.bicep    | projectPool.bicep                      | ARM         | Pool config + catalogs                          | Downstream   |
+| devCenter.bicep  | identity/devCenterRoleAssignment.bicep | ARM         | `id`, `principalId`, `scope`                    | Downstream   |
+| devCenter.bicep  | identity/orgRoleAssignment.bicep       | ARM         | `principalId`, `roles[]`                        | Downstream   |
+| devCenter.bicep  | core/catalog.bicep                     | ARM         | `catalogConfig`, `secretIdentifier`             | Downstream   |
+| devCenter.bicep  | core/environmentType.bicep             | ARM         | `environmentConfig`                             | Downstream   |
 
 ### 🌐 External API Dependency Table
 
-| Service                  | API Version               | Usage                                                | Auth Model                    |
+| ☁️ Service               | 📌 API Version            | 🔧 Usage                                             | 🔐 Auth Model                 |
 | ------------------------ | ------------------------- | ---------------------------------------------------- | ----------------------------- |
 | Azure Resource Manager   | 2025-xx-xx (per resource) | All resource creation/updates                        | Managed Identity / SPN        |
 | Azure Key Vault          | 2025-05-01                | Secret storage and URI retrieval                     | RBAC (Key Vault Secrets User) |
@@ -1729,7 +1729,7 @@ flowchart LR
 
 ### 📣 Event Subscription Map
 
-| Event                       | Publisher         | Subscriber(s)                    | Trigger                        |
+| 📣 Event                    | 📢 Publisher      | 👥 Subscriber(s)                 | ⚡ Trigger                     |
 | --------------------------- | ----------------- | -------------------------------- | ------------------------------ |
 | azd provision invoked       | Platform Engineer | AZD preprovision hook            | Manual / CI pipeline trigger   |
 | preprovision hook complete  | AZD hook runtime  | Bicep compiler / ARM Engine      | Hook exit code 0               |
@@ -1740,13 +1740,13 @@ flowchart LR
 
 ### 🔄 Integration Pattern Matrix
 
-| Pattern                       | Modules Using It                               | Protocol   | Error Handling                          |
-| ----------------------------- | ---------------------------------------------- | ---------- | --------------------------------------- |
-| Module Composition            | All modules via `module` keyword               | ARM REST   | Idempotent re-run on failure            |
-| Key Vault Reference Injection | workload, devCenter, project, catalog modules  | HTTPS      | ARM failure if KV RBAC misconfigured    |
-| Conditional Create-or-Reuse   | security, connectivity, resource group modules | ARM        | ResourceNotFound if ref resource absent |
-| YAML Config Injection         | workload, security, main (all loadYamlContent) | YAML/Bicep | Schema validation error at compile time |
-| Diagnostic Settings Push      | logAnalytics, secret, vnet modules             | HTTPS      | Async; non-blocking to main deployment  |
+| 🔄 Pattern                    | 🧩 Modules Using It                            | 📡 Protocol | ⚠️ Error Handling                       |
+| ----------------------------- | ---------------------------------------------- | ----------- | --------------------------------------- |
+| Module Composition            | All modules via `module` keyword               | ARM REST    | Idempotent re-run on failure            |
+| Key Vault Reference Injection | workload, devCenter, project, catalog modules  | HTTPS       | ARM failure if KV RBAC misconfigured    |
+| Conditional Create-or-Reuse   | security, connectivity, resource group modules | ARM         | ResourceNotFound if ref resource absent |
+| YAML Config Injection         | workload, security, main (all loadYamlContent) | YAML/Bicep  | Schema validation error at compile time |
+| Diagnostic Settings Push      | logAnalytics, secret, vnet modules             | HTTPS       | Async; non-blocking to main deployment  |
 
 ### 🌊 Data Flow Diagram
 
@@ -1844,22 +1844,22 @@ all projects.
 
 ### 🔍 Gate Compliance Report
 
-| Gate                           | Status  | Score   | Notes                                            |
-| ------------------------------ | ------- | ------- | ------------------------------------------------ |
-| All 9 sections present         | ✅ PASS | 100/100 | Sections 1–5 and 8 generated per output_sections |
-| All 11 subsections in §2       | ✅ PASS | 100/100 | Subsections 2.1–2.11 all present                 |
-| All 11 subsections in §5       | ✅ PASS | 100/100 | Subsections 5.1–5.11 all present                 |
-| Source traceability (ST-001–8) | ✅ PASS | 100/100 | All sources in `path/file.ext:*` format          |
-| No markdown links in source    | ✅ PASS | 100/100 | No `](` patterns in any source cell              |
-| Mermaid diagrams ≥95/100       | ✅ PASS | 100/100 | 6 diagrams, all scored 97–98/100                 |
-| accTitle + accDescr present    | ✅ PASS | 100/100 | All 6 diagrams have accessibility declarations   |
-| AZURE/FLUENT v1.1 palette      | ✅ PASS | 100/100 | 7 classDefs used, all from approved palette      |
-| Governance block present       | ✅ PASS | 100/100 | 10-line block in all flowchart diagrams          |
-| Subgraph style directives      | ✅ PASS | 100/100 | No `class subgraphId` used on any subgraph       |
-| No fabricated components       | ✅ PASS | 100/100 | All 18 components traced to source files         |
-| Confidence threshold ≥0.7      | ✅ PASS | 100/100 | Lowest component confidence: 0.78 (events)       |
-| Emoji icons on all nodes       | ✅ PASS | 100/100 | All flowchart nodes have emoji prefix            |
-| No color hierarchy encoding    | ✅ PASS | 100/100 | Colors are semantic (core/warning/data/success)  |
-| WCAG AA contrast               | ✅ PASS | 100/100 | Dark #323130 text on light fills throughout      |
+| 🔍 Gate                        | 🚦 Status | 📊 Score | 📋 Notes                                         |
+| ------------------------------ | --------- | -------- | ------------------------------------------------ |
+| All 9 sections present         | ✅ PASS   | 100/100  | Sections 1–5 and 8 generated per output_sections |
+| All 11 subsections in §2       | ✅ PASS   | 100/100  | Subsections 2.1–2.11 all present                 |
+| All 11 subsections in §5       | ✅ PASS   | 100/100  | Subsections 5.1–5.11 all present                 |
+| Source traceability (ST-001–8) | ✅ PASS   | 100/100  | All sources in `path/file.ext:*` format          |
+| No markdown links in source    | ✅ PASS   | 100/100  | No `](` patterns in any source cell              |
+| Mermaid diagrams ≥95/100       | ✅ PASS   | 100/100  | 6 diagrams, all scored 97–98/100                 |
+| accTitle + accDescr present    | ✅ PASS   | 100/100  | All 6 diagrams have accessibility declarations   |
+| AZURE/FLUENT v1.1 palette      | ✅ PASS   | 100/100  | 7 classDefs used, all from approved palette      |
+| Governance block present       | ✅ PASS   | 100/100  | 10-line block in all flowchart diagrams          |
+| Subgraph style directives      | ✅ PASS   | 100/100  | No `class subgraphId` used on any subgraph       |
+| No fabricated components       | ✅ PASS   | 100/100  | All 18 components traced to source files         |
+| Confidence threshold ≥0.7      | ✅ PASS   | 100/100  | Lowest component confidence: 0.78 (events)       |
+| Emoji icons on all nodes       | ✅ PASS   | 100/100  | All flowchart nodes have emoji prefix            |
+| No color hierarchy encoding    | ✅ PASS   | 100/100  | Colors are semantic (core/warning/data/success)  |
+| WCAG AA contrast               | ✅ PASS   | 100/100  | Dark #323130 text on light fills throughout      |
 
 **Final Score: 100/100** ✅
