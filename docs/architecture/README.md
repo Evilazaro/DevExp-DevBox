@@ -166,7 +166,7 @@ config:
   flowchart:
     htmlLabels: true
 ---
-flowchart TD
+flowchart LR
     accTitle: DevExp-DevBox BDAT Architecture Overview
     accDescr: Four-layer TOGAF BDAT architecture showing the Business, Data, Application, and Technology layers of the DevExp-DevBox platform and their relationships.
 
