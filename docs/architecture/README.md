@@ -1,15 +1,15 @@
 # 🏛️ Architecture Documentation — DevExp-DevBox
 
-[![TOGAF BDAT](https://img.shields.io/badge/Framework-TOGAF_BDAT-0078D4?logo=microsoftazure&logoColor=white)](https://www.opengroup.org/togaf)
+[![](https://img.shields.io/badge/Framework-TOGAF_BDAT-0078D4?logo=microsoftazure&logoColor=white)](https://www.opengroup.org/togaf)
 [![Maturity Level](<https://img.shields.io/badge/Maturity-Level_3_(Defined)-28A745>)](https://cmmiinstitute.com/)
 [![Azure Dev Box](https://img.shields.io/badge/Azure-Dev_Box-0078D4?logo=microsoftazure&logoColor=white)](https://learn.microsoft.com/en-us/azure/dev-box/)
 [![Bicep IaC](https://img.shields.io/badge/IaC-Bicep-00BCF2)](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **TOGAF BDAT architecture documentation** for the
-> [DevExp-DevBox](../../README.md) platform — a production-grade Microsoft Dev
-> Box Accelerator that provisions cloud-hosted, role-optimized developer
-> workstations on Azure via declarative YAML and the Azure Developer CLI.
+> **Architecture documentation** for the [DevExp-DevBox](../../README.md)
+> platform — a production-grade Microsoft Dev Box Accelerator that provisions
+> cloud-hosted, role-optimized developer workstations on Azure via declarative
+> YAML and the Azure Developer CLI.
 
 ---
 
@@ -167,7 +167,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox BDAT Architecture Overview
-    accDescr: Four-layer TOGAF BDAT architecture showing the Business, Data, Application, and Technology layers of the DevExp-DevBox platform and their relationships.
+    accDescr: Four-layer  architecture showing the Business, Data, Application, and Technology layers of the DevExp-DevBox platform and their relationships.
 
     %% ═══════════════════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1

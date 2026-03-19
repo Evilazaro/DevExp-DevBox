@@ -5,7 +5,7 @@
 [![azd Compatible](https://img.shields.io/badge/azd-compatible-0078D4?logo=microsoft&logoColor=white)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/)
 [![Bicep IaC](https://img.shields.io/badge/IaC-Bicep-00BCF2)](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/)
 [![GitHub Stars](https://img.shields.io/github/stars/Evilazaro/DevExp-DevBox?style=social)](https://github.com/Evilazaro/DevExp-DevBox)
-[![TOGAF BDAT](https://img.shields.io/badge/Framework-TOGAF_BDAT-0078D4?logo=microsoftazure&logoColor=white)](docs/architecture/README.md)
+[![Architecture](https://img.shields.io/badge/Framework-TOGAF_BDAT-0078D4?logo=microsoftazure&logoColor=white)](docs/architecture/README.md)
 
 A production-grade **Microsoft Dev Box Accelerator** that provisions
 cloud-hosted, role-optimized developer workstations on Azure — driven by
@@ -163,7 +163,7 @@ across the platform, directly traceable to the IaC source files:
 
 ### Architecture Documentation
 
-Full **TOGAF BDAT** architecture documentation is maintained in
+Full \*\*\*\* architecture documentation is maintained in
 [`docs/architecture/`](docs/architecture/README.md):
 
 | Layer          | File                                                                         | Highlights                                                                                                            |
