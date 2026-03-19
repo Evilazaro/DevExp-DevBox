@@ -573,18 +573,18 @@ flowchart TB
     end
 
     subgraph azureRG["☁️ devexp-workload-env-RG"]
-        kv("🔒 Key Vault\ncontoso-{unique}-kv"):::data
+        kv("🔒 Key Vault<br>contoso-{unique}-kv"):::data
         secretKv("🔑 Secret: gha-token"):::data
         law("📊 Log Analytics Workspace"):::data
-        dc("🖥️ DevCenter\ndevexp-devcenter"):::core
+        dc("🖥️ DevCenter<br>devexp-devcenter"):::core
         proj("📁 Project: eShop"):::core
         vnet("🌐 VNet 10.0.0.0/16"):::core
         nc("🔗 Network Connection"):::core
     end
 
     subgraph github["🐙 GitHub"]
-        dcCatalog("📚 devcenter-catalog\npublic"):::external
-        eshopCatalog("📚 eShop Catalogs\nprivate"):::external
+        dcCatalog("📚 devcenter-catalog<br>public"):::external
+        eshopCatalog("📚 eShop Catalogs<br>private"):::external
     end
 
     envVar -->|"@secure param"| params

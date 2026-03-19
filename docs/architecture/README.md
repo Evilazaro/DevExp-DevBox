@@ -190,25 +190,25 @@ flowchart TB
 
     subgraph data["🗄️ Data Layer"]
         direction TB
-        d1("📄 Configuration Data\nYAML + JSON Schema"):::data
-        d2("🔑 Security Data\nAzure Key Vault"):::warning
-        d3("📊 Observability Data\nLog Analytics"):::data
-        d4("🖥️ Workload Data\nDev Box Definitions"):::core
+        d1("📄 Configuration Data<br>YAML + JSON Schema"):::data
+        d2("🔑 Security Data<br>Azure Key Vault"):::warning
+        d3("📊 Observability Data<br>Log Analytics"):::data
+        d4("🖥️ Workload Data<br>Dev Box Definitions"):::core
     end
 
     subgraph application["⚙️ Application Layer"]
         direction TB
         a1("⚙️ Azure Developer CLI"):::external
         a2("🪝 AZD Hooks + Bicep Compiler"):::core
-        a3("📦 6 Bicep Modules\nMonitoring · Security · Workload\nDevCenter · Project · Connectivity"):::core
+        a3("📦 6 Bicep Modules<br>Monitoring · Security · Workload<br>DevCenter · Project · Connectivity"):::core
     end
 
     subgraph technology["🖥️ Technology Layer"]
         direction TB
-        t1("🖥️ Azure DevCenter\nDev Box Pools"):::core
+        t1("🖥️ Azure DevCenter<br>Dev Box Pools"):::core
         t2("🔑 Azure Key Vault"):::warning
-        t3("📊 Log Analytics\nDiagnostic Settings"):::data
-        t4("🌐 VNet + Network Connection\nManaged Identities + RBAC"):::neutral
+        t3("📊 Log Analytics<br>Diagnostic Settings"):::data
+        t4("🌐 VNet + Network Connection<br>Managed Identities + RBAC"):::neutral
     end
 
     business -->|"drives"| data
