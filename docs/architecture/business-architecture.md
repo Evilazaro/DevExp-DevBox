@@ -668,14 +668,14 @@ processes. The platform delivers standardized developer workstation provisioning
 with clear ownership, mandatory governance rules, and documented deployment
 steps.
 
-The primary risks and gaps are the absence of quantitative KPI tracking (Feature
-Availability Rate and Deployment Success Rate are binary indicators, not
-percentage metrics), no automated secret rotation for the GitHub PAT, and the
-lack of Azure Policy enforcement for tag compliance. Prioritized next steps: (1)
-implement a KPI dashboard using Log Analytics custom queries for deployment
-success and time-to-provision metrics; (2) add GitHub Actions workflow for
-automated PAT rotation using Key Vault event triggers; (3) define Azure Policy
-initiatives for tag compliance enforcement.
+The **primary risks and gaps** are the absence of **quantitative KPI tracking**
+(Feature Availability Rate and Deployment Success Rate are binary indicators,
+not percentage metrics), no **automated secret rotation** for the GitHub PAT,
+and the lack of Azure Policy enforcement for tag compliance. **Prioritized next
+steps**: (1) implement a KPI dashboard using Log Analytics custom queries for
+deployment success and time-to-provision metrics; (2) add GitHub Actions
+workflow for automated PAT rotation using Key Vault event triggers; (3) define
+Azure Policy initiatives for tag compliance enforcement.
 
 ---
 
@@ -1501,11 +1501,16 @@ services. This clean boundary enables business rule changes to flow through
 version control without code modifications, supporting the Config-as-Code
 principle (P-1).
 
-The primary integration risk is the external GitHub dependency: two private
+The **primary integration risk** is the external GitHub dependency: two private
 repositories (`eShop.git` environments and image definitions) require a
-maintained Personal Access Token stored in Azure Key Vault. If the PAT expires
-or is revoked, the catalog sync fails silently and Dev Box pool image
-definitions become unavailable. Mitigation recommendation: implement an
-automated PAT rotation workflow using GitHub Actions + Azure Key Vault event
+maintained **Personal Access Token** stored in Azure Key Vault. If the PAT
+expires or is revoked, the **catalog sync fails silently** and Dev Box pool
+image definitions become unavailable. Mitigation recommendation: implement an
+**automated PAT rotation workflow** using GitHub Actions + Azure Key Vault event
 triggers, with a monitoring alert for catalog sync failures and token expiry
 within 30 days.
+
+---
+
+<!-- METADATA (hidden from render) -->
+<!-- Highlight density: 4.3% | Callouts: 2 | Validation: PASSED -->

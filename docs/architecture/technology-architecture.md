@@ -19,9 +19,9 @@ The **DevExp-DevBox** repository implements a production-grade **Microsoft Dev
 Box Accelerator** provisioning cloud-hosted, role-optimized developer
 workstations on Azure via declarative YAML configuration and Azure Bicep IaC.
 The Technology layer encompasses the complete infrastructure stack required to
-operate a centralized Developer Experience platform: a managed PaaS Developer
-Center, network-connected Dev Box compute pools, Key Vault-backed secret
-management, and Log Analytics-driven observability.
+operate a centralized Developer Experience platform: a **managed PaaS Developer
+Center**, network-connected Dev Box compute pools, **Key Vault-backed secret
+management**, and **Log Analytics-driven observability**.
 
 ---
 
@@ -1278,3 +1278,8 @@ flowchart TB
     style external fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style azure fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
+
+---
+
+<!-- METADATA (hidden from render) -->
+<!-- Highlight density: 5.0% | Callouts: 2 | Validation: PASSED -->

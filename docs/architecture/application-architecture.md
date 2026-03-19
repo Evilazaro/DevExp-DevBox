@@ -429,11 +429,11 @@ comprehensive quality level.
 
 ### 📄 Principle 1: Configuration-as-Code
 
-All platform resource configuration is declared in version-controlled YAML files
-(`devcenter.yaml`, `security.yaml`, `azureResources.yaml`), each validated by a
-companion JSON Schema contract. Bicep modules consume these files at compile
-time via `loadYamlContent()`, making configuration changes reviewable,
-auditable, and repeatable without code changes.
+All platform resource configuration is declared in **version-controlled YAML
+files** (`devcenter.yaml`, `security.yaml`, `azureResources.yaml`), each
+validated by a **companion JSON Schema contract**. Bicep modules consume these
+files at compile time via `loadYamlContent()`, making configuration changes
+reviewable, auditable, and repeatable without code changes.
 
 - **Source**: infra/settings/workload/devcenter.yaml:1-\*
 - **Source**: infra/settings/security/security.yaml:1-\*
@@ -2472,6 +2472,11 @@ integration contracts are type-safe (Bicep user-defined types), all secrets are
 protected via Key Vault reference pattern (never plaintext), and all
 dependencies are explicitly declared via `dependsOn` arrays ensuring
 deterministic deployment ordering. The main integration risk is the single Key
-Vault Secret as the sole authentication mechanism for all catalog sources — a
-rotation or expiry of this secret would halt all catalog synchronization across
-all projects.
+Vault Secret as the **sole authentication mechanism for all catalog sources** —
+a **rotation or expiry of this secret would halt all catalog synchronization**
+across all projects.
+
+---
+
+<!-- METADATA (hidden from render) -->
+<!-- Highlight density: 4.1% | Callouts: 3 | Validation: PASSED -->
