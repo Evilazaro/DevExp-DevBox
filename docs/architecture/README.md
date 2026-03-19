@@ -182,7 +182,7 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph business["🏗️ Business Layer"]
-        direction LR
+        direction TB
         b1("🎯 Platform Engineering Accelerator Strategy"):::strategy
         b2("⚡ 7 Business Capabilities"):::capability
         b3("🌊 2 Value Streams"):::capability
@@ -190,7 +190,7 @@ flowchart LR
     end
 
     subgraph data["🗄️ Data Layer"]
-        direction LR
+        direction TB
         d1("📄 Configuration Data\nYAML + JSON Schema"):::data
         d2("🔑 Security Data\nAzure Key Vault"):::warning
         d3("📊 Observability Data\nLog Analytics"):::data
@@ -198,14 +198,14 @@ flowchart LR
     end
 
     subgraph application["⚙️ Application Layer"]
-        direction LR
+        direction TB
         a1("⚙️ Azure Developer CLI"):::external
         a2("🪝 AZD Hooks + Bicep Compiler"):::core
         a3("📦 6 Bicep Modules\nMonitoring · Security · Workload\nDevCenter · Project · Connectivity"):::core
     end
 
     subgraph technology["🖥️ Technology Layer"]
-        direction LR
+        direction TB
         t1("🖥️ Azure DevCenter\nDev Box Pools"):::core
         t2("🔑 Azure Key Vault"):::warning
         t3("📊 Log Analytics\nDiagnostic Settings"):::data
