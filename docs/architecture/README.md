@@ -245,20 +245,6 @@ flowchart TB
 
 ---
 
-## 📈 Maturity Assessment
-
-| 🗂️ Layer       | 🏅 Maturity Level                 | 🔍 Evidence                                                                                      |
-| -------------- | --------------------------------- | ------------------------------------------------------------------------------------------------ |
-| 🏗️ Business    | **Level 3 (Defined)**             | Documented business rules, contribution governance, product-oriented delivery model              |
-| 🗄️ Data        | **Level 2–3 (Managed → Defined)** | Formal JSON Schema contracts, RBAC-controlled access, soft-delete protection                     |
-| ⚙️ Application | **Level 3 (Defined)**             | Scripted and repeatable deployments, formally typed Bicep interfaces, Key Vault secret injection |
-| 🖥️ Technology  | **Level 3 (Defined)**             | Parameterized IaC, idempotent modules, tag-based governance, system-assigned managed identities  |
-
-**Primary gap toward Level 4**: Absence of automated canary promotions, SLO
-tracking dashboards, and quantitative KPI measurement infrastructure.
-
----
-
 ## 🧭 Key Principles
 
 The following principles govern all four architecture layers consistently:
