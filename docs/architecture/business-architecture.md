@@ -352,8 +352,8 @@ Config-as-Code capability and all three YAML configuration files
 
 **Implications**:
 
-- Every business rule affecting infrastructure MUST manifest as a YAML field,
-  not a portal setting
+- Every business rule affecting infrastructure **MUST** manifest as a YAML
+  field, not a portal setting
 - Changes to business decisions (environment types, pools, roles) require a YAML
   edit + PR, not a portal action
 - All capability parameters are version-controlled and peer-reviewed
@@ -375,17 +375,22 @@ authorization mode in `devcenter.yaml` and `security.yaml`.
 
 **Implications**:
 
-- New roles MUST be scoped to the minimal required Azure scope (ResourceGroup
-  preferred over Subscription)
+- New roles **MUST** be scoped to the minimal required Azure scope
+  (ResourceGroup preferred over Subscription)
 - Key Vault access uses RBAC authorization exclusively
   (`enableRbacAuthorization: true`)
-- Secrets (GitHub PAT) are never stored in code, environment files, or YAML
+- Secrets (GitHub PAT) are **never** stored in code, environment files, or YAML
   plaintext
 
 **Sources**: `infra/settings/workload/devcenter.yaml:28–50`,
 `infra/settings/security/security.yaml:23–38`, `README.md:14–25`
 
 **Related Rule**: Business Rule — Least-Privilege RBAC Rule (Section 2.8)
+
+> ⚠️ **Security Requirement**: New roles **MUST** be scoped to the minimal
+> required Azure scope (ResourceGroup preferred over Subscription). Secrets
+> (GitHub PAT) are **never** stored in code, environment files, or YAML
+> plaintext — Key Vault storage with RBAC authorization is **mandatory**.
 
 ---
 
@@ -401,8 +406,9 @@ GitHub Issue template hierarchy.
 
 **Implications**:
 
-- No untracked changes; all work MUST be linked to a Feature → Epic hierarchy
-- PRs without issue references are non-compliant (mandatory checklist item)
+- No untracked changes; all work **MUST** be linked to a Feature → Epic
+  hierarchy
+- PRs without issue references are non-compliant (**mandatory** checklist item)
 - Epics define measurable platform outcomes, not implementation tasks
 
 **Sources**: `CONTRIBUTING.md:1–60`, `.github/ISSUE_TEMPLATE/epic.yml:1–80`
@@ -423,8 +429,8 @@ Documentation standards section.
 
 **Implications**:
 
-- Every Bicep module/script change MUST include a documentation update in the
-  same PR
+- Every Bicep module/script change **MUST** include a documentation update in
+  the same PR
 - README.md and architecture documents are versioned alongside infrastructure
   code
 - Documentation reviews are part of the standard PR checklist
@@ -448,10 +454,10 @@ and resource group tagging in all YAML configuration files.
 
 **Implications**:
 
-- Resource groups MUST follow the workload/security/monitoring separation
+- Resource groups **MUST** follow the workload/security/monitoring separation
   principle
-- All resources MUST carry mandatory tags: `environment`, `division`, `team`,
-  `project`, `costCenter`, `owner`, `landingZone`
+- All resources **MUST** carry mandatory tags: `environment`, `division`,
+  `team`, `project`, `costCenter`, `owner`, `landingZone`
 - Shared resource groups (`create: false`) are permissible with documented
   justification
 
@@ -482,6 +488,11 @@ that prevent capability degradation.
 The primary as-is gaps are: absence of KPI dashboards, no formal SLA/SLO
 definitions for the Dev Box provisioning service, and no quantitative tracking
 of developer onboarding time or deployment success rates.
+
+> 💡 **Maturity Gap**: KPIs are currently tracked as binary status indicators
+> rather than quantitative availability percentages. Recommended next steps:
+> establish KPI dashboards, define SLOs for the Dev Box provisioning service,
+> and implement automated tracking of developer onboarding time.
 
 ---
 

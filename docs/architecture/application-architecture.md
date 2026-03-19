@@ -47,6 +47,10 @@ provisioned resources. The primary gap toward Level 4 is the absence of
 automated canary promotions and SLO tracking dashboards for the Dev Box platform
 itself.
 
+> 💡 **Maturity Insight**: The platform currently operates at **Maturity Level 3
+> (Defined)**. The primary gap toward Level 4 is the absence of automated canary
+> promotions and SLO tracking dashboards for the Dev Box platform.
+
 **Component Summary**:
 
 | 🧩 TOGAF Component Type    | 🔢 Count | 📈 Avg Confidence | 🏆 Maturity Signal                                  |
@@ -471,7 +475,7 @@ subscription-wide admin.
 
 ### 🔒 Principle 3: Secure-by-Default (Secrets Hygiene)
 
-Secrets are never passed as plaintext through module chains. The pattern is:
+Secrets are **never** passed as plaintext through module chains. The pattern is:
 `@secure() param secretValue` → Key Vault → `output secretUri` → downstream
 modules receive only the URI, never the value. Key Vault is configured with
 `enableRbacAuthorization: true`, `enableSoftDelete: true`, and
@@ -480,6 +484,12 @@ modules receive only the URI, never the value. Key Vault is configured with
 - **Source**: src/security/keyVault.bicep:40-55
 - **Source**: src/security/secret.bicep:1-\*
 - **Source**: infra/settings/security/security.yaml:20-30
+
+> ⚠️ **Security Requirement**: Secrets are **never** passed as plaintext through
+> module chains. Key Vault **MUST** be configured with
+> `enableRbacAuthorization: true`, `enableSoftDelete: true`, and
+> `enablePurgeProtection: true`. Only the secret URI is propagated between
+> modules — never the secret value.
 
 ### 🧱 Principle 4: Immutable Infrastructure via IaC
 
@@ -497,12 +507,17 @@ reproducible from source.
 Diagnostic settings (`Microsoft.Insights/diagnosticSettings`) are applied to
 every major resource: the Log Analytics Workspace itself, Key Vault secrets, and
 Virtual Networks. Log Analytics is deployed before all other modules and its
-resource ID is threaded through the entire module chain as a mandatory
-parameter.
+resource ID is threaded through the entire module chain as a **mandatory
+parameter**.
 
 - **Source**: src/management/logAnalytics.bicep:46-80
 - **Source**: src/security/secret.bicep:29-55
 - **Source**: src/connectivity/vnet.bicep:52-75
+
+> 💡 **Observability Pattern**: Log Analytics is the **first resource
+> provisioned** (dependency anchor for all modules). Every module accepts
+> `logAnalyticsId` as a required parameter, making observability a non-optional
+> architectural constraint by design.
 
 ### 🔗 Principle Relationship Diagram
 
