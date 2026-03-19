@@ -1,4 +1,4 @@
-# Architecture Documentation — DevExp-DevBox
+# 🏛️ Architecture Documentation — DevExp-DevBox
 
 [![TOGAF BDAT](https://img.shields.io/badge/Framework-TOGAF_BDAT-0078D4?logo=microsoftazure&logoColor=white)](https://www.opengroup.org/togaf)
 [![Maturity Level](<https://img.shields.io/badge/Maturity-Level_3_(Defined)-28A745>)](https://cmmiinstitute.com/)
@@ -13,23 +13,23 @@
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Architecture Layers](#architecture-layers)
-  - [Business Architecture](#-business-architecture)
-  - [Data Architecture](#-data-architecture)
-  - [Application Architecture](#-application-architecture)
-  - [Technology Architecture](#-technology-architecture)
-- [Architecture at a Glance](#architecture-at-a-glance)
-- [Cross-Layer Summary](#cross-layer-summary)
-- [Maturity Assessment](#maturity-assessment)
-- [Key Principles](#key-principles)
-- [Related Resources](#related-resources)
+- [🔍 Overview](#-overview)
+- [🗂️ Architecture Layers](#️-architecture-layers)
+  - [🏗️ Business Architecture](#️-business-architecture)
+  - [🗄️ Data Architecture](#️-data-architecture)
+  - [⚙️ Application Architecture](#️-application-architecture)
+  - [🖥️ Technology Architecture](#️-technology-architecture)
+- [🗺️ Architecture at a Glance](#️-architecture-at-a-glance)
+- [🔗 Cross-Layer Summary](#-cross-layer-summary)
+- [📈 Maturity Assessment](#-maturity-assessment)
+- [🧭 Key Principles](#-key-principles)
+- [📚 Related Resources](#-related-resources)
 
 ---
 
-## Overview
+## 🔍 Overview
 
 This folder contains the full **BDAT (Business, Data, Application, Technology)**
 architecture documentation for the **DevExp-DevBox** platform. Each document
@@ -45,7 +45,7 @@ workstations to end users.
 
 ---
 
-## Architecture Layers
+## 🗂️ Architecture Layers
 
 ### 🏗️ Business Architecture
 
@@ -54,19 +54,19 @@ workstations to end users.
 Defines the strategic intent, organizational capabilities, value streams, and
 governance model of the DevExp-DevBox platform.
 
-| Component Type          | Count | Highlights                                                                                           |
-| ----------------------- | ----- | ---------------------------------------------------------------------------------------------------- |
-| Business Strategy       | 1     | Platform Engineering Accelerator Strategy                                                            |
-| Business Capabilities   | 7     | Automated Provisioning, Config-as-Code, Security, Observability, and more                            |
-| Value Streams           | 2     | Developer Onboarding · Platform Provisioning                                                         |
-| Business Processes      | 2     | 5-step Provisioning Process · Contribution Process                                                   |
-| Business Services       | 3     | Dev Box Accelerator · Environment Management · Catalog Management                                    |
-| Business Functions      | 3     | Platform Engineering · Infrastructure Automation · Documentation & Governance                        |
-| Business Roles & Actors | 6     | Platform Engineer · Dev Manager · Backend/Frontend Developer · eShop Engineers · Security/Compliance |
-| Business Rules          | 6     | Issue Labeling · Parameterization · Docs-as-Code · Least-Privilege RBAC · Security Governance        |
-| Business Events         | 5     | Provisioning Requested · Pre-provision Validation · PR Merge · Epic Completion · Cleanup             |
-| Business Objects        | 8     | Dev Box Accelerator · DevCenter Project · Dev Box Pool · Environment Type · GitHub PAT · Work Items  |
-| KPIs & Metrics          | 4     | Feature Availability · Deployment Success · Developer Onboarding Time · DoD Completion               |
+| 🏷️ Component Type        | 🔢 Count | 📝 Highlights                                                                                        |
+| ------------------------ | -------- | ---------------------------------------------------------------------------------------------------- |
+| 🎯 Business Strategy     | 1        | Platform Engineering Accelerator Strategy                                                            |
+| ⚡ Business Capabilities | 7        | Automated Provisioning, Config-as-Code, Security, Observability, and more                            |
+| 🌊 Value Streams         | 2        | Developer Onboarding · Platform Provisioning                                                         |
+| 🔄 Business Processes    | 2        | 5-step Provisioning Process · Contribution Process                                                   |
+| 🛎️ Business Services     | 3        | Dev Box Accelerator · Environment Management · Catalog Management                                    |
+| 🏭 Business Functions    | 3        | Platform Engineering · Infrastructure Automation · Documentation & Governance                        |
+| 👥 Roles & Actors        | 6        | Platform Engineer · Dev Manager · Backend/Frontend Developer · eShop Engineers · Security/Compliance |
+| 📏 Business Rules        | 6        | Issue Labeling · Parameterization · Docs-as-Code · Least-Privilege RBAC · Security Governance        |
+| ⚡ Business Events       | 5        | Provisioning Requested · Pre-provision Validation · PR Merge · Epic Completion · Cleanup             |
+| 📦 Business Objects      | 8        | Dev Box Accelerator · DevCenter Project · Dev Box Pool · Environment Type · GitHub PAT · Work Items  |
+| 📈 KPIs & Metrics        | 4        | Feature Availability · Deployment Success · Developer Onboarding Time · DoD Completion               |
 
 > **Total**: 47 components across all 11 Business Architecture types.
 
@@ -79,12 +79,12 @@ governance model of the DevExp-DevBox platform.
 Describes the configuration-as-data pattern, data domain map, schema governance
 model, and operational data services.
 
-| Data Domain        | Assets                                                                             | Key Technology                 |
-| ------------------ | ---------------------------------------------------------------------------------- | ------------------------------ |
-| Configuration Data | `azureResources.yaml`, `security.yaml`, `devcenter.yaml` + 3 JSON Schema contracts | `loadYamlContent()` / Bicep    |
-| Security Data      | Secrets, keys, access tokens                                                       | Azure Key Vault (RBAC-enabled) |
-| Observability Data | Diagnostic telemetry, activity logs, metrics                                       | Azure Log Analytics Workspace  |
-| Workload Data      | Dev Box pool definitions, catalog references, environment type metadata            | Azure DevCenter                |
+| 🗺️ Data Domain        | 📄 Assets                                                                          | 🔧 Key Technology              |
+| --------------------- | ---------------------------------------------------------------------------------- | ------------------------------ |
+| 📄 Configuration Data | `azureResources.yaml`, `security.yaml`, `devcenter.yaml` + 3 JSON Schema contracts | `loadYamlContent()` / Bicep    |
+| 🔑 Security Data      | Secrets, keys, access tokens                                                       | Azure Key Vault (RBAC-enabled) |
+| 📊 Observability Data | Diagnostic telemetry, activity logs, metrics                                       | Azure Log Analytics Workspace  |
+| 🖥️ Workload Data      | Dev Box pool definitions, catalog references, environment type metadata            | Azure DevCenter                |
 
 **Data Maturity**: Level 2 (Managed) with emerging Level 3 (Defined)
 characteristics driven by formal JSON Schema contracts and uniform resource
@@ -102,13 +102,13 @@ Access Control · Immutable-Data Protection (soft delete + purge protection).
 Catalogs the 18 documented application components across Bicep modules, YAML
 configuration contracts, orchestration runtime, and platform services.
 
-| Component Type            | Count | Examples                                                                         |
-| ------------------------- | ----- | -------------------------------------------------------------------------------- |
-| Application Services      | 6     | Monitoring, Security, Workload, DevCenter, Project, Connectivity modules         |
-| Application Components    | 5     | Azure Developer CLI · Bicep Compiler · AZD Hooks · Hugo SSG                      |
-| Application Interfaces    | 4     | `azureResources.yaml`, `devcenter.yaml`, `security.yaml` (JSON Schema-validated) |
-| Application Collaboration | 1     | Sequential module-deployment pipeline                                            |
-| Application Functions     | 2     | Provisioning · Secret Management                                                 |
+| 🏷️ Component Type         | 🔢 Count | 📝 Examples                                                                      |
+| ------------------------- | -------- | -------------------------------------------------------------------------------- |
+| ⚙️ Application Services   | 6        | Monitoring, Security, Workload, DevCenter, Project, Connectivity modules         |
+| 🧩 Application Components | 5        | Azure Developer CLI · Bicep Compiler · AZD Hooks · Hugo SSG                      |
+| 🔌 Application Interfaces | 4        | `azureResources.yaml`, `devcenter.yaml`, `security.yaml` (JSON Schema-validated) |
+| 🤝 App Collaboration      | 1        | Sequential module-deployment pipeline                                            |
+| 🔧 Application Functions  | 2        | Provisioning · Secret Management                                                 |
 
 **Architecture Tiers** (from top to bottom):
 
@@ -132,19 +132,19 @@ passed in plain text.
 Inventories the full infrastructure stack across all 11 TOGAF technology
 component types.
 
-| Infrastructure Domain | Components                                                                                       | Status    |
-| --------------------- | ------------------------------------------------------------------------------------------------ | --------- |
-| Compute               | Dev Box Pool: `backend-engineer` · `frontend-engineer`                                           | ✅ Active |
-| Network               | VNet `eShop` (10.0.0.0/16) · Network Connection `netconn-eShop` (AzureADJoin)                    | ✅ Active |
-| Cloud Services        | Azure DevCenter · GitHub Catalog · DevCenter Project · 3 Environment Types (dev / staging / UAT) | ✅ Active |
-| Security              | Azure Key Vault (`contoso-{unique}-kv`) · Secret `gha-token`                                     | ✅ Active |
-| Monitoring            | Log Analytics Workspace · AzureActivity Solution · Diagnostic Settings                           | ✅ Active |
-| Identity & Access     | System Assigned Managed Identities (DevCenter + Project) · RBAC (DevManager + eShop Engineers)   | ✅ Active |
-| Storage               | Not applicable — Dev Box VM uses managed local SSD                                               | —         |
-| Containers            | Not applicable — PaaS-only model with Azure Dev Box                                              | —         |
-| Messaging             | Not applicable — no async messaging in current topology                                          | —         |
-| API Management        | Not applicable — no API gateway layer required                                                   | —         |
-| Caching               | Not applicable — no CDN or caching layer in current scope                                        | —         |
+| 🏷️ Infrastructure Domain | 📦 Components                                                                                    | 🔎 Status |
+| ------------------------ | ------------------------------------------------------------------------------------------------ | --------- |
+| 🖥️ Compute               | Dev Box Pool: `backend-engineer` · `frontend-engineer`                                           | ✅ Active |
+| 🌐 Network               | VNet `eShop` (10.0.0.0/16) · Network Connection `netconn-eShop` (AzureADJoin)                    | ✅ Active |
+| ☁️ Cloud Services        | Azure DevCenter · GitHub Catalog · DevCenter Project · 3 Environment Types (dev / staging / UAT) | ✅ Active |
+| 🔒 Security              | Azure Key Vault (`contoso-{unique}-kv`) · Secret `gha-token`                                     | ✅ Active |
+| 📊 Monitoring            | Log Analytics Workspace · AzureActivity Solution · Diagnostic Settings                           | ✅ Active |
+| 🔑 Identity & Access     | System Assigned Managed Identities (DevCenter + Project) · RBAC (DevManager + eShop Engineers)   | ✅ Active |
+| 💾 Storage               | Not applicable — Dev Box VM uses managed local SSD                                               | —         |
+| 🐳 Containers            | Not applicable — PaaS-only model with Azure Dev Box                                              | —         |
+| 📨 Messaging             | Not applicable — no async messaging in current topology                                          | —         |
+| 🔀 API Management        | Not applicable — no API gateway layer required                                                   | —         |
+| ⚡ Caching               | Not applicable — no CDN or caching layer in current scope                                        | —         |
 
 **Key IaC Modules**: [`main.bicep`](../../infra/main.bicep) orchestrates
 subscription-scoped deployments through `src/management/`, `src/security/`,
@@ -152,7 +152,7 @@ subscription-scoped deployments through `src/management/`, `src/security/`,
 
 ---
 
-## Architecture at a Glance
+## 🗺️ Architecture at a Glance
 
 ```mermaid
 ---
@@ -233,60 +233,60 @@ flowchart TB
 
 ---
 
-## Cross-Layer Summary
+## 🔗 Cross-Layer Summary
 
-| Concern                  | Business Layer                    | Data Layer                           | Application Layer                             | Technology Layer                              |
-| ------------------------ | --------------------------------- | ------------------------------------ | --------------------------------------------- | --------------------------------------------- |
-| **Security**             | Least-Privilege RBAC Rule         | Key Vault RBAC + Purge Protection    | `@secure()` parameters, no plain-text secrets | Key Vault Standard, Managed Identities        |
-| **Observability**        | Built-in Observability Capability | Log Analytics (Observability Domain) | Monitoring Module (`src/management/`)         | Log Analytics Workspace + Diagnostic Settings |
-| **Configuration**        | Config-as-Code Capability         | YAML Data Contracts + JSON Schema    | Application Interfaces (YAML)                 | `loadYamlContent()` in Bicep modules          |
-| **Developer Experience** | Developer Onboarding Value Stream | Dev Box Pool definitions             | DevCenter + Project Modules                   | Dev Box Pools (backend/frontend personas)     |
-| **Governance**           | Docs-as-Code Rule, Issue Labeling | Schema-First Design                  | Formal Bicep type declarations                | Azure Landing Zone resource group topology    |
+| 🎯 Concern                  | 🏗️ Business Layer                 | 🗄️ Data Layer                        | ⚙️ Application Layer                          | 🖥️ Technology Layer                           |
+| --------------------------- | --------------------------------- | ------------------------------------ | --------------------------------------------- | --------------------------------------------- |
+| 🔒 **Security**             | Least-Privilege RBAC Rule         | Key Vault RBAC + Purge Protection    | `@secure()` parameters, no plain-text secrets | Key Vault Standard, Managed Identities        |
+| 📊 **Observability**        | Built-in Observability Capability | Log Analytics (Observability Domain) | Monitoring Module (`src/management/`)         | Log Analytics Workspace + Diagnostic Settings |
+| 📄 **Configuration**        | Config-as-Code Capability         | YAML Data Contracts + JSON Schema    | Application Interfaces (YAML)                 | `loadYamlContent()` in Bicep modules          |
+| 🧑‍💻 **Developer Experience** | Developer Onboarding Value Stream | Dev Box Pool definitions             | DevCenter + Project Modules                   | Dev Box Pools (backend/frontend personas)     |
+| 📏 **Governance**           | Docs-as-Code Rule, Issue Labeling | Schema-First Design                  | Formal Bicep type declarations                | Azure Landing Zone resource group topology    |
 
 ---
 
-## Maturity Assessment
+## 📈 Maturity Assessment
 
-| Layer       | Maturity Level                    | Evidence                                                                                         |
-| ----------- | --------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Business    | **Level 3 (Defined)**             | Documented business rules, contribution governance, product-oriented delivery model              |
-| Data        | **Level 2–3 (Managed → Defined)** | Formal JSON Schema contracts, RBAC-controlled access, soft-delete protection                     |
-| Application | **Level 3 (Defined)**             | Scripted and repeatable deployments, formally typed Bicep interfaces, Key Vault secret injection |
-| Technology  | **Level 3 (Defined)**             | Parameterized IaC, idempotent modules, tag-based governance, system-assigned managed identities  |
+| 🗂️ Layer       | 🏅 Maturity Level                 | 🔍 Evidence                                                                                      |
+| -------------- | --------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 🏗️ Business    | **Level 3 (Defined)**             | Documented business rules, contribution governance, product-oriented delivery model              |
+| 🗄️ Data        | **Level 2–3 (Managed → Defined)** | Formal JSON Schema contracts, RBAC-controlled access, soft-delete protection                     |
+| ⚙️ Application | **Level 3 (Defined)**             | Scripted and repeatable deployments, formally typed Bicep interfaces, Key Vault secret injection |
+| 🖥️ Technology  | **Level 3 (Defined)**             | Parameterized IaC, idempotent modules, tag-based governance, system-assigned managed identities  |
 
 **Primary gap toward Level 4**: Absence of automated canary promotions, SLO
 tracking dashboards, and quantitative KPI measurement infrastructure.
 
 ---
 
-## Key Principles
+## 🧭 Key Principles
 
 The following principles govern all four architecture layers consistently:
 
-| #   | Principle                                                                                                       | Layers                                     |
-| --- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| 1   | **Configuration-as-Code** — all resource parameters declared in YAML, validated by JSON Schema                  | Business · Data · Application · Technology |
-| 2   | **Least Privilege** — all service-to-service auth via System Assigned Managed Identities; minimum-scope RBAC    | Business · Data · Application · Technology |
-| 3   | **Defense in Depth** — Key Vault RBAC + purge protection + soft delete + AAD Join + Diagnostic Settings         | Business · Data · Technology               |
-| 4   | **Cloud-Native Design** — fully managed PaaS throughout; no self-managed servers or domain controllers          | Application · Technology                   |
-| 5   | **Observability-First** — `allLogs` and `AllMetrics` captured on every Azure resource from day one              | Business · Data · Technology               |
-| 6   | **Privacy-by-Design** — secrets handled via `@secure()` and Key Vault reference injection only; never hardcoded | Data · Application                         |
-| 7   | **Docs-as-Code** — architecture documentation maintained in the same PR as infrastructure changes               | Business                                   |
+| 🔢 # | 💡 Principle                                                                                                       | 🗂️ Layers                                  |
+| ---- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ |
+| 1️⃣   | 📄 **Configuration-as-Code** — all resource parameters declared in YAML, validated by JSON Schema                  | Business · Data · Application · Technology |
+| 2️⃣   | 🔒 **Least Privilege** — all service-to-service auth via System Assigned Managed Identities; minimum-scope RBAC    | Business · Data · Application · Technology |
+| 3️⃣   | 🛡️ **Defense in Depth** — Key Vault RBAC + purge protection + soft delete + AAD Join + Diagnostic Settings         | Business · Data · Technology               |
+| 4️⃣   | ☁️ **Cloud-Native Design** — fully managed PaaS throughout; no self-managed servers or domain controllers          | Application · Technology                   |
+| 5️⃣   | 👁️ **Observability-First** — `allLogs` and `AllMetrics` captured on every Azure resource from day one              | Business · Data · Technology               |
+| 6️⃣   | 🔐 **Privacy-by-Design** — secrets handled via `@secure()` and Key Vault reference injection only; never hardcoded | Data · Application                         |
+| 7️⃣   | 📝 **Docs-as-Code** — architecture documentation maintained in the same PR as infrastructure changes               | Business                                   |
 
 ---
 
-## Related Resources
+## 📚 Related Resources
 
-| Resource                                                                                            | Description                                                                       |
-| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| [Project README](../../README.md)                                                                   | Top-level project overview, quick-start guide, and feature summary                |
-| [CONTRIBUTING.md](../../CONTRIBUTING.md)                                                            | Contribution guidelines: Epic → Feature → Task hierarchy, PR rules, labeling      |
-| [`infra/main.bicep`](../../infra/main.bicep)                                                        | Root Bicep orchestration template (subscription-scoped)                           |
-| [`infra/settings/`](../../infra/settings/)                                                          | YAML configuration files for resource organization, security, and workload        |
-| [`src/`](../../src/)                                                                                | Bicep module source tree (connectivity, identity, management, security, workload) |
-| [Azure Dev Box documentation](https://learn.microsoft.com/en-us/azure/dev-box/)                     | Official Microsoft Azure Dev Box documentation                                    |
-| [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/) | Official `azd` documentation                                                      |
-| [TOGAF Standard](https://www.opengroup.org/togaf)                                                   | The Open Group Architecture Framework reference                                   |
+| 🔗 Resource                                                                                            | 📝 Description                                                                    |
+| ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| 🏠 [Project README](../../README.md)                                                                   | Top-level project overview, quick-start guide, and feature summary                |
+| 🤝 [CONTRIBUTING.md](../../CONTRIBUTING.md)                                                            | Contribution guidelines: Epic → Feature → Task hierarchy, PR rules, labeling      |
+| 🏗️ [`infra/main.bicep`](../../infra/main.bicep)                                                        | Root Bicep orchestration template (subscription-scoped)                           |
+| ⚙️ [`infra/settings/`](../../infra/settings/)                                                          | YAML configuration files for resource organization, security, and workload        |
+| 📦 [`src/`](../../src/)                                                                                | Bicep module source tree (connectivity, identity, management, security, workload) |
+| 🖥️ [Azure Dev Box documentation](https://learn.microsoft.com/en-us/azure/dev-box/)                     | Official Microsoft Azure Dev Box documentation                                    |
+| 🛠️ [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/) | Official `azd` documentation                                                      |
+| 📖 [TOGAF Standard](https://www.opengroup.org/togaf)                                                   | The Open Group Architecture Framework reference                                   |
 
 ---
 
