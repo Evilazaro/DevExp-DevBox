@@ -373,15 +373,15 @@ all data stores write to.
 
 ### 💡 Core Data Principles
 
-| 💡 Principle | 📝 Definition |
-| --------------------------- | ------------------------------------ |
+| 💡 Principle                | 📝 Definition                                                                                       |
+| --------------------------- | --------------------------------------------------------------------------------------------------- |
 | Single Source of Truth      | All resource configuration derives from YAML files; no inline Bicep hardcoding of resource settings |
-| Privacy by Design           | Sensitive parameters carry `@secure()` decorator; Key Vault uses RBAC-only access |
-| Schema-First Validation     | JSON Schema contracts govern all YAML data models before Bicep compilation |
-| Deterministic Immutability  | Resource names generated via `uniqueString()` for idempotent, collision-free deployments |
-| Comprehensive Observability | All data stores emit diagnostic telemetry to a single Log Analytics Workspace |
+| Privacy by Design           | Sensitive parameters carry `@secure()` decorator; Key Vault uses RBAC-only access                   |
+| Schema-First Validation     | JSON Schema contracts govern all YAML data models before Bicep compilation                          |
+| Deterministic Immutability  | Resource names generated via `uniqueString()` for idempotent, collision-free deployments            |
+| Comprehensive Observability | All data stores emit diagnostic telemetry to a single Log Analytics Workspace                       |
 | Least Privilege Access      | RBAC role assignments scoped to minimum required scope (Subscription vs. ResourceGroup vs. Project) |
-| Tag-Enforced Data Ownership | Universal tag schema mandates team, owner, costCenter on every resource |
+| Tag-Enforced Data Ownership | Universal tag schema mandates team, owner, costCenter on every resource                             |
 
 ### 📐 Data Schema Design Standards
 
@@ -532,41 +532,41 @@ flowchart TB
 
 ### 📊 Quality Baseline
 
-| Metric                       | Current Value       | Target           | Gap                 | Source                                                              |
-| ---------------------------- | ------------------- | ---------------- | ------------------- | ------------------------------------------------------------------- |
-| Secret Soft-Delete Retention | 7 days              | 90 days          | -83 days            | infra/settings/security/security.yaml:14                            |
-| Schema Coverage              | 100%                | 100%             | None                | infra/settings/\*_/_.schema.json                                    |
-| Diagnostic Coverage          | 100% of data stores | 100%             | None                | src/security/secret.bicep:34, src/workload/core/devCenter.bicep:219 |
-| Pool Deployment              | 0 active pools      | ≥1 per project   | Not deployed        | src/workload/project/project.bicep:301-320                          |
-| Landing Zone Isolation       | 1 RG (dev)          | 3 RG (prod)      | Not enforced in dev | infra/settings/resourceOrganization/azureResources.yaml:17-22       |
-| Formal ADR Coverage          | 0 formal ADRs       | ≥5 key decisions | Gap                 | docs/ (absent)                                                      |
+| 📊 Metric                    | 📌 Current Value    | 🎯 Target        | ⚠️ Gap              |
+| ---------------------------- | ------------------- | ---------------- | ------------------- |
+| Secret Soft-Delete Retention | 7 days              | 90 days          | -83 days            |
+| Schema Coverage              | 100%                | 100%             | None                |
+| Diagnostic Coverage          | 100% of data stores | 100%             | None                |
+| Pool Deployment              | 0 active pools      | ≥1 per project   | Not deployed        |
+| Landing Zone Isolation       | 1 RG (dev)          | 3 RG (prod)      | Not enforced in dev |
+| Formal ADR Coverage          | 0 formal ADRs       | ≥5 key decisions | Gap                 |
 
 ### 🛡️ Governance Maturity
 
 **Assessment: Level 3 — Managed**
 
-| Criterion            | Status           | Evidence                                                    |
-| -------------------- | ---------------- | ----------------------------------------------------------- |
-| Data Store Inventory | ✅ Complete      | All ARM resources documented in Bicep                       |
-| Schema Validation    | ✅ Implemented   | JSON Schema draft/2020-12 for all YAML configs              |
-| Access Control       | ✅ RBAC-enforced | `enableRbacAuthorization: true`, six role assignment types  |
-| Secret Management    | ✅ Centralized   | Key Vault single secret store, RBAC-only access             |
-| Observability        | ✅ Active        | Diagnostic settings on KV, DevCenter, VNet → Log Analytics  |
-| Data Classification  | ⚠️ Informal      | Classification by component type; no formal DLP tagging     |
-| Formal Documentation | ⚠️ Absent        | No ADRs, standards docs, or data catalog tooling            |
-| Retention Policy     | ⚠️ Minimal       | Only KV soft-delete (7d); no Log Analytics retention config |
+| 📋 Criterion         | 🔍 Status        |
+| -------------------- | ---------------- |
+| Data Store Inventory | ✅ Complete      |
+| Schema Validation    | ✅ Implemented   |
+| Access Control       | ✅ RBAC-enforced |
+| Secret Management    | ✅ Centralized   |
+| Observability        | ✅ Active        |
+| Data Classification  | ⚠️ Informal      |
+| Formal Documentation | ⚠️ Absent        |
+| Retention Policy     | ⚠️ Minimal       |
 
 ### 📋 Compliance Posture
 
-| Control                      | Status       | Implementation                               | Source                                                       |
-| ---------------------------- | ------------ | -------------------------------------------- | ------------------------------------------------------------ |
-| Secrets Never in Source Code | ✅ Compliant | All secrets via `@secure()` + Key Vault      | infra/main.parameters.json:1-14                              |
-| RBAC-Only Resource Access    | ✅ Compliant | `enableRbacAuthorization: true` on Key Vault | src/security/keyVault.bicep:59                               |
-| Audit Logging                | ✅ Compliant | `allLogs` diagnostic settings on all stores  | src/security/secret.bicep:34-53                              |
-| Soft Delete on Secrets Store | ✅ Compliant | `enableSoftDelete: true`                     | infra/settings/security/security.yaml:9                      |
-| Purge Protection             | ✅ Compliant | `enablePurgeProtection: true`                | infra/settings/security/security.yaml:8                      |
-| Infrastructure Tagging       | ✅ Compliant | Universal 7-key tag schema on all resources  | infra/settings/resourceOrganization/azureResources.yaml:5-14 |
-| Short Retention Window       | ⚠️ Review    | `softDeleteRetentionInDays: 7` (min value)   | infra/settings/security/security.yaml:14                     |
+| 🔐 Control                   | 📊 Status    | 🛠️ Implementation                            |
+| ---------------------------- | ------------ | -------------------------------------------- |
+| Secrets Never in Source Code | ✅ Compliant | All secrets via `@secure()` + Key Vault      |
+| RBAC-Only Resource Access    | ✅ Compliant | `enableRbacAuthorization: true` on Key Vault |
+| Audit Logging                | ✅ Compliant | `allLogs` diagnostic settings on all stores  |
+| Soft Delete on Secrets Store | ✅ Compliant | `enableSoftDelete: true`                     |
+| Purge Protection             | ✅ Compliant | `enablePurgeProtection: true`                |
+| Infrastructure Tagging       | ✅ Compliant | Universal 7-key tag schema on all resources  |
+| Short Retention Window       | ⚠️ Review    | `softDeleteRetentionInDays: 7` (min value)   |
 
 ### Summary
 
