@@ -156,6 +156,11 @@ follow minimum-scope principles:
 - Project-level RBAC (Dev Box User, Deployment Environment User) is scoped
   directly to the DevCenter project resource
 
+> ⚠️ **Least-Privilege Requirement**: All service-to-service authentication
+> **MUST** use System Assigned Managed Identities — no shared credentials or
+> connection strings. Role assignments **MUST** follow minimum-scope principles;
+> roles are scoped to the DevCenter project resource, not subscription-wide.
+
 ### 🛡️ 3.3 Defense in Depth
 
 **Observed in**: `src/security/keyVault.bicep`, `src/security/secret.bicep`,
@@ -208,6 +213,11 @@ Observability is built into every resource from deployment:
 - **AzureActivity Solution** captures subscription-level audit events
 - All resource modules accept `logAnalyticsId` as a required parameter,
   enforcing the observability dependency at the IaC level
+
+> 💡 **Observability Pattern**: Log Analytics is the **first resource
+> provisioned** (dependency anchor for all other modules). The `logAnalyticsId`
+> parameter is **required** across all modules, making observability a
+> non-optional architectural constraint — not an afterthought.
 
 ### 🔄 3.6 Immutable Infrastructure
 

@@ -244,7 +244,7 @@ flowchart TB
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
+>
 
 ---
 
@@ -314,7 +314,7 @@ flowchart LR
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
+>
 
 ---
 
@@ -563,7 +563,7 @@ flowchart LR
     classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
+>
 
 ---
 
@@ -646,7 +646,7 @@ flowchart TB
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
+>
 
 ---
 
@@ -1248,7 +1248,7 @@ flowchart TB
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
+>
 
 ---
 
@@ -1317,7 +1317,7 @@ flowchart TB
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
+>
 
 ---
 
@@ -1478,7 +1478,7 @@ flowchart LR
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-> ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
+>
 
 ---
 

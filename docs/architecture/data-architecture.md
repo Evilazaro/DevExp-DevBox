@@ -44,6 +44,11 @@ purge protection enabled). The overall data maturity is assessed at **Level 2
 (Managed)** with elements of **Level 3 (Defined)** emerging through the formal
 schema contracts and tagged governance model.
 
+> 📌 **Data Maturity Reference**: Current maturity is **Level 2 (Managed)** with
+> emerging **Level 3 (Defined)** characteristics driven by formal JSON Schema
+> contracts and uniform resource tagging. See Section 3: Architecture Principles
+> for the core data governance principles.
+
 ---
 
 ## 🗺️ Section 2: Architecture Landscape
@@ -161,8 +166,6 @@ flowchart TB
     class LAW,DIAG core
     class DC_RES,PROJ,POOL,CAT core
 ```
-
-✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🧩 2.1 Data Entities
 
@@ -332,8 +335,6 @@ flowchart LR
     class GH,ESHOP_GH external
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
-
 ### 📝 Summary
 
 The DevExp-DevBox data landscape encompasses 46 components distributed across
@@ -376,10 +377,16 @@ structured data asset with formal types, constraints, and persistence semantics
 — not merely as freeform text.
 
 The security data principles center on the zero-access-by-default model: Key
-Vault RBAC authorization is mandatory, secrets are never embedded in
+Vault RBAC authorization is **mandatory**, secrets are **never** embedded in
 configuration files, and all parameters carrying sensitive values use the
 `@secure()` decorator to prevent logging and state exposure. These principles
 collectively establish the data trust model for the platform.
+
+> ⚠️ **Data Security Requirement**: Key Vault RBAC authorization is
+> **mandatory** (`enableRbacAuthorization: true`). Secrets are **never**
+> embedded in configuration files. All parameters carrying sensitive values
+> **MUST** use the `@secure()` Bicep decorator to prevent values from appearing
+> in deployment logs or state files.
 
 ### 🏛️ Core Data Principles
 
@@ -492,8 +499,6 @@ flowchart TB
     class I1,I2,I3,I4 neutral
     class P1,P2 pub
 ```
-
-✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -608,8 +613,6 @@ flowchart TB
     class LAW,DIAG_LOG core
     class DEVCENTER,PROJECT,CATALOG core
 ```
-
-✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 📊 Baseline Data Architecture
 
@@ -994,8 +997,6 @@ flowchart TB
     class DIAG,LAW core
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
-
 ### 📝 Summary
 
 The DevExp-DevBox data component catalog documents 46 components spread across
@@ -1134,8 +1135,6 @@ flowchart LR
     class DIAG_KV,DIAG_DC core
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
-
 ### 🔄 Data Flow Patterns
 
 | 🔄 Pattern           | Flow Type           | Target                   | Processing                             | Contract                             | Quality Gate                           |
@@ -1213,8 +1212,6 @@ flowchart TB
     class KV_MOD data
     class LAW_MOD,DC_MOD core
 ```
-
-✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🔗 Producer-Consumer Relationships
 
