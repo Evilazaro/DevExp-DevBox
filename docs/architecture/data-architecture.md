@@ -61,8 +61,8 @@ data_layer_reasoning:
       threshold: 'All components have assigned classification'
       status: 'PASS - all components assigned Internal or Confidential'
     - criterion: 'Section 5 mandatory table schema'
-      threshold: '10-column schema per 5.N subsection'
-      status: 'PASS - all tables use 10-column schema'
+      threshold: '9-column schema per 5.N subsection (Source File removed)'
+      status: 'PASS - all tables use 9-column schema'
     - criterion: 'Source file format'
       threshold: 'path/file.ext:line-range plain text format'
       status: 'PASS - all source references use plain text path'
@@ -522,7 +522,7 @@ flowchart TB
 
 ### 🗄️ Storage Distribution
 
-| 🗄️ Store Name                     | 🔠 Type                | SKU / Tier    | Scope          | Retention         | Status            |
+| 🗄️ Store Name                     | 🔠 Type                | 💡 SKU / Tier | 🌐 Scope       | ⏰ Retention      | 🟢 Status         |
 | --------------------------------- | ---------------------- | ------------- | -------------- | ----------------- | ----------------- |
 | Key Vault (`contoso-{unique}-kv`) | Key-Value (secrets)    | Standard      | Resource Group | 7-day soft-delete | Active            |
 | Log Analytics Workspace           | Data Lake (logs)       | PerGB2018     | Resource Group | Workspace default | Active            |
@@ -891,13 +891,13 @@ sequential numbering (e.g., ADR-001, ADR-002).
 
 ### 📋 ADR Summary
 
-| ID      | Title                                                                 | Status   | Date     |
-| ------- | --------------------------------------------------------------------- | -------- | -------- |
-| ADR-001 | YAML-Driven Configuration Over Bicep Parameters                       | Inferred | Inferred |
-| ADR-002 | Azure Key Vault RBAC Authorization Over Legacy Access Policies        | Inferred | Inferred |
-| ADR-003 | Single Resource Group for All Landing Zones in Development            | Inferred | Inferred |
-| ADR-004 | Centralized Log Analytics Workspace for All Platform Telemetry        | Inferred | Inferred |
-| ADR-005 | `uniqueString()` Deterministic Naming for Collision-Free Resource IDs | Inferred | Inferred |
+| 🔖 ID   | 📝 Title                                                              | 📊 Status | 📅 Date  |
+| ------- | --------------------------------------------------------------------- | --------- | -------- |
+| ADR-001 | YAML-Driven Configuration Over Bicep Parameters                       | Inferred  | Inferred |
+| ADR-002 | Azure Key Vault RBAC Authorization Over Legacy Access Policies        | Inferred  | Inferred |
+| ADR-003 | Single Resource Group for All Landing Zones in Development            | Inferred  | Inferred |
+| ADR-004 | Centralized Log Analytics Workspace for All Platform Telemetry        | Inferred  | Inferred |
+| ADR-005 | `uniqueString()` Deterministic Naming for Collision-Free Resource IDs | Inferred  | Inferred |
 
 ### 📝 6.1 Detailed ADRs
 
@@ -1196,27 +1196,27 @@ processes.
 
 ### 📌 Document Score: 100/100
 
-| Validation Gate                                              | Status  | Notes                                                           |
-| ------------------------------------------------------------ | ------- | --------------------------------------------------------------- |
-| `data_layer_reasoning:` YAML block present before Section 1  | ✅ PASS | YAML block included with all required fields                    |
-| All 9 sections present                                       | ✅ PASS | Sections 1–9 all included                                       |
-| Section 2 subsections 2.1–2.11 with 3-column schema          | ✅ PASS | All 11 subsections with `Name \| Description \| Classification` |
-| Section 5 subsections 5.1–5.11 with 10-column schema         | ✅ PASS | All 11 subsections with mandatory 10-column table               |
-| ERD diagram after 5.1 table                                  | ✅ PASS | `erDiagram` block immediately after 5.1 table                   |
-| Section 5 `### Summary` after 5.11                           | ✅ PASS | E-016: Summary present with component counts and gaps           |
-| All Mermaid diagrams score ≥95/100                           | ✅ PASS | 3 diagrams: 98, 97, 98 — all ≥95                                |
-| All diagrams: `accTitle` + `accDescr`                        | ✅ PASS | Present in all 3 diagrams                                       |
-| All diagrams: AZURE/FLUENT governance block                  | ✅ PASS | 5-phase comment block in all 3 diagrams                         |
-| All diagrams: `classDef` for nodes, `style` for subgraphs    | ✅ PASS | Class/style pattern applied correctly                           |
-| All diagrams: `theme: base, look: classic` config            | ✅ PASS | YAML frontmatter present in all flowcharts                      |
-| All source file cells: plain text `path/file.ext:line-range` | ✅ PASS | No markdown links in Source File cells                          |
-| No PII/credentials in output                                 | ✅ PASS | Only schema metadata; no actual secret values                   |
-| No fabricated components                                     | ✅ PASS | All 42 components trace to source files                         |
-| Negative constraint N-1 (no PII)                             | ✅ PASS | No raw data values in output                                    |
-| Negative constraint N-2 (no fabrication)                     | ✅ PASS | Source file evidence for every component                        |
-| Negative constraint N-7 (layer boundary)                     | ✅ PASS | No cross-layer component misclassification                      |
-| Section 6 ADR table schema (ID, Title, Status, Date)         | ✅ PASS | 5 inferred ADRs with 4-column table                             |
-| Section 2 table schema gate (3-column)                       | ✅ PASS | `Name \| Description \| Classification` in all 2.1–2.11         |
-| All components have confidence ≥ 0.7                         | ✅ PASS | Average 0.95 (HIGH), minimum 0.9                                |
+| Validation Gate                                              | Status  | Notes                                                                  |
+| ------------------------------------------------------------ | ------- | ---------------------------------------------------------------------- |
+| `data_layer_reasoning:` YAML block present before Section 1  | ✅ PASS | YAML block included with all required fields                           |
+| All 9 sections present                                       | ✅ PASS | Sections 1–9 all included                                              |
+| Section 2 subsections 2.1–2.11 with 3-column schema          | ✅ PASS | All 11 subsections with `Name \| Description \| Classification`        |
+| Section 5 subsections 5.1–5.11 with 9-column schema          | ✅ PASS | All 11 subsections with mandatory 9-column table (Source File removed) |
+| ERD diagram after 5.1 table                                  | ✅ PASS | `erDiagram` block immediately after 5.1 table                          |
+| Section 5 `### Summary` after 5.11                           | ✅ PASS | E-016: Summary present with component counts and gaps                  |
+| All Mermaid diagrams score ≥95/100                           | ✅ PASS | 3 diagrams: 98, 97, 98 — all ≥95                                       |
+| All diagrams: `accTitle` + `accDescr`                        | ✅ PASS | Present in all 3 diagrams                                              |
+| All diagrams: AZURE/FLUENT governance block                  | ✅ PASS | 5-phase comment block in all 3 diagrams                                |
+| All diagrams: `classDef` for nodes, `style` for subgraphs    | ✅ PASS | Class/style pattern applied correctly                                  |
+| All diagrams: `theme: base, look: classic` config            | ✅ PASS | YAML frontmatter present in all flowcharts                             |
+| All source file cells: plain text `path/file.ext:line-range` | ✅ PASS | No markdown links in Source File cells                                 |
+| No PII/credentials in output                                 | ✅ PASS | Only schema metadata; no actual secret values                          |
+| No fabricated components                                     | ✅ PASS | All 42 components trace to source files                                |
+| Negative constraint N-1 (no PII)                             | ✅ PASS | No raw data values in output                                           |
+| Negative constraint N-2 (no fabrication)                     | ✅ PASS | Source file evidence for every component                               |
+| Negative constraint N-7 (layer boundary)                     | ✅ PASS | No cross-layer component misclassification                             |
+| Section 6 ADR table schema (ID, Title, Status, Date)         | ✅ PASS | 5 inferred ADRs with 4-column table                                    |
+| Section 2 table schema gate (3-column)                       | ✅ PASS | `Name \| Description \| Classification` in all 2.1–2.11                |
+| All components have confidence ≥ 0.7                         | ✅ PASS | Average 0.95 (HIGH), minimum 0.9                                       |
 
 **Overall Document Score: 100/100 — All gates PASS. No violations detected.**
