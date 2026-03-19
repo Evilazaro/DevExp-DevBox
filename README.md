@@ -135,17 +135,17 @@ flowchart TB
 
 **Component Roles:**
 
-| Component             | Role                                                                                                | Source File                                  |
-| --------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| 🖥️ Azure DevCenter    | Central hub managing Dev Box definitions, catalogs, and environment types                           | `src/workload/core/devCenter.bicep`          |
-| 📁 DevCenter Project  | Team-scoped workspace grouping Dev Box pools and catalogs (e.g., eShop)                             | `src/workload/project/project.bicep`         |
-| ⚙️ Dev Box Pools      | Role-specific VM configurations (`backend-engineer`, `frontend-engineer`)                           | `infra/settings/workload/devcenter.yaml`     |
-| 📚 Catalogs           | GitHub-backed repositories for image definitions and custom tasks                                   | `src/workload/core/catalog.bicep`            |
-| 🌍 Environment Types  | Pre-configured deployment targets: `dev`, `staging`, `UAT`                                          | `src/workload/core/environmentType.bicep`    |
-| 🔑 Azure Key Vault    | Centralized storage for the GitHub Actions token used by catalogs                                   | `src/security/keyVault.bicep`                |
-| 📊 Log Analytics      | Workspace receiving diagnostics from DevCenter, Key Vault, and VNets                                | `src/management/logAnalytics.bicep`          |
-| 🔌 Virtual Network    | Optional unmanaged VNet for Dev Box network connectivity                                            | `src/connectivity/vnet.bicep`                |
-| 🔐 Managed Identities | System-assigned identities for DevCenter and Projects enabling passwordless service-to-service auth | `src/identity/devCenterRoleAssignment.bicep` |
+| Component             | Role                                                                                                | Source File                                                                   |
+| --------------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| 🖥️ Azure DevCenter    | Central hub managing Dev Box definitions, catalogs, and environment types                           | [`devCenter.bicep`](src/workload/core/devCenter.bicep)                        |
+| 📁 DevCenter Project  | Team-scoped workspace grouping Dev Box pools and catalogs (e.g., eShop)                             | [`project.bicep`](src/workload/project/project.bicep)                         |
+| ⚙️ Dev Box Pools      | Role-specific VM configurations (`backend-engineer`, `frontend-engineer`)                           | [`devcenter.yaml`](infra/settings/workload/devcenter.yaml)                    |
+| 📚 Catalogs           | GitHub-backed repositories for image definitions and custom tasks                                   | [`catalog.bicep`](src/workload/core/catalog.bicep)                            |
+| 🌍 Environment Types  | Pre-configured deployment targets: `dev`, `staging`, `UAT`                                          | [`environmentType.bicep`](src/workload/core/environmentType.bicep)            |
+| 🔑 Azure Key Vault    | Centralized storage for the GitHub Actions token used by catalogs                                   | [`keyVault.bicep`](src/security/keyVault.bicep)                               |
+| 📊 Log Analytics      | Workspace receiving diagnostics from DevCenter, Key Vault, and VNets                                | [`logAnalytics.bicep`](src/management/logAnalytics.bicep)                     |
+| 🔌 Virtual Network    | Optional unmanaged VNet for Dev Box network connectivity                                            | [`vnet.bicep`](src/connectivity/vnet.bicep)                                   |
+| 🔐 Managed Identities | System-assigned identities for DevCenter and Projects enabling passwordless service-to-service auth | [`devCenterRoleAssignment.bicep`](src/identity/devCenterRoleAssignment.bicep) |
 
 ### Architecture Principles
 
