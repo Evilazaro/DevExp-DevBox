@@ -11,6 +11,22 @@ quality_level: comprehensive
 
 # Data Architecture - DevExp-DevBox
 
+## 🗒️ Quick Table of Contents
+
+| #   | 📂 Section                                                             | 📝 Description                                                  |
+| --- | ---------------------------------------------------------------------- | --------------------------------------------------------------- |
+| 1   | [📊 Executive Summary](#-section-1-executive-summary)                  | Portfolio overview, key findings, data quality scorecard        |
+| 2   | [🗺️ Architecture Landscape](#️-section-2-architecture-landscape)        | Data ecosystem view with 11 component type tables               |
+| 3   | [🏛️ Architecture Principles](#️-section-3-architecture-principles)      | Core data principles, schema standards, classification taxonomy |
+| 4   | [📍 Current State Baseline](#-section-4-current-state-baseline)        | Current topology, storage distribution, governance maturity     |
+| 5   | [🗂️ Component Catalog](#️-section-5-component-catalog)                  | Detailed inventory of 42 data components across 11 types        |
+| 6   | [⚖️ Architecture Decisions](#️-section-6-architecture-decisions)        | Key ADRs and inferred architectural decisions                   |
+| 7   | [📐 Architecture Standards](#-section-7-architecture-standards)        | Naming conventions, schema design, quality standards            |
+| 8   | [🔗 Dependencies & Integration](#-section-8-dependencies--integration) | Data flow patterns, lineage, producer-consumer relationships    |
+| 9   | [🛡️ Governance & Management](#️-section-9-governance--management)       | Data ownership, access control, audit and compliance            |
+
+---
+
 ```yaml
 data_layer_reasoning:
   phase: 'Data Layer Analysis'
@@ -99,7 +115,7 @@ data_layer_reasoning:
 
 ---
 
-## Section 1: Executive Summary
+## 📊 Section 1: Executive Summary
 
 ### Overview
 
@@ -129,7 +145,7 @@ were identified across all 11 canonical data component types, with an average
 confidence score of **0.95** (HIGH), reflecting strong source traceability from
 all components to specific files and line ranges.
 
-### Key Findings
+### 🔍 Key Findings
 
 | #   | Finding                                                                                                         | Impact                  | Source Evidence                                               |
 | --- | --------------------------------------------------------------------------------------------------------------- | ----------------------- | ------------------------------------------------------------- |
@@ -142,7 +158,7 @@ all components to specific files and line ranges.
 | 7   | YAML-driven configuration provides a single source of truth; 3 YAML files govern the entire deployment          | Positive — Internal     | infra/settings/\*_/_.yaml                                     |
 | 8   | azure.yaml azd bindings expose 10 structured output contracts for downstream consumption                        | Positive — Internal     | azure.yaml, infra/main.bicep:65-160                           |
 
-### Data Quality Scorecard
+### 📊 Data Quality Scorecard
 
 | Dimension    | Score  | Assessment                                                                  | Evidence                                                     |
 | ------------ | ------ | --------------------------------------------------------------------------- | ------------------------------------------------------------ |
@@ -153,7 +169,7 @@ all components to specific files and line ranges.
 | Security     | 97/100 | RBAC-only KV access, @secure() parameters, purge protection enabled         | src/security/keyVault.bicep:46-87                            |
 | Governance   | 88/100 | Tagging and RBAC enforced; formal ADR/standards documentation absent        | infra/settings/security/security.yaml:1-44                   |
 
-### Coverage Summary
+### 📈 Coverage Summary
 
 The data governance model achieves **Level 3 — Managed** maturity: configuration
 models are schema-validated, secrets are externalized to Key Vault, diagnostic
@@ -166,7 +182,7 @@ soft-delete settings.
 
 ---
 
-## Section 2: Architecture Landscape
+## 🗺️ Section 2: Architecture Landscape
 
 ### Overview
 
@@ -337,7 +353,7 @@ window for accidental secret deletion.
 
 ---
 
-## Section 3: Architecture Principles
+## 🏛️ Section 3: Architecture Principles
 
 ### Overview
 
@@ -355,7 +371,7 @@ the platform repository focused on developer environment provisioning, while
 operational telemetry is delegated to a centralized Log Analytics Workspace that
 all data stores write to.
 
-### Core Data Principles
+### 💡 Core Data Principles
 
 | Principle                   | Definition                                                                                          | Observable Evidence                                                                              | Source File                       |
 | --------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------- |
@@ -367,7 +383,7 @@ all data stores write to.
 | Least Privilege Access      | RBAC role assignments scoped to minimum required scope (Subscription vs. ResourceGroup vs. Project) | Six role types with explicit scope discriminators                                                | src/identity/\*.bicep             |
 | Tag-Enforced Data Ownership | Universal tag schema mandates team, owner, costCenter on every resource                             | Tags defined in azureResources.yaml, security.yaml, devcenter.yaml                               | infra/settings/\*_/_.yaml         |
 
-### Data Schema Design Standards
+### 📐 Data Schema Design Standards
 
 The following standards are observable throughout the schema files and Bicep
 type definitions:
@@ -390,7 +406,7 @@ type definitions:
    `KeyVaultSettings`, `RoleAssignment`) declared in the module files that
    consume them.
 
-### Data Classification Taxonomy
+### 🏷️ Data Classification Taxonomy
 
 All data assets in this repository are classified into three tiers:
 
@@ -407,7 +423,7 @@ business data.
 
 ---
 
-## Section 4: Current State Baseline
+## 📍 Section 4: Current State Baseline
 
 ### Overview
 
@@ -424,7 +440,7 @@ The baseline assessment is based on analysis of the Bicep source files, YAML
 configuration files, and schema definitions. All findings reference actual file
 evidence with no inferred or speculative content.
 
-### Baseline Data Architecture
+### 🏗️ Baseline Data Architecture
 
 ```mermaid
 ---
@@ -504,7 +520,7 @@ flowchart TB
 
 ✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
 
-### Storage Distribution
+### 🗄️ Storage Distribution
 
 | Store Name                        | Type                   | SKU / Tier    | Scope          | Retention         | Status            |
 | --------------------------------- | ---------------------- | ------------- | -------------- | ----------------- | ----------------- |
@@ -514,7 +530,7 @@ flowchart TB
 | GitHub (devcenter-catalog)        | Object Storage (Git)   | Public        | External       | Indefinite        | Active            |
 | GitHub (eShop)                    | Object Storage (Git)   | Private       | External       | Indefinite        | Active (PAT auth) |
 
-### Quality Baseline
+### 📊 Quality Baseline
 
 | Metric                       | Current Value       | Target           | Gap                 | Source                                                              |
 | ---------------------------- | ------------------- | ---------------- | ------------------- | ------------------------------------------------------------------- |
@@ -525,7 +541,7 @@ flowchart TB
 | Landing Zone Isolation       | 1 RG (dev)          | 3 RG (prod)      | Not enforced in dev | infra/settings/resourceOrganization/azureResources.yaml:17-22       |
 | Formal ADR Coverage          | 0 formal ADRs       | ≥5 key decisions | Gap                 | docs/ (absent)                                                      |
 
-### Governance Maturity
+### 🛡️ Governance Maturity
 
 **Assessment: Level 3 — Managed**
 
@@ -540,7 +556,7 @@ flowchart TB
 | Formal Documentation | ⚠️ Absent        | No ADRs, standards docs, or data catalog tooling            |
 | Retention Policy     | ⚠️ Minimal       | Only KV soft-delete (7d); no Log Analytics retention config |
 
-### Compliance Posture
+### 📋 Compliance Posture
 
 | Control                      | Status       | Implementation                               | Source                                                       |
 | ---------------------------- | ------------ | -------------------------------------------- | ------------------------------------------------------------ |
@@ -569,7 +585,7 @@ governance documentation.
 
 ---
 
-## Section 5: Component Catalog
+## 🗂️ Section 5: Component Catalog
 
 ### Overview
 
@@ -854,7 +870,7 @@ retention policy to `logAnalytics.bicep`.
 
 ---
 
-## Section 6: Architecture Decisions
+## ⚖️ Section 6: Architecture Decisions
 
 ### Overview
 
@@ -877,7 +893,7 @@ For established projects, ADRs should be stored in
 `/docs/architecture/decisions/` following the Markdown ADR (MADR) format with
 sequential numbering (e.g., ADR-001, ADR-002).
 
-### ADR Summary
+### 📋 ADR Summary
 
 | ID      | Title                                                                 | Status   | Date     |
 | ------- | --------------------------------------------------------------------- | -------- | -------- |
@@ -887,7 +903,7 @@ sequential numbering (e.g., ADR-001, ADR-002).
 | ADR-004 | Centralized Log Analytics Workspace for All Platform Telemetry        | Inferred | Inferred |
 | ADR-005 | `uniqueString()` Deterministic Naming for Collision-Free Resource IDs | Inferred | Inferred |
 
-### 6.1 Detailed ADRs
+### 📝 6.1 Detailed ADRs
 
 #### 6.1.1 ADR-001: YAML-Driven Configuration Over Bicep Parameters
 
@@ -935,7 +951,7 @@ bootstrap access at line 58–67 provides initial access during vault creation.
 
 ---
 
-## Section 7: Architecture Standards
+## 📐 Section 7: Architecture Standards
 
 ### Overview
 
@@ -951,7 +967,7 @@ tables/collections, schema versioning strategies, data classification
 taxonomies, retention policy templates, and encryption requirements. These
 should be codified in dedicated files under `/docs/standards/`.
 
-### Data Standards Summary
+### 📯 Data Standards Summary
 
 The following standards are enforced through source code rather than
 documentation:
@@ -967,7 +983,7 @@ documentation:
 
 ---
 
-## Section 8: Dependencies & Integration
+## 🔗 Section 8: Dependencies & Integration
 
 ### Overview
 
@@ -989,7 +1005,7 @@ environment variables consumed by downstream developer tooling.
 The following subsections document detected integration patterns with their
 characteristics, quality gates, and operational dependencies.
 
-### Data Flow Patterns
+### 🌊 Data Flow Patterns
 
 | Pattern                  | Type                | Source                     | Destination                 | Trigger                 | Contract                                                |
 | ------------------------ | ------------------- | -------------------------- | --------------------------- | ----------------------- | ------------------------------------------------------- |
@@ -1088,7 +1104,7 @@ flowchart LR
 
 ✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
 
-### Producer-Consumer Relationships
+### 🔄 Producer-Consumer Relationships
 
 | Producer                   | Data Produced                           | Consumer                                   | Integration Type                   | Contract                                   |
 | -------------------------- | --------------------------------------- | ------------------------------------------ | ---------------------------------- | ------------------------------------------ |
@@ -1124,7 +1140,7 @@ means catalog freshness is undefined.
 
 ---
 
-## Section 9: Governance & Management
+## 🛡️ Section 9: Governance & Management
 
 ### Overview
 
@@ -1146,7 +1162,7 @@ For mature data platforms, governance artifacts are typically stored in
 tracking via Apache Atlas or Azure Data Catalog, and formal data stewardship
 processes.
 
-### Data Ownership Model
+### 👤 Data Ownership Model
 
 | Resource                | Technical Owner (Tag)            | RBAC Owner                                 | Organizational Owner               | Source                                                       |
 | ----------------------- | -------------------------------- | ------------------------------------------ | ---------------------------------- | ------------------------------------------------------------ |
@@ -1157,7 +1173,7 @@ processes.
 | eShop Catalogs          | owner: Contoso / eShop Engineers | KV Secrets User (`4633458b`)               | eShop Engineers group (`9d42a792`) | infra/settings/workload/devcenter.yaml:100-120               |
 | Virtual Network         | team: DevExP                     | Contributor                                | Platforms / DevExP                 | infra/settings/workload/devcenter.yaml:146-165               |
 
-### Access Control Model
+### 🔐 Access Control Model
 
 | Principal                              | Type             | Roles Granted                                 | Scope                    | Source                                         |
 | -------------------------------------- | ---------------- | --------------------------------------------- | ------------------------ | ---------------------------------------------- |
@@ -1168,7 +1184,7 @@ processes.
 | eShop Engineers (`9d42a792`)           | Group            | KV Secrets User, KV Secrets Officer           | ResourceGroup            | infra/settings/workload/devcenter.yaml:120-138 |
 | ARM Deployer                           | ServicePrincipal | KV bootstrap access (secrets/keys CRUD)       | Key Vault (vault-scoped) | src/security/keyVault.bicep:58-67              |
 
-### Audit and Compliance
+### 🔒 Audit and Compliance
 
 | Control                    | Implementation                                   | Frequency | Source                                    |
 | -------------------------- | ------------------------------------------------ | --------- | ----------------------------------------- |
@@ -1180,9 +1196,9 @@ processes.
 
 ---
 
-## Validation Summary
+## ✅ Validation Summary
 
-### Document Score: 100/100
+### 📌 Document Score: 100/100
 
 | Validation Gate                                              | Status  | Notes                                                           |
 | ------------------------------------------------------------ | ------- | --------------------------------------------------------------- |
