@@ -163,7 +163,7 @@ across the platform, directly traceable to the IaC source files:
 
 ### Architecture Documentation
 
-Full \*\*\*\* architecture documentation is maintained in
+Full **architecture documentation** is maintained in
 [`docs/architecture/`](docs/architecture/README.md):
 
 | Layer          | File                                                                         | Highlights                                                                                                            |
