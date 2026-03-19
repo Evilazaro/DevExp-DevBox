@@ -147,27 +147,27 @@ all components to specific files and line ranges.
 
 ### 🔍 Key Findings
 
-| #   | Finding                                                                                                         | Impact                  | Source Evidence                                               |
-| --- | --------------------------------------------------------------------------------------------------------------- | ----------------------- | ------------------------------------------------------------- |
-| 1   | All secrets managed exclusively via Azure Key Vault with RBAC authorization; no plaintext credentials in source | Positive — Confidential | src/security/keyVault.bicep:46-67                             |
-| 2   | Three JSON Schema files (draft/2020-12) enforce data model contracts before Bicep compilation                   | Positive — Internal     | infra/settings/\*/\*.schema.json                              |
-| 3   | Dev Box Pools currently commented out in project.bicep — no active pool resources deployed                      | Risk — Internal         | src/workload/project/project.bicep:301-320                    |
-| 4   | Soft delete retention set to 7 days (schema minimum): data recovery window is limited                           | Risk — Confidential     | infra/settings/security/security.yaml:14                      |
-| 5   | All diagnostic logs route to a single Log Analytics Workspace; no multi-workspace isolation                     | Neutral — Internal      | src/management/logAnalytics.bicep:42                          |
-| 6   | Security and monitoring landing zones are disabled (create: false); all resources in workload RG                | Neutral — Internal      | infra/settings/resourceOrganization/azureResources.yaml:17-22 |
-| 7   | YAML-driven configuration provides a single source of truth; 3 YAML files govern the entire deployment          | Positive — Internal     | infra/settings/\*_/_.yaml                                     |
-| 8   | azure.yaml azd bindings expose 10 structured output contracts for downstream consumption                        | Positive — Internal     | azure.yaml, infra/main.bicep:65-160                           |
+| 🔢 # | 🔍 Finding                                                                                                      | 💡 Impact               |
+| ---- | --------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| 1    | All secrets managed exclusively via Azure Key Vault with RBAC authorization; no plaintext credentials in source | Positive — Confidential |
+| 2    | Three JSON Schema files (draft/2020-12) enforce data model contracts before Bicep compilation                   | Positive — Internal     |
+| 3    | Dev Box Pools currently commented out in project.bicep — no active pool resources deployed                      | Risk — Internal         |
+| 4    | Soft delete retention set to 7 days (schema minimum): data recovery window is limited                           | Risk — Confidential     |
+| 5    | All diagnostic logs route to a single Log Analytics Workspace; no multi-workspace isolation                     | Neutral — Internal      |
+| 6    | Security and monitoring landing zones are disabled (create: false); all resources in workload RG                | Neutral — Internal      |
+| 7    | YAML-driven configuration provides a single source of truth; 3 YAML files govern the entire deployment          | Positive — Internal     |
+| 8    | azure.yaml azd bindings expose 10 structured output contracts for downstream consumption                        | Positive — Internal     |
 
 ### 📊 Data Quality Scorecard
 
-| Dimension    | Score  | Assessment                                                                  | Evidence                                                     |
-| ------------ | ------ | --------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| Completeness | 85/100 | Dev Box Pools defined but not deployed (commented out)                      | src/workload/project/project.bicep:301-320                   |
-| Accuracy     | 98/100 | All configuration values validated by JSON Schema with regex patterns       | infra/settings/\*_/_.schema.json                             |
-| Consistency  | 95/100 | Universal tag schema applied across all 3 landing zones with minor variance | infra/settings/resourceOrganization/azureResources.yaml:1-67 |
-| Availability | 90/100 | Log Analytics captures all platform diagnostics; no explicit SLA set        | src/management/logAnalytics.bicep:42-110                     |
-| Security     | 97/100 | RBAC-only KV access, @secure() parameters, purge protection enabled         | src/security/keyVault.bicep:46-87                            |
-| Governance   | 88/100 | Tagging and RBAC enforced; formal ADR/standards documentation absent        | infra/settings/security/security.yaml:1-44                   |
+| 📏 Dimension | 🎯 Score | 📋 Assessment                                                               |
+| ------------ | -------- | --------------------------------------------------------------------------- |
+| Completeness | 85/100   | Dev Box Pools defined but not deployed (commented out)                      |
+| Accuracy     | 98/100   | All configuration values validated by JSON Schema with regex patterns       |
+| Consistency  | 95/100   | Universal tag schema applied across all 3 landing zones with minor variance |
+| Availability | 90/100   | Log Analytics captures all platform diagnostics; no explicit SLA set        |
+| Security     | 97/100   | RBAC-only KV access, @secure() parameters, purge protection enabled         |
+| Governance   | 88/100   | Tagging and RBAC enforced; formal ADR/standards documentation absent        |
 
 ### 📈 Coverage Summary
 
@@ -373,15 +373,15 @@ all data stores write to.
 
 ### 💡 Core Data Principles
 
-| Principle                   | Definition                                                                                          | Observable Evidence                                                                              | Source File                       |
-| --------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------- |
-| Single Source of Truth      | All resource configuration derives from YAML files; no inline Bicep hardcoding of resource settings | `loadYamlContent()` in security.bicep:14, workload.bicep:43, main.bicep:30                       | infra/settings/\*_/_.yaml         |
-| Privacy by Design           | Sensitive parameters carry `@secure()` decorator; Key Vault uses RBAC-only access                   | `@secure() param secretValue`, `enableRbacAuthorization: true`                                   | src/security/keyVault.bicep:46-67 |
-| Schema-First Validation     | JSON Schema contracts govern all YAML data models before Bicep compilation                          | `$schema: draft/2020-12` in all three schema files                                               | infra/settings/\*_/_.schema.json  |
-| Deterministic Immutability  | Resource names generated via `uniqueString()` for idempotent, collision-free deployments            | `uniqueString(resourceGroup().id, location, subscription().subscriptionId, deployer().tenantId)` | src/security/keyVault.bicep:8     |
-| Comprehensive Observability | All data stores emit diagnostic telemetry to a single Log Analytics Workspace                       | Diagnostic settings in secret.bicep:34, devCenter.bicep:219, vnet.bicep:95                       | src/management/logAnalytics.bicep |
-| Least Privilege Access      | RBAC role assignments scoped to minimum required scope (Subscription vs. ResourceGroup vs. Project) | Six role types with explicit scope discriminators                                                | src/identity/\*.bicep             |
-| Tag-Enforced Data Ownership | Universal tag schema mandates team, owner, costCenter on every resource                             | Tags defined in azureResources.yaml, security.yaml, devcenter.yaml                               | infra/settings/\*_/_.yaml         |
+| 💡 Principle | 📝 Definition |
+| --------------------------- | ------------------------------------ |
+| Single Source of Truth      | All resource configuration derives from YAML files; no inline Bicep hardcoding of resource settings |
+| Privacy by Design           | Sensitive parameters carry `@secure()` decorator; Key Vault uses RBAC-only access |
+| Schema-First Validation     | JSON Schema contracts govern all YAML data models before Bicep compilation |
+| Deterministic Immutability  | Resource names generated via `uniqueString()` for idempotent, collision-free deployments |
+| Comprehensive Observability | All data stores emit diagnostic telemetry to a single Log Analytics Workspace |
+| Least Privilege Access      | RBAC role assignments scoped to minimum required scope (Subscription vs. ResourceGroup vs. Project) |
+| Tag-Enforced Data Ownership | Universal tag schema mandates team, owner, costCenter on every resource |
 
 ### 📐 Data Schema Design Standards
 
