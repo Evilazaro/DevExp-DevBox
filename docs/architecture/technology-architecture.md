@@ -1217,6 +1217,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart TB
     accTitle: Dependencies and Integration — DevExp-DevBox Technology Layer
