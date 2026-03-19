@@ -202,7 +202,7 @@ operational telemetry (diagnostic logs, activity events).
 
 ### 2.1 Data Entities
 
-| Name                          | Description                                                                             | Classification |
+| 🏷️ Name | 📄 Description | 🔖 Classification |
 | ----------------------------- | --------------------------------------------------------------------------------------- | -------------- |
 | ResourceGroup                 | Azure resource container logic for workload, security, and monitoring landing zones     | Internal       |
 | LogAnalyticsWorkspace         | Centralized telemetry and diagnostic log data store for platform observability          | Internal       |
@@ -220,7 +220,7 @@ operational telemetry (diagnostic logs, activity events).
 
 ### 2.2 Data Models
 
-| Name                          | Description                                                                          | Classification |
+| 🏷️ Name | 📄 Description | 🔖 Classification |
 | ----------------------------- | ------------------------------------------------------------------------------------ | -------------- |
 | azureResources.yaml           | Declarative resource group organization and tagging model for three landing zones    | Internal       |
 | azureResources.schema.json    | JSON Schema (draft/2020-12) validating resource organization YAML structure          | Internal       |
@@ -236,7 +236,7 @@ operational telemetry (diagnostic logs, activity events).
 
 ### 2.3 Data Stores
 
-| Name                                  | Description                                                                              | Classification |
+| 🏷️ Name | 📄 Description | 🔖 Classification |
 | ------------------------------------- | ---------------------------------------------------------------------------------------- | -------------- |
 | Azure Key Vault                       | Encrypted secrets store (`contoso-{unique}-kv`, Standard SKU, RBAC-authorized)           | Confidential   |
 | Log Analytics Workspace               | Diagnostic log and metrics repository (PerGB2018 SKU, `{prefix}-{uniqueSuffix}`)         | Internal       |
@@ -246,7 +246,7 @@ operational telemetry (diagnostic logs, activity events).
 
 ### 2.4 Data Flows
 
-| Name                         | Description                                                                              | Classification |
+| 🏷️ Name | 📄 Description | 🔖 Classification |
 | ---------------------------- | ---------------------------------------------------------------------------------------- | -------------- |
 | Secret Provisioning Flow     | `${KEY_VAULT_SECRET}` env var → ARM parameters → Key Vault secret creation               | Confidential   |
 | Secret Consumption Flow      | Key Vault secret URI → `secretIdentifier` param → catalog/project catalog authentication | Confidential   |
@@ -256,7 +256,7 @@ operational telemetry (diagnostic logs, activity events).
 
 ### 2.5 Data Services
 
-| Name                             | Description                                                              | Classification |
+| 🏷️ Name | 📄 Description | 🔖 Classification |
 | -------------------------------- | ------------------------------------------------------------------------ | -------------- |
 | Key Vault REST API               | RBAC-authorized secrets CRUD service (no legacy access policies)         | Confidential   |
 | Log Analytics Query API          | Workspace query endpoint for diagnostic log analysis and alerting        | Internal       |
@@ -266,7 +266,7 @@ operational telemetry (diagnostic logs, activity events).
 
 ### 2.6 Data Governance
 
-| Name                       | Description                                                                                                     | Classification |
+| 🏷️ Name | 📄 Description | 🔖 Classification |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------- | -------------- |
 | RBAC Authorization Policy  | `enableRbacAuthorization: true` — all Key Vault access via Azure RBAC; no legacy access policies                | Internal       |
 | Universal Resource Tagging | Seven mandatory tags on all ARM resources: environment, division, team, project, costCenter, owner, landingZone | Internal       |
@@ -277,7 +277,7 @@ operational telemetry (diagnostic logs, activity events).
 
 ### 2.7 Data Quality Rules
 
-| Name                           | Description                                                                        | Classification |
+| 🏷️ Name | 📄 Description | 🔖 Classification |
 | ------------------------------ | ---------------------------------------------------------------------------------- | -------------- |
 | EnvironmentName Min/Max Length | `@minLength(2) @maxLength(10)` constraint on `environmentName` parameter           | Internal       |
 | Location Allowlist             | 17 authorized Azure regions in `@allowed` values for deployment location           | Internal       |
@@ -291,7 +291,7 @@ operational telemetry (diagnostic logs, activity events).
 
 ### 2.8 Master Data
 
-| Name                   | Description                                                                                                                                                                                                                                          | Classification |
+| 🏷️ Name | 📄 Description | 🔖 Classification |
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
 | Universal Tag Schema   | Canonical 7-key tag definitions shared across all ARM resources                                                                                                                                                                                      | Internal       |
 | RBAC Role GUID Catalog | Fixed built-in role GUIDs: Contributor (`b24988ac`), User Access Admin (`18d7d88d`), KV Secrets User (`4633458b`), KV Secrets Officer (`b86a8fe4`), DevBox User (`45d50f46`), Deployment Env User (`18e40d4e`), DevCenter Project Admin (`331c37c6`) | Internal       |
@@ -301,7 +301,7 @@ operational telemetry (diagnostic logs, activity events).
 
 ### 2.9 Data Transformations
 
-| Name                             | Description                                                                              | Classification |
+| 🏷️ Name | 📄 Description | 🔖 Classification |
 | -------------------------------- | ---------------------------------------------------------------------------------------- | -------------- |
 | `loadYamlContent()` Hydration    | Compile-time YAML-to-Bicep object transformation applied to all three config files       | Internal       |
 | `uniqueString()` ID Generation   | Deterministic unique suffix from `resourceGroup().id + location + subscription + tenant` | Internal       |
@@ -312,7 +312,7 @@ operational telemetry (diagnostic logs, activity events).
 
 ### 2.10 Data Contracts
 
-| Name                                   | Description                                                                                                | Classification |
+| 🏷️ Name | 📄 Description | 🔖 Classification |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------------------- | -------------- |
 | `azureResources.schema.json`           | Structural contract for resource organization YAML (draft/2020-12)                                         | Internal       |
 | `security.schema.json`                 | Structural contract for Key Vault configuration YAML (draft/2020-12)                                       | Internal       |
@@ -324,7 +324,7 @@ operational telemetry (diagnostic logs, activity events).
 
 ### 2.11 Data Security
 
-| Name                               | Description                                                                                               | Classification |
+| 🏷️ Name | 📄 Description | 🔖 Classification |
 | ---------------------------------- | --------------------------------------------------------------------------------------------------------- | -------------- |
 | Key Vault RBAC Authorization       | `enableRbacAuthorization: true` — RBAC-only access, no legacy vault access policies                       | Confidential   |
 | `@secure()` Parameter Decoration   | `secretValue` and `secretIdentifier` parameters decorated to suppress ARM log exposure                    | Confidential   |
@@ -522,7 +522,7 @@ flowchart TB
 
 ### 🗄️ Storage Distribution
 
-| Store Name                        | Type                   | SKU / Tier    | Scope          | Retention         | Status            |
+| 🗄️ Store Name | 🔠 Type | SKU / Tier    | Scope          | Retention         | Status            |
 | --------------------------------- | ---------------------- | ------------- | -------------- | ----------------- | ----------------- |
 | Key Vault (`contoso-{unique}-kv`) | Key-Value (secrets)    | Standard      | Resource Group | 7-day soft-delete | Active            |
 | Log Analytics Workspace           | Data Lake (logs)       | PerGB2018     | Resource Group | Workspace default | Active            |
@@ -558,7 +558,7 @@ flowchart TB
 
 ### 📋 Compliance Posture
 
-| 🔐 Control                   | 📊 Status    | 🛠️ Implementation                            |
+| 🔐 Control | 📊 Status | 🛠️ Implementation | 🛠️ Implementation                            |
 | ---------------------------- | ------------ | -------------------------------------------- |
 | Secrets Never in Source Code | ✅ Compliant | All secrets via `@secure()` + Key Vault      |
 | RBAC-Only Resource Access    | ✅ Compliant | `enableRbacAuthorization: true` on Key Vault |
@@ -603,7 +603,7 @@ traceability from Bicep and YAML source files.
 
 ### 5.1 Data Entities
 
-| Component                       | Description                                                                                                      | Classification | Storage        | Owner  | Retention         | Freshness SLA | Source Systems                     | Consumers                      |
+| 🔷 Component | 📄 Description | 🏷️ Classification | 🗄️ Storage | 👤 Owner | ⏰ Retention | ⚡ Freshness SLA | 🔀 Source Systems | 👥 Consumers |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------- | -------------- | ------ | ----------------- | ------------- | ---------------------------------- | ------------------------------ |
 | ResourceGroup (workload)        | Azure container for all workload resources (`devexp-workload-{env}-{location}-RG`)                               | Internal       | Object Storage | DevExP | indefinite        | batch         | AZD deploy                         | ARM API                        |
 | ResourceGroup (security)        | Logical security landing zone RG (create: false, shares workload RG in dev)                                      | Internal       | Object Storage | DevExP | indefinite        | batch         | AZD deploy                         | ARM API                        |
@@ -727,7 +727,7 @@ erDiagram
 
 ### 5.2 Data Models
 
-| Component                    | Description                                                                                       | Classification | Storage        | Owner  | Retention  | Freshness SLA | Source Systems          | Consumers                        |
+| 🔷 Component | 📄 Description | 🏷️ Classification | 🗄️ Storage | 👤 Owner | ⏰ Retention | ⚡ Freshness SLA | 🔀 Source Systems | 👥 Consumers |
 | ---------------------------- | ------------------------------------------------------------------------------------------------- | -------------- | -------------- | ------ | ---------- | ------------- | ----------------------- | -------------------------------- |
 | azureResources.yaml          | Declarative RG organization model: 3 landing zone entries, 7-key tag schema                       | Internal       | Object Storage | DevExP | indefinite | batch         | Repo maintainers        | main.bicep (loadYamlContent)     |
 | azureResources.schema.json   | JSON Schema (draft/2020-12) with `resourceGroup` `$defs`: create, name, description, tags         | Internal       | Object Storage | DevExP | indefinite | batch         | Schema authors          | azureResources.yaml validation   |
@@ -743,7 +743,7 @@ erDiagram
 
 ### 5.3 Data Stores
 
-| Component                  | Description                                                                                        | Classification | Storage        | Owner     | Retention      | Freshness SLA | Source Systems                     | Consumers                        |
+| 🔷 Component | 📄 Description | 🏷️ Classification | 🗄️ Storage | 👤 Owner | ⏰ Retention | ⚡ Freshness SLA | 🔀 Source Systems | 👥 Consumers |
 | -------------------------- | -------------------------------------------------------------------------------------------------- | -------------- | -------------- | --------- | -------------- | ------------- | ---------------------------------- | -------------------------------- |
 | Azure Key Vault            | Encrypted secrets store (`contoso-{unique}-kv`, Standard SKU, RBAC, purge-protected)               | Confidential   | Key-Value      | DevExP    | 7d soft-delete | batch         | ARM deployment                     | Catalog modules, Project modules |
 | Log Analytics Workspace    | Diagnostic log repository (`{prefix}-{uniqueSuffix}`, PerGB2018, AzureActivity solution installed) | Internal       | Data Lake      | DevExP    | Not detected   | real-time     | KV diag, DevCenter diag, VNet diag | Platform engineers, Monitoring   |
@@ -753,7 +753,7 @@ erDiagram
 
 ### 5.4 Data Flows
 
-| Component                    | Description                                                                                                    | Classification | Storage        | Owner  | Retention         | Freshness SLA | Source Systems      | Consumers                                  |
+| 🔷 Component | 📄 Description | 🏷️ Classification | 🗄️ Storage | 👤 Owner | ⏰ Retention | ⚡ Freshness SLA | 🔀 Source Systems | 👥 Consumers |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------- | -------------- | ------ | ----------------- | ------------- | ------------------- | ------------------------------------------ |
 | Secret Provisioning Flow     | `${KEY_VAULT_SECRET}` → `main.parameters.json` → `@secure() param secretValue` → KV vault → `gha-token` secret | Confidential   | Key-Value      | DevExP | 7d                | batch         | AZD environment     | Key Vault                                  |
 | Secret Consumption Flow      | `AZURE_KEY_VAULT_SECRET_IDENTIFIER` output → `secretIdentifier` param → catalog `secretIdentifier` field       | Confidential   | Key-Value      | DevExP | session           | batch         | Key Vault           | DC Catalog, Project Catalogs               |
@@ -763,7 +763,7 @@ erDiagram
 
 ### 5.5 Data Services
 
-| Component                      | Description                                                                                  | Classification | Storage        | Owner  | Retention | Freshness SLA | Source Systems          | Consumers                     |
+| 🔷 Component | 📄 Description | 🏷️ Classification | 🗄️ Storage | 👤 Owner | ⏰ Retention | ⚡ Freshness SLA | 🔀 Source Systems | 👥 Consumers |
 | ------------------------------ | -------------------------------------------------------------------------------------------- | -------------- | -------------- | ------ | --------- | ------------- | ----------------------- | ----------------------------- |
 | Key Vault REST API             | RBAC-authorized secrets CRUD (`4633458b` = KV Secrets User, `b86a8fe4` = KV Secrets Officer) | Confidential   | Key-Value      | DevExP | N/A       | real-time     | ARM identity tokens     | Catalog modules, developers   |
 | Log Analytics Query API        | Workspace query for diagnostic logs and metrics via Kusto Query Language                     | Internal       | Data Lake      | DevExP | N/A       | real-time     | Log Analytics Workspace | DevOps, monitoring dashboards |
@@ -773,7 +773,7 @@ erDiagram
 
 ### 5.6 Data Governance
 
-| Component                 | Description                                                                                              | Classification | Storage        | Owner  | Retention         | Freshness SLA | Source Systems                 | Consumers                      |
+| 🔷 Component | 📄 Description | 🏷️ Classification | 🗄️ Storage | 👤 Owner | ⏰ Retention | ⚡ Freshness SLA | 🔀 Source Systems | 👥 Consumers |
 | ------------------------- | -------------------------------------------------------------------------------------------------------- | -------------- | -------------- | ------ | ----------------- | ------------- | ------------------------------ | ------------------------------ |
 | RBAC Authorization Policy | Key Vault RBAC-only access (`enableRbacAuthorization: true`); all six role types use deterministic GUIDs | Internal       | Object Storage | DevExP | indefinite        | batch         | devcenter.yaml roleAssignments | Key Vault, DevCenter, Projects |
 | Universal Tag Schema      | 7-key mandatory tags on all RGs and ARM resources; environment enum-constrained                          | Internal       | Object Storage | DevExP | indefinite        | batch         | YAML configs                   | All ARM resources              |
@@ -784,7 +784,7 @@ erDiagram
 
 ### 5.7 Data Quality Rules
 
-| Component                 | Description                                                                               | Classification | Storage        | Owner  | Retention    | Freshness SLA | Source Systems                                   | Consumers                   |
+| 🔷 Component | 📄 Description | 🏷️ Classification | 🗄️ Storage | 👤 Owner | ⏰ Retention | ⚡ Freshness SLA | 🔀 Source Systems | 👥 Consumers |
 | ------------------------- | ----------------------------------------------------------------------------------------- | -------------- | -------------- | ------ | ------------ | ------------- | ------------------------------------------------ | --------------------------- |
 | EnvironmentName Length    | `@minLength(2) @maxLength(10)` on `param environmentName string`                          | Internal       | Object Storage | DevExP | compile-time | N/A           | main.bicep                                       | ARM parameter validation    |
 | Location Allowlist        | `@allowed` with 17 Azure region strings on `param location string`                        | Internal       | Object Storage | DevExP | compile-time | N/A           | main.bicep                                       | ARM parameter validation    |
@@ -798,7 +798,7 @@ erDiagram
 
 ### 5.8 Master Data
 
-| Component                | Description                                                                                                                                                                                                | Classification | Storage        | Owner     | Retention  | Freshness SLA | Source Systems               | Consumers                                          |
+| 🔷 Component | 📄 Description | 🏷️ Classification | 🗄️ Storage | 👤 Owner | ⏰ Retention | ⚡ Freshness SLA | 🔀 Source Systems | 👥 Consumers |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | -------------- | --------- | ---------- | ------------- | ---------------------------- | -------------------------------------------------- |
 | Universal Tag Schema     | Canonical 7-key tag definitions applied to all ARM resources (environment, division, team, project, costCenter, owner, landingZone)                                                                        | Internal       | Object Storage | DevExP    | indefinite | batch         | YAML configs                 | azureResources.yaml, security.yaml, devcenter.yaml |
 | Built-in RBAC Role GUIDs | Fixed GUIDs: Contributor (b24988ac), UAA (18d7d88d), KV Secrets User (4633458b), KV Secrets Officer (b86a8fe4), DevBox User (45d50f46), Deployment Env User (18e40d4e), DevCenter Project Admin (331c37c6) | Internal       | Object Storage | Microsoft | indefinite | N/A           | Azure built-in RBAC          | devcenter.yaml, identity modules                   |
@@ -808,7 +808,7 @@ erDiagram
 
 ### 5.9 Data Transformations
 
-| Component                        | Description                                                                                                              | Classification | Storage        | Owner  | Retention    | Freshness SLA | Source Systems                          | Consumers                                  |
+| 🔷 Component | 📄 Description | 🏷️ Classification | 🗄️ Storage | 👤 Owner | ⏰ Retention | ⚡ Freshness SLA | 🔀 Source Systems | 👥 Consumers |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------------- | -------------- | ------ | ------------ | ------------- | --------------------------------------- | ------------------------------------------ |
 | `loadYamlContent()` Hydration    | Compile-time: 3 YAML files → Bicep object variables (`landingZones`, `securitySettings`, `devCenterSettings`)            | Internal       | Object Storage | DevExP | compile-time | batch         | YAML config files                       | main.bicep, security.bicep, workload.bicep |
 | `uniqueString()` ID Generation   | Deterministic unique suffix: `uniqueString(rg.id, location, subscription.id, deployer.tenantId)` → unique KV name suffix | Internal       | Object Storage | DevExP | compile-time | batch         | ARM metadata                            | keyVault.bicep name construction           |
@@ -819,7 +819,7 @@ erDiagram
 
 ### 5.10 Data Contracts
 
-| Component                            | Description                                                                                                | Classification | Storage        | Owner  | Retention  | Freshness SLA | Source Systems                 | Consumers                        |
+| 🔷 Component | 📄 Description | 🏷️ Classification | 🗄️ Storage | 👤 Owner | ⏰ Retention | ⚡ Freshness SLA | 🔀 Source Systems | 👥 Consumers |
 | ------------------------------------ | ---------------------------------------------------------------------------------------------------------- | -------------- | -------------- | ------ | ---------- | ------------- | ------------------------------ | -------------------------------- |
 | azureResources.schema.json           | JSON Schema contract for resource organization YAML: requires workload/security/monitoring keys; 166 lines | Internal       | Object Storage | DevExP | indefinite | batch         | Schema authors                 | YAML validation tooling          |
 | security.schema.json                 | JSON Schema contract for Key Vault config YAML: name pattern, retention range, enum flags; 180 lines       | Internal       | Object Storage | DevExP | indefinite | batch         | Schema authors                 | YAML validation tooling          |
@@ -831,7 +831,7 @@ erDiagram
 
 ### 5.11 Data Security
 
-| Component                        | Description                                                                                       | Classification | Storage        | Owner  | Retention         | Freshness SLA | Source Systems         | Consumers                    |
+| 🔷 Component | 📄 Description | 🏷️ Classification | 🗄️ Storage | 👤 Owner | ⏰ Retention | ⚡ Freshness SLA | 🔀 Source Systems | 👥 Consumers |
 | -------------------------------- | ------------------------------------------------------------------------------------------------- | -------------- | -------------- | ------ | ----------------- | ------------- | ---------------------- | ---------------------------- |
 | Key Vault RBAC Authorization     | `enableRbacAuthorization: true` on vault properties; no legacy access policies provisioned        | Confidential   | Key-Value      | DevExP | indefinite        | N/A           | ARM security config    | ARM RBAC enforcement         |
 | `@secure()` Parameter Decoration | `@secure() param secretValue` and `@secure() param secretIdentifier` suppress from ARM log output | Confidential   | Object Storage | DevExP | N/A               | N/A           | Bicep compiler         | ARM deployment engine        |
