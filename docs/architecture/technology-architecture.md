@@ -365,18 +365,6 @@ flowchart TB
     style connRg fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
-**Diagram Compliance Report — Fig 1**:
-
-| 🔢 Gate | 🏷️ Criterion                                                            | ✅ Result |
-| ------- | ----------------------------------------------------------------------- | --------- |
-| Phase 1 | Direction declared (TB), nesting ≤ 3, no color hierarchy                | ✅ PASS   |
-| Phase 2 | All nodes use approved semantic classDefs, 5 classes ≤ limit            | ✅ PASS   |
-| Phase 3 | Dark text (#323130) on light backgrounds, WCAG AA                       | ✅ PASS   |
-| Phase 4 | accTitle + accDescr at diagram root, all nodes have emoji               | ✅ PASS   |
-| Phase 5 | Governance block present, classDefs centralized, style on all subgraphs | ✅ PASS   |
-
-✅ **Mermaid Verification: 5/5 | Score: 100/100**
-
 ### 🌐 4.5 Network Baseline Topology Diagram
 
 ```mermaid
@@ -440,18 +428,6 @@ flowchart LR
     style vnetBlock fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style workloadRg fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
-
-**Diagram Compliance Report — Fig 2**:
-
-| 🔢 Gate | 🏷️ Criterion                                                    | ✅ Result |
-| ------- | --------------------------------------------------------------- | --------- |
-| Phase 1 | Direction declared (LR), nesting ≤ 3, no color hierarchy        | ✅ PASS   |
-| Phase 2 | 4 semantic classes ≤ 5 limit, all nodes assigned classDef       | ✅ PASS   |
-| Phase 3 | Dark text (#323130), WCAG AA contrast throughout                | ✅ PASS   |
-| Phase 4 | accTitle + accDescr at diagram root, emoji on all nodes         | ✅ PASS   |
-| Phase 5 | Governance block, centralized classDefs, style on all subgraphs | ✅ PASS   |
-
-✅ **Mermaid Verification: 5/5 | Score: 100/100**
 
 ---
 
@@ -566,18 +542,6 @@ flowchart LR
     style frontendPool fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style catalogs fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
-
-**Diagram Compliance Report — Fig 3**:
-
-| 🔢 Gate | 🏷️ Criterion                                                    | ✅ Result |
-| ------- | --------------------------------------------------------------- | --------- |
-| Phase 1 | Direction declared (LR), nesting ≤ 3, no color hierarchy        | ✅ PASS   |
-| Phase 2 | 4 semantic classes ≤ 5 limit, all nodes assigned                | ✅ PASS   |
-| Phase 3 | Dark text (#323130), WCAG AA contrast                           | ✅ PASS   |
-| Phase 4 | accTitle + accDescr at diagram root, emoji on all nodes         | ✅ PASS   |
-| Phase 5 | Governance block, centralized classDefs, style on all subgraphs | ✅ PASS   |
-
-✅ **Mermaid Verification: 5/5 | Score: 100/100**
 
 ---
 
@@ -847,18 +811,6 @@ flowchart TB
     style consumers fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
-**Diagram Compliance Report — Fig 4**:
-
-| 🔢 Gate | 🏷️ Criterion                                                    | ✅ Result |
-| ------- | --------------------------------------------------------------- | --------- |
-| Phase 1 | Direction declared (TB), nesting ≤ 3, no color hierarchy        | ✅ PASS   |
-| Phase 2 | 5 semantic classes ≤ 5 limit, all nodes assigned classDef       | ✅ PASS   |
-| Phase 3 | Dark text (#323130), WCAG AA contrast throughout                | ✅ PASS   |
-| Phase 4 | accTitle + accDescr at diagram root, emoji on all nodes         | ✅ PASS   |
-| Phase 5 | Governance block, centralized classDefs, style on all subgraphs | ✅ PASS   |
-
-✅ **Mermaid Verification: 5/5 | Score: 100/100**
-
 ---
 
 ### 📨 5.7 Messaging Infrastructure
@@ -1004,18 +956,6 @@ flowchart LR
     style outputs fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
-**Diagram Compliance Report — Fig 5**:
-
-| 🔢 Gate | 🏷️ Criterion                                                    | ✅ Result |
-| ------- | --------------------------------------------------------------- | --------- |
-| Phase 1 | Direction declared (LR), nesting ≤ 3, no color hierarchy        | ✅ PASS   |
-| Phase 2 | 4 semantic classes ≤ 5 limit, all nodes assigned classDef       | ✅ PASS   |
-| Phase 3 | Dark text (#323130), WCAG AA contrast throughout                | ✅ PASS   |
-| Phase 4 | accTitle + accDescr at diagram root, emoji on all nodes         | ✅ PASS   |
-| Phase 5 | Governance block, centralized classDefs, style on all subgraphs | ✅ PASS   |
-
-✅ **Mermaid Verification: 5/5 | Score: 100/100**
-
 ---
 
 ### 🔑 5.9 Identity & Access
@@ -1149,18 +1089,6 @@ flowchart LR
     style workloadRg fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style projectScope fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
-
-**Diagram Compliance Report — Fig 6**:
-
-| 🔢 Gate | 🏷️ Criterion                                                    | ✅ Result |
-| ------- | --------------------------------------------------------------- | --------- |
-| Phase 1 | Direction declared (LR), nesting ≤ 3, no color hierarchy        | ✅ PASS   |
-| Phase 2 | 5 semantic classes ≤ 5 limit, all nodes assigned classDef       | ✅ PASS   |
-| Phase 3 | Dark text (#323130), WCAG AA contrast throughout                | ✅ PASS   |
-| Phase 4 | accTitle + accDescr at diagram root, emoji on all nodes         | ✅ PASS   |
-| Phase 5 | Governance block, centralized classDefs, style on all subgraphs | ✅ PASS   |
-
-✅ **Mermaid Verification: 5/5 | Score: 100/100**
 
 ---
 
@@ -1338,15 +1266,3 @@ flowchart TB
     style external fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style azure fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
-
-**Diagram Compliance Report — Fig 7**:
-
-| 🔢 Gate | 🏷️ Criterion                                                                    | ✅ Result |
-| ------- | ------------------------------------------------------------------------------- | --------- |
-| Phase 1 | Direction declared (TB), nesting ≤ 3, no color hierarchy                        | ✅ PASS   |
-| Phase 2 | 5 semantic classes ≤ 5 limit (`neutral`, `core`, `warning`, `data`, `external`) | ✅ PASS   |
-| Phase 3 | Dark text (#323130), WCAG AA contrast throughout                                | ✅ PASS   |
-| Phase 4 | accTitle + accDescr at diagram root, emoji on all nodes                         | ✅ PASS   |
-| Phase 5 | Governance block, centralized classDefs, style on all subgraphs                 | ✅ PASS   |
-
-✅ **Mermaid Verification: 5/5 | Score: 100/100**
