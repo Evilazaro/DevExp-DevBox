@@ -189,15 +189,15 @@ alongside the Bicep modules. Changes to Dev Box pool sizes, image definitions,
 environment types, and RBAC assignments require only a YAML edit and a
 re-deployment — no portal access, no manual steps.
 
-| Feature                        | Description                                                                                  | Status    |
-| ------------------------------ | -------------------------------------------------------------------------------------------- | --------- |
-| 🚀 Automated Provisioning      | Entire Dev Box environment provisioned via `azd provision` with pre-provision hooks          | ✅ Stable |
-| 📋 Config-as-Code              | All resources defined in YAML (`azureResources.yaml`, `devcenter.yaml`, `security.yaml`)     | ✅ Stable |
-| 🔒 Key Vault Integration       | Automated Key Vault provisioning with RBAC authorization and soft-delete protection          | ✅ Stable |
-| 🏢 Landing Zone Aligned        | Workload, security, and monitoring resource groups follow Azure Landing Zone principles      | ✅ Stable |
-| ⚙️ Role-Specific Dev Box Pools | Pre-configured pools for `backend-engineer` and `frontend-engineer` personas                 | ✅ Stable |
-| 🌍 Multi-Environment Support   | Dev, Staging, and UAT environment types provisioned per DevCenter project                    | ✅ Stable |
-| 📊 Built-in Observability      | Log Analytics Workspace with AzureActivity solution and diagnostic settings on all resources | ✅ Stable |
+| Feature                        | Description                                                                                  |
+| ------------------------------ | -------------------------------------------------------------------------------------------- |
+| 🚀 Automated Provisioning      | Entire Dev Box environment provisioned via `azd provision` with pre-provision hooks          |
+| 📋 Config-as-Code              | All resources defined in YAML (`azureResources.yaml`, `devcenter.yaml`, `security.yaml`)     |
+| 🔒 Key Vault Integration       | Automated Key Vault provisioning with RBAC authorization and soft-delete protection          |
+| 🏢 Landing Zone Aligned        | Workload, security, and monitoring resource groups follow Azure Landing Zone principles      |
+| ⚙️ Role-Specific Dev Box Pools | Pre-configured pools for `backend-engineer` and `frontend-engineer` personas                 |
+| 🌍 Multi-Environment Support   | Dev, Staging, and UAT environment types provisioned per DevCenter project                    |
+| 📊 Built-in Observability      | Log Analytics Workspace with AzureActivity solution and diagnostic settings on all resources |
 
 > [!NOTE]  
 > The security and monitoring resource groups are **shared with the workload
