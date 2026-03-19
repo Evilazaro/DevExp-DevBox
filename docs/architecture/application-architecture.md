@@ -51,22 +51,6 @@ itself.
 > (Defined)**. The primary gap toward Level 4 is the absence of automated canary
 > promotions and SLO tracking dashboards for the Dev Box platform.
 
-**Component Summary**:
-
-| 🧩 TOGAF Component Type    | 🔢 Count | 📈 Avg Confidence | 🏆 Maturity Signal                                  |
-| -------------------------- | -------- | ----------------- | --------------------------------------------------- |
-| Application Services       | 6        | 0.91              | All modules have typed params and output contracts  |
-| Application Components     | 5        | 0.85              | AZD CLI orchestration, Hugo SSG, Bicep runtime      |
-| Application Interfaces     | 4        | 0.88              | YAML + JSON Schema validated contracts              |
-| Application Collaborations | 1        | 0.82              | Module dependency chain in main.bicep               |
-| Application Functions      | 2        | 0.90              | Provisioning function, Secret management function   |
-| Application Interactions   | 3        | 0.83              | ARM API, Key Vault API, Log Analytics ingestion     |
-| Application Events         | 2        | 0.78              | AZD lifecycle hooks (preprovision)                  |
-| Application Data Objects   | 3        | 0.86              | LandingZone, DevCenterConfig, ProjectConfig DTOs    |
-| Integration Patterns       | 3        | 0.84              | Module composition, Key Vault ref, ARM deployment   |
-| Service Contracts          | 3        | 0.87              | Bicep output contracts, YAML schema contracts       |
-| Application Dependencies   | 6        | 0.88              | AZD CLI, Bicep, Azure ARM, Key Vault, Log Analytics |
-
 ---
 
 ## 🗺️ 2. Architecture Landscape
