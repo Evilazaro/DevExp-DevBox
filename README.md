@@ -5,6 +5,7 @@
 [![azd Compatible](https://img.shields.io/badge/azd-compatible-0078D4?logo=microsoft&logoColor=white)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/)
 [![Bicep IaC](https://img.shields.io/badge/IaC-Bicep-00BCF2)](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/)
 [![GitHub Stars](https://img.shields.io/github/stars/Evilazaro/DevExp-DevBox?style=social)](https://github.com/Evilazaro/DevExp-DevBox)
+[![TOGAF BDAT](https://img.shields.io/badge/Framework-TOGAF_BDAT-0078D4?logo=microsoftazure&logoColor=white)](docs/architecture/README.md)
 
 A production-grade **Microsoft Dev Box Accelerator** that provisions
 cloud-hosted, role-optimized developer workstations on Azure — driven by
@@ -32,6 +33,8 @@ files.
 ## Table of Contents
 
 - [Architecture](#architecture)
+  - [Architecture Principles](#architecture-principles)
+  - [Architecture Documentation](#architecture-documentation)
 - [Features](#features)
 - [Requirements](#requirements)
 - [Getting Started](#getting-started)
@@ -132,16 +135,43 @@ flowchart TB
 
 **Component Roles:**
 
-| Component            | Role                                                                      | Source File                               |
-| -------------------- | ------------------------------------------------------------------------- | ----------------------------------------- |
-| 🖥️ Azure DevCenter   | Central hub managing Dev Box definitions, catalogs, and environment types | `src/workload/core/devCenter.bicep`       |
-| 📁 DevCenter Project | Team-scoped workspace grouping Dev Box pools and catalogs (e.g., eShop)   | `src/workload/project/project.bicep`      |
-| ⚙️ Dev Box Pools     | Role-specific VM configurations (`backend-engineer`, `frontend-engineer`) | `infra/settings/workload/devcenter.yaml`  |
-| 📚 Catalogs          | GitHub-backed repositories for image definitions and custom tasks         | `src/workload/core/catalog.bicep`         |
-| 🌍 Environment Types | Pre-configured deployment targets: `dev`, `staging`, `UAT`                | `src/workload/core/environmentType.bicep` |
-| 🔑 Azure Key Vault   | Centralized storage for the GitHub Actions token used by catalogs         | `src/security/keyVault.bicep`             |
-| 📊 Log Analytics     | Workspace receiving diagnostics from DevCenter, Key Vault, and VNets      | `src/management/logAnalytics.bicep`       |
-| 🔌 Virtual Network   | Optional unmanaged VNet for Dev Box network connectivity                  | `src/connectivity/vnet.bicep`             |
+| Component             | Role                                                                                                | Source File                                  |
+| --------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| 🖥️ Azure DevCenter    | Central hub managing Dev Box definitions, catalogs, and environment types                           | `src/workload/core/devCenter.bicep`          |
+| 📁 DevCenter Project  | Team-scoped workspace grouping Dev Box pools and catalogs (e.g., eShop)                             | `src/workload/project/project.bicep`         |
+| ⚙️ Dev Box Pools      | Role-specific VM configurations (`backend-engineer`, `frontend-engineer`)                           | `infra/settings/workload/devcenter.yaml`     |
+| 📚 Catalogs           | GitHub-backed repositories for image definitions and custom tasks                                   | `src/workload/core/catalog.bicep`            |
+| 🌍 Environment Types  | Pre-configured deployment targets: `dev`, `staging`, `UAT`                                          | `src/workload/core/environmentType.bicep`    |
+| 🔑 Azure Key Vault    | Centralized storage for the GitHub Actions token used by catalogs                                   | `src/security/keyVault.bicep`                |
+| 📊 Log Analytics      | Workspace receiving diagnostics from DevCenter, Key Vault, and VNets                                | `src/management/logAnalytics.bicep`          |
+| 🔌 Virtual Network    | Optional unmanaged VNet for Dev Box network connectivity                                            | `src/connectivity/vnet.bicep`                |
+| 🔐 Managed Identities | System-assigned identities for DevCenter and Projects enabling passwordless service-to-service auth | `src/identity/devCenterRoleAssignment.bicep` |
+
+### Architecture Principles
+
+The following principles govern all infrastructure and operational decisions
+across the platform, directly traceable to the IaC source files:
+
+| #   | Principle                       | Description                                                                                                                      |
+| --- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| 1️⃣  | 📄 **Configuration-as-Code**    | All resource parameters declared in YAML, validated by JSON Schema contracts; no hard-coded values in Bicep                      |
+| 2️⃣  | 🔒 **Least Privilege**          | All service-to-service auth uses System Assigned Managed Identities; RBAC scoped to the minimum required level                   |
+| 3️⃣  | 🛡️ **Defense in Depth**         | Key Vault RBAC + purge protection + soft delete + Azure AD Join + diagnostic settings applied at every layer                     |
+| 4️⃣  | ☁️ **Cloud-Native Design**      | Fully managed PaaS throughout; no self-managed servers, domain controllers, or orchestration infrastructure                      |
+| 5️⃣  | 👁️ **Observability-First**      | Log Analytics provisioned first as a dependency anchor; `allLogs` and `AllMetrics` captured on every Azure resource from day one |
+| 6️⃣  | 🔄 **Immutable Infrastructure** | Idempotent Bicep deployments via `azd provision`; Dev Box pools sourced from versioned catalog image definitions                 |
+
+### Architecture Documentation
+
+Full **TOGAF BDAT** architecture documentation is maintained in
+[`docs/architecture/`](docs/architecture/README.md):
+
+| Layer          | File                                                                         | Highlights                                                                                                            |
+| -------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 🏗️ Business    | [business-architecture.md](docs/architecture/business-architecture.md)       | 47 components across strategy, capabilities, value streams, roles, business rules, and KPIs                           |
+| 🗄️ Data        | [data-architecture.md](docs/architecture/data-architecture.md)               | Configuration-as-data pattern, 4 data domains, JSON Schema governance, Key Vault and Log Analytics operational stores |
+| ⚙️ Application | [application-architecture.md](docs/architecture/application-architecture.md) | 18 components across Bicep modules, orchestration runtime, YAML contracts, and integration patterns                   |
+| 🖥️ Technology  | [technology-architecture.md](docs/architecture/technology-architecture.md)   | Full infrastructure inventory across compute, network, cloud services, security, monitoring, and identity             |
 
 ## Features
 
