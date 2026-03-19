@@ -215,17 +215,17 @@ flowchart TB
     data -->|"consumed by"| application
     application -->|"deploys to"| technology
 
-    style business fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    style data fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style business fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style data fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style application fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style technology fill:#F0FFF4,stroke:#107C10,stroke-width:2px,color:#323130
+    style technology fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef strategy fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef capability fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef governance fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef data fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef core fill:#F0FFF4,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
