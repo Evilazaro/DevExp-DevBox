@@ -23,7 +23,6 @@
   - [🖥️ Technology Architecture](#️-technology-architecture)
 - [🗺️ Architecture at a Glance](#️-architecture-at-a-glance)
 - [🔗 Cross-Layer Summary](#-cross-layer-summary)
-- [📈 Maturity Assessment](#-maturity-assessment)
 - [🧭 Key Principles](#-key-principles)
 - [📚 Related Resources](#-related-resources)
 
