@@ -27,7 +27,7 @@ files serve as the application's data contracts, and Microsoft Azure DevCenter
 is the platform service that delivers developer workstation capability to end
 users.
 
-Across the 11 TOGAF Application component types, the repository surfaces **18
+Across the 11 Application component types, the repository surfaces **18
 documented components**: 6 Application Services (Bicep modules acting as
 deployable service units), 5 Application Components (orchestration runtime, AZD
 CLI, and Hugo documentation engine), 4 Application Interfaces (YAML
@@ -58,12 +58,12 @@ itself.
 ### 🗺️ Overview
 
 The Architecture Landscape catalogs all Application layer components identified
-within the DevExp-DevBox workspace, organized across the eleven TOGAF
-Application Architecture component types. Every component traced below has a
-corresponding source file reference. The landscape is organized around a single
-orchestrated deployment pipeline — the `ContosoDevExp` platform — which delivers
-cloud-hosted developer workstations through a sequence of Azure Bicep module
-deployments coordinated by the Azure Developer CLI.
+within the DevExp-DevBox workspace, organized across the eleven Application
+Architecture component types. Every component traced below has a corresponding
+source file reference. The landscape is organized around a single orchestrated
+deployment pipeline — the `ContosoDevExp` platform — which delivers cloud-hosted
+developer workstations through a sequence of Azure Bicep module deployments
+coordinated by the Azure Developer CLI.
 
 ```mermaid
 ---
@@ -79,7 +79,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Application Architecture Landscape
-    accDescr: High-level view of application components across the 11 TOGAF Application layer component types for the DevExp-DevBox platform
+    accDescr: High-level view of application components across the 11  Application layer component types for the DevExp-DevBox platform
 
     %% ═══════════════════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
@@ -850,7 +850,7 @@ set to `true` to enable full isolation without code changes.
 ### 📦 Overview
 
 This catalog provides detailed specifications for each application component
-classified across the 11 TOGAF subsections. For Azure PaaS components,
+classified across the 11 subsections. For Azure PaaS components,
 platform-managed defaults are explicitly noted per the MANDATORY Subsection
 Instruction.
 

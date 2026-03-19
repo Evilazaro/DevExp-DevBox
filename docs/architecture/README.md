@@ -32,7 +32,7 @@
 
 This folder contains the full **BDAT (Business, Data, Application, Technology)**
 architecture documentation for the **DevExp-DevBox** platform. Each document
-provides an independent architectural view following **TOGAF** enterprise
+provides an independent architectural view following \*\*\*\* enterprise
 architecture conventions, covering executive summaries, architecture landscapes,
 component catalogs, current-state baselines, architecture principles, and
 cross-layer dependency maps.
@@ -128,8 +128,8 @@ passed in plain text.
 
 **File**: [technology-architecture.md](technology-architecture.md)
 
-Inventories the full infrastructure stack across all 11 TOGAF technology
-component types.
+Inventories the full infrastructure stack across all 11 technology component
+types.
 
 | 🏷️ Infrastructure Domain | 📦 Components                                                                                    | 🔎 Status |
 | ------------------------ | ------------------------------------------------------------------------------------------------ | --------- |
@@ -271,14 +271,13 @@ The following principles govern all four architecture layers consistently:
 | 📦 [`src/`](../../src/)                                                                                | Bicep module source tree (connectivity, identity, management, security, workload) |
 | 🖥️ [Azure Dev Box documentation](https://learn.microsoft.com/en-us/azure/dev-box/)                     | Official Microsoft Azure Dev Box documentation                                    |
 | 🛠️ [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/) | Official `azd` documentation                                                      |
-| 📖 [TOGAF Standard](https://www.opengroup.org/togaf)                                                   | The Open Group Architecture Framework reference                                   |
+| 📖 [ Standard](https://www.opengroup.org/togaf)                                                        | The Open Group Architecture Framework reference                                   |
 
 ---
 
-> 📌 Architecture documentation aligned to the **TOGAF ADM** standard. All
-> diagrams follow the **Azure Fluent UI Architecture Pattern v1.1** (semantic
-> color palette, WCAG AA contrast, Mermaid `dagre` layout). Last reviewed:
-> March 2026.
+> 📌 Architecture documentation aligned to the ** ADM** standard. All diagrams
+> follow the **Azure Fluent UI Architecture Pattern v1.1** (semantic color
+> palette, WCAG AA contrast, Mermaid `dagre` layout). Last reviewed: March 2026.
 
 ---
 

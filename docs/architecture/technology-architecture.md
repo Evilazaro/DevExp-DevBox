@@ -5,7 +5,7 @@
 | 🔢 # | 📋 Section                                                            | 📝 Description                                            |
 | ---- | --------------------------------------------------------------------- | --------------------------------------------------------- |
 | 1    | [📋 Executive Summary](#section-1-executive-summary)                  | Infrastructure portfolio overview and catalog statistics  |
-| 2    | [🗺️ Architecture Landscape](#section-2-architecture-landscape)        | All 11 TOGAF technology component types                   |
+| 2    | [🗺️ Architecture Landscape](#section-2-architecture-landscape)        | All 11 technology component types                         |
 | 3    | [🏛️ Architecture Principles](#section-3-architecture-principles)      | Design principles observed in IaC source                  |
 | 4    | [📐 Current State Baseline](#section-4-current-state-baseline)        | Deployment model, topology, and baseline diagrams         |
 | 5    | [🗂️ Component Catalog](#section-5-component-catalog)                  | Detailed specs for all 11 component types with diagrams   |
