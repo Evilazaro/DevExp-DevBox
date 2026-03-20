@@ -1367,7 +1367,7 @@ SecuritySchema, ARMDeploymentContract, BicepUserDefinedTypes), see Section 2.10.
 
 For full dependency specifications (5.11.1 – 5.11.13), see Section 2.11.
 
-| Dependency                      | Type          | Version            | Upgrade Policy                             |
+| 🔗 Dependency                   | 🏷️ Type       | 📌 Version         | 🔄 Upgrade Policy                          |
 | ------------------------------- | ------------- | ------------------ | ------------------------------------------ |
 | MicrosoftDevCenterRP            | Azure Service | 2025-02-01         | GA — track Azure DevCenter release notes   |
 | MicrosoftKeyVaultRP             | Azure Service | 2025-05-01         | GA — stable                                |
