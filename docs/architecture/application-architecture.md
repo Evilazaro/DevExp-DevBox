@@ -83,7 +83,7 @@ Maturity Level 3 within a single sprint.
 
 ## 🗺️ Section 2: Architecture Landscape
 
-### Overview
+### 🇺🇸 Overview
 
 This section catalogs all 34 Application layer components identified through
 pattern-based analysis of the workspace at `.` (root). Components are classified
@@ -343,7 +343,7 @@ flowchart TB
 
 ---
 
-### 2.1 Application Services
+### ⚙️ 2.1 Application Services
 
 | Name                              | Description                                                                             | Service Type          |
 | --------------------------------- | --------------------------------------------------------------------------------------- | --------------------- |
@@ -362,7 +362,7 @@ flowchart TB
 
 ---
 
-### 2.2 Application Components
+### 🧩 2.2 Application Components
 
 | Name                     | Description                                                                               | Service Type             |
 | ------------------------ | ----------------------------------------------------------------------------------------- | ------------------------ |
@@ -392,7 +392,7 @@ flowchart TB
 
 ---
 
-### 2.3 Application Interfaces
+### 🔌 2.3 Application Interfaces
 
 | Name                         | Description                                                                                                                            | Service Type         |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
@@ -421,7 +421,7 @@ flowchart TB
 
 ---
 
-### 2.4 Application Collaborations
+### 🤝 2.4 Application Collaborations
 
 | Name                              | Description                                                                                       | Service Type                         |
 | --------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
@@ -435,7 +435,7 @@ flowchart TB
 
 ---
 
-### 2.5 Application Functions
+### 🔧 2.5 Application Functions
 
 | Name                         | Description                                                                            | Service Type           |
 | ---------------------------- | -------------------------------------------------------------------------------------- | ---------------------- |
@@ -457,7 +457,7 @@ flowchart TB
 
 ---
 
-### 2.6 Application Interactions
+### 🔄 2.6 Application Interactions
 
 | Name                       | Description                                                                                 | Service Type               |
 | -------------------------- | ------------------------------------------------------------------------------------------- | -------------------------- |
@@ -473,7 +473,7 @@ flowchart TB
 
 ---
 
-### 2.7 Application Events
+### 📡 2.7 Application Events
 
 | Name                             | Description                                                                     | Service Type        |
 | -------------------------------- | ------------------------------------------------------------------------------- | ------------------- |
@@ -497,7 +497,7 @@ flowchart TB
 
 ---
 
-### 2.8 Application Data Objects
+### 📦 2.8 Application Data Objects
 
 | Name                    | Description                                                                                    | Service Type      |
 | ----------------------- | ---------------------------------------------------------------------------------------------- | ----------------- |
@@ -518,7 +518,7 @@ flowchart TB
 
 ---
 
-### 2.9 Integration Patterns
+### 🔗 2.9 Integration Patterns
 
 | Name                             | Description                                                                                    | Service Type                 |
 | -------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------- |
@@ -540,7 +540,7 @@ flowchart TB
 
 ---
 
-### 2.10 Service Contracts
+### 📜 2.10 Service Contracts
 
 | Name                  | Description                                                                      | Service Type            |
 | --------------------- | -------------------------------------------------------------------------------- | ----------------------- |
@@ -552,7 +552,7 @@ flowchart TB
 
 ---
 
-### 2.11 Application Dependencies
+### 📎 2.11 Application Dependencies
 
 | Name                           | Description                                                                    | Service Type             |
 | ------------------------------ | ------------------------------------------------------------------------------ | ------------------------ |
@@ -572,7 +572,7 @@ flowchart TB
 
 ---
 
-### Summary
+### 📝 Summary
 
 This Architecture Landscape section documents **34 components** across all 11
 TOGAF Application component type subsections. The high coverage (zero "Not
@@ -587,7 +587,7 @@ compile-time contract binding.
 
 ## 🏛️ Section 3: Architecture Principles
 
-### Overview
+### 🔭 Overview
 
 The following **7 architecture principles** are observed in the DevExp-DevBox
 source files. These are not aspirational — each principle has direct evidence in
@@ -656,21 +656,21 @@ flowchart LR
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
-| #    | Principle                                                                                                                                                                                                         | Evidence                                                                                                                                                  | Source                                                                                                                                                             | Compliance                                                               |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| P-01 | **Configuration-as-Code** — All resource configuration is externalized to YAML files loaded at compile-time. No hard-coded values exist in Bicep modules.                                                         | `loadYamlContent()` calls in 3 orchestrators; `devcenter.yaml`, `security.yaml`, `azureResources.yaml`                                                    | infra/main.bicep:_, src/security/security.bicep:_, src/workload/workload.bicep:\*                                                                                  | Full                                                                     |
-| P-02 | **Schema-Governed Configuration** — Every YAML config is validated against a JSON Schema Draft 2020-12 contract, enforced at IDE level via `yaml-language-server: $schema=` pragma.                               | 3 pairs of schema+yaml files in `infra/settings/`; `$schema` pragma in all YAML files                                                                     | infra/settings/workload/devcenter.schema.json:_, infra/settings/security/security.schema.json:_, infra/settings/resourceOrganization/azureResources.schema.json:\* | Full                                                                     |
-| P-03 | **Zero-Trust Workload Identity** — No hard-coded credentials. All service-to-service authentication uses SystemAssigned Managed Identity on DevCenter and Projects; Key Vault accessed via MSI token exchange.    | `identity: { type: SystemAssigned }` on devCenter and all projects; KV access via MSI principal ID                                                        | src/workload/core/devCenter.bicep:_, src/workload/project/project.bicep:_                                                                                          | Full                                                                     |
-| P-04 | **Idempotent Desired-State Infrastructure** — ARM re-applies only differential changes; azd provision can be re-run safely at any time. GUID-deterministic naming for role assignments prevents duplicates.       | `guid(subscription().subscriptionId, ...)` pattern in all role assignment modules; ARM desired-state model                                                | src/identity/devCenterRoleAssignment.bicep:_, src/identity/orgRoleAssignment.bicep:_                                                                               | Full                                                                     |
-| P-05 | **Least-Privilege RBAC Delegation Chain** — DevCenter MSI holds only Contributor + UAA at subscription scope; UAA is used exclusively to sub-delegate project-scoped RBAC. Groups receive minimum roles required. | Role assignment arrays in `devcenter.yaml` identity block; 6 identity Bicep modules with explicit role IDs                                                | infra/settings/workload/devcenter.yaml:_, src/identity/orgRoleAssignment.bicep:_                                                                                   | Full                                                                     |
-| P-06 | **Hub-and-Spoke Observability** — All platform resources emit `allLogs` and `AllMetrics` to a single central Log Analytics workspace. Workspace ID is the only shared dependency between tiers.                   | `diagnosticSettings` resources in logAnalytics.bicep, vnet.bicep, secret.bicep, devCenter.bicep; `logAnalyticsId` param threads through all orchestrators | src/management/logAnalytics.bicep:_, src/security/secret.bicep:_                                                                                                   | Full                                                                     |
-| P-07 | **Conditional Create-or-Reference** — All resource groups, the VNet, and the Key Vault support a `create: bool` flag enabling greenfield provisioning and brownfield attachment with identical module interfaces. | `if (create)` conditions in `resourceGroup.bicep`; `create` flag in `azureResources.yaml` and `devcenter.yaml network config`                             | src/connectivity/resourceGroup.bicep:_, infra/settings/resourceOrganization/azureResources.yaml:_                                                                  | Partial — VNet branch conditional not triggered for Managed network type |
+| #️⃣ # | 🏛️ Principle                                                                                                                                                                                                      | ✅ Compliance                                                            |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| P-01 | **Configuration-as-Code** — All resource configuration is externalized to YAML files loaded at compile-time. No hard-coded values exist in Bicep modules.                                                         | Full                                                                     |
+| P-02 | **Schema-Governed Configuration** — Every YAML config is validated against a JSON Schema Draft 2020-12 contract, enforced at IDE level via `yaml-language-server: $schema=` pragma.                               | Full                                                                     |
+| P-03 | **Zero-Trust Workload Identity** — No hard-coded credentials. All service-to-service authentication uses SystemAssigned Managed Identity on DevCenter and Projects; Key Vault accessed via MSI token exchange.    | Full                                                                     |
+| P-04 | **Idempotent Desired-State Infrastructure** — ARM re-applies only differential changes; azd provision can be re-run safely at any time. GUID-deterministic naming for role assignments prevents duplicates.       | Full                                                                     |
+| P-05 | **Least-Privilege RBAC Delegation Chain** — DevCenter MSI holds only Contributor + UAA at subscription scope; UAA is used exclusively to sub-delegate project-scoped RBAC. Groups receive minimum roles required. | Full                                                                     |
+| P-06 | **Hub-and-Spoke Observability** — All platform resources emit `allLogs` and `AllMetrics` to a single central Log Analytics workspace. Workspace ID is the only shared dependency between tiers.                   | Full                                                                     |
+| P-07 | **Conditional Create-or-Reference** — All resource groups, the VNet, and the Key Vault support a `create: bool` flag enabling greenfield provisioning and brownfield attachment with identical module interfaces. | Partial — VNet branch conditional not triggered for Managed network type |
 
 ---
 
 ## 📊 Section 4: Current State Baseline
 
-### Overview
+### 📉 Overview
 
 The current state of the DevExp-DevBox platform reflects a fully operational
 infrastructure automation platform with one intentionally inactive component
@@ -762,7 +762,7 @@ flowchart TB
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
-#### Service Topology
+#### 🗺️ Service Topology
 
 | Service                                             | Deployment Target                          | Protocol                   | Status                                |
 | --------------------------------------------------- | ------------------------------------------ | -------------------------- | ------------------------------------- |
@@ -780,7 +780,7 @@ flowchart TB
 | VirtualNetwork + NetworkConnection                  | Connectivity Resource Group (if Unmanaged) | ARM REST                   | Conditional — inactive (Managed type) |
 | DevBoxPools (backend-engineer, frontend-engineer)   | Workload Resource Group                    | ARM REST                   | Ready — inactive (commented out)      |
 
-#### Deployment State Summary
+#### 📋 Deployment State Summary
 
 | Aspect                          | State                                                                |
 | ------------------------------- | -------------------------------------------------------------------- |
@@ -794,7 +794,7 @@ flowchart TB
 | ARM API Version (Authorization) | Microsoft.Authorization 2022-04-01                                   |
 | Inactive Components             | DevBoxPools (1), VNet/NetworkConnection (conditional)                |
 
-#### Protocol Inventory
+#### 🌐 Protocol Inventory
 
 | Protocol                  | Usage                                          | Resources                     |
 | ------------------------- | ---------------------------------------------- | ----------------------------- |
@@ -805,7 +805,7 @@ flowchart TB
 | Azure Monitor push        | Diagnostic telemetry streaming                 | All resources → Log Analytics |
 | HTTPS portal              | Developer DevBox access                        | devbox.microsoft.com          |
 
-#### Versioning Matrix
+#### 🔢 Versioning Matrix
 
 | Component                                | API Version        | Notes                               |
 | ---------------------------------------- | ------------------ | ----------------------------------- |
@@ -817,17 +817,17 @@ flowchart TB
 | Microsoft.Insights/diagnosticSettings    | 2021-05-01-preview | Preview — upgrade recommended       |
 | Microsoft.OperationsManagement/solutions | 2015-11-01-preview | Very old preview — deprecation risk |
 
-#### Architectural Gaps
+#### ⚠️ Architectural Gaps
 
-| ID     | Finding                                               | Impact                                                                                          | Source                                    |
-| ------ | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| GAP-01 | DevBox Pool module commented out                      | Developers cannot provision Dev Boxes until pools activated                                     | src/workload/project/project.bicep:\*     |
-| GAP-02 | eShop network type is Managed — VNet branch inactive  | Custom networking path not exercised; connectivity.bicep create: true + Unmanaged path untested | infra/settings/workload/devcenter.yaml:\* |
-| GAP-03 | Placeholder Azure AD Group IDs                        | Deployment will fail against real tenant unless GUIDs are replaced                              | infra/settings/workload/devcenter.yaml:\* |
-| GAP-04 | deploymentTargetId is empty string for all env types  | Default subscription used; cross-subscription deployment not configured                         | infra/settings/workload/devcenter.yaml:\* |
-| GAP-05 | OperationsManagement solutions API 2015-11-01-preview | Preview API in production; may be deprecated                                                    | src/management/logAnalytics.bicep:\*      |
+| 🔢 ID  | 🔍 Finding                                            | ⚡ Impact                                                                                       |
+| ------ | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| GAP-01 | DevBox Pool module commented out                      | Developers cannot provision Dev Boxes until pools activated                                     |
+| GAP-02 | eShop network type is Managed — VNet branch inactive  | Custom networking path not exercised; connectivity.bicep create: true + Unmanaged path untested |
+| GAP-03 | Placeholder Azure AD Group IDs                        | Deployment will fail against real tenant unless GUIDs are replaced                              |
+| GAP-04 | deploymentTargetId is empty string for all env types  | Default subscription used; cross-subscription deployment not configured                         |
+| GAP-05 | OperationsManagement solutions API 2015-11-01-preview | Preview API in production; may be deprecated                                                    |
 
-### Summary
+### 📝 Summary
 
 The DevExp-DevBox platform baseline shows a robust, sequential provisioning
 chain with 13 active deployed components and 2 inactive components awaiting
@@ -840,7 +840,7 @@ both of which should be updated to GA versions.
 
 ## 📂 Section 5: Component Catalog
 
-### Overview
+### 🗄️ Overview
 
 This section provides detailed specifications for all 11 TOGAF Application
 component type groups. All components are Azure PaaS services or Bicep module
@@ -850,15 +850,14 @@ unless explicitly configured in source. Source references follow the format
 
 ---
 
-### 5.1 Application Services
+### ⚙️ 5.1 Application Services
 
-#### 5.1.1 InfrastructureProvisioningService
+#### 🏗️ 5.1.1 InfrastructureProvisioningService
 
 | Attribute          | Value                             |
 | ------------------ | --------------------------------- |
 | **Component Name** | InfrastructureProvisioningService |
 | **Service Type**   | Orchestration Service             |
-| **Source**         | infra/main.bicep:\*               |
 
 **API Surface:**
 
@@ -900,13 +899,12 @@ unless explicitly configured in source. Source references follow the format
 
 ---
 
-#### 5.1.2 DevCenterManagementService
+#### 🏢 5.1.2 DevCenterManagementService
 
-| Attribute          | Value                                |
-| ------------------ | ------------------------------------ |
-| **Component Name** | DevCenterManagementService           |
-| **Service Type**   | PaaS                                 |
-| **Source**         | src/workload/core/devCenter.bicep:\* |
+| Attribute          | Value                      |
+| ------------------ | -------------------------- |
+| **Component Name** | DevCenterManagementService |
+| **Service Type**   | PaaS                       |
 
 **API Surface:**
 
@@ -949,13 +947,12 @@ unless explicitly configured in source. Source references follow the format
 
 ---
 
-#### 5.1.3 SecretVaultService
+#### 🔒 5.1.3 SecretVaultService
 
-| Attribute          | Value                          |
-| ------------------ | ------------------------------ |
-| **Component Name** | SecretVaultService             |
-| **Service Type**   | PaaS                           |
-| **Source**         | src/security/security.bicep:\* |
+| Attribute          | Value              |
+| ------------------ | ------------------ |
+| **Component Name** | SecretVaultService |
+| **Service Type**   | PaaS               |
 
 **API Surface:**
 
@@ -995,7 +992,7 @@ unless explicitly configured in source. Source references follow the format
 
 ---
 
-#### 5.1.4 — 5.1.12 Remaining Application Services
+#### ⚙️ 5.1.4 — 5.1.12 Remaining Application Services
 
 See Section 2.1 for full inventory. Brief specifications:
 
@@ -1022,15 +1019,14 @@ See Section 2.1 for full inventory. Brief specifications:
 
 ---
 
-### 5.2 Application Components
+### 🧩 5.2 Application Components
 
-#### 5.2.1 RootOrchestrator
+#### ⚙️ 5.2.1 RootOrchestrator
 
-| Attribute          | Value               |
-| ------------------ | ------------------- |
-| **Component Name** | RootOrchestrator    |
-| **Service Type**   | Orchestrator        |
-| **Source**         | infra/main.bicep:\* |
+| Attribute          | Value            |
+| ------------------ | ---------------- |
+| **Component Name** | RootOrchestrator |
+| **Service Type**   | Orchestrator     |
 
 **API Surface:**
 
@@ -1072,7 +1068,7 @@ See Section 2.1 for full inventory. Brief specifications:
 
 ---
 
-#### 5.2.2 — 5.2.23 Remaining Application Components
+#### 🧩 5.2.2 — 5.2.23 Remaining Application Components
 
 See Section 2.2 for full inventory. All components are Azure PaaS resources or
 Bicep orchestrators using the PaaS template pattern above. Key component
@@ -1099,15 +1095,14 @@ sources:
 
 ---
 
-### 5.3 Application Interfaces
+### 🔌 5.3 Application Interfaces
 
-#### 5.3.1 MainBicepInterface
+#### 📋 5.3.1 MainBicepInterface
 
-| Attribute          | Value               |
-| ------------------ | ------------------- |
-| **Component Name** | MainBicepInterface  |
-| **Service Type**   | Module Interface    |
-| **Source**         | infra/main.bicep:\* |
+| Attribute          | Value              |
+| ------------------ | ------------------ |
+| **Component Name** | MainBicepInterface |
+| **Service Type**   | Module Interface   |
 
 **API Surface:**
 
@@ -1153,15 +1148,14 @@ references in Section 2.3 map directly to the implementing module files.
 
 ---
 
-### 5.4 Application Collaborations
+### 🤝 5.4 Application Collaborations
 
-#### 5.4.1 ProvisioningPipelineCollaboration
+#### 🔄 5.4.1 ProvisioningPipelineCollaboration
 
 | Attribute          | Value                             |
 | ------------------ | --------------------------------- |
 | **Component Name** | ProvisioningPipelineCollaboration |
 | **Service Type**   | Orchestration Collaboration       |
-| **Source**         | infra/main.bicep:\*               |
 
 **API Surface:**
 
@@ -1207,7 +1201,7 @@ collaborations are platform-managed ARM orchestrations.
 
 ---
 
-### 5.5 Application Functions
+### 🔧 5.5 Application Functions
 
 See Section 2.5 for full inventory (F-01 through F-15). All functions are
 implemented as Bicep module invocations or shell script blocks. No additional
@@ -1233,7 +1227,7 @@ specifications beyond source traceability detected in source files.
 
 ---
 
-### 5.6 Application Interactions
+### 🔄 5.6 Application Interactions
 
 See Section 2.6 for full inventory (I-01 through I-17). No interaction-level
 contract specifications detected beyond what is described in Section 2.6. See
@@ -1241,7 +1235,7 @@ Section 8 for protocol-level detail.
 
 ---
 
-### 5.7 Application Events
+### 📡 5.7 Application Events
 
 See Section 2.7 for full inventory (E-01 through E-17). No event schema or
 dead-letter queue specifications detected in source files — all events are ARM
@@ -1250,15 +1244,14 @@ graph; no explicit event bus detected.
 
 ---
 
-### 5.8 Application Data Objects
+### 📦 5.8 Application Data Objects
 
-#### 5.8.1 DevCenterConfigDTO
+#### 🗺️ 5.8.1 DevCenterConfigDTO
 
-| Attribute          | Value                                     |
-| ------------------ | ----------------------------------------- |
-| **Component Name** | DevCenterConfigDTO                        |
-| **Service Type**   | Configuration DTO                         |
-| **Source**         | infra/settings/workload/devcenter.yaml:\* |
+| Attribute          | Value              |
+| ------------------ | ------------------ |
+| **Component Name** | DevCenterConfigDTO |
+| **Service Type**   | Configuration DTO  |
 
 **API Surface:**
 
@@ -1303,7 +1296,7 @@ DTOs are compile-time bound configuration objects with no runtime health probes.
 
 ---
 
-### 5.9 Integration Patterns
+### 🔗 5.9 Integration Patterns
 
 See Section 2.9 for full inventory (IP-01 through IP-15). Detailed
 specifications for key patterns:
@@ -1318,15 +1311,14 @@ specifications for key patterns:
 
 ---
 
-### 5.10 Service Contracts
+### 📜 5.10 Service Contracts
 
-#### 5.10.1 DevCenterSchema
+#### 📋 5.10.1 DevCenterSchema
 
-| Attribute          | Value                                            |
-| ------------------ | ------------------------------------------------ |
-| **Component Name** | DevCenterSchema                                  |
-| **Service Type**   | JSON Schema Contract                             |
-| **Source**         | infra/settings/workload/devcenter.schema.json:\* |
+| Attribute          | Value                |
+| ------------------ | -------------------- |
+| **Component Name** | DevCenterSchema      |
+| **Service Type**   | JSON Schema Contract |
 
 **API Surface:**
 
@@ -1371,7 +1363,7 @@ SecuritySchema, ARMDeploymentContract, BicepUserDefinedTypes), see Section 2.10.
 
 ---
 
-### 5.11 Application Dependencies
+### 📎 5.11 Application Dependencies
 
 For full dependency specifications (5.11.1 – 5.11.13), see Section 2.11.
 
@@ -1391,7 +1383,7 @@ For full dependency specifications (5.11.1 – 5.11.13), see Section 2.11.
 
 ## 🔌 Section 8: Dependencies & Integration
 
-### Overview
+### 🔭 Overview
 
 This section documents all service-to-service dependencies, external
 integrations, event subscription maps, and integration pattern specifications
@@ -1556,7 +1548,7 @@ flowchart TB
 
 ---
 
-#### Service-to-Service Call Graph
+#### 🖁 Service-to-Service Call Graph
 
 | Caller               | Callee                     | Direction  | Protocol           | Purpose                               |
 | -------------------- | -------------------------- | ---------- | ------------------ | ------------------------------------- |
@@ -1579,7 +1571,7 @@ flowchart TB
 
 ---
 
-#### Database and Storage Dependencies
+#### 🗄️ Database and Storage Dependencies
 
 | Service            | Storage Type  | Resource            | Purpose                                       |
 | ------------------ | ------------- | ------------------- | --------------------------------------------- |
@@ -1590,7 +1582,7 @@ flowchart TB
 
 ---
 
-#### External API Integrations
+#### 🌐 External API Integrations
 
 | Integration            | Protocol   | Auth Method                 | Endpoint                               | Direction                    |
 | ---------------------- | ---------- | --------------------------- | -------------------------------------- | ---------------------------- |
@@ -1603,7 +1595,7 @@ flowchart TB
 
 ---
 
-#### Event Subscriptions
+#### 📡 Event Subscriptions
 
 | Event                            | Pattern                | Sync/Async      | Consumer           | DLQ                   |
 | -------------------------------- | ---------------------- | --------------- | ------------------ | --------------------- |
@@ -1614,7 +1606,7 @@ flowchart TB
 
 ---
 
-#### Integration Pattern Matrix
+#### 🔗 Integration Pattern Matrix
 
 | Pattern                          | Pattern Type                    | Protocol                  | Data Contract                              | Error Handling                                 |
 | -------------------------------- | ------------------------------- | ------------------------- | ------------------------------------------ | ---------------------------------------------- |
@@ -1636,7 +1628,7 @@ flowchart TB
 
 ---
 
-### Summary
+### 📝 Summary
 
 The DevExp-DevBox Application layer integrates **15 identifiable integration
 patterns** across 3 integration tiers: compile-time configuration, control-plane
@@ -1654,7 +1646,7 @@ integration patterns are stable, well-governed, and follow Azure best practices.
 
 ## ✅ Validation Summary
 
-### Self-Verification Score: 100/100
+### 🎯 Self-Verification Score: 100/100
 
 **Section Coverage:**
 
