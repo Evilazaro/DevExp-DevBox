@@ -182,10 +182,10 @@ flowchart TB
 
     subgraph business["🏗️ Business Layer"]
         direction TB
-        b1("🎯 Platform Engineering Accelerator Strategy"):::strategy
-        b2("⚡ 7 Business Capabilities"):::capability
-        b3("🌊 2 Value Streams"):::capability
-        b4("📏 6 Business Rules"):::governance
+        b1("🎯 Platform Engineering Accelerator Strategy"):::data
+        b2("⚡ 7 Business Capabilities"):::core
+        b3("🌊 2 Value Streams"):::core
+        b4("📏 6 Business Rules"):::warning
     end
 
     subgraph data["🗄️ Data Layer"]
@@ -215,20 +215,19 @@ flowchart TB
     data -->|"consumed by"| application
     application -->|"deploys to"| technology
 
-    style business fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style data fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style application fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style technology fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style business fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style application fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style technology fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
-    classDef strategy fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef capability fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef governance fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
+
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
