@@ -1,14 +1,3 @@
----
-title: Data Architecture - DevExp-DevBox
-version: '1.0.0'
-date_generated: '2026-03-19'
-layer: Data
-framework: 'TOGAF 10'
-repository: 'Evilazaro/DevExp-DevBox'
-branch: 'main'
-quality_level: comprehensive
----
-
 # Data Architecture - DevExp-DevBox
 
 ## 🗒️ Quick Table of Contents
