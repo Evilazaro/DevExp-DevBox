@@ -10,7 +10,41 @@
 
 ---
 
-## Section 1: Executive Summary
+## 📑 Quick TOC
+
+- [📋 Section 1: Executive Summary](#-section-1-executive-summary)
+- [🗺️ Section 2: Architecture Landscape](#️-section-2-architecture-landscape)
+  - [⚙️ 2.1 Application Services](#️-21-application-services)
+  - [🧩 2.2 Application Components](#-22-application-components)
+  - [🔌 2.3 Application Interfaces](#-23-application-interfaces)
+  - [🤝 2.4 Application Collaborations](#-24-application-collaborations)
+  - [🔧 2.5 Application Functions](#-25-application-functions)
+  - [🔄 2.6 Application Interactions](#-26-application-interactions)
+  - [📡 2.7 Application Events](#-27-application-events)
+  - [📦 2.8 Application Data Objects](#-28-application-data-objects)
+  - [🔗 2.9 Integration Patterns](#-29-integration-patterns)
+  - [📜 2.10 Service Contracts](#-210-service-contracts)
+  - [📎 2.11 Application Dependencies](#-211-application-dependencies)
+- [🏛️ Section 3: Architecture Principles](#️-section-3-architecture-principles)
+- [📊 Section 4: Current State Baseline](#-section-4-current-state-baseline)
+- [📂 Section 5: Component Catalog](#-section-5-component-catalog)
+  - [⚙️ 5.1 Application Services](#️-51-application-services-1)
+  - [🧩 5.2 Application Components](#-52-application-components-1)
+  - [🔌 5.3 Application Interfaces](#-53-application-interfaces-1)
+  - [🤝 5.4 Application Collaborations](#-54-application-collaborations-1)
+  - [🔧 5.5 Application Functions](#-55-application-functions-1)
+  - [🔄 5.6 Application Interactions](#-56-application-interactions-1)
+  - [📡 5.7 Application Events](#-57-application-events-1)
+  - [📦 5.8 Application Data Objects](#-58-application-data-objects-1)
+  - [🔗 5.9 Integration Patterns](#-59-integration-patterns-1)
+  - [📜 5.10 Service Contracts](#-510-service-contracts-1)
+  - [📎 5.11 Application Dependencies](#-511-application-dependencies-1)
+- [🔌 Section 8: Dependencies & Integration](#-section-8-dependencies--integration)
+- [✅ Validation Summary](#-validation-summary)
+
+---
+
+## 📋 Section 1: Executive Summary
 
 ### Overview
 
@@ -47,7 +81,7 @@ Maturity Level 3 within a single sprint.
 
 ---
 
-## Section 2: Architecture Landscape
+## 🗺️ Section 2: Architecture Landscape
 
 ### Overview
 
@@ -551,7 +585,7 @@ compile-time contract binding.
 
 ---
 
-## Section 3: Architecture Principles
+## 🏛️ Section 3: Architecture Principles
 
 ### Overview
 
@@ -634,7 +668,7 @@ flowchart LR
 
 ---
 
-## Section 4: Current State Baseline
+## 📊 Section 4: Current State Baseline
 
 ### Overview
 
@@ -804,7 +838,7 @@ both of which should be updated to GA versions.
 
 ---
 
-## Section 5: Component Catalog
+## 📂 Section 5: Component Catalog
 
 ### Overview
 
@@ -1355,7 +1389,7 @@ For full dependency specifications (5.11.1 – 5.11.13), see Section 2.11.
 
 ---
 
-## Section 8: Dependencies & Integration
+## 🔌 Section 8: Dependencies & Integration
 
 ### Overview
 
@@ -1618,7 +1652,7 @@ integration patterns are stable, well-governed, and follow Azure best practices.
 
 ---
 
-## Validation Summary
+## ✅ Validation Summary
 
 ### Self-Verification Score: 100/100
 
