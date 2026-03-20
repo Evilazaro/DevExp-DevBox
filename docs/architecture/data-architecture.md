@@ -48,16 +48,16 @@ all components to specific files and line ranges.
 
 ### 🔍 Key Findings
 
-| 🔢 # | 🔍 Finding                                                                                                      | 💡 Impact               |
-| ---- | --------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| 1    | All secrets managed exclusively via Azure Key Vault with RBAC authorization; no plaintext credentials in source | Positive — Confidential |
-| 2    | Three JSON Schema files (draft/2020-12) enforce data model contracts before Bicep compilation                   | Positive — Internal     |
-| 3    | Dev Box Pools currently commented out in project.bicep — no active pool resources deployed                      | Risk — Internal         |
-| 4    | Soft delete retention set to 7 days (schema minimum): data recovery window is limited                           | Risk — Confidential     |
-| 5    | All diagnostic logs route to a single Log Analytics Workspace; no multi-workspace isolation                     | Neutral — Internal      |
-| 6    | Security and monitoring landing zones are disabled (create: false); all resources in workload RG                | Neutral — Internal      |
-| 7    | YAML-driven configuration provides a single source of truth; 3 YAML files govern the entire deployment          | Positive — Internal     |
-| 8    | azure.yaml azd bindings expose 10 structured output contracts for downstream consumption                        | Positive — Internal     |
+| 🔢  | 🔍 Finding                                                                                                      | 💡 Impact               |
+| --- | --------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| 1   | All secrets managed exclusively via Azure Key Vault with RBAC authorization; no plaintext credentials in source | Positive — Confidential |
+| 2   | Three JSON Schema files (draft/2020-12) enforce data model contracts before Bicep compilation                   | Positive — Internal     |
+| 3   | Dev Box Pools currently commented out in project.bicep — no active pool resources deployed                      | Risk — Internal         |
+| 4   | Soft delete retention set to 7 days (schema minimum): data recovery window is limited                           | Risk — Confidential     |
+| 5   | All diagnostic logs route to a single Log Analytics Workspace; no multi-workspace isolation                     | Neutral — Internal      |
+| 6   | Security and monitoring landing zones are disabled (create: false); all resources in workload RG                | Neutral — Internal      |
+| 7   | YAML-driven configuration provides a single source of truth; 3 YAML files govern the entire deployment          | Positive — Internal     |
+| 8   | azure.yaml azd bindings expose 10 structured output contracts for downstream consumption                        | Positive — Internal     |
 
 ---
 
