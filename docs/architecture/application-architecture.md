@@ -554,7 +554,7 @@ flowchart TB
 
 ### 📎 2.11 Application Dependencies
 
-| Name                           | Description                                                                    | Service Type             |
+| 🏷️ Name                        | 📝 Description                                                                 | ⚙️ Service Type          |
 | ------------------------------ | ------------------------------------------------------------------------------ | ------------------------ |
 | MicrosoftDevCenterRP           | Azure DevCenter resource provider API 2025-02-01                               | Azure Service Dependency |
 | MicrosoftKeyVaultRP            | Azure Key Vault resource provider API 2025-05-01                               | Azure Service Dependency |
@@ -764,7 +764,7 @@ flowchart TB
 
 #### 🗺️ Service Topology
 
-| Service                                             | Deployment Target                          | Protocol                   | Status                                |
+| 🔧 Service                                          | 🎯 Deployment Target                       | 🌐 Protocol                | 🟢 Status                             |
 | --------------------------------------------------- | ------------------------------------------ | -------------------------- | ------------------------------------- |
 | RootOrchestrator                                    | Azure Subscription                         | ARM REST (Bicep)           | Active                                |
 | LogAnalyticsWorkspace                               | Monitoring Resource Group                  | ARM REST                   | Active                                |
@@ -782,7 +782,7 @@ flowchart TB
 
 #### 📋 Deployment State Summary
 
-| Aspect                          | State                                                                |
+| 🔑 Aspect                       | 📊 State                                                             |
 | ------------------------------- | -------------------------------------------------------------------- |
 | Deployment Scope                | Azure Subscription                                                   |
 | Active Resource Groups          | 1 (Workload) — Security and Monitoring co-located when create: false |
@@ -796,7 +796,7 @@ flowchart TB
 
 #### 🌐 Protocol Inventory
 
-| Protocol                  | Usage                                          | Resources                     |
+| 🌐 Protocol               | 📊 Usage                                       | 🏗️ Resources                  |
 | ------------------------- | ---------------------------------------------- | ----------------------------- |
 | ARM REST (HTTPS PUT)      | Resource creation and management               | All Bicep resources           |
 | MSI OAuth2 Token Exchange | Zero-credential auth to Key Vault              | DevCenter, Project identities |
@@ -807,7 +807,7 @@ flowchart TB
 
 #### 🔢 Versioning Matrix
 
-| Component                                | API Version        | Notes                               |
+| 🧩 Component                             | 📌 API Version     | 📋 Notes                            |
 | ---------------------------------------- | ------------------ | ----------------------------------- |
 | Microsoft.DevCenter/devcenters           | 2025-02-01         | Latest GA                           |
 | Microsoft.KeyVault/vaults                | 2025-05-01         | Latest GA                           |
