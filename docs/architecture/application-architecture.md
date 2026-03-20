@@ -394,7 +394,7 @@ flowchart TB
 
 ### 🔌 2.3 Application Interfaces
 
-| Name                         | Description                                                                                                                            | Service Type         |
+| 🏷️ Name                      | 📝 Description                                                                                                                         | ⚙️ Service Type      |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
 | MainBicepInterface           | Entry-point contract: environmentName, location, secretValue(@secure); 10 output variables                                             | Module Interface     |
 | LogAnalyticsInterface        | Inputs: name, location, tags, sku; Outputs: workspaceId, workspaceName                                                                 | Module Interface     |
@@ -423,7 +423,7 @@ flowchart TB
 
 ### 🤝 2.4 Application Collaborations
 
-| Name                              | Description                                                                                       | Service Type                         |
+| 🏷️ Name                           | 📝 Description                                                                                    | ⚙️ Service Type                      |
 | --------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | ProvisioningPipelineCollaboration | Sequential ARM deployment chain: hook → monitoring → security → workload → project → connectivity | Orchestration Collaboration          |
 | ParallelCatalogRegistration       | for-loop parallel deployment of catalog[] resources depending on DevCenter                        | Parallel Fan-Out Collaboration       |
@@ -437,7 +437,7 @@ flowchart TB
 
 ### 🔧 2.5 Application Functions
 
-| Name                         | Description                                                                            | Service Type           |
+| 🏷️ Name                      | 📝 Description                                                                         | ⚙️ Service Type        |
 | ---------------------------- | -------------------------------------------------------------------------------------- | ---------------------- |
 | PreProvisioningValidation    | Tool presence check (az/azd/gh/jq), auth verification, PAT retrieval and .env write    | Validation Function    |
 | ResourceGroupProvisioning    | Create-or-reference up to 3 RGs; name computed as baseName-env-region-RG               | Provisioning Function  |
@@ -459,7 +459,7 @@ flowchart TB
 
 ### 🔄 2.6 Application Interactions
 
-| Name                       | Description                                                                                 | Service Type               |
+| 🏷️ Name                    | 📝 Description                                                                              | ⚙️ Service Type            |
 | -------------------------- | ------------------------------------------------------------------------------------------- | -------------------------- |
 | AZDProvisionHookInvocation | azd provision triggers preprovision hook (sync, continueOnError: false)                     | CLI Interaction            |
 | ARMDeploymentInteraction   | azd compiles Bicep → ARM JSON → HTTP PUT to ARM REST API (async, polling)                   | REST Interaction           |
@@ -475,7 +475,7 @@ flowchart TB
 
 ### 📡 2.7 Application Events
 
-| Name                             | Description                                                                     | Service Type        |
+| 🏷️ Name                          | 📝 Description                                                                  | ⚙️ Service Type     |
 | -------------------------------- | ------------------------------------------------------------------------------- | ------------------- |
 | ProvisioningRequested            | Triggered by Platform Engineer running azd provision                            | System Event        |
 | PreProvisionValidationCompleted  | setUp scripts complete all checks; PAT written to .env                          | Validation Event    |
@@ -499,7 +499,7 @@ flowchart TB
 
 ### 📦 2.8 Application Data Objects
 
-| Name                    | Description                                                                                    | Service Type      |
+| 🏷️ Name                 | 📝 Description                                                                                 | ⚙️ Service Type   |
 | ----------------------- | ---------------------------------------------------------------------------------------------- | ----------------- |
 | DeploymentParametersDTO | ARM parameters: environmentName, location, secretValue(@secure)                                | Parameters DTO    |
 | LandingZoneConfigDTO    | YAML config: workload/security/monitoring RG create+name+tags                                  | Configuration DTO |
@@ -520,7 +520,7 @@ flowchart TB
 
 ### 🔗 2.9 Integration Patterns
 
-| Name                             | Description                                                                                    | Service Type                 |
+| 🏷️ Name                          | 📝 Description                                                                                 | ⚙️ Service Type              |
 | -------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------- |
 | ConfigurationAsCode              | YAML config files bound at compile-time via loadYamlContent(); operators edit YAML, re-run azd | Config-as-Code Pattern       |
 | SchemaGovernedConfiguration      | JSON Schema Draft 2020-12 validates YAML configs before deployment; IDE validation via pragma  | Schema Governance Pattern    |
@@ -542,7 +542,7 @@ flowchart TB
 
 ### 📜 2.10 Service Contracts
 
-| Name                  | Description                                                                      | Service Type            |
+| 🏷️ Name               | 📝 Description                                                                   | ⚙️ Service Type         |
 | --------------------- | -------------------------------------------------------------------------------- | ----------------------- |
 | AzureResourcesSchema  | JSON Schema Draft 2020-12 contract for landing zone resource group configuration | JSON Schema Contract    |
 | SecuritySchema        | JSON Schema Draft 2020-12 contract for Key Vault security configuration          | JSON Schema Contract    |
