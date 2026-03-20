@@ -163,7 +163,7 @@ flowchart TB
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 
-    style Pipeline fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style Pipeline fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
     style AzurePlatform fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style MonitorRG fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     style SecurityRG fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
