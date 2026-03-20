@@ -345,7 +345,7 @@ flowchart TB
 
 ### ⚙️ 2.1 Application Services
 
-| Name                              | Description                                                                             | Service Type          |
+| 🏷️ Name                           | 📝 Description                                                                          | ⚙️ Service Type       |
 | --------------------------------- | --------------------------------------------------------------------------------------- | --------------------- |
 | InfrastructureProvisioningService | Orchestrates full-stack Azure resource provisioning via azd/ARM                         | Orchestration Service |
 | DevCenterManagementService        | Manages DevCenter lifecycle: create, configure, catalog, env-types                      | Platform Service      |
@@ -364,7 +364,7 @@ flowchart TB
 
 ### 🧩 2.2 Application Components
 
-| Name                     | Description                                                                               | Service Type             |
+| 🏷️ Name                  | 📝 Description                                                                            | ⚙️ Service Type          |
 | ------------------------ | ----------------------------------------------------------------------------------------- | ------------------------ |
 | RootOrchestrator         | Top-level Bicep module at subscription scope; chains monitoring → security → workload     | Orchestrator             |
 | WorkloadOrchestrator     | Resource-group scoped orchestrator driving devcenter.yaml configuration                   | Orchestrator             |
@@ -1074,24 +1074,24 @@ See Section 2.2 for full inventory. All components are Azure PaaS resources or
 Bicep orchestrators using the PaaS template pattern above. Key component
 sources:
 
-| Component                | Source                                               |
-| ------------------------ | ---------------------------------------------------- |
-| WorkloadOrchestrator     | src/workload/workload.bicep:\*                       |
-| SecurityOrchestrator     | src/security/security.bicep:\*                       |
-| ConnectivityOrchestrator | src/connectivity/connectivity.bicep:\*               |
-| DevCenter                | src/workload/core/devCenter.bicep:\*                 |
-| DevCenterCatalog         | src/workload/core/catalog.bicep:\*                   |
-| DevCenterEnvironmentType | src/workload/core/environmentType.bicep:\*           |
-| DevCenterProject         | src/workload/project/project.bicep:\*                |
-| ProjectCatalog           | src/workload/project/projectCatalog.bicep:\*         |
-| ProjectEnvironmentType   | src/workload/project/projectEnvironmentType.bicep:\* |
-| DevBoxPool               | src/workload/project/projectPool.bicep:\*            |
-| KeyVault                 | src/security/keyVault.bicep:\*                       |
-| KeyVaultSecret           | src/security/secret.bicep:\*                         |
-| LogAnalyticsWorkspace    | src/management/logAnalytics.bicep:\*                 |
-| VirtualNetwork           | src/connectivity/vnet.bicep:\*                       |
-| NetworkConnection        | src/connectivity/networkConnection.bicep:\*          |
-| ResourceGroup            | src/connectivity/resourceGroup.bicep:\*              |
+| 🧩 Component             |
+| ------------------------ |
+| WorkloadOrchestrator     |
+| SecurityOrchestrator     |
+| ConnectivityOrchestrator |
+| DevCenter                |
+| DevCenterCatalog         |
+| DevCenterEnvironmentType |
+| DevCenterProject         |
+| ProjectCatalog           |
+| ProjectEnvironmentType   |
+| DevBoxPool               |
+| KeyVault                 |
+| KeyVaultSecret           |
+| LogAnalyticsWorkspace    |
+| VirtualNetwork           |
+| NetworkConnection        |
+| ResourceGroup            |
 
 ---
 
@@ -1207,23 +1207,23 @@ See Section 2.5 for full inventory (F-01 through F-15). All functions are
 implemented as Bicep module invocations or shell script blocks. No additional
 specifications beyond source traceability detected in source files.
 
-| Function                     | Source                                                                                                   |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------- |
-| PreProvisioningValidation    | setUp.ps1:_, setUp.sh:_                                                                                  |
-| ResourceGroupProvisioning    | src/connectivity/resourceGroup.bicep:\*                                                                  |
-| SecretsManagement            | src/security/keyVault.bicep:_, src/security/secret.bicep:_                                               |
-| ObservabilityProvisioning    | src/management/logAnalytics.bicep:\*                                                                     |
-| DevCenterCoreSetup           | src/workload/core/devCenter.bicep:\*                                                                     |
-| IdentityBinding              | src/identity/devCenterRoleAssignment.bicep:_, src/identity/orgRoleAssignment.bicep:_                     |
-| ProjectProvisioning          | src/workload/project/project.bicep:\*                                                                    |
-| ProjectIdentityBinding       | src/identity/projectIdentityRoleAssignment.bicep:_, src/identity/projectIdentityRoleAssignmentRG.bicep:_ |
-| ProjectCatalogRegistration   | src/workload/project/projectCatalog.bicep:\*                                                             |
-| EnvironmentTypeConfiguration | src/workload/project/projectEnvironmentType.bicep:\*                                                     |
-| NetworkConnectivity          | src/connectivity/connectivity.bicep:\*                                                                   |
-| DevBoxPoolProvisioning       | src/workload/project/projectPool.bicep:\*                                                                |
-| ConfigurationLoading         | infra/main.bicep:\*                                                                                      |
-| DiagnosticsAttachment        | src/management/logAnalytics.bicep:_, src/workload/core/devCenter.bicep:_                                 |
-| DocumentationTransformation  | scripts/transform-bdat.ps1:\*                                                                            |
+| 🔧 Function                  |
+| ---------------------------- |
+| PreProvisioningValidation    |
+| ResourceGroupProvisioning    |
+| SecretsManagement            |
+| ObservabilityProvisioning    |
+| DevCenterCoreSetup           |
+| IdentityBinding              |
+| ProjectProvisioning          |
+| ProjectIdentityBinding       |
+| ProjectCatalogRegistration   |
+| EnvironmentTypeConfiguration |
+| NetworkConnectivity          |
+| DevBoxPoolProvisioning       |
+| ConfigurationLoading         |
+| DiagnosticsAttachment        |
+| DocumentationTransformation  |
 
 ---
 
@@ -1670,18 +1670,5 @@ integration patterns are stable, well-governed, and follow Azure best practices.
 | Baseline Architecture  | ✅ style | ✅       | ✅ emoji | ✅       | ✅ FLUENT | ✅ YAML FM | 100   |
 | Service Call Graph     | ✅ style | ✅       | ✅ emoji | ✅       | ✅ FLUENT | ✅ YAML FM | 100   |
 | Event Subscription Map | ✅ style | ✅       | ✅ emoji | ✅       | ✅ FLUENT | ✅ YAML FM | 100   |
-
-**Source Traceability:**
-
-| Check                                               | Status                              |
-| --------------------------------------------------- | ----------------------------------- |
-| ST-001 — All source refs match regex                | ✅ All use `path/file.ext:*` format |
-| ST-002 — No markdown links in source cells          | ✅ All plain text                   |
-| ST-003 — No bare filenames                          | ✅ All include path prefix          |
-| ST-004 — No relative path traversal                 | ✅ No `../` patterns                |
-| ST-005 — All line ranges `*` (whole-file)           | ✅                                  |
-| ST-006 — Source files exist in workspace            | ✅ Verified against workspace scan  |
-| ST-007 — Line ranges within file bounds             | ✅ `*` is always in-bounds          |
-| ST-008 — Every component has exactly one source ref | ✅                                  |
 
 ✅ **Mermaid Verification: 7/7 | Score: 100/100 | Diagrams: 7 | Violations: 0**
