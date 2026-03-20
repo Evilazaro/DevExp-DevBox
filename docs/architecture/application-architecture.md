@@ -854,7 +854,7 @@ unless explicitly configured in source. Source references follow the format
 
 #### 🏗️ 5.1.1 InfrastructureProvisioningService
 
-| Attribute          | Value                             |
+| 🔑 Attribute       | 📌 Value                          |
 | ------------------ | --------------------------------- |
 | **Component Name** | InfrastructureProvisioningService |
 | **Service Type**   | Orchestration Service             |
@@ -901,7 +901,7 @@ unless explicitly configured in source. Source references follow the format
 
 #### 🏢 5.1.2 DevCenterManagementService
 
-| Attribute          | Value                      |
+| 🔑 Attribute       | 📌 Value                   |
 | ------------------ | -------------------------- |
 | **Component Name** | DevCenterManagementService |
 | **Service Type**   | PaaS                       |
@@ -949,7 +949,7 @@ unless explicitly configured in source. Source references follow the format
 
 #### 🔒 5.1.3 SecretVaultService
 
-| Attribute          | Value              |
+| 🔑 Attribute       | 📌 Value           |
 | ------------------ | ------------------ |
 | **Component Name** | SecretVaultService |
 | **Service Type**   | PaaS               |
@@ -1023,7 +1023,7 @@ See Section 2.1 for full inventory. Brief specifications:
 
 #### ⚙️ 5.2.1 RootOrchestrator
 
-| Attribute          | Value            |
+| 🔑 Attribute       | 📌 Value         |
 | ------------------ | ---------------- |
 | **Component Name** | RootOrchestrator |
 | **Service Type**   | Orchestrator     |
@@ -1099,7 +1099,7 @@ sources:
 
 #### 📋 5.3.1 MainBicepInterface
 
-| Attribute          | Value              |
+| 🔑 Attribute       | 📌 Value           |
 | ------------------ | ------------------ |
 | **Component Name** | MainBicepInterface |
 | **Service Type**   | Module Interface   |
@@ -1152,7 +1152,7 @@ references in Section 2.3 map directly to the implementing module files.
 
 #### 🔄 5.4.1 ProvisioningPipelineCollaboration
 
-| Attribute          | Value                             |
+| 🔑 Attribute       | 📌 Value                          |
 | ------------------ | --------------------------------- |
 | **Component Name** | ProvisioningPipelineCollaboration |
 | **Service Type**   | Orchestration Collaboration       |
@@ -1248,7 +1248,7 @@ graph; no explicit event bus detected.
 
 #### 🗺️ 5.8.1 DevCenterConfigDTO
 
-| Attribute          | Value              |
+| 🔑 Attribute       | 📌 Value           |
 | ------------------ | ------------------ |
 | **Component Name** | DevCenterConfigDTO |
 | **Service Type**   | Configuration DTO  |
@@ -1315,7 +1315,7 @@ specifications for key patterns:
 
 #### 📋 5.10.1 DevCenterSchema
 
-| Attribute          | Value                |
+| 🔑 Attribute       | 📌 Value             |
 | ------------------ | -------------------- |
 | **Component Name** | DevCenterSchema      |
 | **Service Type**   | JSON Schema Contract |
