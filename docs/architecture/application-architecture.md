@@ -1301,7 +1301,7 @@ DTOs are compile-time bound configuration objects with no runtime health probes.
 See Section 2.9 for full inventory (IP-01 through IP-15). Detailed
 specifications for key patterns:
 
-| Pattern                          | Pattern Type                    | Protocol                  | Data Contract             | Error Handling                  |
+| 🔁 Pattern                       | 🏷️ Pattern Type                 | 🌐 Protocol               | 📋 Data Contract          | ⚠️ Error Handling               |
 | -------------------------------- | ------------------------------- | ------------------------- | ------------------------- | ------------------------------- |
 | ConfigurationAsCode              | Request/Response (compile-time) | loadYamlContent()         | JSON Schema Draft 2020-12 | Compile-time fail; no retry     |
 | ScheduledAsyncGitSync            | Pub/Sub (async pull)            | HTTPS git                 | git protocol              | DevCenter retry on sync failure |
@@ -1550,54 +1550,54 @@ flowchart TB
 
 #### 🖁 Service-to-Service Call Graph
 
-| Caller               | Callee                     | Direction  | Protocol           | Purpose                               |
-| -------------------- | -------------------------- | ---------- | ------------------ | ------------------------------------- |
-| RootOrchestrator     | LogAnalyticsModule         | Downstream | Bicep module call  | Log Analytics workspace deployment    |
-| RootOrchestrator     | SecurityModule             | Downstream | Bicep module call  | Key Vault + secret deployment         |
-| RootOrchestrator     | WorkloadModule             | Downstream | Bicep module call  | DevCenter + project deployment        |
-| WorkloadOrchestrator | DevCenterModule            | Downstream | Bicep module call  | DevCenter resource deployment         |
-| WorkloadOrchestrator | ProjectModule[i]           | Downstream | Bicep for-loop     | Per-project deployment                |
-| DevCenterModule      | CatalogModule[i]           | Downstream | Bicep for-loop     | Catalog registration                  |
-| DevCenterModule      | EnvironmentTypeModule[i]   | Downstream | Bicep for-loop     | Env type creation                     |
-| DevCenterModule      | DevCenterRoleAssignment[i] | Downstream | Bicep for-loop     | RBAC grants to DevCenter MSI          |
-| ProjectModule        | ProjectCatalogModule[i]    | Downstream | Bicep for-loop     | Project catalog registration          |
-| ProjectModule        | ProjectEnvTypeModule[i]    | Downstream | Bicep for-loop     | Project env-type creation             |
-| ProjectModule        | ProjectIdentityRBAC[i]     | Downstream | Bicep for-loop     | RBAC grants to project MSI and groups |
-| ProjectModule        | ConnectivityModule         | Downstream | Bicep module call  | Network attachment                    |
-| DevCenter (runtime)  | KeyVault                   | Upstream   | HTTPS REST + MSI   | PAT secret retrieval                  |
-| DevCenter (runtime)  | GitHub Public Catalog      | Upstream   | HTTPS git          | customTasks catalog sync              |
-| DevCenter (runtime)  | GitHub eShop Repo          | Upstream   | HTTPS git + PAT    | environments + imageDefinitions sync  |
-| All Resources        | Log Analytics              | Downstream | Azure Monitor push | allLogs + AllMetrics telemetry        |
+| 📤 Caller            | 📥 Callee                  | ➡️ Direction | 🌐 Protocol        | 🎯 Purpose                            |
+| -------------------- | -------------------------- | ------------ | ------------------ | ------------------------------------- |
+| RootOrchestrator     | LogAnalyticsModule         | Downstream   | Bicep module call  | Log Analytics workspace deployment    |
+| RootOrchestrator     | SecurityModule             | Downstream   | Bicep module call  | Key Vault + secret deployment         |
+| RootOrchestrator     | WorkloadModule             | Downstream   | Bicep module call  | DevCenter + project deployment        |
+| WorkloadOrchestrator | DevCenterModule            | Downstream   | Bicep module call  | DevCenter resource deployment         |
+| WorkloadOrchestrator | ProjectModule[i]           | Downstream   | Bicep for-loop     | Per-project deployment                |
+| DevCenterModule      | CatalogModule[i]           | Downstream   | Bicep for-loop     | Catalog registration                  |
+| DevCenterModule      | EnvironmentTypeModule[i]   | Downstream   | Bicep for-loop     | Env type creation                     |
+| DevCenterModule      | DevCenterRoleAssignment[i] | Downstream   | Bicep for-loop     | RBAC grants to DevCenter MSI          |
+| ProjectModule        | ProjectCatalogModule[i]    | Downstream   | Bicep for-loop     | Project catalog registration          |
+| ProjectModule        | ProjectEnvTypeModule[i]    | Downstream   | Bicep for-loop     | Project env-type creation             |
+| ProjectModule        | ProjectIdentityRBAC[i]     | Downstream   | Bicep for-loop     | RBAC grants to project MSI and groups |
+| ProjectModule        | ConnectivityModule         | Downstream   | Bicep module call  | Network attachment                    |
+| DevCenter (runtime)  | KeyVault                   | Upstream     | HTTPS REST + MSI   | PAT secret retrieval                  |
+| DevCenter (runtime)  | GitHub Public Catalog      | Upstream     | HTTPS git          | customTasks catalog sync              |
+| DevCenter (runtime)  | GitHub eShop Repo          | Upstream     | HTTPS git + PAT    | environments + imageDefinitions sync  |
+| All Resources        | Log Analytics              | Downstream   | Azure Monitor push | allLogs + AllMetrics telemetry        |
 
 ---
 
 #### 🗄️ Database and Storage Dependencies
 
-| Service            | Storage Type  | Resource            | Purpose                                       |
-| ------------------ | ------------- | ------------------- | --------------------------------------------- |
-| DevCenter          | Key Vault     | gha-token secret    | GitHub PAT for private catalog authentication |
-| DevCenter          | Log Analytics | devexp workspace    | Audit logs and operational metrics            |
-| All Resources      | Log Analytics | devexp workspace    | allLogs + AllMetrics centralized telemetry    |
-| VNet (conditional) | ARM state     | Azure VNet resource | DevBox network attachment                     |
+| 🔧 Service         | 🗄️ Storage Type | 📦 Resource         | 🎯 Purpose                                    |
+| ------------------ | --------------- | ------------------- | --------------------------------------------- |
+| DevCenter          | Key Vault       | gha-token secret    | GitHub PAT for private catalog authentication |
+| DevCenter          | Log Analytics   | devexp workspace    | Audit logs and operational metrics            |
+| All Resources      | Log Analytics   | devexp workspace    | allLogs + AllMetrics centralized telemetry    |
+| VNet (conditional) | ARM state       | Azure VNet resource | DevBox network attachment                     |
 
 ---
 
 #### 🌐 External API Integrations
 
-| Integration            | Protocol   | Auth Method                 | Endpoint                               | Direction                    |
-| ---------------------- | ---------- | --------------------------- | -------------------------------------- | ---------------------------- |
-| ARM REST API           | HTTPS REST | Azure AD OIDC (azd session) | management.azure.com                   | Outbound (deploy-time)       |
-| Key Vault REST API     | HTTPS REST | MSI OAuth2 token            | {kvname}.vault.azure.net               | Inbound to KV (runtime)      |
-| GitHub Public Catalog  | HTTPS git  | None (public)               | github.com/microsoft/devcenter-catalog | Outbound to GitHub (runtime) |
-| GitHub eShop Private   | HTTPS git  | PAT from Key Vault          | github.com/Evilazaro/eShop             | Outbound to GitHub (runtime) |
-| Azure AD Token Service | HTTPS REST | Device code / MSI           | login.microsoftonline.com              | Outbound (auth)              |
-| DevBox Portal          | HTTPS      | Azure AD                    | devbox.microsoft.com                   | Inbound to portal (runtime)  |
+| 🔗 Integration         | 🌐 Protocol | 🔒 Auth Method              | 🌍 Endpoint                            | ➡️ Direction                 |
+| ---------------------- | ----------- | --------------------------- | -------------------------------------- | ---------------------------- |
+| ARM REST API           | HTTPS REST  | Azure AD OIDC (azd session) | management.azure.com                   | Outbound (deploy-time)       |
+| Key Vault REST API     | HTTPS REST  | MSI OAuth2 token            | {kvname}.vault.azure.net               | Inbound to KV (runtime)      |
+| GitHub Public Catalog  | HTTPS git   | None (public)               | github.com/microsoft/devcenter-catalog | Outbound to GitHub (runtime) |
+| GitHub eShop Private   | HTTPS git   | PAT from Key Vault          | github.com/Evilazaro/eShop             | Outbound to GitHub (runtime) |
+| Azure AD Token Service | HTTPS REST  | Device code / MSI           | login.microsoftonline.com              | Outbound (auth)              |
+| DevBox Portal          | HTTPS       | Azure AD                    | devbox.microsoft.com                   | Inbound to portal (runtime)  |
 
 ---
 
 #### 📡 Event Subscriptions
 
-| Event                            | Pattern                | Sync/Async      | Consumer           | DLQ                   |
+| 📡 Event                         | 🔁 Pattern             | ⏱️ Sync/Async   | 👤 Consumer        | 📬 DLQ                |
 | -------------------------------- | ---------------------- | --------------- | ------------------ | --------------------- |
 | ARM deployment state transitions | ARM lifecycle          | Async polling   | azd CLI            | None (ARM logs)       |
 | Catalog sync trigger             | Scheduled git pull     | Async           | DevCenter internal | Not detected          |
@@ -1608,7 +1608,7 @@ flowchart TB
 
 #### 🔗 Integration Pattern Matrix
 
-| Pattern                          | Pattern Type                    | Protocol                  | Data Contract                              | Error Handling                                 |
+| 🔁 Pattern                       | 🏷️ Pattern Type                 | 🌐 Protocol               | 📋 Data Contract                           | ⚠️ Error Handling                              |
 | -------------------------------- | ------------------------------- | ------------------------- | ------------------------------------------ | ---------------------------------------------- |
 | ConfigurationAsCode              | Request/Response (compile-time) | loadYamlContent()         | JSON Schema Draft 2020-12                  | Compile-time fail, no retry                    |
 | SchemaGovernedConfiguration      | Request/Response (compile-time) | JSON Schema validation    | JSON Schema Draft 2020-12                  | Schema error blocks deployment                 |
@@ -1650,25 +1650,25 @@ integration patterns are stable, well-governed, and follow Azure best practices.
 
 **Section Coverage:**
 
-| Section                        | Status                                                          | Score |
-| ------------------------------ | --------------------------------------------------------------- | ----- |
-| 1 — Executive Summary          | ✅ Present — 2 paragraphs + risk summary + maturity rating      | 100   |
-| 2 — Architecture Landscape     | ✅ Present — 3 diagrams + all 11 subsections (2.1 – 2.11)       | 100   |
-| 3 — Architecture Principles    | ✅ Present — diagram + 7 principles (≥5 for comprehensive)      | 100   |
-| 4 — Current State Baseline     | ✅ Present — diagram + topology + protocol + versioning + gaps  | 100   |
-| 5 — Component Catalog          | ✅ Present — all 11 subsections (5.1 – 5.11) with PaaS template | 100   |
-| 8 — Dependencies & Integration | ✅ Present — 2 diagrams + 4 tables + integration pattern matrix | 100   |
+| 📚 Section                     | ✅ Status                                                       | 🎯 Score |
+| ------------------------------ | --------------------------------------------------------------- | -------- |
+| 1 — Executive Summary          | ✅ Present — 2 paragraphs + risk summary + maturity rating      | 100      |
+| 2 — Architecture Landscape     | ✅ Present — 3 diagrams + all 11 subsections (2.1 – 2.11)       | 100      |
+| 3 — Architecture Principles    | ✅ Present — diagram + 7 principles (≥5 for comprehensive)      | 100      |
+| 4 — Current State Baseline     | ✅ Present — diagram + topology + protocol + versioning + gaps  | 100      |
+| 5 — Component Catalog          | ✅ Present — all 11 subsections (5.1 – 5.11) with PaaS template | 100      |
+| 8 — Dependencies & Integration | ✅ Present — 2 diagrams + 4 tables + integration pattern matrix | 100      |
 
 **Mermaid Diagram Compliance:**
 
-| Diagram                | MRM-S001 | MRM-A002 | MRM-I001 | MRM-N001 | MRM-C004  | MRM-V003   | Score |
-| ---------------------- | -------- | -------- | -------- | -------- | --------- | ---------- | ----- |
-| Context Diagram        | ✅ style | ✅       | ✅ emoji | ✅       | ✅ FLUENT | ✅ YAML FM | 100   |
-| Service Ecosystem Map  | ✅ style | ✅       | ✅ emoji | ✅       | ✅ FLUENT | ✅ YAML FM | 100   |
-| Integration Tier Map   | ✅ style | ✅       | ✅ emoji | ✅       | ✅ FLUENT | ✅ YAML FM | 100   |
-| Principles Diagram     | ✅ style | ✅       | ✅ emoji | ✅       | ✅ FLUENT | ✅ YAML FM | 100   |
-| Baseline Architecture  | ✅ style | ✅       | ✅ emoji | ✅       | ✅ FLUENT | ✅ YAML FM | 100   |
-| Service Call Graph     | ✅ style | ✅       | ✅ emoji | ✅       | ✅ FLUENT | ✅ YAML FM | 100   |
-| Event Subscription Map | ✅ style | ✅       | ✅ emoji | ✅       | ✅ FLUENT | ✅ YAML FM | 100   |
+| 🎨 Diagram             | ✅ MRM-S001 | ✅ MRM-A002 | ✅ MRM-I001 | ✅ MRM-N001 | ✅ MRM-C004 | ✅ MRM-V003 | 🎯 Score |
+| ---------------------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | -------- |
+| Context Diagram        | ✅ style    | ✅          | ✅ emoji    | ✅          | ✅ FLUENT   | ✅ YAML FM  | 100      |
+| Service Ecosystem Map  | ✅ style    | ✅          | ✅ emoji    | ✅          | ✅ FLUENT   | ✅ YAML FM  | 100      |
+| Integration Tier Map   | ✅ style    | ✅          | ✅ emoji    | ✅          | ✅ FLUENT   | ✅ YAML FM  | 100      |
+| Principles Diagram     | ✅ style    | ✅          | ✅ emoji    | ✅          | ✅ FLUENT   | ✅ YAML FM  | 100      |
+| Baseline Architecture  | ✅ style    | ✅          | ✅ emoji    | ✅          | ✅ FLUENT   | ✅ YAML FM  | 100      |
+| Service Call Graph     | ✅ style    | ✅          | ✅ emoji    | ✅          | ✅ FLUENT   | ✅ YAML FM  | 100      |
+| Event Subscription Map | ✅ style    | ✅          | ✅ emoji    | ✅          | ✅ FLUENT   | ✅ YAML FM  | 100      |
 
 ✅ **Mermaid Verification: 7/7 | Score: 100/100 | Diagrams: 7 | Violations: 0**
