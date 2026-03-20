@@ -861,23 +861,23 @@ unless explicitly configured in source. Source references follow the format
 
 **API Surface:**
 
-| Endpoint Type    | Count | Protocol              | Description                                             |
-| ---------------- | ----- | --------------------- | ------------------------------------------------------- |
-| CLI Entry Point  | 1     | azd provision (shell) | `azd provision` triggers the full provisioning pipeline |
-| ARM Deployment   | 1     | HTTPS REST PUT        | Subscription-scope ARM deployment                       |
-| Output Variables | 10    | azd env-var           | Published to .azure/<env>/.env after provision          |
+| 🔌 Endpoint Type | 🔢 Count | 🌐 Protocol           | 📝 Description                                          |
+| ---------------- | -------- | --------------------- | ------------------------------------------------------- |
+| CLI Entry Point  | 1        | azd provision (shell) | `azd provision` triggers the full provisioning pipeline |
+| ARM Deployment   | 1        | HTTPS REST PUT        | Subscription-scope ARM deployment                       |
+| Output Variables | 10       | azd env-var           | Published to .azure/<env>/.env after provision          |
 
 **Dependencies:**
 
-| Dependency          | Direction | Protocol   | Purpose                        |
-| ------------------- | --------- | ---------- | ------------------------------ |
-| Azure Developer CLI | Runtime   | CLI        | Orchestrates hook + ARM deploy |
-| ARM REST API        | Upstream  | HTTPS REST | Resource creation              |
-| PreprovisionHook    | Upstream  | Shell exec | Tool validation + PAT write    |
+| 🔗 Dependency       | ➡️ Direction | 🌐 Protocol | 🎯 Purpose                     |
+| ------------------- | ------------ | ----------- | ------------------------------ |
+| Azure Developer CLI | Runtime      | CLI         | Orchestrates hook + ARM deploy |
+| ARM REST API        | Upstream     | HTTPS REST  | Resource creation              |
+| PreprovisionHook    | Upstream     | Shell exec  | Tool validation + PAT write    |
 
 **Resilience (Platform-Managed):**
 
-| Aspect          | Configuration    | Notes                                          |
+| 🔑 Aspect       | ⚙️ Configuration | 📋 Notes                                       |
 | --------------- | ---------------- | ---------------------------------------------- |
 | Retry Policy    | azd SDK defaults | ARM deployment retries on transient failures   |
 | Circuit Breaker | Not applicable   | Declarative ARM, not runtime service           |
@@ -885,14 +885,14 @@ unless explicitly configured in source. Source references follow the format
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy           | Configuration                        |
-| ---------- | ------------------ | ------------------------------------ |
-| Horizontal | Not applicable     | Declarative IaC, not runtime service |
-| Vertical   | ARM engine scaling | Azure-managed                        |
+| 📐 Dimension | 🎯 Strategy        | ⚙️ Configuration                     |
+| ------------ | ------------------ | ------------------------------------ |
+| Horizontal   | Not applicable     | Declarative IaC, not runtime service |
+| Vertical     | ARM engine scaling | Azure-managed                        |
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration                          |
+| 🩺 Probe Type         | ⚙️ Configuration                       |
 | --------------------- | -------------------------------------- |
 | Azure Resource Health | Per-resource, platform-managed         |
 | Deploy status         | ARM deployment history in Azure Portal |
@@ -908,24 +908,24 @@ unless explicitly configured in source. Source references follow the format
 
 **API Surface:**
 
-| Endpoint Type      | Count | Protocol   | Description                                      |
-| ------------------ | ----- | ---------- | ------------------------------------------------ |
-| ARM Management API | 1     | HTTPS REST | Resource CRUD via Microsoft.DevCenter/devcenters |
-| DevBox Portal API  | 1     | HTTPS      | devbox.microsoft.com user sessions               |
-| Catalog Sync       | 2     | HTTPS git  | customTasks (public) + eShop catalogs (PAT-auth) |
+| 🔌 Endpoint Type   | 🔢 Count | 🌐 Protocol | 📝 Description                                   |
+| ------------------ | -------- | ----------- | ------------------------------------------------ |
+| ARM Management API | 1        | HTTPS REST  | Resource CRUD via Microsoft.DevCenter/devcenters |
+| DevBox Portal API  | 1        | HTTPS       | devbox.microsoft.com user sessions               |
+| Catalog Sync       | 2        | HTTPS git   | customTasks (public) + eShop catalogs (PAT-auth) |
 
 **Dependencies:**
 
-| Dependency                           | Direction  | Protocol            | Purpose                                         |
-| ------------------------------------ | ---------- | ------------------- | ----------------------------------------------- |
-| Key Vault                            | Upstream   | MSI token + KV REST | Retrieve gha-token PAT for private catalog sync |
-| Log Analytics                        | Downstream | Azure Monitor push  | allLogs + AllMetrics telemetry                  |
-| GitHub (microsoft/devcenter-catalog) | Upstream   | HTTPS git           | customTasks catalog definitions                 |
-| GitHub (Evilazaro/eShop)             | Upstream   | HTTPS git + PAT     | environments + imageDefinitions catalogs        |
+| 🔗 Dependency                        | ➡️ Direction | 🌐 Protocol         | 🎯 Purpose                                      |
+| ------------------------------------ | ------------ | ------------------- | ----------------------------------------------- |
+| Key Vault                            | Upstream     | MSI token + KV REST | Retrieve gha-token PAT for private catalog sync |
+| Log Analytics                        | Downstream   | Azure Monitor push  | allLogs + AllMetrics telemetry                  |
+| GitHub (microsoft/devcenter-catalog) | Upstream     | HTTPS git           | customTasks catalog definitions                 |
+| GitHub (Evilazaro/eShop)             | Upstream     | HTTPS git + PAT     | environments + imageDefinitions catalogs        |
 
 **Resilience (Platform-Managed):**
 
-| Aspect          | Configuration           | Notes             |
+| 🔑 Aspect       | ⚙️ Configuration        | 📋 Notes          |
 | --------------- | ----------------------- | ----------------- |
 | Retry Policy    | Azure SDK defaults      | Platform-managed  |
 | Circuit Breaker | Not applicable          | PaaS service      |
@@ -933,10 +933,10 @@ unless explicitly configured in source. Source references follow the format
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy          | Configuration |
-| ---------- | ----------------- | ------------- |
-| Horizontal | PaaS auto-scaling | Azure-managed |
-| Vertical   | SKU selection     | Standard tier |
+| 📐 Dimension | 🎯 Strategy       | ⚙️ Configuration |
+| ------------ | ----------------- | ---------------- |
+| Horizontal   | PaaS auto-scaling | Azure-managed    |
+| Vertical     | SKU selection     | Standard tier    |
 
 **Health (Platform-Managed):**
 
@@ -956,21 +956,21 @@ unless explicitly configured in source. Source references follow the format
 
 **API Surface:**
 
-| Endpoint Type      | Count | Protocol   | Description                                 |
-| ------------------ | ----- | ---------- | ------------------------------------------- |
-| Key Vault REST API | 1     | HTTPS REST | Secret get/set/list/delete for gha-token    |
-| ARM Management API | 1     | HTTPS REST | Resource CRUD via Microsoft.KeyVault/vaults |
+| 🔌 Endpoint Type   | 🔢 Count | 🌐 Protocol | 📝 Description                              |
+| ------------------ | -------- | ----------- | ------------------------------------------- |
+| Key Vault REST API | 1        | HTTPS REST  | Secret get/set/list/delete for gha-token    |
+| ARM Management API | 1        | HTTPS REST  | Resource CRUD via Microsoft.KeyVault/vaults |
 
 **Dependencies:**
 
-| Dependency    | Direction         | Protocol      | Purpose                         |
+| 🔗 Dependency | ➡️ Direction      | 🌐 Protocol   | 🎯 Purpose                      |
 | ------------- | ----------------- | ------------- | ------------------------------- |
 | Log Analytics | Downstream        | Azure Monitor | allLogs + AllMetrics telemetry  |
 | DevCenter MSI | Upstream consumer | MSI token     | Reads gha-token at catalog sync |
 
 **Resilience (Platform-Managed):**
 
-| Aspect           | Configuration                   | Notes                                          |
+| 🔑 Aspect        | ⚙️ Configuration                | 📋 Notes                                       |
 | ---------------- | ------------------------------- | ---------------------------------------------- |
 | Soft Delete      | Enabled, 7 days retention       | Protects against accidental deletion           |
 | Purge Protection | Enabled                         | Prevents hard deletion during retention period |
@@ -978,14 +978,14 @@ unless explicitly configured in source. Source references follow the format
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy                 | Configuration |
-| ---------- | ------------------------ | ------------- |
-| Horizontal | PaaS auto-scaling        | Azure-managed |
-| Vertical   | Throttle limits per tier | Standard      |
+| 📐 Dimension | 🎯 Strategy              | ⚙️ Configuration |
+| ------------ | ------------------------ | ---------------- |
+| Horizontal   | PaaS auto-scaling        | Azure-managed    |
+| Vertical     | Throttle limits per tier | Standard         |
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration                        |
+| 🩺 Probe Type         | ⚙️ Configuration                     |
 | --------------------- | ------------------------------------ |
 | Azure Resource Health | Platform-managed                     |
 | Diagnostic Settings   | allLogs + AllMetrics → Log Analytics |
@@ -1030,23 +1030,23 @@ See Section 2.1 for full inventory. Brief specifications:
 
 **API Surface:**
 
-| Endpoint Type        | Count | Protocol          | Description                                        |
-| -------------------- | ----- | ----------------- | -------------------------------------------------- |
-| ARM Deployment Entry | 1     | ARM REST          | Subscription-scope named deployment                |
-| Configuration Input  | 3     | loadYamlContent() | azureResources.yaml, security.yaml, devcenter.yaml |
-| Output Variables     | 10    | azd env-var       | All platform resource identifiers                  |
+| 🔌 Endpoint Type     | 🔢 Count | 🌐 Protocol       | 📝 Description                                     |
+| -------------------- | -------- | ----------------- | -------------------------------------------------- |
+| ARM Deployment Entry | 1        | ARM REST          | Subscription-scope named deployment                |
+| Configuration Input  | 3        | loadYamlContent() | azureResources.yaml, security.yaml, devcenter.yaml |
+| Output Variables     | 10       | azd env-var       | All platform resource identifiers                  |
 
 **Dependencies:**
 
-| Dependency        | Direction  | Protocol                                | Purpose                              |
-| ----------------- | ---------- | --------------------------------------- | ------------------------------------ |
-| monitoring module | Downstream | Bicep module call                       | Log Analytics workspace provisioning |
-| security module   | Downstream | Bicep module call (depends: monitoring) | Key Vault + secret provisioning      |
-| workload module   | Downstream | Bicep module call (depends: security)   | DevCenter + project provisioning     |
+| 🔗 Dependency     | ➡️ Direction | 🌐 Protocol                             | 🎯 Purpose                           |
+| ----------------- | ------------ | --------------------------------------- | ------------------------------------ |
+| monitoring module | Downstream   | Bicep module call                       | Log Analytics workspace provisioning |
+| security module   | Downstream   | Bicep module call (depends: monitoring) | Key Vault + secret provisioning      |
+| workload module   | Downstream   | Bicep module call (depends: security)   | DevCenter + project provisioning     |
 
 **Resilience (Platform-Managed):**
 
-| Aspect          | Configuration     | Notes                           |
+| 🔑 Aspect       | ⚙️ Configuration  | 📋 Notes                        |
 | --------------- | ----------------- | ------------------------------- |
 | Retry Policy    | ARM engine        | Automatic on transient failures |
 | Circuit Breaker | Not applicable    | Declarative orchestrator        |
@@ -1054,14 +1054,14 @@ See Section 2.1 for full inventory. Brief specifications:
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy       | Configuration             |
-| ---------- | -------------- | ------------------------- |
-| Horizontal | Not applicable | Single orchestration unit |
-| Vertical   | ARM engine     | Azure-managed             |
+| 📐 Dimension | 🎯 Strategy    | ⚙️ Configuration          |
+| ------------ | -------------- | ------------------------- |
+| Horizontal   | Not applicable | Single orchestration unit |
+| Vertical     | ARM engine     | Azure-managed             |
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration                     |
+| 🩺 Probe Type         | ⚙️ Configuration                  |
 | --------------------- | --------------------------------- |
 | ARM Deployment Status | Portal + `az deployment sub show` |
 | Azure Resource Health | Per child resource                |
@@ -1106,21 +1106,21 @@ sources:
 
 **API Surface:**
 
-| Endpoint Type    | Count | Protocol                  | Description                                                   |
-| ---------------- | ----- | ------------------------- | ------------------------------------------------------------- |
-| Input Parameters | 3     | Bicep typed params        | environmentName(str), location(str), secretValue(@secure str) |
-| Output Variables | 10    | azd environment variables | All platform resource names and IDs                           |
+| 🔌 Endpoint Type | 🔢 Count | 🌐 Protocol               | 📝 Description                                                |
+| ---------------- | -------- | ------------------------- | ------------------------------------------------------------- |
+| Input Parameters | 3        | Bicep typed params        | environmentName(str), location(str), secretValue(@secure str) |
+| Output Variables | 10       | azd environment variables | All platform resource names and IDs                           |
 
 **Dependencies:**
 
-| Dependency           | Direction | Protocol       | Purpose                       |
-| -------------------- | --------- | -------------- | ----------------------------- |
-| main.parameters.json | Upstream  | ARM parameters | Location and env name binding |
-| AZD environment      | Upstream  | azd env-var    | KEY_VAULT_SECRET injection    |
+| 🔗 Dependency        | ➡️ Direction | 🌐 Protocol    | 🎯 Purpose                    |
+| -------------------- | ------------ | -------------- | ----------------------------- |
+| main.parameters.json | Upstream     | ARM parameters | Location and env name binding |
+| AZD environment      | Upstream     | azd env-var    | KEY_VAULT_SECRET injection    |
 
 **Resilience (Platform-Managed):**
 
-| Aspect            | Configuration     | Notes                         |
+| 🔑 Aspect         | ⚙️ Configuration  | 📋 Notes                      |
 | ----------------- | ----------------- | ----------------------------- |
 | Schema Validation | Bicep type system | Compile-time param validation |
 | Retry Policy      | ARM engine        | Platform-managed              |
@@ -1128,14 +1128,14 @@ sources:
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy       | Configuration         |
-| ---------- | -------------- | --------------------- |
-| Horizontal | Not applicable | Design-time interface |
-| Vertical   | Not applicable | Design-time interface |
+| 📐 Dimension | 🎯 Strategy    | ⚙️ Configuration      |
+| ------------ | -------------- | --------------------- |
+| Horizontal   | Not applicable | Design-time interface |
+| Vertical     | Not applicable | Design-time interface |
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration                            |
+| 🩺 Probe Type         | ⚙️ Configuration                         |
 | --------------------- | ---------------------------------------- |
 | Azure Resource Health | Not applicable — interface, not resource |
 | Parameter Validation  | Bicep compile-time type checking         |
@@ -1159,22 +1159,22 @@ references in Section 2.3 map directly to the implementing module files.
 
 **API Surface:**
 
-| Endpoint Type      | Count | Protocol      | Description                                             |
-| ------------------ | ----- | ------------- | ------------------------------------------------------- |
-| Hook trigger       | 1     | Shell exec    | PreprovisionHook invocation via azure.yaml              |
-| ARM module chain   | 3     | Bicep modules | monitoring → security → workload sequential chain       |
-| Output propagation | 2     | Bicep outputs | logAnalyticsId and secretIdentifier threaded downstream |
+| 🔌 Endpoint Type   | 🔢 Count | 🌐 Protocol   | 📝 Description                                          |
+| ------------------ | -------- | ------------- | ------------------------------------------------------- |
+| Hook trigger       | 1        | Shell exec    | PreprovisionHook invocation via azure.yaml              |
+| ARM module chain   | 3        | Bicep modules | monitoring → security → workload sequential chain       |
+| Output propagation | 2        | Bicep outputs | logAnalyticsId and secretIdentifier threaded downstream |
 
 **Dependencies:**
 
-| Dependency | Direction | Protocol  | Purpose                                  |
-| ---------- | --------- | --------- | ---------------------------------------- |
-| azure.yaml | Upstream  | azd hooks | Defines hook execution before ARM deploy |
-| ARM engine | Upstream  | ARM REST  | Orchestrates sequential module execution |
+| 🔗 Dependency | ➡️ Direction | 🌐 Protocol | 🎯 Purpose                               |
+| ------------- | ------------ | ----------- | ---------------------------------------- |
+| azure.yaml    | Upstream     | azd hooks   | Defines hook execution before ARM deploy |
+| ARM engine    | Upstream     | ARM REST    | Orchestrates sequential module execution |
 
 **Resilience (Platform-Managed):**
 
-| Aspect                | Configuration                            | Notes                                         |
+| 🔑 Aspect             | ⚙️ Configuration                         | 📋 Notes                                      |
 | --------------------- | ---------------------------------------- | --------------------------------------------- |
 | Sequential dependency | `dependsOn` via Bicep output consumption | Ensures ordering without explicit `dependsOn` |
 | Failure propagation   | ARM stops on first module failure        | `continueOnError: false` in hook              |
@@ -1182,14 +1182,14 @@ references in Section 2.3 map directly to the implementing module files.
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy                                | Configuration          |
-| ---------- | --------------------------------------- | ---------------------- |
-| Horizontal | Parallel for-loops within Workload tier | ARM engine parallelism |
-| Vertical   | ARM engine                              | Azure-managed          |
+| 📐 Dimension | 🎯 Strategy                             | ⚙️ Configuration       |
+| ------------ | --------------------------------------- | ---------------------- |
+| Horizontal   | Parallel for-loops within Workload tier | ARM engine parallelism |
+| Vertical     | ARM engine                              | Azure-managed          |
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration                            |
+| 🩺 Probe Type         | ⚙️ Configuration                         |
 | --------------------- | ---------------------------------------- |
 | ARM Deployment Status | `az deployment sub show --name main`     |
 | Azure Activity Log    | Post-deploy audit trail in Log Analytics |
@@ -1255,21 +1255,21 @@ graph; no explicit event bus detected.
 
 **API Surface:**
 
-| Endpoint Type     | Count | Protocol                  | Description                              |
-| ----------------- | ----- | ------------------------- | ---------------------------------------- |
-| Config Interface  | 1     | loadYamlContent()         | Loaded by workload.bicep at compile-time |
-| Schema Validation | 1     | JSON Schema Draft 2020-12 | Validated against devcenter.schema.json  |
+| 🔌 Endpoint Type  | 🔢 Count | 🌐 Protocol               | 📝 Description                           |
+| ----------------- | -------- | ------------------------- | ---------------------------------------- |
+| Config Interface  | 1        | loadYamlContent()         | Loaded by workload.bicep at compile-time |
+| Schema Validation | 1        | JSON Schema Draft 2020-12 | Validated against devcenter.schema.json  |
 
 **Dependencies:**
 
-| Dependency            | Direction  | Protocol            | Purpose                                 |
-| --------------------- | ---------- | ------------------- | --------------------------------------- |
-| devcenter.schema.json | Upstream   | JSON Schema         | Structural validation                   |
-| workload.bicep        | Downstream | Bicep param binding | DevCenterConfig + Project[] consumption |
+| 🔗 Dependency         | ➡️ Direction | 🌐 Protocol         | 🎯 Purpose                              |
+| --------------------- | ------------ | ------------------- | --------------------------------------- |
+| devcenter.schema.json | Upstream     | JSON Schema         | Structural validation                   |
+| workload.bicep        | Downstream   | Bicep param binding | DevCenterConfig + Project[] consumption |
 
 **Resilience (Platform-Managed):**
 
-| Aspect       | Configuration             | Notes                        |
+| 🔑 Aspect    | ⚙️ Configuration          | 📋 Notes                     |
 | ------------ | ------------------------- | ---------------------------- |
 | Validation   | Compile-time schema check | Fails fast before ARM deploy |
 | Retry Policy | Not applicable            | Compile-time binding         |
@@ -1277,14 +1277,14 @@ graph; no explicit event bus detected.
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy       | Configuration      |
-| ---------- | -------------- | ------------------ |
-| Horizontal | Not applicable | Configuration file |
-| Vertical   | Not applicable | Configuration file |
+| 📐 Dimension | 🎯 Strategy    | ⚙️ Configuration   |
+| ------------ | -------------- | ------------------ |
+| Horizontal   | Not applicable | Configuration file |
+| Vertical     | Not applicable | Configuration file |
 
 **Health (Platform-Managed):**
 
-| Probe Type              | Configuration                          |
+| 🩺 Probe Type           | ⚙️ Configuration                       |
 | ----------------------- | -------------------------------------- |
 | Schema Compliance       | yaml-language-server $schema pragma    |
 | Compile-time Validation | Bicep loadYamlContent() type inference |
@@ -1322,21 +1322,21 @@ specifications for key patterns:
 
 **API Surface:**
 
-| Endpoint Type     | Count | Protocol                    | Description                                |
-| ----------------- | ----- | --------------------------- | ------------------------------------------ |
-| Schema Validation | 1     | JSON Schema Draft 2020-12   | Validates devcenter.yaml before ARM deploy |
-| IDE Integration   | 1     | yaml-language-server pragma | Real-time IDE validation                   |
+| 🔌 Endpoint Type  | 🔢 Count | 🌐 Protocol                 | 📝 Description                             |
+| ----------------- | -------- | --------------------------- | ------------------------------------------ |
+| Schema Validation | 1        | JSON Schema Draft 2020-12   | Validates devcenter.yaml before ARM deploy |
+| IDE Integration   | 1        | yaml-language-server pragma | Real-time IDE validation                   |
 
 **Dependencies:**
 
-| Dependency     | Direction  | Protocol          | Purpose                      |
-| -------------- | ---------- | ----------------- | ---------------------------- |
-| devcenter.yaml | Upstream   | YAML              | Config file being validated  |
-| workload.bicep | Downstream | loadYamlContent() | Schema-bound config consumer |
+| 🔗 Dependency  | ➡️ Direction | 🌐 Protocol       | 🎯 Purpose                   |
+| -------------- | ------------ | ----------------- | ---------------------------- |
+| devcenter.yaml | Upstream     | YAML              | Config file being validated  |
+| workload.bicep | Downstream   | loadYamlContent() | Schema-bound config consumer |
 
 **Resilience (Platform-Managed):**
 
-| Aspect                 | Configuration                                | Notes                            |
+| 🔑 Aspect              | ⚙️ Configuration                             | 📋 Notes                         |
 | ---------------------- | -------------------------------------------- | -------------------------------- |
 | Validation             | Compile-time                                 | Schema failures block deployment |
 | Retry Policy           | Not applicable                               | Schema contract                  |
@@ -1344,14 +1344,14 @@ specifications for key patterns:
 
 **Scaling (Platform-Managed):**
 
-| Dimension  | Strategy       | Configuration          |
-| ---------- | -------------- | ---------------------- |
-| Horizontal | Not applicable | Schema definition file |
-| Vertical   | Not applicable | Schema definition file |
+| 📐 Dimension | 🎯 Strategy    | ⚙️ Configuration       |
+| ------------ | -------------- | ---------------------- |
+| Horizontal   | Not applicable | Schema definition file |
+| Vertical     | Not applicable | Schema definition file |
 
 **Health (Platform-Managed):**
 
-| Probe Type        | Configuration                      |
+| 🩺 Probe Type     | ⚙️ Configuration                   |
 | ----------------- | ---------------------------------- |
 | Schema Compliance | IDE-level via yaml-language-server |
 | Deployment Gate   | Bicep compile-time type checking   |
