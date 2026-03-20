@@ -46,7 +46,7 @@
 
 ## 📋 Section 1: Executive Summary
 
-### Overview
+### 📋 Overview
 
 The **DevExp-DevBox** repository implements a comprehensive Azure Developer
 Experience platform built entirely on Azure Bicep Infrastructure-as-Code. The
@@ -83,7 +83,7 @@ Maturity Level 3 within a single sprint.
 
 ## 🗺️ Section 2: Architecture Landscape
 
-### 🇺🇸 Overview
+### � Overview
 
 This section catalogs all 34 Application layer components identified through
 pattern-based analysis of the workspace at `.` (root). Components are classified
