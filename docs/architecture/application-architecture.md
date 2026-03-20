@@ -940,7 +940,7 @@ unless explicitly configured in source. Source references follow the format
 
 **Health (Platform-Managed):**
 
-| Probe Type            | Configuration                        |
+| 🩺 Probe Type         | ⚙️ Configuration                     |
 | --------------------- | ------------------------------------ |
 | Azure Resource Health | Platform-managed                     |
 | Diagnostic Settings   | allLogs + AllMetrics → Log Analytics |
