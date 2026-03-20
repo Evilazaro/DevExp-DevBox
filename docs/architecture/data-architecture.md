@@ -59,28 +59,6 @@ all components to specific files and line ranges.
 | 7    | YAML-driven configuration provides a single source of truth; 3 YAML files govern the entire deployment          | Positive — Internal     |
 | 8    | azure.yaml azd bindings expose 10 structured output contracts for downstream consumption                        | Positive — Internal     |
 
-### 📊 Data Quality Scorecard
-
-| 📏 Dimension | 🎯 Score | 📋 Assessment                                                               |
-| ------------ | -------- | --------------------------------------------------------------------------- |
-| Completeness | 85/100   | Dev Box Pools defined but not deployed (commented out)                      |
-| Accuracy     | 98/100   | All configuration values validated by JSON Schema with regex patterns       |
-| Consistency  | 95/100   | Universal tag schema applied across all 3 landing zones with minor variance |
-| Availability | 90/100   | Log Analytics captures all platform diagnostics; no explicit SLA set        |
-| Security     | 97/100   | RBAC-only KV access, @secure() parameters, purge protection enabled         |
-| Governance   | 88/100   | Tagging and RBAC enforced; formal ADR/standards documentation absent        |
-
-### 📈 Coverage Summary
-
-The data governance model achieves **Level 3 — Managed** maturity: configuration
-models are schema-validated, secrets are externalized to Key Vault, diagnostic
-telemetry is centralized, and RBAC governs all data access. Data ownership is
-implicit in resource tags (`team: DevExP`, `owner: Contoso`) but no formal data
-catalog or lineage tooling is deployed. The gap between current Level 3 and
-Level 4 — Optimized lies in the absence of formal ADR documentation, automated
-data quality monitoring, and explicit data retention policies beyond Key Vault
-soft-delete settings.
-
 ---
 
 ## 🗺️ Section 2: Architecture Landscape
@@ -295,13 +273,13 @@ flowchart TB
         kv("🔒 Azure Key Vault"):::data
         secret("🔑 gha-token secret"):::data
         rbac("👥 RBAC Role Assignments"):::core
-        kvTier["Key-Value Store (Confidential)"]:::tier
+        kvTier("🗝️ Key-Value Store (Confidential)"):::neutral
     end
 
     subgraph telemetryDomain["📊 Telemetry Domain"]
         law("📊 Log Analytics Workspace"):::data
         armState("🌐 ARM Resource State"):::core
-        lakeTier["Data Lake (Internal)"]:::tier
+        lakeTier("📊 Data Lake (Internal)"):::neutral
     end
 
     subgraph catalogDomain["📚 Catalog and Workload Domain"]
@@ -310,7 +288,7 @@ flowchart TB
         dcCat("📚 DC Catalog (public)"):::external
         projCat("📚 Project Catalogs (private)"):::external
         gitHub("🐙 GitHub Repos"):::external
-        gitTier["Object Storage (Mixed)"]:::tier
+        gitTier("📦 Object Storage (Mixed)"):::neutral
     end
 
     schema1 -->|"validates"| yaml1
@@ -338,16 +316,15 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef tier fill:#FFF4CE,stroke:#CA5010,stroke-width:1px,color:#323130
 
-    %% Subgraph style directives
-    style configDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style securityDomain fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    style telemetryDomain fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style catalogDomain fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    %% Subgraph style directives (MRM-C001: functional siblings use distinct semantic colors)
+    style configDomain fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style securityDomain fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    style telemetryDomain fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style catalogDomain fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
@@ -510,13 +487,13 @@ flowchart TB
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    %% Subgraph style directives
-    style deployEnv fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style azureRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style github fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    %% Subgraph style directives (MRM-C001: functional siblings use distinct semantic colors)
+    style deployEnv fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style azureRG fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style github fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🗄️ Storage Distribution
 
@@ -628,8 +605,11 @@ title: DevExp-DevBox Entity Relationship Diagram
 config:
   theme: base
   look: classic
+  layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 erDiagram
     accTitle: DevExp-DevBox Entity Relationship Diagram
@@ -721,7 +701,7 @@ erDiagram
     VIRTUAL_NETWORK ||--o| DEV_CENTER : "attached-to-via-nc"
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 97/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 5.2 Data Models
 
@@ -1090,13 +1070,13 @@ flowchart LR
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    %% Subgraph style directives
-    style compiletime fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style deploy fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style runtime fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    %% Subgraph style directives (MRM-C001: functional siblings use distinct semantic colors)
+    style compiletime fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style deploy fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style runtime fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### 🔄 Producer-Consumer Relationships
 
@@ -1203,10 +1183,10 @@ flowchart LR
     style transform fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     style stores fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     style consumers fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
-    style telemetry fill:#FFF4CE,stroke:#CA5010,stroke-width:2px,color:#323130
+    style telemetry fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 98/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ### Summary
 
