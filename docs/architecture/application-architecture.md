@@ -1504,7 +1504,7 @@ flowchart TB
         EvtSync("🔄 CatalogSyncScheduled"):::core
         EvtProj("📋 ProjectProvisioned"):::core
         EvtEnv("🗂️ EnvironmentTypeCreated"):::core
-        EvtNet("🌐 NetworkConnectionAttached"):::neutral
+        EvtNet("🌐 NetworkConnectionAttached"):::core
         EvtDiag("📊 DiagnosticsEnabled"):::data
     end
 
@@ -1528,7 +1528,6 @@ flowchart TB
     style InfraEvts fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style WorkloadEvts fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
