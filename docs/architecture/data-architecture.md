@@ -260,9 +260,9 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph configDomain["📝 Configuration Domain"]
-        yaml1("📝 azureResources.yaml"):::data
-        yaml2("📝 security.yaml"):::data
-        yaml3("📝 devcenter.yaml"):::data
+        yaml1("📝 azureResources.yaml"):::neutral
+        yaml2("📝 security.yaml"):::neutral
+        yaml3("📝 devcenter.yaml"):::neutral
         schema1("✅ azureResources.schema.json"):::success
         schema2("✅ security.schema.json"):::success
         schema3("✅ devcenter.schema.json"):::success
@@ -1014,9 +1014,9 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph compiletime["🔧 Compile-Time (Flow 4)"]
-        yaml1("📝 azureResources.yaml"):::data
-        yaml2("📝 security.yaml"):::data
-        yaml3("📝 devcenter.yaml"):::data
+        yaml1("📝 azureResources.yaml"):::neutral
+        yaml2("📝 security.yaml"):::neutral
+        yaml3("📝 devcenter.yaml"):::neutral
         schema1("✅ *.schema.json"):::success
     end
 
@@ -1029,14 +1029,14 @@ flowchart LR
     end
 
     subgraph runtime["☁️ Runtime (Flows 2 and 3)"]
-        kvStore("🔒 Key Vault"):::data
-        secretEntity("🔑 gha-token"):::data
-        law("📊 Log Analytics"):::data
+        kvStore("🔒 Key Vault"):::warning
+        secretEntity("🔑 gha-token"):::warning
+        law("📊 Log Analytics"):::core
         dcNode("🖥️ DevCenter"):::core
         projNode("📁 eShop Project"):::core
-        dcCat("📚 DC Catalog"):::external
-        projCat("📚 Project Catalogs"):::external
-        gitHub("🐙 GitHub Repos"):::external
+        dcCat("📚 DC Catalog"):::neutral
+        projCat("📚 Project Catalogs"):::neutral
+        gitHub("🐙 GitHub Repos"):::neutral
     end
 
     yaml1 -->|"loadYamlContent()"| armDeploy
@@ -1062,13 +1062,12 @@ flowchart LR
 
     %% Centralized classDef declarations
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
     %% Subgraph style directives (MRM-C001: functional siblings use distinct semantic colors)
-    style compiletime fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style compiletime fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style deploy fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     style runtime fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
