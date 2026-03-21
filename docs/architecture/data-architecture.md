@@ -317,9 +317,9 @@ flowchart TB
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
     style configDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style securityDomain fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    style telemetryDomain fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style catalogDomain fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style securityDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style telemetryDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style catalogDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -484,9 +484,8 @@ flowchart TB
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    %% Subgraph style directives (MRM-C001: functional siblings use distinct semantic colors)
-    style deployEnv fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style azureRG fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style deployEnv fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style azureRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style github fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
@@ -1066,10 +1065,9 @@ flowchart LR
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    %% Subgraph style directives (MRM-C001: functional siblings use distinct semantic colors)
     style compiletime fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style deploy fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style runtime fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style deploy fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style runtime fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -1174,11 +1172,11 @@ flowchart LR
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
     %% Subgraph style directives
-    style origin fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style transform fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style origin fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style transform fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style stores fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style consumers fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style telemetry fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style telemetry fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0

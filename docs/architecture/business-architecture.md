@@ -104,8 +104,8 @@ flowchart TB
     obj4 -->|"supports"| vs1
 
     style stratLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style objLayer fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style vsLayer fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style objLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style vsLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
@@ -468,10 +468,10 @@ flowchart TB
     p5 -->|"documents intent for"| p1
     p4 -->|"informs decisions in"| p1
 
-    style foundation fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style governance fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style foundation fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style governance fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style operational fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style strategic fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style strategic fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
@@ -556,8 +556,8 @@ flowchart LR
         cap5("👤 Developer Self-Service<br/>Onboarding"):::danger
     end
 
-    style defined fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style repeatable fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style defined fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style repeatable fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
@@ -1474,8 +1474,8 @@ flowchart TB
     kvRes -.->|"secrets for"| dcRes
 
     style bizLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style appLayer fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style techLayer fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style appLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style techLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130

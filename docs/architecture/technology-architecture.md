@@ -164,11 +164,11 @@ flowchart TB
 
     style Pipeline fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style AzurePlatform fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style MonitorRG fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style SecurityRG fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    style WorkloadRG fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style MonitorRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style SecurityRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style WorkloadRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style ConnRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style IdentityPlane fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style IdentityPlane fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -503,10 +503,10 @@ flowchart TB
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style Sub fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style WL_RG fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style WL_RG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style ConnRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style SecRG fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    style MonRG fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style SecRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style MonRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -571,10 +571,10 @@ flowchart LR
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
 
-    style DevBoxService fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style DevBoxService fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style ConnRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style eShopVNet fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style DiagFlow fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style DiagFlow fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -691,10 +691,10 @@ flowchart TB
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 
-    style DevCenterService fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style DevCenterService fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style eShopProject fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style BackendPool fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style FrontendPool fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style BackendPool fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style FrontendPool fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -962,9 +962,9 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
-    style AzureAD fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style KeyVaultPlane fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    style RBACAssignments fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style AzureAD fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style KeyVaultPlane fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style RBACAssignments fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -1254,9 +1254,9 @@ flowchart TB
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style EntryPoint fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style MonitoringMod fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style SecurityMod fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    style WorkloadMod fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style MonitoringMod fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style SecurityMod fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style WorkloadMod fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style ConnMod fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
