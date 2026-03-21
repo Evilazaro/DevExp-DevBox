@@ -1,4 +1,4 @@
-# Technology Architecture - DevExp-DevBox
+﻿# Technology Architecture - DevExp-DevBox
 
 **Generated**: 2026-03-19T00:00:00Z **Session ID**:
 550e8400-e29b-41d4-a716-446655440002 **Target Layer**: Technology **Quality
@@ -540,7 +540,7 @@ flowchart LR
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    Developer(["👤 Developer"]):::external
+    Developer(["👤 Developer"]):::neutral
 
     subgraph DevBoxService["🏗️ Azure Dev Center Service"]
         DevCenter("🏗️ devexp-devcenter"):::core
@@ -679,7 +679,7 @@ flowchart TB
 
     end
 
-    ImgCatalog("📚 devboxImages Catalog<br/>github.com/Evilazaro/eShop<br/>/.devcenter/imageDefinitions"):::external
+    ImgCatalog("📚 devboxImages Catalog<br/>github.com/Evilazaro/eShop<br/>/.devcenter/imageDefinitions"):::neutral
 
     BE_IMG -->|"sourced from"| ImgCatalog
     FE_IMG -->|"sourced from"| ImgCatalog
@@ -1258,7 +1258,7 @@ flowchart TB
     style MonitoringMod fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     style SecurityMod fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     style WorkloadMod fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style ConnMod fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    style ConnMod fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
