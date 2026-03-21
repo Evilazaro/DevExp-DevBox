@@ -454,7 +454,7 @@ flowchart TB
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    AZD(["🚀 azd provision<br/>azure.yaml"]):::external
+    AZD(["🚀 azd provision<br/>azure.yaml"]):::neutral
 
     subgraph Sub["☁️ Azure Subscription"]
 
@@ -1205,7 +1205,7 @@ flowchart TB
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════════════════
 
-    AZD(["🚀 azd provision<br/>azure.yaml"]):::external
+    AZD(["🚀 azd provision<br/>azure.yaml"]):::neutral
 
     subgraph EntryPoint["📋 infra/main.bicep (targetScope: subscription)"]
         RG_MON("📦 monitoringRg<br/>Resource Group"):::neutral
@@ -1252,7 +1252,6 @@ flowchart TB
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 
     style EntryPoint fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style MonitoringMod fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
