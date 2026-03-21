@@ -312,9 +312,8 @@ flowchart TB
 
     %% Centralized classDef declarations
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
     style configDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -445,14 +444,14 @@ flowchart TB
 
     subgraph deployEnv["🌍 Deploy-Time"]
         envVar("⚙️ KEY_VAULT_SECRET env var"):::neutral
-        yamlCfg("📝 YAML Config Files"):::data
+        yamlCfg("📝 YAML Config Files"):::neutral
         params("📄 main.parameters.json"):::neutral
     end
 
     subgraph azureRG["☁️ devexp-workload-env-RG"]
-        kv("🔒 Key Vault<br>contoso-{unique}-kv"):::data
-        secretKv("🔑 Secret: gha-token"):::data
-        law("📊 Log Analytics Workspace"):::data
+        kv("🔒 Key Vault<br>contoso-{unique}-kv"):::warning
+        secretKv("🔑 Secret: gha-token"):::warning
+        law("📊 Log Analytics Workspace"):::core
         dc("🖥️ DevCenter<br>devexp-devcenter"):::core
         proj("📁 Project: eShop"):::core
         vnet("🌐 VNet 10.0.0.0/16"):::core
@@ -460,8 +459,8 @@ flowchart TB
     end
 
     subgraph github["🐙 GitHub"]
-        dcCatalog("📚 devcenter-catalog<br>public"):::external
-        eshopCatalog("📚 eShop Catalogs<br>private"):::external
+        dcCatalog("📚 devcenter-catalog<br>public"):::neutral
+        eshopCatalog("📚 eShop Catalogs<br>private"):::neutral
     end
 
     envVar -->|"@secure param"| params
@@ -482,14 +481,13 @@ flowchart TB
 
     %% Centralized classDef declarations
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
     %% Subgraph style directives (MRM-C001: functional siblings use distinct semantic colors)
     style deployEnv fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     style azureRG fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style github fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    style github fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
