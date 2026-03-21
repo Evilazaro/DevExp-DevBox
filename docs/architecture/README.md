@@ -1,4 +1,4 @@
-# 🏛️ Architecture Documentation — DevExp-DevBox
+﻿# 🏛️ Architecture Documentation — DevExp-DevBox
 
 [![](https://img.shields.io/badge/Framework-TOGAF_BDAT-0078D4?logo=microsoftazure&logoColor=white)](https://www.opengroup.org/togaf)
 [![Maturity Level](<https://img.shields.io/badge/Maturity-Level_3_(Defined)-28A745>)](https://cmmiinstitute.com/)
@@ -182,7 +182,7 @@ flowchart TB
 
     subgraph business["🏗️ Business Layer"]
         direction TB
-        b1("🎯 Platform Engineering Accelerator Strategy"):::data
+        b1("🎯 Platform Engineering Accelerator Strategy"):::core
         b2("⚡ 7 Business Capabilities"):::core
         b3("🌊 2 Value Streams"):::core
         b4("📏 6 Business Rules"):::warning
@@ -190,15 +190,15 @@ flowchart TB
 
     subgraph data["🗄️ Data Layer"]
         direction TB
-        d1("📄 Configuration Data<br>YAML + JSON Schema"):::data
+        d1("📄 Configuration Data<br>YAML + JSON Schema"):::neutral
         d2("🔑 Security Data<br>Azure Key Vault"):::warning
-        d3("📊 Observability Data<br>Log Analytics"):::data
+        d3("📊 Observability Data<br>Log Analytics"):::core
         d4("🖥️ Workload Data<br>Dev Box Definitions"):::core
     end
 
     subgraph application["⚙️ Application Layer"]
         direction TB
-        a1("⚙️ Azure Developer CLI"):::external
+        a1("⚙️ Azure Developer CLI"):::neutral
         a2("🪝 AZD Hooks + Bicep Compiler"):::core
         a3("📦 6 Bicep Modules<br>Monitoring · Security · Workload<br>DevCenter · Project · Connectivity"):::core
     end
@@ -207,7 +207,7 @@ flowchart TB
         direction TB
         t1("🖥️ Azure DevCenter<br>Dev Box Pools"):::core
         t2("🔑 Azure Key Vault"):::warning
-        t3("📊 Log Analytics<br>Diagnostic Settings"):::data
+        t3("📊 Log Analytics<br>Diagnostic Settings"):::core
         t4("🌐 VNet + Network Connection<br>Managed Identities + RBAC"):::neutral
     end
 
@@ -216,15 +216,13 @@ flowchart TB
     application -->|"deploys to"| technology
 
     style business fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style data fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style application fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     style technology fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
