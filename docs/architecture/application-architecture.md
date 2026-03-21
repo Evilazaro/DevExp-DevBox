@@ -637,8 +637,8 @@ flowchart LR
     HubSpoke -->|"observes"| LeastPriv
 
     style Foundation fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style Security fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    style Operational fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style Security fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style Operational fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -743,9 +743,9 @@ flowchart TB
     ProjDepl -.->|"commented out"| PoolDepl
 
     style PreProv fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style MonPhase fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style SecPhase fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    style WLPhase fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style MonPhase fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style SecPhase fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style WLPhase fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -1446,8 +1446,8 @@ flowchart LR
     KVtwo -->|"allLogs allMetrics"| LAtwo
     VNtwo -->|"allLogs allMetrics"| LAtwo
 
-    style Deploy fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style Platform fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style Deploy fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style Platform fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style ExternalDeps fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -1526,9 +1526,9 @@ flowchart TB
     EvtDC -->|"resource deployed"| EvtDiag
     EvtClean -.->|"teardown"| EvtDC
 
-    style TriggerEvts fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style ValidationEvts fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style InfraEvts fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style TriggerEvts fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style ValidationEvts fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style InfraEvts fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style WorkloadEvts fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
