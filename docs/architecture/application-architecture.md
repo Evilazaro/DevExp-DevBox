@@ -148,8 +148,8 @@ flowchart TB
     DevEng -->|"HTTPS"| DevPortal
     DevPortal -->|"DevBox session"| DCsvc
 
-    style Actors fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style AzurePlatform fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style Actors fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style AzurePlatform fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style ExtSystems fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -246,12 +246,12 @@ flowchart LR
     LAws -.->|"logAnalyticsId"| WLOrch
     SecretRes -.->|"secretIdentifier"| WLOrch
 
-    style RootTier fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style RootTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style MonTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style SecTier fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    style WLTier fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style SecTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style WLTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style ConnTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style IdTier fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style IdTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -322,8 +322,8 @@ flowchart TB
     DevBoxAccess -->|"user sessions"| CtrlTier
 
     style CfgTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style CtrlTier fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style DataTier fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style CtrlTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style DataTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
