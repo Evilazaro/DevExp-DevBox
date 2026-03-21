@@ -270,14 +270,14 @@ flowchart TB
     end
 
     subgraph securityDomain["🔐 Identity and Security Domain"]
-        kv("🔒 Azure Key Vault"):::data
-        secret("🔑 gha-token secret"):::data
+        kv("🔒 Azure Key Vault"):::warning
+        secret("🔑 gha-token secret"):::warning
         rbac("👥 RBAC Role Assignments"):::core
         kvTier("🗝️ Key-Value Store (Confidential)"):::neutral
     end
 
     subgraph telemetryDomain["📊 Telemetry Domain"]
-        law("📊 Log Analytics Workspace"):::data
+        law("📊 Log Analytics Workspace"):::core
         armState("🌐 ARM Resource State"):::core
         lakeTier("📊 Data Lake (Internal)"):::neutral
     end
@@ -285,9 +285,9 @@ flowchart TB
     subgraph catalogDomain["📚 Catalog and Workload Domain"]
         dc("🖥️ Azure DevCenter"):::core
         proj("📁 eShop Project"):::core
-        dcCat("📚 DC Catalog (public)"):::external
-        projCat("📚 Project Catalogs (private)"):::external
-        gitHub("🐙 GitHub Repos"):::external
+        dcCat("📚 DC Catalog (public)"):::neutral
+        projCat("📚 Project Catalogs (private)"):::neutral
+        gitHub("🐙 GitHub Repos"):::neutral
         gitTier("📦 Object Storage (Mixed)"):::neutral
     end
 
@@ -317,8 +317,7 @@ flowchart TB
     classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    %% Subgraph style directives (MRM-C001: functional siblings use distinct semantic colors)
-    style configDomain fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style configDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style securityDomain fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     style telemetryDomain fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     style catalogDomain fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130

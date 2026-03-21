@@ -103,7 +103,7 @@ flowchart TB
     obj2 -->|"supports"| vs2
     obj4 -->|"supports"| vs1
 
-    style stratLayer fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style stratLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style objLayer fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     style vsLayer fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 
@@ -458,7 +458,7 @@ flowchart TB
     end
 
     subgraph strategic["🎯 Strategic — Alignment"]
-        p1("⚙️ P1: Capability-Driven Design"):::data
+        p1("⚙️ P1: Capability-Driven Design"):::core
     end
 
     p2 -->|"governs"| p3
@@ -470,13 +470,12 @@ flowchart TB
 
     style foundation fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     style governance fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style operational fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style operational fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style strategic fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -1454,10 +1453,10 @@ flowchart TB
     end
 
     subgraph techLayer["🖥️ Technology Layer — Azure Resources"]
-        kvRes("🔑 Azure Key Vault"):::data
-        laRes("📊 Log Analytics<br/>Workspace"):::data
-        dcRes("🖥️ Azure DevCenter"):::data
-        projRes("📁 DevCenter<br/>Project"):::data
+        kvRes("🔑 Azure Key Vault"):::core
+        laRes("📊 Log Analytics<br/>Workspace"):::core
+        dcRes("🖥️ Azure DevCenter"):::core
+        projRes("📁 DevCenter<br/>Project"):::core
     end
 
     cap1b -->|"realized by"| mainBicep
@@ -1474,13 +1473,12 @@ flowchart TB
     laRes -.->|"monitors"| dcRes
     kvRes -.->|"secrets for"| dcRes
 
-    style bizLayer fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style bizLayer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style appLayer fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     style techLayer fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
