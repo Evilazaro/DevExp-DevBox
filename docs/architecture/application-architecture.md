@@ -120,15 +120,15 @@ flowchart TB
         ARMeng("⚙️ ARM / Bicep Engine"):::core
         DCsvc("📦 Azure DevCenter"):::core
         KVsvc("🔒 Key Vault"):::warning
-        LAsvc("📊 Log Analytics"):::data
+        LAsvc("📊 Log Analytics"):::core
         VNetsvc("🌐 Virtual Network"):::neutral
         RBACsvc("🛡️ Azure RBAC"):::warning
     end
 
     subgraph ExtSystems["🌍 External Systems"]
-        GHPub("📁 GitHub Public Catalog"):::external
-        GHPriv("📁 GitHub eShop Repo"):::external
-        DevPortal("🖥️ DevBox Portal"):::external
+        GHPub("📁 GitHub Public Catalog"):::neutral
+        GHPriv("📁 GitHub eShop Repo"):::neutral
+        DevPortal("🖥️ DevBox Portal"):::neutral
     end
 
     PlatEng -->|"azd provision"| AZDtool
@@ -150,13 +150,11 @@ flowchart TB
 
     style Actors fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     style AzurePlatform fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style ExtSystems fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    style ExtSystems fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -193,8 +191,8 @@ flowchart LR
     end
 
     subgraph MonTier["📊 Monitoring Tier"]
-        LAws("📊 LogAnalyticsWorkspace"):::data
-        ActSol("📊 AzureActivity Solution"):::data
+        LAws("📊 LogAnalyticsWorkspace"):::core
+        ActSol("📊 AzureActivity Solution"):::core
     end
 
     subgraph SecTier["🔒 Security Tier"]
@@ -249,16 +247,15 @@ flowchart LR
     SecretRes -.->|"secretIdentifier"| WLOrch
 
     style RootTier fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style MonTier fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style MonTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style SecTier fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     style WLTier fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style ConnTier fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    style ConnTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style IdTier fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -291,8 +288,8 @@ flowchart TB
 %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph CfgTier["📝 Tier 1 — Configuration Integration"]
-        YAMLConf("📄 YAML Config Files"):::data
-        JSONSchema("🗂️ JSON Schema Validators"):::data
+        YAMLConf("📄 YAML Config Files"):::neutral
+        JSONSchema("🗂️ JSON Schema Validators"):::neutral
         AZDenv("⚙️ AZD Environment Variables"):::core
         ARMparams("📋 ARM Parameters"):::core
     end
@@ -305,9 +302,9 @@ flowchart TB
     end
 
     subgraph DataTier["🌐 Tier 3 — Data Plane Integration"]
-        GitSync("📁 Git Catalog Sync"):::external
-        DiagSink("📊 Diagnostic Sink"):::data
-        DevBoxAccess("🖥️ DevBox Access Portal"):::external
+        GitSync("📁 Git Catalog Sync"):::neutral
+        DiagSink("📊 Diagnostic Sink"):::core
+        DevBoxAccess("🖥️ DevBox Access Portal"):::neutral
         KVsecrets("🔑 KV Secret Store"):::warning
     end
 
@@ -324,15 +321,13 @@ flowchart TB
     GitSync -->|"catalog definitions"| CtrlTier
     DevBoxAccess -->|"user sessions"| CtrlTier
 
-    style CfgTier fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style CfgTier fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style CtrlTier fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     style DataTier fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -629,7 +624,7 @@ flowchart LR
     end
 
     subgraph Operational["⚙️ Operational Principles"]
-        HubSpoke("📊 Hub-and-Spoke Observability"):::data
+        HubSpoke("📊 Hub-and-Spoke Observability"):::core
         CondCreate("🔀 Conditional Create-or-Reference"):::neutral
     end
 
@@ -641,7 +636,7 @@ flowchart LR
     HubSpoke -->|"observes"| ZeroTrust
     HubSpoke -->|"observes"| LeastPriv
 
-    style Foundation fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style Foundation fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style Security fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     style Operational fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 
@@ -649,7 +644,6 @@ flowchart LR
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -711,7 +705,7 @@ flowchart TB
     end
 
     subgraph MonPhase["📊 Phase 1 — Monitoring"]
-        LAdepl("📊 LogAnalytics Deploy"):::data
+        LAdepl("📊 LogAnalytics Deploy"):::core
     end
 
     subgraph SecPhase["🔒 Phase 2 — Security"]
@@ -748,7 +742,7 @@ flowchart TB
     ProjDepl --> ConnDepl
     ProjDepl -.->|"commented out"| PoolDepl
 
-    style PreProv fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style PreProv fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style MonPhase fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     style SecPhase fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     style WLPhase fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -757,7 +751,6 @@ flowchart TB
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -1428,13 +1421,13 @@ flowchart LR
     subgraph Platform["☁️ Platform Services"]
         DCtwo("🏗️ DevCenter"):::core
         KVtwo("🔒 Key Vault"):::warning
-        LAtwo("📊 Log Analytics"):::data
+        LAtwo("📊 Log Analytics"):::core
         VNtwo("🌐 VirtualNetwork"):::neutral
     end
 
     subgraph ExternalDeps["🌍 External Dependencies"]
-        GHpub2("📁 GitHub Public Catalog"):::external
-        GHpriv2("📁 GitHub eShop Repo"):::external
+        GHpub2("📁 GitHub Public Catalog"):::neutral
+        GHpriv2("📁 GitHub eShop Repo"):::neutral
         ADtoken("🔑 Azure AD Token Svc"):::warning
     end
 
@@ -1455,13 +1448,11 @@ flowchart LR
 
     style Deploy fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     style Platform fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style ExternalDeps fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    style ExternalDeps fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -1504,7 +1495,7 @@ flowchart TB
 
     subgraph InfraEvts["🏗️ Infrastructure Events"]
         EvtRG("📦 ResourceGroupCreated"):::core
-        EvtLA("📊 LogAnalyticsProvisioned"):::data
+        EvtLA("📊 LogAnalyticsProvisioned"):::core
         EvtKV("🔒 KeyVaultProvisioned"):::warning
         EvtSec("🔑 SecretCreated"):::warning
         EvtDC("🏗️ DevCenterProvisioned"):::core
@@ -1517,7 +1508,7 @@ flowchart TB
         EvtProj("📋 ProjectProvisioned"):::core
         EvtEnv("🗂️ EnvironmentTypeCreated"):::core
         EvtNet("🌐 NetworkConnectionAttached"):::core
-        EvtDiag("📊 DiagnosticsEnabled"):::data
+        EvtDiag("📊 DiagnosticsEnabled"):::core
     end
 
     EvtPR -->|"triggers"| EvtVal
@@ -1538,13 +1529,12 @@ flowchart TB
     style TriggerEvts fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     style ValidationEvts fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     style InfraEvts fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style WorkloadEvts fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
+    style WorkloadEvts fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
