@@ -107,7 +107,7 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph Pipeline["🚀 AZD Deployment Pipeline"]
-        AZD("🚀 Azure Developer CLI<br/>ContosoDevExp"):::external
+        AZD("🚀 Azure Developer CLI<br/>ContosoDevExp"):::neutral
     end
 
     subgraph AzurePlatform["☁️ Azure Platform"]
@@ -161,14 +161,13 @@ flowchart TB
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 
-    style Pipeline fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    style Pipeline fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style AzurePlatform fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style MonitorRG fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     style SecurityRG fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     style WorkloadRG fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style ConnRG fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    style ConnRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style IdentityPlane fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
@@ -502,11 +501,10 @@ flowchart TB
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 
     style Sub fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style WL_RG fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style ConnRG fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    style ConnRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style SecRG fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     style MonRG fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
@@ -572,10 +570,9 @@ flowchart LR
     %% Centralized classDefs
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 
     style DevBoxService fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style ConnRG fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    style ConnRG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style eShopVNet fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style DiagFlow fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
@@ -693,7 +690,6 @@ flowchart TB
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
 
     style DevCenterService fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     style eShopProject fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130

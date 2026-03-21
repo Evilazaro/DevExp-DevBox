@@ -1118,9 +1118,9 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph origin["📂 L1: Source of Truth"]
-        ar("📝 azureResources.yaml"):::data
-        sec("📝 security.yaml"):::data
-        dc("📝 devcenter.yaml"):::data
+        ar("📝 azureResources.yaml"):::neutral
+        sec("📝 security.yaml"):::neutral
+        dc("📝 devcenter.yaml"):::neutral
         env("⚙️ KEY_VAULT_SECRET"):::neutral
     end
 
@@ -1130,22 +1130,22 @@ flowchart LR
     end
 
     subgraph stores["🗄️ L3: Operational Data Stores"]
-        kv("🔒 Key Vault (gha-token)"):::data
+        kv("🔒 Key Vault (gha-token)"):::warning
         dcRes("🖥️ DevCenter Resource"):::core
         proj("📁 eShop Project"):::core
         vnet("🌐 VNet + Subnet"):::core
     end
 
     subgraph consumers["📥 L4: Downstream Consumers"]
-        dcCat("📚 DevCenter Catalog"):::external
-        projCat1("📚 Environments Catalog"):::external
-        projCat2("📚 DevBox Images Catalog"):::external
-        gitHub("🐙 GitHub Repos"):::external
+        dcCat("📚 DevCenter Catalog"):::neutral
+        projCat1("📚 Environments Catalog"):::neutral
+        projCat2("📚 DevBox Images Catalog"):::neutral
+        gitHub("🐙 GitHub Repos"):::neutral
         azdEnv("🌍 AZD .env outputs"):::neutral
     end
 
     subgraph telemetry["📊 L5: Telemetry Sink"]
-        law("📊 Log Analytics Workspace"):::data
+        law("📊 Log Analytics Workspace"):::core
     end
 
     ar -->|"loadYamlContent()"| bicep
@@ -1170,15 +1170,14 @@ flowchart LR
 
     %% Centralized classDef declarations
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef data fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
     %% Subgraph style directives
     style origin fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     style transform fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style stores fill:#F0E6FA,stroke:#8764B8,stroke-width:2px,color:#323130
-    style consumers fill:#E0F7F7,stroke:#038387,stroke-width:2px,color:#323130
+    style stores fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style consumers fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style telemetry fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
 
