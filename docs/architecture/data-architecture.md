@@ -249,7 +249,7 @@ flowchart TB
     accDescr: Shows the three data domains (Configuration, Identity and Security, Telemetry) and their constituent data assets and storage tiers across the developer platform
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -432,7 +432,7 @@ flowchart TB
     accDescr: Shows current state data stores, flows, and dependencies in the Azure DevCenter developer platform infrastructure
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -1002,7 +1002,7 @@ flowchart LR
     accDescr: Shows producer-consumer data flow relationships between all platform data components including secrets, configuration, and telemetry pipelines
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -1105,7 +1105,7 @@ flowchart LR
     accDescr: Shows full end-to-end data lineage from source YAML configuration files through ARM deployment to operational data stores and telemetry sinks
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
