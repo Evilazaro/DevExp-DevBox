@@ -1,4 +1,4 @@
-﻿# Technology Architecture - DevExp-DevBox
+# Technology Architecture - DevExp-DevBox
 
 **Generated**: 2026-03-19T00:00:00Z **Session ID**:
 550e8400-e29b-41d4-a716-446655440002 **Target Layer**: Technology **Quality
@@ -96,7 +96,7 @@ flowchart TB
     accDescr: High-level overview of all Technology layer components organized by TOGAF category across the Azure DevCenter platform
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -444,7 +444,7 @@ flowchart TB
     accDescr: Shows the Azure subscription deployment topology with resource groups, contained resources, and provisioning dependencies
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -530,7 +530,7 @@ flowchart LR
     accDescr: Shows the network topology including VNet address space, subnets, DevCenter network connection, and developer endpoint flows
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -649,7 +649,7 @@ flowchart TB
     accDescr: Shows DevCenter compute hierarchy from project to pool to individual Dev Box VM instances with VM SKU specifications
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -913,7 +913,7 @@ flowchart TB
     accDescr: Shows Key Vault secret management, Managed Identity bindings, and RBAC role assignment flows across DevCenter and Project identities
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -1195,7 +1195,7 @@ flowchart TB
     accDescr: Directed acyclic graph showing all Bicep module dependencies and the data outputs passed between them during azd provision execution
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only

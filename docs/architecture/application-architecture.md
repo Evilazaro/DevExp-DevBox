@@ -100,7 +100,7 @@ flowchart TB
     accDescr: C4-style context diagram showing platform actors, Azure services, and external systems
 
 %% ═══════════════════════════════════════════════════════════════════════════
-%% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+%% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
 %% (Semantic + Structural + Font + Accessibility Governance)
 %% ═══════════════════════════════════════════════════════════════════════════
 %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -176,7 +176,7 @@ flowchart LR
     accDescr: Internal orchestration tiers showing module composition and dependency ordering
 
 %% ═══════════════════════════════════════════════════════════════════════════
-%% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+%% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
 %% (Semantic + Structural + Font + Accessibility Governance)
 %% ═══════════════════════════════════════════════════════════════════════════
 %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -277,7 +277,7 @@ flowchart TB
     accDescr: Three integration tiers showing configuration, control-plane, and data-plane integration surfaces
 
 %% ═══════════════════════════════════════════════════════════════════════════
-%% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+%% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
 %% (Semantic + Structural + Font + Accessibility Governance)
 %% ═══════════════════════════════════════════════════════════════════════════
 %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -602,7 +602,7 @@ flowchart LR
     accDescr: Shows relationships between architecture principles and the foundational principles they depend on
 
 %% ═══════════════════════════════════════════════════════════════════════════
-%% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+%% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
 %% (Semantic + Structural + Font + Accessibility Governance)
 %% ═══════════════════════════════════════════════════════════════════════════
 %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -687,7 +687,7 @@ flowchart TB
     accDescr: Shows the sequential ARM deployment chain from pre-provisioning hook through workload tier
 
 %% ═══════════════════════════════════════════════════════════════════════════
-%% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+%% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
 %% (Semantic + Structural + Font + Accessibility Governance)
 %% ═══════════════════════════════════════════════════════════════════════════
 %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -1402,7 +1402,7 @@ flowchart LR
     accDescr: Runtime and deployment service-to-service dependencies with protocols and directions
 
 %% ═══════════════════════════════════════════════════════════════════════════
-%% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+%% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
 %% (Semantic + Structural + Font + Accessibility Governance)
 %% ═══════════════════════════════════════════════════════════════════════════
 %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -1474,7 +1474,7 @@ flowchart TB
     accDescr: Lifecycle events and their propagation through the provisioning pipeline
 
 %% ═══════════════════════════════════════════════════════════════════════════
-%% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+%% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
 %% (Semantic + Structural + Font + Accessibility Governance)
 %% ═══════════════════════════════════════════════════════════════════════════
 %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only

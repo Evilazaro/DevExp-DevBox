@@ -68,7 +68,7 @@ flowchart TB
     accDescr: Shows the Platform Engineering Accelerator strategic intent, four strategic objectives, and their alignment to two delivery value streams.
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -272,7 +272,7 @@ flowchart TB
     accDescr: Shows 7 core business capabilities with maturity levels and inter-capability dependencies; color-coded by maturity — yellow for Level 3 Defined, red for Level 2 Repeatable.
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -433,7 +433,7 @@ flowchart TB
     accDescr: Shows six architecture principles organized into four governance tiers — Foundation, Security and Knowledge, Operational Transparency, and Strategic Alignment — with dependency arrows showing how lower-tier principles enable higher-tier ones.
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -533,7 +533,7 @@ flowchart LR
     accDescr: Heatmap-style assessment of all 7 business capabilities grouped by maturity level; yellow nodes indicate Level 3 Defined, red nodes indicate Level 2 Repeatable requiring advancement.
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -767,7 +767,7 @@ flowchart LR
     accDescr: End-to-end flow from developer access request through role-specific Dev Box provisioning, catalog image loading, and RBAC assignment to first productive development session.
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -863,7 +863,7 @@ flowchart TB
     accDescr: BPMN-style diagram showing the complete Azure DevCenter provisioning workflow from azd provision execution through sequential module deployment to operational readiness smoke test verification.
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -1428,7 +1428,7 @@ flowchart TB
     accDescr: Shows Business capabilities mapping to Application Bicep modules and Azure Technology resources across three architectural layers with directional dependency and observability feedback relationships.
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only

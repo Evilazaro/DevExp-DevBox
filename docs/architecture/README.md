@@ -1,4 +1,4 @@
-﻿# 🏛️ Architecture Documentation — DevExp-DevBox
+# 🏛️ Architecture Documentation — DevExp-DevBox
 
 [![](https://img.shields.io/badge/Framework-TOGAF_BDAT-0078D4?logo=microsoftazure&logoColor=white)](https://www.opengroup.org/togaf)
 [![Maturity Level](<https://img.shields.io/badge/Maturity-Level_3_(Defined)-28A745>)](https://cmmiinstitute.com/)
@@ -170,7 +170,7 @@ flowchart TB
     accDescr: Four-layer  architecture showing the Business, Data, Application, and Technology layers of the DevExp-DevBox platform and their relationships.
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
@@ -215,10 +215,10 @@ flowchart TB
     data -->|"consumed by"| application
     application -->|"deploys to"| technology
 
-    style business fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style business fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style data fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style application fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style technology fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style application fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style technology fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
