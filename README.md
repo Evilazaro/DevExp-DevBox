@@ -68,7 +68,7 @@ flowchart TB
     accDescr: Deployment workflow from platform engineer to Azure DevCenter, with Key Vault, Log Analytics, Dev Box pools, and virtual network connectivity
 
     %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v1.1
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
     %% ═══════════════════════════════════════════════════════════════════════════
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
