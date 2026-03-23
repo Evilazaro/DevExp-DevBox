@@ -273,7 +273,7 @@ The following principles govern all four architecture layers consistently:
 ---
 
 > 📌 Architecture documentation aligned to the ** ADM** standard. All diagrams
-> follow the **Azure Fluent UI Architecture Pattern v1.1** (semantic color
+> follow the **Azure Fluent UI Architecture Pattern v2.0** (semantic color
 > palette, WCAG AA contrast, Mermaid `dagre` layout). Last reviewed: March 2026.
 
 ---
