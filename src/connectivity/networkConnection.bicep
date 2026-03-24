@@ -14,13 +14,13 @@ param location string = resourceGroup().location
 param tags object = {}
 
 @description('Reference to existing DevCenter instance')
-resource devcenter 'Microsoft.DevCenter/devcenters@2025-02-01' existing = {
+resource devcenter 'Microsoft.DevCenter/devcenters@2026-01-01-preview' existing = {
   name: devCenterName
   scope: resourceGroup()
 }
 
 @description('Network Connection resource for DevCenter')
-resource netConnection 'Microsoft.DevCenter/networkConnections@2025-02-01' = {
+resource netConnection 'Microsoft.DevCenter/networkConnections@2026-01-01-preview' = {
   name: name
   location: location
   tags: tags
@@ -31,7 +31,7 @@ resource netConnection 'Microsoft.DevCenter/networkConnections@2025-02-01' = {
 }
 
 @description('DevCenter Network Connection Attachment')
-resource vnetAttachment 'Microsoft.DevCenter/devcenters/attachednetworks@2025-02-01' = {
+resource vnetAttachment 'Microsoft.DevCenter/devcenters/attachednetworks@2026-01-01-preview' = {
   name: name
   parent: devcenter
   properties: {

@@ -33,12 +33,12 @@ type Catalog = {
 }
 
 @description('Reference to the existing DevCenter project')
-resource project 'Microsoft.DevCenter/projects@2025-02-01' existing = {
+resource project 'Microsoft.DevCenter/projects@2026-01-01-preview' existing = {
   name: projectName
 }
 
 @description('Environment Definition Catalog')
-resource catalog 'Microsoft.DevCenter/projects/catalogs@2025-02-01' = {
+resource catalog 'Microsoft.DevCenter/projects/catalogs@2026-01-01-preview' = {
   name: catalogConfig.name
   parent: project
   properties: {
