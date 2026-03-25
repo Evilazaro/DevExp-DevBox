@@ -16,7 +16,7 @@
 # =============================================================================
 # Dev Center Core Settings
 # =============================================================================
-name: 'devexp-devcenter'
+name: 'devexp'
 catalogItemSyncEnableStatus: 'Enabled'
 microsoftHostedNetworkEnableStatus: 'Enabled'
 installAzureMonitorAgentEnableStatus: 'Enabled'
@@ -79,7 +79,7 @@ environmentTypes:
     deploymentTargetId: '' # Empty for default subscription target. If you want to deploy to a specific target, provide the target ID here.
   - name: 'staging'
     deploymentTargetId: '' # Empty for default subscription target. If you want to deploy to a specific target, provide the target ID here.
-  - name: 'UAT'
+  - name: 'uat'
     deploymentTargetId: '' # Empty for default subscription target. If you want to deploy to a specific target, provide the target ID here.
 
 # Projects section - defines distinct projects within the Dev Center
