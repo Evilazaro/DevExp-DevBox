@@ -48,7 +48,8 @@ workstations to end users.
 
 ### 🏗️ Business Architecture
 
-**File**: [business-architecture.md](business-architecture.md)
+**File**: [business-architecture.md](business-architecture.md) ·
+[CO-bu-arch.md](CO-bu-arch.md) _(Sections 1–5, 7, 8)_
 
 Defines the strategic intent, organizational capabilities, value streams, and
 governance model of the DevExp-DevBox platform.
