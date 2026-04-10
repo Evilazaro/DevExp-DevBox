@@ -18,6 +18,7 @@ mono_crash.*
 
 # Prompts
 [Pp]rompts/
+.[Cc]laude/
 
 *.bicepparam
 
