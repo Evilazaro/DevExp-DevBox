@@ -579,36 +579,43 @@ stateDiagram-v2
     accTitle: SDLC Environment Lifecycle Flow - DevExp-DevBox
     accDescr: State diagram showing the software delivery lifecycle environment progression for eShop project. Starting from Catalog Sync, code moves through the Dev environment, then to Staging environment, then to UAT environment before reaching Production Ready state. Each transition shows the deployment environment type resource that governs it.
 
-    [*] --> CatalogSync: Catalog Scheduled Sync\ncatalog.bicep:38
+    [*] --> CatalogSync: Catalog Scheduled Sync
 
-    CatalogSync --> DevActive: Image/Env Definition\nReady | devcenter.yaml:58-64
+    CatalogSync --> DevActive: Image/Env Definition Ready
 
     state DevActive {
-        [*] --> DevEnvType: environmentType dev\ndevcenter.yaml:68
-        DevEnvType --> DevBox: Dev Box User\ndevcenter.yaml:125
+        [*] --> DevEnvType: environmentType dev
+        DevEnvType --> DevBox: Dev Box User
         DevBox --> DevCode: Active Development
     }
 
-    DevActive --> StagingActive: Promote to Staging\nprojectEnvironmentType.bicep:30
+    note right of DevActive
+        GAP-001 deploymentTargetId empty
+        devcenter.yaml line 69
+    end note
+
+    DevActive --> StagingActive: Promote to Staging
 
     state StagingActive {
-        [*] --> StagingEnvType: environmentType staging\ndevcenter.yaml:71
-        StagingEnvType --> StagingDeploy: DeploymentEnvUser\ndevcenter.yaml:128
+        [*] --> StagingEnvType: environmentType staging
+        StagingEnvType --> StagingDeploy: DeploymentEnvUser
         StagingDeploy --> StagingTest: Integration Testing
     }
 
-    StagingActive --> UATActive: Promote to UAT\nprojectEnvironmentType.bicep:30
+    note right of StagingActive
+        GAP-001 deploymentTargetId empty
+        devcenter.yaml line 72
+    end note
+
+    StagingActive --> UATActive: Promote to UAT
 
     state UATActive {
-        [*] --> UATEnvType: environmentType UAT\ndevcenter.yaml:154
-        UATEnvType --> UATDeploy: DeploymentEnvUser\ndevcenter.yaml:128
+        [*] --> UATEnvType: environmentType UAT
+        UATEnvType --> UATDeploy: DeploymentEnvUser
         UATDeploy --> UATValidation: Acceptance Testing
     }
 
-    UATActive --> [*]: Production Ready\nVS-002 Complete
-
-    note right of DevActive: GAP-001: deploymentTargetId empty\ndevcenter.yaml:69
-    note right of StagingActive: GAP-001: deploymentTargetId empty\ndevcenter.yaml:72
+    UATActive --> [*]: Production Ready VS-002 Complete
 ```
 
 ### Summary
