@@ -317,16 +317,19 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph actors["👥 Business Actors"]
+        direction TB
         PE("👤 Platform Engineering<br/>Team"):::role
         DEV("👤 eShop Engineers"):::role
     end
 
     subgraph pipeline["⚡ AZD Deployment Pipeline"]
+        direction TB
         AZD("🚀 Azure Developer CLI<br/>(azd provision)"):::core
         SETUP("📜 setUp Script<br/>(Preprovision Hook)"):::neutral
     end
 
     subgraph workload["🖥️ Workload Landing Zone"]
+        direction TB
         DC("🏢 Azure DevCenter<br/>(devexp)"):::core
         PROJ("📁 eShop Project"):::core
         POOL_BE("💻 backend-engineer<br/>Pool"):::success
@@ -337,11 +340,13 @@ flowchart TB
     end
 
     subgraph security["🔒 Security Landing Zone"]
+        direction TB
         KV("🔑 Azure Key Vault<br/>(contoso)"):::warning
         MI("🤖 Managed Identity"):::warning
     end
 
     subgraph monitoring["📊 Monitoring Landing Zone"]
+        direction TB
         LA("📈 Log Analytics<br/>Workspace"):::success
     end
 
