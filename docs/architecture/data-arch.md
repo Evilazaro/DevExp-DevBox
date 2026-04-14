@@ -1,16 +1,3 @@
----
-title: 'Data Architecture — DevExp-DevBox'
-layer: 'Data'
-version: '1.0.0'
-date: '2026-04-14'
-status: 'production'
-author: 'Platform Engineering — DevExP'
-framework: 'TOGAF 10 ADM — BDAT Data Layer'
-output_sections: [1, 2, 3, 4, 5, 8]
-quality_level: 'comprehensive'
-source_paths: ['.']
----
-
 # Data Architecture — DevExp-DevBox
 
 ## Section 1: Executive Summary
@@ -66,25 +53,6 @@ domain's data assets. RBAC-based access control on Azure Key Vault and Managed
 Identity for the DevCenter align with Microsoft's Zero Trust data access
 principles and the Azure Cloud Adoption Framework's security landing zone
 recommendations.
-
-### Maturity Assessment
-
-| Data Component       | Maturity Level | Rating                                                      |
-| -------------------- | -------------- | ----------------------------------------------------------- |
-| Data Entities        | 3 — Defined    | Well-structured YAML entities with typed fields             |
-| Data Models          | 4 — Measured   | JSON Schema draft 2020-12 with strict validation            |
-| Data Stores          | 3 — Defined    | Azure Key Vault + Log Analytics with RBAC + diagnostics     |
-| Data Flows           | 2 — Managed    | Implicit Bicep-driven flows; not formally documented        |
-| Data Services        | 2 — Managed    | Azure-native services; no custom data service layer         |
-| Data Governance      | 3 — Defined    | Mandatory tagging + RBAC + schema enforcement               |
-| Data Quality Rules   | 3 — Defined    | GUID patterns, enum constraints, required field enforcement |
-| Master Data          | 2 — Managed    | RBAC GUIDs and Azure AD groups defined; no MDM tooling      |
-| Data Transformations | 2 — Managed    | Bicep built-ins (loadYamlContent, uniqueString, union)      |
-| Data Contracts       | 2 — Managed    | Bicep output contracts defined; no formal contract registry |
-| Data Security        | 4 — Measured   | Purge protection, soft delete, RBAC auth, diagnostics       |
-
-**Overall Maturity**: 3 — Defined (aggregate average across all 11 Data
-component types)
 
 ---
 
@@ -530,7 +498,7 @@ config:
   flowchart:
     htmlLabels: true
 ---
-flowchart LR
+flowchart TB
     accTitle: Current State Data Architecture Baseline
     accDescr: Deployment pipeline showing YAML configuration files loaded by Bicep, producing Azure Key Vault secrets and Log Analytics diagnostics. Dotted lines indicate gaps in lineage tracking.
 
