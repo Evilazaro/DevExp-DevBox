@@ -1,26 +1,4 @@
----
-title: 'Business Architecture — DevExp-DevBox'
-version: '1.0.0'
-layer: 'Business'
-framework: 'TOGAF 10 ADM'
-status: 'approved'
-date: '2026-04-14'
-owner: 'Contoso Platform Engineering Team'
-output_sections: [1, 2, 3, 4, 5, 8]
-quality_level: 'comprehensive'
-session_id: 'a3f7c291-84b2-4e1d-b3f9-2d1e0c9a5f87'
----
-
 # Business Architecture — DevExp-DevBox
-
-> **Framework**: TOGAF 10 Architecture Development Method (ADM)  
-> **Layer**: Business Architecture  
-> **Organization**: Contoso — IT Division, Platforms Group  
-> **Solution**: ContosoDevExp Dev Box Adoption & Deployment Accelerator  
-> **Scope**: Repository-wide business component analysis  
-> **Generated**: 2026-04-14
-
----
 
 ## Section 1: Executive Summary
 
@@ -67,24 +45,6 @@ for the eShop engineering team. The solution aligns with the Microsoft Dev Box
 reference architecture and Azure Cloud Adoption Framework (CAF) Landing Zone
 principles, ensuring that security, compliance, and cost governance are embedded
 into the provisioning pipeline from inception.
-
-### Maturity Assessment
-
-| Business Component        | Maturity Level | Rating                                                      |
-| ------------------------- | -------------- | ----------------------------------------------------------- |
-| Business Strategy         | 3 — Defined    | Documented accelerator strategy with product delivery model |
-| Business Capabilities     | 3 — Defined    | RBAC-mapped, IaC-driven capability set                      |
-| Value Streams             | 2 — Managed    | Implicit end-to-end flow; not formally instrumented         |
-| Business Processes        | 3 — Defined    | AZD hooks automate key provisioning processes               |
-| Business Services         | 3 — Defined    | DevCenter-as-a-Service pattern established                  |
-| Business Functions        | 3 — Defined    | Platform Engineering and DevExp functions clearly separated |
-| Business Roles & Actors   | 4 — Measured   | Named Azure AD groups with scoped RBAC assignments          |
-| Business Rules            | 4 — Measured   | Rules enforced via IaC, RBAC, and mandatory tagging         |
-| Business Events           | 2 — Managed    | AZD lifecycle hooks trigger key events; no formal tracking  |
-| Business Objects/Entities | 3 — Defined    | Well-structured YAML/Bicep entity definitions               |
-| KPIs & Metrics            | 1 — Initial    | No formal KPI collection detected in source files           |
-
-**Overall Maturity**: 3 — Defined (aggregate average across all 11 components)
 
 ---
 
@@ -1225,97 +1185,3 @@ enhancements: add DevCenter diagnostic settings pointing to Log Analytics,
 implement Azure Event Grid for Dev Box lifecycle event publishing, and create
 Azure Monitor Workbooks correlating deployment events with developer
 productivity metrics.
-
----
-
-## Validation Summary
-
-```yaml
-validation:
-  session_id: 'a3f7c291-84b2-4e1d-b3f9-2d1e0c9a5f87'
-  timestamp: '2026-04-14T00:00:00Z'
-  target_layer: 'Business'
-  output_sections: [1, 2, 3, 4, 5, 8]
-  quality_level: 'comprehensive'
-
-  pre_flight_checks:
-    PFC-001: PASS # Shared dependency files verified
-    PFC-002: PASS # Mermaid files verified
-    PFC-003: PASS # folder_paths "." is valid
-    PFC-004: PASS # No path traversal patterns
-    PFC-005: PASS # No system directories
-    PFC-006: PASS # folder "." exists
-    PFC-007: PASS # folder "." readable
-    PFC-008: PASS # target_layer "Business" is valid
-    PFC-009: PASS # Session ID generated
-    PFC-010: PASS # Timestamp in ISO 8601 format
-
-  schema_compliance:
-    section_1_executive_summary: PASS
-    section_2_architecture_landscape:
-      has_overview: PASS
-      subsection_count: 11 # 2.1–2.11 present
-      has_summary: PASS
-    section_3_architecture_principles: PASS
-    section_4_current_state_baseline:
-      has_overview: PASS
-      has_gap_analysis: PASS
-      has_maturity_heatmap: PASS
-      has_summary: PASS
-    section_5_component_catalog:
-      has_overview: PASS
-      subsection_count: 11 # 5.1–5.11 present
-      has_summary: PASS
-    section_8_dependencies_integration:
-      has_overview: PASS
-      has_dependency_matrix: PASS
-      has_integration_patterns: PASS
-      has_integration_diagram: PASS
-      has_summary: PASS
-
-  mermaid_diagrams:
-    diagram_1_capability_map:
-      score: 97
-      violations: []
-      accessibility: PASS
-    diagram_2_architecture_overview:
-      score: 97
-      violations: []
-      accessibility: PASS
-    diagram_3_current_state:
-      score: 96
-      violations: []
-      accessibility: PASS
-    diagram_4_value_stream:
-      score: 97
-      violations: []
-      accessibility: PASS
-    diagram_5_process_flow:
-      score: 97
-      violations: []
-      accessibility: PASS
-    diagram_6_roles_actors:
-      score: 96
-      violations: []
-      accessibility: PASS
-    diagram_7_integration_architecture:
-      score: 97
-      violations: []
-      accessibility: PASS
-
-  anti_hallucination:
-    all_components_traced_to_source: PASS
-    no_fabricated_data: PASS
-    unknown_values_marked: PASS
-
-  negative_constraints:
-    no_github_prompts_folder_scanned: PASS
-    no_sections_outside_output_sections: PASS
-    no_placeholder_text_tbd_na: PASS
-
-  overall_score: 100
-  status: APPROVED
-```
-
-✅ **Mermaid Verification: 5/5 | Score: 97/100 (average) | Diagrams: 7 | P0
-Violations: 0 | P1 Violations: 0**
