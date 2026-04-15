@@ -1,18 +1,4 @@
----
-title: 'DevExp-DevBox Data Architecture'
-layer: 'Data'
-framework: 'TOGAF 10 Architecture Development Method (ADM)'
-version: '1.0.0'
-date: '2026-04-15'
-output_sections: [1, 2, 3, 4, 5, 8]
-quality_level: 'comprehensive'
-source_analyzed: "z:\\DevExp-DevBox"
-schema_version: '3.0.0'
----
-
 # DevExp-DevBox Data Architecture
-
-<!-- markdownlint-disable MD013 -->
 
 ---
 
@@ -513,7 +499,7 @@ config:
   flowchart:
     htmlLabels: true
 ---
-flowchart LR
+flowchart TB
     accTitle: DevExp-DevBox Data Architecture Current State
     accDescr: Current state data architecture showing configuration validation, secret management, deployment pipeline, and observability data flows. WCAG AA compliant.
 
@@ -1107,5 +1093,3 @@ mechanisms (ARM outputs, `@secure()` parameters, Azure Diagnostics) with no
 custom integration middleware required. The solution has zero bidirectional data
 coupling between business domains, ensuring clean separation of concerns and
 independent lifecycle management for each data domain.
-
----
