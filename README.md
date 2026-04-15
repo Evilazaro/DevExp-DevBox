@@ -53,13 +53,14 @@ UAT), scheduled GitHub catalog synchronization, and Log Analytics–backed
 observability — all driven by three YAML configuration models validated at
 authoring time by JSON Schema 2020-12.
 
-> [!NOTE] This accelerator is scoped to infrastructure provisioning only. All
+> [!NOTE]  
+> This accelerator is scoped to infrastructure provisioning only. All
 > application interactions occur at deployment time through IaC modules; no
 > runtime REST API or event-driven microservices layer is included.
 
-> [!TIP] Start with `infra/settings/workload/devcenter.yaml` to customize the
-> Dev Center name, projects, Dev Box pools, and catalogs before running
-> `azd up`.
+> [!TIP]  
+> Start with `infra/settings/workload/devcenter.yaml` to customize the Dev
+> Center name, projects, Dev Box pools, and catalogs before running `azd up`.
 
 ---
 
@@ -73,8 +74,9 @@ implemented through composable Bicep modules and YAML-driven configuration,
 giving Platform Engineering teams repeatable control over provisioning,
 security, and observability without bespoke scripting.
 
-> [!TIP] All capabilities below are active by default and configurable through
-> the YAML files in `infra/settings/`. No code changes are required for standard
+> [!TIP]  
+> All capabilities below are active by default and configurable through the YAML
+> files in `infra/settings/`. No code changes are required for standard
 > deployments.
 
 | Feature                         | Description                                                                                                                                                                                                                        | Status    |
@@ -161,8 +163,8 @@ creates up to three resource groups (workload, security, monitoring) depending
 on the `azureResources.yaml` configuration, then deploys all modules in
 dependency order.
 
-> [!WARNING] The `azd up` command will create Azure resources that incur costs.
-> Review `infra/settings/resourceOrganization/azureResources.yaml` and
+> [!WARNING] > The `azd up` command will create Azure resources that incur
+> costs. Review `infra/settings/resourceOrganization/azureResources.yaml` and
 > `infra/settings/workload/devcenter.yaml` before deploying to validate resource
 > group names, VM SKUs, and project configuration.
 
@@ -258,9 +260,9 @@ are required for infrastructure deployment.
 | 📦 Azure Subscription          | —       | Target subscription for resource deployment; Contributor access required                | ✅ Yes          |
 | 🔑 Azure AD Permissions        | —       | Ability to create role assignments (User Access Administrator or Owner on subscription) | ✅ Yes          |
 
-> [!NOTE] The Hugo v0.136.2 documentation site (`package.json`) is for
-> accelerator documentation hosting only and is not required for infrastructure
-> deployment.
+> [!NOTE]  
+> The Hugo v0.136.2 documentation site (`package.json`) is for accelerator
+> documentation hosting only and is not required for infrastructure deployment.
 
 ---
 
@@ -372,7 +374,8 @@ for standard customizations.
 | 🏗️ Dev Center Workload   | `infra/settings/workload/devcenter.yaml`                  | `devcenter.schema.json`      |
 | 🔐 Security              | `infra/settings/security/security.yaml`                   | `security.schema.json`       |
 
-> [!NOTE] The `security.create` flag in `azureResources.yaml` controls whether a
+> [!NOTE]  
+> The `security.create` flag in `azureResources.yaml` controls whether a
 > separate security resource group is created. When set to `false` (default),
 > Key Vault is deployed into the workload resource group.
 
