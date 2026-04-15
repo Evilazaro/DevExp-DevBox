@@ -789,7 +789,7 @@ flowchart TB
     end
 
     ENV -->|injected as| PARAM
-    PARAM -->|@secure() protected| SECURE2
+    PARAM -->|secure-param protected| SECURE2
     SECURE2 -->|stored in| SECRET2
     SECRET2 -->|parent| KV3
     KV3 --- SOFT
