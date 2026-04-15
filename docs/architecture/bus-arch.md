@@ -414,7 +414,7 @@ flowchart LR
     end
 
     subgraph L3["🟡 Level 3 — Defined"]
-        direction LR
+        direction TB
         c4("🚀 Self-Service Environment Delivery"):::warning
         c6("📊 Multi-Environment Lifecycle Mgmt"):::warning
         c7("👁️ Observability & Compliance Monitoring"):::warning
