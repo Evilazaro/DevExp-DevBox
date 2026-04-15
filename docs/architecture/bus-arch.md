@@ -782,7 +782,8 @@ flowchart LR
     style GOV fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
-_Figure 3.1 — ContosoDevExp Architecture Principles Framework. Source: `devcenter.yaml`, `security.yaml`, `main.bicep`, `CONTRIBUTING.md`._
+_Figure 3.1 — ContosoDevExp Architecture Principles Framework. Source:
+`devcenter.yaml`, `security.yaml`, `main.bicep`, `CONTRIBUTING.md`._
 
 ---
 
