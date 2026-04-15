@@ -853,20 +853,20 @@ flowchart TB
     PROJ_MI --> KV_USER_ROLE
     GHA_TOKEN -.->|"secretIdentifier"| PROJ_MI
 
-    style IDENT fill:#EFF2FA,stroke:#0078D4,stroke-width:2px,color:#323130
-    style RBAC_SUB fill:#FFF4CE,stroke:#CA5010,stroke-width:2px,color:#323130
-    style RBAC_RG fill:#FFF4CE,stroke:#CA5010,stroke-width:2px,color:#323130
-    style RBAC_PROJ fill:#FFF4CE,stroke:#CA5010,stroke-width:2px,color:#323130
+    style IDENT fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style RBAC_SUB fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style RBAC_RG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style RBAC_PROJ fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style AADGROUPS fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style KV_RESOURCES fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    style KV_RESOURCES fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    classDef identity fill:#EFF2FA,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef security fill:#FFF4CE,stroke:#CA5010,stroke-width:2px,color:#323130
-    classDef external fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef kvault fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    classDef neutral  fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core     fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning  fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef danger   fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 97/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 #### Key Vault Secret Specification
 
