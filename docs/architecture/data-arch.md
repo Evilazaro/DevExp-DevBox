@@ -211,82 +211,82 @@ shape.
 
 Data classification levels applied across all data components in the solution.
 
-| 🏷️ Classification       | 📋 Definition                                     | 📌 Applied To                                              | 📄 Source Reference                                                               |
-| ----------------------- | ------------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| **Confidential**        | Secrets, tokens, credentials                      | Key Vault secrets, `secretValue` param, `secretIdentifier` | `infra/main.parameters.json:8-10`, `src/security/secret.bicep:6`                  |
-| **Internal/Restricted** | Operational data, logs, ARM state                 | Log Analytics Workspace, ARM deployment outputs            | `src/management/logAnalytics.bicep:39`, `infra/main.bicep:57`                     |
-| **Internal**            | Non-sensitive configuration and resource metadata | YAML configs, resource tags, role assignments              | `infra/settings/workload/devcenter.yaml`, `infra/settings/security/security.yaml` |
-| **Public**              | Open catalog references, public GitHub URIs       | Catalog URI (`github.com/microsoft/devcenter-catalog`)     | `infra/settings/workload/devcenter.yaml:59`                                       |
+| 🏷️ Classification | 📋 Definition | 📌 Applied To |
+| ----------------------- | ------------------------------------------------- | ---------------------------------------------------------- |
+| **Confidential** | Secrets, tokens, credentials | Key Vault secrets, `secretValue` param, `secretIdentifier` |
+| **Internal/Restricted** | Operational data, logs, ARM state | Log Analytics Workspace, ARM deployment outputs |
+| **Internal** | Non-sensitive configuration and resource metadata | YAML configs, resource tags, role assignments |
+| **Public** | Open catalog references, public GitHub URIs | Catalog URI (`github.com/microsoft/devcenter-catalog`) |
 
 ### 2.6 Data Lifecycle
 
-| 🔄 Phase       | 📋 Description                                                                         | 📌 Data Subject              | 📄 Source Reference                                                                                 |
-| -------------- | -------------------------------------------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------- |
-| **Creation**   | YAML/JSON files authored in source control; ARM resources deployed via `azd provision` | All config entities          | `azure.yaml:1-10`, `infra/main.bicep:56-190`                                                        |
-| **Validation** | JSON Schema validation via `yaml-language-server` IDE tooling + Bicep type checks      | Config YAML files            | `infra/settings/workload/devcenter.schema.json:1`, `infra/settings/security/security.schema.json:1` |
-| **Storage**    | Config: Git repo; Secrets: Key Vault; Logs: Log Analytics; State: ARM                  | All tiers                    | `src/security/keyVault.bicep:38`, `src/management/logAnalytics.bicep:39`                            |
-| **Access**     | RBAC-governed via managed identity role assignments                                    | Secrets, DevCenter resources | `src/identity/keyVaultAccess.bicep:1`, `src/identity/devCenterRoleAssignment.bicep:1`               |
-| **Retention**  | Key Vault soft-delete 7 days; Log Analytics: PerGB2018 (default 31 days)               | Secrets, logs                | `infra/settings/security/security.yaml:26`, `src/management/logAnalytics.bicep:26`                  |
-| **Deletion**   | Purge protection enabled; soft-delete prevents accidental permanent loss               | Key Vault secrets            | `infra/settings/security/security.yaml:24-25`                                                       |
+| 🔄 Phase | 📋 Description | 📌 Data Subject |
+| -------------- | -------------------------------------------------------------------------------------- | ---------------------------- |
+| **Creation** | YAML/JSON files authored in source control; ARM resources deployed via `azd provision` | All config entities |
+| **Validation** | JSON Schema validation via `yaml-language-server` IDE tooling + Bicep type checks | Config YAML files |
+| **Storage** | Config: Git repo; Secrets: Key Vault; Logs: Log Analytics; State: ARM | All tiers |
+| **Access** | RBAC-governed via managed identity role assignments | Secrets, DevCenter resources |
+| **Retention** | Key Vault soft-delete 7 days; Log Analytics: PerGB2018 (default 31 days) | Secrets, logs |
+| **Deletion** | Purge protection enabled; soft-delete prevents accidental permanent loss | Key Vault secrets |
 
 ### 2.7 Data Quality Rules
 
-| 📏 Rule ID | 📋 Rule Description                                          | 🔧 Enforcement Mechanism                  | 📄 Source Reference                                                    |
-| ---------- | ------------------------------------------------------------ | ----------------------------------------- | ---------------------------------------------------------------------- |
-| DQ-001     | DevCenter name must be present (required field)              | JSON Schema `"required": ["name"]`        | `infra/settings/workload/devcenter.schema.json:9`                      |
-| DQ-002     | RBAC role ID must be a valid GUID (pattern-validated)        | JSON Schema regex pattern                 | `infra/settings/workload/devcenter.schema.json:15-22`                  |
-| DQ-003     | Environment tag must be one of `dev/test/staging/prod`       | JSON Schema `enum` constraint             | `infra/settings/security/security.schema.json:28-36`                   |
-| DQ-004     | Resource group name max 90 chars, alphanumeric/dash/dot only | JSON Schema `maxLength:90`, `pattern`     | `infra/settings/resourceOrganization/azureResources.schema.json:31-35` |
-| DQ-005     | Key Vault `softDeleteRetentionInDays` must be 7–90           | JSON Schema (range constraint on int)     | `infra/settings/security/security.schema.json:*`                       |
-| DQ-006     | Secret parameter must not appear in plain text               | Bicep `@secure()` annotation              | `infra/main.bicep:8-9`, `src/security/secret.bicep:6`                  |
-| DQ-007     | Log Analytics workspace name must be 4–49 chars              | Bicep `@minLength(4)` `@maxLength(49)`    | `src/management/logAnalytics.bicep:2-3`                                |
-| DQ-008     | All resources must have `environment` tag                    | JSON Schema `"required": ["environment"]` | `infra/settings/security/security.schema.json:28`                      |
+| 📏 Rule ID | 📋 Rule Description | 🔧 Enforcement Mechanism |
+| ---------- | ------------------------------------------------------------ | ----------------------------------------- |
+| DQ-001 | DevCenter name must be present (required field) | JSON Schema `"required": ["name"]` |
+| DQ-002 | RBAC role ID must be a valid GUID (pattern-validated) | JSON Schema regex pattern |
+| DQ-003 | Environment tag must be one of `dev/test/staging/prod` | JSON Schema `enum` constraint |
+| DQ-004 | Resource group name max 90 chars, alphanumeric/dash/dot only | JSON Schema `maxLength:90`, `pattern` |
+| DQ-005 | Key Vault `softDeleteRetentionInDays` must be 7–90 | JSON Schema (range constraint on int) |
+| DQ-006 | Secret parameter must not appear in plain text | Bicep `@secure()` annotation |
+| DQ-007 | Log Analytics workspace name must be 4–49 chars | Bicep `@minLength(4)` `@maxLength(49)` |
+| DQ-008 | All resources must have `environment` tag | JSON Schema `"required": ["environment"]` |
 
 ### 2.8 Data Governance Policies
 
-| 📋 Policy ID | 📋 Policy Name                 | 📝 Description                                                                       | 📄 Source Reference                                                          |
-| ------------ | ------------------------------ | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
-| GP-001       | Schema-First Validation        | All YAML configuration MUST be validated against JSON Schema 2020-12                 | `infra/settings/**/*.schema.json`                                            |
-| GP-002       | Zero Plaintext Secrets         | No credentials permitted in source control; all secrets use Key Vault                | `infra/settings/security/security.yaml:14-27`                                |
-| GP-003       | RBAC Authorization Only        | Key Vault access via RBAC only (`enableRbacAuthorization: true`), no access policies | `infra/settings/security/security.yaml:27`                                   |
-| GP-004       | Mandatory Resource Tagging     | All Azure resources must carry 7 standard tags for cost and compliance               | `infra/settings/resourceOrganization/azureResources.yaml:18-26`              |
-| GP-005       | Purge Protection               | Key Vault soft delete (7 days) and purge protection enabled                          | `infra/settings/security/security.yaml:24-26`                                |
-| GP-006       | Centralized Diagnostic Logging | All resources route `allLogs`+`AllMetrics` to Log Analytics Workspace                | `src/security/secret.bicep:23-46`, `src/management/logAnalytics.bicep:57-79` |
-| GP-007       | Principle of Least Privilege   | RBAC roles scoped to minimum required (Key Vault Secrets User/Officer only)          | `infra/settings/workload/devcenter.yaml:38-44`                               |
+| 📋 Policy ID | 📋 Policy Name | 📝 Description |
+| ------------ | ------------------------------ | ------------------------------------------------------------------------------------ |
+| GP-001 | Schema-First Validation | All YAML configuration MUST be validated against JSON Schema 2020-12 |
+| GP-002 | Zero Plaintext Secrets | No credentials permitted in source control; all secrets use Key Vault |
+| GP-003 | RBAC Authorization Only | Key Vault access via RBAC only (`enableRbacAuthorization: true`), no access policies |
+| GP-004 | Mandatory Resource Tagging | All Azure resources must carry 7 standard tags for cost and compliance |
+| GP-005 | Purge Protection | Key Vault soft delete (7 days) and purge protection enabled |
+| GP-006 | Centralized Diagnostic Logging | All resources route `allLogs`+`AllMetrics` to Log Analytics Workspace |
+| GP-007 | Principle of Least Privilege | RBAC roles scoped to minimum required (Key Vault Secrets User/Officer only) |
 
 ### 2.9 Data Standards
 
-| 📐 Standard                      | 📋 Description                                                                  | 📄 Source Reference                               |
-| -------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------- |
-| JSON Schema 2020-12              | Schema validation standard for all YAML configuration files                     | `infra/settings/workload/devcenter.schema.json:2` |
-| ARM Deployment Schema 2019-04-01 | Parameter file validation for ARM/Bicep deployments                             | `infra/main.parameters.json:2`                    |
-| Azure RBAC Role GUIDs            | All RBAC roles referenced by Microsoft-defined stable GUIDs                     | `infra/settings/workload/devcenter.yaml:33-44`    |
-| ISO 8601 Naming                  | Environment name 2–10 alphanumeric chars (from Bicep `@minLength`/`@maxLength`) | `infra/main.bicep:13-14`                          |
-| `PerGB2018` Log Analytics SKU    | Standard operational log pricing model                                          | `src/management/logAnalytics.bicep:26`            |
+| 📐 Standard | 📋 Description |
+| -------------------------------- | ------------------------------------------------------------------------------- |
+| JSON Schema 2020-12 | Schema validation standard for all YAML configuration files |
+| ARM Deployment Schema 2019-04-01 | Parameter file validation for ARM/Bicep deployments |
+| Azure RBAC Role GUIDs | All RBAC roles referenced by Microsoft-defined stable GUIDs |
+| ISO 8601 Naming | Environment name 2–10 alphanumeric chars (from Bicep `@minLength`/`@maxLength`) |
+| `PerGB2018` Log Analytics SKU | Standard operational log pricing model |
 
 ### 2.10 Data Interfaces
 
-| 🔌 Interface ID | 📋 Name                                        | 🔧 Type               | 📤 Producer                         | 📥 Consumer                                                  | 📄 Source Reference               |
-| --------------- | ---------------------------------------------- | --------------------- | ----------------------------------- | ------------------------------------------------------------ | --------------------------------- |
-| IF-001          | `loadYamlContent()` – DevCenter config         | Bicep built-in        | `devcenter.yaml`                    | `src/workload/workload.bicep`                                | `src/workload/workload.bicep:35`  |
-| IF-002          | `loadYamlContent()` – Security config          | Bicep built-in        | `security.yaml`                     | `src/security/security.bicep`                                | `src/security/security.bicep:19`  |
-| IF-003          | `loadYamlContent()` – Resource org             | Bicep built-in        | `azureResources.yaml`               | `infra/main.bicep`                                           | `infra/main.bicep:26`             |
-| IF-004          | ARM output `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | ARM module output     | `src/security/security.bicep`       | `infra/main.bicep`, workload module                          | `infra/main.bicep:119`            |
-| IF-005          | ARM output `AZURE_LOG_ANALYTICS_WORKSPACE_ID`  | ARM module output     | `src/management/logAnalytics.bicep` | `src/security/security.bicep`, `src/workload/workload.bicep` | `infra/main.bicep:107`            |
-| IF-006          | Key Vault `secretUri` output                   | Azure Key Vault REST  | `src/security/secret.bicep`         | `src/workload/core/devCenter.bicep`                          | `src/security/secret.bicep:46`    |
-| IF-007          | Log Analytics Diagnostic Settings              | Azure Diagnostics API | Key Vault, Log Analytics            | Log Analytics Workspace                                      | `src/security/secret.bicep:23-46` |
+| 🔌 Interface ID | 📋 Name | 🔧 Type | 📤 Producer | 📥 Consumer |
+| --------------- | ---------------------------------------------- | --------------------- | ----------------------------------- | ------------------------------------------------------------ |
+| IF-001 | `loadYamlContent()` – DevCenter config | Bicep built-in | `devcenter.yaml` | `src/workload/workload.bicep` |
+| IF-002 | `loadYamlContent()` – Security config | Bicep built-in | `security.yaml` | `src/security/security.bicep` |
+| IF-003 | `loadYamlContent()` – Resource org | Bicep built-in | `azureResources.yaml` | `infra/main.bicep` |
+| IF-004 | ARM output `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | ARM module output | `src/security/security.bicep` | `infra/main.bicep`, workload module |
+| IF-005 | ARM output `AZURE_LOG_ANALYTICS_WORKSPACE_ID` | ARM module output | `src/management/logAnalytics.bicep` | `src/security/security.bicep`, `src/workload/workload.bicep` |
+| IF-006 | Key Vault `secretUri` output | Azure Key Vault REST | `src/security/secret.bicep` | `src/workload/core/devCenter.bicep` |
+| IF-007 | Log Analytics Diagnostic Settings | Azure Diagnostics API | Key Vault, Log Analytics | Log Analytics Workspace |
 
 ### 2.11 External Data Dependencies
 
-| 🌐 Dependency                              | 📋 Type                 | 📝 Description                                                       | 📄 Source Reference                          |
-| ------------------------------------------ | ----------------------- | -------------------------------------------------------------------- | -------------------------------------------- |
-| `github.com/microsoft/devcenter-catalog`   | External Git Repository | Public catalog of Dev Box task definitions; synced at provision time | `infra/settings/workload/devcenter.yaml:59`  |
-| Azure Subscription (GUID)                  | Azure Platform          | Subscription-scoped RBAC and deployment target for all resources     | `infra/main.bicep:1`                         |
-| Azure AD Group `Platform Engineering Team` | Azure AD                | Group for Dev Manager RBAC assignments                               | `infra/settings/workload/devcenter.yaml:53`  |
-| Azure AD Group `eShop Engineers`           | Azure AD                | Group for Dev Box User RBAC assignments                              | `infra/settings/workload/devcenter.yaml:100` |
-| Azure DevCenter API `2026-01-01-preview`   | Azure ARM API           | API version for DevCenter/catalog/environmentType resources          | `src/workload/core/catalog.bicep:38`         |
-| Azure Key Vault API `2025-05-01`           | Azure ARM API           | API version for Key Vault and secret resources                       | `src/security/keyVault.bicep:38`             |
-| Azure Log Analytics API `2025-07-01`       | Azure ARM API           | API version for Log Analytics Workspace resource                     | `src/management/logAnalytics.bicep:39`       |
+| 🌐 Dependency | 📋 Type | 📝 Description |
+| ------------------------------------------ | ----------------------- | -------------------------------------------------------------------- |
+| `github.com/microsoft/devcenter-catalog` | External Git Repository | Public catalog of Dev Box task definitions; synced at provision time |
+| Azure Subscription (GUID) | Azure Platform | Subscription-scoped RBAC and deployment target for all resources |
+| Azure AD Group `Platform Engineering Team` | Azure AD | Group for Dev Manager RBAC assignments |
+| Azure AD Group `eShop Engineers` | Azure AD | Group for Dev Box User RBAC assignments |
+| Azure DevCenter API `2026-01-01-preview` | Azure ARM API | API version for DevCenter/catalog/environmentType resources |
+| Azure Key Vault API `2025-05-01` | Azure ARM API | API version for Key Vault and secret resources |
+| Azure Log Analytics API `2025-07-01` | Azure ARM API | API version for Log Analytics Workspace resource |
 
 ### Summary
 
@@ -1017,18 +1017,18 @@ flowchart TB
 
 ### Data Component Dependencies Matrix
 
-| 🔵 Component                  | 🟡 Depends On                                                            | 📦 Dependency Type                            | 📄 Source Reference                                      |
-| ----------------------------- | ------------------------------------------------------------------------ | --------------------------------------------- | -------------------------------------------------------- |
-| `src/workload/workload.bicep` | `infra/settings/workload/devcenter.yaml`                                 | Compile-time data binding (`loadYamlContent`) | `src/workload/workload.bicep:35`                         |
-| `src/security/security.bicep` | `infra/settings/security/security.yaml`                                  | Compile-time data binding (`loadYamlContent`) | `src/security/security.bicep:19`                         |
-| `infra/main.bicep`            | `infra/settings/resourceOrganization/azureResources.yaml`                | Compile-time data binding (`loadYamlContent`) | `infra/main.bicep:26`                                    |
-| `src/security/secret.bicep`   | `src/security/keyVault.bicep` → `AZURE_KEY_VAULT_NAME`                   | ARM module output dependency                  | `src/security/secret.bicep:12-15`                        |
-| `src/workload/workload.bicep` | `src/security/security.bicep` → `AZURE_KEY_VAULT_SECRET_IDENTIFIER`      | ARM module output dependency                  | `infra/main.bicep:119`, `src/workload/workload.bicep:33` |
-| `src/security/security.bicep` | `src/management/logAnalytics.bicep` → `AZURE_LOG_ANALYTICS_WORKSPACE_ID` | ARM module output dependency                  | `infra/main.bicep:107`, `src/security/security.bicep:*`  |
-| `src/workload/workload.bicep` | `src/management/logAnalytics.bicep` → `AZURE_LOG_ANALYTICS_WORKSPACE_ID` | ARM module output dependency                  | `infra/main.bicep:107`, `src/workload/workload.bicep:*`  |
-| Azure DevCenter               | Azure Key Vault                                                          | Runtime secret URI reference (RBAC-governed)  | `src/workload/core/devCenter.bicep:*`                    |
-| Azure Key Vault               | Log Analytics Workspace                                                  | Diagnostic telemetry output                   | `src/security/secret.bicep:23-46`                        |
-| Azure DevCenter               | Log Analytics Workspace                                                  | Diagnostic telemetry output                   | `src/management/logAnalytics.bicep:57`                   |
+| 🔵 Component | 🟡 Depends On | 📦 Dependency Type |
+| ----------------------------- | ------------------------------------------------------------------------ | --------------------------------------------- |
+| `src/workload/workload.bicep` | `infra/settings/workload/devcenter.yaml` | Compile-time data binding (`loadYamlContent`) |
+| `src/security/security.bicep` | `infra/settings/security/security.yaml` | Compile-time data binding (`loadYamlContent`) |
+| `infra/main.bicep` | `infra/settings/resourceOrganization/azureResources.yaml` | Compile-time data binding (`loadYamlContent`) |
+| `src/security/secret.bicep` | `src/security/keyVault.bicep` → `AZURE_KEY_VAULT_NAME` | ARM module output dependency |
+| `src/workload/workload.bicep` | `src/security/security.bicep` → `AZURE_KEY_VAULT_SECRET_IDENTIFIER` | ARM module output dependency |
+| `src/security/security.bicep` | `src/management/logAnalytics.bicep` → `AZURE_LOG_ANALYTICS_WORKSPACE_ID` | ARM module output dependency |
+| `src/workload/workload.bicep` | `src/management/logAnalytics.bicep` → `AZURE_LOG_ANALYTICS_WORKSPACE_ID` | ARM module output dependency |
+| Azure DevCenter | Azure Key Vault | Runtime secret URI reference (RBAC-governed) |
+| Azure Key Vault | Log Analytics Workspace | Diagnostic telemetry output |
+| Azure DevCenter | Log Analytics Workspace | Diagnostic telemetry output |
 
 ### ARM Module Deployment Order (Topological)
 
