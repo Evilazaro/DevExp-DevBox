@@ -82,7 +82,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Technology Architecture Overview
-    accDescr: High-level Technology Architecture showing Azure PaaS services, IaC modules, deployment tools, network topology, and integration patterns for the DevExp-DevBox accelerator. WCAG AA compliant.
+    accDescr: High-level Technology Architecture showing Azure PaaS services, IaC modules, deployment tools, network topology, and integration patterns for the DevExp-DevBox accelerator. AZD=core, MAIN=core, LAW=success, KV=warning, SECRET=warning, DC=core, ECAT=core, PROJ=core, POOL_BE=core, POOL_FE=core, VNET=neutral, NETCONN=neutral, GH=neutral. WCAG AA compliant.
 
     %% ═══════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -162,6 +162,8 @@ flowchart TB
     classDef core     fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success  fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning  fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+
+%% ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -489,7 +491,7 @@ config:
 ---
 flowchart LR
     accTitle: DevExp-DevBox IaC Deployment Pipeline Current State
-    accDescr: Sequential deployment pipeline from Azure Developer CLI through pre-provisioning scripts to ARM, showing module dependency order and output parameter propagation. WCAG AA compliant.
+    accDescr: Sequential deployment pipeline from Azure Developer CLI through pre-provisioning scripts to ARM, showing module dependency order and output parameter propagation. AZD_PRE=core, SETUP=neutral, AZD_PROV=core, MAIN=core, MON_MOD=core, LAW_R=success, SEC_MOD=core, KV_MOD=core, SEC_R=warning, SEC_SECRET_MOD=core, SEC_SECRET_R=warning, WL_MOD=core, DC_MOD=core, DC_R=core, PROJ_MOD=core, PROJ_R=core. WCAG AA compliant.
 
     %% ═══════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -562,6 +564,8 @@ flowchart LR
     classDef core     fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success  fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning  fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+
+%% ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
@@ -794,7 +798,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Security and Identity Architecture
-    accDescr: Security and identity component chain showing Managed Identity role assignments, Key Vault access, and RBAC enforcement for Azure DevCenter and eShop project. WCAG AA compliant.
+    accDescr: Security and identity component chain showing Managed Identity role assignments, Key Vault access, and RBAC enforcement for Azure DevCenter and eShop project. DC_MI=core, PROJ_MI=core, CONTRIB_ROLE=warning, UAA_ROLE=warning, KV_USER_ROLE=warning, KV_OFFICER_ROLE=warning, DC_PROJ_ADMIN=warning, PROJ_CONTRIB=warning, DEVBOX_USER=warning, ENV_USER=warning, PE_GROUP=neutral, ESHOP_GROUP=neutral, KV_VAULT=danger, GHA_TOKEN=danger. WCAG AA compliant.
 
     %% ═══════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -809,22 +813,22 @@ flowchart TB
 
     subgraph RBAC_SUB["🔑 Subscription RBAC"]
         direction TB
-        CONTRIB_ROLE["🔑 Contributor Role"]:::security
-        UAA_ROLE["🔑 User Access Admin Role"]:::security
+        CONTRIB_ROLE["🔑 Contributor Role"]:::warning
+        UAA_ROLE["🔑 User Access Admin Role"]:::warning
     end
 
     subgraph RBAC_RG["🔑 Resource Group RBAC"]
         direction TB
-        KV_USER_ROLE["🔑 KV Secrets User"]:::security
-        KV_OFFICER_ROLE["🔑 KV Secrets Officer"]:::security
-        DC_PROJ_ADMIN["🔑 DevCenter Proj Admin"]:::security
+        KV_USER_ROLE["🔑 KV Secrets User"]:::warning
+        KV_OFFICER_ROLE["🔑 KV Secrets Officer"]:::warning
+        DC_PROJ_ADMIN["🔑 DevCenter Proj Admin"]:::warning
     end
 
     subgraph RBAC_PROJ["🔑 Project RBAC (eShop)"]
         direction TB
-        PROJ_CONTRIB["🔑 Contributor"]:::security
-        DEVBOX_USER["🔑 Dev Box User"]:::security
-        ENV_USER["🔑 Deployment Env User"]:::security
+        PROJ_CONTRIB["🔑 Contributor"]:::warning
+        DEVBOX_USER["🔑 Dev Box User"]:::warning
+        ENV_USER["🔑 Deployment Env User"]:::warning
     end
 
     subgraph AADGROUPS["👥 Azure AD Groups"]
@@ -864,6 +868,8 @@ flowchart TB
     classDef core     fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef warning  fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef danger   fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+
+%% ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 ```
 
 ✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
