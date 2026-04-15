@@ -36,15 +36,15 @@ resource state, and lack of an explicit data catalog for the schema assets.
 
 ### 📊 Key Findings
 
-| 🔍 Finding               | 📋 Details                                                                                                      | 📈 Maturity    |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------- | -------------- |
-| Schema Validation        | JSON Schema 2020-12 enforced on all YAML configuration inputs (3 schemas, 3 models)                             | 4 – Measured   |
-| Secret Externalization   | All secrets stored in Azure Key Vault; zero plaintext credentials in source                                     | 4 – Measured   |
-| RBAC Data Access Control | `enableRbacAuthorization: true` on Key Vault; role definitions in YAML config                                   | 4 – Measured   |
-| Resource Tagging         | 7-dimension mandatory tags on all resources: environment, division, team, project, costCenter, owner, resources | 4 – Measured   |
-| Diagnostic Data Routing  | All resources emit `allLogs` + `AllMetrics` to Log Analytics Workspace                                          | 3 – Defined    |
-| Data Lineage Tracking    | No automated lineage between config changes and deployed state detected                                         | 2 – Developing |
-| Data Catalog             | No formal data catalog or metadata registry for schema assets detected                                          | 1 – Initial    |
+| 🔍 Finding | 📋 Details |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| Schema Validation | JSON Schema 2020-12 enforced on all YAML configuration inputs (3 schemas, 3 models) |
+| Secret Externalization | All secrets stored in Azure Key Vault; zero plaintext credentials in source |
+| RBAC Data Access Control | `enableRbacAuthorization: true` on Key Vault; role definitions in YAML config |
+| Resource Tagging | 7-dimension mandatory tags on all resources: environment, division, team, project, costCenter, owner, resources |
+| Diagnostic Data Routing | All resources emit `allLogs` + `AllMetrics` to Log Analytics Workspace |
+| Data Lineage Tracking | No automated lineage between config changes and deployed state detected |
+| Data Catalog | No formal data catalog or metadata registry for schema assets detected |
 
 ### 🏗️ Data Architecture Overview
 
@@ -148,33 +148,33 @@ exclusively from analysis of repository files under the workspace root
 Data entities are the primary business-meaningful data objects managed by the
 system, each with a defined schema, owner, and lifecycle.
 
-| 🏷️ Entity Name          | 📂 Domain             | 🔑 Primary Key                                     | 📄 Source File                                               |
-| ----------------------- | --------------------- | -------------------------------------------------- | ------------------------------------------------------------ |
-| DevCenter Configuration | Workload              | `name` (DevCenter name)                            | `infra/settings/workload/devcenter.yaml:22`                  |
-| Project Configuration   | Workload              | `name` (project name)                              | `infra/settings/workload/devcenter.yaml:79`                  |
-| Dev Box Pool            | Workload              | `name` (pool name)                                 | `infra/settings/workload/devcenter.yaml:107`                 |
-| Catalog Configuration   | Workload              | `name` (catalog name)                              | `infra/settings/workload/devcenter.yaml:58`                  |
-| Environment Type        | Workload              | `name` (environment name)                          | `infra/settings/workload/devcenter.yaml:64`                  |
-| Key Vault Secret        | Security              | `secretName`                                       | `infra/settings/security/security.yaml:21`                   |
-| Key Vault Instance      | Security              | `name` (vault name + unique suffix)                | `infra/settings/security/security.yaml:18`                   |
-| Resource Group          | Resource Organization | `name` (RG name)                                   | `infra/settings/resourceOrganization/azureResources.yaml:16` |
-| Log Analytics Workspace | Monitoring            | workspace name (+ unique suffix)                   | `src/management/logAnalytics.bicep:39`                       |
-| RBAC Role Assignment    | Identity              | GUID (`guid(subscriptionId, principalId, roleId)`) | `src/identity/devCenterRoleAssignment.bicep:27`              |
-| ARM Deployment Output   | Infrastructure        | output name                                        | `infra/main.bicep:57`                                        |
+| 🏷️ Entity Name | 📂 Domain | 🔑 Primary Key |
+| ----------------------- | --------------------- | -------------------------------------------------- |
+| DevCenter Configuration | Workload | `name` (DevCenter name) |
+| Project Configuration | Workload | `name` (project name) |
+| Dev Box Pool | Workload | `name` (pool name) |
+| Catalog Configuration | Workload | `name` (catalog name) |
+| Environment Type | Workload | `name` (environment name) |
+| Key Vault Secret | Security | `secretName` |
+| Key Vault Instance | Security | `name` (vault name + unique suffix) |
+| Resource Group | Resource Organization | `name` (RG name) |
+| Log Analytics Workspace | Monitoring | workspace name (+ unique suffix) |
+| RBAC Role Assignment | Identity | GUID (`guid(subscriptionId, principalId, roleId)`) |
+| ARM Deployment Output | Infrastructure | output name |
 
 ### 2.2 Data Stores
 
 Data stores are the persistent storage systems that hold data entities,
 classified by storage type and data classification level.
 
-| 🗄️ Store Name                    | 🔧 Type               | 🔒 Classification          | 📄 Source File                         |
-| -------------------------------- | --------------------- | -------------------------- | -------------------------------------- |
-| Azure Key Vault (`contoso-*-kv`) | Managed Secret Store  | Confidential               | `src/security/keyVault.bicep:38`       |
-| Log Analytics Workspace          | Managed Log Store     | Internal/Restricted        | `src/management/logAnalytics.bicep:39` |
-| Azure Resource Manager State     | Platform State Store  | Internal                   | `infra/main.bicep:56-57`               |
-| Azure DevCenter Resource         | Platform Config Store | Internal                   | `src/workload/core/devCenter.bicep:*`  |
-| Git Repository (source control)  | Document/Config Store | Internal                   | `infra/settings/**`                    |
-| ARM Deployment Parameters        | Parameter Store       | Confidential (secretValue) | `infra/main.parameters.json:1-14`      |
+| 🗄️ Store Name | 🔧 Type | 🔒 Classification |
+| -------------------------------- | --------------------- | -------------------------- |
+| Azure Key Vault (`contoso-*-kv`) | Managed Secret Store | Confidential |
+| Log Analytics Workspace | Managed Log Store | Internal/Restricted |
+| Azure Resource Manager State | Platform State Store | Internal |
+| Azure DevCenter Resource | Platform Config Store | Internal |
+| Git Repository (source control) | Document/Config Store | Internal |
+| ARM Deployment Parameters | Parameter Store | Confidential (secretValue) |
 
 ### 2.3 Data Flows
 
@@ -197,15 +197,15 @@ consumers within the system.
 Data models define the structural schemas that govern data entity validation and
 shape.
 
-| 📐 Model Name                    | 🏷️ Schema Format        | 🔗 Validated By              | 📄 Source File                                                     |
-| -------------------------------- | ----------------------- | ---------------------------- | ------------------------------------------------------------------ |
-| DevCenter Configuration Model    | JSON Schema 2020-12     | `devcenter.schema.json`      | `infra/settings/workload/devcenter.schema.json:1`                  |
-| Security Configuration Model     | JSON Schema 2020-12     | `security.schema.json`       | `infra/settings/security/security.schema.json:1`                   |
-| Resource Organization Model      | JSON Schema 2020-12     | `azureResources.schema.json` | `infra/settings/resourceOrganization/azureResources.schema.json:1` |
-| Bicep Type: `KeyVaultSettings`   | Bicep User-Defined Type | Bicep compiler               | `src/security/keyVault.bicep:8`                                    |
-| Bicep Type: `DevCenterConfig`    | Bicep User-Defined Type | Bicep compiler               | `src/workload/core/devCenter.bicep:40`                             |
-| Bicep Type: `Tags` (wildcard)    | Bicep User-Defined Type | Bicep compiler               | `src/management/logAnalytics.bicep:13`                             |
-| ARM Deployment Parameters Schema | ARM JSON Schema         | ARM deployment engine        | `infra/main.parameters.json:2`                                     |
+| 📐 Model Name | 🏷️ Schema Format | 🔗 Validated By |
+| -------------------------------- | ----------------------- | ---------------------------- |
+| DevCenter Configuration Model | JSON Schema 2020-12 | `devcenter.schema.json` |
+| Security Configuration Model | JSON Schema 2020-12 | `security.schema.json` |
+| Resource Organization Model | JSON Schema 2020-12 | `azureResources.schema.json` |
+| Bicep Type: `KeyVaultSettings` | Bicep User-Defined Type | Bicep compiler |
+| Bicep Type: `DevCenterConfig` | Bicep User-Defined Type | Bicep compiler |
+| Bicep Type: `Tags` (wildcard) | Bicep User-Defined Type | Bicep compiler |
+| ARM Deployment Parameters Schema | ARM JSON Schema | ARM deployment engine |
 
 ### 2.5 Data Classifications
 
