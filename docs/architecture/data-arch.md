@@ -51,13 +51,12 @@ opportunities for the next maturity increment.
 ### Overview
 
 The Architecture Landscape catalogs all discovered Data components within the
-DevExp-DevBox solution, organized across eleven TOGAF Data Layer component
-types. The solution is structured around three data domains: **Configuration
-Domain** (YAML models and JSON Schemas governing workload, security, and
-resource organization), **Secrets Domain** (Azure Key Vault storing sensitive
-credentials with RBAC authorization), and **Observability Domain** (Azure Log
-Analytics Workspace ingesting diagnostic logs and metrics from deployed
-resources).
+DevExp-DevBox solution, organized across eleven Data Layer component types. The
+solution is structured around three data domains: **Configuration Domain** (YAML
+models and JSON Schemas governing workload, security, and resource
+organization), **Secrets Domain** (Azure Key Vault storing sensitive credentials
+with RBAC authorization), and **Observability Domain** (Azure Log Analytics
+Workspace ingesting diagnostic logs and metrics from deployed resources).
 
 Each domain maintains clear separation of concerns: configuration data resides
 in file-system YAML/JSON files validated by co-located JSON Schemas, secret data
@@ -529,16 +528,16 @@ flowchart LR
 
 ### Maturity Assessment
 
-| Dimension | Current State | Gap |
+| Dimension               | Current State                                            | Gap                                                   |
 | ----------------------- | -------------------------------------------------------- | ----------------------------------------------------- |
-| Schema Governance | JSON Schema 2020-12 on all 3 config file types | None detected |
-| Security Controls | Key Vault RBAC, soft-delete, purge protection, @secure() | No HSM tier (standard SKU) |
-| Deployment Data Flows | YAML→Bicep→ARM pipeline established | No CI/CD schema validation gate |
-| Observability Data | Key Vault diagnostics → Log Analytics | No Log Analytics retention policy defined in IaC |
-| Data Lineage | Not implemented | No config-to-resource lineage tracking |
-| Data Contracts | Not implemented | No formal contracts between accelerator and consumers |
-| Data Quality Dashboards | Not implemented | No runtime quality monitoring |
-| Master Data Management | RBAC GUIDs centralized in devcenter.yaml | No formal MDM process for GUID updates |
+| Schema Governance       | JSON Schema 2020-12 on all 3 config file types           | None detected                                         |
+| Security Controls       | Key Vault RBAC, soft-delete, purge protection, @secure() | No HSM tier (standard SKU)                            |
+| Deployment Data Flows   | YAML→Bicep→ARM pipeline established                      | No CI/CD schema validation gate                       |
+| Observability Data      | Key Vault diagnostics → Log Analytics                    | No Log Analytics retention policy defined in IaC      |
+| Data Lineage            | Not implemented                                          | No config-to-resource lineage tracking                |
+| Data Contracts          | Not implemented                                          | No formal contracts between accelerator and consumers |
+| Data Quality Dashboards | Not implemented                                          | No runtime quality monitoring                         |
+| Master Data Management  | RBAC GUIDs centralized in devcenter.yaml                 | No formal MDM process for GUID updates                |
 
 ### Gap Analysis
 
@@ -572,9 +571,9 @@ Architecture maturity to Level 4 — Managed across all dimensions.
 ### Overview
 
 The Component Catalog provides detailed specifications for all Data components
-discovered in the DevExp-DevBox repository across eleven TOGAF Data Layer
-component types. Each component entry expands the inventory in Section 2 with
-storage details, ownership, retention policies, freshness SLAs, source system
+discovered in the DevExp-DevBox repository across eleven Data Layer component
+types. Each component entry expands the inventory in Section 2 with storage
+details, ownership, retention policies, freshness SLAs, source system
 references, and consumer mappings derived from source file analysis.
 
 The catalog documents 17 components total: 8 Data Entities, 4 Data Models, 3

@@ -1,20 +1,20 @@
 # Architecture Documentation
 
 > [!NOTE]  
-> This folder contains the four TOGAF-aligned architecture views for the
-> **DevExp-DevBox — Dev Box Adoption & Deployment Accelerator**. Each document
-> covers a distinct architectural layer, from business motivation through
-> technology implementation and data governance. Start here to understand the
-> full architecture before reading individual documents.
+> This folder contains the four architecture views for the **DevExp-DevBox — Dev
+> Box Adoption & Deployment Accelerator**. Each document covers a distinct
+> architectural layer, from business motivation through technology
+> implementation and data governance. Start here to understand the full
+> architecture before reading individual documents.
 
 ## Overview
 
 The DevExp-DevBox architecture is documented across four complementary views
-following the TOGAF 10 Architecture Development Method (ADM). Together they
-describe a **configuration-driven Azure Dev Box Deployment Accelerator** that
-provisions role-specific cloud developer workstations for enterprise engineering
-teams using Azure Bicep Infrastructure as Code, YAML-driven configuration
-models, and Azure Developer CLI (`azd`) automation.
+following the 10 Architecture Development Method (ADM). Together they describe a
+**configuration-driven Azure Dev Box Deployment Accelerator** that provisions
+role-specific cloud developer workstations for enterprise engineering teams
+using Azure Bicep Infrastructure as Code, YAML-driven configuration models, and
+Azure Developer CLI (`azd`) automation.
 
 The accelerator serves two personas: **Platform Engineering teams** who deploy
 and govern the Azure DevCenter infrastructure, and **engineering teams** (e.g.,
@@ -24,12 +24,12 @@ architecture layers.
 
 ## Architecture Documents
 
-| Document | Layer | Focus |
+| Document                                | Layer       | Focus                                                                 |
 | --------------------------------------- | ----------- | --------------------------------------------------------------------- |
-| [Business Architecture](bus-arch.md) | Business | Capabilities, value streams, roles, business rules |
-| [Application Architecture](app-arch.md) | Application | Services, components, interfaces, integration patterns |
-| [Technology Architecture](tech-arch.md) | Technology | Azure PaaS stack, IaC modules, deployment pipeline, network topology |
-| [Data Architecture](data-arch.md) | Data | Configuration models, schemas, secrets management, observability data |
+| [Business Architecture](bus-arch.md)    | Business    | Capabilities, value streams, roles, business rules                    |
+| [Application Architecture](app-arch.md) | Application | Services, components, interfaces, integration patterns                |
+| [Technology Architecture](tech-arch.md) | Technology  | Azure PaaS stack, IaC modules, deployment pipeline, network topology  |
+| [Data Architecture](data-arch.md)       | Data        | Configuration models, schemas, secrets management, observability data |
 
 ## Architecture Overview
 
@@ -47,7 +47,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Four Architecture Views
-    accDescr: TOGAF-aligned architecture views showing Business, Application, Technology, and Data layers and their relationships for the DevExp-DevBox accelerator.
+    accDescr:  architecture views showing Business, Application, Technology, and Data layers and their relationships for the DevExp-DevBox accelerator.
 
     subgraph BUS["🏛️ Business Architecture"]
         direction TB
@@ -180,11 +180,11 @@ flowchart TB
 
 Each architecture document follows a consistent three-section structure:
 
-| Section                                | Contents                                                                           |
-| -------------------------------------- | ---------------------------------------------------------------------------------- |
-| **Section 1: Executive Summary**       | Overview narrative and key findings table                                          |
-| **Section 2: Architecture Landscape**  | 11 TOGAF component types cataloged with evidence-based tables and Mermaid diagrams |
-| **Section 3: Architecture Principles** | Normative design principles with rationale and source file references              |
+| Section                                | Contents                                                                     |
+| -------------------------------------- | ---------------------------------------------------------------------------- |
+| **Section 1: Executive Summary**       | Overview narrative and key findings table                                    |
+| **Section 2: Architecture Landscape**  | 11 component types cataloged with evidence-based tables and Mermaid diagrams |
+| **Section 3: Architecture Principles** | Normative design principles with rationale and source file references        |
 
 ## Source References
 

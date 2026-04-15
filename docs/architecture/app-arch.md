@@ -61,13 +61,13 @@ microservices beyond the DevCenter's scheduled catalog sync.
 ### Overview
 
 The Architecture Landscape catalogs all discovered Application components within
-the DevExp-DevBox solution, organized across eleven TOGAF Application Layer
-component types. The solution's application topology comprises three functional
-domains: **Platform Domain** (Azure DevCenter and its child resources —
-projects, catalogs, environment types, and DevBox pools), **Security Domain**
-(Azure Key Vault with RBAC-governed secret management and diagnostic streaming),
-and **Observability Domain** (Log Analytics Workspace ingesting diagnostic data
-from all application services via Azure Diagnostic Settings).
+the DevExp-DevBox solution, organized across eleven Application Layer component
+types. The solution's application topology comprises three functional domains:
+**Platform Domain** (Azure DevCenter and its child resources — projects,
+catalogs, environment types, and DevBox pools), **Security Domain** (Azure Key
+Vault with RBAC-governed secret management and diagnostic streaming), and
+**Observability Domain** (Log Analytics Workspace ingesting diagnostic data from
+all application services via Azure Diagnostic Settings).
 
 Each domain is implemented through a dedicated set of Bicep IaC modules that
 collaborate via output parameter propagation and `dependsOn` ordering. The
@@ -359,7 +359,7 @@ increment for this solution.
 ### Overview
 
 The Application Architecture of DevExp-DevBox is governed by a set of design
-principles derived from Azure Landing Zone best practices, TOGAF 10 Application
+principles derived from Azure Landing Zone best practices, 10 Application
 Architecture guidelines, and the Microsoft Dev Box reference architecture. These
 principles guide all application design decisions, from the selection of PaaS
 services over custom application code to the Bicep module composition strategy
@@ -626,17 +626,17 @@ flowchart TB
 
 #### Capability Maturity Assessment
 
-| Application Capability | Current Implementation | Gap |
+| Application Capability   | Current Implementation                                                                                  | Gap                                         |
 | ------------------------ | ------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| Workload Provisioning | Full IaC-driven DevCenter provisioning via devCenter.bicep and YAML configuration | No automated drift remediation |
-| Security Integration | Key Vault with RBAC, soft delete 7d, purge protection; secretIdentifier pattern throughout | No secret rotation automation |
-| Observability | Log Analytics with allLogs and AllMetrics diagnostic settings on all application services | No runtime application dashboards |
-| Catalog Management | Scheduled GitHub sync for DevCenter and project catalogs; supports public and private repos | No catalog sync failure alerting |
-| Network Connectivity | VNet provisioning and DevCenter network connection for unmanaged pool projects | Single VNet; no hub-spoke topology |
-| Identity Management | SystemAssigned managed identities with explicit RBAC assignment modules for all identities | No user-assigned identity support |
-| Configuration Governance | JSON Schema 2020-12 validation on all YAML configuration files via yaml-language-server | No CI/CD schema enforcement gate |
-| Environment Lifecycle | dev/staging/uat environment types with project association; Contributor role auto-assigned to creators | deploymentTargetId empty in all three types |
-| Runtime Application Tier | Not detected in source files. No Azure Functions, App Services, or Logic Apps present in the repository | Full runtime application tier is absent |
+| Workload Provisioning    | Full IaC-driven DevCenter provisioning via devCenter.bicep and YAML configuration                       | No automated drift remediation              |
+| Security Integration     | Key Vault with RBAC, soft delete 7d, purge protection; secretIdentifier pattern throughout              | No secret rotation automation               |
+| Observability            | Log Analytics with allLogs and AllMetrics diagnostic settings on all application services               | No runtime application dashboards           |
+| Catalog Management       | Scheduled GitHub sync for DevCenter and project catalogs; supports public and private repos             | No catalog sync failure alerting            |
+| Network Connectivity     | VNet provisioning and DevCenter network connection for unmanaged pool projects                          | Single VNet; no hub-spoke topology          |
+| Identity Management      | SystemAssigned managed identities with explicit RBAC assignment modules for all identities              | No user-assigned identity support           |
+| Configuration Governance | JSON Schema 2020-12 validation on all YAML configuration files via yaml-language-server                 | No CI/CD schema enforcement gate            |
+| Environment Lifecycle    | dev/staging/uat environment types with project association; Contributor role auto-assigned to creators  | deploymentTargetId empty in all three types |
+| Runtime Application Tier | Not detected in source files. No Azure Functions, App Services, or Logic Apps present in the repository | Full runtime application tier is absent     |
 
 ### Summary
 
@@ -665,8 +665,8 @@ advancing the solution from Level 3–4 to Level 4–5 application maturity.
 
 The Component Catalog provides detailed specifications for all Application
 components identified in the Architecture Landscape (Section 2). Each subsection
-corresponds to one of the eleven TOGAF Application Layer component types and
-provides expanded attribute specifications including technology stack, version
+corresponds to one of the eleven Application Layer component types and provides
+expanded attribute specifications including technology stack, version
 information, runtime dependencies, API endpoints, SLA targets, and source file
 traceability. Components are organized by the same eleven-type taxonomy used in
 Section 2, with additional specification depth required for operational handover
@@ -918,25 +918,25 @@ and future architecture evolution planning.
 
 #### Dependency Matrix
 
-| Source Component | Target Component | Dependency Type | Data Passed | Timing |
+| Source Component   | Target Component          | Dependency Type                             | Data Passed                                                   | Timing               |
 | ------------------ | ------------------------- | ------------------------------------------- | ------------------------------------------------------------- | -------------------- |
-| main.bicep | logAnalytics.bicep | Module dependency (scope: monitoringRg) | monitoringRgName | Deploy-time |
-| main.bicep | security.bicep | Module dependency (scope: securityRg) | logAnalyticsId, tags, secretValue | Deploy-time |
-| main.bicep | workload.bicep | Module dependency (scope: workloadRg) | logAnalyticsId, secretIdentifier | Deploy-time |
-| workload.bicep | devCenter.bicep | Module delegation | config, catalogs, envTypes, logAnalyticsId, secretIdentifier | Deploy-time |
-| workload.bicep | project.bicep | Iterative module (loop over projects array) | name, devCenterName, logAnalyticsId, catalogs, pools, network | Deploy-time |
-| security.bicep | keyVault.bicep | Conditional module (create flag) | keyvaultSettings, tags, location | Deploy-time |
-| security.bicep | secret.bicep | Module dependency | keyVaultName, logAnalyticsId, secretValue | Deploy-time |
-| project.bicep | connectivity.bicep | Conditional module | devCenterName, projectNetwork, logAnalyticsId | Deploy-time |
-| Azure DevCenter | GitHub REST API | Scheduled external API call (HTTPS GET) | Catalog sync request with gha-token auth | Scheduled (runtime) |
-| Azure DevCenter | Key Vault | RBAC secret read via secretIdentifier URI | gha-token value | Runtime (per sync) |
-| Azure DevCenter | Log Analytics WS | Diagnostic push (allLogs + AllMetrics) | Logs and metrics stream | Continuous (runtime) |
-| Azure Key Vault | Log Analytics WS | Diagnostic push (allLogs + AllMetrics) | Audit logs and metrics stream | Continuous (runtime) |
-| Azure VNet (eShop) | Log Analytics WS | Diagnostic push (allLogs + AllMetrics) | Flow logs and metrics stream | Continuous (runtime) |
-| Log Analytics WS | AzureActivity Solution | Resource attachment | Workspace resource ID | Deploy-time |
-| DevCenter Project | Azure DevCenter | Parent-child resource reference | devCenterId | Deploy-time |
-| DevBox Pools | Image Definition Catalogs | Config reference (~Catalog~name~imageDef) | Image definition name resolution | Runtime (on request) |
-| Network Connection | Azure VNet | Subnet attachment | AZURE_VIRTUAL_NETWORK.subnets[0].id | Deploy-time |
+| main.bicep         | logAnalytics.bicep        | Module dependency (scope: monitoringRg)     | monitoringRgName                                              | Deploy-time          |
+| main.bicep         | security.bicep            | Module dependency (scope: securityRg)       | logAnalyticsId, tags, secretValue                             | Deploy-time          |
+| main.bicep         | workload.bicep            | Module dependency (scope: workloadRg)       | logAnalyticsId, secretIdentifier                              | Deploy-time          |
+| workload.bicep     | devCenter.bicep           | Module delegation                           | config, catalogs, envTypes, logAnalyticsId, secretIdentifier  | Deploy-time          |
+| workload.bicep     | project.bicep             | Iterative module (loop over projects array) | name, devCenterName, logAnalyticsId, catalogs, pools, network | Deploy-time          |
+| security.bicep     | keyVault.bicep            | Conditional module (create flag)            | keyvaultSettings, tags, location                              | Deploy-time          |
+| security.bicep     | secret.bicep              | Module dependency                           | keyVaultName, logAnalyticsId, secretValue                     | Deploy-time          |
+| project.bicep      | connectivity.bicep        | Conditional module                          | devCenterName, projectNetwork, logAnalyticsId                 | Deploy-time          |
+| Azure DevCenter    | GitHub REST API           | Scheduled external API call (HTTPS GET)     | Catalog sync request with gha-token auth                      | Scheduled (runtime)  |
+| Azure DevCenter    | Key Vault                 | RBAC secret read via secretIdentifier URI   | gha-token value                                               | Runtime (per sync)   |
+| Azure DevCenter    | Log Analytics WS          | Diagnostic push (allLogs + AllMetrics)      | Logs and metrics stream                                       | Continuous (runtime) |
+| Azure Key Vault    | Log Analytics WS          | Diagnostic push (allLogs + AllMetrics)      | Audit logs and metrics stream                                 | Continuous (runtime) |
+| Azure VNet (eShop) | Log Analytics WS          | Diagnostic push (allLogs + AllMetrics)      | Flow logs and metrics stream                                  | Continuous (runtime) |
+| Log Analytics WS   | AzureActivity Solution    | Resource attachment                         | Workspace resource ID                                         | Deploy-time          |
+| DevCenter Project  | Azure DevCenter           | Parent-child resource reference             | devCenterId                                                   | Deploy-time          |
+| DevBox Pools       | Image Definition Catalogs | Config reference (~Catalog~name~imageDef)   | Image definition name resolution                              | Runtime (on request) |
+| Network Connection | Azure VNet                | Subnet attachment                           | AZURE_VIRTUAL_NETWORK.subnets[0].id                           | Deploy-time          |
 
 **Application Integration Flow:**
 

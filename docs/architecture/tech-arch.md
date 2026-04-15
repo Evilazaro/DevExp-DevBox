@@ -176,14 +176,13 @@ flowchart TB
 ### Overview
 
 The Architecture Landscape catalogs all discovered Technology components within
-the DevExp-DevBox solution, organized across eleven TOGAF Technology Layer
-component types. The solution's technology topology comprises four functional
-domains: **Platform Domain** (Azure DevCenter with projects, catalogs,
-environment types, and Dev Box pools), **Security Domain** (Azure Key Vault with
-RBAC-governed secret management and diagnostic streaming), **Monitoring Domain**
-(Log Analytics Workspace ingesting diagnostic data from all services), and
-**Network Domain** (Azure Virtual Network with DevCenter network connection
-attachment).
+the DevExp-DevBox solution, organized across eleven Technology Layer component
+types. The solution's technology topology comprises four functional domains:
+**Platform Domain** (Azure DevCenter with projects, catalogs, environment types,
+and Dev Box pools), **Security Domain** (Azure Key Vault with RBAC-governed
+secret management and diagnostic streaming), **Monitoring Domain** (Log
+Analytics Workspace ingesting diagnostic data from all services), and **Network
+Domain** (Azure Virtual Network with DevCenter network connection attachment).
 
 Each domain is implemented through dedicated Bicep IaC modules collaborating via
 output parameter propagation and `dependsOn` ordering
@@ -203,133 +202,133 @@ Optimized).
 
 ### 2.1 Technology Services
 
-| Name | Description | API Version | Source Reference |
+| Name                        | Description                                                                     | API Version          | Source Reference                                |
 | --------------------------- | ------------------------------------------------------------------------------- | -------------------- | ----------------------------------------------- |
-| Azure DevCenter (`devexp`) | Central PaaS platform managing Dev Box pools, catalogs, and environment types | `2026-01-01-preview` | `infra/settings/workload/devcenter.yaml:21` |
-| Azure Key Vault (`contoso`) | Secrets management PaaS with RBAC authorization and soft-delete protection | `2025-05-01` | `src/security/keyVault.bicep:43-78` |
-| Azure Log Analytics WS | Centralized observability PaaS ingesting logs and metrics from all services | `2025-07-01` | `src/management/logAnalytics.bicep:36-54` |
-| Azure DevCenter Project | Project-scoped unit grouping pools, catalogs, and environment types | `2026-01-01-preview` | `src/workload/project/project.bicep:1-80` |
-| Azure DevCenter Catalog | Scheduled Git-sync catalog linking DevCenter to external configuration repos | `2026-01-01-preview` | `src/workload/core/catalog.bicep:34-58` |
-| Azure DevCenter Environment | Lifecycle environment type (dev, staging, uat) with configurable deploy targets | `2026-01-01-preview` | `src/workload/core/environmentType.bicep:1-35` |
-| Azure Dev Box Pool | VM pool (backend-engineer, frontend-engineer) with SKU and image definition | `2026-01-01-preview` | `src/workload/project/projectPool.bicep:1-80` |
-| Azure VNet | Layer-3 network isolation (10.0.0.0/16) for Dev Box connectivity | `2025-05-01` | `src/connectivity/vnet.bicep:34-52` |
-| Azure Network Connection | DevCenter attachment resource linking VNet subnet to DevCenter via AzureADJoin | `2026-01-01-preview` | `src/connectivity/networkConnection.bicep:1-52` |
+| Azure DevCenter (`devexp`)  | Central PaaS platform managing Dev Box pools, catalogs, and environment types   | `2026-01-01-preview` | `infra/settings/workload/devcenter.yaml:21`     |
+| Azure Key Vault (`contoso`) | Secrets management PaaS with RBAC authorization and soft-delete protection      | `2025-05-01`         | `src/security/keyVault.bicep:43-78`             |
+| Azure Log Analytics WS      | Centralized observability PaaS ingesting logs and metrics from all services     | `2025-07-01`         | `src/management/logAnalytics.bicep:36-54`       |
+| Azure DevCenter Project     | Project-scoped unit grouping pools, catalogs, and environment types             | `2026-01-01-preview` | `src/workload/project/project.bicep:1-80`       |
+| Azure DevCenter Catalog     | Scheduled Git-sync catalog linking DevCenter to external configuration repos    | `2026-01-01-preview` | `src/workload/core/catalog.bicep:34-58`         |
+| Azure DevCenter Environment | Lifecycle environment type (dev, staging, uat) with configurable deploy targets | `2026-01-01-preview` | `src/workload/core/environmentType.bicep:1-35`  |
+| Azure Dev Box Pool          | VM pool (backend-engineer, frontend-engineer) with SKU and image definition     | `2026-01-01-preview` | `src/workload/project/projectPool.bicep:1-80`   |
+| Azure VNet                  | Layer-3 network isolation (10.0.0.0/16) for Dev Box connectivity                | `2025-05-01`         | `src/connectivity/vnet.bicep:34-52`             |
+| Azure Network Connection    | DevCenter attachment resource linking VNet subnet to DevCenter via AzureADJoin  | `2026-01-01-preview` | `src/connectivity/networkConnection.bicep:1-52` |
 
 ### 2.2 Technology Infrastructure
 
-| Name | Description | Type | Source Reference |
+| Name                            | Description                                                             | Type           | Source Reference                                                                                                  |
 | ------------------------------- | ----------------------------------------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------- |
-| workload Resource Group | Primary Azure Resource Group hosting all service resources | Resource Group | `infra/settings/resourceOrganization/azureResources.yaml:16-28` |
-| Azure Subscription Scope | Top-level deployment scope for `main.bicep` orchestration | Scope | `infra/main.bicep:1` |
-| Azure ARM Deployment Engine | Azure Resource Manager processes all Bicep-compiled ARM templates | PaaS Engine | `infra/main.bicep:1-200` |
-| Log Analytics Activity Solution | `AzureActivity` OMSGallery solution for activity log analytics | Monitoring | `src/management/logAnalytics.bicep:55-70` |
-| Azure Diagnostic Settings | ARM resource on Key Vault, Log Analytics WS, and VNet for log streaming | Diagnostic | `src/security/secret.bicep:35-60`, `src/management/logAnalytics.bicep:72-95`, `src/connectivity/vnet.bicep:65-85` |
+| workload Resource Group         | Primary Azure Resource Group hosting all service resources              | Resource Group | `infra/settings/resourceOrganization/azureResources.yaml:16-28`                                                   |
+| Azure Subscription Scope        | Top-level deployment scope for `main.bicep` orchestration               | Scope          | `infra/main.bicep:1`                                                                                              |
+| Azure ARM Deployment Engine     | Azure Resource Manager processes all Bicep-compiled ARM templates       | PaaS Engine    | `infra/main.bicep:1-200`                                                                                          |
+| Log Analytics Activity Solution | `AzureActivity` OMSGallery solution for activity log analytics          | Monitoring     | `src/management/logAnalytics.bicep:55-70`                                                                         |
+| Azure Diagnostic Settings       | ARM resource on Key Vault, Log Analytics WS, and VNet for log streaming | Diagnostic     | `src/security/secret.bicep:35-60`, `src/management/logAnalytics.bicep:72-95`, `src/connectivity/vnet.bicep:65-85` |
 
 ### 2.3 Technology Platforms
 
-| Name | Description | Platform Type | Source Reference |
+| Name                         | Description                                                                    | Platform Type    | Source Reference                            |
 | ---------------------------- | ------------------------------------------------------------------------------ | ---------------- | ------------------------------------------- |
-| Azure DevCenter Platform | Microsoft-managed PaaS developer platform hosting all Dev Box infrastructure | PaaS (Microsoft) | `src/workload/core/devCenter.bicep:1-100` |
-| Microsoft-Hosted Network | `microsoftHostedNetworkEnableStatus: Enabled` — managed network option enabled | Network Platform | `infra/settings/workload/devcenter.yaml:24` |
-| Azure Monitor Agent Platform | `installAzureMonitorAgentEnableStatus: Enabled` — AMA on all Dev Box VMs | Monitoring Agent | `infra/settings/workload/devcenter.yaml:25` |
-| Hugo v0.136.2 (Node.js) | Static site generator for accelerator documentation, built on Node.js | Documentation | `package.json:9,16` |
+| Azure DevCenter Platform     | Microsoft-managed PaaS developer platform hosting all Dev Box infrastructure   | PaaS (Microsoft) | `src/workload/core/devCenter.bicep:1-100`   |
+| Microsoft-Hosted Network     | `microsoftHostedNetworkEnableStatus: Enabled` — managed network option enabled | Network Platform | `infra/settings/workload/devcenter.yaml:24` |
+| Azure Monitor Agent Platform | `installAzureMonitorAgentEnableStatus: Enabled` — AMA on all Dev Box VMs       | Monitoring Agent | `infra/settings/workload/devcenter.yaml:25` |
+| Hugo v0.136.2 (Node.js)      | Static site generator for accelerator documentation, built on Node.js          | Documentation    | `package.json:9,16`                         |
 
 ### 2.4 Integration Technologies
 
-| Name | Description | Pattern | Source Reference |
+| Name                             | Description                                                                       | Pattern               | Source Reference                               |
 | -------------------------------- | --------------------------------------------------------------------------------- | --------------------- | ---------------------------------------------- |
-| GitHub Catalog Sync | Scheduled synchronization from `microsoft/devcenter-catalog` GitHub repository | Outbound Pull (Sched) | `infra/settings/workload/devcenter.yaml:55-60` |
-| Key Vault Secret Identifier Pass | Output parameter propagation: `secretIdentifier` → `workload` → `project` modules | Parameter Chain | `src/security/security.bicep:44-46` |
-| Log Analytics Diagnostic Stream | Push diagnostic logs from Key Vault, Log Analytics WS, VNet to central LAW | Outbound Push | `src/security/secret.bicep:35-60` |
-| azd Pre-provision Hook | Shell/PowerShell hook in `azure.yaml` triggering setUp scripts before ARM deploy | Pre-deploy Automation | `azure.yaml:10-50` |
-| Bicep Module Output Propagation | `monitoring.outputs.*` → `security`, `workload` — typed output chaining | Parameter Wiring | `infra/main.bicep:115-155` |
-| ADO Git / GitHub Catalog Auth | Private catalog auth via `secretIdentifier` from Key Vault; public = `null` | Conditional Auth | `src/workload/core/catalog.bicep:44-58` |
+| GitHub Catalog Sync              | Scheduled synchronization from `microsoft/devcenter-catalog` GitHub repository    | Outbound Pull (Sched) | `infra/settings/workload/devcenter.yaml:55-60` |
+| Key Vault Secret Identifier Pass | Output parameter propagation: `secretIdentifier` → `workload` → `project` modules | Parameter Chain       | `src/security/security.bicep:44-46`            |
+| Log Analytics Diagnostic Stream  | Push diagnostic logs from Key Vault, Log Analytics WS, VNet to central LAW        | Outbound Push         | `src/security/secret.bicep:35-60`              |
+| azd Pre-provision Hook           | Shell/PowerShell hook in `azure.yaml` triggering setUp scripts before ARM deploy  | Pre-deploy Automation | `azure.yaml:10-50`                             |
+| Bicep Module Output Propagation  | `monitoring.outputs.*` → `security`, `workload` — typed output chaining           | Parameter Wiring      | `infra/main.bicep:115-155`                     |
+| ADO Git / GitHub Catalog Auth    | Private catalog auth via `secretIdentifier` from Key Vault; public = `null`       | Conditional Auth      | `src/workload/core/catalog.bicep:44-58`        |
 
 ### 2.5 Security Technologies
 
-| Name | Description | Technology | Source Reference |
+| Name                            | Description                                                                        | Technology         | Source Reference                                           |
 | ------------------------------- | ---------------------------------------------------------------------------------- | ------------------ | ---------------------------------------------------------- |
-| Azure Key Vault (Standard SKU) | FIPS-140-2 secrets vault with purge protection, soft-delete (7 days), RBAC auth | Key Vault PaaS | `src/security/keyVault.bicep:43-78` |
-| Soft-Delete & Purge Protection | `enableSoftDelete: true`, `enablePurgeProtection: true`, 7-day retention | Data Protection | `infra/settings/security/security.yaml:24-27` |
-| RBAC Authorization on Key Vault | `enableRbacAuthorization: true` — no access policies; role-based only | IAM | `infra/settings/security/security.yaml:28` |
-| Key Vault Secrets User Role | Role `4633458b-17de-408a-b874-0445c86b69e6` — read-only secret access for MI | RBAC | `src/identity/keyVaultAccess.bicep:15-21` |
-| Key Vault Secrets Officer Role | Role `b86a8fe4-44ce-4948-aee5-eccb2c155cd7` — secret write access for deployer | RBAC | `infra/settings/workload/devcenter.yaml:41-43` |
-| AzureADJoin Domain Join | `domainJoinType: AzureADJoin` — cloud-native identity on all Dev Box pools | Network Security | `src/connectivity/networkConnection.bicep:28-32` |
-| Deployer Access Policy | `deployer().objectId` access to Key Vault secrets and keys at deploy time | Bootstrap Auth | `src/security/keyVault.bicep:61-74` |
-| Secure Parameter (`@secure()`) | `secretValue` and `secretIdentifier` decorated `@secure()` preventing log exposure | Parameter Security | `infra/main.bicep:12-14`, `src/workload/workload.bicep:13` |
+| Azure Key Vault (Standard SKU)  | FIPS-140-2 secrets vault with purge protection, soft-delete (7 days), RBAC auth    | Key Vault PaaS     | `src/security/keyVault.bicep:43-78`                        |
+| Soft-Delete & Purge Protection  | `enableSoftDelete: true`, `enablePurgeProtection: true`, 7-day retention           | Data Protection    | `infra/settings/security/security.yaml:24-27`              |
+| RBAC Authorization on Key Vault | `enableRbacAuthorization: true` — no access policies; role-based only              | IAM                | `infra/settings/security/security.yaml:28`                 |
+| Key Vault Secrets User Role     | Role `4633458b-17de-408a-b874-0445c86b69e6` — read-only secret access for MI       | RBAC               | `src/identity/keyVaultAccess.bicep:15-21`                  |
+| Key Vault Secrets Officer Role  | Role `b86a8fe4-44ce-4948-aee5-eccb2c155cd7` — secret write access for deployer     | RBAC               | `infra/settings/workload/devcenter.yaml:41-43`             |
+| AzureADJoin Domain Join         | `domainJoinType: AzureADJoin` — cloud-native identity on all Dev Box pools         | Network Security   | `src/connectivity/networkConnection.bicep:28-32`           |
+| Deployer Access Policy          | `deployer().objectId` access to Key Vault secrets and keys at deploy time          | Bootstrap Auth     | `src/security/keyVault.bicep:61-74`                        |
+| Secure Parameter (`@secure()`)  | `secretValue` and `secretIdentifier` decorated `@secure()` preventing log exposure | Parameter Security | `infra/main.bicep:12-14`, `src/workload/workload.bicep:13` |
 
 ### 2.6 Monitoring Technologies
 
-| Name | Description | Technology | Source Reference |
+| Name                       | Description                                                                      | Technology       | Source Reference                            |
 | -------------------------- | -------------------------------------------------------------------------------- | ---------------- | ------------------------------------------- |
-| Log Analytics Workspace | `PerGB2018` SKU workspace; central sink for all diagnostic streams | Azure Monitor | `src/management/logAnalytics.bicep:36-54` |
-| Azure Activity Solution | `AzureActivity` OMSGallery solution attached to Log Analytics workspace | Azure Monitor | `src/management/logAnalytics.bicep:55-70` |
-| Diagnostic Settings — LAW | Self-referential diagnostic settings on Log Analytics WS: allLogs + AllMetrics | Diagnostic | `src/management/logAnalytics.bicep:72-95` |
-| Diagnostic Settings — KV | Key Vault diagnostics: allLogs + AllMetrics → LAW via `AzureDiagnostics` | Diagnostic | `src/security/secret.bicep:35-60` |
-| Diagnostic Settings — VNet | Virtual Network diagnostics: allLogs + AllMetrics → LAW | Diagnostic | `src/connectivity/vnet.bicep:65-85` |
-| Azure Monitor Agent (AMA) | `installAzureMonitorAgentEnableStatus: Enabled` — AMA pre-installed on Dev Boxes | Monitoring Agent | `infra/settings/workload/devcenter.yaml:25` |
+| Log Analytics Workspace    | `PerGB2018` SKU workspace; central sink for all diagnostic streams               | Azure Monitor    | `src/management/logAnalytics.bicep:36-54`   |
+| Azure Activity Solution    | `AzureActivity` OMSGallery solution attached to Log Analytics workspace          | Azure Monitor    | `src/management/logAnalytics.bicep:55-70`   |
+| Diagnostic Settings — LAW  | Self-referential diagnostic settings on Log Analytics WS: allLogs + AllMetrics   | Diagnostic       | `src/management/logAnalytics.bicep:72-95`   |
+| Diagnostic Settings — KV   | Key Vault diagnostics: allLogs + AllMetrics → LAW via `AzureDiagnostics`         | Diagnostic       | `src/security/secret.bicep:35-60`           |
+| Diagnostic Settings — VNet | Virtual Network diagnostics: allLogs + AllMetrics → LAW                          | Diagnostic       | `src/connectivity/vnet.bicep:65-85`         |
+| Azure Monitor Agent (AMA)  | `installAzureMonitorAgentEnableStatus: Enabled` — AMA pre-installed on Dev Boxes | Monitoring Agent | `infra/settings/workload/devcenter.yaml:25` |
 
 ### 2.7 Development & Deployment Tools
 
-| Name | Description | Technology | Source Reference |
+| Name                         | Description                                                                       | Technology      | Source Reference                     |
 | ---------------------------- | --------------------------------------------------------------------------------- | --------------- | ------------------------------------ |
-| Azure Developer CLI (azd) | Top-level deployment controller; executes hooks, provisions ARM, manages env vars | CLI Tool | `azure.yaml:1-80` |
-| Azure Bicep | ARM-compiled IaC DSL; 23 modules across 5 domain hierarchies | IaC Language | `src/**/*.bicep`, `infra/main.bicep` |
-| Azure Resource Manager (ARM) | Deployment engine processing Bicep-compiled templates at subscription scope | Azure Platform | `infra/main.bicep:1` |
-| Hugo Extended v0.136.2 | Static site generator for documentation site; built with npm | Static Site Gen | `package.json:16` |
-| Node.js / npm | JavaScript runtime for Hugo build toolchain (postcss, autoprefixer) | Build Toolchain | `package.json:30-40` |
-| PowerShell (pwsh) | Windows pre-provisioning script engine (`setUp.ps1`) | Script Runtime | `azure.yaml:30-50` |
-| Bash (sh) | POSIX pre-provisioning script engine (`setUp.sh`) | Script Runtime | `azure.yaml:12-28` |
+| Azure Developer CLI (azd)    | Top-level deployment controller; executes hooks, provisions ARM, manages env vars | CLI Tool        | `azure.yaml:1-80`                    |
+| Azure Bicep                  | ARM-compiled IaC DSL; 23 modules across 5 domain hierarchies                      | IaC Language    | `src/**/*.bicep`, `infra/main.bicep` |
+| Azure Resource Manager (ARM) | Deployment engine processing Bicep-compiled templates at subscription scope       | Azure Platform  | `infra/main.bicep:1`                 |
+| Hugo Extended v0.136.2       | Static site generator for documentation site; built with npm                      | Static Site Gen | `package.json:16`                    |
+| Node.js / npm                | JavaScript runtime for Hugo build toolchain (postcss, autoprefixer)               | Build Toolchain | `package.json:30-40`                 |
+| PowerShell (pwsh)            | Windows pre-provisioning script engine (`setUp.ps1`)                              | Script Runtime  | `azure.yaml:30-50`                   |
+| Bash (sh)                    | POSIX pre-provisioning script engine (`setUp.sh`)                                 | Script Runtime  | `azure.yaml:12-28`                   |
 
 ### 2.8 Network Technologies
 
-| Name | Description | Technology | Source Reference |
+| Name                          | Description                                                                        | Technology             | Source Reference                                 |
 | ----------------------------- | ---------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------ |
-| Azure Virtual Network (eShop) | Layer-3 VNet with address space 10.0.0.0/16 for Dev Box pool isolation | Azure VNet | `infra/settings/workload/devcenter.yaml:60-80` |
-| eShop Subnet | Subnet `eShop-subnet` with 10.0.1.0/24 address prefix within eShop VNet | Azure Subnet | `infra/settings/workload/devcenter.yaml:72-79` |
-| Network Connection Resource | `Microsoft.DevCenter/networkConnections` linking VNet subnet to DevCenter | Azure DevCenter Attach | `src/connectivity/networkConnection.bicep:22-36` |
-| Attached Network | `Microsoft.DevCenter/devcenters/attachednetworks` parent-child attachment | Azure DevCenter Attach | `src/connectivity/networkConnection.bicep:38-47` |
-| Microsoft-Hosted Network | Alternative managed network option (`microsoftHostedNetworkEnableStatus: Enabled`) | Azure Managed Network | `infra/settings/workload/devcenter.yaml:24` |
-| Connectivity Module | `src/connectivity/connectivity.bicep` orchestrates VNet + NetworkConnection | IaC Module | `src/connectivity/connectivity.bicep:1-70` |
+| Azure Virtual Network (eShop) | Layer-3 VNet with address space 10.0.0.0/16 for Dev Box pool isolation             | Azure VNet             | `infra/settings/workload/devcenter.yaml:60-80`   |
+| eShop Subnet                  | Subnet `eShop-subnet` with 10.0.1.0/24 address prefix within eShop VNet            | Azure Subnet           | `infra/settings/workload/devcenter.yaml:72-79`   |
+| Network Connection Resource   | `Microsoft.DevCenter/networkConnections` linking VNet subnet to DevCenter          | Azure DevCenter Attach | `src/connectivity/networkConnection.bicep:22-36` |
+| Attached Network              | `Microsoft.DevCenter/devcenters/attachednetworks` parent-child attachment          | Azure DevCenter Attach | `src/connectivity/networkConnection.bicep:38-47` |
+| Microsoft-Hosted Network      | Alternative managed network option (`microsoftHostedNetworkEnableStatus: Enabled`) | Azure Managed Network  | `infra/settings/workload/devcenter.yaml:24`      |
+| Connectivity Module           | `src/connectivity/connectivity.bicep` orchestrates VNet + NetworkConnection        | IaC Module             | `src/connectivity/connectivity.bicep:1-70`       |
 
 ### 2.9 Configuration Technologies
 
-| Name | Description | Technology | Source Reference |
+| Name                              | Description                                                                  | Technology       | Source Reference                                                                          |
 | --------------------------------- | ---------------------------------------------------------------------------- | ---------------- | ----------------------------------------------------------------------------------------- |
-| DevCenter YAML Configuration | Primary configuration model for Dev Center, projects, pools, and catalogs | YAML (validated) | `infra/settings/workload/devcenter.yaml:1-150` |
-| Security YAML Configuration | Key Vault configuration model: name, retention, purge protection, RBAC | YAML (validated) | `infra/settings/security/security.yaml:1-60` |
-| Resource Organization YAML | Landing Zone resource group model: workload, security, monitoring domains | YAML (validated) | `infra/settings/resourceOrganization/azureResources.yaml:1-80` |
-| DevCenter JSON Schema | JSON Schema 2020-12 validation schema for `devcenter.yaml` authoring | JSON Schema | `infra/settings/workload/devcenter.schema.json` |
-| Security JSON Schema | JSON Schema validation schema for `security.yaml` authoring | JSON Schema | `infra/settings/security/security.schema.json` |
-| Resource Organization JSON Schema | JSON Schema validation schema for `azureResources.yaml` authoring | JSON Schema | `infra/settings/resourceOrganization/azureResources.schema.json` |
-| Bicep `loadYamlContent()` | Bicep built-in function loading YAML configs at compile-time into Bicep vars | Bicep Feature | `infra/main.bicep:27`, `src/workload/workload.bicep:43`, `src/security/security.bicep:16` |
-| ARM Parameters JSON | `main.parameters.json` with environment variable substitution for azd | ARM Parameters | `infra/main.parameters.json:1-12` |
+| DevCenter YAML Configuration      | Primary configuration model for Dev Center, projects, pools, and catalogs    | YAML (validated) | `infra/settings/workload/devcenter.yaml:1-150`                                            |
+| Security YAML Configuration       | Key Vault configuration model: name, retention, purge protection, RBAC       | YAML (validated) | `infra/settings/security/security.yaml:1-60`                                              |
+| Resource Organization YAML        | Landing Zone resource group model: workload, security, monitoring domains    | YAML (validated) | `infra/settings/resourceOrganization/azureResources.yaml:1-80`                            |
+| DevCenter JSON Schema             | JSON Schema 2020-12 validation schema for `devcenter.yaml` authoring         | JSON Schema      | `infra/settings/workload/devcenter.schema.json`                                           |
+| Security JSON Schema              | JSON Schema validation schema for `security.yaml` authoring                  | JSON Schema      | `infra/settings/security/security.schema.json`                                            |
+| Resource Organization JSON Schema | JSON Schema validation schema for `azureResources.yaml` authoring            | JSON Schema      | `infra/settings/resourceOrganization/azureResources.schema.json`                          |
+| Bicep `loadYamlContent()`         | Bicep built-in function loading YAML configs at compile-time into Bicep vars | Bicep Feature    | `infra/main.bicep:27`, `src/workload/workload.bicep:43`, `src/security/security.bicep:16` |
+| ARM Parameters JSON               | `main.parameters.json` with environment variable substitution for azd        | ARM Parameters   | `infra/main.parameters.json:1-12`                                                         |
 
 ### 2.10 Identity Technologies
 
-| Name | Description | Technology | Source Reference |
+| Name                                    | Description                                                                    | Technology       | Source Reference                                 |
 | --------------------------------------- | ------------------------------------------------------------------------------ | ---------------- | ------------------------------------------------ |
-| System Assigned Managed Identity — DC | DevCenter auto-provisioned System Assigned MI; `principalId` used for RBAC | Azure Managed ID | `infra/settings/workload/devcenter.yaml:27-32` |
-| System Assigned Managed Identity — Proj | Per-project System Assigned MI enabling project-level RBAC automation | Azure Managed ID | `infra/settings/workload/devcenter.yaml:92-108` |
-| Azure AD Group — Platform Engineering | `54fd94a1-e116-4bc8-8238-caae9d72bd12` — Dev Managers group | Azure AD Group | `infra/settings/workload/devcenter.yaml:47-52` |
-| Azure AD Group — eShop Engineers | `b9968440-0caf-40d8-ac36-52f159730eb7` — Dev Box Users group for eShop project | Azure AD Group | `infra/settings/workload/devcenter.yaml:95-96` |
-| Contributor Role (Subscription) | `b24988ac-6180-42a0-ab88-20f7382dd24c` — DevCenter MI → Subscription scope | Azure RBAC | `infra/settings/workload/devcenter.yaml:35-37` |
-| User Access Administrator (Sub) | `18d7d88d-d35e-4fb5-a5c3-7773c20a72d9` — DevCenter MI → Subscription scope | Azure RBAC | `infra/settings/workload/devcenter.yaml:38-40` |
-| DevCenter Project Admin Role | `331c37c6-af14-46d9-b9f4-e1909e1b95a0` — Dev Managers → Resource Group scope | Azure RBAC | `infra/settings/workload/devcenter.yaml:53-55` |
-| Dev Box User Role | `45d50f46-0b78-4001-a660-4198cbe8cd05` — eShop Engineers → Project scope | Azure RBAC | `infra/settings/workload/devcenter.yaml:102-105` |
-| Deployment Environment User Role | `18e40d4e-8d2e-438d-97e1-9528336e149c` — eShop Engineers → Project scope | Azure RBAC | `infra/settings/workload/devcenter.yaml:106-109` |
-| Role Assignment Bicep Modules | 6 dedicated identity modules for subscription, RG, project, and KV scope RBAC | IaC (Bicep) | `src/identity/*.bicep` |
+| System Assigned Managed Identity — DC   | DevCenter auto-provisioned System Assigned MI; `principalId` used for RBAC     | Azure Managed ID | `infra/settings/workload/devcenter.yaml:27-32`   |
+| System Assigned Managed Identity — Proj | Per-project System Assigned MI enabling project-level RBAC automation          | Azure Managed ID | `infra/settings/workload/devcenter.yaml:92-108`  |
+| Azure AD Group — Platform Engineering   | `54fd94a1-e116-4bc8-8238-caae9d72bd12` — Dev Managers group                    | Azure AD Group   | `infra/settings/workload/devcenter.yaml:47-52`   |
+| Azure AD Group — eShop Engineers        | `b9968440-0caf-40d8-ac36-52f159730eb7` — Dev Box Users group for eShop project | Azure AD Group   | `infra/settings/workload/devcenter.yaml:95-96`   |
+| Contributor Role (Subscription)         | `b24988ac-6180-42a0-ab88-20f7382dd24c` — DevCenter MI → Subscription scope     | Azure RBAC       | `infra/settings/workload/devcenter.yaml:35-37`   |
+| User Access Administrator (Sub)         | `18d7d88d-d35e-4fb5-a5c3-7773c20a72d9` — DevCenter MI → Subscription scope     | Azure RBAC       | `infra/settings/workload/devcenter.yaml:38-40`   |
+| DevCenter Project Admin Role            | `331c37c6-af14-46d9-b9f4-e1909e1b95a0` — Dev Managers → Resource Group scope   | Azure RBAC       | `infra/settings/workload/devcenter.yaml:53-55`   |
+| Dev Box User Role                       | `45d50f46-0b78-4001-a660-4198cbe8cd05` — eShop Engineers → Project scope       | Azure RBAC       | `infra/settings/workload/devcenter.yaml:102-105` |
+| Deployment Environment User Role        | `18e40d4e-8d2e-438d-97e1-9528336e149c` — eShop Engineers → Project scope       | Azure RBAC       | `infra/settings/workload/devcenter.yaml:106-109` |
+| Role Assignment Bicep Modules           | 6 dedicated identity modules for subscription, RG, project, and KV scope RBAC  | IaC (Bicep)      | `src/identity/*.bicep`                           |
 
 ### 2.11 Automation Technologies
 
-| Name | Description | Technology | Source Reference |
+| Name                            | Description                                                                      | Technology        | Source Reference                     |
 | ------------------------------- | -------------------------------------------------------------------------------- | ----------------- | ------------------------------------ |
-| `setUp.sh` | POSIX shell pre-provisioning script: sets env vars, calls downstream setup logic | Bash | `azure.yaml:12-28` |
-| `setUp.ps1` | PowerShell pre-provisioning script: equivalent logic for Windows environments | PowerShell (pwsh) | `azure.yaml:30-50` |
-| `cleanSetUp.ps1` | PowerShell cleanup script for environment teardown and resource decommissioning | PowerShell (pwsh) | `cleanSetUp.ps1:1-*` |
-| `scripts/transform-bdat.ps1` | PowerShell utility script for BDAT data transformation operations | PowerShell (pwsh) | `scripts/transform-bdat.ps1:1-*` |
-| azd Pre-provision Hook | `hooks.preprovision` in `azure.yaml` — triggers scripts before ARM provisioning | azd Hook | `azure.yaml:10` |
-| Catalog Item Sync (`Scheduled`) | DevCenter automated catalog sync running on schedule from GitHub repo | Azure Automation | `src/workload/core/catalog.bicep:37` |
+| `setUp.sh`                      | POSIX shell pre-provisioning script: sets env vars, calls downstream setup logic | Bash              | `azure.yaml:12-28`                   |
+| `setUp.ps1`                     | PowerShell pre-provisioning script: equivalent logic for Windows environments    | PowerShell (pwsh) | `azure.yaml:30-50`                   |
+| `cleanSetUp.ps1`                | PowerShell cleanup script for environment teardown and resource decommissioning  | PowerShell (pwsh) | `cleanSetUp.ps1:1-*`                 |
+| `scripts/transform-bdat.ps1`    | PowerShell utility script for BDAT data transformation operations                | PowerShell (pwsh) | `scripts/transform-bdat.ps1:1-*`     |
+| azd Pre-provision Hook          | `hooks.preprovision` in `azure.yaml` — triggers scripts before ARM provisioning  | azd Hook          | `azure.yaml:10`                      |
+| Catalog Item Sync (`Scheduled`) | DevCenter automated catalog sync running on schedule from GitHub repo            | Azure Automation  | `src/workload/core/catalog.bicep:37` |
 
 ### Summary
 
@@ -722,11 +721,11 @@ output_sections scope).
 
 #### Azure Diagnostic Settings (Cross-Service)
 
-| Resource | Diagnostic Target | Log Categories | Metric Categories |
+| Resource               | Diagnostic Target | Log Categories | Metric Categories |
 | ---------------------- | ----------------- | -------------- | ----------------- |
-| Key Vault (via Secret) | Log Analytics WS | `allLogs` | `AllMetrics` |
-| Log Analytics WS | Self (LAW) | `allLogs` | `AllMetrics` |
-| Azure VNet | Log Analytics WS | `allLogs` | `AllMetrics` |
+| Key Vault (via Secret) | Log Analytics WS  | `allLogs`      | `AllMetrics`      |
+| Log Analytics WS       | Self (LAW)        | `allLogs`      | `AllMetrics`      |
+| Azure VNet             | Log Analytics WS  | `allLogs`      | `AllMetrics`      |
 
 ### 5.3 Technology Platforms — Detailed Specifications
 
@@ -893,14 +892,14 @@ flowchart TB
 
 ### 5.7 Development & Deployment Tools — Detailed Specifications
 
-| Tool | Version / Config | Purpose |
+| Tool                      | Version / Config                              | Purpose                          |
 | ------------------------- | --------------------------------------------- | -------------------------------- |
-| Azure Developer CLI (azd) | `ContosoDevExp` project name (`azure.yaml:7`) | Provision, deploy, manage envs |
-| Azure Bicep | API versions up to `2026-01-01-preview` | IaC DSL compiled to ARM JSON |
-| ARM Parameters Schema | `2019-04-01/deploymentParameters.json#` | Parameter file for azd provision |
-| Hugo Extended | `0.136.2` (package.json) | Documentation static site build |
-| autoprefixer | `^10.4.20` | CSS PostCSS processing for docs |
-| postcss-cli | `^11.0.0` | PostCSS CLI for Hugo build chain |
+| Azure Developer CLI (azd) | `ContosoDevExp` project name (`azure.yaml:7`) | Provision, deploy, manage envs   |
+| Azure Bicep               | API versions up to `2026-01-01-preview`       | IaC DSL compiled to ARM JSON     |
+| ARM Parameters Schema     | `2019-04-01/deploymentParameters.json#`       | Parameter file for azd provision |
+| Hugo Extended             | `0.136.2` (package.json)                      | Documentation static site build  |
+| autoprefixer              | `^10.4.20`                                    | CSS PostCSS processing for docs  |
+| postcss-cli               | `^11.0.0`                                     | PostCSS CLI for Hugo build chain |
 
 ### 5.8 Network Technologies — Detailed Specifications
 
@@ -972,12 +971,12 @@ var devCenterSettings = loadYamlContent('../../infra/settings/workload/devcenter
 
 ### 5.11 Automation Technologies — Detailed Specifications
 
-| Script | Runtime | Trigger | Purpose |
+| Script                       | Runtime    | Trigger                      | Purpose                                                                  |
 | ---------------------------- | ---------- | ---------------------------- | ------------------------------------------------------------------------ |
-| `setUp.sh` | Bash (sh) | `azd preprovision` (POSIX) | Sets `SOURCE_CONTROL_PLATFORM` env var; calls downstream setup |
-| `setUp.ps1` | PowerShell | `azd preprovision` (Windows) | Windows equivalent; sets env var, calls `setUp.sh` via bash if available |
-| `cleanSetUp.ps1` | PowerShell | Manual | Environment teardown and resource decommissioning logic |
-| `scripts/transform-bdat.ps1` | PowerShell | Manual | BDAT data transformation utility for documentation |
+| `setUp.sh`                   | Bash (sh)  | `azd preprovision` (POSIX)   | Sets `SOURCE_CONTROL_PLATFORM` env var; calls downstream setup           |
+| `setUp.ps1`                  | PowerShell | `azd preprovision` (Windows) | Windows equivalent; sets env var, calls `setUp.sh` via bash if available |
+| `cleanSetUp.ps1`             | PowerShell | Manual                       | Environment teardown and resource decommissioning logic                  |
+| `scripts/transform-bdat.ps1` | PowerShell | Manual                       | BDAT data transformation utility for documentation                       |
 
 **azd Hook Configuration** (`azure.yaml:10`):
 
@@ -1411,15 +1410,15 @@ flowchart TD
 
 ### Integration Patterns
 
-| Pattern | Description | Components Involved |
+| Pattern                       | Description                                                                                           | Components Involved                     |
 | ----------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| Output Parameter Chaining | Module outputs wired as inputs to downstream modules, creating compile-time verified dependency graph | All Bicep modules in `infra/main.bicep` |
-| Scheduled Outbound Pull | DevCenter pulls catalog definitions from GitHub on a schedule | DevCenter Catalog ↔ GitHub |
-| Push Diagnostic Streaming | All PaaS resources push logs/metrics to central LAW via Diagnostic Settings | Key Vault, VNet, LAW → LAW |
-| Secret Identifier Decoupling | Secret value never passed beyond Key Vault; only URI reference forwarded | Key Vault → workload/project modules |
-| Managed Identity RBAC Binding | Managed Identity `principalId` used as RBAC assignee; no credentials required | DevCenter MI → RBAC → Key Vault |
-| Compile-Time YAML Loading | YAML config files loaded at Bicep compilation time via `loadYamlContent()`; not runtime | All modules with YAML config |
-| Conditional Resource Creation | Resources conditionally provisioned based on YAML flags (`create: true/false`) | Security RG, Monitoring RG, VNet |
+| Output Parameter Chaining     | Module outputs wired as inputs to downstream modules, creating compile-time verified dependency graph | All Bicep modules in `infra/main.bicep` |
+| Scheduled Outbound Pull       | DevCenter pulls catalog definitions from GitHub on a schedule                                         | DevCenter Catalog ↔ GitHub              |
+| Push Diagnostic Streaming     | All PaaS resources push logs/metrics to central LAW via Diagnostic Settings                           | Key Vault, VNet, LAW → LAW              |
+| Secret Identifier Decoupling  | Secret value never passed beyond Key Vault; only URI reference forwarded                              | Key Vault → workload/project modules    |
+| Managed Identity RBAC Binding | Managed Identity `principalId` used as RBAC assignee; no credentials required                         | DevCenter MI → RBAC → Key Vault         |
+| Compile-Time YAML Loading     | YAML config files loaded at Bicep compilation time via `loadYamlContent()`; not runtime               | All modules with YAML config            |
+| Conditional Resource Creation | Resources conditionally provisioned based on YAML flags (`create: true/false`)                        | Security RG, Monitoring RG, VNet        |
 
 ### External Integration Specifications
 
