@@ -1,4 +1,4 @@
-# Technology Architecture
+﻿# Technology Architecture
 
 ## DevExp-DevBox — Dev Box Adoption & Deployment Accelerator
 
@@ -1415,16 +1415,16 @@ flowchart TD
     RA_KV_ACCESS -->|"RBAC authorization"| KV
     KV -->|"secret access"| SECRET
 
-    style SUB_SCOPE fill:#FFF4CE,stroke:#CA5010,stroke-width:2px,color:#323130
-    style RG_SCOPE fill:#FFF4CE,stroke:#CA5010,stroke-width:2px,color:#323130
-    style KV_SCOPE fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    style SUB_SCOPE fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style RG_SCOPE fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style KV_SCOPE fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    classDef identity fill:#EFF2FA,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef rbac fill:#FFF4CE,stroke:#CA5010,stroke-width:2px,color:#323130
-    classDef security fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    classDef core     fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning  fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef danger   fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 97/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 **Source**: `src/identity/devCenterRoleAssignment.bicep:1-50`,
 `src/identity/keyVaultAccess.bicep:1-25`
