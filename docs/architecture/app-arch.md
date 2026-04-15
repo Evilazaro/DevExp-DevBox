@@ -1149,6 +1149,7 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph services["⚙️ 5.1 Services (5)"]
+        direction TB
         s1("🏗️ Orchestration<br/>main.bicep"):::core
         s2("🖥️ Workload<br/>workload.bicep"):::core
         s3("🔒 Security<br/>security.bicep"):::warning
@@ -1157,6 +1158,7 @@ flowchart TB
     end
 
     subgraph comps["🧩 5.2 Components (12)"]
+        direction TB
         c1("🖥️ DevCenter"):::core
         c2("💻 Pool"):::success
         c3("🔐 Key Vault"):::warning
@@ -1165,6 +1167,7 @@ flowchart TB
     end
 
     subgraph ifaces["🔌 5.3 Interfaces (7)"]
+        direction TB
         i1("⚡ azure.yaml"):::neutral
         i2("📄 devcenter.yaml"):::core
         i3("🔐 security.yaml"):::warning
