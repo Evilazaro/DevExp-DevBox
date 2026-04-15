@@ -442,18 +442,6 @@ flowchart LR
 | Cost Reporting          | Tags provide cost center allocation metadata; no FinOps dashboard or automated cost reporting                            | infra/settings/resourceOrganization/azureResources.yaml:22         | No automated cost reporting integration                 |
 | Self-Service Onboarding | Role assignments grant Dev Box User rights; no documented self-service portal or onboarding guide                        | infra/settings/workload/devcenter.yaml:115-133                     | No end-user onboarding documentation or guided workflow |
 
-### Gap Analysis
-
-| Gap ID   | Description                                                             | Impact                                                                     | Recommended Remediation                                                                       |
-| -------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| GAP-B-01 | No automated secret rotation policy for gha-token in Key Vault          | High — expired tokens cause catalog sync failures                          | Implement Key Vault rotation policy with GitHub token refresh automation                      |
-| GAP-B-02 | No Azure Policy enforcement of mandatory resource tag compliance        | Medium — tags may drift if manually deployed                               | Add Azure Policy initiative to enforce required tags on all resource groups and resources     |
-| GAP-B-03 | No alerting rules or operational dashboards in Log Analytics            | Medium — operational issues are reactive not proactive                     | Define KQL-based alert rules for Dev Center provisioning failures and connectivity errors     |
-| GAP-B-04 | No automated project onboarding workflow for new teams                  | Medium — adding new projects requires manual YAML editing and redeployment | Create project onboarding self-service template with documentation and CI/CD pipeline trigger |
-| GAP-B-05 | No end-user self-service documentation or onboarding guide              | Medium — engineers cannot independently discover and use Dev Boxes         | Publish Dev Box user guide, pool catalog, and FAQ to project documentation site               |
-| GAP-B-06 | No Network Security Group (NSG) definitions for VNet-injected Dev Boxes | High — eShop VNet has no network security controls                         | Define NSG rules restricting inbound/outbound traffic for Dev Box subnet                      |
-| GAP-B-07 | No FinOps integration for automated cost reporting by cost center       | Low — manual Azure Cost Management queries required                        | Integrate Azure Cost Management exports with organizational FinOps tooling                    |
-
 ### Summary
 
 The Current State Baseline confirms a solid Level 3–4 (Defined–Managed) business
