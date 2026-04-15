@@ -406,7 +406,7 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph L4["🟢 Level 4 — Managed"]
-        direction LR
+        direction TB
         c1("🖥️ Developer Workstation Provisioning"):::success
         c2("⚙️ Platform Infrastructure Governance"):::success
         c3("🔐 Identity & Access Management"):::success
