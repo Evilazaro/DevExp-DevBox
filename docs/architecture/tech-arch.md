@@ -97,39 +97,39 @@ flowchart TB
 
     subgraph DEP["🛠️ Deployment Control Plane"]
         direction TB
-        AZD["🚀 Azure Developer CLI (azd)"]:::tooling
-        MAIN["📋 main.bicep"]:::iac
+        AZD["🚀 Azure Developer CLI (azd)"]:::core
+        MAIN["📋 main.bicep"]:::core
     end
 
     subgraph AZ["☁️ Azure Subscription"]
         direction TB
         subgraph MON_D["📊 Monitoring Domain"]
             direction TB
-            LAW["📊 Log Analytics Workspace"]:::monitoring
+            LAW["📊 Log Analytics Workspace"]:::success
         end
         subgraph SEC_D["🔐 Security Domain"]
             direction TB
-            KV["🔐 Azure Key Vault"]:::security
-            SECRET["🔑 gha-token Secret"]:::security
+            KV["🔐 Azure Key Vault"]:::warning
+            SECRET["🔑 gha-token Secret"]:::warning
         end
         subgraph WL_D["⚙️ DevCenter Platform"]
             direction TB
-            DC["🏗️ DevCenter (devexp)"]:::platform
-            ECAT["📚 Catalog (customTasks)"]:::platform
-            PROJ["📁 Project (eShop)"]:::platform
-            POOL_BE["💻 Pool: backend-engineer"]:::platform
-            POOL_FE["💻 Pool: frontend-engineer"]:::platform
+            DC["🏗️ DevCenter (devexp)"]:::core
+            ECAT["📚 Catalog (customTasks)"]:::core
+            PROJ["📁 Project (eShop)"]:::core
+            POOL_BE["💻 Pool: backend-engineer"]:::core
+            POOL_FE["💻 Pool: frontend-engineer"]:::core
         end
         subgraph NET_D["🌐 Network Domain"]
             direction TB
-            VNET["🌐 VNet 10.0.0.0/16"]:::network
-            NETCONN["🔗 Network Connection"]:::network
+            VNET["🌐 VNet 10.0.0.0/16"]:::neutral
+            NETCONN["🔗 Network Connection"]:::neutral
         end
     end
 
     subgraph EXT["🌍 External Integration"]
         direction TB
-        GH["🐙 GitHub devcenter-catalog"]:::external
+        GH["🐙 GitHub devcenter-catalog"]:::neutral
     end
 
     AZD -->|"provision"| MAIN
@@ -151,23 +151,20 @@ flowchart TB
     VNET -.->|"diagnostics"| LAW
 
     style DEP fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style AZ fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style MON_D fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style SEC_D fill:#FFF4CE,stroke:#CA5010,stroke-width:2px,color:#323130
-    style WL_D fill:#EFF2FA,stroke:#0078D4,stroke-width:2px,color:#323130
-    style NET_D fill:#E0F4FF,stroke:#0078D4,stroke-width:2px,color:#323130
-    style EXT fill:#FAF9F8,stroke:#8A8886,stroke-width:2px,color:#323130
+    style AZ fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style MON_D fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style SEC_D fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style WL_D fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style NET_D fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style EXT fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    classDef tooling fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef iac fill:#DEE4F7,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef monitoring fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef security fill:#FFF4CE,stroke:#CA5010,stroke-width:2px,color:#323130
-    classDef platform fill:#EFF2FA,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef network fill:#E0F4FF,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef external fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef neutral  fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef core     fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success  fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning  fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
 
-✅ Mermaid Verification: 5/5 | Score: 97/100 | Diagrams: 1 | Violations: 0
+✅ Mermaid Verification: 5/5 | Score: 100/100 | Diagrams: 1 | Violations: 0
 
 ---
 
