@@ -1,20 +1,6 @@
----
-title: 'Business Architecture'
-layer: 'Business'
-version: '1.0.0'
-date: '2026-04-15'
-status: 'production'
-schema: 'section-schema.prompt.md v3.0.0'
-quality_level: 'comprehensive'
-output_sections: [1, 2, 3, 4, 5, 8]
-source: 'TOGAF Framework BDAT Model — Business Layer'
----
-
 # Business Architecture
 
 ## DevExp-DevBox — Dev Box Adoption & Deployment Accelerator
-
----
 
 ## Section 1: Executive Summary
 
@@ -551,7 +537,7 @@ config:
   flowchart:
     htmlLabels: true
 ---
-flowchart TD
+flowchart TB
     accTitle: Developer Workstation Provisioning Flow
     accDescr: Shows the end-to-end flow from platform configuration through Dev Center deployment to Dev Box provisioning by an engineer. Covers configuration, deployment, and self-service consumption stages.
 
@@ -886,7 +872,7 @@ config:
   flowchart:
     htmlLabels: true
 ---
-flowchart TD
+flowchart TB
     accTitle: Bicep Module Dependency and Data Flow
     accDescr: Shows how main.bicep orchestrates three parallel module deployments (monitoring, security, workload) with sequential dependencies. Monitoring deploys first, security second using Log Analytics ID, and workload deploys last using both Log Analytics and Key Vault secret outputs.
 
@@ -1121,8 +1107,3 @@ automation (INT-R-01), the lack of Key Vault diagnostic settings for audit trail
 Addressing these three gaps will bring the integration architecture to Level 4
 maturity across all integration patterns and close the most critical security
 and operational risks identified in this analysis.
-
----
-
-_Document generated: 2026-04-15 | Schema: section-schema.prompt.md v3.0.0 |
-Layer: Business | Quality: Comprehensive | Sections: 1, 2, 3, 4, 5, 8_
