@@ -193,6 +193,7 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph CFG["🗂️ Configuration Domain"]
+        direction TB
         DC_YAML("📄 devcenter.yaml<br/>DevCenter Model"):::data
         SEC_YAML("📄 security.yaml<br/>Security Model"):::data
         RES_YAML("📄 azureResources.yaml<br/>Resource Org Model"):::data
@@ -203,21 +204,25 @@ flowchart TB
     end
 
     subgraph BICEP["⚙️ Bicep Transformation Layer"]
+        direction TB
         MAIN("⚙️ main.bicep<br/>Orchestrator"):::neutral
         LOAD("🔄 loadYamlContent()<br/>YAML→ARM Transform"):::neutral
     end
 
     subgraph SEC_DOMAIN["🔒 Secrets Domain"]
+        direction TB
         KV("🔑 Azure Key Vault<br/>contoso-&lt;unique&gt;-kv"):::security
         SECRET("🔐 Secret: gha-token<br/>GitHub Access Token"):::security
     end
 
     subgraph OBS_DOMAIN["📊 Observability Domain"]
+        direction TB
         LA("📊 Log Analytics Workspace<br/>logAnalytics-&lt;unique&gt;"):::observability
         DIAG("📡 Diagnostic Settings<br/>allLogs + AllMetrics"):::observability
     end
 
     subgraph WORKLOAD["🖥️ Workload Domain"]
+        direction TB
         DEVCENTER("🖥️ Azure DevCenter<br/>devexp"):::workload
         PROJECT("📁 Project: eShop<br/>Dev Box Project"):::workload
     end
@@ -468,6 +473,7 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph SRC["📁 Source Data (File System)"]
+        direction LR
         YAML1("📄 devcenter.yaml"):::data
         YAML2("📄 security.yaml"):::data
         YAML3("📄 azureResources.yaml"):::data
@@ -475,17 +481,20 @@ flowchart LR
     end
 
     subgraph TRANS["⚙️ Bicep Transform"]
+        direction LR
         LOAD2("🔄 loadYamlContent()<br/>YAML→ARM"):::neutral
         SECURE("🔒 @secure()<br/>Secret Guard"):::security
     end
 
     subgraph AZURE["☁️ Azure Runtime"]
+        direction LR
         KV2("🔑 Key Vault<br/>gha-token secret"):::security
         LA2("📊 Log Analytics<br/>Workspace"):::observability
         DC2("🖥️ DevCenter<br/>devexp"):::workload
     end
 
     subgraph GAP["⚠️ Gaps (Not Detected)"]
+        direction LR
         G1("❌ Data Lineage<br/>Tracking"):::gap
         G2("❌ Data Contracts<br/>Definitions"):::gap
         G3("❌ Quality<br/>Dashboards"):::gap
@@ -763,12 +772,14 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph INJECT["🔒 Secure Injection Layer"]
+        direction TB
         ENV("🌐 CI/CD Env Var<br/>KEY_VAULT_SECRET"):::neutral
         SECURE2("🔒 @secure()<br/>Bicep Decorator"):::security
         PARAM("📝 main.parameters.json<br/>secretValue param"):::neutral
     end
 
     subgraph KV_DOMAIN["🔑 Key Vault Domain"]
+        direction TB
         KV3("🔑 Azure Key Vault<br/>contoso-&lt;unique&gt;-kv"):::security
         SOFT("♻️ Soft Delete<br/>7-day retention"):::security
         PURGE("🛡️ Purge Protection<br/>Permanent guard"):::security
@@ -777,6 +788,7 @@ flowchart TB
     end
 
     subgraph IDENTITY["👤 Managed Identity Layer"]
+        direction TB
         DC_MI("🤖 DevCenter MI<br/>SystemAssigned"):::identity
         PROJ_MI("🤖 Project MI<br/>SystemAssigned"):::identity
         KVS_ROLE("🔑 KV Secrets User<br/>4633458b role"):::identity
@@ -784,6 +796,7 @@ flowchart TB
     end
 
     subgraph OBS2["📊 Audit Trail"]
+        direction TB
         DIAG2("📡 Diagnostic Settings<br/>allLogs + AllMetrics"):::observability
         LA3("📊 Log Analytics<br/>Key Vault audit log"):::observability
     end
@@ -878,7 +891,7 @@ config:
   flowchart:
     htmlLabels: true
 ---
-flowchart TB
+flowchart LR
     accTitle: DevExp-DevBox Data Integration and Dependency Map
     accDescr: Shows deployment-time data dependencies and integration flows between configuration files, Bicep modules, Azure Key Vault, Log Analytics Workspace, and Azure DevCenter, including deployment ordering enforced by dependsOn.
 
@@ -887,6 +900,7 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph PHASE1["① Configuration Loading"]
+        direction LR
         YML_DC("📄 devcenter.yaml"):::data
         YML_SEC("📄 security.yaml"):::data
         YML_RES("📄 azureResources.yaml"):::data
@@ -894,11 +908,13 @@ flowchart TB
     end
 
     subgraph PHASE2["② Deploy: Log Analytics (First)"]
+        direction LR
         LA_MOD("📦 logAnalytics.bicep<br/>Module"):::neutral
         LA_OUT("📤 AZURE_LOG_ANALYTICS<br/>_WORKSPACE_ID"):::output
     end
 
     subgraph PHASE3["③ Deploy: Security (Second)"]
+        direction LR
         SEC_MOD("📦 security.bicep<br/>Module"):::neutral
         KV_MOD("📦 keyVault.bicep<br/>Sub-module"):::neutral
         SEC_MOD2("📦 secret.bicep<br/>Sub-module"):::neutral
@@ -906,6 +922,7 @@ flowchart TB
     end
 
     subgraph PHASE4["④ Deploy: Workload (Third)"]
+        direction LR
         WL_MOD("📦 workload.bicep<br/>Module"):::neutral
         DC_MOD("📦 devCenter.bicep<br/>Sub-module"):::neutral
         PROJ_MOD("📦 project.bicep<br/>Sub-module"):::neutral
