@@ -803,8 +803,8 @@ flowchart TB
 
     subgraph IDENT["🪪 Identity Plane"]
         direction TB
-        DC_MI["🪪 DevCenter System MI"]:::identity
-        PROJ_MI["🪪 eShop Project System MI"]:::identity
+        DC_MI["🪪 DevCenter System MI"]:::core
+        PROJ_MI["🪪 eShop Project System MI"]:::core
     end
 
     subgraph RBAC_SUB["🔑 Subscription RBAC"]
@@ -829,14 +829,14 @@ flowchart TB
 
     subgraph AADGROUPS["👥 Azure AD Groups"]
         direction TB
-        PE_GROUP["👥 Platform Engineering"]:::external
-        ESHOP_GROUP["👥 eShop Engineers"]:::external
+        PE_GROUP["👥 Platform Engineering"]:::neutral
+        ESHOP_GROUP["👥 eShop Engineers"]:::neutral
     end
 
     subgraph KV_RESOURCES["🔐 Key Vault Resources"]
         direction TB
-        KV_VAULT["🔐 Azure Key Vault"]:::kvault
-        GHA_TOKEN["🔑 gha-token Secret"]:::kvault
+        KV_VAULT["🔐 Azure Key Vault"]:::danger
+        GHA_TOKEN["🔑 gha-token Secret"]:::danger
     end
 
     DC_MI --> CONTRIB_ROLE
@@ -1387,17 +1387,17 @@ flowchart TD
     %% PHASE 1-5: Fluent UI palette, subgraph styles, icons, accessibility, classDef
     %% ═══════════════════════════════════════════════════════════════
 
-    DC_MI["🪪 DevCenter System Assigned MI\n(principalId @ deploy time)"]:::identity
+    DC_MI["🪪 DevCenter System Assigned MI\n(principalId @ deploy time)"]:::core
 
     subgraph SUB_SCOPE["🔑 Subscription Scope"]
-        RA_CONTRIB["🔑 devCenterRoleAssignment.bicep\nContributor"]:::rbac
-        RA_UAA["🔑 devCenterRoleAssignment.bicep\nUser Access Administrator"]:::rbac
+        RA_CONTRIB["🔑 devCenterRoleAssignment.bicep\nContributor"]:::warning
+        RA_UAA["🔑 devCenterRoleAssignment.bicep\nUser Access Administrator"]:::warning
     end
 
     subgraph RG_SCOPE["🔑 Resource Group Scope"]
-        RA_KV_USER["🔑 devCenterRoleAssignmentRG.bicep\nKey Vault Secrets User"]:::rbac
-        RA_KV_OFFICER["🔑 devCenterRoleAssignmentRG.bicep\nKey Vault Secrets Officer"]:::rbac
-        RA_KV_ACCESS["🔑 keyVaultAccess.bicep\nKey Vault Secrets User"]:::rbac
+        RA_KV_USER["🔑 devCenterRoleAssignmentRG.bicep\nKey Vault Secrets User"]:::warning
+        RA_KV_OFFICER["🔑 devCenterRoleAssignmentRG.bicep\nKey Vault Secrets Officer"]:::warning
+        RA_KV_ACCESS["🔑 keyVaultAccess.bicep\nKey Vault Secrets User"]:::warning
     end
 
     subgraph KV_SCOPE["🔐 Key Vault RBAC"]
