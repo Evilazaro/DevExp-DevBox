@@ -96,19 +96,24 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════
 
     subgraph DEP["🛠️ Deployment Control Plane"]
+        direction TB
         AZD["🚀 Azure Developer CLI (azd)"]:::tooling
         MAIN["📋 main.bicep"]:::iac
     end
 
     subgraph AZ["☁️ Azure Subscription"]
+        direction TB
         subgraph MON_D["📊 Monitoring Domain"]
+            direction TB
             LAW["📊 Log Analytics Workspace"]:::monitoring
         end
         subgraph SEC_D["🔐 Security Domain"]
+            direction TB
             KV["🔐 Azure Key Vault"]:::security
             SECRET["🔑 gha-token Secret"]:::security
         end
         subgraph WL_D["⚙️ DevCenter Platform"]
+            direction TB
             DC["🏗️ DevCenter (devexp)"]:::platform
             ECAT["📚 Catalog (customTasks)"]:::platform
             PROJ["📁 Project (eShop)"]:::platform
@@ -116,12 +121,14 @@ flowchart TB
             POOL_FE["💻 Pool: frontend-engineer"]:::platform
         end
         subgraph NET_D["🌐 Network Domain"]
+            direction TB
             VNET["🌐 VNet 10.0.0.0/16"]:::network
             NETCONN["🔗 Network Connection"]:::network
         end
     end
 
     subgraph EXT["🌍 External Integration"]
+        direction TB
         GH["🐙 GitHub devcenter-catalog"]:::external
     end
 
@@ -795,33 +802,39 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════
 
     subgraph IDENT["🪪 Identity Plane"]
+        direction TB
         DC_MI["🪪 DevCenter System MI"]:::identity
         PROJ_MI["🪪 eShop Project System MI"]:::identity
     end
 
     subgraph RBAC_SUB["🔑 Subscription RBAC"]
+        direction TB
         CONTRIB_ROLE["🔑 Contributor Role"]:::security
         UAA_ROLE["🔑 User Access Admin Role"]:::security
     end
 
     subgraph RBAC_RG["🔑 Resource Group RBAC"]
+        direction TB
         KV_USER_ROLE["🔑 KV Secrets User"]:::security
         KV_OFFICER_ROLE["🔑 KV Secrets Officer"]:::security
         DC_PROJ_ADMIN["🔑 DevCenter Proj Admin"]:::security
     end
 
     subgraph RBAC_PROJ["🔑 Project RBAC (eShop)"]
+        direction TB
         PROJ_CONTRIB["🔑 Contributor"]:::security
         DEVBOX_USER["🔑 Dev Box User"]:::security
         ENV_USER["🔑 Deployment Env User"]:::security
     end
 
     subgraph AADGROUPS["👥 Azure AD Groups"]
+        direction TB
         PE_GROUP["👥 Platform Engineering"]:::external
         ESHOP_GROUP["👥 eShop Engineers"]:::external
     end
 
     subgraph KV_RESOURCES["🔐 Key Vault Resources"]
+        direction TB
         KV_VAULT["🔐 Azure Key Vault"]:::kvault
         GHA_TOKEN["🔑 gha-token Secret"]:::kvault
     end
@@ -1046,6 +1059,7 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════
 
     subgraph DEPLOY["🛠️ Deployment-Time Parameter Chain"]
+        direction TB
         AZD["🚀 azd CLI"]:::tooling
         PARAMS["📄 main.parameters.json"]:::config
         MAIN_B["📋 main.bicep"]:::iac
@@ -1055,6 +1069,7 @@ flowchart TB
     end
 
     subgraph RESOURCES["☁️ Azure Resources"]
+        direction TB
         LAW_I["📊 Log Analytics WS"]:::monitoring
         KV_I["🔐 Key Vault"]:::security
         DC_I["🏗️ DevCenter (devexp)"]:::platform
@@ -1063,10 +1078,12 @@ flowchart TB
     end
 
     subgraph EXT_INT["🌍 External Integration"]
+        direction TB
         GH_REPO["🐙 microsoft/devcenter-catalog"]:::external
     end
 
     subgraph DIAG["📈 Diagnostic Streams (Runtime)"]
+        direction TB
         DIAG_SINK["📊 LAW Diagnostic Sink"]:::monitoring
     end
 
