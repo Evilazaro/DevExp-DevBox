@@ -529,16 +529,16 @@ flowchart LR
 
 ### Maturity Assessment
 
-| Dimension               | Current State                                            | Maturity Level | Gap                                                   |
-| ----------------------- | -------------------------------------------------------- | -------------- | ----------------------------------------------------- |
-| Schema Governance       | JSON Schema 2020-12 on all 3 config file types           | 4 - Managed    | None detected                                         |
-| Security Controls       | Key Vault RBAC, soft-delete, purge protection, @secure() | 4 - Managed    | No HSM tier (standard SKU)                            |
-| Deployment Data Flows   | YAML→Bicep→ARM pipeline established                      | 3 - Defined    | No CI/CD schema validation gate                       |
-| Observability Data      | Key Vault diagnostics → Log Analytics                    | 3 - Defined    | No Log Analytics retention policy defined in IaC      |
-| Data Lineage            | Not implemented                                          | 1 - Initial    | No config-to-resource lineage tracking                |
-| Data Contracts          | Not implemented                                          | 1 - Initial    | No formal contracts between accelerator and consumers |
-| Data Quality Dashboards | Not implemented                                          | 1 - Initial    | No runtime quality monitoring                         |
-| Master Data Management  | RBAC GUIDs centralized in devcenter.yaml                 | 3 - Defined    | No formal MDM process for GUID updates                |
+| Dimension | Current State | Gap |
+| ----------------------- | -------------------------------------------------------- | ----------------------------------------------------- |
+| Schema Governance | JSON Schema 2020-12 on all 3 config file types | None detected |
+| Security Controls | Key Vault RBAC, soft-delete, purge protection, @secure() | No HSM tier (standard SKU) |
+| Deployment Data Flows | YAML→Bicep→ARM pipeline established | No CI/CD schema validation gate |
+| Observability Data | Key Vault diagnostics → Log Analytics | No Log Analytics retention policy defined in IaC |
+| Data Lineage | Not implemented | No config-to-resource lineage tracking |
+| Data Contracts | Not implemented | No formal contracts between accelerator and consumers |
+| Data Quality Dashboards | Not implemented | No runtime quality monitoring |
+| Master Data Management | RBAC GUIDs centralized in devcenter.yaml | No formal MDM process for GUID updates |
 
 ### Gap Analysis
 

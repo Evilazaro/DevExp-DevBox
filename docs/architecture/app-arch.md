@@ -626,17 +626,17 @@ flowchart TB
 
 #### Capability Maturity Assessment
 
-| Application Capability   | Current Implementation                                                                                  | Maturity Level | Gap                                         |
-| ------------------------ | ------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------------------- |
-| Workload Provisioning    | Full IaC-driven DevCenter provisioning via devCenter.bicep and YAML configuration                       | 4 - Managed    | No automated drift remediation              |
-| Security Integration     | Key Vault with RBAC, soft delete 7d, purge protection; secretIdentifier pattern throughout              | 4 - Managed    | No secret rotation automation               |
-| Observability            | Log Analytics with allLogs and AllMetrics diagnostic settings on all application services               | 3 - Defined    | No runtime application dashboards           |
-| Catalog Management       | Scheduled GitHub sync for DevCenter and project catalogs; supports public and private repos             | 3 - Defined    | No catalog sync failure alerting            |
-| Network Connectivity     | VNet provisioning and DevCenter network connection for unmanaged pool projects                          | 3 - Defined    | Single VNet; no hub-spoke topology          |
-| Identity Management      | SystemAssigned managed identities with explicit RBAC assignment modules for all identities              | 4 - Managed    | No user-assigned identity support           |
-| Configuration Governance | JSON Schema 2020-12 validation on all YAML configuration files via yaml-language-server                 | 4 - Managed    | No CI/CD schema enforcement gate            |
-| Environment Lifecycle    | dev/staging/uat environment types with project association; Contributor role auto-assigned to creators  | 3 - Defined    | deploymentTargetId empty in all three types |
-| Runtime Application Tier | Not detected in source files. No Azure Functions, App Services, or Logic Apps present in the repository | 1 - Initial    | Full runtime application tier is absent     |
+| Application Capability | Current Implementation | Gap |
+| ------------------------ | ------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| Workload Provisioning | Full IaC-driven DevCenter provisioning via devCenter.bicep and YAML configuration | No automated drift remediation |
+| Security Integration | Key Vault with RBAC, soft delete 7d, purge protection; secretIdentifier pattern throughout | No secret rotation automation |
+| Observability | Log Analytics with allLogs and AllMetrics diagnostic settings on all application services | No runtime application dashboards |
+| Catalog Management | Scheduled GitHub sync for DevCenter and project catalogs; supports public and private repos | No catalog sync failure alerting |
+| Network Connectivity | VNet provisioning and DevCenter network connection for unmanaged pool projects | Single VNet; no hub-spoke topology |
+| Identity Management | SystemAssigned managed identities with explicit RBAC assignment modules for all identities | No user-assigned identity support |
+| Configuration Governance | JSON Schema 2020-12 validation on all YAML configuration files via yaml-language-server | No CI/CD schema enforcement gate |
+| Environment Lifecycle | dev/staging/uat environment types with project association; Contributor role auto-assigned to creators | deploymentTargetId empty in all three types |
+| Runtime Application Tier | Not detected in source files. No Azure Functions, App Services, or Logic Apps present in the repository | Full runtime application tier is absent |
 
 ### Summary
 
@@ -918,25 +918,25 @@ and future architecture evolution planning.
 
 #### Dependency Matrix
 
-| Source Component   | Target Component          | Dependency Type                             | Data Passed                                                   | Timing               | Source File                                   |
-| ------------------ | ------------------------- | ------------------------------------------- | ------------------------------------------------------------- | -------------------- | --------------------------------------------- |
-| main.bicep         | logAnalytics.bicep        | Module dependency (scope: monitoringRg)     | monitoringRgName                                              | Deploy-time          | infra/main.bicep:87-100                       |
-| main.bicep         | security.bicep            | Module dependency (scope: securityRg)       | logAnalyticsId, tags, secretValue                             | Deploy-time          | infra/main.bicep:102-118                      |
-| main.bicep         | workload.bicep            | Module dependency (scope: workloadRg)       | logAnalyticsId, secretIdentifier                              | Deploy-time          | infra/main.bicep:120-135                      |
-| workload.bicep     | devCenter.bicep           | Module delegation                           | config, catalogs, envTypes, logAnalyticsId, secretIdentifier  | Deploy-time          | src/workload/workload.bicep:47-60             |
-| workload.bicep     | project.bicep             | Iterative module (loop over projects array) | name, devCenterName, logAnalyticsId, catalogs, pools, network | Deploy-time          | src/workload/workload.bicep:62-85             |
-| security.bicep     | keyVault.bicep            | Conditional module (create flag)            | keyvaultSettings, tags, location                              | Deploy-time          | src/security/security.bicep:16-21             |
-| security.bicep     | secret.bicep              | Module dependency                           | keyVaultName, logAnalyticsId, secretValue                     | Deploy-time          | src/security/security.bicep:23-32             |
-| project.bicep      | connectivity.bicep        | Conditional module                          | devCenterName, projectNetwork, logAnalyticsId                 | Deploy-time          | src/workload/project/project.bicep:150-170    |
-| Azure DevCenter    | GitHub REST API           | Scheduled external API call (HTTPS GET)     | Catalog sync request with gha-token auth                      | Scheduled (runtime)  | infra/settings/workload/devcenter.yaml:56-61  |
-| Azure DevCenter    | Key Vault                 | RBAC secret read via secretIdentifier URI   | gha-token value                                               | Runtime (per sync)   | infra/settings/workload/devcenter.yaml:45     |
-| Azure DevCenter    | Log Analytics WS          | Diagnostic push (allLogs + AllMetrics)      | Logs and metrics stream                                       | Continuous (runtime) | src/workload/core/devCenter.bicep:1-\*        |
-| Azure Key Vault    | Log Analytics WS          | Diagnostic push (allLogs + AllMetrics)      | Audit logs and metrics stream                                 | Continuous (runtime) | src/security/secret.bicep:1-\*                |
-| Azure VNet (eShop) | Log Analytics WS          | Diagnostic push (allLogs + AllMetrics)      | Flow logs and metrics stream                                  | Continuous (runtime) | src/connectivity/vnet.bicep:50-80             |
-| Log Analytics WS   | AzureActivity Solution    | Resource attachment                         | Workspace resource ID                                         | Deploy-time          | src/management/logAnalytics.bicep:52-72       |
-| DevCenter Project  | Azure DevCenter           | Parent-child resource reference             | devCenterId                                                   | Deploy-time          | src/workload/project/project.bicep:165-185    |
-| DevBox Pools       | Image Definition Catalogs | Config reference (~Catalog~name~imageDef)   | Image definition name resolution                              | Runtime (on request) | src/workload/project/projectPool.bicep:55-80  |
-| Network Connection | Azure VNet                | Subnet attachment                           | AZURE_VIRTUAL_NETWORK.subnets[0].id                           | Deploy-time          | src/connectivity/networkConnection.bicep:1-\* |
+| Source Component | Target Component | Dependency Type | Data Passed | Timing |
+| ------------------ | ------------------------- | ------------------------------------------- | ------------------------------------------------------------- | -------------------- |
+| main.bicep | logAnalytics.bicep | Module dependency (scope: monitoringRg) | monitoringRgName | Deploy-time |
+| main.bicep | security.bicep | Module dependency (scope: securityRg) | logAnalyticsId, tags, secretValue | Deploy-time |
+| main.bicep | workload.bicep | Module dependency (scope: workloadRg) | logAnalyticsId, secretIdentifier | Deploy-time |
+| workload.bicep | devCenter.bicep | Module delegation | config, catalogs, envTypes, logAnalyticsId, secretIdentifier | Deploy-time |
+| workload.bicep | project.bicep | Iterative module (loop over projects array) | name, devCenterName, logAnalyticsId, catalogs, pools, network | Deploy-time |
+| security.bicep | keyVault.bicep | Conditional module (create flag) | keyvaultSettings, tags, location | Deploy-time |
+| security.bicep | secret.bicep | Module dependency | keyVaultName, logAnalyticsId, secretValue | Deploy-time |
+| project.bicep | connectivity.bicep | Conditional module | devCenterName, projectNetwork, logAnalyticsId | Deploy-time |
+| Azure DevCenter | GitHub REST API | Scheduled external API call (HTTPS GET) | Catalog sync request with gha-token auth | Scheduled (runtime) |
+| Azure DevCenter | Key Vault | RBAC secret read via secretIdentifier URI | gha-token value | Runtime (per sync) |
+| Azure DevCenter | Log Analytics WS | Diagnostic push (allLogs + AllMetrics) | Logs and metrics stream | Continuous (runtime) |
+| Azure Key Vault | Log Analytics WS | Diagnostic push (allLogs + AllMetrics) | Audit logs and metrics stream | Continuous (runtime) |
+| Azure VNet (eShop) | Log Analytics WS | Diagnostic push (allLogs + AllMetrics) | Flow logs and metrics stream | Continuous (runtime) |
+| Log Analytics WS | AzureActivity Solution | Resource attachment | Workspace resource ID | Deploy-time |
+| DevCenter Project | Azure DevCenter | Parent-child resource reference | devCenterId | Deploy-time |
+| DevBox Pools | Image Definition Catalogs | Config reference (~Catalog~name~imageDef) | Image definition name resolution | Runtime (on request) |
+| Network Connection | Azure VNet | Subnet attachment | AZURE_VIRTUAL_NETWORK.subnets[0].id | Deploy-time |
 
 **Application Integration Flow:**
 
