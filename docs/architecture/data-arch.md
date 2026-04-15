@@ -557,16 +557,16 @@ flowchart TB
 
 ### Current State Assessment
 
-| 🔍 Assessment Area         | 📊 Current State                                                                                 | 📈 Maturity Level | 🔍 Evidence                                                                       |
-| -------------------------- | ------------------------------------------------------------------------------------------------ | ----------------- | --------------------------------------------------------------------------------- |
-| Schema Governance          | 3 JSON Schema 2020-12 files covering all config inputs; IDE validation via yaml-language-server  | 4 – Measured      | `infra/settings/**/*.schema.json`                                                 |
-| Secret Management          | Key Vault with RBAC auth, purge protection, soft-delete 7 days; `@secure()` params               | 4 – Measured      | `infra/settings/security/security.yaml:24-27`                                     |
-| Access Control             | SystemAssigned managed identities; RBAC role assignments in YAML; Key Vault Secrets User/Officer | 4 – Measured      | `src/identity/keyVaultAccess.bicep`, `src/identity/devCenterRoleAssignment.bicep` |
-| Data Observability         | Log Analytics Workspace with allLogs/AllMetrics; diagnostic settings on Key Vault and workspace  | 3 – Defined       | `src/management/logAnalytics.bicep:57-79`                                         |
-| Configuration Immutability | `loadYamlContent()` at compile time; azd pre-provision hooks; parameter injection                | 4 – Measured      | `src/workload/workload.bicep:35`, `infra/main.bicep:26`                           |
-| Data Lineage               | No automated lineage tracking between config commits and deployed state                          | 1 – Initial       | _Not detected in source_                                                          |
-| Data Catalog               | No formal metadata registry or schema catalog                                                    | 1 – Initial       | _Not detected in source_                                                          |
-| CI/CD Schema Validation    | Schema validation is IDE-only; no pipeline gate enforcing schema compliance                      | 2 – Developing    | `azure.yaml` (no validation step detected)                                        |
+| 🔍 Assessment Area | 📊 Current State |
+| -------------------------- | ------------------------------------------------------------------------------------------------ |
+| Schema Governance | 3 JSON Schema 2020-12 files covering all config inputs; IDE validation via yaml-language-server |
+| Secret Management | Key Vault with RBAC auth, purge protection, soft-delete 7 days; `@secure()` params |
+| Access Control | SystemAssigned managed identities; RBAC role assignments in YAML; Key Vault Secrets User/Officer |
+| Data Observability | Log Analytics Workspace with allLogs/AllMetrics; diagnostic settings on Key Vault and workspace |
+| Configuration Immutability | `loadYamlContent()` at compile time; azd pre-provision hooks; parameter injection |
+| Data Lineage | No automated lineage tracking between config commits and deployed state |
+| Data Catalog | No formal metadata registry or schema catalog |
+| CI/CD Schema Validation | Schema validation is IDE-only; no pipeline gate enforcing schema compliance |
 
 ### Gap Analysis
 
