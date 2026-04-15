@@ -1,6 +1,7 @@
 # Architecture Documentation
 
-> [!NOTE] This folder contains the four TOGAF-aligned architecture views for the
+> [!NOTE]  
+> This folder contains the four TOGAF-aligned architecture views for the
 > **DevExp-DevBox — Dev Box Adoption & Deployment Accelerator**. Each document
 > covers a distinct architectural layer, from business motivation through
 > technology implementation and data governance. Start here to understand the
