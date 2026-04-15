@@ -1553,15 +1553,15 @@ alerts for Key Vault secret expiry and Dev Center catalog sync errors.
 
 ### Mermaid Diagram Validation
 
-| Diagram                         | accTitle | accDescr | subgraph style                       | classDef         | Nodes ≤50     | Labels ≤40 | Score      |
-| ------------------------------- | -------- | -------- | ------------------------------------ | ---------------- | ------------- | ---------- | ---------- |
-| Fig 2.1 — Capability Map        | ✅       | ✅       | ✅ (3 subgraphs, 3 style directives) | ✅ (5 classDefs) | ✅ (9 nodes)  | ✅         | ✅ 100/100 |
-| Fig 2.2 — Org Structure         | ✅       | ✅       | ✅ (4 subgraphs, 4 style directives) | ✅ (2 classDefs) | ✅ (6 nodes)  | ✅         | ✅ 100/100 |
-| Fig 3.1 — Principles Framework  | ✅       | ✅       | ✅ (4 subgraphs, 4 style directives) | ✅ (4 classDefs) | ✅ (10 nodes) | ✅         | ✅ 100/100 |
-| Fig 4.1 — Current State         | ✅       | ✅       | ✅ (5 subgraphs, 5 style directives) | ✅ (5 classDefs) | ✅ (9 nodes)  | ✅         | ✅ 100/100 |
-| Fig 5.1 — Component Portfolio   | ✅       | ✅       | ✅ (4 subgraphs, 4 style directives) | ✅ (4 classDefs) | ✅ (11 nodes) | ✅         | ✅ 100/100 |
-| Fig 8.1 — Integration Arch      | ✅       | ✅       | ✅ (6 subgraphs, 6 style directives) | ✅ (6 classDefs) | ✅ (11 nodes) | ✅         | ✅ 100/100 |
-| Fig 8.2 — Onboarding Flow       | ✅       | ✅       | ✅ (4 subgraphs, 4 style directives) | ✅ (5 classDefs) | ✅ (8 nodes)  | ✅         | ✅ 100/100 |
+| Diagram                        | accTitle | accDescr | subgraph style                       | classDef         | Nodes ≤50     | Labels ≤40 | Score      |
+| ------------------------------ | -------- | -------- | ------------------------------------ | ---------------- | ------------- | ---------- | ---------- |
+| Fig 2.1 — Capability Map       | ✅       | ✅       | ✅ (3 subgraphs, 3 style directives) | ✅ (5 classDefs) | ✅ (9 nodes)  | ✅         | ✅ 100/100 |
+| Fig 2.2 — Org Structure        | ✅       | ✅       | ✅ (4 subgraphs, 4 style directives) | ✅ (2 classDefs) | ✅ (6 nodes)  | ✅         | ✅ 100/100 |
+| Fig 3.1 — Principles Framework | ✅       | ✅       | ✅ (4 subgraphs, 4 style directives) | ✅ (4 classDefs) | ✅ (10 nodes) | ✅         | ✅ 100/100 |
+| Fig 4.1 — Current State        | ✅       | ✅       | ✅ (5 subgraphs, 5 style directives) | ✅ (5 classDefs) | ✅ (9 nodes)  | ✅         | ✅ 100/100 |
+| Fig 5.1 — Component Portfolio  | ✅       | ✅       | ✅ (4 subgraphs, 4 style directives) | ✅ (4 classDefs) | ✅ (11 nodes) | ✅         | ✅ 100/100 |
+| Fig 8.1 — Integration Arch     | ✅       | ✅       | ✅ (6 subgraphs, 6 style directives) | ✅ (6 classDefs) | ✅ (11 nodes) | ✅         | ✅ 100/100 |
+| Fig 8.2 — Onboarding Flow      | ✅       | ✅       | ✅ (4 subgraphs, 4 style directives) | ✅ (5 classDefs) | ✅ (8 nodes)  | ✅         | ✅ 100/100 |
 
 ### Quality Gate Results
 
