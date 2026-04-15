@@ -24,12 +24,12 @@ architecture layers.
 
 ## Architecture Documents
 
-| Document                                | Layer       | Focus                                                                 | Maturity |
-| --------------------------------------- | ----------- | --------------------------------------------------------------------- | -------- |
-| [Business Architecture](bus-arch.md)    | Business    | Capabilities, value streams, roles, business rules                    | 3–4      |
-| [Application Architecture](app-arch.md) | Application | Services, components, interfaces, integration patterns                | 3–4      |
-| [Technology Architecture](tech-arch.md) | Technology  | Azure PaaS stack, IaC modules, deployment pipeline, network topology  | 3–4      |
-| [Data Architecture](data-arch.md)       | Data        | Configuration models, schemas, secrets management, observability data | 3–4      |
+| Document | Layer | Focus |
+| --------------------------------------- | ----------- | --------------------------------------------------------------------- |
+| [Business Architecture](bus-arch.md) | Business | Capabilities, value streams, roles, business rules |
+| [Application Architecture](app-arch.md) | Application | Services, components, interfaces, integration patterns |
+| [Technology Architecture](tech-arch.md) | Technology | Azure PaaS stack, IaC modules, deployment pipeline, network topology |
+| [Data Architecture](data-arch.md) | Data | Configuration models, schemas, secrets management, observability data |
 
 ## Architecture Overview
 
