@@ -802,7 +802,13 @@ flowchart TB
 
     %% ═══════════════════════════════════════════════════════════════
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
-    %% PHASE 1-5: Fluent UI palette, subgraph styles, icons, accessibility, classDef
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %% ═══════════════════════════════════════════════════════════════
 
     subgraph IDENT["🪪 Identity Plane"]
