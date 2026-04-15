@@ -36,14 +36,14 @@ time measurement.
 
 ### 📊 Key Findings
 
-| Finding                | Details                                                                                                    | Maturity       |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------- | -------------- |
-| Configuration-as-Code  | All infrastructure defined via Bicep + YAML with JSON Schema validation                                    | 4 - Measured   |
-| RBAC Governance        | Principle of Least Privilege enforced across Dev Center, projects, Key Vault                               | 4 - Measured   |
-| Resource Tagging       | Seven mandatory tags applied uniformly: environment, division, team, project, costCenter, owner, resources | 4 - Measured   |
-| Monitoring Coverage    | Log Analytics Workspace deployed for all resource diagnostic settings                                      | 3 - Defined    |
-| Developer Self-Service | Role-specific Dev Box pools (backend-engineer, frontend-engineer) for eShop project                        | 3 - Defined    |
-| Business Metrics       | No formal KPI dashboards or automated onboarding-time measurement detected                                 | 2 - Developing |
+| Finding | Details |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Configuration-as-Code | All infrastructure defined via Bicep + YAML with JSON Schema validation |
+| RBAC Governance | Principle of Least Privilege enforced across Dev Center, projects, Key Vault |
+| Resource Tagging | Seven mandatory tags applied uniformly: environment, division, team, project, costCenter, owner, resources |
+| Monitoring Coverage | Log Analytics Workspace deployed for all resource diagnostic settings |
+| Developer Self-Service | Role-specific Dev Box pools (backend-engineer, frontend-engineer) for eShop project |
+| Business Metrics | No formal KPI dashboards or automated onboarding-time measurement detected |
 
 ### 🏗️ Business Architecture Overview
 
@@ -141,28 +141,28 @@ maturity scale used is: 1 - Initial, 2 - Developing, 3 - Defined, 4 - Measured,
 
 ### 2.1 Business Strategy
 
-| Name                                | Description                                                                                                                        | Maturity     |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| Developer Experience Transformation | Strategic initiative to standardize cloud developer workstations via Microsoft Dev Center Accelerator for the Contoso organization | 3 - Defined  |
-| Configuration-as-Code Adoption      | Strategy to declare all infrastructure and configuration in version-controlled YAML/Bicep with JSON Schema validation              | 4 - Measured |
-| Azure Landing Zone Alignment        | Adoption of Azure Landing Zone patterns (workload, security, monitoring zones) for resource organization                           | 3 - Defined  |
-| Product-Oriented Delivery Model     | Structured delivery using Epics, Features, and Tasks with mandatory issue linking and label governance                             | 3 - Defined  |
+| Name | Description |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Developer Experience Transformation | Strategic initiative to standardize cloud developer workstations via Microsoft Dev Center Accelerator for the Contoso organization |
+| Configuration-as-Code Adoption | Strategy to declare all infrastructure and configuration in version-controlled YAML/Bicep with JSON Schema validation |
+| Azure Landing Zone Alignment | Adoption of Azure Landing Zone patterns (workload, security, monitoring zones) for resource organization |
+| Product-Oriented Delivery Model | Structured delivery using Epics, Features, and Tasks with mandatory issue linking and label governance |
 
 **Sources:** azure.yaml:1-55, CONTRIBUTING.md:1-80,
 infra/settings/resourceOrganization/azureResources.yaml:1-73
 
 ### 2.2 Business Capabilities
 
-| Name                             | Description                                                                                                                  | Maturity     |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| Developer Environment Management | Provision, configure, and manage role-specific Dev Box pools within Microsoft Dev Center                                     | 3 - Defined  |
-| Project Configuration Management | Define and manage Dev Center projects with associated pools, environment types, and catalogs                                 | 3 - Defined  |
-| Identity & Access Management     | Manage SystemAssigned managed identities and Azure RBAC role assignments at subscription, resource group, and project scopes | 4 - Measured |
-| Security & Secrets Management    | Centralize secrets storage and rotation using Azure Key Vault with RBAC authorization and soft-delete governance             | 4 - Measured |
-| Monitoring & Observability       | Capture diagnostic logs and metrics from all Azure resources to a centralized Log Analytics Workspace                        | 3 - Defined  |
-| Resource Organization            | Organize resources into workload, security, and monitoring resource groups following Landing Zone patterns                   | 3 - Defined  |
-| Catalog & Image Management       | Manage GitHub-hosted catalogs providing Dev Box image definitions and environment definitions                                | 3 - Defined  |
-| Environment Lifecycle Management | Define and enforce development environment types (dev, staging, UAT) with scoped deployment targets                          | 3 - Defined  |
+| Name | Description |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Developer Environment Management | Provision, configure, and manage role-specific Dev Box pools within Microsoft Dev Center |
+| Project Configuration Management | Define and manage Dev Center projects with associated pools, environment types, and catalogs |
+| Identity & Access Management | Manage SystemAssigned managed identities and Azure RBAC role assignments at subscription, resource group, and project scopes |
+| Security & Secrets Management | Centralize secrets storage and rotation using Azure Key Vault with RBAC authorization and soft-delete governance |
+| Monitoring & Observability | Capture diagnostic logs and metrics from all Azure resources to a centralized Log Analytics Workspace |
+| Resource Organization | Organize resources into workload, security, and monitoring resource groups following Landing Zone patterns |
+| Catalog & Image Management | Manage GitHub-hosted catalogs providing Dev Box image definitions and environment definitions |
+| Environment Lifecycle Management | Define and enforce development environment types (dev, staging, UAT) with scoped deployment targets |
 
 **Sources:** infra/settings/workload/devcenter.yaml:1-185,
 src/workload/workload.bicep:1-95, src/workload/core/devCenter.bicep:1-100
@@ -236,11 +236,11 @@ flowchart TB
 
 ### 2.3 Value Streams
 
-| Name                         | Description                                                                                                                                     | Maturity     |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| Developer Onboarding         | End-to-end process from environment request to first operational Dev Box, covering provisioning, access assignment, and tool installation       | 3 - Defined  |
-| Environment Provisioning     | Automated deployment of Azure Dev Center resources, projects, pools, and environment types via `azd up` and Bicep modules                       | 4 - Measured |
-| Application Project Delivery | Configuration of project-specific catalogs, image definitions, environment definitions, and RBAC roles to support application development teams | 3 - Defined  |
+| Name | Description |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Developer Onboarding | End-to-end process from environment request to first operational Dev Box, covering provisioning, access assignment, and tool installation |
+| Environment Provisioning | Automated deployment of Azure Dev Center resources, projects, pools, and environment types via `azd up` and Bicep modules |
+| Application Project Delivery | Configuration of project-specific catalogs, image definitions, environment definitions, and RBAC roles to support application development teams |
 
 **Sources:** azure.yaml:1-55, setUp.sh:1-100,
 infra/settings/workload/devcenter.yaml:54-185
@@ -294,26 +294,26 @@ flowchart LR
 
 ### 2.4 Business Processes
 
-| Name                      | Description                                                                                                                                                                | Maturity     |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| Pre-Provisioning Setup    | Executes `setUp.sh` (or PowerShell equivalent) to authenticate with GitHub/Azure DevOps, set environment variables, and configure source control platform before `azd up`  | 3 - Defined  |
-| Infrastructure Deployment | Orchestrates `azd up` → Bicep module deployment across three resource groups (workload, security, monitoring) via `infra/main.bicep`                                       | 4 - Measured |
-| Project Configuration     | Iterates over YAML-declared projects (e.g., eShop) to provision Dev Center projects with associated catalogs, pools, environment types, and RBAC                           | 3 - Defined  |
-| Security Configuration    | Deploys Key Vault with RBAC authorization, soft-delete, purge protection, and grants secrets access to DevCenter managed identity                                          | 4 - Measured |
-| Developer Access Grant    | Assigns Azure AD group members (e.g., eShop Engineers) to Dev Box User, Deployment Environment User, and Key Vault Secrets User roles at project and resource group scopes | 3 - Defined  |
+| Name | Description |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pre-Provisioning Setup | Executes `setUp.sh` (or PowerShell equivalent) to authenticate with GitHub/Azure DevOps, set environment variables, and configure source control platform before `azd up` |
+| Infrastructure Deployment | Orchestrates `azd up` → Bicep module deployment across three resource groups (workload, security, monitoring) via `infra/main.bicep` |
+| Project Configuration | Iterates over YAML-declared projects (e.g., eShop) to provision Dev Center projects with associated catalogs, pools, environment types, and RBAC |
+| Security Configuration | Deploys Key Vault with RBAC authorization, soft-delete, purge protection, and grants secrets access to DevCenter managed identity |
+| Developer Access Grant | Assigns Azure AD group members (e.g., eShop Engineers) to Dev Box User, Deployment Environment User, and Key Vault Secrets User roles at project and resource group scopes |
 
 **Sources:** azure.yaml:1-55, setUp.sh:1-100, infra/main.bicep:1-165,
 infra/settings/workload/devcenter.yaml:28-52
 
 ### 2.5 Business Services
 
-| Name                             | Description                                                                                                                                                    | Maturity     |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| Dev Center Provisioning Service  | Azure DevCenter resource providing centralized management of Dev Box definitions, catalogs, and environment types for the organization                         | 3 - Defined  |
-| Dev Box Pool Management Service  | Manages role-specific VM pools (backend-engineer on `general_i_32c128gb512ssd_v2`, frontend-engineer on `general_i_16c64gb256ssd_v2`) within the eShop project | 3 - Defined  |
-| Key Vault Secrets Service        | Azure Key Vault (`contoso`) providing encrypted storage for GitHub Actions tokens and other secrets, with RBAC-gated access and 7-day soft-delete retention    | 4 - Measured |
-| Log Analytics Monitoring Service | Centralized diagnostic data collection for all deployed Azure resources, supporting operations and compliance monitoring                                       | 3 - Defined  |
-| Network Connectivity Service     | Managed or unmanaged virtual network provisioning per project (eShop: 10.0.0.0/16 with eShop-subnet 10.0.1.0/24) providing network isolation                   | 3 - Defined  |
+| Name | Description |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Center Provisioning Service | Azure DevCenter resource providing centralized management of Dev Box definitions, catalogs, and environment types for the organization |
+| Dev Box Pool Management Service | Manages role-specific VM pools (backend-engineer on `general_i_32c128gb512ssd_v2`, frontend-engineer on `general_i_16c64gb256ssd_v2`) within the eShop project |
+| Key Vault Secrets Service | Azure Key Vault (`contoso`) providing encrypted storage for GitHub Actions tokens and other secrets, with RBAC-gated access and 7-day soft-delete retention |
+| Log Analytics Monitoring Service | Centralized diagnostic data collection for all deployed Azure resources, supporting operations and compliance monitoring |
+| Network Connectivity Service | Managed or unmanaged virtual network provisioning per project (eShop: 10.0.0.0/16 with eShop-subnet 10.0.1.0/24) providing network isolation |
 
 **Sources:** infra/settings/workload/devcenter.yaml:55-185,
 infra/settings/security/security.yaml:1-43,
@@ -321,13 +321,13 @@ src/management/logAnalytics.bicep:\*, src/connectivity/vnet.bicep:1-80
 
 ### 2.6 Business Functions
 
-| Name                          | Description                                                                                                                                            | Maturity     |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ |
-| Configuration Management      | Define, version, and validate all business configuration in YAML files validated by JSON Schema; load configuration into Bicep via `loadYamlContent()` | 4 - Measured |
-| Infrastructure as Code        | Provision all Azure resources exclusively through parameterized, idempotent Bicep modules with no hard-coded environment values                        | 4 - Measured |
-| Access Control Administration | Assign, revoke, and audit Azure RBAC role assignments across subscription, resource group, and project scopes using managed identities                 | 4 - Measured |
-| Secrets Lifecycle Management  | Store, access, rotate, and govern sensitive credentials (GitHub Actions token) through Azure Key Vault with audit logging                              | 3 - Defined  |
-| Compliance Monitoring         | Capture diagnostic logs and metrics from all resources into Log Analytics Workspace for governance, cost allocation, and operational review            | 3 - Defined  |
+| Name | Description |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Configuration Management | Define, version, and validate all business configuration in YAML files validated by JSON Schema; load configuration into Bicep via `loadYamlContent()` |
+| Infrastructure as Code | Provision all Azure resources exclusively through parameterized, idempotent Bicep modules with no hard-coded environment values |
+| Access Control Administration | Assign, revoke, and audit Azure RBAC role assignments across subscription, resource group, and project scopes using managed identities |
+| Secrets Lifecycle Management | Store, access, rotate, and govern sensitive credentials (GitHub Actions token) through Azure Key Vault with audit logging |
+| Compliance Monitoring | Capture diagnostic logs and metrics from all resources into Log Analytics Workspace for governance, cost allocation, and operational review |
 
 **Sources:** infra/settings/workload/devcenter.schema.json:1-150,
 src/identity/devCenterRoleAssignment.bicep:1-44,
@@ -335,14 +335,14 @@ src/security/security.bicep:1-55
 
 ### 2.7 Business Roles & Actors
 
-| Name                        | Description                                                                                                                                                          | Maturity     |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| Platform Engineering Team   | Azure AD Group (`54fd94a1-e116-4bc8-8238-caae9d72bd12`): Dev Managers responsible for DevCenter configuration, project administration, and infrastructure governance | 4 - Measured |
-| eShop Engineers             | Azure AD Group (`b9968440-0caf-40d8-ac36-52f159730eb7`): Application development team consuming Dev Box pools and deployment environments within the eShop project   | 3 - Defined  |
-| Dev Box User                | Role consumer (role ID: `45d50f46-0b78-4001-a660-4198cbe8cd05`) scoped to project; enables creation and usage of Dev Box instances                                   | 3 - Defined  |
-| Deployment Environment User | Role consumer (role ID: `18e40d4e-8d2e-438d-97e1-9528336e149c`) scoped to project; enables use of deployment environment definitions                                 | 3 - Defined  |
-| DevCenter Project Admin     | Role consumer (role ID: `331c37c6-af14-46d9-b9f4-e1909e1b95a0`) scoped to resource group; assigned to Platform Engineering Team for project management               | 4 - Measured |
-| DevOps Automation Service   | GitHub Actions service principal consuming GitHub Actions token (`gha-token`) from Key Vault to perform automated CI/CD operations                                   | 3 - Defined  |
+| Name | Description |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Platform Engineering Team | Azure AD Group (`54fd94a1-e116-4bc8-8238-caae9d72bd12`): Dev Managers responsible for DevCenter configuration, project administration, and infrastructure governance |
+| eShop Engineers | Azure AD Group (`b9968440-0caf-40d8-ac36-52f159730eb7`): Application development team consuming Dev Box pools and deployment environments within the eShop project |
+| Dev Box User | Role consumer (role ID: `45d50f46-0b78-4001-a660-4198cbe8cd05`) scoped to project; enables creation and usage of Dev Box instances |
+| Deployment Environment User | Role consumer (role ID: `18e40d4e-8d2e-438d-97e1-9528336e149c`) scoped to project; enables use of deployment environment definitions |
+| DevCenter Project Admin | Role consumer (role ID: `331c37c6-af14-46d9-b9f4-e1909e1b95a0`) scoped to resource group; assigned to Platform Engineering Team for project management |
+| DevOps Automation Service | GitHub Actions service principal consuming GitHub Actions token (`gha-token`) from Key Vault to perform automated CI/CD operations |
 
 **Sources:** infra/settings/workload/devcenter.yaml:28-90,
 src/identity/devCenterRoleAssignment.bicep:1-44,
@@ -350,47 +350,47 @@ infra/settings/security/security.yaml:20-43
 
 ### 2.8 Business Rules
 
-| Name                          | Description                                                                                                                                                | Maturity     |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| Principle of Least Privilege  | Every role assignment must use the minimum required permissions; roles are scoped to Subscription, ResourceGroup, or Project as appropriate                | 4 - Measured |
-| Mandatory Resource Tagging    | All Azure resources must carry seven tags: `environment`, `division`, `team`, `project`, `costCenter`, `owner`, `resources` (and optionally `landingZone`) | 4 - Measured |
-| JSON Schema Validation        | All YAML configuration files (`devcenter.yaml`, `security.yaml`, `azureResources.yaml`) must validate against their respective JSON Schemas                | 4 - Measured |
-| IaC Idempotency Requirement   | All Bicep modules must be parameterized and produce the same result on repeated deployments                                                                | 3 - Defined  |
-| Key Vault Purge Protection    | Azure Key Vault must have `enablePurgeProtection: true` and `enableSoftDelete: true` with minimum 7-day retention                                          | 4 - Measured |
-| Issue Linking Requirement     | Every Feature issue must reference its parent Epic; every Task must reference its parent Feature in the GitHub repository                                  | 3 - Defined  |
-| Source Control Authentication | Platform must support both GitHub (`github`) and Azure DevOps (`adogit`) as source control platforms, selected at provisioning time                        | 3 - Defined  |
+| Name | Description |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Principle of Least Privilege | Every role assignment must use the minimum required permissions; roles are scoped to Subscription, ResourceGroup, or Project as appropriate |
+| Mandatory Resource Tagging | All Azure resources must carry seven tags: `environment`, `division`, `team`, `project`, `costCenter`, `owner`, `resources` (and optionally `landingZone`) |
+| JSON Schema Validation | All YAML configuration files (`devcenter.yaml`, `security.yaml`, `azureResources.yaml`) must validate against their respective JSON Schemas |
+| IaC Idempotency Requirement | All Bicep modules must be parameterized and produce the same result on repeated deployments |
+| Key Vault Purge Protection | Azure Key Vault must have `enablePurgeProtection: true` and `enableSoftDelete: true` with minimum 7-day retention |
+| Issue Linking Requirement | Every Feature issue must reference its parent Epic; every Task must reference its parent Feature in the GitHub repository |
+| Source Control Authentication | Platform must support both GitHub (`github`) and Azure DevOps (`adogit`) as source control platforms, selected at provisioning time |
 
 **Sources:** CONTRIBUTING.md:1-80, infra/settings/security/security.yaml:22-30,
 infra/settings/workload/devcenter.schema.json:1-150
 
 ### 2.9 Business Events
 
-| Name                         | Description                                                                                                                                                 | Maturity       |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| Pre-Provisioning Hook Event  | Triggered before `azd up`; executes `setUp.sh` (POSIX) or PowerShell equivalent to authenticate source control platform and configure environment variables | 3 - Defined    |
-| Dev Center Deployment Event  | Triggered when `infra/main.bicep` completes module deployments for monitoring, security, and workload resource groups                                       | 4 - Measured   |
-| Project Provisioning Event   | Triggered per project entry in `devcenter.yaml`; provisions Dev Center project, catalogs, environment types, pools, and network connections                 | 3 - Defined    |
-| Developer Access Grant Event | Triggered when Azure AD group role assignments are applied at project or resource group scope, enabling new team members to access Dev Boxes                | 3 - Defined    |
-| Secret Rotation Event        | Manual or scheduled rotation of the GitHub Actions token (`gha-token`) stored in Key Vault; triggers re-deployment of affected catalog integrations         | 2 - Developing |
+| Name | Description |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pre-Provisioning Hook Event | Triggered before `azd up`; executes `setUp.sh` (POSIX) or PowerShell equivalent to authenticate source control platform and configure environment variables |
+| Dev Center Deployment Event | Triggered when `infra/main.bicep` completes module deployments for monitoring, security, and workload resource groups |
+| Project Provisioning Event | Triggered per project entry in `devcenter.yaml`; provisions Dev Center project, catalogs, environment types, pools, and network connections |
+| Developer Access Grant Event | Triggered when Azure AD group role assignments are applied at project or resource group scope, enabling new team members to access Dev Boxes |
+| Secret Rotation Event | Manual or scheduled rotation of the GitHub Actions token (`gha-token`) stored in Key Vault; triggers re-deployment of affected catalog integrations |
 
 **Sources:** azure.yaml:1-55, infra/main.bicep:100-165,
 infra/settings/workload/devcenter.yaml:54-90
 
 ### 2.10 Business Objects/Entities
 
-| Name                    | Description                                                                                                                                     | Maturity     |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| Dev Center              | Primary Azure resource (`devexp`) providing centralized developer platform management with SystemAssigned managed identity                      | 3 - Defined  |
-| Project                 | Named unit within Dev Center (e.g., `eShop`) with dedicated pools, environment types, catalogs, and RBAC assignments                            | 3 - Defined  |
-| Environment Type        | Named deployment scope (dev, staging, UAT) associated with a Dev Center or project, specifying deployment target subscription                   | 3 - Defined  |
-| Dev Box Pool            | Named collection of identically configured Dev Boxes (e.g., `backend-engineer`, `frontend-engineer`) with specified VM SKU and image definition | 3 - Defined  |
-| Catalog                 | Git repository reference (GitHub) providing task definitions, environment definitions, or image definitions to a Dev Center or project          | 3 - Defined  |
-| Key Vault               | Azure Key Vault instance (`contoso`) storing sensitive secrets with RBAC authorization, soft delete, and purge protection enabled               | 4 - Measured |
-| Log Analytics Workspace | Centralized monitoring workspace receiving diagnostic logs and metrics from all deployed Azure resources                                        | 3 - Defined  |
-| Resource Group          | Azure resource container scoping workload, security, or monitoring resources with consistent tagging and Landing Zone classification            | 3 - Defined  |
-| Virtual Network         | Project-scoped Azure VNet (e.g., eShop VNet 10.0.0.0/16) with subnet for Dev Box network connections                                            | 3 - Defined  |
-| Role Assignment         | Azure RBAC binding linking an Azure AD principal (user, group, or service principal) to a role definition at a specific scope                   | 4 - Measured |
-| Azure AD Group          | Organizational group binding (Platform Engineering Team, eShop Engineers) used as principal for all RBAC assignments                            | 3 - Defined  |
+| Name | Description |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev Center | Primary Azure resource (`devexp`) providing centralized developer platform management with SystemAssigned managed identity |
+| Project | Named unit within Dev Center (e.g., `eShop`) with dedicated pools, environment types, catalogs, and RBAC assignments |
+| Environment Type | Named deployment scope (dev, staging, UAT) associated with a Dev Center or project, specifying deployment target subscription |
+| Dev Box Pool | Named collection of identically configured Dev Boxes (e.g., `backend-engineer`, `frontend-engineer`) with specified VM SKU and image definition |
+| Catalog | Git repository reference (GitHub) providing task definitions, environment definitions, or image definitions to a Dev Center or project |
+| Key Vault | Azure Key Vault instance (`contoso`) storing sensitive secrets with RBAC authorization, soft delete, and purge protection enabled |
+| Log Analytics Workspace | Centralized monitoring workspace receiving diagnostic logs and metrics from all deployed Azure resources |
+| Resource Group | Azure resource container scoping workload, security, or monitoring resources with consistent tagging and Landing Zone classification |
+| Virtual Network | Project-scoped Azure VNet (e.g., eShop VNet 10.0.0.0/16) with subnet for Dev Box network connections |
+| Role Assignment | Azure RBAC binding linking an Azure AD principal (user, group, or service principal) to a role definition at a specific scope |
+| Azure AD Group | Organizational group binding (Platform Engineering Team, eShop Engineers) used as principal for all RBAC assignments |
 
 **Sources:** infra/settings/workload/devcenter.yaml:1-185,
 infra/main.bicep:1-165, src/workload/core/devCenter.bicep:1-100,
@@ -398,13 +398,13 @@ src/workload/project/project.bicep:1-100
 
 ### 2.11 KPIs & Metrics
 
-| Name                                  | Description                                                                                                               | Maturity       |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| Environment Provisioning Success Rate | Percentage of `azd up` deployments completing without errors across all three resource group modules                      | 3 - Defined    |
-| Developer Onboarding Time             | Elapsed time from environment request to first Dev Box session; not currently automated or formally measured              | 2 - Developing |
-| Security Compliance Score             | Coverage of RBAC assignments, Key Vault access policies, and mandatory resource tagging across all deployed resources     | 3 - Defined    |
-| Infrastructure Deployment Duration    | Time to complete full `main.bicep` deployment including monitoring, security, and workload modules                        | 3 - Defined    |
-| Dev Center Availability               | Operational availability of the Dev Center resource and its projects; monitored through Log Analytics diagnostic settings | 3 - Defined    |
+| Name | Description |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Environment Provisioning Success Rate | Percentage of `azd up` deployments completing without errors across all three resource group modules |
+| Developer Onboarding Time | Elapsed time from environment request to first Dev Box session; not currently automated or formally measured |
+| Security Compliance Score | Coverage of RBAC assignments, Key Vault access policies, and mandatory resource tagging across all deployed resources |
+| Infrastructure Deployment Duration | Time to complete full `main.bicep` deployment including monitoring, security, and workload modules |
+| Dev Center Availability | Operational availability of the Dev Center resource and its projects; monitored through Log Analytics diagnostic settings |
 
 **Sources:** src/management/logAnalytics.bicep:\*, infra/main.bicep:100-165
 
@@ -862,122 +862,122 @@ beyond what is directly evidenced by the analyzed files.
 
 ### 5.1 Business Strategy
 
-| Component                           | Description                                                                                                                         | Owner                     | Stakeholders                          | Maturity     | Dependencies                            | Source File                                                  |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------- | ------------ | --------------------------------------- | ------------------------------------------------------------ |
-| Developer Experience Transformation | Strategic initiative to deliver standardized cloud developer workstations through Microsoft Dev Center for the Contoso organization | Platform Engineering Team | Dev Manager, CTO, IT Leadership       | 3 - Defined  | Azure Dev Center, Azure Landing Zone    | azure.yaml:1-10                                              |
-| Configuration-as-Code Adoption      | Strategy mandating all infrastructure declared in YAML/Bicep with JSON Schema validation and version control                        | Platform Engineering Team | All Engineering Teams                 | 4 - Measured | JSON Schema validation, Git             | infra/settings/workload/devcenter.schema.json:1-15           |
-| Azure Landing Zone Alignment        | Adoption of three-zone resource organization (workload, security, monitoring) per Azure Landing Zone principles                     | Platform Engineering Team | Cloud Architecture Team               | 3 - Defined  | Azure Resource Manager, Resource Groups | infra/settings/resourceOrganization/azureResources.yaml:1-20 |
-| Product-Oriented Delivery Model     | Structured delivery using Epics, Features, and Tasks with GitHub Issue templates and mandatory linking                              | Platform Engineering Team | Engineering Teams, Program Management | 3 - Defined  | GitHub Issues, GitHub Actions           | CONTRIBUTING.md:1-40                                         |
+| Component | Description | Owner | Stakeholders | Dependencies |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------- | --------------------------------------- |
+| Developer Experience Transformation | Strategic initiative to deliver standardized cloud developer workstations through Microsoft Dev Center for the Contoso organization | Platform Engineering Team | Dev Manager, CTO, IT Leadership | Azure Dev Center, Azure Landing Zone |
+| Configuration-as-Code Adoption | Strategy mandating all infrastructure declared in YAML/Bicep with JSON Schema validation and version control | Platform Engineering Team | All Engineering Teams | JSON Schema validation, Git |
+| Azure Landing Zone Alignment | Adoption of three-zone resource organization (workload, security, monitoring) per Azure Landing Zone principles | Platform Engineering Team | Cloud Architecture Team | Azure Resource Manager, Resource Groups |
+| Product-Oriented Delivery Model | Structured delivery using Epics, Features, and Tasks with GitHub Issue templates and mandatory linking | Platform Engineering Team | Engineering Teams, Program Management | GitHub Issues, GitHub Actions |
 
 ### 5.2 Business Capabilities
 
-| Component                        | Description                                                                                                                   | Owner                     | Stakeholders                 | Maturity     | Dependencies                                 | Source File                                                  |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ---------------------------- | ------------ | -------------------------------------------- | ------------------------------------------------------------ |
-| Developer Environment Management | Provision and manage role-specific Dev Box pools within Microsoft Dev Center; supports backend and frontend engineer profiles | Platform Engineering Team | eShop Engineers, Dev Manager | 3 - Defined  | Dev Center, VM SKUs, Image Definitions       | infra/settings/workload/devcenter.yaml:135-165               |
-| Project Configuration Management | Define and manage Dev Center projects with associated pools, environment types, catalogs, and RBAC                            | Platform Engineering Team | Project Leads                | 3 - Defined  | Dev Center, Azure AD Groups, Catalogs        | src/workload/project/project.bicep:1-100                     |
-| Identity & Access Management     | Manage SystemAssigned managed identities and Azure RBAC role assignments across multiple scopes                               | Platform Engineering Team | Security Team, Dev Managers  | 4 - Measured | Azure AD, RBAC, Managed Identity             | src/identity/devCenterRoleAssignment.bicep:1-44              |
-| Security & Secrets Management    | Centralize secrets using Azure Key Vault with RBAC authorization, soft-delete, and purge protection                           | Platform Engineering Team | Security Team                | 4 - Measured | Key Vault, RBAC, Key Vault Secrets User role | src/security/security.bicep:1-55                             |
-| Monitoring & Observability       | Capture diagnostic logs and metrics from all resources to Log Analytics Workspace                                             | Platform Engineering Team | Operations Team              | 3 - Defined  | Log Analytics Workspace, Diagnostic Settings | src/management/logAnalytics.bicep:\*                         |
-| Resource Organization            | Organize resources into workload, security, monitoring resource groups with consistent tagging                                | Platform Engineering Team | Cloud Architecture Team      | 3 - Defined  | Azure Resource Manager, Tags                 | infra/settings/resourceOrganization/azureResources.yaml:1-73 |
-| Catalog & Image Management       | Manage GitHub-hosted catalogs providing Dev Box image definitions and environment definitions                                 | Platform Engineering Team | Developer Teams              | 3 - Defined  | GitHub, Dev Center Catalog Integration       | infra/settings/workload/devcenter.yaml:56-65                 |
-| Environment Lifecycle Management | Define environment types (dev, staging, UAT) with deployment targets per project                                              | Platform Engineering Team | Development Teams, QA        | 3 - Defined  | Dev Center Environment Types, Subscriptions  | infra/settings/workload/devcenter.yaml:67-77                 |
+| Component | Description | Owner | Stakeholders | Dependencies |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ---------------------------- | -------------------------------------------- |
+| Developer Environment Management | Provision and manage role-specific Dev Box pools within Microsoft Dev Center; supports backend and frontend engineer profiles | Platform Engineering Team | eShop Engineers, Dev Manager | Dev Center, VM SKUs, Image Definitions |
+| Project Configuration Management | Define and manage Dev Center projects with associated pools, environment types, catalogs, and RBAC | Platform Engineering Team | Project Leads | Dev Center, Azure AD Groups, Catalogs |
+| Identity & Access Management | Manage SystemAssigned managed identities and Azure RBAC role assignments across multiple scopes | Platform Engineering Team | Security Team, Dev Managers | Azure AD, RBAC, Managed Identity |
+| Security & Secrets Management | Centralize secrets using Azure Key Vault with RBAC authorization, soft-delete, and purge protection | Platform Engineering Team | Security Team | Key Vault, RBAC, Key Vault Secrets User role |
+| Monitoring & Observability | Capture diagnostic logs and metrics from all resources to Log Analytics Workspace | Platform Engineering Team | Operations Team | Log Analytics Workspace, Diagnostic Settings |
+| Resource Organization | Organize resources into workload, security, monitoring resource groups with consistent tagging | Platform Engineering Team | Cloud Architecture Team | Azure Resource Manager, Tags |
+| Catalog & Image Management | Manage GitHub-hosted catalogs providing Dev Box image definitions and environment definitions | Platform Engineering Team | Developer Teams | GitHub, Dev Center Catalog Integration |
+| Environment Lifecycle Management | Define environment types (dev, staging, UAT) with deployment targets per project | Platform Engineering Team | Development Teams, QA | Dev Center Environment Types, Subscriptions |
 
 ### 5.3 Value Streams
 
-| Component                    | Description                                                                                                                                         | Owner                     | Stakeholders                 | Maturity     | Dependencies                         | Source File                                   |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ---------------------------- | ------------ | ------------------------------------ | --------------------------------------------- |
-| Developer Onboarding         | End-to-end process from environment request to first operational Dev Box session; includes provisioning, RBAC assignment, and network configuration | Platform Engineering Team | New Developer, Dev Manager   | 3 - Defined  | Dev Center, RBAC, VNet, Dev Box Pool | infra/settings/workload/devcenter.yaml:78-165 |
-| Environment Provisioning     | Automated deployment of Azure Dev Center, projects, pools, and environment types via `azd up` and modular Bicep                                     | Platform Engineering Team | Platform Engineering Team    | 4 - Measured | azd, Bicep, Azure Resource Manager   | azure.yaml:1-55, infra/main.bicep:1-165       |
-| Application Project Delivery | Configuration of project catalogs, image definitions, environment definitions, and RBAC to support application development (eShop reference)        | Platform Engineering Team | eShop Engineers, Dev Manager | 3 - Defined  | Dev Center Project, GitHub Catalog   | infra/settings/workload/devcenter.yaml:80-185 |
+| Component | Description | Owner | Stakeholders | Dependencies |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ---------------------------- | ------------------------------------ |
+| Developer Onboarding | End-to-end process from environment request to first operational Dev Box session; includes provisioning, RBAC assignment, and network configuration | Platform Engineering Team | New Developer, Dev Manager | Dev Center, RBAC, VNet, Dev Box Pool |
+| Environment Provisioning | Automated deployment of Azure Dev Center, projects, pools, and environment types via `azd up` and modular Bicep | Platform Engineering Team | Platform Engineering Team | azd, Bicep, Azure Resource Manager |
+| Application Project Delivery | Configuration of project catalogs, image definitions, environment definitions, and RBAC to support application development (eShop reference) | Platform Engineering Team | eShop Engineers, Dev Manager | Dev Center Project, GitHub Catalog |
 
 ### 5.4 Business Processes
 
-| Component                 | Description                                                                                                                         | Owner                     | Stakeholders                | Maturity     | Dependencies                                | Source File                                  |
-| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | --------------------------- | ------------ | ------------------------------------------- | -------------------------------------------- |
-| Pre-Provisioning Setup    | Executes authentication and environment variable setup for GitHub (`github`) or Azure DevOps (`adogit`) before `azd up`             | Platform Engineering Team | Platform Engineering Team   | 3 - Defined  | GitHub CLI, Azure CLI, azd                  | setUp.sh:1-100, azure.yaml:10-55             |
-| Infrastructure Deployment | Orchestrates sequential Bicep module deployment: monitoring → security → workload, with module dependencies enforced                | Platform Engineering Team | Platform Engineering Team   | 4 - Measured | Bicep, Azure Resource Manager, azd          | infra/main.bicep:100-165                     |
-| Project Configuration     | Iterates over YAML-declared projects to provision Dev Center projects, pools, environment types, and catalogs via Bicep `for` loops | Platform Engineering Team | Dev Managers                | 3 - Defined  | devcenter.yaml, project.bicep               | src/workload/workload.bicep:60-95            |
-| Security Configuration    | Deploys Key Vault with conditional creation logic, secrets management, and diagnostic settings to Log Analytics                     | Platform Engineering Team | Security Team               | 4 - Measured | security.yaml, keyVault.bicep, secret.bicep | src/security/security.bicep:1-55             |
-| Developer Access Grant    | Applies Azure RBAC role assignments to Azure AD groups at project and resource group scopes following YAML configuration            | Platform Engineering Team | Dev Managers, Security Team | 3 - Defined  | devcenter.yaml identity section, RBAC       | infra/settings/workload/devcenter.yaml:28-52 |
+| Component | Description | Owner | Stakeholders | Dependencies |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | --------------------------- | ------------------------------------------- |
+| Pre-Provisioning Setup | Executes authentication and environment variable setup for GitHub (`github`) or Azure DevOps (`adogit`) before `azd up` | Platform Engineering Team | Platform Engineering Team | GitHub CLI, Azure CLI, azd |
+| Infrastructure Deployment | Orchestrates sequential Bicep module deployment: monitoring → security → workload, with module dependencies enforced | Platform Engineering Team | Platform Engineering Team | Bicep, Azure Resource Manager, azd |
+| Project Configuration | Iterates over YAML-declared projects to provision Dev Center projects, pools, environment types, and catalogs via Bicep `for` loops | Platform Engineering Team | Dev Managers | devcenter.yaml, project.bicep |
+| Security Configuration | Deploys Key Vault with conditional creation logic, secrets management, and diagnostic settings to Log Analytics | Platform Engineering Team | Security Team | security.yaml, keyVault.bicep, secret.bicep |
+| Developer Access Grant | Applies Azure RBAC role assignments to Azure AD groups at project and resource group scopes following YAML configuration | Platform Engineering Team | Dev Managers, Security Team | devcenter.yaml identity section, RBAC |
 
 ### 5.5 Business Services
 
-| Component                        | Description                                                                                                                                       | Owner                                    | Stakeholders                  | Maturity     | Dependencies                                   | Source File                                    |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------- | ------------ | ---------------------------------------------- | ---------------------------------------------- |
-| Dev Center Provisioning Service  | Azure DevCenter resource (`devexp`) with catalog item sync, Microsoft-hosted network, and Azure Monitor agent enabled via SystemAssigned identity | Platform Engineering Team                | All Developer Teams           | 3 - Defined  | Azure Dev Center API, Managed Identity         | src/workload/core/devCenter.bicep:1-100        |
-| Dev Box Pool Management Service  | Role-specific Dev Box pools for eShop project: `backend-engineer` (32 vCPU / 128 GB) and `frontend-engineer` (16 vCPU / 64 GB)                    | Platform Engineering Team                | eShop Engineers               | 3 - Defined  | Dev Center Project, VM SKUs, Image Definitions | infra/settings/workload/devcenter.yaml:140-160 |
-| Key Vault Secrets Service        | Azure Key Vault (`contoso`) providing RBAC-governed encrypted secrets storage; stores `gha-token` for GitHub Actions integration                  | Platform Engineering Team, Security Team | DevOps Automation, Dev Center | 4 - Measured | Key Vault, RBAC, Soft Delete                   | infra/settings/security/security.yaml:14-43    |
-| Log Analytics Monitoring Service | Centralized Log Analytics Workspace receiving diagnostic logs and metrics from Dev Center, Key Vault, VNet, and other deployed resources          | Platform Engineering Team, Operations    | All Teams                     | 3 - Defined  | Log Analytics Workspace, Diagnostic Settings   | src/management/logAnalytics.bicep:\*           |
-| Network Connectivity Service     | Project-scoped VNet (10.0.0.0/16) and subnet (10.0.1.0/24) for eShop project Dev Box network connections, with diagnostic settings                | Platform Engineering Team                | eShop Engineers               | 3 - Defined  | Azure VNet, Subnet, Diagnostic Settings        | src/connectivity/vnet.bicep:1-80               |
+| Component | Description | Owner | Stakeholders | Dependencies |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------- | ---------------------------------------------- |
+| Dev Center Provisioning Service | Azure DevCenter resource (`devexp`) with catalog item sync, Microsoft-hosted network, and Azure Monitor agent enabled via SystemAssigned identity | Platform Engineering Team | All Developer Teams | Azure Dev Center API, Managed Identity |
+| Dev Box Pool Management Service | Role-specific Dev Box pools for eShop project: `backend-engineer` (32 vCPU / 128 GB) and `frontend-engineer` (16 vCPU / 64 GB) | Platform Engineering Team | eShop Engineers | Dev Center Project, VM SKUs, Image Definitions |
+| Key Vault Secrets Service | Azure Key Vault (`contoso`) providing RBAC-governed encrypted secrets storage; stores `gha-token` for GitHub Actions integration | Platform Engineering Team, Security Team | DevOps Automation, Dev Center | Key Vault, RBAC, Soft Delete |
+| Log Analytics Monitoring Service | Centralized Log Analytics Workspace receiving diagnostic logs and metrics from Dev Center, Key Vault, VNet, and other deployed resources | Platform Engineering Team, Operations | All Teams | Log Analytics Workspace, Diagnostic Settings |
+| Network Connectivity Service | Project-scoped VNet (10.0.0.0/16) and subnet (10.0.1.0/24) for eShop project Dev Box network connections, with diagnostic settings | Platform Engineering Team | eShop Engineers | Azure VNet, Subnet, Diagnostic Settings |
 
 ### 5.6 Business Functions
 
-| Component                     | Description                                                                                                                                | Owner                                    | Stakeholders            | Maturity     | Dependencies                             | Source File                                         |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | ----------------------- | ------------ | ---------------------------------------- | --------------------------------------------------- |
-| Configuration Management      | Define, version, and validate business configuration in YAML files with JSON Schema enforcement; load via `loadYamlContent()` in Bicep     | Platform Engineering Team                | All Engineering Teams   | 4 - Measured | JSON Schema, YAML, Bicep                 | infra/settings/workload/devcenter.schema.json:1-150 |
-| Infrastructure as Code        | Provision all Azure resources through parameterized, idempotent Bicep modules at subscription and resource group scope                     | Platform Engineering Team                | Cloud Architecture Team | 4 - Measured | Bicep, Azure Resource Manager            | infra/main.bicep:1-165                              |
-| Access Control Administration | Assign, manage, and audit Azure RBAC roles at subscription, resource group, and project scopes using managed identity principal IDs        | Platform Engineering Team                | Security Team           | 4 - Measured | RBAC, Managed Identity, Azure AD         | src/identity/devCenterRoleAssignment.bicep:1-44     |
-| Secrets Lifecycle Management  | Store, access, and govern GitHub Actions token and other sensitive credentials through Azure Key Vault with audit logging to Log Analytics | Platform Engineering Team, Security Team | DevOps Automation       | 3 - Defined  | Key Vault, Log Analytics, RBAC           | src/security/secret.bicep:\*                        |
-| Compliance Monitoring         | Capture diagnostic logs and metrics to Log Analytics Workspace for operational review, cost allocation, and governance compliance          | Platform Engineering Team, Operations    | Leadership, Security    | 3 - Defined  | Log Analytics, Diagnostic Settings, Tags | src/management/logAnalytics.bicep:\*                |
+| Component | Description | Owner | Stakeholders | Dependencies |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | ----------------------- | ---------------------------------------- |
+| Configuration Management | Define, version, and validate business configuration in YAML files with JSON Schema enforcement; load via `loadYamlContent()` in Bicep | Platform Engineering Team | All Engineering Teams | JSON Schema, YAML, Bicep |
+| Infrastructure as Code | Provision all Azure resources through parameterized, idempotent Bicep modules at subscription and resource group scope | Platform Engineering Team | Cloud Architecture Team | Bicep, Azure Resource Manager |
+| Access Control Administration | Assign, manage, and audit Azure RBAC roles at subscription, resource group, and project scopes using managed identity principal IDs | Platform Engineering Team | Security Team | RBAC, Managed Identity, Azure AD |
+| Secrets Lifecycle Management | Store, access, and govern GitHub Actions token and other sensitive credentials through Azure Key Vault with audit logging to Log Analytics | Platform Engineering Team, Security Team | DevOps Automation | Key Vault, Log Analytics, RBAC |
+| Compliance Monitoring | Capture diagnostic logs and metrics to Log Analytics Workspace for operational review, cost allocation, and governance compliance | Platform Engineering Team, Operations | Leadership, Security | Log Analytics, Diagnostic Settings, Tags |
 
 ### 5.7 Business Roles & Actors
 
-| Component                   | Description                                                                                                                                                                   | Owner                     | Stakeholders                    | Maturity     | Dependencies                            | Source File                                    |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------- | ------------ | --------------------------------------- | ---------------------------------------------- |
-| Platform Engineering Team   | Azure AD Group (`54fd94a1-e116-4bc8-8238-caae9d72bd12`); assigned DevCenter Project Admin role at ResourceGroup scope; primary operators of the platform                      | IT Leadership             | Dev Managers, Architecture Team | 4 - Measured | Azure AD, RBAC, Dev Center              | infra/settings/workload/devcenter.yaml:40-52   |
-| eShop Engineers             | Azure AD Group (`b9968440-0caf-40d8-ac36-52f159730eb7`); assigned Contributor, Dev Box User, Deployment Environment User, and Key Vault roles at project/resource group scope | eShop Tech Lead           | eShop Team Members              | 3 - Defined  | Azure AD, RBAC, Dev Center Project      | infra/settings/workload/devcenter.yaml:96-130  |
-| Dev Box User                | Role consumer (ID: `45d50f46-0b78-4001-a660-4198cbe8cd05`) at Project scope; enables creation and management of personal Dev Box instances                                    | Platform Engineering Team | Developer Team Members          | 3 - Defined  | Dev Center, Dev Box Pool                | infra/settings/workload/devcenter.yaml:103-106 |
-| Deployment Environment User | Role consumer (ID: `18e40d4e-8d2e-438d-97e1-9528336e149c`) at Project scope; enables deployment environment creation from catalog definitions                                 | Platform Engineering Team | Developer Team Members          | 3 - Defined  | Dev Center, Environment Types, Catalogs | infra/settings/workload/devcenter.yaml:107-110 |
-| DevCenter Project Admin     | Role consumer (ID: `331c37c6-af14-46d9-b9f4-e1909e1b95a0`) at ResourceGroup scope; assigned to Platform Engineering Team for Dev Center project administration                | IT Leadership             | Platform Engineering Team       | 4 - Measured | Dev Center, Azure RBAC                  | infra/settings/workload/devcenter.yaml:45-50   |
-| DevOps Automation Service   | GitHub Actions service principal consuming `gha-token` from Key Vault for automated CI/CD pipeline operations; not directly defined as an Azure AD object in source files     | DevOps Team               | Platform Engineering Team       | 3 - Defined  | Key Vault, GitHub Actions, RBAC         | infra/settings/security/security.yaml:20-22    |
+| Component | Description | Owner | Stakeholders | Dependencies |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------- | --------------------------------------- |
+| Platform Engineering Team | Azure AD Group (`54fd94a1-e116-4bc8-8238-caae9d72bd12`); assigned DevCenter Project Admin role at ResourceGroup scope; primary operators of the platform | IT Leadership | Dev Managers, Architecture Team | Azure AD, RBAC, Dev Center |
+| eShop Engineers | Azure AD Group (`b9968440-0caf-40d8-ac36-52f159730eb7`); assigned Contributor, Dev Box User, Deployment Environment User, and Key Vault roles at project/resource group scope | eShop Tech Lead | eShop Team Members | Azure AD, RBAC, Dev Center Project |
+| Dev Box User | Role consumer (ID: `45d50f46-0b78-4001-a660-4198cbe8cd05`) at Project scope; enables creation and management of personal Dev Box instances | Platform Engineering Team | Developer Team Members | Dev Center, Dev Box Pool |
+| Deployment Environment User | Role consumer (ID: `18e40d4e-8d2e-438d-97e1-9528336e149c`) at Project scope; enables deployment environment creation from catalog definitions | Platform Engineering Team | Developer Team Members | Dev Center, Environment Types, Catalogs |
+| DevCenter Project Admin | Role consumer (ID: `331c37c6-af14-46d9-b9f4-e1909e1b95a0`) at ResourceGroup scope; assigned to Platform Engineering Team for Dev Center project administration | IT Leadership | Platform Engineering Team | Dev Center, Azure RBAC |
+| DevOps Automation Service | GitHub Actions service principal consuming `gha-token` from Key Vault for automated CI/CD pipeline operations; not directly defined as an Azure AD object in source files | DevOps Team | Platform Engineering Team | Key Vault, GitHub Actions, RBAC |
 
 ### 5.8 Business Rules
 
-| Component                           | Description                                                                                                                                      | Owner                                    | Stakeholders                | Maturity     | Dependencies                          | Source File                                                         |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | --------------------------- | ------------ | ------------------------------------- | ------------------------------------------------------------------- |
-| Principle of Least Privilege        | Every role assignment uses minimum required permissions; roles scoped to most specific applicable level (Subscription → ResourceGroup → Project) | Platform Engineering Team, Security Team | All Teams                   | 4 - Measured | Azure RBAC, Role Definitions          | infra/settings/workload/devcenter.yaml:28-52, CONTRIBUTING.md:34-50 |
-| Mandatory Resource Tagging          | All Azure resources must carry seven tags: environment, division, team, project, costCenter, owner, resources; enforced via YAML configuration   | Platform Engineering Team                | Cost Management, Governance | 4 - Measured | Azure Tags, YAML Configuration        | infra/settings/workload/devcenter.yaml:175-185                      |
-| JSON Schema Validation              | All YAML configuration files must validate against their corresponding JSON Schema definitions before deployment                                 | Platform Engineering Team                | Engineering Teams           | 4 - Measured | JSON Schema, YAML                     | infra/settings/workload/devcenter.schema.json:1-15                  |
-| IaC Idempotency Requirement         | All Bicep modules must produce identical results on repeated deployments; no hard-coded environment values permitted                             | Platform Engineering Team                | DevOps Team                 | 3 - Defined  | Bicep, Azure Resource Manager         | CONTRIBUTING.md:45-65                                               |
-| Key Vault Purge Protection          | Key Vault must have `enablePurgeProtection: true`, `enableSoftDelete: true`, minimum 7-day soft-delete retention                                 | Security Team                            | Platform Engineering Team   | 4 - Measured | Key Vault Configuration               | infra/settings/security/security.yaml:22-30                         |
-| Issue Linking Requirement           | Every Feature must link parent Epic; every Task must link parent Feature; PRs must reference closed issue                                        | Development Teams                        | Program Management          | 3 - Defined  | GitHub Issues, GitHub Issue Templates | CONTRIBUTING.md:17-35                                               |
-| Source Control Platform Flexibility | Platform must support both GitHub and Azure DevOps as source control backends, selected at provisioning time                                     | Platform Engineering Team                | All Engineering Teams       | 3 - Defined  | GitHub CLI, Azure DevOps, azd         | azure.yaml:18-55, setUp.sh:1-100                                    |
+| Component | Description | Owner | Stakeholders | Dependencies |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | --------------------------- | ------------------------------------- |
+| Principle of Least Privilege | Every role assignment uses minimum required permissions; roles scoped to most specific applicable level (Subscription → ResourceGroup → Project) | Platform Engineering Team, Security Team | All Teams | Azure RBAC, Role Definitions |
+| Mandatory Resource Tagging | All Azure resources must carry seven tags: environment, division, team, project, costCenter, owner, resources; enforced via YAML configuration | Platform Engineering Team | Cost Management, Governance | Azure Tags, YAML Configuration |
+| JSON Schema Validation | All YAML configuration files must validate against their corresponding JSON Schema definitions before deployment | Platform Engineering Team | Engineering Teams | JSON Schema, YAML |
+| IaC Idempotency Requirement | All Bicep modules must produce identical results on repeated deployments; no hard-coded environment values permitted | Platform Engineering Team | DevOps Team | Bicep, Azure Resource Manager |
+| Key Vault Purge Protection | Key Vault must have `enablePurgeProtection: true`, `enableSoftDelete: true`, minimum 7-day soft-delete retention | Security Team | Platform Engineering Team | Key Vault Configuration |
+| Issue Linking Requirement | Every Feature must link parent Epic; every Task must link parent Feature; PRs must reference closed issue | Development Teams | Program Management | GitHub Issues, GitHub Issue Templates |
+| Source Control Platform Flexibility | Platform must support both GitHub and Azure DevOps as source control backends, selected at provisioning time | Platform Engineering Team | All Engineering Teams | GitHub CLI, Azure DevOps, azd |
 
 ### 5.9 Business Events
 
-| Component                    | Description                                                                                                                                                              | Owner                                    | Stakeholders                      | Maturity       | Dependencies                    | Source File                                 |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | --------------------------------- | -------------- | ------------------------------- | ------------------------------------------- |
-| Pre-Provisioning Hook Event  | Triggered by `azd up` pre-provisioning hook; executes `setUp.sh` (POSIX) or PowerShell equivalent to authenticate and set `SOURCE_CONTROL_PLATFORM` environment variable | Platform Engineering Team                | Platform Engineering Team         | 3 - Defined    | azd, GitHub CLI, Azure CLI      | azure.yaml:10-55                            |
-| Dev Center Deployment Event  | Triggered on completion of `workload.bicep` module deployment; produces Dev Center name and project list as outputs to main deployment                                   | Platform Engineering Team                | Architecture Team                 | 4 - Measured   | Bicep, Azure Resource Manager   | infra/main.bicep:140-165                    |
-| Project Provisioning Event   | Triggered per entry in `devcenter.yaml.projects[]`; provisions one Dev Center project with all associated resources (pools, catalogs, environments, network)             | Platform Engineering Team                | Dev Managers                      | 3 - Defined    | project.bicep, devcenter.yaml   | src/workload/workload.bicep:60-95           |
-| Developer Access Grant Event | Triggered when Azure RBAC role assignments are applied to Azure AD groups; enables team member access to Dev Boxes and deployment environments                           | Platform Engineering Team, Security Team | Developer Teams                   | 3 - Defined    | RBAC, Azure AD Groups           | src/identity/orgRoleAssignment.bicep:\*     |
-| Secret Rotation Event        | Manual or scheduled rotation of `gha-token` in Key Vault; requires re-deployment of catalog integrations using updated secret reference                                  | Security Team                            | DevOps Team, Platform Engineering | 2 - Developing | Key Vault, GitHub Actions Token | infra/settings/security/security.yaml:20-22 |
+| Component | Description | Owner | Stakeholders | Dependencies |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | --------------------------------- | ------------------------------- |
+| Pre-Provisioning Hook Event | Triggered by `azd up` pre-provisioning hook; executes `setUp.sh` (POSIX) or PowerShell equivalent to authenticate and set `SOURCE_CONTROL_PLATFORM` environment variable | Platform Engineering Team | Platform Engineering Team | azd, GitHub CLI, Azure CLI |
+| Dev Center Deployment Event | Triggered on completion of `workload.bicep` module deployment; produces Dev Center name and project list as outputs to main deployment | Platform Engineering Team | Architecture Team | Bicep, Azure Resource Manager |
+| Project Provisioning Event | Triggered per entry in `devcenter.yaml.projects[]`; provisions one Dev Center project with all associated resources (pools, catalogs, environments, network) | Platform Engineering Team | Dev Managers | project.bicep, devcenter.yaml |
+| Developer Access Grant Event | Triggered when Azure RBAC role assignments are applied to Azure AD groups; enables team member access to Dev Boxes and deployment environments | Platform Engineering Team, Security Team | Developer Teams | RBAC, Azure AD Groups |
+| Secret Rotation Event | Manual or scheduled rotation of `gha-token` in Key Vault; requires re-deployment of catalog integrations using updated secret reference | Security Team | DevOps Team, Platform Engineering | Key Vault, GitHub Actions Token |
 
 ### 5.10 Business Objects/Entities
 
-| Component               | Description                                                                                                                                                                           | Owner                                    | Stakeholders                        | Maturity     | Dependencies                            | Source File                                                  |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------------- | ------------ | --------------------------------------- | ------------------------------------------------------------ |
-| Dev Center              | Azure DevCenter resource (`devexp`); primary platform entity with SystemAssigned identity, catalog sync, Microsoft-hosted network, and Monitor agent enabled                          | Platform Engineering Team                | All Teams                           | 3 - Defined  | Azure Dev Center API, Managed Identity  | src/workload/core/devCenter.bicep:1-100                      |
-| Project                 | Named Dev Center child resource (e.g., `eShop`) with dedicated pools, environment types, catalogs, tags, network, and RBAC                                                            | Platform Engineering Team, Project Leads | Developer Teams                     | 3 - Defined  | Dev Center, Azure AD Groups             | src/workload/project/project.bicep:1-100                     |
-| Environment Type        | Named deployment scope (dev, staging, UAT) associated with Dev Center or project, referencing an optional deployment target subscription                                              | Platform Engineering Team                | Developer Teams, QA                 | 3 - Defined  | Dev Center, Azure Subscriptions         | infra/settings/workload/devcenter.yaml:67-77                 |
-| Dev Box Pool            | Named collection of Dev Boxes with specified VM SKU and image definition; `backend-engineer` (general_i_32c128gb512ssd_v2) and `frontend-engineer` (general_i_16c64gb256ssd_v2)       | Platform Engineering Team                | eShop Engineers                     | 3 - Defined  | Dev Center, VM SKUs, Image Definitions  | infra/settings/workload/devcenter.yaml:140-165               |
-| Catalog                 | Git repository reference providing task definitions, environment definitions, or image definitions; `customTasks` (public, microsoft/devcenter-catalog) and project-specific catalogs | Platform Engineering Team                | Developer Teams                     | 3 - Defined  | GitHub, Dev Center Catalog Integration  | infra/settings/workload/devcenter.yaml:56-65, 163-184        |
-| Key Vault               | Azure Key Vault instance (`contoso`) with RBAC authorization, soft-delete (7 days), purge protection, and `gha-token` secret                                                          | Security Team                            | Platform Engineering Team, DevOps   | 4 - Measured | Azure Key Vault, RBAC                   | infra/settings/security/security.yaml:14-43                  |
-| Log Analytics Workspace | Centralized monitoring workspace (`logAnalytics`) in monitoring zone; receives diagnostic logs and metrics from all deployed resources                                                | Platform Engineering Team, Operations    | All Teams                           | 3 - Defined  | Log Analytics, Diagnostic Settings      | src/management/logAnalytics.bicep:\*                         |
-| Resource Group          | Azure resource container for workload (`devexp-workload`), security, and monitoring zones; tagged with Landing Zone classification                                                    | Platform Engineering Team                | Cloud Architecture, Cost Management | 3 - Defined  | Azure Resource Manager, Tags            | infra/settings/resourceOrganization/azureResources.yaml:1-73 |
-| Virtual Network         | Project-scoped VNet (`eShop`: 10.0.0.0/16) with one subnet (`eShop-subnet`: 10.0.1.0/24) for Dev Box network connectivity in Unmanaged network mode                                   | Platform Engineering Team                | eShop Engineers                     | 3 - Defined  | Azure VNet, Subnet, Diagnostic Settings | src/connectivity/vnet.bicep:1-80                             |
-| Role Assignment         | Azure RBAC binding linking Azure AD principal (group or service principal) to role definition at a specific scope (Subscription, ResourceGroup, or Project)                           | Platform Engineering Team, Security Team | All Teams                           | 4 - Measured | RBAC, Azure AD, Role Definitions        | src/identity/devCenterRoleAssignment.bicep:1-44              |
-| Azure AD Group          | Organizational group used as principal for all RBAC assignments; Platform Engineering Team (Dev Managers) and eShop Engineers defined with GUIDs in configuration                     | IT Leadership                            | Platform Engineering Team           | 3 - Defined  | Azure Active Directory, RBAC            | infra/settings/workload/devcenter.yaml:40-52                 |
+| Component | Description | Owner | Stakeholders | Dependencies |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------------- | --------------------------------------- |
+| Dev Center | Azure DevCenter resource (`devexp`); primary platform entity with SystemAssigned identity, catalog sync, Microsoft-hosted network, and Monitor agent enabled | Platform Engineering Team | All Teams | Azure Dev Center API, Managed Identity |
+| Project | Named Dev Center child resource (e.g., `eShop`) with dedicated pools, environment types, catalogs, tags, network, and RBAC | Platform Engineering Team, Project Leads | Developer Teams | Dev Center, Azure AD Groups |
+| Environment Type | Named deployment scope (dev, staging, UAT) associated with Dev Center or project, referencing an optional deployment target subscription | Platform Engineering Team | Developer Teams, QA | Dev Center, Azure Subscriptions |
+| Dev Box Pool | Named collection of Dev Boxes with specified VM SKU and image definition; `backend-engineer` (general_i_32c128gb512ssd_v2) and `frontend-engineer` (general_i_16c64gb256ssd_v2) | Platform Engineering Team | eShop Engineers | Dev Center, VM SKUs, Image Definitions |
+| Catalog | Git repository reference providing task definitions, environment definitions, or image definitions; `customTasks` (public, microsoft/devcenter-catalog) and project-specific catalogs | Platform Engineering Team | Developer Teams | GitHub, Dev Center Catalog Integration |
+| Key Vault | Azure Key Vault instance (`contoso`) with RBAC authorization, soft-delete (7 days), purge protection, and `gha-token` secret | Security Team | Platform Engineering Team, DevOps | Azure Key Vault, RBAC |
+| Log Analytics Workspace | Centralized monitoring workspace (`logAnalytics`) in monitoring zone; receives diagnostic logs and metrics from all deployed resources | Platform Engineering Team, Operations | All Teams | Log Analytics, Diagnostic Settings |
+| Resource Group | Azure resource container for workload (`devexp-workload`), security, and monitoring zones; tagged with Landing Zone classification | Platform Engineering Team | Cloud Architecture, Cost Management | Azure Resource Manager, Tags |
+| Virtual Network | Project-scoped VNet (`eShop`: 10.0.0.0/16) with one subnet (`eShop-subnet`: 10.0.1.0/24) for Dev Box network connectivity in Unmanaged network mode | Platform Engineering Team | eShop Engineers | Azure VNet, Subnet, Diagnostic Settings |
+| Role Assignment | Azure RBAC binding linking Azure AD principal (group or service principal) to role definition at a specific scope (Subscription, ResourceGroup, or Project) | Platform Engineering Team, Security Team | All Teams | RBAC, Azure AD, Role Definitions |
+| Azure AD Group | Organizational group used as principal for all RBAC assignments; Platform Engineering Team (Dev Managers) and eShop Engineers defined with GUIDs in configuration | IT Leadership | Platform Engineering Team | Azure Active Directory, RBAC |
 
 ### 5.11 KPIs & Metrics
 
-| Component                             | Description                                                                                                                                                           | Owner                     | Stakeholders               | Maturity       | Dependencies                          | Source File                                    |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | -------------------------- | -------------- | ------------------------------------- | ---------------------------------------------- |
-| Environment Provisioning Success Rate | Percentage of `azd up` deployments completing without errors; tracked via Azure Resource Manager deployment history in all three resource groups                      | Platform Engineering Team | IT Leadership, Operations  | 3 - Defined    | Azure Resource Manager, Log Analytics | infra/main.bicep:100-165                       |
-| Developer Onboarding Time             | Elapsed time from first `azd up` execution to first active Dev Box session; not currently automated — requires Log Analytics custom query or Azure Monitor alert rule | Platform Engineering Team | IT Leadership, HR          | 2 - Developing | Log Analytics, Dev Center Metrics     | src/management/logAnalytics.bicep:\*           |
-| Security Compliance Score             | Coverage of mandatory RBAC assignments and resource tagging compliance; assessed through Azure Policy or manual audit of deployed resources                           | Security Team             | CISO, Platform Engineering | 3 - Defined    | Azure Policy, Tags, RBAC              | infra/settings/workload/devcenter.yaml:175-185 |
-| Infrastructure Deployment Duration    | Time to complete full `main.bicep` deployment across monitoring → security → workload modules; observable through azd deployment logs                                 | Platform Engineering Team | DevOps Team                | 3 - Defined    | azd, Bicep, Azure Resource Manager    | infra/main.bicep:1-165                         |
-| Dev Center Availability               | Operational availability of Dev Center resource and projects; diagnostic data forwarded to Log Analytics from Dev Center diagnostic settings                          | Operations Team           | IT Leadership              | 3 - Defined    | Log Analytics, Dev Center Diagnostics | src/management/logAnalytics.bicep:\*           |
+| Component | Description | Owner | Stakeholders | Dependencies |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | -------------------------- | ------------------------------------- |
+| Environment Provisioning Success Rate | Percentage of `azd up` deployments completing without errors; tracked via Azure Resource Manager deployment history in all three resource groups | Platform Engineering Team | IT Leadership, Operations | Azure Resource Manager, Log Analytics |
+| Developer Onboarding Time | Elapsed time from first `azd up` execution to first active Dev Box session; not currently automated — requires Log Analytics custom query or Azure Monitor alert rule | Platform Engineering Team | IT Leadership, HR | Log Analytics, Dev Center Metrics |
+| Security Compliance Score | Coverage of mandatory RBAC assignments and resource tagging compliance; assessed through Azure Policy or manual audit of deployed resources | Security Team | CISO, Platform Engineering | Azure Policy, Tags, RBAC |
+| Infrastructure Deployment Duration | Time to complete full `main.bicep` deployment across monitoring → security → workload modules; observable through azd deployment logs | Platform Engineering Team | DevOps Team | azd, Bicep, Azure Resource Manager |
+| Dev Center Availability | Operational availability of Dev Center resource and projects; diagnostic data forwarded to Log Analytics from Dev Center diagnostic settings | Operations Team | IT Leadership | Log Analytics, Dev Center Diagnostics |
 
 ### Summary
 
@@ -1031,16 +1031,16 @@ availability and token validity.
 
 ### Capability-to-Application Integration
 
-| Business Capability              | Supporting Module                          | Integration Type                  | Source File                                     |
-| -------------------------------- | ------------------------------------------ | --------------------------------- | ----------------------------------------------- |
-| Developer Environment Management | src/workload/core/devCenter.bicep          | Azure Resource Manager (Bicep)    | src/workload/core/devCenter.bicep:1-100         |
-| Project Configuration Management | src/workload/project/project.bicep         | Azure Resource Manager (Bicep)    | src/workload/project/project.bicep:1-100        |
-| Identity & Access Management     | src/identity/devCenterRoleAssignment.bicep | Azure RBAC API                    | src/identity/devCenterRoleAssignment.bicep:1-44 |
-| Security & Secrets Management    | src/security/security.bicep                | Azure Key Vault API               | src/security/security.bicep:1-55                |
-| Monitoring & Observability       | src/management/logAnalytics.bicep          | Azure Monitor / Log Analytics API | src/management/logAnalytics.bicep:\*            |
-| Resource Organization            | infra/main.bicep                           | Azure Resource Manager (Bicep)    | infra/main.bicep:1-165                          |
-| Catalog & Image Management       | infra/settings/workload/devcenter.yaml     | GitHub API (catalog sync)         | infra/settings/workload/devcenter.yaml:56-185   |
-| Environment Lifecycle Management | src/workload/core/environmentType.bicep    | Azure Dev Center API              | src/workload/core/environmentType.bicep:\*      |
+| Business Capability | Supporting Module | Integration Type |
+| -------------------------------- | ------------------------------------------ | --------------------------------- |
+| Developer Environment Management | src/workload/core/devCenter.bicep | Azure Resource Manager (Bicep) |
+| Project Configuration Management | src/workload/project/project.bicep | Azure Resource Manager (Bicep) |
+| Identity & Access Management | src/identity/devCenterRoleAssignment.bicep | Azure RBAC API |
+| Security & Secrets Management | src/security/security.bicep | Azure Key Vault API |
+| Monitoring & Observability | src/management/logAnalytics.bicep | Azure Monitor / Log Analytics API |
+| Resource Organization | infra/main.bicep | Azure Resource Manager (Bicep) |
+| Catalog & Image Management | infra/settings/workload/devcenter.yaml | GitHub API (catalog sync) |
+| Environment Lifecycle Management | src/workload/core/environmentType.bicep | Azure Dev Center API |
 
 ### Value Stream-to-Process Integration
 
@@ -1052,13 +1052,13 @@ availability and token validity.
 
 ### Business Rule-to-Technology Enforcement
 
-| Business Rule                | Technology Enforcement Mechanism                                                            | Source File                                                            |
-| ---------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| Principle of Least Privilege | Azure RBAC role assignments with explicit scope (Subscription/ResourceGroup/Project)        | src/identity/devCenterRoleAssignment.bicep:1-44                        |
-| Mandatory Resource Tagging   | YAML tag declarations merged via Bicep `union()` at deployment time                         | infra/main.bicep:65-80, infra/settings/workload/devcenter.yaml:175-185 |
-| JSON Schema Validation       | `yaml-language-server` schema references in all YAML files; validated at editor and CI time | infra/settings/workload/devcenter.schema.json:1-150                    |
-| IaC Idempotency Requirement  | Bicep conditional resources (`if (condition)`) and parameterized naming patterns            | infra/main.bicep:58-80                                                 |
-| Key Vault Purge Protection   | `enablePurgeProtection: true`, `enableSoftDelete: true` in security.yaml                    | infra/settings/security/security.yaml:22-30                            |
+| Business Rule | Technology Enforcement Mechanism |
+| ---------------------------- | ------------------------------------------------------------------------------------------- |
+| Principle of Least Privilege | Azure RBAC role assignments with explicit scope (Subscription/ResourceGroup/Project) |
+| Mandatory Resource Tagging | YAML tag declarations merged via Bicep `union()` at deployment time |
+| JSON Schema Validation | `yaml-language-server` schema references in all YAML files; validated at editor and CI time |
+| IaC Idempotency Requirement | Bicep conditional resources (`if (condition)`) and parameterized naming patterns |
+| Key Vault Purge Protection | `enablePurgeProtection: true`, `enableSoftDelete: true` in security.yaml |
 
 ### Dependencies & Integration Flow
 
@@ -1145,14 +1145,14 @@ flowchart TB
 
 ### Integration Health Assessment
 
-| Integration                                | Type                      | Status     | Risk   | Notes                                                           |
-| ------------------------------------------ | ------------------------- | ---------- | ------ | --------------------------------------------------------------- |
-| GitHub: microsoft/devcenter-catalog        | Catalog Sync (public)     | Active     | Low    | Public repository; no authentication required                   |
-| GitHub: Evilazaro/eShop (environments)     | Catalog Sync (private)    | Active     | Medium | Requires valid `gha-token` in Key Vault; rotation not automated |
-| GitHub: Evilazaro/eShop (imageDefinitions) | Catalog Sync (private)    | Active     | Medium | Same token dependency as environments catalog                   |
-| Azure Key Vault → Dev Center               | Secret Reference          | Active     | Low    | Uses `secretIdentifier` parameter; RBAC-governed                |
-| Log Analytics → All Resources              | Diagnostic Settings       | Active     | Low    | Centralized; single workspace for all zones                     |
-| Azure DevOps (adogit)                      | Source Control (optional) | Configured | Low    | Supported via `SOURCE_CONTROL_PLATFORM` env var in setUp.sh     |
+| Integration | Type | Status | Risk |
+| ------------------------------------------ | ------------------------- | ---------- | ------ |
+| GitHub: microsoft/devcenter-catalog | Catalog Sync (public) | Active | Low |
+| GitHub: Evilazaro/eShop (environments) | Catalog Sync (private) | Active | Medium |
+| GitHub: Evilazaro/eShop (imageDefinitions) | Catalog Sync (private) | Active | Medium |
+| Azure Key Vault → Dev Center | Secret Reference | Active | Low |
+| Log Analytics → All Resources | Diagnostic Settings | Active | Low |
+| Azure DevOps (adogit) | Source Control (optional) | Configured | Low |
 
 **Sources:** infra/settings/workload/devcenter.yaml:56-65, 163-185,
 infra/main.bicep:100-165, infra/settings/security/security.yaml:20-22
