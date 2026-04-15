@@ -829,28 +829,28 @@ repository files, with file:line references for every attribute claim.
 
 ### 5.8 Data Governance Policy Specifications
 
-| 📋 Policy ID | 📋 Policy               | 🔧 Implementation                                                        | 📄 Source                                           |
-| ------------ | ----------------------- | ------------------------------------------------------------------------ | --------------------------------------------------- |
-| GP-001       | Schema-First Validation | yaml-language-server directives in all YAML files                        | `infra/settings/**/*.yaml:1`                        |
-| GP-002       | Zero Plaintext Secrets  | `@secure()` Bicep params; Key Vault only                                 | `infra/main.bicep:8`, `src/security/secret.bicep:6` |
-| GP-003       | RBAC-Only Access        | `enableRbacAuthorization: true` in Key Vault                             | `infra/settings/security/security.yaml:27`          |
-| GP-004       | Mandatory Tagging       | JSON Schema `"required": ["environment"]`; `union()` in Bicep            | `infra/main.bicep:63`                               |
-| GP-005       | Purge Protection        | `enablePurgeProtection: true`, `enableSoftDelete: true`                  | `infra/settings/security/security.yaml:24-25`       |
-| GP-006       | Centralized Diagnostics | `diagnosticSettings` on all resources, `allLogs`+`AllMetrics`            | `src/security/secret.bicep:23-46`                   |
-| GP-007       | Least Privilege         | Role assignments scoped to minimum scope (ResourceGroup vs Subscription) | `infra/settings/workload/devcenter.yaml:38-44`      |
+| 📋 Policy ID | 📋 Policy | 🔧 Implementation |
+| ------------ | ----------------------- | ------------------------------------------------------------------------ |
+| GP-001 | Schema-First Validation | yaml-language-server directives in all YAML files |
+| GP-002 | Zero Plaintext Secrets | `@secure()` Bicep params; Key Vault only |
+| GP-003 | RBAC-Only Access | `enableRbacAuthorization: true` in Key Vault |
+| GP-004 | Mandatory Tagging | JSON Schema `"required": ["environment"]`; `union()` in Bicep |
+| GP-005 | Purge Protection | `enablePurgeProtection: true`, `enableSoftDelete: true` |
+| GP-006 | Centralized Diagnostics | `diagnosticSettings` on all resources, `allLogs`+`AllMetrics` |
+| GP-007 | Least Privilege | Role assignments scoped to minimum scope (ResourceGroup vs Subscription) |
 
 ### 5.9 Data Standards Specifications
 
-| 📐 Standard                | 📋 Version         | 🔧 Application                                     | 📄 Source                                       |
-| -------------------------- | ------------------ | -------------------------------------------------- | ----------------------------------------------- |
-| JSON Schema                | 2020-12            | All configuration YAML validation schemas          | `infra/settings/**/*.schema.json`               |
-| ARM Deployment Schema      | 2019-04-01         | Parameter file format                              | `infra/main.parameters.json:2`                  |
-| Azure DevCenter API        | 2026-01-01-preview | DevCenter, catalog, environment type ARM resources | `src/workload/core/catalog.bicep:38`            |
-| Azure Key Vault API        | 2025-05-01         | Key Vault and secret ARM resources                 | `src/security/keyVault.bicep:38`                |
-| Azure Log Analytics API    | 2025-07-01         | Log Analytics Workspace ARM resource               | `src/management/logAnalytics.bicep:39`          |
-| Azure Resource Manager API | 2025-04-01         | Resource group ARM resources                       | `infra/main.bicep:56`                           |
-| Azure Role Assignments API | 2022-04-01         | RBAC role assignment ARM resources                 | `src/identity/devCenterRoleAssignment.bicep:28` |
-| Log Analytics SKU          | PerGB2018          | Default SKU for workspace billing                  | `src/management/logAnalytics.bicep:26`          |
+| 📐 Standard | 📋 Version | 🔧 Application |
+| -------------------------- | ------------------ | -------------------------------------------------- |
+| JSON Schema | 2020-12 | All configuration YAML validation schemas |
+| ARM Deployment Schema | 2019-04-01 | Parameter file format |
+| Azure DevCenter API | 2026-01-01-preview | DevCenter, catalog, environment type ARM resources |
+| Azure Key Vault API | 2025-05-01 | Key Vault and secret ARM resources |
+| Azure Log Analytics API | 2025-07-01 | Log Analytics Workspace ARM resource |
+| Azure Resource Manager API | 2025-04-01 | Resource group ARM resources |
+| Azure Role Assignments API | 2022-04-01 | RBAC role assignment ARM resources |
+| Log Analytics SKU | PerGB2018 | Default SKU for workspace billing |
 
 ### 5.10 Data Interface Specifications
 
@@ -1075,12 +1075,12 @@ flowchart LR
 
 ### Schema-to-Instance Validation Map
 
-| 📋 Schema                        | 🔗 Validates           | 🔄 Consumed By                                        | 📄 Source                                                        |
-| -------------------------------- | ---------------------- | ----------------------------------------------------- | ---------------------------------------------------------------- |
-| `devcenter.schema.json`          | `devcenter.yaml`       | `src/workload/workload.bicep` (via `loadYamlContent`) | `infra/settings/workload/devcenter.schema.json`                  |
-| `security.schema.json`           | `security.yaml`        | `src/security/security.bicep` (via `loadYamlContent`) | `infra/settings/security/security.schema.json`                   |
-| `azureResources.schema.json`     | `azureResources.yaml`  | `infra/main.bicep` (via `loadYamlContent`)            | `infra/settings/resourceOrganization/azureResources.schema.json` |
-| ARM Deployment Schema 2019-04-01 | `main.parameters.json` | ARM Engine                                            | `infra/main.parameters.json:2`                                   |
+| 📋 Schema | 🔗 Validates | 🔄 Consumed By |
+| -------------------------------- | ---------------------- | ----------------------------------------------------- |
+| `devcenter.schema.json` | `devcenter.yaml` | `src/workload/workload.bicep` (via `loadYamlContent`) |
+| `security.schema.json` | `security.yaml` | `src/security/security.bicep` (via `loadYamlContent`) |
+| `azureResources.schema.json` | `azureResources.yaml` | `infra/main.bicep` (via `loadYamlContent`) |
+| ARM Deployment Schema 2019-04-01 | `main.parameters.json` | ARM Engine |
 
 ### Summary
 

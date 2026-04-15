@@ -55,15 +55,15 @@ forwarding at the infrastructure layer.
 
 ### 📊 Key Findings
 
-| Finding                    | Details                                                                                                               | Maturity       |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------- |
-| Module Composition         | 22 Bicep modules in a 4-level hierarchy; strict output-to-input dependency chaining                                   | 4 – Managed    |
-| Configuration-as-Code      | All application behavior sourced from YAML files loaded via `loadYamlContent()` with JSON Schema validation           | 4 – Managed    |
-| Type Safety                | Bicep user-defined types (`DevCenterConfig`, `PoolConfig`, `Tags`, `ProjectNetwork`) enforce contract at compile time | 4 – Managed    |
-| RBAC Integration           | Identity modules manage 8 distinct role assignments across subscription, resource group, and project scopes           | 4 – Managed    |
-| Catalog Integration        | GitHub-hosted catalog sync (Scheduled) provides Dev Box image definitions and environment definitions                 | 3 – Defined    |
-| Post-Deployment Validation | No automated smoke tests or health-check scripts after `azd provision` detected                                       | 2 – Developing |
-| Runtime Telemetry          | Diagnostic settings forwarded to Log Analytics; no application-level APM or distributed tracing                       | 2 – Developing |
+| Finding | Details |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Module Composition | 22 Bicep modules in a 4-level hierarchy; strict output-to-input dependency chaining |
+| Configuration-as-Code | All application behavior sourced from YAML files loaded via `loadYamlContent()` with JSON Schema validation |
+| Type Safety | Bicep user-defined types (`DevCenterConfig`, `PoolConfig`, `Tags`, `ProjectNetwork`) enforce contract at compile time |
+| RBAC Integration | Identity modules manage 8 distinct role assignments across subscription, resource group, and project scopes |
+| Catalog Integration | GitHub-hosted catalog sync (Scheduled) provides Dev Box image definitions and environment definitions |
+| Post-Deployment Validation | No automated smoke tests or health-check scripts after `azd provision` detected |
+| Runtime Telemetry | Diagnostic settings forwarded to Log Analytics; no application-level APM or distributed tracing |
 
 ### 🏗️ Application Architecture Overview
 
@@ -786,18 +786,18 @@ state falls short of a Level 4–5 target state.
 
 ### Current State Maturity Assessment
 
-| Domain                     | Current State                                              | Maturity       | Gap to Target (Level 4)                        |
-| -------------------------- | ---------------------------------------------------------- | -------------- | ---------------------------------------------- |
-| Module Composition         | 22 Bicep modules in 4-level hierarchy with typed contracts | 4 – Managed    | None — target achieved                         |
-| Configuration-as-Code      | YAML + JSON Schema validation for all config parameters    | 4 – Managed    | None — target achieved                         |
-| RBAC & Identity            | SystemAssigned identities + 8 scoped role assignments      | 4 – Managed    | None — target achieved                         |
-| Secret Management          | Key Vault with RBAC auth, soft-delete, purge protection    | 4 – Managed    | None — target achieved                         |
-| Observability              | Diagnostic settings → Log Analytics on all key resources   | 3 – Defined    | No APM / application-level tracing             |
-| Catalog Integration        | GitHub-hosted catalogs with scheduled sync                 | 3 – Defined    | No catalog sync status monitoring              |
-| Post-Deployment Validation | No smoke tests or health checks after `azd provision`      | 1 – Initial    | Full gap — no validation pipeline              |
-| Networking                 | VNet + Subnet + Network Connection for Unmanaged pools     | 3 – Defined    | No NSG rules or private endpoint patterns      |
-| CI/CD Integration          | `azure.yaml` hooks only; no pipeline YAML detected         | 2 – Developing | No GitHub Actions or Azure Pipelines workflows |
-| Runtime Telemetry          | Diagnostic logs only; no metrics alerts or dashboards      | 2 – Developing | No Azure Monitor alerts or workbooks           |
+| Domain | Current State | Gap to Target (Level 4) |
+| -------------------------- | ---------------------------------------------------------- | ---------------------------------------------- |
+| Module Composition | 22 Bicep modules in 4-level hierarchy with typed contracts | None — target achieved |
+| Configuration-as-Code | YAML + JSON Schema validation for all config parameters | None — target achieved |
+| RBAC & Identity | SystemAssigned identities + 8 scoped role assignments | None — target achieved |
+| Secret Management | Key Vault with RBAC auth, soft-delete, purge protection | None — target achieved |
+| Observability | Diagnostic settings → Log Analytics on all key resources | No APM / application-level tracing |
+| Catalog Integration | GitHub-hosted catalogs with scheduled sync | No catalog sync status monitoring |
+| Post-Deployment Validation | No smoke tests or health checks after `azd provision` | Full gap — no validation pipeline |
+| Networking | VNet + Subnet + Network Connection for Unmanaged pools | No NSG rules or private endpoint patterns |
+| CI/CD Integration | `azure.yaml` hooks only; no pipeline YAML detected | No GitHub Actions or Azure Pipelines workflows |
+| Runtime Telemetry | Diagnostic logs only; no metrics alerts or dashboards | No Azure Monitor alerts or workbooks |
 
 ### Gap Analysis
 
@@ -1268,37 +1268,37 @@ application architecture.
 
 ### 8.1 Internal Dependency Matrix
 
-| Module (Consumer)                   | Depends On (Provider)                             | Dependency Type                                              | Data Passed                                             | Source                                    |
-| ----------------------------------- | ------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------- | ----------------------------------------- |
-| infra/main.bicep                    | src/management/logAnalytics.bicep                 | Module output dependency                                     | AZURE_LOG_ANALYTICS_WORKSPACE_ID                        | infra/main.bicep:110-120                  |
-| infra/main.bicep                    | src/security/security.bicep                       | Module output dependency                                     | AZURE_KEY_VAULT_SECRET_IDENTIFIER, AZURE_KEY_VAULT_NAME | infra/main.bicep:125-145                  |
-| infra/main.bicep                    | src/workload/workload.bicep                       | Module output dependency (logAnalyticsId + secretIdentifier) | AZURE_DEV_CENTER_NAME, AZURE_DEV_CENTER_PROJECTS        | infra/main.bicep:148-165                  |
-| src/security/security.bicep         | src/security/keyVault.bicep                       | Module output dependency                                     | AZURE_KEY_VAULT_NAME                                    | src/security/security.bicep:18-25         |
-| src/security/security.bicep         | src/security/secret.bicep                         | Module output dependency                                     | AZURE_KEY_VAULT_SECRET_IDENTIFIER                       | src/security/security.bicep:28-38         |
-| src/workload/workload.bicep         | src/workload/core/devCenter.bicep                 | Module output dependency                                     | AZURE_DEV_CENTER_NAME                                   | src/workload/workload.bicep:43-57         |
-| src/workload/workload.bicep         | src/workload/project/project.bicep                | Configuration array iteration                                | project config per entry                                | src/workload/workload.bicep:60-90         |
-| src/workload/project/project.bicep  | src/connectivity/connectivity.bicep               | Module output dependency                                     | networkConnectionName, networkType                      | src/workload/project/project.bicep:1-100  |
-| src/workload/project/project.bicep  | src/workload/project/projectPool.bicep            | Array iteration                                              | pool config per entry                                   | src/workload/project/project.bicep:1-100  |
-| src/workload/project/project.bicep  | src/workload/project/projectCatalog.bicep         | Array iteration                                              | catalog config per entry                                | src/workload/project/project.bicep:1-100  |
-| src/workload/project/project.bicep  | src/workload/project/projectEnvironmentType.bicep | Array iteration                                              | environment type config per entry                       | src/workload/project/project.bicep:1-100  |
-| src/workload/project/project.bicep  | src/identity/projectIdentityRoleAssignment.bicep  | Role assignment delegation                                   | principalId, roles array, projectName                   | src/workload/project/project.bicep:1-100  |
-| src/workload/project/project.bicep  | src/identity/keyVaultAccess.bicep                 | Security delegation                                          | principalId, securityResourceGroupName                  | src/workload/project/project.bicep:1-100  |
-| src/connectivity/connectivity.bicep | src/connectivity/vnet.bicep                       | Module output dependency                                     | AZURE_VIRTUAL_NETWORK object                            | src/connectivity/connectivity.bicep:30-55 |
-| src/connectivity/connectivity.bicep | src/connectivity/networkConnection.bicep          | Conditional module dependency                                | networkConnectionName                                   | src/connectivity/connectivity.bicep:58-70 |
+| Module (Consumer) | Depends On (Provider) | Dependency Type | Data Passed |
+| ----------------------------------- | ------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------- |
+| infra/main.bicep | src/management/logAnalytics.bicep | Module output dependency | AZURE_LOG_ANALYTICS_WORKSPACE_ID |
+| infra/main.bicep | src/security/security.bicep | Module output dependency | AZURE_KEY_VAULT_SECRET_IDENTIFIER, AZURE_KEY_VAULT_NAME |
+| infra/main.bicep | src/workload/workload.bicep | Module output dependency (logAnalyticsId + secretIdentifier) | AZURE_DEV_CENTER_NAME, AZURE_DEV_CENTER_PROJECTS |
+| src/security/security.bicep | src/security/keyVault.bicep | Module output dependency | AZURE_KEY_VAULT_NAME |
+| src/security/security.bicep | src/security/secret.bicep | Module output dependency | AZURE_KEY_VAULT_SECRET_IDENTIFIER |
+| src/workload/workload.bicep | src/workload/core/devCenter.bicep | Module output dependency | AZURE_DEV_CENTER_NAME |
+| src/workload/workload.bicep | src/workload/project/project.bicep | Configuration array iteration | project config per entry |
+| src/workload/project/project.bicep | src/connectivity/connectivity.bicep | Module output dependency | networkConnectionName, networkType |
+| src/workload/project/project.bicep | src/workload/project/projectPool.bicep | Array iteration | pool config per entry |
+| src/workload/project/project.bicep | src/workload/project/projectCatalog.bicep | Array iteration | catalog config per entry |
+| src/workload/project/project.bicep | src/workload/project/projectEnvironmentType.bicep | Array iteration | environment type config per entry |
+| src/workload/project/project.bicep | src/identity/projectIdentityRoleAssignment.bicep | Role assignment delegation | principalId, roles array, projectName |
+| src/workload/project/project.bicep | src/identity/keyVaultAccess.bicep | Security delegation | principalId, securityResourceGroupName |
+| src/connectivity/connectivity.bicep | src/connectivity/vnet.bicep | Module output dependency | AZURE_VIRTUAL_NETWORK object |
+| src/connectivity/connectivity.bicep | src/connectivity/networkConnection.bicep | Conditional module dependency | networkConnectionName |
 
 ### 8.2 External Dependency Matrix
 
-| External System                      | Integration Point                                       | Protocol                             | Authentication                        | Direction              | Source                                          |
-| ------------------------------------ | ------------------------------------------------------- | ------------------------------------ | ------------------------------------- | ---------------------- | ----------------------------------------------- |
-| Azure Resource Manager (ARM)         | All resource provisioning                               | HTTPS REST                           | Azure RBAC (azd auth)                 | Outbound (write)       | infra/main.bicep:1-220                          |
-| Azure DevCenter Service              | DevCenter, project, pool, catalog, envType provisioning | HTTPS REST (ARM)                     | ARM RBAC                              | Outbound (write)       | src/workload/core/devCenter.bicep:1-100         |
-| Azure Key Vault Service              | Secret storage and retrieval                            | HTTPS REST + Key Vault URI reference | RBAC (Key Vault Secrets User/Officer) | Outbound (write/read)  | src/security/keyVault.bicep:1-80                |
-| Azure Monitor / Log Analytics        | Diagnostic log and metric ingestion                     | Azure Monitor ingestion API          | ARM RBAC (diagnosticSettings)         | Outbound (write)       | src/management/logAnalytics.bicep:1-70          |
-| Azure Virtual Network Service        | VNet and subnet provisioning                            | HTTPS REST (ARM)                     | ARM RBAC                              | Outbound (write)       | src/connectivity/vnet.bicep:1-95                |
-| Azure Authorization Service          | Role assignment creation                                | HTTPS REST (ARM)                     | ARM RBAC (User Access Administrator)  | Outbound (write)       | src/identity/devCenterRoleAssignment.bicep:1-55 |
-| GitHub (microsoft/devcenter-catalog) | Catalog sync (public)                                   | HTTPS Git                            | None (public)                         | Inbound (catalog sync) | infra/settings/workload/devcenter.yaml:57-62    |
-| GitHub (Evilazaro/eShop)             | Catalog sync (private)                                  | HTTPS Git                            | GitHub PAT (gha-token via Key Vault)  | Inbound (catalog sync) | infra/settings/workload/devcenter.yaml:155-175  |
-| Azure Developer CLI                  | Deployment orchestration                                | CLI binary execution                 | Azure CLI credentials                 | N/A (orchestrator)     | azure.yaml:1-55                                 |
+| External System | Integration Point | Protocol | Authentication | Direction |
+| ------------------------------------ | ------------------------------------------------------- | ------------------------------------ | ------------------------------------- | ---------------------- |
+| Azure Resource Manager (ARM) | All resource provisioning | HTTPS REST | Azure RBAC (azd auth) | Outbound (write) |
+| Azure DevCenter Service | DevCenter, project, pool, catalog, envType provisioning | HTTPS REST (ARM) | ARM RBAC | Outbound (write) |
+| Azure Key Vault Service | Secret storage and retrieval | HTTPS REST + Key Vault URI reference | RBAC (Key Vault Secrets User/Officer) | Outbound (write/read) |
+| Azure Monitor / Log Analytics | Diagnostic log and metric ingestion | Azure Monitor ingestion API | ARM RBAC (diagnosticSettings) | Outbound (write) |
+| Azure Virtual Network Service | VNet and subnet provisioning | HTTPS REST (ARM) | ARM RBAC | Outbound (write) |
+| Azure Authorization Service | Role assignment creation | HTTPS REST (ARM) | ARM RBAC (User Access Administrator) | Outbound (write) |
+| GitHub (microsoft/devcenter-catalog) | Catalog sync (public) | HTTPS Git | None (public) | Inbound (catalog sync) |
+| GitHub (Evilazaro/eShop) | Catalog sync (private) | HTTPS Git | GitHub PAT (gha-token via Key Vault) | Inbound (catalog sync) |
+| Azure Developer CLI | Deployment orchestration | CLI binary execution | Azure CLI credentials | N/A (orchestrator) |
 
 ### 8.3 Data Flow: Deployment Pipeline Integration
 
