@@ -494,7 +494,7 @@ flowchart LR
     end
 
     subgraph GAP["⚠️ Gaps (Not Detected)"]
-        direction LR
+        direction TB
         G1("❌ Data Lineage<br/>Tracking"):::gap
         G2("❌ Data Contracts<br/>Definitions"):::gap
         G3("❌ Quality<br/>Dashboards"):::gap
