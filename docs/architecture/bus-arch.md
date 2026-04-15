@@ -228,6 +228,70 @@ ContosoDevExp platform architecture.
 
 ---
 
+```mermaid
+---
+title: ContosoDevExp Organizational Structure
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: ContosoDevExp Organizational Structure
+    accDescr: Hierarchical organizational structure showing Contoso enterprise owning Platforms Division, which sponsors DevExP Team, which manages Platform Engineering Team AD group and serves eShop Engineers AD group.
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has style directive with neutral surface
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph ENT["🏢 Enterprise Level"]
+        E1("🏢 Contoso"):::core
+    end
+
+    subgraph DIV["🏛️ Division Level"]
+        D1("🏛️ Platforms Division"):::core
+    end
+
+    subgraph TEAM["👥 Team Level"]
+        T1("⚙️ DevExP Team"):::core
+    end
+
+    subgraph GROUPS["👤 Azure AD Groups"]
+        G1("👮 Platform Engineering Team"):::neutral
+        G2("👨‍💻 eShop Engineers"):::neutral
+    end
+
+    E1 -->|sponsors| D1
+    D1 -->|owns| T1
+    T1 -->|manages| G1
+    T1 -->|serves| G2
+
+    %% Centralized classDef palette (AZURE/FLUENT v1.1)
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    style ENT fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style DIV fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style TEAM fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style GROUPS fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+```
+
+_Figure 2.2 — ContosoDevExp Organizational Structure. Source:
+`devcenter.yaml: tags.organization`, `devcenter.yaml: orgRoleTypes`._
+
+---
+
 ### 2.9 Business Information
 
 | Information Asset                   | Description                                                                                                           | Format                  | Classification | Source Reference                                          |
@@ -333,14 +397,14 @@ flowchart TB
 
     %% Centralized classDef palette (AZURE/FLUENT v1.1)
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef security fill:#FFF4CE,stroke:#F2A900,stroke-width:2px,color:#323130
+    classDef security fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef monitoring fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef identity fill:#EFF6FC,stroke:#2B88D8,stroke-width:2px,color:#323130
+    classDef identity fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    style L1 fill:#EFF6FC,stroke:#0078D4,stroke-width:2px
-    style L2 fill:#FFF4CE,stroke:#F2A900,stroke-width:2px
-    style L3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px
+    style L1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style L2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style L3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 _Figure 2.1 — ContosoDevExp Business Capability Map. Source: `devcenter.yaml`,
@@ -652,6 +716,76 @@ at `infra/settings/workload/`, `infra/settings/security/`, and
 
 ---
 
+```mermaid
+---
+title: ContosoDevExp Architecture Principles Framework
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart LR
+    accTitle: ContosoDevExp Architecture Principles Framework
+    accDescr: Architecture principles framework organized into four groups: Platform Design (P-001 to P-004), Security and Access (P-005 to P-007), Operational Excellence (P-008), and Governance (P-009 to P-010), with dependency flows between groups.
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has style directive with neutral surface
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph PD["🏗️ Platform Design"]
+        P1("📋 P-001\nSelf-Service by Design"):::core
+        P2("📄 P-002\nConfig-as-Code First"):::core
+        P3("🏛️ P-003\nLanding Zone Separation"):::core
+        P4("🔄 P-004\nIdempotent Infrastructure"):::core
+    end
+
+    subgraph SA["🔒 Security & Access"]
+        P5("🔑 P-005\nLeast Privilege"):::warning
+        P6("🔐 P-006\nManaged Identities"):::warning
+        P7("🗝️ P-007\nSecrets in Key Vault"):::warning
+    end
+
+    subgraph OE["⚙️ Operational Excellence"]
+        P8("📊 P-008\nObservable by Default"):::success
+    end
+
+    subgraph GOV["📋 Governance"]
+        P9("🏷️ P-009\nTag-Based Governance"):::neutral
+        P10("✅ P-010\nSchema-First Config"):::neutral
+    end
+
+    PD -->|informs| SA
+    PD -->|informs| OE
+    SA -->|enforced via| GOV
+    OE -->|governed via| GOV
+
+    %% Centralized classDef palette (AZURE/FLUENT v1.1)
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+
+    style PD fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style SA fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style OE fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style GOV fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+```
+
+_Figure 3.1 — ContosoDevExp Architecture Principles Framework. Source: `devcenter.yaml`, `security.yaml`, `main.bicep`, `CONTRIBUTING.md`._
+
+---
+
 ## Section 4: Current State Baseline
 
 ### Overview
@@ -773,16 +907,16 @@ flowchart TB
 
     %% Centralized classDef palette (AZURE/FLUENT v1.1)
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef security fill:#FFF4CE,stroke:#F2A900,stroke-width:2px,color:#323130
+    classDef security fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef monitoring fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef identity fill:#EFF6FC,stroke:#2B88D8,stroke-width:2px,color:#323130
+    classDef identity fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    style ORG fill:#EFF6FC,stroke:#2B88D8,stroke-width:2px
-    style WORK fill:#EFF6FC,stroke:#0078D4,stroke-width:2px
-    style PROJ fill:#DEEFFE,stroke:#0078D4,stroke-width:1px
-    style SEC fill:#FFF4CE,stroke:#F2A900,stroke-width:2px
-    style MON fill:#DFF6DD,stroke:#107C10,stroke-width:2px
+    style ORG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style WORK fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style PROJ fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style SEC fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style MON fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 _Figure 4.1 — ContosoDevExp Current State Architecture. Source:
@@ -1169,18 +1303,18 @@ flowchart TB
 
     %% Centralized classDef palette (AZURE/FLUENT v1.1)
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef security fill:#FFF4CE,stroke:#F2A900,stroke-width:2px,color:#323130
+    classDef security fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef monitoring fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef config fill:#EFF6FC,stroke:#2B88D8,stroke-width:2px,color:#323130
-    classDef process fill:#FAFAFA,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef config fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef process fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    style CFG fill:#EFF6FC,stroke:#2B88D8,stroke-width:2px
-    style DEP fill:#FAFAFA,stroke:#0078D4,stroke-width:2px
-    style MON fill:#DFF6DD,stroke:#107C10,stroke-width:2px
-    style SEC fill:#FFF4CE,stroke:#F2A900,stroke-width:2px
-    style WORK fill:#EFF6FC,stroke:#0078D4,stroke-width:2px
-    style EXT fill:#F3F2F1,stroke:#8A8886,stroke-width:2px
+    style CFG fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style DEP fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style MON fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style SEC fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style WORK fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style EXT fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 _Figure 8.1 — ContosoDevExp Business Integration Architecture. Source:
@@ -1274,15 +1408,15 @@ flowchart LR
 
     %% Centralized classDef palette (AZURE/FLUENT v1.1)
     classDef process fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef security fill:#FFF4CE,stroke:#F2A900,stroke-width:2px,color:#323130
+    classDef security fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef monitoring fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef identity fill:#EFF6FC,stroke:#2B88D8,stroke-width:2px,color:#323130
+    classDef identity fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
 
-    style S1 fill:#EFF6FC,stroke:#0078D4,stroke-width:2px
-    style S2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px
-    style S3 fill:#EFF6FC,stroke:#2B88D8,stroke-width:2px
-    style S4 fill:#DFF6DD,stroke:#107C10,stroke-width:2px
+    style S1 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style S2 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style S3 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style S4 fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 _Figure 8.2 — Developer Onboarding Integration Flow. Source: `azure.yaml`,
