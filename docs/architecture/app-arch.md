@@ -1175,6 +1175,7 @@ flowchart TB
     end
 
     subgraph patterns["🔄 5.9 Integration Patterns (8)"]
+        direction TB
         p1("📋 Config-as-Code"):::core
         p2("🔗 Output Chaining"):::success
         p3("⚙️ Module Composition"):::core
@@ -1182,6 +1183,7 @@ flowchart TB
     end
 
     subgraph contracts["📜 5.10 Service Contracts (8)"]
+        direction TB
         sc1("📋 JSON Schemas (3)"):::success
         sc2("📤 ARM Outputs (3)"):::core
         sc3("🌐 Azure APIs (5)"):::neutral
