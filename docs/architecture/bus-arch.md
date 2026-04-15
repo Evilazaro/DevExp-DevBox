@@ -123,18 +123,21 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph PG["🏛️ Platform Governance Domain"]
+        direction TB
         cap1("🖥️ Developer Workstation<br/>Provisioning<br/>Maturity: 4"):::success
         cap2("⚙️ Platform Infrastructure<br/>Governance<br/>Maturity: 4"):::success
         cap3("🔐 Identity & Access<br/>Management<br/>Maturity: 4"):::warning
     end
 
     subgraph DE["👨‍💻 Developer Experience Domain"]
+        direction TB
         cap4("🚀 Self-Service Environment<br/>Delivery<br/>Maturity: 3"):::info
         cap5("🔑 Security & Secrets<br/>Management<br/>Maturity: 4"):::warning
         cap6("📊 Multi-Environment<br/>Lifecycle Management<br/>Maturity: 3"):::info
     end
 
     subgraph GV["📋 Governance Domain"]
+        direction TB
         cap7("👁️ Observability &<br/>Compliance Monitoring<br/>Maturity: 3"):::info
         cap8("💰 Cost Governance<br/>& Chargeback<br/>Maturity: 3"):::neutral
     end
@@ -403,6 +406,7 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph L4["🟢 Level 4 — Managed"]
+        direction LR
         c1("🖥️ Developer Workstation Provisioning"):::success
         c2("⚙️ Platform Infrastructure Governance"):::success
         c3("🔐 Identity & Access Management"):::success
@@ -410,6 +414,7 @@ flowchart LR
     end
 
     subgraph L3["🟡 Level 3 — Defined"]
+        direction LR
         c4("🚀 Self-Service Environment Delivery"):::warning
         c6("📊 Multi-Environment Lifecycle Mgmt"):::warning
         c7("👁️ Observability & Compliance Monitoring"):::warning
@@ -552,12 +557,14 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph CONFIG["⚙️ Configuration Phase"]
+        direction TB
         s1("📄 devcenter.yaml<br/>Configuration"):::info
         s2("🔐 security.yaml<br/>Key Vault Config"):::warning
         s3("📦 azureResources.yaml<br/>Resource Org"):::info
     end
 
     subgraph DEPLOY["🚀 Platform Deployment Phase"]
+        direction TB
         d1("🔧 azd preprovision<br/>setUp hook"):::neutral
         d2("🏗️ Bicep main.bicep<br/>Deployment"):::info
         d3("🖥️ Dev Center<br/>Provisioned"):::success
@@ -566,6 +573,7 @@ flowchart TB
     end
 
     subgraph CONSUME["👨‍💻 Developer Consumption Phase"]
+        direction TB
         e1("👤 Engineer Requests<br/>Dev Box"):::neutral
         e2("🔍 Pool Selected<br/>backend/frontend"):::info
         e3("✅ Dev Box<br/>Provisioned"):::success
@@ -693,12 +701,14 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph IDENTITY["🔐 Identity Tier"]
+        direction TB
         mi("🤖 Dev Center<br/>Managed Identity<br/>(System-Assigned)"):::warning
         pe("👥 Platform Engineering<br/>Team (AD Group)"):::info
         eng("👨‍💻 eShop Engineers<br/>(AD Group)"):::success
     end
 
     subgraph ROLES["📋 Role Assignments"]
+        direction TB
         r1("⚙️ Contributor<br/>Scope: Subscription"):::info
         r2("👑 User Access Admin<br/>Scope: Subscription"):::warning
         r3("🔑 KV Secrets User<br/>Scope: ResourceGroup"):::warning
@@ -887,20 +897,24 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph ENTRY["🚀 Entry Point"]
+        direction TB
         main("📋 main.bicep<br/>(Subscription scope)"):::info
     end
 
     subgraph MON["📊 Monitoring Domain"]
+        direction TB
         la("📊 logAnalytics.bicep<br/>Log Analytics Workspace"):::info
     end
 
     subgraph SEC["🔐 Security Domain"]
+        direction TB
         sec("🔐 security.bicep<br/>Key Vault + Secret"):::warning
         kv("🔑 keyVault.bicep"):::warning
         secret("🗝️ secret.bicep"):::warning
     end
 
     subgraph WORK["⚙️ Workload Domain"]
+        direction TB
         wl("⚙️ workload.bicep<br/>Dev Center Orchestrator"):::info
         dc("🖥️ devCenter.bicep<br/>Dev Center Resource"):::success
         proj("👥 project.bicep<br/>eShop Project"):::success
@@ -1023,6 +1037,7 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph INPUT["📥 Configuration Inputs"]
+        direction LR
         yaml1("📄 devcenter.yaml"):::info
         yaml2("🔐 security.yaml"):::warning
         yaml3("📦 azureResources.yaml"):::info
@@ -1030,11 +1045,13 @@ flowchart LR
     end
 
     subgraph DEPLOY["🚀 Deployment Orchestration"]
+        direction LR
         azd("🔧 azd CLI<br/>+ hooks"):::neutral
         bicep("🏗️ Bicep<br/>main.bicep"):::info
     end
 
     subgraph AZURE["☁️ Azure Resources"]
+        direction LR
         dc("🖥️ Dev Center<br/>devexp"):::success
         kv("🔑 Key Vault<br/>contoso"):::warning
         la("📊 Log Analytics"):::info
@@ -1042,11 +1059,13 @@ flowchart LR
     end
 
     subgraph EXTERNAL["🌐 External Integrations"]
+        direction LR
         gh("📚 GitHub<br/>Catalog"):::neutral
         aad("🔐 Azure AD<br/>Identity"):::warning
     end
 
     subgraph CONSUME["👨‍💻 Consumption"]
+        direction LR
         eng("👨‍💻 Engineers<br/>Dev Box Request"):::success
         devbox("💻 Dev Box<br/>Provisioned"):::success
     end
