@@ -285,8 +285,10 @@ flowchart TB
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph PLATFORM ["🏗️ Platform Services"]
+        direction TB
         DC["⚙️ Azure DevCenter<br/>(devexp)"]:::core
         subgraph WORKLOAD ["📦 Workload Resources"]
+            direction TB
             PROJ["📁 Project (eShop)"]:::app
             CAT["📚 Catalogs (customTasks)"]:::app
             ENVT["🌍 Env Types (dev/stg/uat)"]:::app
@@ -295,11 +297,13 @@ flowchart TB
     end
 
     subgraph SECURITY ["🔒 Security Services"]
+        direction TB
         KV["🔑 Key Vault (contoso)"]:::secure
         SEC_DIAG["📊 KV Diagnostics"]:::secure
     end
 
     subgraph MONITORING ["📈 Monitoring Services"]
+        direction TB
         LA["📈 Log Analytics WS"]:::monitor
         ACT_SOL["🧩 AzureActivity Solution"]:::monitor
     end
@@ -551,7 +555,7 @@ config:
   flowchart:
     htmlLabels: true
 ---
-flowchart TD
+flowchart TB
     accTitle: Application Deployment Topology
     accDescr: Current-state Bicep orchestration module hierarchy deploying Azure PaaS services.
 
@@ -567,17 +571,20 @@ flowchart TD
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph ENTRY ["🚀 Entry Point"]
+        direction TB
         AZD["🔧 azd CLI<br/>(azure.yaml)"]:::tool
         MAIN["📋 main.bicep<br/>(Subscription scope)"]:::module
     end
 
     subgraph DOMAIN ["📦 Domain Modules"]
+        direction TB
         WK["⚙️ workload.bicep"]:::module
         SEC["🛡️ security.bicep"]:::secmod
         LOG["📈 logAnalytics.bicep"]:::module
     end
 
     subgraph LEAF ["🔩 Leaf Modules"]
+        direction TB
         DC_MOD["🏗️ devCenter.bicep"]:::module
         PROJ_MOD["📁 project.bicep"]:::module
         KV_MOD["🔑 keyVault.bicep"]:::secmod
@@ -585,6 +592,7 @@ flowchart TD
     end
 
     subgraph AZURE ["☁️ Azure PaaS Services"]
+        direction TB
         DC_SVC["⚙️ DevCenter (devexp)"]:::azure
         PROJ_SVC["📁 Project (eShop)"]:::azure
         KV_SVC["🔑 Key Vault (contoso)"]:::azure
@@ -960,18 +968,21 @@ flowchart LR
     %% ═══════════════════════════════════════════════════════════════════════════
 
     subgraph DEPLOY ["🚀 Deployment Plane"]
+        direction LR
         AZD["🔧 azd CLI"]:::tool
         SCRIPTS["📜 setUp.sh / setUp.ps1"]:::tool
         BICEP["📋 Bicep IaC Modules"]:::module
     end
 
     subgraph RUNTIME ["☁️ Azure Runtime Plane"]
+        direction LR
         DC_R["⚙️ DevCenter (devexp)"]:::azure
         KV_R["🔑 Key Vault (contoso)"]:::azure
         LA_R["📈 Log Analytics WS"]:::azure
     end
 
     subgraph EXTERNAL ["🌐 External Plane"]
+        direction LR
         GH_PUB["🌐 GitHub Public<br/>(customTasks)"]:::ext
         GH_PRIV["🔒 GitHub Private<br/>(eShop catalogs)"]:::ext
     end
