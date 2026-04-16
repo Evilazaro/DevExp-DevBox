@@ -392,7 +392,7 @@ flowchart TB
     end
 
     subgraph subscription["☁️ Azure Subscription"]
-
+        direction TB
         subgraph monitoring_rg["📊 Monitoring Resource Group"]
             LAW("📈 Log Analytics Workspace<br/>+ AzureActivity Solution"):::core
         end
@@ -428,6 +428,7 @@ flowchart TB
     end
 
     subgraph github_sg["🐙 GitHub / Azure DevOps"]
+        direction TB
         Repo1("📂 microsoft/devcenter-catalog<br/>(Tasks)"):::neutral
         Repo2("📂 Evilazaro/eShop<br/>(environments + imageDefinitions)"):::neutral
     end
