@@ -410,6 +410,7 @@ flowchart TB
             end
 
             subgraph env_types_sg["🌐 Environment Types"]
+                direction TB
                 ET1("🔧 dev"):::success
                 ET2("🧪 staging"):::success
                 ET3("✅ uat"):::success
