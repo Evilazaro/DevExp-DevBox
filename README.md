@@ -366,12 +366,25 @@ config:
   theme: base
   look: classic
   layout: dagre
+  themeVariables:
+    fontSize: '16px'
   flowchart:
     htmlLabels: true
 ---
 flowchart TB
     accTitle: DevExp-DevBox Infrastructure Architecture Diagram
-    accDescr: Azure subscription-scoped Bicep deployment creating three resource group domains — Workload, Security, and Monitoring — containing Dev Center with projects and pools, Key Vault for secret management, and Log Analytics for centralized observability. Uses azd CLI for orchestration and GitHub/ADO for catalog sync.
+    accDescr: Azure subscription-scoped Bicep deployment creating three resource group domains — Workload, Security, and Monitoring — containing Dev Center with projects and pools, Key Vault for secret management, and Log Analytics for centralized observability. CLI=core, SetUp=neutral, DC=core, LAW=core, KV=danger, Secret=danger, Proj=core, ProjCat1=neutral, ProjCat2=neutral, Pool1=core, Pool2=core, VNet=core, Cat=neutral, ET1=success, ET2=success, ET3=success, Repo1=neutral, Repo2=neutral. WCAG AA compliant.
+
+    %%
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %%
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %%
 
     subgraph operator["👤 Operator / CI-CD"]
         CLI("🖥️ Azure Developer CLI<br/>(azd up)"):::core
@@ -381,12 +394,12 @@ flowchart TB
     subgraph subscription["☁️ Azure Subscription"]
 
         subgraph monitoring_rg["📊 Monitoring Resource Group"]
-            LAW("📈 Log Analytics Workspace<br/>+ AzureActivity Solution"):::data
+            LAW("📈 Log Analytics Workspace<br/>+ AzureActivity Solution"):::core
         end
 
         subgraph security_rg["🔐 Security Resource Group"]
-            KV("🔑 Azure Key Vault<br/>(RBAC + Purge Protection)"):::security
-            Secret("🔒 Secret: gha-token"):::security
+            KV("🔑 Azure Key Vault<br/>(RBAC + Purge Protection)"):::danger
+            Secret("🔒 Secret: gha-token"):::danger
         end
 
         subgraph workload_rg["🏗️ Workload Resource Group"]
@@ -408,7 +421,7 @@ flowchart TB
                 ProjCat2("🖼️ devboxImages catalog<br/>(Evilazaro/eShop)"):::neutral
                 Pool1("🖥️ backend-engineer pool<br/>32 vCPU / 128 GB / 512 GB"):::core
                 Pool2("🖥️ frontend-engineer pool<br/>16 vCPU / 64 GB / 256 GB"):::core
-                VNet("🌐 eShop VNet<br/>10.0.0.0/16"):::data
+                VNet("🌐 eShop VNet<br/>10.0.0.0/16"):::core
             end
         end
     end
@@ -433,20 +446,19 @@ flowchart TB
     Proj -->|"connected via"| VNet
 
     style operator fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style subscription fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style monitoring_rg fill:#FFF4CE,stroke:#F7630C,stroke-width:2px,color:#323130
-    style security_rg fill:#FDE7E9,stroke:#C50F1F,stroke-width:2px,color:#323130
-    style workload_rg fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style catalogs_sg fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
-    style env_types_sg fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
-    style project_sg fill:#EFF6FC,stroke:#0078D4,stroke-width:1px,color:#323130
+    style subscription fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style monitoring_rg fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
+    style security_rg fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
+    style workload_rg fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
+    style catalogs_sg fill:#D2D0CE,stroke:#8A8886,stroke-width:1px,color:#323130
+    style env_types_sg fill:#D2D0CE,stroke:#8A8886,stroke-width:1px,color:#323130
+    style project_sg fill:#D2D0CE,stroke:#8A8886,stroke-width:1px,color:#323130
     style github_sg fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef data fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef security fill:#FDE7E9,stroke:#C50F1F,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
 ```
 
 **Component Roles**
