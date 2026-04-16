@@ -160,17 +160,6 @@ flowchart TB
     accTitle: ContosoDevExp Application Architecture Overview
     accDescr: High-level application architecture of the ContosoDevExp DevExp-DevBox platform showing toolchain, platform service, developer experience, and identity layers. azdCLI=core, setupHook=neutral, devCenter=core, eShop=core, pools=core, keyVault=danger, logAnalytics=neutral, devPortal=core, devBox=success, entraID=warning. WCAG AA compliant.
 
-    %%
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
-    %% (Semantic + Structural + Font + Accessibility Governance)
-    %%
-    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
-    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
-    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
-    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
-    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
-    %%
-
     subgraph toolchain["🛠️ Toolchain Layer"]
         azdCLI("⚙️ Azure Developer CLI"):::core
         setupHook("🔄 Pre-Provision Hook"):::neutral
@@ -597,17 +586,6 @@ flowchart TB
     accTitle: ContosoDevExp IaC Module Deployment Hierarchy
     accDescr: Infrastructure as Code module dependency and deployment flow for the ContosoDevExp DevExp-DevBox platform, showing main.bicep at subscription scope orchestrating workload, security, and monitoring module deployments. mainBicep=core, workloadMod=core, securityMod=core, logAnalyticsMod=neutral, devCenterMod=core, projectMod=core, poolMod=core, catalogMod=neutral, envTypeMod=neutral, keyVaultMod=danger, secretMod=danger, workloadRG=neutral, securityRG=neutral, monitoringRG=neutral. WCAG AA compliant.
 
-    %%
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
-    %% (Semantic + Structural + Font + Accessibility Governance)
-    %%
-    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
-    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
-    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
-    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
-    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
-    %%
-
     subgraph subscriptionScope["☁️ Subscription Scope — main.bicep"]
         mainBicep("⚙️ main.bicep"):::core
         workloadRG("📦 Workload RG"):::neutral
@@ -824,16 +802,7 @@ flowchart LR
     accTitle: ContosoDevExp Application Component Hierarchy
     accDescr: Bicep module hierarchy showing how main.bicep at subscription scope delegates to workload, security, and monitoring domain modules, and how those further delegate to resource-level modules. mainBicep=core, workloadOrch=core, secOrch=core, laModule=neutral, dcCore=core, projOrch=core, securityMod=danger, kvMod=danger, secretMod=danger, connModule=neutral, catalogModule=neutral, envTypeMod=neutral, poolMod=core. WCAG AA compliant.
 
-    %%
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
-    %% (Semantic + Structural + Font + Accessibility Governance)
-    %%
-    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
-    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
-    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
-    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
-    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
-    %%
+
 
     subgraph root["⚙️ Subscription Scope"]
         mainBicep("⚙️ main.bicep"):::core
@@ -1179,16 +1148,7 @@ flowchart LR
     accTitle: ContosoDevExp Runtime Integration Architecture
     accDescr: Runtime integration architecture showing data flows between external systems, Azure platform services, and developer workstations for the ContosoDevExp DevExp-DevBox platform. github=neutral, devPortal=core, devCenter=core, eShopProj=core, keyVault=danger, logAnalytics=neutral, devBox=success. WCAG AA compliant.
 
-    %%
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
-    %% (Semantic + Structural + Font + Accessibility Governance)
-    %%
-    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
-    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
-    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
-    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
-    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
-    %%
+
 
     subgraph external["🌐 External Systems"]
         github("📂 GitHub Repository"):::neutral
