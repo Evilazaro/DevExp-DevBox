@@ -28,13 +28,14 @@ All configuration is YAML-driven, enabling teams to onboard new Dev Box
 projects, catalogs, networking topologies, and role assignments without
 modifying Bicep source files.
 
-> [!NOTE] This accelerator supports both **GitHub** and **Azure DevOps Git**
-> (`adogit`) as source control back-ends for catalog and image definition
-> synchronization.
+> [!NOTE]  
+> This accelerator supports both **GitHub** and **Azure DevOps Git** (`adogit`)
+> as source control back-ends for catalog and image definition synchronization.
 
-> [!TIP] The `devcenter.yaml` file is the single configuration entry point for
-> the entire Dev Center topology — projects, pools, catalogs, environment types,
-> and RBAC roles are all defined there. See
+> [!TIP]  
+> The `devcenter.yaml` file is the single configuration entry point for the
+> entire Dev Center topology — projects, pools, catalogs, environment types, and
+> RBAC roles are all defined there. See
 > `infra/settings/workload/devcenter.yaml`.
 
 ## ✨ Features
@@ -46,15 +47,17 @@ Azure Dev Center, Key Vault, Log Analytics, virtual networking, and identity
 management into a single, automated deployment. Features are derived directly
 from the Bicep modules and YAML configuration files in this repository.
 
-> [!TIP] **Why This Matters**: Platform engineers can provision a
-> production-grade Dev Box environment — with secure secrets, centralized
-> logging, and role-based access — in a single `azd up` command, reducing
-> onboarding time from days to minutes.
+> [!TIP]  
+> **Why This Matters**: Platform engineers can provision a production-grade Dev
+> Box environment — with secure secrets, centralized logging, and role-based
+> access — in a single `azd up` command, reducing onboarding time from days to
+> minutes.
 
-> [!IMPORTANT] **How It Works**: Each feature maps to a dedicated Bicep module
-> under `src/`. The YAML configuration files under `infra/settings/` drive
-> runtime parameterization, keeping infrastructure code generic and reusable
-> across environments.
+> [!IMPORTANT]  
+> **How It Works**: Each feature maps to a dedicated Bicep module under `src/`.
+> The YAML configuration files under `infra/settings/` drive runtime
+> parameterization, keeping infrastructure code generic and reusable across
+> environments.
 
 | ✨ Feature                  | 📝 Description                                                                                                                                          | 📁 Source                                                                                      |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -129,9 +132,9 @@ azd up
 SUCCESS: Your up workflow to provision and deploy to Azure completed in 12m 34s.
 ```
 
-> [!NOTE] On Windows, `azd up` invokes `setUp.ps1` automatically via the
-> `preprovision` hook defined in `azure.yaml`. On Linux/macOS it invokes
-> `setUp.sh`.
+> [!NOTE]  
+> On Windows, `azd up` invokes `setUp.ps1` automatically via the `preprovision`
+> hook defined in `azure.yaml`. On Linux/macOS it invokes `setUp.sh`.
 
 ## 📦 Deployment
 
@@ -142,8 +145,9 @@ The deployment pipeline is orchestrated by the Azure Developer CLI using the
 runs the appropriate setup script (`setUp.sh` or `setUp.ps1`) to authenticate
 with the chosen source control platform before Bicep resources are provisioned.
 
-> [!IMPORTANT] **How It Works**: `azd up` executes the `preprovision` hook,
-> which calls `setUp.sh -e <env> -s <platform>` (Linux/macOS) or
+> [!IMPORTANT]  
+> **How It Works**: `azd up` executes the `preprovision` hook, which calls
+> `setUp.sh -e <env> -s <platform>` (Linux/macOS) or
 > `setUp.ps1 -EnvName <env> -SourceControl <platform>` (Windows). The scripts
 > validate tool availability, authenticate with GitHub or Azure DevOps, and wire
 > up the environment before Bicep deployment begins.
@@ -181,9 +185,10 @@ azd provision
 .\cleanSetUp.ps1 -EnvName dev -Location eastus2
 ```
 
-> [!WARNING] `cleanSetUp.ps1` deletes Azure subscription-level deployments,
-> service principals, app registrations, and GitHub secrets. Run with `-WhatIf`
-> to preview actions before executing.
+> [!WARNING]  
+> `cleanSetUp.ps1` deletes Azure subscription-level deployments, service
+> principals, app registrations, and GitHub secrets. Run with `-WhatIf` to
+> preview actions before executing.
 
 ## 📋 Requirements
 
@@ -222,10 +227,11 @@ Azure portal, Azure CLI, or VS Code Dev Box extension. The YAML configuration
 files in `infra/settings/` control the shape of the environment — modifying them
 and re-running `azd provision` applies changes incrementally.
 
-> [!TIP] **Onboarding a new project**: Add a new entry under the `projects:`
-> array in `infra/settings/workload/devcenter.yaml` with the project name,
-> description, network settings, identity/RBAC, pools, catalogs, and environment
-> types. Then run `azd provision` to deploy.
+> [!TIP]  
+> **Onboarding a new project**: Add a new entry under the `projects:` array in
+> `infra/settings/workload/devcenter.yaml` with the project name, description,
+> network settings, identity/RBAC, pools, catalogs, and environment types. Then
+> run `azd provision` to deploy.
 
 **List deployed Dev Center projects**
 
@@ -301,16 +307,16 @@ at deployment time, meaning no Bicep source changes are required for typical
 operational customization. The three configuration domains are resource
 organization, security, and Dev Center workload topology.
 
-> [!TIP] **Why This Matters**: YAML-driven configuration decouples operational
-> settings from infrastructure code, enabling teams to manage
-> environment-specific settings through pull requests against the YAML files
-> alone.
+> [!TIP]  
+> **Why This Matters**: YAML-driven configuration decouples operational settings
+> from infrastructure code, enabling teams to manage environment-specific
+> settings through pull requests against the YAML files alone.
 
-> [!IMPORTANT] **How It Works**: `infra/main.bicep` loads `azureResources.yaml`
-> to determine resource group names and creation flags.
-> `src/security/security.bicep` loads `security.yaml` for Key Vault settings.
-> `src/workload/workload.bicep` loads `devcenter.yaml` for the full Dev Center
-> topology.
+> [!IMPORTANT]  
+> **How It Works**: `infra/main.bicep` loads `azureResources.yaml` to determine
+> resource group names and creation flags. `src/security/security.bicep` loads
+> `security.yaml` for Key Vault settings. `src/workload/workload.bicep` loads
+> `devcenter.yaml` for the full Dev Center topology.
 
 | ⚙️ Configuration File                                        | 🗂️ Domain           | 📝 Key Settings                                                                                                                                                                             |
 | ------------------------------------------------------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -483,15 +489,17 @@ templates, extending the Bicep module library, improving YAML schema validation,
 or enhancing the setup scripts. The project follows Infrastructure-as-Code best
 practices and enforces consistent configuration through YAML schema files.
 
-> [!TIP] **Why This Matters**: Each `infra/settings/` YAML file has a
-> corresponding `.schema.json` file that validates configuration at edit time in
-> VS Code. Always validate your YAML changes against the schema before
-> submitting a pull request.
+> [!TIP]  
+> **Why This Matters**: Each `infra/settings/` YAML file has a corresponding
+> `.schema.json` file that validates configuration at edit time in VS Code.
+> Always validate your YAML changes against the schema before submitting a pull
+> request.
 
-> [!IMPORTANT] **How It Works**: Fork the repository, create a feature branch,
-> make your changes, validate with `azd provision --preview`, and open a pull
-> request against `main`. Ensure all modified YAML files remain valid against
-> their schemas (`azureResources.schema.json`, `devcenter.schema.json`,
+> [!IMPORTANT]  
+> **How It Works**: Fork the repository, create a feature branch, make your
+> changes, validate with `azd provision --preview`, and open a pull request
+> against `main`. Ensure all modified YAML files remain valid against their
+> schemas (`azureResources.schema.json`, `devcenter.schema.json`,
 > `security.schema.json`).
 
 **Development workflow**
