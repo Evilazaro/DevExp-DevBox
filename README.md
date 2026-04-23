@@ -4,6 +4,8 @@
 [![IaC: Bicep](https://img.shields.io/badge/IaC-Bicep-orange)](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview)
 [![Azure Developer CLI](https://img.shields.io/badge/azd-enabled-0078D4?logo=microsoft-azure)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/)
 [![Platform: Azure](https://img.shields.io/badge/Platform-Microsoft%20Azure-0078D4?logo=microsoft-azure)](https://azure.microsoft.com)
+[![Bicep API](https://img.shields.io/badge/DevCenter%20API-2026--01--01--preview-blueviolet)](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box)
+[![Scope: Subscription](https://img.shields.io/badge/Bicep%20Scope-Subscription-informational)](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/deploy-to-subscription)
 
 An **Azure Developer CLI (azd)**-enabled accelerator that provisions a fully
 configured
@@ -199,14 +201,16 @@ Dev Box resources, along with local tooling for authentication and deployment.
 All prerequisites are validated at the start of `setUp.sh` / `setUp.ps1` via
 `test_command_availability` / `Test-CommandAvailability` checks.
 
-> [!TIP] **Why This Matters**: Missing any prerequisite tool will cause the
+> [!TIP]  
+> **Why This Matters**: Missing any prerequisite tool will cause the
 > `preprovision` hook to exit with an error before any Azure resources are
 > created, preventing partial deployments.
 
-> [!IMPORTANT] **How It Works**: The setup scripts verify each required command
-> is in `PATH` and that the user is authenticated before invoking
-> `azd provision`. The Bicep deployment enforces region constraints via the
-> `@allowed` decorator on the `location` parameter in `infra/main.bicep`.
+> [!IMPORTANT]  
+> **How It Works**: The setup scripts verify each required command is in `PATH`
+> and that the user is authenticated before invoking `azd provision`. The Bicep
+> deployment enforces region constraints via the `@allowed` decorator on the
+> `location` parameter in `infra/main.bicep`.
 
 | 🔧 Requirement                 | 📋 Version / Details                                                                                                                                                                                                                | 🔗 Reference                                                                                     |
 | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
