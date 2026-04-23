@@ -552,3 +552,189 @@ azd env set AZURE_ENV_NAME staging
 azd env set AZURE_LOCATION westeurope
 azd provision
 ```
+
+## ⚙️ Configuration
+
+**Overview**
+
+All infrastructure behavior is controlled through three YAML files in `infra/settings/`. These files are loaded at Bicep compile time using the `loadYamlContent()` function, making the configuration fully type-safe and validated against JSON Schema files in the same directories. Environment-specific values are injected through `main.parameters.json` via `azd` environment variables.
+
+> [!TIP]
+> **Why This Matters**: YAML-driven configuration separates the _what_ (your topology and policies) from the _how_ (Bicep resource definitions). You can onboard a new project, change a VM SKU, or rotate an environment type without touching a single Bicep file.
+
+> [!IMPORTANT]
+> **How It Works**: At deployment time, `infra/main.bicep` calls `loadYamlContent('settings/workload/devcenter.yaml')`, `loadYamlContent('settings/security/security.yaml')`, and `loadYamlContent('settings/resourceOrganization/azureResources.yaml')`. The loaded objects are passed as parameters to their respective modules. JSON Schema files (`.schema.json`) in each settings folder provide IDE validation.
+
+**Configuration Files**
+
+| 📁 File | 🏷️ Domain | 🔧 Key Settings | 📐 Schema |
+|---|---|---|---|
+| 📋 `infra/settings/workload/devcenter.yaml` | Dev Center topology | Dev Center name, projects, pools, catalogs, environment types, RBAC, networking, VM SKUs | `devcenter.schema.json` |
+| 🔐 `infra/settings/security/security.yaml` | Key Vault | Key Vault name, SKU, soft delete retention, purge protection, RBAC authorization, secret name | `security.schema.json` |
+| 🗂️ `infra/settings/resourceOrganization/azureResources.yaml` | Resource groups | Resource group names, `create` flags, tags (environment, division, team, project, costCenter, owner) | `azureResources.schema.json` |
+| ⚙️ `infra/main.parameters.json` | azd parameters | `environmentName` → `${AZURE_ENV_NAME}`, `location` → `${AZURE_LOCATION}`, `secretValue` → `${KEY_VAULT_SECRET}` | — |
+
+**Environment Variables**
+
+| 🔑 Variable | 📝 Description | ✅ Required | 🏷️ Default |
+|---|---|---|---|
+| `AZURE_ENV_NAME` | Azure Developer CLI environment name; used as the `env` segment in resource group naming (pattern: `<name>-<env>-<region>-RG`). Must be 2–10 characters. | ✅ Yes | — |
+| `AZURE_LOCATION` | Azure region for deployment. Must be one of the 16 supported regions enforced by the `@allowed` decorator in `infra/main.bicep`. | ✅ Yes | — |
+| `KEY_VAULT_SECRET` | GitHub Personal Access Token or Azure DevOps token stored in Key Vault as the `gha-token` secret. Used by the Dev Center for private catalog synchronization. | ✅ Yes | — |
+| `SOURCE_CONTROL_PLATFORM` | Source control platform for catalog and identity setup. Accepted values: `github`, `adogit`. Passed as `-s` to `setUp.sh` or `-SourceControl` to `setUp.ps1`. | Optional | `github` |
+
+**Separate Resource Groups for All Domains**
+
+Edit `infra/settings/resourceOrganization/azureResources.yaml`:
+
+```yaml
+workload:
+  create: true
+  name: devexp-workload
+security:
+  create: true   # Creates a dedicated security resource group
+  name: devexp-security
+monitoring:
+  create: true   # Creates a dedicated monitoring resource group
+  name: devexp-monitoring
+```
+
+**Use an Existing Key Vault**
+
+Edit `infra/settings/security/security.yaml`:
+
+```yaml
+keyVault:
+  create: false   # Skip Key Vault creation; reference an existing vault
+  name: my-existing-vault
+  secretName: gha-token
+```
+
+**Add a New Project**
+
+Add an entry under `projects:` in `infra/settings/workload/devcenter.yaml`:
+
+```yaml
+projects:
+  - name: 'myNewProject'
+    description: 'My new Dev Box project'
+    networks:
+      type: Managed
+      addressSpace: '10.1.0.0/16'
+    pools:
+      - name: 'fullstack-engineer'
+        imageDefinitionName: 'eshop-fullstack-dev'
+        vmSku: general_i_32c128gb512ssd_v2
+    catalogs:
+      - name: 'myProjectCatalog'
+        type: gitHub
+        visibility: private
+        uri: 'https://github.com/my-org/my-project-catalog.git'
+        branch: 'main'
+        path: '/imageDefinitions'
+    environmentTypes:
+      - name: 'dev'
+      - name: 'staging'
+```
+
+Then apply:
+
+```bash
+azd provision
+```
+
+## 🤝 Contributing
+
+**Overview**
+
+Contributions are welcome. The recommended workflow follows a fork-and-branch pattern with mandatory preview validation before raising a pull request. All configuration changes should be validated against the JSON Schema files in `infra/settings/` using an IDE with YAML Language Server support before committing.
+
+> [!TIP]
+> **Why This Matters**: Each YAML settings folder contains a `.schema.json` file that provides IDE auto-complete and validation for the configuration structure. Configure your YAML language server to reference `devcenter.schema.json`, `security.schema.json`, and `azureResources.schema.json` for a guided authoring experience.
+
+> [!IMPORTANT]
+> **How It Works**: Pull requests should include a successful `azd provision --preview` (what-if) result as evidence that the Bicep changes produce the expected resource diff. Run `.\cleanSetUp.ps1 -WhatIf` before teardown to validate the cleanup plan.
+
+**Development Workflow**
+
+```bash
+# 1. Fork and clone
+git clone https://github.com/<your-fork>/DevExp-DevBox.git
+cd DevExp-DevBox
+
+# 2. Create a feature branch
+git checkout -b feature/my-improvement
+
+# 3. Make configuration or Bicep changes
+# Edit files under infra/settings/ or src/
+
+# 4. Preview changes (no resources created)
+azd provision --preview
+
+# 5. Deploy to a test environment
+azd env new test && azd provision
+
+# 6. Test and validate
+az devcenter dev dev-box list --dev-center-name devexp --project-name eShop
+
+# 7. Cleanup test environment
+.\cleanSetUp.ps1 -EnvName test -Location eastus2 -WhatIf  # preview first
+.\cleanSetUp.ps1 -EnvName test -Location eastus2
+
+# 8. Raise a PR
+```
+
+**Project Structure**
+
+```text
+DevExp-DevBox/
+├── azure.yaml                          # azd project config; defines preprovision hooks for setUp.sh
+├── setUp.sh                            # Linux/macOS setup: -e <envName> -s <sourcePlatform> [-h]
+├── setUp.ps1                           # Windows setup: -EnvName [string] -SourceControl [github|adogit|""] [-Help]
+├── cleanSetUp.ps1                      # Teardown: -EnvName [string] -Location [region] -AppDisplayName [string] -GhSecretName [string] [-WhatIf]
+├── package.json                        # Node project manifest
+├── infra/
+│   ├── main.bicep                      # Subscription-scoped entry point; deploys monitoring, security, workload modules
+│   ├── main.parameters.json            # azd parameter bindings: environmentName, location, secretValue
+│   └── settings/
+│       ├── workload/
+│       │   ├── devcenter.yaml          # Dev Center topology: projects, pools, catalogs, env types, RBAC, networking
+│       │   └── devcenter.schema.json   # JSON Schema for IDE validation of devcenter.yaml
+│       ├── security/
+│       │   ├── security.yaml           # Key Vault settings: name, SKU, soft delete, RBAC authorization
+│       │   └── security.schema.json    # JSON Schema for IDE validation of security.yaml
+│       └── resourceOrganization/
+│           ├── azureResources.yaml     # Resource group names, create flags, tags
+│           └── azureResources.schema.json
+└── src/
+    ├── connectivity/                   # VNet, subnet, network connection Bicep modules
+    ├── identity/                       # RBAC role assignment Bicep modules
+    ├── management/                     # Log Analytics Workspace Bicep module
+    ├── security/                       # Key Vault and secret Bicep modules
+    └── workload/
+        ├── workload.bicep              # Workload orchestration module
+        ├── core/                       # Dev Center, catalog, environment type modules
+        └── project/                    # Project, pool, project catalog, project env type modules
+```
+
+**Contribution Areas**
+
+| 🏷️ Area | 📝 Description | 📁 Target Path |
+|---|---|---|
+| 🖥️ New VM SKU / Pool | Add a new Dev Box pool with a different VM SKU or image definition | `infra/settings/workload/devcenter.yaml` → `pools:` |
+| 🌐 New Region Support | Add a supported Azure region to the `@allowed` list | `infra/main.bicep` — `location` parameter |
+| 🗂️ New Catalog Source | Integrate an additional GitHub or ADO Git catalog for environment definitions or image definitions | `infra/settings/workload/devcenter.yaml` → `catalogs:` |
+| 🔒 Key Vault Policy | Adjust soft-delete retention, purge protection, or RBAC settings | `infra/settings/security/security.yaml` |
+| 🏗️ Bicep Module Improvements | Refactor or extend modules in `src/` to support new Dev Center API features | `src/workload/`, `src/security/`, `src/connectivity/` |
+
+## 📄 License
+
+This project is licensed under the [MIT License](./LICENSE) — Copyright (c) 2025 Evilázaro Alves.
+
+**References**
+
+- 📖 [Microsoft Dev Box Documentation](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box)
+- 🚀 [Azure Developer CLI (azd) Documentation](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/)
+- 🔧 [Bicep Language Documentation](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview)
+- 🏗️ [Azure Landing Zones](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
+- ⭐ [Microsoft DevExp-DevBox Accelerator](https://github.com/Evilazaro/DevExp-DevBox)
