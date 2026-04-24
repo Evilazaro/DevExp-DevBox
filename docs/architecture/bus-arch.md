@@ -150,8 +150,6 @@ flowchart TB
 
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style prov fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
     style config fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
@@ -790,7 +788,6 @@ flowchart TB
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style pe_vs fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
     style dev_vs fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130

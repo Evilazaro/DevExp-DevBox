@@ -703,22 +703,22 @@ flowchart TB
     subgraph sub ["☁️ Azure Subscription"]
         direction TB
         subgraph rg1 ["📦 Workload RG: devexp-workload"]
-            DC[DevCenter: devexp]
-            PROJ[Project: eShop]
-            POOL1[Pool: backend-engineer\n32c128gb512ssd_v2]
-            POOL2[Pool: frontend-engineer\n16c64gb256ssd_v2]
-            CAT1[Catalog: environments\nenvironmentDefinition]
-            CAT2[Catalog: devboxImages\nimageDefinition]
-            ET1[EnvType: dev]
-            ET2[EnvType: staging]
-            ET3[EnvType: uat]
+            DC("🖥️ DevCenter: devexp"):::core
+            PROJ("📁 Project: eShop"):::core
+            POOL1("💻 Pool: backend-engineer<br/>32c128gb512ssd_v2"):::success
+            POOL2("💻 Pool: frontend-engineer<br/>16c64gb256ssd_v2"):::success
+            CAT1("📚 Catalog: environments<br/>environmentDefinition"):::success
+            CAT2("📚 Catalog: devboxImages<br/>imageDefinition"):::success
+            ET1("🌍 EnvType: dev"):::success
+            ET2("🌍 EnvType: staging"):::success
+            ET3("🌍 EnvType: uat"):::success
         end
         subgraph rg2 ["🔒 Security RG: devexp-workload"]
-            KV[Key Vault: contoso-kv]
-            SEC[Secret: gha-token]
+            KV("🔑 Key Vault: contoso-kv"):::warning
+            SEC("🔐 Secret: gha-token"):::warning
         end
         subgraph rg3 ["📊 Monitoring RG: devexp-workload"]
-            LA[Log Analytics\nPerGB2018]
+            LA("📊 Log Analytics<br/>PerGB2018"):::success
         end
     end
 
@@ -738,10 +738,6 @@ flowchart TB
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    class DC,PROJ core
-    class POOL1,POOL2,CAT1,CAT2,ET1,ET2,ET3,LA success
-    class KV,SEC warning
     style sub fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style rg1 fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
     style rg2 fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
