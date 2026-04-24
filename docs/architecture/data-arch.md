@@ -162,9 +162,9 @@ implicitly but are not formally managed:
 | Azure AD Group IDs    | Azure AD group object IDs in `devcenter.yaml` (e.g., `54fd94a1-e116-4bc8-8238-caae9d72bd12` for Platform Engineering Team) are implicit identity reference data | Restricted     |
 
 > [!NOTE]  
-> **Statement:** No formal MDM strategy, data catalog, or reference data
-> registry detected. RBAC role GUIDs and Azure AD group IDs are embedded as
-> literals in configuration files without a centralized lookup table.
+>  No formal MDM strategy, data catalog, or reference data registry detected.
+> RBAC role GUIDs and Azure AD group IDs are embedded as literals in
+> configuration files without a centralized lookup table.
 
 ### 2.9 Data Transformations
 
@@ -189,9 +189,9 @@ contracts exist:
 | Bicep Output Contract                    | `main.bicep` declares typed output parameters (`AZURE_KEY_VAULT_NAME`, `AZURE_LOG_ANALYTICS_WORKSPACE_ID`, etc.) forming deployment output contracts consumed by `azd` post-deployment                        | Internal       |
 
 > [!NOTE]  
-> **Statement:** No formal versioned data contracts or AsyncAPI/OpenAPI
-> specifications detected. All contracts are implicit via JSON Schema and Bicep
-> output declarations.
+>  No formal versioned data contracts or AsyncAPI/OpenAPI specifications
+> detected. All contracts are implicit via JSON Schema and Bicep output
+> declarations.
 
 ### 2.11 Data Security
 

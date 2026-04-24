@@ -455,8 +455,8 @@ automation changes **MUST** comply with all principles listed in this section.
 #### Principle 1 — Single-Responsibility Modules
 
 > [!NOTE]  
-> **Statement:** Each Bicep module manages exactly one Azure resource type or
-> one cohesive set of closely related resources within a single bounded context.
+>  Each Bicep module manages exactly one Azure resource type or one cohesive set
+> of closely related resources within a single bounded context.
 
 **Rationale**: Observed across all source files — `keyVault.bicep` manages only
 Key Vault, `logAnalytics.bicep` manages only the Log Analytics Workspace and its
@@ -473,9 +473,9 @@ src/management/logAnalytics.bicep:1-100, src/workload/core/catalog.bicep:1-80_
 #### Principle 2 — Typed Contract Interfaces
 
 > [!NOTE]  
-> **Statement:** All cross-module dependencies **MUST** be expressed through
-> typed Bicep `param` and `output` declarations. No string-interpolated resource
-> IDs or implicit ARM dependencies.
+>  All cross-module dependencies **MUST** be expressed through typed Bicep
+> `param` and `output` declarations. No string-interpolated resource IDs or
+> implicit ARM dependencies.
 
 **Rationale**: Bicep user-defined types (`AzureRBACRole`, `NetworkSettings`,
 `EnvironmentType`) are used consistently across identity, connectivity, and
@@ -490,9 +490,9 @@ src/connectivity/vnet.bicep:12-35, src/workload/core/environmentType.bicep:7-12_
 #### Principle 3 — Managed Identity First
 
 > [!NOTE]  
-> **Statement:** All platform resources authenticate to Azure services using
-> **SystemAssigned managed identities**. No service principals with stored
-> credentials are used for platform-to-platform communication.
+>  All platform resources authenticate to Azure services using **SystemAssigned
+> managed identities**. No service principals with stored credentials are used
+> for platform-to-platform communication.
 
 **Rationale**: DevCenter and all Project resources use
 `identity: { type: 'SystemAssigned' }`. Role assignments are made to the managed
@@ -508,9 +508,9 @@ src/workload/project/project.bicep:15-25, src/security/secret.bicep:1-70_
 #### Principle 4 — Configuration as Code
 
 > [!NOTE]  
-> **Statement:** All environment-specific and organization-specific
-> configuration values **MUST** reside in versioned YAML files under
-> `infra/settings/`. No hard-coded values in Bicep source files.
+>  All environment-specific and organization-specific configuration values
+> **MUST** reside in versioned YAML files under `infra/settings/`. No hard-coded
+> values in Bicep source files.
 
 **Rationale**: `loadYamlContent()` is used in all top-level modules (main.bicep,
 workload.bicep, security.bicep) to bind YAML configuration. JSON Schema files
@@ -527,9 +527,8 @@ infra/settings/security/security.schema.json:1-\*\*
 #### Principle 5 — Universal Observability
 
 > [!NOTE]  
-> **Statement:** Every deployable Azure resource **MUST** have diagnostic
-> settings sending `allLogs` and `AllMetrics` to the central Log Analytics
-> Workspace.
+>  Every deployable Azure resource **MUST** have diagnostic settings sending
+> `allLogs` and `AllMetrics` to the central Log Analytics Workspace.
 
 **Rationale**: Diagnostic settings blocks with `allLogs + AllMetrics` appear
 consistently on DevCenter, VNet, Key Vault, Secret, and Log Analytics Workspace
@@ -547,9 +546,9 @@ src/management/logAnalytics.bicep:60-90_
 #### Principle 6 — Idempotent Deployments
 
 > [!NOTE]  
-> **Statement:** All deployments **MUST** be safe to run multiple times without
-> side effects. Resource creation is idempotent through ARM's declarative model;
-> role assignments use **deterministic GUIDs**.
+>  All deployments **MUST** be safe to run multiple times without side effects.
+> Resource creation is idempotent through ARM's declarative model; role
+> assignments use **deterministic GUIDs**.
 
 **Rationale**:
 `guid(subscription().id, resourceGroup().id, principalId, role.id)` pattern in
@@ -566,9 +565,9 @@ src/identity/orgRoleAssignment.bicep:28-35_
 #### Principle 7 — Least Privilege Access
 
 > [!NOTE]  
-> **Statement:** Role assignments **MUST** grant the **minimum privilege**
-> required for the functional requirement. Privileged roles (Owner, Contributor
-> at subscription scope) are avoided unless technically required.
+>  Role assignments **MUST** grant the **minimum privilege** required for the
+> functional requirement. Privileged roles (Owner, Contributor at subscription
+> scope) are avoided unless technically required.
 
 **Rationale**: DevCenter identity receives Contributor and User Access
 Administrator at subscription scope (required for environment type deployment),

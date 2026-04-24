@@ -284,9 +284,9 @@ referenced in architecture decision records and component specifications.
 ### Principle 1: Infrastructure as Code (IaC-First)
 
 > [!NOTE]  
-> **Statement:** All infrastructure resources **MUST** be defined declaratively
-> in Bicep IaC modules. No resources shall be provisioned manually through the
-> Azure Portal or imperative CLI commands.
+>  All infrastructure resources **MUST** be defined declaratively in Bicep IaC
+> modules. No resources shall be provisioned manually through the Azure Portal
+> or imperative CLI commands.
 
 **Rationale:** IaC enforces reproducibility, auditability, and
 version-controlled change management. It eliminates configuration drift between
@@ -301,9 +301,9 @@ file must be updated for any new parameter.
 ### Principle 2: Configuration as Code (CaC-First)
 
 > [!NOTE]  
-> **Statement:** All environment-specific configuration values **MUST** be
-> externalized into YAML configuration files backed by JSON Schema validators.
-> No configuration values shall be hard-coded in Bicep modules.
+>  All environment-specific configuration values **MUST** be externalized into
+> YAML configuration files backed by JSON Schema validators. No configuration
+> values shall be hard-coded in Bicep modules.
 
 **Rationale:** CaC enables environment-specific tuning without module
 modification, supports schema-enforced validation at authoring time, and enables
@@ -319,8 +319,8 @@ environment-specific values must be loaded via `loadYamlContent`.
 ### Principle 3: Zero Standing Credentials (Identity-First)
 
 > [!NOTE]  
-> **Statement:** All service-to-service authentication **MUST** use **Azure
-> Managed Identities**. No connection strings, passwords, or long-lived service
+>  All service-to-service authentication **MUST** use **Azure Managed
+> Identities**. No connection strings, passwords, or long-lived service
 > principal credentials shall be embedded in infrastructure definitions.
 
 **Rationale:** Managed identities eliminate credential rotation overhead,
@@ -336,10 +336,10 @@ managed identity.
 ### Principle 4: Principle of Least Privilege (PoLP)
 
 > [!NOTE]  
-> **Statement:** All role assignments **MUST** grant only the **minimum
-> permissions** required for the resource or identity to perform its function.
-> Broad roles (Owner, Subscription Contributor) shall be used only when
-> operationally necessary and explicitly justified.
+>  All role assignments **MUST** grant only the **minimum permissions** required
+> for the resource or identity to perform its function. Broad roles (Owner,
+> Subscription Contributor) shall be used only when operationally necessary and
+> explicitly justified.
 
 **Rationale:** PoLP minimizes the blast radius of a compromised identity and
 enforces the defense-in-depth security model. Source:
@@ -353,8 +353,8 @@ required for DevCenter managed network provisioning.
 ### Principle 5: Centralized Observability
 
 > [!NOTE]  
-> **Statement:** All infrastructure resources **MUST** emit diagnostic logs and
-> metrics to the centralized Log Analytics Workspace via
+>  All infrastructure resources **MUST** emit diagnostic logs and metrics to the
+> centralized Log Analytics Workspace via
 > `Microsoft.Insights/diagnosticSettings`. No resource shall be deployed without
 > telemetry configuration.
 
@@ -371,9 +371,9 @@ all infrastructure modules.
 ### Principle 6: Azure Landing Zone Alignment
 
 > [!NOTE]  
-> **Statement:** Resource organization **MUST** follow **Azure Landing Zone
-> principles**, with logical separation of Workload, Security, and Monitoring
-> domains into distinct resource groups.
+>  Resource organization **MUST** follow **Azure Landing Zone principles**, with
+> logical separation of Workload, Security, and Monitoring domains into distinct
+> resource groups.
 
 **Rationale:** Landing Zone alignment ensures consistent governance, RBAC
 scoping, cost tracking, and compliance across the platform. Source:
@@ -387,10 +387,9 @@ production deployments.
 ### Principle 7: Declarative Module Composition
 
 > [!NOTE]  
-> **Statement:** Infrastructure complexity **MUST** be managed through
-> hierarchical **Bicep module composition**. A single orchestrator
-> (`main.bicep`) shall coordinate domain modules, which in turn compose
-> resource-level modules.
+>  Infrastructure complexity **MUST** be managed through hierarchical **Bicep
+> module composition**. A single orchestrator (`main.bicep`) shall coordinate
+> domain modules, which in turn compose resource-level modules.
 
 **Rationale:** Module composition enforces separation of concerns, enables
 independent module versioning, and reduces cognitive load through clear
@@ -404,9 +403,9 @@ outputs must be named with AZURE\_ prefix conventions.
 ### Principle 8: Immutable Infrastructure
 
 > [!NOTE]  
-> **Statement:** Infrastructure updates **MUST** be performed by re-deploying
-> Bicep modules with updated parameters. In-place mutation of Azure resources
-> through the portal or CLI is prohibited.
+>  Infrastructure updates **MUST** be performed by re-deploying Bicep modules
+> with updated parameters. In-place mutation of Azure resources through the
+> portal or CLI is prohibited.
 
 **Rationale:** Immutable infrastructure ensures that the repository always
 reflects the actual deployed state, prevents configuration drift, and enables
@@ -419,8 +418,8 @@ environment cleanup for full re-deployment cycles.
 ### Principle 9: Tag-Based Governance
 
 > [!NOTE]  
-> **Statement:** All Azure resources **MUST** be tagged with the **canonical tag
-> set**: `environment`, `division`, `team`, `project`, `costCenter`, `owner`,
+>  All Azure resources **MUST** be tagged with the **canonical tag set**:
+> `environment`, `division`, `team`, `project`, `costCenter`, `owner`,
 > `landingZone`, and `resources`.
 
 **Rationale:** Consistent tagging enables cost allocation, ownership tracking,

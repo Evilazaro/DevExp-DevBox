@@ -374,10 +374,9 @@ importance to the platform's business outcomes and audit compliance posture.
 ### Principle 1: Configuration-as-Code
 
 > [!NOTE]  
-> **Statement:** All platform configuration **must** be managed through
-> version-controlled YAML files with JSON Schema validation. No direct
-> modification of Bicep source files is required for standard project onboarding
-> or configuration changes.
+>  All platform configuration **must** be managed through version-controlled
+> YAML files with JSON Schema validation. No direct modification of Bicep source
+> files is required for standard project onboarding or configuration changes.
 
 **Rationale:** Ensures repeatability, auditability, and reduced operator error
 for all provisioning operations. Enables non-infrastructure engineers to onboard
@@ -401,10 +400,9 @@ infra/settings/workload/devcenter.schema.json:\*
 ### Principle 2: Principle of Least Privilege
 
 > [!NOTE]  
-> **Statement:** All RBAC role assignments **must** follow the **minimum
-> permission model**. Service principals, managed identities, and Azure AD
-> groups receive only the roles strictly necessary to perform their designated
-> function.
+>  All RBAC role assignments **must** follow the **minimum permission model**.
+> Service principals, managed identities, and Azure AD groups receive only the
+> roles strictly necessary to perform their designated function.
 
 **Rationale:** Reduces the attack surface and limits blast radius in the event
 of credential compromise or identity theft. Aligns with Microsoft's Azure
@@ -427,9 +425,9 @@ security baseline recommendations.
 ### Principle 3: Azure Landing Zone Segregation
 
 > [!NOTE]  
-> **Statement:** Workload, security, and monitoring resources **must** be
-> deployed to dedicated, logically segregated resource groups following Azure
-> Landing Zone and Cloud Adoption Framework principles.
+>  Workload, security, and monitoring resources **must** be deployed to
+> dedicated, logically segregated resource groups following Azure Landing Zone
+> and Cloud Adoption Framework principles.
 
 **Rationale:** Enforces separation of concerns, enables independent lifecycle
 management of platform domains, simplifies RBAC scoping, and aligns with
@@ -451,9 +449,9 @@ infra/main.bicep:45-75, README.md:47
 ### Principle 4: Infrastructure as Code (IaC)
 
 > [!NOTE]  
-> **Statement:** All Azure resources **must** be provisioned exclusively through
-> Bicep IaC templates. No manual Azure Portal provisioning is permitted for
-> production or shared environments.
+>  All Azure resources **must** be provisioned exclusively through Bicep IaC
+> templates. No manual Azure Portal provisioning is permitted for production or
+> shared environments.
 
 **Rationale:** Guarantees infrastructure consistency across environments,
 enables automated deployment pipelines, provides change history for compliance,
@@ -474,10 +472,10 @@ src/security/security.bicep:1-50
 ### Principle 5: Self-Service Developer Experience
 
 > [!NOTE]  
-> **Statement:** Platform engineers **must** be able to provision complete
-> developer environments with a single command (`azd up`). Developers **must**
-> be able to access Dev Boxes without manual operator intervention after initial
-> platform provisioning.
+>  Platform engineers **must** be able to provision complete developer
+> environments with a single command (`azd up`). Developers **must** be able to
+> access Dev Boxes without manual operator intervention after initial platform
+> provisioning.
 
 **Rationale:** Reduces friction in developer onboarding, improves developer
 productivity, eliminates manual handoff delays between Platform Engineering and
@@ -501,8 +499,8 @@ development teams.
 ### Principle 6: Governance-by-Design
 
 > [!NOTE]  
-> **Statement:** Security controls, resource tagging, and compliance policies
-> **must** be embedded at deployment time through configuration, not applied as
+>  Security controls, resource tagging, and compliance policies **must** be
+> embedded at deployment time through configuration, not applied as
 > post-deployment corrections.
 
 **Rationale:** Prevents governance drift, eliminates the window between resource
