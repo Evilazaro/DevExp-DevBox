@@ -13,12 +13,12 @@ environments using Bicep infrastructure-as-code and YAML-driven configuration.
 
 - [Overview](#overview)
 - [Features](#features)
+- [Architecture](#architecture)
 - [Quick Start](#quick-start)
 - [Deployment](#deployment)
 - [Requirements](#requirements)
 - [Usage](#usage)
 - [Configuration](#configuration)
-- [Architecture](#architecture)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -68,6 +68,107 @@ configuration model that any team can adopt and extend.
 | 🏗️ Landing Zone Resource Organization | Segregated resource groups for workload, security, and monitoring following Azure best practices                   | ✅ Stable |
 | 🌍 Environment Type Management        | Define multiple deployment environments (`dev`, `staging`, `uat`) per Dev Center and project                       | ✅ Stable |
 | 📜 Cross-Platform Setup Scripts       | Bash (`setUp.sh`) and PowerShell (`setUp.ps1`) scripts for environment initialization on Linux, macOS, and Windows | ✅ Stable |
+
+## Architecture
+
+**Overview**
+
+DevExp-DevBox provisions a layered Azure platform: developer toolchain commands
+flow through the Azure Developer CLI into a subscription-scoped Bicep deployment
+that creates segregated resource groups for workload, security, and monitoring.
+The Azure Dev Center sits at the core, referencing Key Vault secrets for private
+catalog access, sending diagnostics to Log Analytics, and managing projects that
+each have role-specific Dev Box pools connected via Azure Virtual Network.
+
+```mermaid
+---
+title: "DevExp-DevBox Platform Architecture"
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: DevExp-DevBox Azure Dev Box Platform Architecture
+    accDescr: End-to-end architecture showing developer toolchain with azd CLI and setup scripts provisioning Azure Dev Center with projects, role-specific pools, catalogs, environment types, Key Vault for secrets, Log Analytics for monitoring, and Virtual Network for connectivity.
+
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %% ═══════════════════════════════════════════════════════════════════════════
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %% ═══════════════════════════════════════════════════════════════════════════
+
+    subgraph devtools["🛠️ Developer Toolchain"]
+        Developer("👤 Platform Engineer"):::neutral
+        AzdCLI("⚡ Azure Developer CLI<br/>azd up"):::core
+        SetupScript("📜 setUp.sh / setUp.ps1"):::neutral
+        GitRepo("📦 Git Catalog Repository<br/>GitHub / Azure DevOps"):::neutral
+    end
+
+    subgraph devcenter["☁️ Azure Dev Center Platform"]
+        DC("🖥️ Azure Dev Center"):::core
+        Catalogs("📚 Dev Center Catalogs<br/>GitHub / ADO Git"):::success
+        EnvTypes("🌍 Environment Types<br/>dev / staging / uat"):::success
+        Project("📋 Dev Box Project"):::core
+        Pools("💻 Dev Box Pools<br/>Backend / Frontend"):::core
+        NetConn("🔗 Network Connection"):::neutral
+    end
+
+    subgraph support["🔧 Supporting Infrastructure"]
+        KeyVault("🔑 Azure Key Vault<br/>Secrets & RBAC"):::warning
+        LogAnalytics("📊 Log Analytics Workspace<br/>Diagnostics & Monitoring"):::neutral
+        VNet("🌐 Azure Virtual Network<br/>Custom Subnets"):::neutral
+    end
+
+    Developer -->|"runs deployment"| AzdCLI
+    Developer -->|"configures credentials"| SetupScript
+    AzdCLI -->|"provisions resources"| DC
+    SetupScript -->|"stores access token"| KeyVault
+    GitRepo -->|"provides image & env definitions"| Catalogs
+    DC -->|"manages"| Catalogs
+    DC -->|"manages"| EnvTypes
+    DC -->|"hosts"| Project
+    DC -->|"reads secrets from"| KeyVault
+    DC -->|"sends diagnostics to"| LogAnalytics
+    Project -->|"provisions"| Pools
+    Project -->|"connects via"| NetConn
+    NetConn -->|"uses"| VNet
+    VNet -->|"sends network logs to"| LogAnalytics
+
+    style devtools fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style devcenter fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style support fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+
+    %% Centralized semantic classDefs (Phase 5 compliant)
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+```
+
+### Bicep Module Dependency Chain
+
+The `infra/main.bicep` deploys at subscription scope in the following order:
+
+| 🔢 Order | 📦 Module              | 📁 Source                                  | 🏗️ Resource Group  |
+| -------- | ---------------------- | ------------------------------------------ | ------------------ |
+| 1️⃣       | 🏗️ Resource Groups     | `infra/main.bicep`                         | Subscription scope |
+| 2️⃣       | 📊 Log Analytics       | `src/management/logAnalytics.bicep`        | Monitoring RG      |
+| 3️⃣       | 🔑 Key Vault + Secret  | `src/security/security.bicep`              | Security RG        |
+| 4️⃣       | 🖥️ Dev Center          | `src/workload/core/devCenter.bicep`        | Workload RG        |
+| 5️⃣       | 📚 Catalogs            | `src/workload/core/catalog.bicep`          | Workload RG        |
+| 6️⃣       | 🌍 Environment Types   | `src/workload/core/environmentType.bicep`  | Workload RG        |
+| 7️⃣       | 📋 Projects            | `src/workload/project/project.bicep`       | Workload RG        |
+| 8️⃣       | 🌐 Virtual Networks    | `src/connectivity/vnet.bicep`              | Connectivity RG    |
+| 9️⃣       | 🔗 Network Connections | `src/connectivity/networkConnection.bicep` | Workload RG        |
+| 🔟       | 💻 Dev Box Pools       | `src/workload/project/projectPool.bicep`   | Workload RG        |
 
 ## Quick Start
 
@@ -417,107 +518,6 @@ settings.
 | 💻 `projects[].pools[].vmSku`               | VM SKU for the Dev Box pool                     | `general_i_32c128gb512ssd_v2` |
 | 🖼️ `projects[].pools[].imageDefinitionName` | Image definition name from the catalog          | `eshop-backend-dev`           |
 | 🌐 `projects[].network.virtualNetworkType`  | Network type (`Managed` or `Unmanaged`)         | `Managed`                     |
-
-## Architecture
-
-**Overview**
-
-DevExp-DevBox provisions a layered Azure platform: developer toolchain commands
-flow through the Azure Developer CLI into a subscription-scoped Bicep deployment
-that creates segregated resource groups for workload, security, and monitoring.
-The Azure Dev Center sits at the core, referencing Key Vault secrets for private
-catalog access, sending diagnostics to Log Analytics, and managing projects that
-each have role-specific Dev Box pools connected via Azure Virtual Network.
-
-```mermaid
----
-title: "DevExp-DevBox Platform Architecture"
-config:
-  theme: base
-  look: classic
-  layout: dagre
-  flowchart:
-    htmlLabels: true
----
-flowchart TB
-    accTitle: DevExp-DevBox Azure Dev Box Platform Architecture
-    accDescr: End-to-end architecture showing developer toolchain with azd CLI and setup scripts provisioning Azure Dev Center with projects, role-specific pools, catalogs, environment types, Key Vault for secrets, Log Analytics for monitoring, and Virtual Network for connectivity.
-
-    %% ═══════════════════════════════════════════════════════════════════════════
-    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
-    %% (Semantic + Structural + Font + Accessibility Governance)
-    %% ═══════════════════════════════════════════════════════════════════════════
-    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
-    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
-    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
-    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
-    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
-    %% ═══════════════════════════════════════════════════════════════════════════
-
-    subgraph devtools["🛠️ Developer Toolchain"]
-        Developer("👤 Platform Engineer"):::neutral
-        AzdCLI("⚡ Azure Developer CLI<br/>azd up"):::core
-        SetupScript("📜 setUp.sh / setUp.ps1"):::neutral
-        GitRepo("📦 Git Catalog Repository<br/>GitHub / Azure DevOps"):::neutral
-    end
-
-    subgraph devcenter["☁️ Azure Dev Center Platform"]
-        DC("🖥️ Azure Dev Center"):::core
-        Catalogs("📚 Dev Center Catalogs<br/>GitHub / ADO Git"):::success
-        EnvTypes("🌍 Environment Types<br/>dev / staging / uat"):::success
-        Project("📋 Dev Box Project"):::core
-        Pools("💻 Dev Box Pools<br/>Backend / Frontend"):::core
-        NetConn("🔗 Network Connection"):::neutral
-    end
-
-    subgraph support["🔧 Supporting Infrastructure"]
-        KeyVault("🔑 Azure Key Vault<br/>Secrets & RBAC"):::warning
-        LogAnalytics("📊 Log Analytics Workspace<br/>Diagnostics & Monitoring"):::neutral
-        VNet("🌐 Azure Virtual Network<br/>Custom Subnets"):::neutral
-    end
-
-    Developer -->|"runs deployment"| AzdCLI
-    Developer -->|"configures credentials"| SetupScript
-    AzdCLI -->|"provisions resources"| DC
-    SetupScript -->|"stores access token"| KeyVault
-    GitRepo -->|"provides image & env definitions"| Catalogs
-    DC -->|"manages"| Catalogs
-    DC -->|"manages"| EnvTypes
-    DC -->|"hosts"| Project
-    DC -->|"reads secrets from"| KeyVault
-    DC -->|"sends diagnostics to"| LogAnalytics
-    Project -->|"provisions"| Pools
-    Project -->|"connects via"| NetConn
-    NetConn -->|"uses"| VNet
-    VNet -->|"sends network logs to"| LogAnalytics
-
-    style devtools fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style devcenter fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style support fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-
-    %% Centralized semantic classDefs (Phase 5 compliant)
-    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-```
-
-### Bicep Module Dependency Chain
-
-The `infra/main.bicep` deploys at subscription scope in the following order:
-
-| 🔢 Order | 📦 Module              | 📁 Source                                  | 🏗️ Resource Group  |
-| -------- | ---------------------- | ------------------------------------------ | ------------------ |
-| 1️⃣       | 🏗️ Resource Groups     | `infra/main.bicep`                         | Subscription scope |
-| 2️⃣       | 📊 Log Analytics       | `src/management/logAnalytics.bicep`        | Monitoring RG      |
-| 3️⃣       | 🔑 Key Vault + Secret  | `src/security/security.bicep`              | Security RG        |
-| 4️⃣       | 🖥️ Dev Center          | `src/workload/core/devCenter.bicep`        | Workload RG        |
-| 5️⃣       | 📚 Catalogs            | `src/workload/core/catalog.bicep`          | Workload RG        |
-| 6️⃣       | 🌍 Environment Types   | `src/workload/core/environmentType.bicep`  | Workload RG        |
-| 7️⃣       | 📋 Projects            | `src/workload/project/project.bicep`       | Workload RG        |
-| 8️⃣       | 🌐 Virtual Networks    | `src/connectivity/vnet.bicep`              | Connectivity RG    |
-| 9️⃣       | 🔗 Network Connections | `src/connectivity/networkConnection.bicep` | Workload RG        |
-| 🔟       | 💻 Dev Box Pools       | `src/workload/project/projectPool.bicep`   | Workload RG        |
 
 ## Contributing
 
