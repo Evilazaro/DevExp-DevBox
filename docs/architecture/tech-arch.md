@@ -283,9 +283,9 @@ referenced in architecture decision records and component specifications.
 
 ### Principle 1: Infrastructure as Code (IaC-First)
 
-**Statement:** All infrastructure resources MUST be defined declaratively in
-Bicep IaC modules. No resources shall be provisioned manually through the Azure
-Portal or imperative CLI commands.
+> 📌 **Statement:** All infrastructure resources **MUST** be defined
+> declaratively in Bicep IaC modules. No resources shall be provisioned manually
+> through the Azure Portal or imperative CLI commands.
 
 **Rationale:** IaC enforces reproducibility, auditability, and
 version-controlled change management. It eliminates configuration drift between
@@ -299,9 +299,9 @@ file must be updated for any new parameter.
 
 ### Principle 2: Configuration as Code (CaC-First)
 
-**Statement:** All environment-specific configuration values MUST be
-externalized into YAML configuration files backed by JSON Schema validators. No
-configuration values shall be hard-coded in Bicep modules.
+> 📌 **Statement:** All environment-specific configuration values **MUST** be
+> externalized into YAML configuration files backed by JSON Schema validators.
+> No configuration values shall be hard-coded in Bicep modules.
 
 **Rationale:** CaC enables environment-specific tuning without module
 modification, supports schema-enforced validation at authoring time, and enables
@@ -316,9 +316,9 @@ environment-specific values must be loaded via `loadYamlContent`.
 
 ### Principle 3: Zero Standing Credentials (Identity-First)
 
-**Statement:** All service-to-service authentication MUST use Azure Managed
-Identities. No connection strings, passwords, or long-lived service principal
-credentials shall be embedded in infrastructure definitions.
+> 📌 **Statement:** All service-to-service authentication **MUST** use **Azure
+> Managed Identities**. No connection strings, passwords, or long-lived service
+> principal credentials shall be embedded in infrastructure definitions.
 
 **Rationale:** Managed identities eliminate credential rotation overhead,
 prevent secret leakage, and provide automatic lifecycle management tied to the
@@ -332,10 +332,10 @@ managed identity.
 
 ### Principle 4: Principle of Least Privilege (PoLP)
 
-**Statement:** All role assignments MUST grant only the minimum permissions
-required for the resource or identity to perform its function. Broad roles
-(Owner, Subscription Contributor) shall be used only when operationally
-necessary and explicitly justified.
+> 📌 **Statement:** All role assignments **MUST** grant only the **minimum
+> permissions** required for the resource or identity to perform its function.
+> Broad roles (Owner, Subscription Contributor) shall be used only when
+> operationally necessary and explicitly justified.
 
 **Rationale:** PoLP minimizes the blast radius of a compromised identity and
 enforces the defense-in-depth security model. Source:
@@ -348,10 +348,10 @@ required for DevCenter managed network provisioning.
 
 ### Principle 5: Centralized Observability
 
-**Statement:** All infrastructure resources MUST emit diagnostic logs and
-metrics to the centralized Log Analytics Workspace via
-`Microsoft.Insights/diagnosticSettings`. No resource shall be deployed without
-telemetry configuration.
+> 📌 **Statement:** All infrastructure resources **MUST** emit diagnostic logs
+> and metrics to the centralized Log Analytics Workspace via
+> `Microsoft.Insights/diagnosticSettings`. No resource shall be deployed without
+> telemetry configuration.
 
 **Rationale:** Centralized telemetry enables unified alerting, KQL-based
 queries, and operational dashboards without per-resource monitoring setup.
@@ -365,9 +365,9 @@ all infrastructure modules.
 
 ### Principle 6: Azure Landing Zone Alignment
 
-**Statement:** Resource organization MUST follow Azure Landing Zone principles,
-with logical separation of Workload, Security, and Monitoring domains into
-distinct resource groups.
+> 📌 **Statement:** Resource organization **MUST** follow **Azure Landing Zone
+> principles**, with logical separation of Workload, Security, and Monitoring
+> domains into distinct resource groups.
 
 **Rationale:** Landing Zone alignment ensures consistent governance, RBAC
 scoping, cost tracking, and compliance across the platform. Source:
@@ -380,9 +380,10 @@ production deployments.
 
 ### Principle 7: Declarative Module Composition
 
-**Statement:** Infrastructure complexity MUST be managed through hierarchical
-Bicep module composition. A single orchestrator (`main.bicep`) shall coordinate
-domain modules, which in turn compose resource-level modules.
+> 📌 **Statement:** Infrastructure complexity **MUST** be managed through
+> hierarchical **Bicep module composition**. A single orchestrator
+> (`main.bicep`) shall coordinate domain modules, which in turn compose
+> resource-level modules.
 
 **Rationale:** Module composition enforces separation of concerns, enables
 independent module versioning, and reduces cognitive load through clear
@@ -395,9 +396,9 @@ outputs must be named with AZURE\_ prefix conventions.
 
 ### Principle 8: Immutable Infrastructure
 
-**Statement:** Infrastructure updates MUST be performed by re-deploying Bicep
-modules with updated parameters. In-place mutation of Azure resources through
-the portal or CLI is prohibited.
+> 📌 **Statement:** Infrastructure updates **MUST** be performed by re-deploying
+> Bicep modules with updated parameters. In-place mutation of Azure resources
+> through the portal or CLI is prohibited.
 
 **Rationale:** Immutable infrastructure ensures that the repository always
 reflects the actual deployed state, prevents configuration drift, and enables
@@ -409,9 +410,9 @@ environment cleanup for full re-deployment cycles.
 
 ### Principle 9: Tag-Based Governance
 
-**Statement:** All Azure resources MUST be tagged with the canonical tag set:
-`environment`, `division`, `team`, `project`, `costCenter`, `owner`,
-`landingZone`, and `resources`.
+> 📌 **Statement:** All Azure resources **MUST** be tagged with the **canonical
+> tag set**: `environment`, `division`, `team`, `project`, `costCenter`,
+> `owner`, `landingZone`, and `resources`.
 
 **Rationale:** Consistent tagging enables cost allocation, ownership tracking,
 compliance reporting, and automated policy enforcement. Source: all tag
@@ -479,7 +480,7 @@ flowchart TB
 
     subgraph sub["☁️ Azure Subscription — dev environment"]
         subgraph workloadRg["📦 devexp-workload-dev-{region}-RG"]
-dc("🖥️ DevCenter devexp\nAzureMonitorAgent: ON"):::core
+        dc("🖥️ DevCenter devexp\nAzureMonitorAgent: ON"):::core
         kv("🔑 Key Vault\ncontoso-{uid}-kv"):::warning
         law("📊 Log Analytics\nPerGB2018"):::success
         eshop("📁 eShop Project\nbackend + frontend pools"):::core
@@ -512,14 +513,14 @@ dc("🖥️ DevCenter devexp\nAzureMonitorAgent: ON"):::core
 
 ### Gap Analysis
 
-| Gap ID    | Gap Description                                                                                                      | Severity | Source Evidence                                                 | Recommendation                                                                      |
-| --------- | -------------------------------------------------------------------------------------------------------------------- | -------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| GAP-T-001 | Security and Monitoring resources co-located with Workload RG (`security.create: false`, `monitoring.create: false`) | Medium   | `infra/settings/resourceOrganization/azureResources.yaml:26,41` | Enable dedicated Security and Monitoring resource groups in production              |
-| GAP-T-002 | No Azure Policy assignments for tag enforcement or compliance                                                        | Medium   | Not found in any `.bicep` source file                           | Add `Microsoft.Authorization/policyAssignments` module for CAF-compliant policy     |
-| GAP-T-003 | DevCenter subscription-scope Contributor role for DevCenter identity is overly broad                                 | Medium   | `infra/settings/workload/devcenter.yaml:39`                     | Investigate scoping to management group or use custom role with reduced permissions |
-| GAP-T-004 | No automated Dev Box image validation pipeline (CI/CD)                                                               | Low      | `azure.yaml` has only preprovision hook; no CI pipeline found   | Add GitHub Actions workflow for image definition validation                         |
-| GAP-T-005 | Log Analytics self-diagnostics creates circular reference (workspace emits to itself)                                | Low      | `src/management/logAnalytics.bicep:63`                          | Route Log Analytics diagnostics to a separate storage account or Event Hub          |
-| GAP-T-006 | `deploymentTargetId` is empty for all environment types in default config                                            | Low      | `infra/settings/workload/devcenter.yaml:77-84`                  | Set explicit subscription target IDs for staging and uat environment types          |
+| Gap ID    | Gap Description                                                                                                      | Severity   | Source Evidence                                                 | Recommendation                                                                      |
+| --------- | -------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| GAP-T-001 | Security and Monitoring resources co-located with Workload RG (`security.create: false`, `monitoring.create: false`) | **Medium** | `infra/settings/resourceOrganization/azureResources.yaml:26,41` | Enable dedicated Security and Monitoring resource groups in production              |
+| GAP-T-002 | No Azure Policy assignments for tag enforcement or compliance                                                        | **Medium** | Not found in any `.bicep` source file                           | Add `Microsoft.Authorization/policyAssignments` module for CAF-compliant policy     |
+| GAP-T-003 | DevCenter subscription-scope Contributor role for DevCenter identity is overly broad                                 | **Medium** | `infra/settings/workload/devcenter.yaml:39`                     | Investigate scoping to management group or use custom role with reduced permissions |
+| GAP-T-004 | No automated Dev Box image validation pipeline (CI/CD)                                                               | Low        | `azure.yaml` has only preprovision hook; no CI pipeline found   | Add GitHub Actions workflow for image definition validation                         |
+| GAP-T-005 | Log Analytics self-diagnostics creates circular reference (workspace emits to itself)                                | Low        | `src/management/logAnalytics.bicep:63`                          | Route Log Analytics diagnostics to a separate storage account or Event Hub          |
+| GAP-T-006 | `deploymentTargetId` is empty for all environment types in default config                                            | Low        | `infra/settings/workload/devcenter.yaml:77-84`                  | Set explicit subscription target IDs for staging and uat environment types          |
 
 ### Maturity Heatmap
 

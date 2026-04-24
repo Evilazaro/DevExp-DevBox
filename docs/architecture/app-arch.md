@@ -346,7 +346,7 @@ classDiagram
         +String devCenterName = "devexp"
         +identity SystemAssigned
         +catalogItemSyncEnabled = true
-        +deploy催Catalogs()
+        +deployCatalogs()
         +deployEnvTypes()
         +deployRoleAssignments()
     }
@@ -448,14 +448,14 @@ cross-module dependencies). Each principle includes a rationale, implications,
 and source traceability to the Bicep or YAML files where the principle is most
 clearly expressed.
 
-The principles below are non-negotiable constraints for any future extension of
-the platform. New Bicep modules, YAML configuration additions, or deployment
-automation changes MUST comply with all principles listed in this section.
+The principles below are **non-negotiable constraints** for any future extension
+of the platform. New Bicep modules, YAML configuration additions, or deployment
+automation changes **MUST** comply with all principles listed in this section.
 
 #### Principle 1 — Single-Responsibility Modules
 
-**Statement**: Each Bicep module manages exactly one Azure resource type or one
-cohesive set of closely related resources within a single bounded context.
+> 📌 **Statement**: Each Bicep module manages exactly one Azure resource type or
+> one cohesive set of closely related resources within a single bounded context.
 
 **Rationale**: Observed across all source files — `keyVault.bicep` manages only
 Key Vault, `logAnalytics.bicep` manages only the Log Analytics Workspace and its
@@ -471,9 +471,9 @@ src/management/logAnalytics.bicep:1-100, src/workload/core/catalog.bicep:1-80_
 
 #### Principle 2 — Typed Contract Interfaces
 
-**Statement**: All cross-module dependencies MUST be expressed through typed
-Bicep `param` and `output` declarations. No string-interpolated resource IDs or
-implicit ARM dependencies.
+> 📌 **Statement**: All cross-module dependencies **MUST** be expressed through
+> typed Bicep `param` and `output` declarations. No string-interpolated resource
+> IDs or implicit ARM dependencies.
 
 **Rationale**: Bicep user-defined types (`AzureRBACRole`, `NetworkSettings`,
 `EnvironmentType`) are used consistently across identity, connectivity, and
@@ -487,9 +487,9 @@ src/connectivity/vnet.bicep:12-35, src/workload/core/environmentType.bicep:7-12_
 
 #### Principle 3 — Managed Identity First
 
-**Statement**: All platform resources authenticate to Azure services using
-SystemAssigned managed identities. No service principals with stored credentials
-are used for platform-to-platform communication.
+> 📌 **Statement**: All platform resources authenticate to Azure services using
+> **SystemAssigned managed identities**. No service principals with stored
+> credentials are used for platform-to-platform communication.
 
 **Rationale**: DevCenter and all Project resources use
 `identity: { type: 'SystemAssigned' }`. Role assignments are made to the managed
@@ -504,9 +504,9 @@ src/workload/project/project.bicep:15-25, src/security/secret.bicep:1-70_
 
 #### Principle 4 — Configuration as Code
 
-**Statement**: All environment-specific and organization-specific configuration
-values MUST reside in versioned YAML files under `infra/settings/`. No
-hard-coded values in Bicep source files.
+> 📌 **Statement**: All environment-specific and organization-specific
+> configuration values **MUST** reside in versioned YAML files under
+> `infra/settings/`. No hard-coded values in Bicep source files.
 
 **Rationale**: `loadYamlContent()` is used in all top-level modules (main.bicep,
 workload.bicep, security.bicep) to bind YAML configuration. JSON Schema files
@@ -522,8 +522,9 @@ infra/settings/security/security.schema.json:1-\*\*
 
 #### Principle 5 — Universal Observability
 
-**Statement**: Every deployable Azure resource MUST have diagnostic settings
-sending `allLogs` and `AllMetrics` to the central Log Analytics Workspace.
+> 📌 **Statement**: Every deployable Azure resource **MUST** have diagnostic
+> settings sending `allLogs` and `AllMetrics` to the central Log Analytics
+> Workspace.
 
 **Rationale**: Diagnostic settings blocks with `allLogs + AllMetrics` appear
 consistently on DevCenter, VNet, Key Vault, Secret, and Log Analytics Workspace
@@ -540,9 +541,9 @@ src/management/logAnalytics.bicep:60-90_
 
 #### Principle 6 — Idempotent Deployments
 
-**Statement**: All deployments MUST be safe to run multiple times without side
-effects. Resource creation is idempotent through ARM's declarative model; role
-assignments use deterministic GUIDs.
+> 📌 **Statement**: All deployments **MUST** be safe to run multiple times
+> without side effects. Resource creation is idempotent through ARM's
+> declarative model; role assignments use **deterministic GUIDs**.
 
 **Rationale**:
 `guid(subscription().id, resourceGroup().id, principalId, role.id)` pattern in
@@ -558,9 +559,9 @@ src/identity/orgRoleAssignment.bicep:28-35_
 
 #### Principle 7 — Least Privilege Access
 
-**Statement**: Role assignments MUST grant the minimum privilege required for
-the functional requirement. Privileged roles (Owner, Contributor at subscription
-scope) are avoided unless technically required.
+> 📌 **Statement**: Role assignments **MUST** grant the **minimum privilege**
+> required for the functional requirement. Privileged roles (Owner, Contributor
+> at subscription scope) are avoided unless technically required.
 
 **Rationale**: DevCenter identity receives Contributor and User Access
 Administrator at subscription scope (required for environment type deployment),
@@ -746,14 +747,14 @@ flowchart TB
 
 ### 4.5 Gap Assessment
 
-| Gap                                | Description                                                                            | Impact | Priority |
-| ---------------------------------- | -------------------------------------------------------------------------------------- | ------ | -------- |
-| Single-project deployment          | Only `eShop` project configured; no second project demonstrates multi-project scaling  | Medium | Medium   |
-| No Unmanaged network deployment    | Connectivity module exists but VNet/NetworkConnection never deployed in current config | Low    | Low      |
-| No event-driven catalog sync       | Catalog sync is scheduled, not webhook-triggered; definition changes have latency      | Medium | Medium   |
-| No Azure Policy integration        | No policy assignments for governance enforcement across DevBox environments            | High   | High     |
-| No environment self-service portal | No developer portal or API surface for requesting DevBoxes; requires ARM/portal access | High   | High     |
-| Monitoring RG references existing  | `monitoring.create=false` means monitoring RG is not managed by this deployment        | Medium | Medium   |
+| Gap                                | Description                                                                            | Impact   | Priority |
+| ---------------------------------- | -------------------------------------------------------------------------------------- | -------- | -------- |
+| Single-project deployment          | Only `eShop` project configured; no second project demonstrates multi-project scaling  | Medium   | Medium   |
+| No Unmanaged network deployment    | Connectivity module exists but VNet/NetworkConnection never deployed in current config | Low      | Low      |
+| No event-driven catalog sync       | Catalog sync is scheduled, not webhook-triggered; definition changes have latency      | Medium   | Medium   |
+| No Azure Policy integration        | No policy assignments for governance enforcement across DevBox environments            | **High** | **High** |
+| No environment self-service portal | No developer portal or API surface for requesting DevBoxes; requires ARM/portal access | **High** | **High** |
+| Monitoring RG references existing  | `monitoring.create=false` means monitoring RG is not managed by this deployment        | Medium   | Medium   |
 
 _Source traceability:
 infra/settings/resourceOrganization/azureResources.yaml:1-_,

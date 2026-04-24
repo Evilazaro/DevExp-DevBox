@@ -373,10 +373,10 @@ importance to the platform's business outcomes and audit compliance posture.
 
 ### Principle 1: Configuration-as-Code
 
-**Statement:** All platform configuration must be managed through
-version-controlled YAML files with JSON Schema validation. No direct
-modification of Bicep source files is required for standard project onboarding
-or configuration changes.
+> 📌 **Statement:** All platform configuration **must** be managed through
+> version-controlled YAML files with JSON Schema validation. No direct
+> modification of Bicep source files is required for standard project onboarding
+> or configuration changes.
 
 **Rationale:** Ensures repeatability, auditability, and reduced operator error
 for all provisioning operations. Enables non-infrastructure engineers to onboard
@@ -399,9 +399,10 @@ infra/settings/workload/devcenter.schema.json:\*
 
 ### Principle 2: Principle of Least Privilege
 
-**Statement:** All RBAC role assignments must follow the minimum permission
-model. Service principals, managed identities, and Azure AD groups receive only
-the roles strictly necessary to perform their designated function.
+> 📌 **Statement:** All RBAC role assignments **must** follow the **minimum
+> permission model**. Service principals, managed identities, and Azure AD
+> groups receive only the roles strictly necessary to perform their designated
+> function.
 
 **Rationale:** Reduces the attack surface and limits blast radius in the event
 of credential compromise or identity theft. Aligns with Microsoft's Azure
@@ -423,9 +424,9 @@ security baseline recommendations.
 
 ### Principle 3: Azure Landing Zone Segregation
 
-**Statement:** Workload, security, and monitoring resources must be deployed to
-dedicated, logically segregated resource groups following Azure Landing Zone and
-Cloud Adoption Framework principles.
+> 📌 **Statement:** Workload, security, and monitoring resources **must** be
+> deployed to dedicated, logically segregated resource groups following Azure
+> Landing Zone and Cloud Adoption Framework principles.
 
 **Rationale:** Enforces separation of concerns, enables independent lifecycle
 management of platform domains, simplifies RBAC scoping, and aligns with
@@ -446,9 +447,9 @@ infra/main.bicep:45-75, README.md:47
 
 ### Principle 4: Infrastructure as Code (IaC)
 
-**Statement:** All Azure resources must be provisioned exclusively through Bicep
-IaC templates. No manual Azure Portal provisioning is permitted for production
-or shared environments.
+> 📌 **Statement:** All Azure resources **must** be provisioned exclusively
+> through Bicep IaC templates. No manual Azure Portal provisioning is permitted
+> for production or shared environments.
 
 **Rationale:** Guarantees infrastructure consistency across environments,
 enables automated deployment pipelines, provides change history for compliance,
@@ -468,10 +469,10 @@ src/security/security.bicep:1-50
 
 ### Principle 5: Self-Service Developer Experience
 
-**Statement:** Platform engineers must be able to provision complete developer
-environments with a single command (`azd up`). Developers must be able to access
-Dev Boxes without manual operator intervention after initial platform
-provisioning.
+> 📌 **Statement:** Platform engineers **must** be able to provision complete
+> developer environments with a single command (`azd up`). Developers **must**
+> be able to access Dev Boxes without manual operator intervention after initial
+> platform provisioning.
 
 **Rationale:** Reduces friction in developer onboarding, improves developer
 productivity, eliminates manual handoff delays between Platform Engineering and
@@ -494,9 +495,9 @@ development teams.
 
 ### Principle 6: Governance-by-Design
 
-**Statement:** Security controls, resource tagging, and compliance policies must
-be embedded at deployment time through configuration, not applied as
-post-deployment corrections.
+> 📌 **Statement:** Security controls, resource tagging, and compliance policies
+> **must** be embedded at deployment time through configuration, not applied as
+> post-deployment corrections.
 
 **Rationale:** Prevents governance drift, eliminates the window between resource
 creation and policy application, and ensures 100% compliance from the moment of
@@ -645,8 +646,8 @@ flowchart LR
 
 | Gap                               | Description                                                                                                                         | Business Impact                                                        | Priority | Recommended Action                                                                                       |
 | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------- |
-| KPI Dashboards                    | No Azure Monitor dashboards, Workbooks, or alert rules for deployment success rate, provisioning time, or Dev Box availability time | Medium — No visibility into platform health or SLA adherence           | High     | Implement Azure Monitor Workbook for platform KPIs; add alert rules for `azd up` failures                |
-| Automated Image Pipeline          | No CI/CD pipeline for Dev Box image definitions; catalog sync updates require manual re-execution of `azd up`                       | Medium — Stale Dev Box images lead to developer environment drift      | High     | Add GitHub Actions workflow for automated image build, version tagging, and catalog push                 |
+| KPI Dashboards                    | No Azure Monitor dashboards, Workbooks, or alert rules for deployment success rate, provisioning time, or Dev Box availability time | Medium — No visibility into platform health or SLA adherence           | **High** | Implement Azure Monitor Workbook for platform KPIs; add alert rules for `azd up` failures                |
+| Automated Image Pipeline          | No CI/CD pipeline for Dev Box image definitions; catalog sync updates require manual re-execution of `azd up`                       | Medium — Stale Dev Box images lead to developer environment drift      | **High** | Add GitHub Actions workflow for automated image build, version tagging, and catalog push                 |
 | Business Continuity Plan          | No documented RTO/RPO objectives, Key Vault backup schedule, or Dev Center recreation runbook                                       | Low — Undocumented recovery procedures increase MTTR during incidents  | Medium   | Document BCP with Key Vault backup to Azure Storage, Dev Center recreation runbook, and RTO target       |
 | Cost Governance Tooling           | Tags are applied but no budget alerts or cost allocation reports are configured in Azure Cost Management                            | Medium — No automated cost anomaly detection despite tagging policy    | Medium   | Configure Azure Cost Management budget alerts with tag-based cost allocation views                       |
 | Multi-Environment Differentiation | Dev, staging, and UAT environment types are defined but share identical resource SKUs and RBAC configurations                       | Low — No enforcement of environment-specific security or cost controls | Low      | Define environment-specific pool SKUs (dev: smaller VM, prod: larger VM) and graduated RBAC restrictions |
