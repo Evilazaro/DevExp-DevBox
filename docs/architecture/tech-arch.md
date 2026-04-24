@@ -188,32 +188,45 @@ infrastructure is present in the repository.
 title: "ContosoDevExp Infrastructure Topology"
 config:
   theme: base
-  look: neo
-  architecture:
-    padding: 30
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
-architecture-beta
+flowchart TB
     accTitle: ContosoDevExp Infrastructure Topology
     accDescr: Azure infrastructure topology showing the Azure Subscription containing the Workload Resource Group with DevCenter devexp, Key Vault, Log Analytics Workspace, Network Connection, and eShop Project; and the Connectivity Resource Group with the eShop Virtual Network. Arrows indicate dependencies and data flow between components.
 
-    group azSub(cloud)[Azure Subscription — ContosoDevExp]
-        group workloadRg(server)[Workload Resource Group]  in azSub
-        group connectRg(server)[Connectivity Resource Group]  in azSub
+    subgraph azSub["☁️ Azure Subscription — ContosoDevExp"]
+        subgraph workloadRg["📦 Workload Resource Group"]
+            devcenter("🖥️ DevCenter devexp"):::compute
+            kv("🔑 Key Vault contoso-kv"):::security
+            law("📊 Log Analytics Workspace"):::monitor
+            netconn("🌐 Network Connection"):::network
+            eshop("📁 eShop Project"):::compute
+        end
+        subgraph connectRg["🔗 Connectivity Resource Group"]
+            vnet("🌐 VNet eShop 10.0.0.0/16"):::network
+        end
+    end
 
-    service devcenter(server)[DevCenter devexp]  in workloadRg
-    service kv(database)[Key Vault contoso-kv]  in workloadRg
-    service law(database)[Log Analytics Workspace]  in workloadRg
-    service netconn(gateway)[Network Connection]  in workloadRg
-    service eshop(server)[eShop Project]  in workloadRg
+    devcenter --> eshop
+    devcenter --> netconn
+    netconn --> vnet
+    kv --- devcenter
+    law --- kv
+    law --- eshop
 
-    service vnet(internet)[VNet eShop 10.0.0.0/16]  in connectRg
+    classDef compute fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef security fill:#FFF4CE,stroke:#D83B01,stroke-width:2px,color:#323130
+    classDef monitor fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef network fill:#EFF6FC,stroke:#005A9E,stroke-width:2px,color:#323130
 
-    devcenter:R --> L:eshop
-    devcenter:B --> T:netconn
-    netconn:R --> L:vnet
-    kv:T -- B:devcenter
-    law:T -- B:kv
-    law:R -- L:eshop
+    style azSub fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style workloadRg fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#323130
+    style connectRg fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#323130
 ```
 
 ### Summary
@@ -433,33 +446,46 @@ for Dev Box definitions.
 title: "ContosoDevExp Current State Architecture"
 config:
   theme: base
-  look: neo
-  architecture:
-    padding: 25
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
-architecture-beta
+flowchart TB
     accTitle: ContosoDevExp Current State Architecture
     accDescr: Current state deployment showing Azure Developer CLI invoking the Bicep orchestrator at subscription scope, deploying the Workload Resource Group with DevCenter devexp, eShop Project with backend and frontend Dev Box pools, Key Vault with gha-token secret, Log Analytics Workspace, and the Connectivity Resource Group with eShop Virtual Network and Network Connection. All resources emit diagnostics to the centralized Log Analytics Workspace.
 
-    group sub(cloud)[Azure Subscription — dev environment]
-        group workloadRg(server)[devexp-workload-dev-{region}-RG]  in sub
-        group connectRg(server)[eShop-connectivity-RG]  in sub
+    subgraph sub["☁️ Azure Subscription — dev environment"]
+        subgraph workloadRg["📦 devexp-workload-dev-{region}-RG"]
+            dc("🖥️ DevCenter devexp\nAzureMonitorAgent: ON"):::compute
+            kv("🔑 Key Vault\ncontoso-{uid}-kv"):::security
+            law("📊 Log Analytics\nPerGB2018"):::monitor
+            eshop("📁 eShop Project\nbackend + frontend pools"):::compute
+            nc("🌐 Network Connection\nAzureADJoin"):::network
+        end
+        subgraph connectRg["🔗 eShop-connectivity-RG"]
+            vnet("🌐 eShop VNet\n10.0.0.0/16"):::network
+        end
+    end
 
-    service dc(server)[DevCenter devexp\nAzureMonitorAgent: ON]  in workloadRg
-    service kv(database)[Key Vault\ncontoso-{uid}-kv]  in workloadRg
-    service law(database)[Log Analytics\nPerGB2018]  in workloadRg
-    service eshop(server)[eShop Project\nbackend + frontend pools]  in workloadRg
-    service nc(gateway)[Network Connection\nAzureADJoin]  in workloadRg
+    dc --> eshop
+    dc --> nc
+    nc --> vnet
+    kv --> dc
+    law --> kv
+    law --> eshop
+    law --> nc
 
-    service vnet(internet)[eShop VNet\n10.0.0.0/16]  in connectRg
+    classDef compute fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef security fill:#FFF4CE,stroke:#D83B01,stroke-width:2px,color:#323130
+    classDef monitor fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef network fill:#EFF6FC,stroke:#005A9E,stroke-width:2px,color:#323130
 
-    dc:R --> L:eshop
-    dc:B --> T:nc
-    nc:R --> L:vnet
-    kv:T --> B:dc
-    law:T --> B:kv
-    law:R --> L:eshop
-    law:R --> L:nc
+    style sub fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style workloadRg fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#323130
+    style connectRg fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#323130
 ```
 
 ---
