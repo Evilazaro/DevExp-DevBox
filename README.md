@@ -24,8 +24,6 @@ environments using Bicep infrastructure-as-code and YAML-driven configuration.
 
 ## Overview
 
-**Overview**
-
 DevExp-DevBox is a production-ready accelerator that automates the end-to-end
 provisioning of Microsoft Dev Box environments on Azure. It enables platform
 engineering teams to deliver standardized, role-specific developer workstations
@@ -44,17 +42,13 @@ credential management and CI/CD automation.
 
 ## Features
 
-**Overview**
-
 DevExp-DevBox delivers a complete platform engineering toolkit for Microsoft Dev
 Box. It eliminates the complexity of manually configuring Dev Centers, projects,
 pools, and network connectivity — replacing it with a single YAML-driven
 configuration model that any team can adopt and extend.
 
-> [!TIP]  
-> All infrastructure components are configured through YAML files under
-> `infra/settings/`. No changes to Bicep source files are needed for standard
-> project onboarding.
+> [!TIP]`n> All infrastructure components are configured through YAML files under `infra/settings/`.
+> No changes to Bicep source files are needed for standard project onboarding.
 
 | 🚀 Feature                            | 📝 Description                                                                                                     | ✅ Status |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | --------- |
@@ -70,8 +64,6 @@ configuration model that any team can adopt and extend.
 | 📜 Cross-Platform Setup Scripts       | Bash (`setUp.sh`) and PowerShell (`setUp.ps1`) scripts for environment initialization on Linux, macOS, and Windows | ✅ Stable |
 
 ## Architecture
-
-**Overview**
 
 DevExp-DevBox provisions a layered Azure platform: developer toolchain commands
 flow through the Azure Developer CLI into a subscription-scoped Bicep deployment
@@ -187,32 +179,32 @@ The `infra/main.bicep` deploys at subscription scope in the following order:
 
 ## Quick Start
 
-**Prerequisites**: Install
+### Prerequisites
+
+Install
 [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli),
 [Azure Developer CLI](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd),
 and [GitHub CLI](https://cli.github.com/) before proceeding.
 
-> [!WARNING]  
-> You must have **Owner** or **User Access Administrator** role on the target
-> Azure subscription. The Dev Center managed identity requires `Contributor` and
-> `User Access Administrator` role assignments at subscription scope (defined in
-> `infra/settings/workload/devcenter.yaml`).
+> [!WARNING]`n> You must have **Owner** or **User Access Administrator** role on the target Azure subscription. The Dev Center managed identity requires `Contributor`and`User
+> Access
+> Administrator`role assignments at subscription scope (defined in`infra/settings/workload/devcenter.yaml`).
 
-**Step 1 — Clone the repository:**
+### Step 1 — Clone the repository
 
 ```bash
 git clone https://github.com/Evilazaro/DevExp-DevBox.git
 cd DevExp-DevBox
 ```
 
-**Step 2 — Authenticate:**
+### Step 2 — Authenticate
 
 ```bash
 azd auth login
 az login
 ```
 
-**Step 3 — Initialize and provision the environment:**
+### Step 3 — Initialize and provision the environment
 
 ```bash
 # Linux / macOS
@@ -222,7 +214,7 @@ az login
 .\setUp.ps1 -EnvName dev -SourceControl github
 ```
 
-**Expected Output**:
+#### Expected Output
 
 ```
 ✅ [2026-04-24 10:00:00] Azure CLI authenticated successfully.
@@ -231,13 +223,13 @@ az login
 ✅ [2026-04-24 10:00:15] Environment 'dev' initialized.
 ```
 
-**Step 4 — Deploy all resources:**
+### Step 4 — Deploy all resources
 
 ```bash
 azd up
 ```
 
-**Expected Output**:
+#### Expected Output
 
 ```
 Provisioning Azure resources (azd provision)
@@ -259,17 +251,13 @@ Outputs:
 
 ## Deployment
 
-**Overview**
-
 Deployment is fully automated through the Azure Developer CLI and the included
 setup scripts. The setup scripts handle authentication, credential provisioning,
 and environment variable configuration — then `azd up` provisions all Azure
 resources in the correct dependency order.
 
-> [!IMPORTANT]  
-> The `setUp.sh` and `setUp.ps1` scripts run as `azd` pre-provision hooks
-> defined in `azure.yaml`. They are invoked automatically when you run `azd up`,
-> but can also be called directly for credential rotation or environment
+> [!IMPORTANT]`n> The `setUp.sh`and`setUp.ps1`scripts run as`azd`pre-provision hooks defined in`azure.yaml`. They are invoked automatically when you run `azd
+> up`, but can also be called directly for credential rotation or environment
 > re-initialization.
 
 ### Deployment Parameters
@@ -283,7 +271,7 @@ azd env set AZURE_ENV_NAME dev
 azd env set SOURCE_CONTROL_PLATFORM github
 ```
 
-**Expected Output**:
+#### Expected Output
 
 ```
 SUCCESS: Successfully configured environment 'dev'.
@@ -320,7 +308,7 @@ To remove all provisioned resources and clean up credentials:
 .\cleanSetUp.ps1 -EnvName dev -Location eastus
 ```
 
-**Expected Output**:
+#### Expected Output
 
 ```
 ✅ Subscription deployments deleted.
@@ -332,22 +320,18 @@ To remove all provisioned resources and clean up credentials:
 
 ## Requirements
 
-**Overview**
-
 DevExp-DevBox requires standard Azure and developer toolchain components
 available on Linux, macOS, and Windows. All tools are freely available and
 widely used across platform engineering teams. The Azure subscription must have
 sufficient permissions to create resource groups, role assignments, and Dev
 Center resources at subscription scope.
 
-> [!TIP]  
-> Use the
-> [Azure Developer CLI installation guide](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
-> to install `azd` on any platform with a single command.
+> [!TIP]`n> Use the [Azure Developer CLI installation guide](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd) to install `azd`
+> on any platform with a single command.
 
-> [!IMPORTANT]  
-> The `setUp.sh` and `setUp.ps1` scripts validate all prerequisites before
-> execution and exit with a clear error message if any dependency is missing.
+> [!IMPORTANT]`n> The `setUp.sh`and`setUp.ps1` scripts validate all
+> prerequisites before execution and exit with a clear error message if any
+> dependency is missing.
 
 | 🔧 Prerequisite         | 📝 Description                                                                            | 🔗 Install                                                                                                         |
 | ----------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
@@ -360,8 +344,6 @@ Center resources at subscription scope.
 | 🔐 Azure AD Permissions | Permission to create app registrations and service principals in the target tenant        | [Azure AD docs](https://learn.microsoft.com/en-us/azure/active-directory/develop/app-registrations-training-guide) |
 
 ## Usage
-
-**Overview**
 
 After initial deployment, use the YAML configuration files under
 `infra/settings/` to add projects, pools, catalogs, and environment types.
@@ -420,7 +402,7 @@ Then re-deploy:
 azd up
 ```
 
-**Expected Output**:
+#### Expected Output
 
 ```
   (✓) Done: Dev Box Project: myNewProject
@@ -442,7 +424,7 @@ instead of GitHub:
 .\setUp.ps1 -EnvName dev -SourceControl adogit
 ```
 
-**Expected Output**:
+#### Expected Output
 
 ```
 ✅ [2026-04-24 10:00:10] Azure DevOps CLI authenticated successfully.
@@ -459,7 +441,7 @@ instead of GitHub:
 Get-Help .\setUp.ps1 -Detailed
 ```
 
-**Expected Output**:
+#### Expected Output
 
 ```
 SYNOPSIS
@@ -474,18 +456,13 @@ PARAMETER SourceControl
 
 ## Configuration
 
-**Overview**
-
 All configuration is managed through three YAML files under `infra/settings/`.
 These files define resource group organization, Key Vault settings, and the full
 Dev Center topology. Changes to these files are automatically picked up by the
 Bicep modules during `azd up` via `loadYamlContent()` calls.
 
-> [!NOTE]  
-> Schema files (`*.schema.json`) are co-located with each YAML configuration
-> file. Use them to validate your configuration in VS Code with the
-> `yaml-language-server: $schema=` directive already present at the top of each
-> file.
+> [!NOTE]`n> Schema files (`\*.schema.json`) are co-located with each YAML configuration file. Use them to validate your configuration in VS Code with the `yaml-language-server:
+> $schema=` directive already present at the top of each file.
 
 ### Resource Organization — `infra/settings/resourceOrganization/azureResources.yaml`
 
@@ -536,18 +513,13 @@ settings.
 
 ## Contributing
 
-**Overview**
-
 Contributions are welcome from platform engineers, DevOps practitioners, and
 anyone working with Microsoft Dev Box. The project follows a
 configuration-as-code model, so many improvements can be made purely through
 YAML changes without modifying Bicep source files.
 
-> [!NOTE]  
-> Please review the
-> [Microsoft Dev Box documentation](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box)
-> and ensure any proposed changes maintain compatibility with the
-> `devcenter.schema.json` validation schema.
+> [!NOTE]`n> Please review the [Microsoft Dev Box documentation](https://learn.microsoft.com/en-us/azure/dev-box/overview-what-is-microsoft-dev-box) and ensure any proposed changes maintain compatibility with the `devcenter.schema.json`
+> validation schema.
 
 ### How to Contribute
 
