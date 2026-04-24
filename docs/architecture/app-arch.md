@@ -454,7 +454,8 @@ automation changes **MUST** comply with all principles listed in this section.
 
 #### Principle 1 — Single-Responsibility Modules
 
-> 📌 **Statement**: Each Bicep module manages exactly one Azure resource type or
+> [!NOTE]  
+> **Statement:** Each Bicep module manages exactly one Azure resource type or
 > one cohesive set of closely related resources within a single bounded context.
 
 **Rationale**: Observed across all source files — `keyVault.bicep` manages only
@@ -471,7 +472,8 @@ src/management/logAnalytics.bicep:1-100, src/workload/core/catalog.bicep:1-80_
 
 #### Principle 2 — Typed Contract Interfaces
 
-> 📌 **Statement**: All cross-module dependencies **MUST** be expressed through
+> [!NOTE]  
+> **Statement:** All cross-module dependencies **MUST** be expressed through
 > typed Bicep `param` and `output` declarations. No string-interpolated resource
 > IDs or implicit ARM dependencies.
 
@@ -487,7 +489,8 @@ src/connectivity/vnet.bicep:12-35, src/workload/core/environmentType.bicep:7-12_
 
 #### Principle 3 — Managed Identity First
 
-> 📌 **Statement**: All platform resources authenticate to Azure services using
+> [!NOTE]  
+> **Statement:** All platform resources authenticate to Azure services using
 > **SystemAssigned managed identities**. No service principals with stored
 > credentials are used for platform-to-platform communication.
 
@@ -504,7 +507,8 @@ src/workload/project/project.bicep:15-25, src/security/secret.bicep:1-70_
 
 #### Principle 4 — Configuration as Code
 
-> 📌 **Statement**: All environment-specific and organization-specific
+> [!NOTE]  
+> **Statement:** All environment-specific and organization-specific
 > configuration values **MUST** reside in versioned YAML files under
 > `infra/settings/`. No hard-coded values in Bicep source files.
 
@@ -522,7 +526,8 @@ infra/settings/security/security.schema.json:1-\*\*
 
 #### Principle 5 — Universal Observability
 
-> 📌 **Statement**: Every deployable Azure resource **MUST** have diagnostic
+> [!NOTE]  
+> **Statement:** Every deployable Azure resource **MUST** have diagnostic
 > settings sending `allLogs` and `AllMetrics` to the central Log Analytics
 > Workspace.
 
@@ -541,9 +546,10 @@ src/management/logAnalytics.bicep:60-90_
 
 #### Principle 6 — Idempotent Deployments
 
-> 📌 **Statement**: All deployments **MUST** be safe to run multiple times
-> without side effects. Resource creation is idempotent through ARM's
-> declarative model; role assignments use **deterministic GUIDs**.
+> [!NOTE]  
+> **Statement:** All deployments **MUST** be safe to run multiple times without
+> side effects. Resource creation is idempotent through ARM's declarative model;
+> role assignments use **deterministic GUIDs**.
 
 **Rationale**:
 `guid(subscription().id, resourceGroup().id, principalId, role.id)` pattern in
@@ -559,7 +565,8 @@ src/identity/orgRoleAssignment.bicep:28-35_
 
 #### Principle 7 — Least Privilege Access
 
-> 📌 **Statement**: Role assignments **MUST** grant the **minimum privilege**
+> [!NOTE]  
+> **Statement:** Role assignments **MUST** grant the **minimum privilege**
 > required for the functional requirement. Privileged roles (Owner, Contributor
 > at subscription scope) are avoided unless technically required.
 

@@ -161,9 +161,10 @@ implicitly but are not formally managed:
 | Azure RBAC Role GUIDs | Hard-coded role definition GUIDs in `devcenter.yaml` (e.g., `b24988ac-6180-42a0-ab88-20f7382dd24c` for Contributor) represent implicit reference data           | Internal       |
 | Azure AD Group IDs    | Azure AD group object IDs in `devcenter.yaml` (e.g., `54fd94a1-e116-4bc8-8238-caae9d72bd12` for Platform Engineering Team) are implicit identity reference data | Restricted     |
 
-> 📌 **Gap**: No formal MDM strategy, data catalog, or reference data registry
-> detected. RBAC role GUIDs and Azure AD group IDs are embedded as literals in
-> configuration files without a centralized lookup table.
+> [!NOTE]  
+> **Statement:** No formal MDM strategy, data catalog, or reference data
+> registry detected. RBAC role GUIDs and Azure AD group IDs are embedded as
+> literals in configuration files without a centralized lookup table.
 
 ### 2.9 Data Transformations
 
@@ -187,7 +188,8 @@ contracts exist:
 | JSON Schema `$schema` Reference Contract | Each YAML configuration file declares a `$schema` URI binding it to a specific JSON Schema version, creating an implicit data contract between configuration authors and consumers                            | Internal       |
 | Bicep Output Contract                    | `main.bicep` declares typed output parameters (`AZURE_KEY_VAULT_NAME`, `AZURE_LOG_ANALYTICS_WORKSPACE_ID`, etc.) forming deployment output contracts consumed by `azd` post-deployment                        | Internal       |
 
-> 📌 **Gap**: No formal versioned data contracts or AsyncAPI/OpenAPI
+> [!NOTE]  
+> **Statement:** No formal versioned data contracts or AsyncAPI/OpenAPI
 > specifications detected. All contracts are implicit via JSON Schema and Bicep
 > output declarations.
 
