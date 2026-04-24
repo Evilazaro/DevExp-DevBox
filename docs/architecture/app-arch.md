@@ -26,27 +26,6 @@ Application Architecture schema: Executive Summary (1), Architecture Landscape
 (5), and Dependencies & Integration (8). All content is derived directly from
 the repository source files with full traceability to source locations.
 
-### Key Findings
-
-The ContosoDevExp application layer comprises seven principal application
-services implemented as Bicep modules: Orchestration (main.bicep), Workload
-(workload.bicep), DevCenter Core (devCenter.bicep), Project (project.bicep),
-Security (security.bicep), Monitoring (logAnalytics.bicep), and Connectivity
-(connectivity.bicep). These services follow a hierarchical composition pattern
-where the Orchestration service fans out to Monitoring, Security, and Workload,
-and the Workload service fans further out to per-project Project services. The
-platform manages a single DevCenter instance named `devexp` with one project
-(`eShop`) containing two DevBox pools, two project-level catalogs, and three
-environment types (dev, staging, uat).
-
-The security posture relies on SystemAssigned managed identities for the
-DevCenter and all Project resources, Key Vault integration for secret management
-(GitHub token for private catalog access), and RBAC role assignments at both
-subscription and resource-group scope. The configuration-as-code pattern (YAML →
-Bicep parameter binding via `loadYamlContent`) is the primary application
-interface, enabling declarative, version-controlled infrastructure management
-without hard-coded values.
-
 ### Strategic Alignment
 
 The architecture directly supports Contoso's strategic objective of accelerating
@@ -64,17 +43,6 @@ module manages a single resource domain), and interface-based integration (all
 cross-module dependencies are mediated through typed Bicep parameter and output
 contracts). The use of `azd` as the deployment CLI provides a standardized
 developer interface that abstracts the underlying Bicep complexity.
-
-### Maturity Assessment
-
-| Dimension                | Maturity Level    | Observation                                                        |
-| ------------------------ | ----------------- | ------------------------------------------------------------------ |
-| Service Decomposition    | Level 3 — Defined | Clear module boundaries; single-responsibility per Bicep module    |
-| Interface Contracts      | Level 3 — Defined | Typed Bicep parameters and named outputs; no formal OpenAPI/schema |
-| Configuration Management | Level 4 — Managed | YAML-driven config with schema files; `loadYamlContent` binding    |
-| Observability            | Level 3 — Defined | Log Analytics diagnostic settings on all major resources           |
-| Security                 | Level 4 — Managed | SystemAssigned identities; RBAC; Key Vault; purge protection       |
-| Automation               | Level 4 — Managed | Full `azd` lifecycle; pre-provision hooks; scheduled catalog sync  |
 
 ---
 

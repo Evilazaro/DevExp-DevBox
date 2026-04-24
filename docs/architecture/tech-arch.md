@@ -1,15 +1,3 @@
----
-title: 'Technology Architecture'
-layer: Technology
-version: '1.0.0'
-date: '2026-04-24'
-status: 'production'
-project: 'ContosoDevExp DevBox Accelerator'
-schema_version: 'bdat-section-schema-3.0.0'
-output_sections: [1, 2, 3, 4, 5, 8]
-quality_level: comprehensive
----
-
 # Technology Architecture
 
 ---
@@ -48,39 +36,6 @@ service-to-service authentication. The platform supports the developer
 experience lifecycle from environment provisioning through Dev Box pool
 allocation, catalog-based image management, and multi-environment type
 configuration across the eShop engineering team.
-
-### Key Findings
-
-- **7 Azure resource provider namespaces** are utilized: `Microsoft.DevCenter`,
-  `Microsoft.KeyVault`, `Microsoft.OperationalInsights`,
-  `Microsoft.OperationsManagement`, `Microsoft.Network`, `Microsoft.Insights`,
-  and `Microsoft.Authorization` — source: `infra/main.bicep`, `src/**/*.bicep`
-- **17 distinct Azure resource types** are deployed across **14 Bicep modules**
-  — source: `src/` directory
-- **1 Azure Subscription scope** deployment orchestrated via `main.bicep` with
-  `targetScope = 'subscription'` — source: `infra/main.bicep:1`
-- **3 Resource Group domains** (Workload, Security, Monitoring) configurable to
-  co-locate or separate via `azureResources.yaml` — source:
-  `infra/settings/resourceOrganization/azureResources.yaml`
-- **1 DevCenter** (`devexp`) with **1 project** (`eShop`), **2 DevBox pools**
-  (backend-engineer, frontend-engineer), **3 environment types** (dev, staging,
-  uat) — source: `infra/settings/workload/devcenter.yaml`
-- **Full diagnostic coverage**: All provisioned resources emit logs and metrics
-  to Log Analytics Workspace via `Microsoft.Insights/diagnosticSettings` —
-  source: `src/**/*.bicep`
-- **Zero hard-coded credentials**: All secrets injected via Azure Key Vault
-  secret URI references (`secretIdentifier`) — source:
-  `src/security/secret.bicep:20`
-- **SystemAssigned Managed Identity** used for DevCenter, eShop Project, and all
-  Project Environment Type resources — source:
-  `src/workload/core/devCenter.bicep:152`,
-  `src/workload/project/projectEnvironmentType.bicep:37`
-- **Configuration-as-Code governance**: Three YAML configuration files
-  (`azureResources.yaml`, `devcenter.yaml`, `security.yaml`) backed by JSON
-  Schema validators define the entire infrastructure state — source:
-  `infra/settings/`
-
----
 
 ## Section 2: Architecture Landscape
 

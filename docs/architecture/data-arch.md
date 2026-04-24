@@ -32,34 +32,6 @@ is the absence of automated data lineage tracking between configuration file
 changes and deployed Azure resource states, which represents a Level 2 maturity
 ceiling for data governance.
 
-### Key Findings
-
-| Finding                                                                                | Severity    | Domain          | Source                                                          |
-| -------------------------------------------------------------------------------------- | ----------- | --------------- | --------------------------------------------------------------- |
-| Schema-first validation enforced on all configuration YAML via JSON Schema 2020-12     | ✅ Strength | Data Governance | `infra/settings/**/*.schema.json`                               |
-| Azure Key Vault RBAC authorization enabled with purge protection and 7-day soft delete | ✅ Strength | Data Security   | `infra/settings/security/security.yaml:21-29`                   |
-| Tag-based governance applied uniformly across all resource groups and deployments      | ✅ Strength | Data Governance | `infra/settings/resourceOrganization/azureResources.yaml:20-28` |
-| Log Analytics Workspace with diagnostic settings captures audit and metrics streams    | ✅ Strength | Monitoring Data | `src/management/logAnalytics.bicep:41-60`                       |
-| No automated data lineage tracking between config changes and deployed resources       | ⚠️ Gap      | Data Governance | Not detected in source files                                    |
-| No formal data contracts beyond implicit JSON Schema `$schema` references              | ⚠️ Gap      | Data Contracts  | Not detected in source files                                    |
-| No Master Data Management (MDM) solution detected                                      | ⚠️ Gap      | Master Data     | Not detected in source files                                    |
-| No dedicated data quality monitoring dashboard or automated pipeline scanning          | ⚠️ Gap      | Data Quality    | Not detected in source files                                    |
-
-### Maturity Assessment
-
-| Data Capability            | Maturity Level           | Rationale                                                                                   |
-| -------------------------- | ------------------------ | ------------------------------------------------------------------------------------------- |
-| Data Schema Governance     | **Level 4 — Managed**    | JSON Schema 2020-12 with `additionalProperties: false`, required fields, pattern validation |
-| Secret Management          | **Level 4 — Managed**    | Key Vault with RBAC, purge protection, soft delete, diagnostic audit logging                |
-| Data Classification        | **Level 3 — Defined**    | Tag-based classification enforced; no formal DLP or automated classification tooling        |
-| Configuration Data Quality | **Level 3 — Defined**    | Schema validation enforced; no runtime quality monitoring or dashboards                     |
-| Monitoring & Audit         | **Level 3 — Defined**    | Diagnostic settings configured; Log Analytics workspace active                              |
-| Data Lineage               | **Level 2 — Repeatable** | `loadYamlContent()` provides implicit traceability; no automated lineage graph              |
-| Data Contracts             | **Level 2 — Repeatable** | Implicit contracts via `$schema` URI references; no formal interface contracts              |
-| Master Data                | **Level 1 — Initial**    | No MDM strategy or reference data governance detected                                       |
-
----
-
 ## Section 2: Architecture Landscape
 
 ### Overview
