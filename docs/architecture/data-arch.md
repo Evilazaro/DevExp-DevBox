@@ -1,59 +1,4 @@
----
-title: 'TOGAF BDAT Data Architecture — DevExp-DevBox'
-layer: Data
-version: '1.0.0'
-date: '2026-04-24'
-status: production
-author: 'GitHub Copilot (Data Architect)'
-framework: 'TOGAF 10 ADM'
-repository: 'Evilazaro/DevExp-DevBox'
-branch: main
-sections_included: [1, 2, 3, 4, 5, 8]
-quality_level: comprehensive
----
-
 # Data Architecture
-
-## DevExp-DevBox — TOGAF BDAT Model
-
-> **Repository**: Evilazaro/DevExp-DevBox | **Branch**: main | **Date**:
-> 2026-04-24 **Framework**: TOGAF 10 Architecture Development Method (ADM) |
-> **Quality Level**: Comprehensive **Sections**: 1 · 2 · 3 · 4 · 5 · 8
-
----
-
-## Table of Contents
-
-- [Section 1: Executive Summary](#section-1-executive-summary)
-- [Section 2: Architecture Landscape](#section-2-architecture-landscape)
-  - [2.1 Data Entities](#21-data-entities)
-  - [2.2 Data Models](#22-data-models)
-  - [2.3 Data Stores](#23-data-stores)
-  - [2.4 Data Flows](#24-data-flows)
-  - [2.5 Data Services](#25-data-services)
-  - [2.6 Data Governance](#26-data-governance)
-  - [2.7 Data Quality Rules](#27-data-quality-rules)
-  - [2.8 Master Data](#28-master-data)
-  - [2.9 Data Transformations](#29-data-transformations)
-  - [2.10 Data Contracts](#210-data-contracts)
-  - [2.11 Data Security](#211-data-security)
-- [Section 3: Architecture Principles](#section-3-architecture-principles)
-- [Section 4: Current State Baseline](#section-4-current-state-baseline)
-- [Section 5: Component Catalog](#section-5-component-catalog)
-  - [5.1 Data Entities](#51-data-entities)
-  - [5.2 Data Models](#52-data-models)
-  - [5.3 Data Stores](#53-data-stores)
-  - [5.4 Data Flows](#54-data-flows)
-  - [5.5 Data Services](#55-data-services)
-  - [5.6 Data Governance](#56-data-governance)
-  - [5.7 Data Quality Rules](#57-data-quality-rules)
-  - [5.8 Master Data](#58-master-data)
-  - [5.9 Data Transformations](#59-data-transformations)
-  - [5.10 Data Contracts](#510-data-contracts)
-  - [5.11 Data Security](#511-data-security)
-- [Section 8: Dependencies & Integration](#section-8-dependencies--integration)
-
----
 
 ## Section 1: Executive Summary
 
@@ -932,8 +877,3 @@ enhancements: implement Azure Resource Graph queries for runtime dependency
 visualization, add Azure Monitor workbooks for integrated DevCenter + Key
 Vault + Log Analytics health dashboards, and introduce `azd` output variable
 documentation to formalize the deployment output contract.
-
----
-
-_Document generated: 2026-04-24 | Framework: TOGAF 10 ADM | Repository:
-Evilazaro/DevExp-DevBox | Branch: main_
