@@ -141,14 +141,6 @@ flowchart TB
         VNet("🌐 Azure Virtual Network<br/>Custom Subnets"):::neutral
     end
 
-    subgraph legend ["📋 Diagram Legend"]
-        Lcore("⬛ Core Azure Service"):::core
-        Lsuccess("⬛ Catalog / Environment"):::success
-        Lwarning("⬛ Security / Key Mgmt"):::warning
-        Lneutral("⬛ Standard Component"):::neutral
-        Lexternal("⬛ External Source Control"):::external
-    end
-
     Developer -->|"runs deployment"| AzdCLI
     Developer -->|"configures credentials"| SetupScript
     AzdCLI -->|"provisions resources"| DC
@@ -164,10 +156,9 @@ flowchart TB
     NetConn -->|"uses"| VNet
     VNet -->|"sends network logs to"| LogAnalytics
 
-    style devtools fill:#E6F5F0,stroke:#036B52,stroke-width:2px,color:#323130
+    style devtools fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style devcenter fill:#E8F0FE,stroke:#0078D4,stroke-width:2px,color:#323130
     style support fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style legend fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
 
     %% Centralized semantic classDefs (Phase 5 compliant)
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
