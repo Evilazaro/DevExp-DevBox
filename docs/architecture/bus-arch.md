@@ -107,7 +107,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Business Capability Map
-    accDescr: Business capability map showing 8 core capabilities grouped across 4 domains. Provisioning and secret management rated maturity 4. Catalog, observability, and network rated 3.
+    accDescr: Business capability map showing 8 core capabilities grouped across 4 domains. Provisioning and secret management rated maturity 4. Catalog, observability, and network rated 3. Nodes: C1=success, C2=success, C3=success, C4=core, C5=success, C6=success, C7=core, C8=core. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -140,22 +140,22 @@ flowchart TB
         C8("📊 Integrated<br/>Observability<br/>Maturity: 3"):::core
     end
 
-    C1 --> C2
-    C2 --> C3
-    C3 --> C4
-    C3 --> C5
-    C1 --> C6
-    C2 --> C7
-    C1 --> C8
+    C1 -->|extends to| C2
+    C2 -->|delivers| C3
+    C3 -->|integrates via| C4
+    C3 -->|manages| C5
+    C1 -->|secured by| C6
+    C2 -->|enabled by| C7
+    C1 -->|monitored by| C8
 
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#797673,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style prov fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     style config fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style secdom fill:#FFF4CE,stroke:#797673,stroke-width:2px,color:#323130
+    style secdom fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     style opsdom fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
@@ -268,7 +268,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Business Ecosystem Overview
-    accDescr: Business ecosystem diagram showing organizational actors, platform services, and external systems. Contoso organization contains Platform Engineering Team and eShop Engineers. Platform includes Dev Center, Key Vault, and Log Analytics. External systems include GitHub and Azure DevOps.
+    accDescr: Business ecosystem diagram showing organizational actors, platform services, and external systems. Contoso organization contains Platform Engineering Team and eShop Engineers. Platform includes Dev Center, Key Vault, and Log Analytics. External systems include GitHub and Azure DevOps. Nodes: PEng=neutral, PM=neutral, DBU=neutral, DEU=neutral, DC=success, KV=warning, LA=core, VNET=core, GH=neutral, ADO=neutral. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -317,7 +317,7 @@ flowchart TB
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#797673,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style org fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style pe fill:#EFF6FC,stroke:#0078D4,stroke-width:1px,color:#323130
@@ -561,7 +561,7 @@ config:
 ---
 flowchart LR
     accTitle: Developer Environment Provisioning Business Process
-    accDescr: Six-stage sequential provisioning flow from azd up command through credential setup, resource group creation, Log Analytics, Key Vault, Dev Center, projects and pools, to developer consumption.
+    accDescr: Six-stage sequential provisioning flow from azd up command through credential setup, resource group creation, Log Analytics, Key Vault, Dev Center, projects and pools, to developer consumption. Nodes: T1=neutral, T2=neutral, F1=core, F2=core, S1=warning, S2=warning, W1=success, W2=success, P1=success, P2=success, D1=neutral. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -605,23 +605,23 @@ flowchart LR
 
     T1 -->|triggers hook| T2
     T2 -->|credentials ready| F1
-    F1 --> F2
+    F1 -->|provisions| F2
     F2 -->|log id| S1
-    S1 --> S2
+    S1 -->|configures| S2
     S2 -->|secret id| W1
-    W1 --> W2
-    W2 --> P1
-    P1 --> P2
+    W1 -->|enables| W2
+    W2 -->|hosts| P1
+    P1 -->|creates| P2
     P2 -->|ready for use| D1
 
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#797673,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style init fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style found fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style secu fill:#FFF4CE,stroke:#797673,stroke-width:2px,color:#323130
+    style secu fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     style wl fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     style proj fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     style consume fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
@@ -739,7 +739,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Value Streams
-    accDescr: Two value streams shown. Platform Engineering stream flows from configure YAML through azd up, provision, assign RBAC, to operate. Developer Onboarding stream flows from request access through Azure AD, pool selection, Dev Box provision, to active use.
+    accDescr: Two value streams shown. Platform Engineering stream flows from configure YAML through azd up, provision, assign RBAC, to operate. Developer Onboarding stream flows from request access through Azure AD, pool selection, Dev Box provision, to active use. Nodes: PE1=core, PE2=core, PE3=success, PE4=success, PE5=success, PE6=success, D1=neutral, D2=neutral, D3=neutral, D4=core, D5=core, D6=success. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -770,14 +770,22 @@ flowchart TB
         D6("💻 Active<br/>Development"):::success
     end
 
-    PE1 --> PE2 --> PE3 --> PE4 --> PE5 --> PE6
-    D1 --> D2 --> D3 --> D4 --> D5 --> D6
+    PE1 -->|validates config| PE2
+    PE2 -->|triggers deployment| PE3
+    PE3 -->|provisions resources| PE4
+    PE4 -->|assigns RBAC| PE5
+    PE5 -->|activates| PE6
+    D1 -->|submitted to| D2
+    D2 -->|activates access| D3
+    D3 -->|provisions| D4
+    D4 -->|authenticates| D5
+    D5 -->|enables work in| D6
     PE6 -.->|enables| D3
 
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#797673,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style pe_vs fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     style dev_vs fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
@@ -932,7 +940,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Business Integration Architecture
-    accDescr: Integration architecture showing three-tier dependency flow. Configuration layer (YAML files) feeds IaC layer (Bicep modules) which provisions Azure services layer. External integrations include GitHub and Azure DevOps for catalog sync and Azure AD for identity.
+    accDescr: Integration architecture showing three-tier dependency flow. Configuration layer (YAML files) feeds IaC layer (Bicep modules) which provisions Azure services layer. External integrations include GitHub and Azure DevOps for catalog sync and Azure AD for identity. Nodes: DC_Y=neutral, AZ_Y=neutral, SEC_Y=neutral, MAIN=core, WL=core, SEC_B=warning, CONN=core, LA=success, KV=warning, DC=success, PROJ=success, POOLS=success, GH=neutral, ADO=neutral, AAD=neutral. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -976,14 +984,14 @@ flowchart TB
     AZ_Y -->|loadYamlContent| MAIN
     SEC_Y -->|loadYamlContent| SEC_B
 
-    MAIN --> LA
-    MAIN --> SEC_B
-    MAIN --> WL
-    SEC_B --> KV
-    WL --> DC
-    WL --> CONN
-    DC --> PROJ
-    PROJ --> POOLS
+    MAIN -->|deploys| LA
+    MAIN -->|deploys| SEC_B
+    MAIN -->|deploys| WL
+    SEC_B -->|provisions| KV
+    WL -->|provisions| DC
+    WL -->|provisions| CONN
+    DC -->|hosts| PROJ
+    PROJ -->|creates| POOLS
 
     LA -->|log id| KV
     LA -->|log id| DC
@@ -997,7 +1005,7 @@ flowchart TB
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    classDef warning fill:#FFF4CE,stroke:#797673,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style config_layer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style iac_layer fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130

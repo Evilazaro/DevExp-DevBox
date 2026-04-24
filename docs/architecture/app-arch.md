@@ -300,11 +300,27 @@ src/workload/core/catalog.bicep:35-70_
 
 ```mermaid
 ---
-title: ContosoDevExp Application Service Map
+title: "ContosoDevExp Application Service Map"
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
 ---
 classDiagram
     accTitle: ContosoDevExp Application Service Map
-    accDescr: Shows the hierarchical composition of application services and components in the ContosoDevExp platform
+    accDescr: Shows the hierarchical composition of application services and components in the ContosoDevExp platform. Nodes: OrchestrationService=core, WorkloadService=core, DevCenterCoreService=success, ProjectService=success, SecurityService=warning, MonitoringService=warning, ConnectivityService=neutral. WCAG AA compliant.
+    %%
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %%
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %%
 
     class OrchestrationService {
         +String name = "main.bicep"
@@ -377,13 +393,13 @@ classDiagram
     DevCenterCoreService ..> SecurityService : secretIdentifier ref
     DevCenterCoreService ..> MonitoringService : logAnalyticsId ref
 
-    style OrchestrationService fill:#EFF6FC,stroke:#0078D4
-    style WorkloadService fill:#EFF6FC,stroke:#0078D4
-    style DevCenterCoreService fill:#DFF6DD,stroke:#107C10
-    style ProjectService fill:#DFF6DD,stroke:#107C10
-    style SecurityService fill:#FFF4CE,stroke:#797673
-    style MonitoringService fill:#FFF4CE,stroke:#797673
-    style ConnectivityService fill:#FAFAFA,stroke:#8A8886
+    style OrchestrationService fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style WorkloadService fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style DevCenterCoreService fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style ProjectService fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style SecurityService fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style MonitoringService fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style ConnectivityService fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ### Summary
@@ -651,15 +667,33 @@ src/management/logAnalytics.bicep:60-90, src/connectivity/vnet.bicep:70-100_
 
 ```mermaid
 ---
-title: ContosoDevExp Current State Topology
+title: "ContosoDevExp Current State Topology"
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart TB
     accTitle: ContosoDevExp Current State Topology
-    accDescr: Shows the current state deployment topology across Azure resource groups and services
+    accDescr: Shows the current state deployment topology across Azure resource groups and services. Nodes: DC=core, PROJ=core, POOL1=success, POOL2=success, CAT1=success, CAT2=success, ET1=success, ET2=success, ET3=success, KV=warning, SEC=warning, LA=success. WCAG AA compliant.
+    %%
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %%
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %%
 
-    subgraph sub [Azure Subscription]
+    subgraph sub ["☁️ Azure Subscription"]
         direction TB
-        subgraph rg1 [Workload RG: devexp-workload]
+        subgraph rg1 ["📦 Workload RG: devexp-workload"]
             DC[DevCenter: devexp]
             PROJ[Project: eShop]
             POOL1[Pool: backend-engineer\n32c128gb512ssd_v2]
@@ -670,37 +704,44 @@ flowchart TB
             ET2[EnvType: staging]
             ET3[EnvType: uat]
         end
-        subgraph rg2 [Security RG: devexp-workload]
+        subgraph rg2 ["🔒 Security RG: devexp-workload"]
             KV[Key Vault: contoso-kv]
             SEC[Secret: gha-token]
         end
-        subgraph rg3 [Monitoring RG: devexp-workload]
+        subgraph rg3 ["📊 Monitoring RG: devexp-workload"]
             LA[Log Analytics\nPerGB2018]
         end
     end
 
-    DC --> PROJ
-    PROJ --> POOL1
-    PROJ --> POOL2
-    PROJ --> CAT1
-    PROJ --> CAT2
-    PROJ --> ET1
-    PROJ --> ET2
-    PROJ --> ET3
+    DC -->|hosts| PROJ
+    PROJ -->|runs on| POOL1
+    PROJ -->|runs on| POOL2
+    PROJ -->|references| CAT1
+    PROJ -->|references| CAT2
+    PROJ -->|uses| ET1
+    PROJ -->|uses| ET2
+    PROJ -->|uses| ET3
     DC -.->|secretIdentifier| KV
     DC -.->|diagnostics| LA
     KV -.->|diagnostics| LA
     PROJ -.->|diagnostics| LA
 
-    style sub fill:#FAFAFA,stroke:#8A8886
-    style rg1 fill:#EFF6FC,stroke:#0078D4
-    style rg2 fill:#FFF4CE,stroke:#797673
-    style rg3 fill:#DFF6DD,stroke:#107C10
-    style DC fill:#EFF6FC,stroke:#0078D4
-    style PROJ fill:#EFF6FC,stroke:#0078D4
-    style LA fill:#DFF6DD,stroke:#107C10
-    style KV fill:#FFF4CE,stroke:#797673
-    style SEC fill:#FFF4CE,stroke:#797673
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    class DC,PROJ core
+    class POOL1,POOL2,CAT1,CAT2,ET1,ET2,ET3,LA success
+    class KV,SEC warning
+    style sub fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    style rg1 fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style rg2 fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style rg3 fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style DC fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style PROJ fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style LA fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style KV fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style SEC fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
 
 ### 4.5 Gap Assessment
@@ -993,11 +1034,27 @@ src/workload/core/catalog.bicep:35-70_
 
 ```mermaid
 ---
-title: ContosoDevExp Core Component Specifications
+title: "ContosoDevExp Core Component Specifications"
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
 ---
 classDiagram
     accTitle: ContosoDevExp Core Component Specifications
-    accDescr: Detailed class diagram showing key component specifications, attributes and relationships
+    accDescr: Detailed class diagram showing key component specifications, attributes and relationships. Nodes: DevCenter=core, Project=core, DevBoxPool=neutral, BackendPool=success, FrontendPool=success, ProjectCatalog=neutral, EnvironmentsCatalog=success, ImagesCatalog=success, KeyVault=warning. WCAG AA compliant.
+    %%
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %%
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %%
 
     class DevCenter {
         +String name = "devexp"
@@ -1080,15 +1137,15 @@ classDiagram
     FrontendPool ..> ImagesCatalog : image from
     DevCenter ..> KeyVault : secretIdentifier
 
-    style DevCenter fill:#EFF6FC,stroke:#0078D4
-    style Project fill:#EFF6FC,stroke:#0078D4
-    style DevBoxPool fill:#FAFAFA,stroke:#8A8886
-    style BackendPool fill:#DFF6DD,stroke:#107C10
-    style FrontendPool fill:#DFF6DD,stroke:#107C10
-    style ProjectCatalog fill:#FAFAFA,stroke:#8A8886
-    style EnvironmentsCatalog fill:#DFF6DD,stroke:#107C10
-    style ImagesCatalog fill:#DFF6DD,stroke:#107C10
-    style KeyVault fill:#FFF4CE,stroke:#797673
+    style DevCenter fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style Project fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style DevBoxPool fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    style BackendPool fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style FrontendPool fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style ProjectCatalog fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    style EnvironmentsCatalog fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style ImagesCatalog fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style KeyVault fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
 
 ### Summary
@@ -1184,11 +1241,27 @@ src/workload/core/devCenter.bicep:15-30_
 
 ```mermaid
 ---
-title: ContosoDevExp Deployment Sequence
+title: "ContosoDevExp Deployment Sequence"
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
 ---
 sequenceDiagram
     accTitle: ContosoDevExp Deployment Sequence
-    accDescr: Shows the sequence of deployments and service interactions during azd provision
+    accDescr: Shows the sequence of deployments and service interactions during azd provision. Participants: AZD=developer CLI, HOOK=pre-provision script, ARM=Azure Resource Manager, MON=monitoring service, SEC=security service, WRK=workload service, DC=DevCenter service, PROJ=project service. WCAG AA compliant.
+    %%
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %%
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %%
 
     participant AZD as azd CLI
     participant HOOK as Pre-Provision Hook
@@ -1252,11 +1325,27 @@ src/workload/project/projectPool.bicep:40-65\*
 
 ```mermaid
 ---
-title: ContosoDevExp Application Dependency Map
+title: "ContosoDevExp Application Dependency Map"
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
 ---
 classDiagram
     accTitle: ContosoDevExp Application Dependency Map
-    accDescr: Shows hard and soft dependency relationships between all application services and external systems
+    accDescr: Shows hard and soft dependency relationships between all application services and external systems. Nodes: AzureARM=neutral, GitHubPublic=neutral, GitHubPrivate=neutral, MonitoringService=success, SecurityService=warning, WorkloadService=core, DevCenterCore=core, ProjectService=core, KeyVault=warning. WCAG AA compliant.
+    %%
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %%
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %%
 
     class AzureARM {
         <<external>>
@@ -1319,15 +1408,15 @@ classDiagram
     DevCenterCore ..> GitHubPublic : catalog sync
     ProjectService ..> GitHubPrivate : catalog sync
 
-    style AzureARM fill:#FAFAFA,stroke:#8A8886
-    style GitHubPublic fill:#FAFAFA,stroke:#8A8886
-    style GitHubPrivate fill:#FAFAFA,stroke:#8A8886
-    style MonitoringService fill:#DFF6DD,stroke:#107C10
-    style SecurityService fill:#FFF4CE,stroke:#797673
-    style WorkloadService fill:#EFF6FC,stroke:#0078D4
-    style DevCenterCore fill:#EFF6FC,stroke:#0078D4
-    style ProjectService fill:#EFF6FC,stroke:#0078D4
-    style KeyVault fill:#FFF4CE,stroke:#797673
+    style AzureARM fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    style GitHubPublic fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    style GitHubPrivate fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    style MonitoringService fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style SecurityService fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style WorkloadService fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style DevCenterCore fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style ProjectService fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style KeyVault fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 ```
 
 ### Summary

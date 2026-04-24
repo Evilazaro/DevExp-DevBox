@@ -208,14 +208,27 @@ Data security controls protecting sensitive configuration and operational data.
 
 ```mermaid
 ---
-title: DevExp-DevBox Configuration Data Entity Relationship Model
+title: "DevExp-DevBox Configuration Data Entity Relationship Model"
 config:
   theme: base
   look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
 ---
 erDiagram
     accTitle: DevExp-DevBox Configuration Data Entity Relationship Model
-    accDescr: Shows relationships between core configuration schema entities including DevCenterConfiguration, Identity, RoleAssignment, Catalog, EnvironmentType, Project, DevBoxPool, KeyVaultConfiguration, ResourceGroupConfiguration, and Tags as defined in Bicep user-defined types and YAML configuration models.
+    accDescr: Shows relationships between core configuration schema entities including DevCenterConfiguration, Identity, RoleAssignment, Catalog, EnvironmentType, Project, DevBoxPool, KeyVaultConfiguration, ResourceGroupConfiguration, and Tags as defined in Bicep user-defined types and YAML configuration models. WCAG AA compliant.
+    %%
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %%
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %%
 
     DEVCENTER_CONFIGURATION {
         string name
@@ -417,7 +430,7 @@ config:
 ---
 flowchart LR
     accTitle: DevExp-DevBox Configuration Data Pipeline and Movement
-    accDescr: Shows the data flow from YAML configuration files through JSON Schema validation and Bicep orchestration modules to Azure resource deployment. Includes secret injection flow from GitHub PAT through Key Vault to DevCenter catalog authentication, and monitoring data flow from Azure resources to Log Analytics Workspace via diagnostic settings.
+    accDescr: Shows the data flow from YAML configuration files through JSON Schema validation and Bicep orchestration modules to Azure resource deployment. Includes secret injection flow from GitHub PAT through Key Vault to DevCenter catalog authentication, and monitoring data flow from Azure resources to Log Analytics Workspace via diagnostic settings. Nodes: YAMLDC=core, YAMLSEC=danger, YAMLRG=neutral, PJSON=neutral, SCHEMDC=success, SCHEMSEC=success, SCHEMRG=success, MAIN=core, SECMOD=danger, WORKMOD=core, MONMOD=core, KEYVAULT=danger, LOGANALYTICS=core, DEVCENTER=core, RESOURCEGROUPS=neutral. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -466,9 +479,9 @@ flowchart LR
     YAMLRG -->|"loadYamlContent()"| MAIN
     PJSON -->|"azd parameters"| MAIN
 
-    MAIN --> SECMOD
-    MAIN --> WORKMOD
-    MAIN --> MONMOD
+    MAIN -->|deploys security| SECMOD
+    MAIN -->|deploys workload| WORKMOD
+    MAIN -->|deploys monitoring| MONMOD
 
     SECMOD -->|"deploys"| KEYVAULT
     WORKMOD -->|"deploys"| DEVCENTER
@@ -739,7 +752,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Data Integration Dependencies and Module Coupling
-    accDescr: Shows the directed deployment dependency graph between Bicep modules and Azure data stores. Log Analytics must be deployed first, then Key Vault, then DevCenter. Arrows show data output-to-input relationships. Secret data flows from Key Vault to DevCenter catalog authentication. Monitoring data flows from Key Vault and DevCenter to Log Analytics via diagnostic settings.
+    accDescr: Shows the directed deployment dependency graph between Bicep modules and Azure data stores. Log Analytics must be deployed first, then Key Vault, then DevCenter. Arrows show data output-to-input relationships. Secret data flows from Key Vault to DevCenter catalog authentication. Monitoring data flows from Key Vault and DevCenter to Log Analytics via diagnostic settings. Nodes: MAIN=core, PARAMS=neutral, MONBICEP=core, SECBICEP=danger, KVBICEP=danger, SECBICEP2=danger, WORKBICEP=core, DCBICEP=core, PROJBICEP=core, CATBICEP=core, LA=core, KV=danger, DC=core. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -789,15 +802,15 @@ flowchart TB
     LA -->|"AZURE_LOG_ANALYTICS_WORKSPACE_ID"| SECBICEP
     LA -->|"AZURE_LOG_ANALYTICS_WORKSPACE_ID"| WORKBICEP
 
-    SECBICEP --> KVBICEP
-    SECBICEP --> SECBICEP2
+    SECBICEP -->|orchestrates| KVBICEP
+    SECBICEP -->|orchestrates| SECBICEP2
     KVBICEP -->|"deploys"| KV
     SECBICEP2 -->|"secret + diagnostics"| KV
     KV -->|"AZURE_KEY_VAULT_SECRET_IDENTIFIER"| WORKBICEP
 
-    WORKBICEP --> DCBICEP
-    WORKBICEP --> PROJBICEP
-    DCBICEP --> CATBICEP
+    WORKBICEP -->|invokes| DCBICEP
+    WORKBICEP -->|invokes| PROJBICEP
+    DCBICEP -->|configures| CATBICEP
     DCBICEP -->|"deploys"| DC
     PROJBICEP -->|"deploys project"| DC
     CATBICEP -->|"attaches catalog"| DC

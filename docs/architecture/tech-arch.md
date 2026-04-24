@@ -197,36 +197,46 @@ config:
 ---
 flowchart TB
     accTitle: ContosoDevExp Infrastructure Topology
-    accDescr: Azure infrastructure topology showing the Azure Subscription containing the Workload Resource Group with DevCenter devexp, Key Vault, Log Analytics Workspace, Network Connection, and eShop Project; and the Connectivity Resource Group with the eShop Virtual Network. Arrows indicate dependencies and data flow between components.
+    accDescr: Azure infrastructure topology showing the Azure Subscription containing the Workload Resource Group with DevCenter devexp, Key Vault, Log Analytics Workspace, Network Connection, and eShop Project; and the Connectivity Resource Group with the eShop Virtual Network. Arrows indicate dependencies and data flow between components. Nodes: devcenter=core, kv=warning, law=success, netconn=neutral, eshop=core, vnet=neutral. WCAG AA compliant.
+    %%
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %%
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %%
 
     subgraph azSub["☁️ Azure Subscription — ContosoDevExp"]
         subgraph workloadRg["📦 Workload Resource Group"]
-            devcenter("🖥️ DevCenter devexp"):::compute
-            kv("🔑 Key Vault contoso-kv"):::security
-            law("📊 Log Analytics Workspace"):::monitor
-            netconn("🌐 Network Connection"):::network
-            eshop("📁 eShop Project"):::compute
+            devcenter("🖥️ DevCenter devexp"):::core
+            kv("🔑 Key Vault contoso-kv"):::warning
+            law("📊 Log Analytics Workspace"):::success
+            netconn("🌐 Network Connection"):::neutral
+            eshop("📁 eShop Project"):::core
         end
         subgraph connectRg["🔗 Connectivity Resource Group"]
-            vnet("🌐 VNet eShop 10.0.0.0/16"):::network
+            vnet("🌐 VNet eShop 10.0.0.0/16"):::neutral
         end
     end
 
-    devcenter --> eshop
-    devcenter --> netconn
-    netconn --> vnet
-    kv --- devcenter
-    law --- kv
-    law --- eshop
+    devcenter -->|hosts| eshop
+    devcenter -->|attaches| netconn
+    netconn -->|uses subnet in| vnet
+    kv -->|provides secret to| devcenter
+    law -->|receives logs from| kv
+    law -->|receives logs from| eshop
 
-    classDef compute fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef security fill:#FFF4CE,stroke:#D83B01,stroke-width:2px,color:#323130
-    classDef monitor fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef network fill:#EFF6FC,stroke:#005A9E,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
     style azSub fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style workloadRg fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#323130
-    style connectRg fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#323130
+    style workloadRg fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
+    style connectRg fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
 ```
 
 ### Summary
@@ -455,37 +465,47 @@ config:
 ---
 flowchart TB
     accTitle: ContosoDevExp Current State Architecture
-    accDescr: Current state deployment showing Azure Developer CLI invoking the Bicep orchestrator at subscription scope, deploying the Workload Resource Group with DevCenter devexp, eShop Project with backend and frontend Dev Box pools, Key Vault with gha-token secret, Log Analytics Workspace, and the Connectivity Resource Group with eShop Virtual Network and Network Connection. All resources emit diagnostics to the centralized Log Analytics Workspace.
+    accDescr: Current state deployment showing Azure Developer CLI invoking the Bicep orchestrator at subscription scope, deploying the Workload Resource Group with DevCenter devexp, eShop Project with backend and frontend Dev Box pools, Key Vault with gha-token secret, Log Analytics Workspace, and the Connectivity Resource Group with eShop Virtual Network and Network Connection. All resources emit diagnostics to the centralized Log Analytics Workspace. Nodes: dc=core, kv=warning, law=success, eshop=core, nc=neutral, vnet=neutral. WCAG AA compliant.
+    %%
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %%
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %%
 
     subgraph sub["☁️ Azure Subscription — dev environment"]
         subgraph workloadRg["📦 devexp-workload-dev-{region}-RG"]
-            dc("🖥️ DevCenter devexp\nAzureMonitorAgent: ON"):::compute
-            kv("🔑 Key Vault\ncontoso-{uid}-kv"):::security
-            law("📊 Log Analytics\nPerGB2018"):::monitor
-            eshop("📁 eShop Project\nbackend + frontend pools"):::compute
-            nc("🌐 Network Connection\nAzureADJoin"):::network
-        end
-        subgraph connectRg["🔗 eShop-connectivity-RG"]
-            vnet("🌐 eShop VNet\n10.0.0.0/16"):::network
-        end
+dc("🖥️ DevCenter devexp\nAzureMonitorAgent: ON"):::core
+        kv("🔑 Key Vault\ncontoso-{uid}-kv"):::warning
+        law("📊 Log Analytics\nPerGB2018"):::success
+        eshop("📁 eShop Project\nbackend + frontend pools"):::core
+        nc("🌐 Network Connection\nAzureADJoin"):::neutral
+    end
+    subgraph connectRg["🔗 eShop-connectivity-RG"]
+        vnet("🌐 eShop VNet\n10.0.0.0/16"):::neutral
+    end
     end
 
-    dc --> eshop
-    dc --> nc
-    nc --> vnet
-    kv --> dc
-    law --> kv
-    law --> eshop
-    law --> nc
+    dc -->|hosts| eshop
+    dc -->|attaches| nc
+    nc -->|uses subnet in| vnet
+    kv -->|provides secret to| dc
+    law -->|receives logs from| kv
+    law -->|receives logs from| eshop
+    law -->|receives logs from| nc
 
-    classDef compute fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef security fill:#FFF4CE,stroke:#D83B01,stroke-width:2px,color:#323130
-    classDef monitor fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef network fill:#EFF6FC,stroke:#005A9E,stroke-width:2px,color:#323130
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
     style sub fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style workloadRg fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#323130
-    style connectRg fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#323130
+    style workloadRg fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
+    style connectRg fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
 ```
 
 ---
@@ -747,14 +767,16 @@ config:
 ---
 flowchart TB
     accTitle: ContosoDevExp Provisioning and Integration Flow
-    accDescr: End-to-end provisioning flow starting from the Azure Developer CLI, through the Bicep orchestrator at subscription scope, through parallel domain module deployments of Monitoring, Security, and Workload, and down to DevCenter core provisioning and per-project eShop provisioning including connectivity, pools, catalogs, and environment types. Shows output data flow (logAnalyticsId, secretIdentifier) between modules and external integration points to GitHub repositories.
+    accDescr: End-to-end provisioning flow starting from the Azure Developer CLI, through the Bicep orchestrator at subscription scope, through parallel domain module deployments of Monitoring, Security, and Workload, and down to DevCenter core provisioning and per-project eShop provisioning including connectivity, pools, catalogs, and environment types. Shows output data flow (logAnalyticsId, secretIdentifier) between modules and external integration points to GitHub repositories. Nodes: azd=core, main=core, rgs=neutral, law=success, sec=warning, kv=warning, secret=warning, wl=core, dc=core, cat=neutral, et=neutral, proj=core, conn=neutral, pool=core, pcat=neutral, pet=neutral, ghPublic=neutral, ghPrivate=neutral. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %%
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
-    %% PHASE 2 - GROUPS: Every subgraph styled with style directive
-    %% PHASE 3 - COMPONENTS: Every node has semantic icon + label
-    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA compliant
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %%
 
@@ -764,32 +786,32 @@ flowchart TB
 
     subgraph subscriptionScope["☁️ Azure Subscription Scope"]
         main("📋 main.bicep\nOrchestrator"):::core
-        rgs("📦 Resource Groups\nWorkload / Security / Monitoring"):::secondary
+        rgs("📦 Resource Groups\nWorkload / Security / Monitoring"):::neutral
     end
 
     subgraph monitoringDomain["📊 Monitoring Domain"]
-        law("📊 Log Analytics\nlogAnalytics.bicep"):::monitor
+        law("📊 Log Analytics\nlogAnalytics.bicep"):::success
     end
 
     subgraph securityDomain["🔐 Security Domain"]
-        sec("🔐 Security Module\nsecurity.bicep"):::security
-        kv("🔑 Key Vault\nkeyVault.bicep"):::security
-        secret("🔒 Secret Module\nsecret.bicep"):::security
+        sec("🔐 Security Module\nsecurity.bicep"):::warning
+        kv("🔑 Key Vault\nkeyVault.bicep"):::warning
+        secret("🔒 Secret Module\nsecret.bicep"):::warning
     end
 
     subgraph workloadDomain["⚙️ Workload Domain"]
         wl("⚙️ Workload Module\nworkload.bicep"):::core
         dc("🖥️ DevCenter Core\ndevCenter.bicep"):::core
-        cat("📚 DevCenter Catalog\ncatalog.bicep"):::secondary
-        et("🌍 Env Types\nenvironmentType.bicep"):::secondary
+        cat("📚 DevCenter Catalog\ncatalog.bicep"):::neutral
+        et("🌍 Env Types\nenvironmentType.bicep"):::neutral
     end
 
     subgraph projectDomain["📁 Project Domain - eShop"]
         proj("📁 Project Module\nproject.bicep"):::core
-        conn("🌐 Connectivity\nconnectivity.bicep"):::network
-        pool("💻 DevBox Pools\nprojectPool.bicep"):::compute
-        pcat("📚 Project Catalogs\nprojectCatalog.bicep"):::secondary
-        pet("🌍 Project Env Types\nprojectEnvironmentType.bicep"):::secondary
+        conn("🌐 Connectivity\nconnectivity.bicep"):::neutral
+        pool("💻 DevBox Pools\nprojectPool.bicep"):::core
+        pcat("📚 Project Catalogs\nprojectCatalog.bicep"):::neutral
+        pet("🌍 Project Env Types\nprojectEnvironmentType.bicep"):::neutral
     end
 
     subgraph external["🌐 External Integration"]
@@ -798,41 +820,38 @@ flowchart TB
     end
 
     azd -->|"preprovision hook\n(setUp.sh/setUp.ps1)"| main
-    main --> rgs
+    main -->|creates| rgs
     rgs -->|"scope: monitoringRG"| law
     rgs -->|"scope: securityRG"| sec
     rgs -->|"scope: workloadRG"| wl
-    sec --> kv
-    sec --> secret
+    sec -->|provisions| kv
+    sec -->|registers| secret
     law -->|"logAnalyticsId"| sec
     law -->|"logAnalyticsId"| wl
     sec -->|"secretIdentifier\n(KV secret URI)"| wl
-    wl --> dc
-    dc --> cat
-    dc --> et
+    wl -->|deploys| dc
+    dc -->|configures| cat
+    dc -->|configures| et
     wl -->|"for each project"| proj
-    proj --> conn
-    proj --> pool
-    proj --> pcat
-    proj --> pet
+    proj -->|provisions| conn
+    proj -->|creates| pool
+    proj -->|configures| pcat
+    proj -->|enables| pet
     cat -->|"scheduled sync"| ghPublic
     pcat -->|"private auth\ngha-token"| ghPrivate
     pool -->|"imageDefinition ref"| pcat
 
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    classDef secondary fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
-    classDef security fill:#FFF4CE,stroke:#D83B01,stroke-width:2px,color:#323130
-    classDef monitor fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    classDef network fill:#EFF6FC,stroke:#005A9E,stroke-width:2px,color:#323130
-    classDef compute fill:#F3F2F1,stroke:#005A9E,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 
     style devWorkstation fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style subscriptionScope fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     style monitoringDomain fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style securityDomain fill:#FFF4CE,stroke:#D83B01,stroke-width:2px,color:#323130
+    style securityDomain fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     style workloadDomain fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style projectDomain fill:#F3F2F1,stroke:#605E5C,stroke-width:1px,color:#323130
+    style projectDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
     style external fill:#FAFAFA,stroke:#8A8886,stroke-width:1px,color:#323130
 ```
 
