@@ -283,9 +283,10 @@ referenced in architecture decision records and component specifications.
 
 ### Principle 1: Infrastructure as Code (IaC-First)
 
-> 📌 **Statement:** All infrastructure resources **MUST** be defined
-> declaratively in Bicep IaC modules. No resources shall be provisioned manually
-> through the Azure Portal or imperative CLI commands.
+> [!NOTE]  
+> **Statement:** All infrastructure resources **MUST** be defined declaratively
+> in Bicep IaC modules. No resources shall be provisioned manually through the
+> Azure Portal or imperative CLI commands.
 
 **Rationale:** IaC enforces reproducibility, auditability, and
 version-controlled change management. It eliminates configuration drift between
@@ -299,7 +300,8 @@ file must be updated for any new parameter.
 
 ### Principle 2: Configuration as Code (CaC-First)
 
-> 📌 **Statement:** All environment-specific configuration values **MUST** be
+> [!NOTE]  
+> **Statement:** All environment-specific configuration values **MUST** be
 > externalized into YAML configuration files backed by JSON Schema validators.
 > No configuration values shall be hard-coded in Bicep modules.
 
@@ -316,7 +318,8 @@ environment-specific values must be loaded via `loadYamlContent`.
 
 ### Principle 3: Zero Standing Credentials (Identity-First)
 
-> 📌 **Statement:** All service-to-service authentication **MUST** use **Azure
+> [!NOTE]  
+> **Statement:** All service-to-service authentication **MUST** use **Azure
 > Managed Identities**. No connection strings, passwords, or long-lived service
 > principal credentials shall be embedded in infrastructure definitions.
 
@@ -332,7 +335,8 @@ managed identity.
 
 ### Principle 4: Principle of Least Privilege (PoLP)
 
-> 📌 **Statement:** All role assignments **MUST** grant only the **minimum
+> [!NOTE]  
+> **Statement:** All role assignments **MUST** grant only the **minimum
 > permissions** required for the resource or identity to perform its function.
 > Broad roles (Owner, Subscription Contributor) shall be used only when
 > operationally necessary and explicitly justified.
@@ -348,8 +352,9 @@ required for DevCenter managed network provisioning.
 
 ### Principle 5: Centralized Observability
 
-> 📌 **Statement:** All infrastructure resources **MUST** emit diagnostic logs
-> and metrics to the centralized Log Analytics Workspace via
+> [!NOTE]  
+> **Statement:** All infrastructure resources **MUST** emit diagnostic logs and
+> metrics to the centralized Log Analytics Workspace via
 > `Microsoft.Insights/diagnosticSettings`. No resource shall be deployed without
 > telemetry configuration.
 
@@ -365,7 +370,8 @@ all infrastructure modules.
 
 ### Principle 6: Azure Landing Zone Alignment
 
-> 📌 **Statement:** Resource organization **MUST** follow **Azure Landing Zone
+> [!NOTE]  
+> **Statement:** Resource organization **MUST** follow **Azure Landing Zone
 > principles**, with logical separation of Workload, Security, and Monitoring
 > domains into distinct resource groups.
 
@@ -380,7 +386,8 @@ production deployments.
 
 ### Principle 7: Declarative Module Composition
 
-> 📌 **Statement:** Infrastructure complexity **MUST** be managed through
+> [!NOTE]  
+> **Statement:** Infrastructure complexity **MUST** be managed through
 > hierarchical **Bicep module composition**. A single orchestrator
 > (`main.bicep`) shall coordinate domain modules, which in turn compose
 > resource-level modules.
@@ -396,7 +403,8 @@ outputs must be named with AZURE\_ prefix conventions.
 
 ### Principle 8: Immutable Infrastructure
 
-> 📌 **Statement:** Infrastructure updates **MUST** be performed by re-deploying
+> [!NOTE]  
+> **Statement:** Infrastructure updates **MUST** be performed by re-deploying
 > Bicep modules with updated parameters. In-place mutation of Azure resources
 > through the portal or CLI is prohibited.
 
@@ -410,9 +418,10 @@ environment cleanup for full re-deployment cycles.
 
 ### Principle 9: Tag-Based Governance
 
-> 📌 **Statement:** All Azure resources **MUST** be tagged with the **canonical
-> tag set**: `environment`, `division`, `team`, `project`, `costCenter`,
-> `owner`, `landingZone`, and `resources`.
+> [!NOTE]  
+> **Statement:** All Azure resources **MUST** be tagged with the **canonical tag
+> set**: `environment`, `division`, `team`, `project`, `costCenter`, `owner`,
+> `landingZone`, and `resources`.
 
 **Rationale:** Consistent tagging enables cost allocation, ownership tracking,
 compliance reporting, and automated policy enforcement. Source: all tag
