@@ -87,32 +87,34 @@ config:
   theme: base
   look: classic
   layout: dagre
+  themeVariables:
+    fontSize: '16px'
   flowchart:
     htmlLabels: true
 ---
 flowchart TB
     accTitle: DevExp-DevBox Azure Dev Box Platform Architecture
-    accDescr: End-to-end architecture showing developer toolchain with azd CLI and setup scripts provisioning Azure Dev Center with projects, role-specific pools, catalogs, environment types, Key Vault for secrets, Log Analytics for monitoring, and Virtual Network for connectivity.
+    accDescr: Technology platform architecture showing developer toolchain provisioning Azure Dev Center with projects, role-specific pools, catalogs, environment types, Key Vault for secrets, Log Analytics for monitoring, and Virtual Network for connectivity. Developer=neutral, AzdCLI=core, SetupScript=neutral, GitRepo=neutral, DC=core, Catalogs=success, EnvTypes=success, Project=core, Pools=core, NetConn=neutral, KeyVault=warning, LogAnalytics=neutral, VNet=neutral. WCAG AA compliant.
 
-    %% ═══════════════════════════════════════════════════════════════════════════
+    %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
     %% (Semantic + Structural + Font + Accessibility Governance)
-    %% ═══════════════════════════════════════════════════════════════════════════
+    %%
     %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
     %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
     %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
     %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
-    %% ═══════════════════════════════════════════════════════════════════════════
+    %%
 
-    subgraph devtools["🛠️ Developer Toolchain"]
+    subgraph devtools ["🛠️ Developer Toolchain"]
         Developer("👤 Platform Engineer"):::neutral
         AzdCLI("⚡ Azure Developer CLI<br/>azd up"):::core
         SetupScript("📜 setUp.sh / setUp.ps1"):::neutral
         GitRepo("📦 Git Catalog Repository<br/>GitHub / Azure DevOps"):::neutral
     end
 
-    subgraph devcenter["☁️ Azure Dev Center Platform"]
+    subgraph devcenter ["☁️ Azure Dev Center Platform"]
         DC("🖥️ Azure Dev Center"):::core
         Catalogs("📚 Dev Center Catalogs<br/>GitHub / ADO Git"):::success
         EnvTypes("🌍 Environment Types<br/>dev / staging / uat"):::success
@@ -121,7 +123,7 @@ flowchart TB
         NetConn("🔗 Network Connection"):::neutral
     end
 
-    subgraph support["🔧 Supporting Infrastructure"]
+    subgraph support ["🔧 Supporting Infrastructure"]
         KeyVault("🔑 Azure Key Vault<br/>Secrets & RBAC"):::warning
         LogAnalytics("📊 Log Analytics Workspace<br/>Diagnostics & Monitoring"):::neutral
         VNet("🌐 Azure Virtual Network<br/>Custom Subnets"):::neutral
@@ -143,7 +145,7 @@ flowchart TB
     VNet -->|"sends network logs to"| LogAnalytics
 
     style devtools fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style devcenter fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style devcenter fill:#E8F0FE,stroke:#0078D4,stroke-width:2px,color:#323130
     style support fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 
     %% Centralized semantic classDefs (Phase 5 compliant)
