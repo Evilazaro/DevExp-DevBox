@@ -153,9 +153,9 @@ flowchart TB
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
-    style prov fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style config fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style secdom fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style prov fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
+    style config fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style secdom fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
     style opsdom fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
@@ -320,10 +320,10 @@ flowchart TB
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style org fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style pe fill:#EFF6FC,stroke:#0078D4,stroke-width:1px,color:#323130
-    style devteam fill:#DFF6DD,stroke:#107C10,stroke-width:1px,color:#323130
-    style platform fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style external fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    style pe fill:#EDEBE9,stroke:#0078D4,stroke-width:1px,color:#323130
+    style devteam fill:#EDEBE9,stroke:#107C10,stroke-width:1px,color:#323130
+    style platform fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style external fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ### Summary
@@ -625,10 +625,10 @@ flowchart LR
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style init fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style found fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style secu fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style wl fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style proj fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style found fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style secu fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
+    style wl fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
+    style proj fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
     style consume fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
@@ -792,8 +792,8 @@ flowchart TB
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
-    style pe_vs fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style dev_vs fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style pe_vs fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style dev_vs fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
 ```
 
 ### 5.4 Business Processes
@@ -1013,9 +1013,9 @@ flowchart TB
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style config_layer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style iac_layer fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style azure_layer fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style external fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    style iac_layer fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style azure_layer fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
+    style external fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ### Component Integration Matrix

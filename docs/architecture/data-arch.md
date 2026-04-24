@@ -217,6 +217,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 erDiagram
     accTitle: DevExp-DevBox Configuration Data Entity Relationship Model

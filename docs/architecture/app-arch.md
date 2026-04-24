@@ -307,6 +307,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 classDiagram
     accTitle: ContosoDevExp Application Service Map
@@ -740,15 +742,10 @@ flowchart TB
     class DC,PROJ core
     class POOL1,POOL2,CAT1,CAT2,ET1,ET2,ET3,LA success
     class KV,SEC warning
-    style sub fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
-    style rg1 fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style rg2 fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style rg3 fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style DC fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style PROJ fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style LA fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style KV fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style SEC fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    style sub fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style rg1 fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
+    style rg2 fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
+    style rg3 fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
 ```
 
 ### 4.5 Gap Assessment
@@ -1048,6 +1045,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 classDiagram
     accTitle: ContosoDevExp Core Component Specifications
@@ -1255,6 +1254,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 sequenceDiagram
     accTitle: ContosoDevExp Deployment Sequence
@@ -1339,6 +1340,8 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 classDiagram
     accTitle: ContosoDevExp Application Dependency Map

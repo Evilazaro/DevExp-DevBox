@@ -234,9 +234,9 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    style azSub fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style workloadRg fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
-    style connectRg fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
+    style azSub fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style workloadRg fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
+    style connectRg fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
 ```
 
 ### Summary
@@ -512,9 +512,9 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    style sub fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style workloadRg fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
-    style connectRg fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
+    style sub fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style workloadRg fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
+    style connectRg fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
 ```
 
 ---
@@ -856,12 +856,12 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 
     style devWorkstation fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style subscriptionScope fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
-    style monitoringDomain fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
-    style securityDomain fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style workloadDomain fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    style subscriptionScope fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style monitoringDomain fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
+    style securityDomain fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
+    style workloadDomain fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
     style projectDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
-    style external fill:#FAFAFA,stroke:#8A8886,stroke-width:1px,color:#323130
+    style external fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
 ```
 
 ### Cross-Component Dependency Specifications
