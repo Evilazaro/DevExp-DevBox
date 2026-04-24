@@ -1,23 +1,4 @@
----
-title: 'Application Architecture — TOGAF BDAT Model'
-layer: Application
-version: '1.0.0'
-date: '2025-07-17'
-status: Draft
-author: Architecture Team
-framework: 'TOGAF 10 ADM'
-quality_level: comprehensive
-sections: [1, 2, 3, 4, 5, 8]
-source_repository: 'ContosoDevExp'
-branch: main
----
-
 # Application Architecture
-
-> **TOGAF 10 ADM — BDAT Model | Application Layer** Framework: TOGAF 10 | Layer:
-> Application | Quality Level: Comprehensive
-
----
 
 ## 1. Executive Summary
 
@@ -1404,10 +1385,3 @@ sync health check endpoint or Azure Monitor alert rule to detect and notify on
 catalog sync failures before they impact pool creation. These three changes
 would elevate the platform's dependency resilience from the current Level 3
 (Defined) to Level 4 (Managed) maturity.
-
----
-
-_Document generated from source analysis of ContosoDevExp repository. All
-component specifications derived from infra/ and src/ Bicep modules and
-infra/settings/ YAML configuration files. No content fabricated; all claims
-traceable to source files as documented in per-section traceability references._
