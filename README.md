@@ -94,7 +94,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Azure Dev Box Platform Architecture
-    accDescr: Technology platform architecture showing developer toolchain provisioning Azure Dev Center with projects, role-specific pools, catalogs, environment types, Key Vault for secrets, Log Analytics for monitoring, and Virtual Network for connectivity. Developer=neutral, AzdCLI=core, SetupScript=neutral, GitRepo=neutral, DC=core, Catalogs=success, EnvTypes=success, Project=core, Pools=core, NetConn=neutral, KeyVault=warning, LogAnalytics=neutral, VNet=neutral. WCAG AA compliant.
+    accDescr: Technology provisioning flow — developer toolchain provisions Azure Dev Center with projects, role-specific pools, catalogs, environment types, Key Vault for secrets, Log Analytics for monitoring, and Virtual Network for connectivity. Developer=neutral, AzdCLI=core, SetupScript=neutral, GitRepo=external, DC=core, Catalogs=success, EnvTypes=success, Project=core, Pools=core, NetConn=neutral, KeyVault=warning, LogAnalytics=neutral, VNet=neutral. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -107,11 +107,23 @@ flowchart TB
     %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
     %%
 
+    %% ─── TOGAF BDAT METADATA ────────────────────────────────────────────────
+    %% BDAT Domain:   Technology Architecture (provisioning flow)
+    %% Viewpoint:     Infrastructure Provisioning View
+    %% Stakeholders:  Platform Engineering Teams, DevOps Practitioners
+    %% Purpose:       Documents end-to-end Dev Box platform provisioning
+    %%                sequence from developer toolchain to Azure Dev Center
+    %% Traceability:  infra/settings/workload/devcenter.yaml
+    %%                infra/settings/security/security.yaml
+    %%                infra/main.bicep | azure.yaml
+    %%                Azure CAF Landing Zone principles
+    %% ────────────────────────────────────────────────────────────────────────
+
     subgraph devtools ["🛠️ Developer Toolchain"]
         Developer("👤 Platform Engineer"):::neutral
         AzdCLI("⚡ Azure Developer CLI<br/>azd up"):::core
         SetupScript("📜 setUp.sh / setUp.ps1"):::neutral
-        GitRepo("📦 Git Catalog Repository<br/>GitHub / Azure DevOps"):::neutral
+        GitRepo("📦 Git Catalog Repository<br/>GitHub / Azure DevOps"):::external
     end
 
     subgraph devcenter ["☁️ Azure Dev Center Platform"]
@@ -129,6 +141,14 @@ flowchart TB
         VNet("🌐 Azure Virtual Network<br/>Custom Subnets"):::neutral
     end
 
+    subgraph legend ["📋 Diagram Legend"]
+        Lcore("⬛ Core Azure Service"):::core
+        Lsuccess("⬛ Catalog / Environment"):::success
+        Lwarning("⬛ Security / Key Mgmt"):::warning
+        Lneutral("⬛ Standard Component"):::neutral
+        Lexternal("⬛ External Source Control"):::external
+    end
+
     Developer -->|"runs deployment"| AzdCLI
     Developer -->|"configures credentials"| SetupScript
     AzdCLI -->|"provisions resources"| DC
@@ -144,15 +164,17 @@ flowchart TB
     NetConn -->|"uses"| VNet
     VNet -->|"sends network logs to"| LogAnalytics
 
-    style devtools fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style devtools fill:#E6F5F0,stroke:#036B52,stroke-width:2px,color:#323130
     style devcenter fill:#E8F0FE,stroke:#0078D4,stroke-width:2px,color:#323130
-    style support fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style support fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style legend fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
 
     %% Centralized semantic classDefs (Phase 5 compliant)
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef external fill:#E6F5F0,stroke:#036B52,stroke-width:2px,color:#323130
 ```
 
 ### Bicep Module Dependency Chain
