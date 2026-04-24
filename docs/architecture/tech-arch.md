@@ -66,78 +66,78 @@ detected component with file:line references.
 
 ### 2.1 Compute Resources
 
-| Component                       | Resource Type                                           | Source File                                 | VM SKU / Config                                                                                                                 |
-| ------------------------------- | ------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| Azure DevCenter (`devexp`)      | `Microsoft.DevCenter/devcenters@2026-01-01-preview`     | `src/workload/core/devCenter.bicep:158`     | Managed service; SystemAssigned identity; catalogItemSync: Enabled; microsoftHostedNetwork: Enabled; AzureMonitorAgent: Enabled |
-| eShop Project                   | `Microsoft.DevCenter/projects@2026-01-01-preview`       | `src/workload/project/project.bicep`        | SystemAssigned identity; references DevCenter: `devexp`; description: "eShop project."                                          |
-| DevBox Pool — backend-engineer  | `Microsoft.DevCenter/projects/pools@2026-01-01-preview` | `src/workload/project/projectPool.bicep:55` | SKU: `general_i_32c128gb512ssd_v2`; Windows_Client; SSO: Enabled; LocalAdmin: Enabled                                           |
-| DevBox Pool — frontend-engineer | `Microsoft.DevCenter/projects/pools@2026-01-01-preview` | `src/workload/project/projectPool.bicep:55` | SKU: `general_i_16c64gb256ssd_v2`; Windows_Client; SSO: Enabled; LocalAdmin: Enabled                                            |
+| Component | Resource Type | 
+| ------------------------------- | ------------------------------------------------------- | 
+| Azure DevCenter (`devexp`) | `Microsoft.DevCenter/devcenters@2026-01-01-preview` | 
+| eShop Project | `Microsoft.DevCenter/projects@2026-01-01-preview` | 
+| DevBox Pool — backend-engineer | `Microsoft.DevCenter/projects/pools@2026-01-01-preview` | 
+| DevBox Pool — frontend-engineer | `Microsoft.DevCenter/projects/pools@2026-01-01-preview` | 
 
 ### 2.2 Network Resources
 
-| Component                   | Resource Type                                                        | Source File                                   | Configuration                                                                                  |
-| --------------------------- | -------------------------------------------------------------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| eShop Virtual Network       | `Microsoft.Network/virtualNetworks@2025-05-01`                       | `src/connectivity/vnet.bicep:35`              | Address space: `10.0.0.0/16`; Unmanaged type; created when `virtualNetworkType == 'Unmanaged'` |
-| eShop-subnet                | Subnet (within VNet)                                                 | `infra/settings/workload/devcenter.yaml:102`  | AddressPrefix: `10.0.1.0/24`; name: `eShop-subnet`                                             |
-| Network Connection          | `Microsoft.DevCenter/networkConnections@2026-01-01-preview`          | `src/connectivity/networkConnection.bicep:28` | domainJoinType: `AzureADJoin`; subnetId references eShop-subnet                                |
-| DevCenter Attached Network  | `Microsoft.DevCenter/devcenters/attachednetworks@2026-01-01-preview` | `src/connectivity/networkConnection.bicep:35` | Links DevCenter `devexp` to Network Connection; parent: DevCenter                              |
-| Connectivity Resource Group | `Microsoft.Resources/resourceGroups@2025-04-01`                      | `src/connectivity/resourceGroup.bicep`        | `eShop-connectivity-RG`; created when `virtualNetworkType: Unmanaged && create: true`          |
+| Component | Resource Type | 
+| --------------------------- | -------------------------------------------------------------------- | 
+| eShop Virtual Network | `Microsoft.Network/virtualNetworks@2025-05-01` | 
+| eShop-subnet | Subnet (within VNet) | 
+| Network Connection | `Microsoft.DevCenter/networkConnections@2026-01-01-preview` | 
+| DevCenter Attached Network | `Microsoft.DevCenter/devcenters/attachednetworks@2026-01-01-preview` | 
+| Connectivity Resource Group | `Microsoft.Resources/resourceGroups@2025-04-01` | 
 
 ### 2.3 Storage Resources
 
-| Component                               | Resource Type                                  | Source File                      | Configuration                                                                        |
-| --------------------------------------- | ---------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------ |
-| Azure Key Vault (`contoso-{unique}-kv`) | `Microsoft.KeyVault/vaults@2025-05-01`         | `src/security/keyVault.bicep:45` | SKU: Standard; RBAC authorization: true; soft delete: 7 days; purge protection: true |
-| Key Vault Secret (`gha-token`)          | `Microsoft.KeyVault/vaults/secrets@2025-05-01` | `src/security/secret.bicep:20`   | GitHub Actions token for private catalog authentication; contentType: text/plain     |
+| Component | Resource Type | 
+| --------------------------------------- | ---------------------------------------------- | 
+| Azure Key Vault (`contoso-{unique}-kv`) | `Microsoft.KeyVault/vaults@2025-05-01` | 
+| Key Vault Secret (`gha-token`) | `Microsoft.KeyVault/vaults/secrets@2025-05-01` | 
 
 ### 2.4 Security Resources
 
-| Component                                             | Resource Type                                        | Source File                                        | Role / Scope                                                                               |
-| ----------------------------------------------------- | ---------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| DevCenter Role Assignment (Contributor)               | `Microsoft.Authorization/roleAssignments@2022-04-01` | `src/identity/devCenterRoleAssignment.bicep:28`    | Role: Contributor (`b24988ac-...`); Scope: Subscription; principalType: ServicePrincipal   |
-| DevCenter Role Assignment (User Access Administrator) | `Microsoft.Authorization/roleAssignments@2022-04-01` | `src/identity/devCenterRoleAssignment.bicep:28`    | Role: User Access Administrator (`18d7d88d-...`); Scope: Subscription                      |
-| Key Vault Secrets User Assignment                     | `Microsoft.Authorization/roleAssignments@2022-04-01` | `src/identity/keyVaultAccess.bicep:9`              | Role: Key Vault Secrets User (`4633458b-...`); Scope: ResourceGroup                        |
-| Key Vault Secrets Officer Assignment                  | `Microsoft.Authorization/roleAssignments@2022-04-01` | `src/identity/devCenterRoleAssignmentRG.bicep`     | Role: Key Vault Secrets Officer (`b86a8fe4-...`); Scope: ResourceGroup                     |
-| DevCenter Project Admin Assignment                    | `Microsoft.Authorization/roleAssignments@2022-04-01` | `src/identity/orgRoleAssignment.bicep`             | Role: DevCenter Project Admin (`331c37c6-...`); Group: Platform Engineering Team           |
-| Dev Box User Assignment                               | `Microsoft.Authorization/roleAssignments@2022-04-01` | `src/identity/projectIdentityRoleAssignment.bicep` | Role: Dev Box User (`45d50f46-...`); Group: eShop Engineers; Scope: Project                |
-| Deployment Environment User Assignment                | `Microsoft.Authorization/roleAssignments@2022-04-01` | `src/identity/projectIdentityRoleAssignment.bicep` | Role: Deployment Environment User (`18e40d4e-...`); Group: eShop Engineers; Scope: Project |
+| Component | Resource Type | 
+| ----------------------------------------------------- | ---------------------------------------------------- | 
+| DevCenter Role Assignment (Contributor) | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
+| DevCenter Role Assignment (User Access Administrator) | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
+| Key Vault Secrets User Assignment | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
+| Key Vault Secrets Officer Assignment | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
+| DevCenter Project Admin Assignment | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
+| Dev Box User Assignment | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
+| Deployment Environment User Assignment | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
 
 ### 2.5 Monitoring Resources
 
-| Component                      | Resource Type                                                 | Source File                             | Configuration                                                                   |
-| ------------------------------ | ------------------------------------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------- |
-| Log Analytics Workspace        | `Microsoft.OperationalInsights/workspaces@2025-07-01`         | `src/management/logAnalytics.bicep:38`  | SKU: PerGB2018; name: `{truncated}-{uniqueString(RG.id)}`; allLogs + AllMetrics |
-| AzureActivity Solution         | `Microsoft.OperationsManagement/solutions@2015-11-01-preview` | `src/management/logAnalytics.bicep:53`  | Product: `OMSGallery/AzureActivity`; publisher: Microsoft; linked to workspace  |
-| DevCenter Diagnostic Settings  | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview`    | `src/workload/core/devCenter.bicep:174` | categoryGroup: allLogs; category: AllMetrics; destination: Log Analytics        |
-| Key Vault Diagnostic Settings  | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview`    | `src/security/secret.bicep:28`          | logAnalyticsDestinationType: AzureDiagnostics; allLogs + AllMetrics             |
-| VNet Diagnostic Settings       | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview`    | `src/connectivity/vnet.bicep:65`        | allLogs + AllMetrics; applied when VNet is created                              |
-| Log Analytics Self-Diagnostics | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview`    | `src/management/logAnalytics.bicep:63`  | Self-referential; allLogs + AllMetrics → same workspace                         |
+| Component | Resource Type | 
+| ------------------------------ | ------------------------------------------------------------- | 
+| Log Analytics Workspace | `Microsoft.OperationalInsights/workspaces@2025-07-01` | 
+| AzureActivity Solution | `Microsoft.OperationsManagement/solutions@2015-11-01-preview` | 
+| DevCenter Diagnostic Settings | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview` | 
+| Key Vault Diagnostic Settings | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview` | 
+| VNet Diagnostic Settings | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview` | 
+| Log Analytics Self-Diagnostics | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview` | 
 
 ### 2.6 Identity Resources
 
-| Component                                  | Type                            | Source File                                            | Configuration                                                                                           |
-| ------------------------------------------ | ------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
-| DevCenter SystemAssigned Identity          | Azure Managed Identity (System) | `src/workload/core/devCenter.bicep:152`                | `identity.type: SystemAssigned`; principalId used for subscription-scope RBAC                           |
-| eShop Project SystemAssigned Identity      | Azure Managed Identity (System) | `src/workload/project/project.bicep`                   | `identity.type: SystemAssigned`; principalId used for project-scope RBAC                                |
-| Project Environment Type Identity          | Azure Managed Identity (System) | `src/workload/project/projectEnvironmentType.bicep:37` | SystemAssigned per environment type; creatorRoleAssignment: Contributor                                 |
-| Azure AD Group — Platform Engineering Team | Microsoft Entra ID Group        | `infra/settings/workload/devcenter.yaml:60`            | GroupId: `54fd94a1-e116-4bc8-8238-caae9d72bd12`; DevCenter Project Admin role                           |
-| Azure AD Group — eShop Engineers           | Microsoft Entra ID Group        | `infra/settings/workload/devcenter.yaml:113`           | GroupId: `b9968440-0caf-40d8-ac36-52f159730eb7`; Dev Box User + Contributor + Deployment Env User roles |
+| Component | Type | 
+| ------------------------------------------ | ------------------------------- | 
+| DevCenter SystemAssigned Identity | Azure Managed Identity (System) | 
+| eShop Project SystemAssigned Identity | Azure Managed Identity (System) | 
+| Project Environment Type Identity | Azure Managed Identity (System) | 
+| Azure AD Group — Platform Engineering Team | Microsoft Entra ID Group | 
+| Azure AD Group — eShop Engineers | Microsoft Entra ID Group | 
 
 ### 2.7 Deployment Infrastructure
 
-| Component                   | Tool / Resource                   | Source File                           | Configuration                                                                                 |
-| --------------------------- | --------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Azure Developer CLI (`azd`) | CLI Toolchain                     | `azure.yaml`                          | Project: `ContosoDevExp`; preprovision hooks for POSIX (`setUp.sh`) and Windows (`setUp.ps1`) |
-| Bicep Orchestrator          | `main.bicep` (Subscription scope) | `infra/main.bicep`                    | `targetScope = 'subscription'`; loads `azureResources.yaml`; deploys 3 RGs + 3 modules        |
-| Workload Module             | `workload.bicep`                  | `src/workload/workload.bicep`         | Loads `devcenter.yaml`; deploys DevCenter core + iterates projects                            |
-| Security Module             | `security.bicep`                  | `src/security/security.bicep`         | Loads `security.yaml`; conditional Key Vault create or reference                              |
-| Monitoring Module           | `logAnalytics.bicep`              | `src/management/logAnalytics.bicep`   | PerGB2018 SKU; AzureActivity solution; exports workspace ID                                   |
-| Connectivity Module         | `connectivity.bicep`              | `src/connectivity/connectivity.bicep` | Conditional VNet + NetworkConnection; creates connectivity RG if Unmanaged                    |
-| DevCenter Core Module       | `devCenter.bicep`                 | `src/workload/core/devCenter.bicep`   | DevCenter resource + diagnostic settings + catalog sync                                       |
-| Project Module              | `project.bicep`                   | `src/workload/project/project.bicep`  | Per-project deployment; pools, catalogs, environment types, connectivity                      |
-| Setup Scripts               | `setUp.sh` / `setUp.ps1`          | `setUp.sh`, `setUp.ps1`               | Pre-provision validation; SOURCE_CONTROL_PLATFORM detection                                   |
-| Transform Script            | `transform-bdat.ps1`              | `scripts/transform-bdat.ps1`          | BDAT documentation transformation utility                                                     |
-| Deployment Parameters       | `main.parameters.json`            | `infra/main.parameters.json`          | Binds `AZURE_ENV_NAME`, `AZURE_LOCATION`, `KEY_VAULT_SECRET` from azd environment             |
+| Component | Tool / Resource | 
+| --------------------------- | --------------------------------- | 
+| Azure Developer CLI (`azd`) | CLI Toolchain | 
+| Bicep Orchestrator | `main.bicep` (Subscription scope) | 
+| Workload Module | `workload.bicep` | 
+| Security Module | `security.bicep` | 
+| Monitoring Module | `logAnalytics.bicep` | 
+| Connectivity Module | `connectivity.bicep` | 
+| DevCenter Core Module | `devCenter.bicep` | 
+| Project Module | `project.bicep` | 
+| Setup Scripts | `setUp.sh` / `setUp.ps1` | 
+| Transform Script | `transform-bdat.ps1` | 
+| Deployment Parameters | `main.parameters.json` | 
 
 ### 2.8 Container & Orchestration Infrastructure
 
@@ -149,37 +149,37 @@ infrastructure is present in the repository.
 
 ### 2.9 Integration & Catalog Infrastructure
 
-| Component                         | Resource Type                                                | Source File                                 | Configuration                                                                                                             |
-| --------------------------------- | ------------------------------------------------------------ | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| DevCenter Catalog — `customTasks` | `Microsoft.DevCenter/devcenters/catalogs@2026-01-01-preview` | `src/workload/core/catalog.bicep`           | Type: gitHub; visibility: public; repo: `microsoft/devcenter-catalog`; branch: main; path: `./Tasks`; syncType: Scheduled |
-| eShop Environments Catalog        | `Microsoft.DevCenter/projects/catalogs@2026-01-01-preview`   | `src/workload/project/projectCatalog.bicep` | Type: environmentDefinition; visibility: private; repo: `Evilazaro/eShop.git`; path: `/.devcenter/environments`           |
-| eShop DevBox Images Catalog       | `Microsoft.DevCenter/projects/catalogs@2026-01-01-preview`   | `src/workload/project/projectCatalog.bicep` | Type: imageDefinition; visibility: private; repo: `Evilazaro/eShop.git`; path: `/.devcenter/imageDefinitions`             |
+| Component | Resource Type | 
+| --------------------------------- | ------------------------------------------------------------ | 
+| DevCenter Catalog — `customTasks` | `Microsoft.DevCenter/devcenters/catalogs@2026-01-01-preview` | 
+| eShop Environments Catalog | `Microsoft.DevCenter/projects/catalogs@2026-01-01-preview` | 
+| eShop DevBox Images Catalog | `Microsoft.DevCenter/projects/catalogs@2026-01-01-preview` | 
 
 ### 2.10 Configuration Management
 
-| Component                    | Type               | Source File                                                      | Purpose                                                                                                                           |
-| ---------------------------- | ------------------ | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `azureResources.yaml`        | YAML Configuration | `infra/settings/resourceOrganization/azureResources.yaml`        | Defines three landing zone domains (workload, security, monitoring) with resource group names, create flags, and governance tags  |
-| `devcenter.yaml`             | YAML Configuration | `infra/settings/workload/devcenter.yaml`                         | Defines DevCenter identity, role assignments, catalogs, environment types, and all projects (eShop) with pools and network config |
-| `security.yaml`              | YAML Configuration | `infra/settings/security/security.yaml`                          | Defines Key Vault name, security flags (purge protection, soft delete), RBAC authorization mode, and secret name                  |
-| `azureResources.schema.json` | JSON Schema        | `infra/settings/resourceOrganization/azureResources.schema.json` | Schema validation for `azureResources.yaml`; enforces structure at authoring time                                                 |
-| `devcenter.schema.json`      | JSON Schema        | `infra/settings/workload/devcenter.schema.json`                  | Schema validation for `devcenter.yaml`; enforces DevCenter configuration structure                                                |
-| `security.schema.json`       | JSON Schema        | `infra/settings/security/security.schema.json`                   | Schema validation for `security.yaml`; enforces Key Vault configuration structure                                                 |
-| `main.parameters.json`       | JSON Parameters    | `infra/main.parameters.json`                                     | Maps `azd` environment variables (`AZURE_ENV_NAME`, `AZURE_LOCATION`, `KEY_VAULT_SECRET`) to Bicep parameters                     |
+| Component | Type | 
+| ---------------------------- | ------------------ | 
+| `azureResources.yaml` | YAML Configuration | 
+| `devcenter.yaml` | YAML Configuration | 
+| `security.yaml` | YAML Configuration | 
+| `azureResources.schema.json` | JSON Schema | 
+| `devcenter.schema.json` | JSON Schema | 
+| `security.schema.json` | JSON Schema | 
+| `main.parameters.json` | JSON Parameters | 
 
 ### 2.11 Platform Services
 
-| Component                                      | Service / Feature                                                    | Source File                                         | Configuration                                                                            |
-| ---------------------------------------------- | -------------------------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| DevCenter Environment Types (global) — dev     | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` | `src/workload/core/environmentType.bicep`           | name: dev; displayName: dev                                                              |
-| DevCenter Environment Types (global) — staging | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` | `src/workload/core/environmentType.bicep`           | name: staging; displayName: staging                                                      |
-| DevCenter Environment Types (global) — uat     | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` | `src/workload/core/environmentType.bicep`           | name: uat; displayName: uat                                                              |
-| eShop Project Environment Type — dev           | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview`   | `src/workload/project/projectEnvironmentType.bicep` | SystemAssigned identity; deploymentTargetId: subscription().id; creatorRole: Contributor |
-| eShop Project Environment Type — staging       | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview`   | `src/workload/project/projectEnvironmentType.bicep` | SystemAssigned identity; status: Enabled                                                 |
-| eShop Project Environment Type — UAT           | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview`   | `src/workload/project/projectEnvironmentType.bicep` | SystemAssigned identity; status: Enabled                                                 |
-| Azure Monitor Agent Install Feature            | DevCenter Platform Feature                                           | `infra/settings/workload/devcenter.yaml:22`         | `installAzureMonitorAgentEnableStatus: Enabled`; enables AMA on all Dev Boxes            |
-| Microsoft Hosted Network Feature               | DevCenter Platform Feature                                           | `infra/settings/workload/devcenter.yaml:21`         | `microsoftHostedNetworkEnableStatus: Enabled`; enables Microsoft-managed network         |
-| Catalog Item Sync Feature                      | DevCenter Platform Feature                                           | `infra/settings/workload/devcenter.yaml:20`         | `catalogItemSyncEnableStatus: Enabled`; enables scheduled catalog synchronization        |
+| Component | Service / Feature | 
+| ---------------------------------------------- | -------------------------------------------------------------------- | 
+| DevCenter Environment Types (global) — dev | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` | 
+| DevCenter Environment Types (global) — staging | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` | 
+| DevCenter Environment Types (global) — uat | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` | 
+| eShop Project Environment Type — dev | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview` | 
+| eShop Project Environment Type — staging | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview` | 
+| eShop Project Environment Type — UAT | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview` | 
+| Azure Monitor Agent Install Feature | DevCenter Platform Feature | 
+| Microsoft Hosted Network Feature | DevCenter Platform Feature | 
+| Catalog Item Sync Feature | DevCenter Platform Feature | 
 
 ---
 
@@ -532,15 +532,15 @@ flowchart TB
 
 ### Maturity Heatmap
 
-| Capability                   | Level                | Evidence                                                                              |
-| ---------------------------- | -------------------- | ------------------------------------------------------------------------------------- |
-| Infrastructure as Code       | Level 5 (Optimized)  | Full Bicep coverage; typed params; module composition                                 |
-| Configuration Management     | Level 4 (Managed)    | YAML + JSON Schema; externalized config; parameter binding                            |
-| Identity & Access Management | Level 4 (Managed)    | Managed identities; RBAC; PoLP; no embedded credentials                               |
-| Observability                | Level 3 (Defined)    | Diagnostic settings on all resources; Log Analytics centralized; no alerting rules    |
-| Landing Zone Alignment       | Level 2 (Repeatable) | Logical domain separation defined; physical separation not enforced in default config |
-| Security Posture             | Level 3 (Defined)    | Key Vault RBAC; purge protection; soft delete; no policy enforcement                  |
-| Deployment Automation        | Level 4 (Managed)    | azd with hooks; platform scripts; parameter-driven; idempotent                        |
+| Capability | 
+| ---------------------------- | 
+| Infrastructure as Code | 
+| Configuration Management | 
+| Identity & Access Management | 
+| Observability | 
+| Landing Zone Alignment | 
+| Security Posture | 
+| Deployment Automation | 
 
 ### Summary
 

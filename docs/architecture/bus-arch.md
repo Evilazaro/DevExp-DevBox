@@ -632,27 +632,27 @@ flowchart LR
 
 ### As-Is State Analysis
 
-| Domain                | As-Is State                                                                                                         | Evidence                                     | Maturity     |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- | ------------ |
-| Business Strategy     | Fully articulated in README with platform objectives, features, and architecture overview                           | README.md:1-120                              | 4 — Measured |
-| Business Capabilities | 8 capabilities operational via Bicep + YAML; all listed in README feature matrix with status ✅ Stable              | README.md:48-62                              | 4 — Measured |
-| Value Streams         | 2 value streams operational; end-to-end automation confirmed via `azure.yaml` hooks and Bicep modules               | azure.yaml:1-50                              | 3 — Defined  |
-| Business Processes    | 5 processes fully automated; Dev Center provisioning includes catalog sync, environment types, and role assignments | infra/main.bicep:1-160                       | 4 — Measured |
-| Business Services     | 5 Azure services deployed with diagnostic settings; Dev Center has Azure Monitor agent enabled                      | src/workload/workload.bicep:1-90             | 4 — Measured |
-| Business Rules        | 7 rules enforced at deployment time via Bicep type constraints and YAML Schema validation                           | infra/settings/security/security.yaml:25-30  | 4 — Measured |
-| Business Roles & RBAC | 9 RBAC roles assigned across subscription, resource group, and project scopes                                       | infra/settings/workload/devcenter.yaml:27-53 | 4 — Measured |
-| KPI Tracking          | Not formally implemented; no Azure Monitor dashboards, alert rules, or SLA definitions detected                     | Not detected in source files                 | 2 — Managed  |
-| Business Continuity   | No RTO/RPO documentation, disaster recovery runbooks, or Key Vault backup schedules detected                        | Not detected in source files                 | 1 — Initial  |
+| Domain | As-Is State | 
+| --------------------- | ------------------------------------------------------------------------------------------------------------------- | 
+| Business Strategy | Fully articulated in README with platform objectives, features, and architecture overview | 
+| Business Capabilities | 8 capabilities operational via Bicep + YAML; all listed in README feature matrix with status ✅ Stable | 
+| Value Streams | 2 value streams operational; end-to-end automation confirmed via `azure.yaml` hooks and Bicep modules | 
+| Business Processes | 5 processes fully automated; Dev Center provisioning includes catalog sync, environment types, and role assignments | 
+| Business Services | 5 Azure services deployed with diagnostic settings; Dev Center has Azure Monitor agent enabled | 
+| Business Rules | 7 rules enforced at deployment time via Bicep type constraints and YAML Schema validation | 
+| Business Roles & RBAC | 9 RBAC roles assigned across subscription, resource group, and project scopes | 
+| KPI Tracking | Not formally implemented; no Azure Monitor dashboards, alert rules, or SLA definitions detected | 
+| Business Continuity | No RTO/RPO documentation, disaster recovery runbooks, or Key Vault backup schedules detected | 
 
 ### Gap Analysis
 
-| Gap                               | Description                                                                                                                         | Business Impact                                                        | Priority | Recommended Action                                                                                       |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------- |
-| KPI Dashboards                    | No Azure Monitor dashboards, Workbooks, or alert rules for deployment success rate, provisioning time, or Dev Box availability time | Medium — No visibility into platform health or SLA adherence           | **High** | Implement Azure Monitor Workbook for platform KPIs; add alert rules for `azd up` failures                |
-| Automated Image Pipeline          | No CI/CD pipeline for Dev Box image definitions; catalog sync updates require manual re-execution of `azd up`                       | Medium — Stale Dev Box images lead to developer environment drift      | **High** | Add GitHub Actions workflow for automated image build, version tagging, and catalog push                 |
-| Business Continuity Plan          | No documented RTO/RPO objectives, Key Vault backup schedule, or Dev Center recreation runbook                                       | Low — Undocumented recovery procedures increase MTTR during incidents  | Medium   | Document BCP with Key Vault backup to Azure Storage, Dev Center recreation runbook, and RTO target       |
-| Cost Governance Tooling           | Tags are applied but no budget alerts or cost allocation reports are configured in Azure Cost Management                            | Medium — No automated cost anomaly detection despite tagging policy    | Medium   | Configure Azure Cost Management budget alerts with tag-based cost allocation views                       |
-| Multi-Environment Differentiation | Dev, staging, and UAT environment types are defined but share identical resource SKUs and RBAC configurations                       | Low — No enforcement of environment-specific security or cost controls | Low      | Define environment-specific pool SKUs (dev: smaller VM, prod: larger VM) and graduated RBAC restrictions |
+| Gap | Description | Business Impact | 
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | 
+| KPI Dashboards | No Azure Monitor dashboards, Workbooks, or alert rules for deployment success rate, provisioning time, or Dev Box availability time | Medium — No visibility into platform health or SLA adherence | 
+| Automated Image Pipeline | No CI/CD pipeline for Dev Box image definitions; catalog sync updates require manual re-execution of `azd up` | Medium — Stale Dev Box images lead to developer environment drift | 
+| Business Continuity Plan | No documented RTO/RPO objectives, Key Vault backup schedule, or Dev Center recreation runbook | Low — Undocumented recovery procedures increase MTTR during incidents | 
+| Cost Governance Tooling | Tags are applied but no budget alerts or cost allocation reports are configured in Azure Cost Management | Medium — No automated cost anomaly detection despite tagging policy | 
+| Multi-Environment Differentiation | Dev, staging, and UAT environment types are defined but share identical resource SKUs and RBAC configurations | Low — No enforcement of environment-specific security or cost controls | 
 
 ### Summary
 
