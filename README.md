@@ -493,7 +493,7 @@ config:
 ---
 flowchart TB
     accTitle: DevExp-DevBox Platform Architecture
-    accDescr: Shows the DevExp-DevBox platform spanning Developer Tooling, Workload, Security, and Monitoring Landing Zones with azd CLI orchestrating Bicep module deployments to Azure Dev Center, Key Vault, and Log Analytics Workspace. Developer=neutral, AzdCli=core, SetupScripts=neutral, DevCenter=core, VNet=neutral, BackendPool=success, FrontendPool=success, Catalogs=data, EnvTypes=neutral, KeyVault=warning, LogAnalytics=success. WCAG AA compliant.
+    accDescr: Shows the DevExp-DevBox platform spanning Developer Tooling, Workload, Security, and Monitoring Landing Zones with azd CLI orchestrating Bicep module deployments to Azure Dev Center, Key Vault, and Log Analytics Workspace. Developer=neutral, AzdCli=core, SetupScripts=neutral, DevCenter=core, VNet=neutral, BackendPool=success, FrontendPool=success, Catalogs=data, EnvTypes=neutral, KeyVault=danger, LogAnalytics=warning. devtools=neutral surface, workload=success zone, security=danger zone, monitoring=warning zone, eshopProject=Level2 neutral. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -525,11 +525,11 @@ flowchart TB
     end
 
     subgraph security ["🔒 Security Landing Zone"]
-        KeyVault("🔒 Azure Key Vault"):::warning
+        KeyVault("🔒 Azure Key Vault"):::danger
     end
 
     subgraph monitoring ["📊 Monitoring Landing Zone"]
-        LogAnalytics("📊 Log Analytics Workspace"):::success
+        LogAnalytics("📊 Log Analytics Workspace"):::warning
     end
 
     Dev -->|"executes"| AzdCli
@@ -547,16 +547,18 @@ flowchart TB
     KeyVault -->|"streams audit logs to"| LogAnalytics
 
     style devtools fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style workload fill:#E8F0FE,stroke:#0078D4,stroke-width:2px,color:#323130
-    style eshopProject fill:#EDEBE9,stroke:#0078D4,stroke-width:2px,color:#323130
-    style security fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
-    style monitoring fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style workload fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    style eshopProject fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
+    style security fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
+    style monitoring fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+    classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     classDef data fill:#F0E6FF,stroke:#8764B8,stroke-width:2px,color:#323130
+    classDef external fill:#E6F5F0,stroke:#036B52,stroke-width:2px,color:#323130
 ```
 
 **Component Roles:**
