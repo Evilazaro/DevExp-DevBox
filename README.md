@@ -105,7 +105,7 @@ cd DevExp-DevBox
 
 ```bash
 azd auth login
-azd env new ContosoDevExp
+azd env new dev
 ```
 
 **3. Set required environment variables:**
@@ -119,7 +119,7 @@ azd env set KEY_VAULT_SECRET "$(gh auth token)"
 **4. Deploy the full platform:**
 
 ```bash
-azd up
+azd provision -e dev
 ```
 
 **Expected Output:**
