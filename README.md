@@ -159,15 +159,13 @@ provision and operate the platform. All tools must be installed and
 authenticated before running `azd up`. The setup scripts validate for required
 dependencies at runtime and exit with an informative error if any are missing.
 
-> [!IMPORTANT]
-> The deployment assigns Azure RBAC roles at the **subscription
+> [!IMPORTANT] The deployment assigns Azure RBAC roles at the **subscription
 > scope**. The deploying identity must hold the **Owner** role or a combination
 > of **Contributor** and **User Access Administrator** on the target
 > subscription. Without these permissions, the Bicep deployment will fail during
 > the identity module execution.
 
-> [!TIP]
-> Use `azd version` and `az version` to verify your installed tool
+> [!TIP] Use `azd version` and `az version` to verify your installed tool
 > versions match the minimum requirements before running `azd up`.
 
 | 🛠️ Requirement         | 📦 Package / Tool          | 🔢 Minimum Version      | 🔗 Install Guide                                                                                           |
@@ -413,10 +411,8 @@ azd env set KEY_VAULT_SECRET "$(gh auth token)"
 azd up
 ```
 
-> [!IMPORTANT] Always validate JSON Schema compliance for YAML configuration
-> changes. Each `infra/settings/` directory contains a `.schema.json` file that
-> can be used with any JSON Schema validator to verify your configuration before
-> deployment.
+> [!IMPORTANT]
+> Always validate JSON Schema compliance for YAML configuration changes. Each `infra/settings/` directory contains a `.schema.json` file that can be used with any JSON Schema validator to verify your configuration before deployment.
 
 **Contribution guidelines:**
 
