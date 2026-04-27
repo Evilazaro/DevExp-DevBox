@@ -15,7 +15,6 @@ Schema validation.
 - [Overview](#-overview)
 - [Features](#-features)
 - [Quick Start](#-quick-start)
-- [Deployment](#-deployment)
 - [Requirements](#-requirements)
 - [Usage](#-usage)
 - [Configuration](#-configuration)
@@ -79,9 +78,21 @@ day one.
 **Overview**
 
 Get the complete DevExp-DevBox platform deployed in under 10 minutes using the
-Azure Developer CLI. The quickest path provisions all resources in a single
-command after authenticating with your Azure account and configuring the
-required environment variables.
+Azure Developer CLI. A `preprovision` hook (`setUp.sh` on Linux/macOS or
+`setUp.ps1` on Windows) runs automatically before resource provisioning to
+handle source control authentication and environment validation.
+
+> [!WARNING] Ensure you are assigned the **Owner** or **Contributor + User
+> Access Administrator** role on the target Azure subscription before deploying.
+> The Bicep modules assign RBAC roles at the subscription scope and require
+> these permissions.
+
+**Prerequisites:**
+
+- Azure subscription with Owner or Contributor + User Access Administrator role
+- Azure CLI and `azd` installed and authenticated
+- GitHub CLI (`gh`) authenticated if using `SOURCE_CONTROL_PLATFORM=github`
+- `jq` installed (Linux/macOS only)
 
 **1. Clone the repository:**
 
@@ -123,45 +134,10 @@ Outputs:
 - WORKLOAD_AZURE_RESOURCE_GROUP_NAME: devexp-workload-ContosoDevExp-eastus2-RG
 ```
 
-> [!WARNING] Ensure you are assigned the **Owner** or **Contributor + User
-> Access Administrator** role on the target Azure subscription before running
-> `azd up`. The deployment assigns RBAC roles at the subscription scope and
-> requires these permissions.
-
-## 📦 Deployment
-
-**Overview**
-
-DevExp-DevBox uses the Azure Developer CLI (`azd`) to orchestrate a
-subscription-scoped Bicep deployment. The `preprovision` hook (`setUp.sh` on
-Linux/macOS or `setUp.ps1` on Windows) runs automatically before resource
-provisioning to handle source control authentication and environment validation.
-
-**Prerequisites checklist before deploying:**
-
-- Azure subscription with Owner or Contributor + User Access Administrator role
-- Azure CLI and `azd` installed and authenticated
-- GitHub CLI (`gh`) authenticated if using `SOURCE_CONTROL_PLATFORM=github`
-- `jq` installed (Linux/macOS only)
-
-**Deploy (provision only):**
+**Provision only (skip deploy step):**
 
 ```bash
 azd provision
-```
-
-**Expected Output:**
-
-```text
-Provisioning Azure resources (azd provision)
-  (✓) Done: Resource group: devexp-workload-ContosoDevExp-eastus2-RG
-  (✓) Done: Log Analytics workspace: logAnalytics-<unique>
-  (✓) Done: Key Vault: contoso-<unique>-kv
-  (✓) Done: Dev Center: devexp-<unique>
-  (✓) Done: Project: eShop
-  (✓) Done: Dev Box Pools: backend-engineer, frontend-engineer
-
-SUCCESS: Your provision workflow to provision to Azure completed in 7 minutes 15 seconds.
 ```
 
 **Tear down and clean up:**
