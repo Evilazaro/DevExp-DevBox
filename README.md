@@ -558,7 +558,6 @@ flowchart TB
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
     classDef danger fill:#FDE7E9,stroke:#D13438,stroke-width:2px,color:#323130
     classDef data fill:#F0E6FF,stroke:#8764B8,stroke-width:2px,color:#323130
-    classDef external fill:#E6F5F0,stroke:#036B52,stroke-width:2px,color:#323130
 ```
 
 **Component Roles:**
