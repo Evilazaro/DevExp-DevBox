@@ -11,8 +11,8 @@ Data layer is organized across three primary domains: **Workload Data**
 (DevCenter configuration entities, project definitions, catalog references),
 **Security Data** (Azure Key Vault secrets, keys, and RBAC configurations), and
 **Monitoring Data** (Log Analytics telemetry and audit streams). All
-configuration data is schema-first, validated at design time against JSON Schema
-2020-12 definitions, and loaded at deployment time via Bicep's
+configuration data is **schema-first, validated at design time against JSON
+Schema 2020-12 definitions**, and loaded at deployment time via Bicep's
 `loadYamlContent()` function.
 
 The Data architecture comprises 15 identifiable components across 9 active
@@ -28,7 +28,7 @@ Strategic alignment is strong: the schema-first approach ensures data integrity
 at every deployment boundary, tag-based governance provides cost attribution and
 ownership traceability, and RBAC-based access controls enforce least-privilege
 data access across all Azure resources. The primary architectural gap identified
-is the absence of automated data lineage tracking between configuration file
+is the **absence of automated data lineage tracking** between configuration file
 changes and deployed Azure resource states, which represents a Level 2 maturity
 ceiling for data governance.
 
@@ -512,9 +512,9 @@ flowchart LR
 
 The Current State Baseline demonstrates a well-engineered, schema-governed
 configuration data pipeline suited to its purpose as a DevCenter deployment
-accelerator. The schema-first approach enforced by JSON Schema 2020-12
-validators, the secret management pipeline via Azure Key Vault with RBAC and
-full audit logging, and the consistent tag-based governance schema represent
+accelerator. **The schema-first approach** enforced by JSON Schema 2020-12
+validators, **the secret management pipeline via Azure Key Vault with RBAC and
+full audit logging**, and the consistent tag-based governance schema represent
 Level 3–4 maturity across the core data capabilities. The `loadYamlContent()`
 integration provides clean, traceable configuration-to-deployment data flows
 without requiring additional tooling.
@@ -849,20 +849,20 @@ flowchart TB
 
 The Dependencies & Integration analysis confirms a deployment-time integration
 pattern with clean domain separation and explicit output-to-input data coupling
-between Bicep modules. The directed deployment ordering (Log Analytics → Key
-Vault → DevCenter) is correctly enforced via Bicep `dependsOn` directives in
-`main.bicep`, ensuring all required data store references are available before
-dependent modules execute. The loose-coupling pattern (output parameters)
+between Bicep modules. The **directed deployment ordering (Log Analytics → Key
+Vault → DevCenter)** is correctly enforced via Bicep **`dependsOn` directives**
+in `main.bicep`, ensuring all required data store references are available
+before dependent modules execute. The loose-coupling pattern (output parameters)
 enables independent module evolution without breaking cross-domain contracts.
 
 Integration health is strong for deployment workflows: all data flows are
-explicitly declared, all secrets are protected by `@secure()` decorators, and
-the audit trail from Key Vault to Log Analytics provides complete observability
-of secret lifecycle events. The primary integration gap is the absence of
-runtime data flow tracking post-deployment — once the infrastructure is
-deployed, there is no mechanism to visualize or monitor the ongoing data flows
-between DevCenter, Key Vault, and Log Analytics in a unified view. Recommended
-enhancements: implement Azure Resource Graph queries for runtime dependency
-visualization, add Azure Monitor workbooks for integrated DevCenter + Key
-Vault + Log Analytics health dashboards, and introduce `azd` output variable
+explicitly declared, all secrets are protected by **`@secure()` decorators**,
+and the audit trail from Key Vault to Log Analytics provides complete
+observability of secret lifecycle events. The primary integration gap is the
+absence of runtime data flow tracking post-deployment — once the infrastructure
+is deployed, there is no mechanism to visualize or monitor the ongoing data
+flows between DevCenter, Key Vault, and Log Analytics in a unified view.
+Recommended enhancements: implement Azure Resource Graph queries for runtime
+dependency visualization, add Azure Monitor workbooks for integrated DevCenter +
+Key Vault + Log Analytics health dashboards, and introduce `azd` output variable
 documentation to formalize the deployment output contract.
