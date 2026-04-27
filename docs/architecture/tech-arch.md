@@ -66,78 +66,78 @@ detected component with file:line references.
 
 ### 2.1 Compute Resources
 
-| Component | Resource Type | 
-| ------------------------------- | ------------------------------------------------------- | 
-| Azure DevCenter (`devexp`) | `Microsoft.DevCenter/devcenters@2026-01-01-preview` | 
-| eShop Project | `Microsoft.DevCenter/projects@2026-01-01-preview` | 
-| DevBox Pool — backend-engineer | `Microsoft.DevCenter/projects/pools@2026-01-01-preview` | 
-| DevBox Pool — frontend-engineer | `Microsoft.DevCenter/projects/pools@2026-01-01-preview` | 
+| Component                       | Resource Type                                           |
+| ------------------------------- | ------------------------------------------------------- |
+| Azure DevCenter (`devexp`)      | `Microsoft.DevCenter/devcenters@2026-01-01-preview`     |
+| eShop Project                   | `Microsoft.DevCenter/projects@2026-01-01-preview`       |
+| DevBox Pool — backend-engineer  | `Microsoft.DevCenter/projects/pools@2026-01-01-preview` |
+| DevBox Pool — frontend-engineer | `Microsoft.DevCenter/projects/pools@2026-01-01-preview` |
 
 ### 2.2 Network Resources
 
-| Component | Resource Type | 
-| --------------------------- | -------------------------------------------------------------------- | 
-| eShop Virtual Network | `Microsoft.Network/virtualNetworks@2025-05-01` | 
-| eShop-subnet | Subnet (within VNet) | 
-| Network Connection | `Microsoft.DevCenter/networkConnections@2026-01-01-preview` | 
-| DevCenter Attached Network | `Microsoft.DevCenter/devcenters/attachednetworks@2026-01-01-preview` | 
-| Connectivity Resource Group | `Microsoft.Resources/resourceGroups@2025-04-01` | 
+| Component                   | Resource Type                                                        |
+| --------------------------- | -------------------------------------------------------------------- |
+| eShop Virtual Network       | `Microsoft.Network/virtualNetworks@2025-05-01`                       |
+| eShop-subnet                | Subnet (within VNet)                                                 |
+| Network Connection          | `Microsoft.DevCenter/networkConnections@2026-01-01-preview`          |
+| DevCenter Attached Network  | `Microsoft.DevCenter/devcenters/attachednetworks@2026-01-01-preview` |
+| Connectivity Resource Group | `Microsoft.Resources/resourceGroups@2025-04-01`                      |
 
 ### 2.3 Storage Resources
 
-| Component | Resource Type | 
-| --------------------------------------- | ---------------------------------------------- | 
-| Azure Key Vault (`contoso-{unique}-kv`) | `Microsoft.KeyVault/vaults@2025-05-01` | 
-| Key Vault Secret (`gha-token`) | `Microsoft.KeyVault/vaults/secrets@2025-05-01` | 
+| Component                               | Resource Type                                  |
+| --------------------------------------- | ---------------------------------------------- |
+| Azure Key Vault (`contoso-{unique}-kv`) | `Microsoft.KeyVault/vaults@2025-05-01`         |
+| Key Vault Secret (`gha-token`)          | `Microsoft.KeyVault/vaults/secrets@2025-05-01` |
 
 ### 2.4 Security Resources
 
-| Component | Resource Type | 
-| ----------------------------------------------------- | ---------------------------------------------------- | 
-| DevCenter Role Assignment (Contributor) | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
-| DevCenter Role Assignment (User Access Administrator) | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
-| Key Vault Secrets User Assignment | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
-| Key Vault Secrets Officer Assignment | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
-| DevCenter Project Admin Assignment | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
-| Dev Box User Assignment | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
-| Deployment Environment User Assignment | `Microsoft.Authorization/roleAssignments@2022-04-01` | 
+| Component                                             | Resource Type                                        |
+| ----------------------------------------------------- | ---------------------------------------------------- |
+| DevCenter Role Assignment (Contributor)               | `Microsoft.Authorization/roleAssignments@2022-04-01` |
+| DevCenter Role Assignment (User Access Administrator) | `Microsoft.Authorization/roleAssignments@2022-04-01` |
+| Key Vault Secrets User Assignment                     | `Microsoft.Authorization/roleAssignments@2022-04-01` |
+| Key Vault Secrets Officer Assignment                  | `Microsoft.Authorization/roleAssignments@2022-04-01` |
+| DevCenter Project Admin Assignment                    | `Microsoft.Authorization/roleAssignments@2022-04-01` |
+| Dev Box User Assignment                               | `Microsoft.Authorization/roleAssignments@2022-04-01` |
+| Deployment Environment User Assignment                | `Microsoft.Authorization/roleAssignments@2022-04-01` |
 
 ### 2.5 Monitoring Resources
 
-| Component | Resource Type | 
-| ------------------------------ | ------------------------------------------------------------- | 
-| Log Analytics Workspace | `Microsoft.OperationalInsights/workspaces@2025-07-01` | 
-| AzureActivity Solution | `Microsoft.OperationsManagement/solutions@2015-11-01-preview` | 
-| DevCenter Diagnostic Settings | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview` | 
-| Key Vault Diagnostic Settings | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview` | 
-| VNet Diagnostic Settings | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview` | 
-| Log Analytics Self-Diagnostics | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview` | 
+| Component                      | Resource Type                                                 |
+| ------------------------------ | ------------------------------------------------------------- |
+| Log Analytics Workspace        | `Microsoft.OperationalInsights/workspaces@2025-07-01`         |
+| AzureActivity Solution         | `Microsoft.OperationsManagement/solutions@2015-11-01-preview` |
+| DevCenter Diagnostic Settings  | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview`    |
+| Key Vault Diagnostic Settings  | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview`    |
+| VNet Diagnostic Settings       | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview`    |
+| Log Analytics Self-Diagnostics | `Microsoft.Insights/diagnosticSettings@2021-05-01-preview`    |
 
 ### 2.6 Identity Resources
 
-| Component | Type | 
-| ------------------------------------------ | ------------------------------- | 
-| DevCenter SystemAssigned Identity | Azure Managed Identity (System) | 
-| eShop Project SystemAssigned Identity | Azure Managed Identity (System) | 
-| Project Environment Type Identity | Azure Managed Identity (System) | 
-| Azure AD Group — Platform Engineering Team | Microsoft Entra ID Group | 
-| Azure AD Group — eShop Engineers | Microsoft Entra ID Group | 
+| Component                                  | Type                            |
+| ------------------------------------------ | ------------------------------- |
+| DevCenter SystemAssigned Identity          | Azure Managed Identity (System) |
+| eShop Project SystemAssigned Identity      | Azure Managed Identity (System) |
+| Project Environment Type Identity          | Azure Managed Identity (System) |
+| Azure AD Group — Platform Engineering Team | Microsoft Entra ID Group        |
+| Azure AD Group — eShop Engineers           | Microsoft Entra ID Group        |
 
 ### 2.7 Deployment Infrastructure
 
-| Component | Tool / Resource | 
-| --------------------------- | --------------------------------- | 
-| Azure Developer CLI (`azd`) | CLI Toolchain | 
-| Bicep Orchestrator | `main.bicep` (Subscription scope) | 
-| Workload Module | `workload.bicep` | 
-| Security Module | `security.bicep` | 
-| Monitoring Module | `logAnalytics.bicep` | 
-| Connectivity Module | `connectivity.bicep` | 
-| DevCenter Core Module | `devCenter.bicep` | 
-| Project Module | `project.bicep` | 
-| Setup Scripts | `setUp.sh` / `setUp.ps1` | 
-| Transform Script | `transform-bdat.ps1` | 
-| Deployment Parameters | `main.parameters.json` | 
+| Component                   | Tool / Resource                   |
+| --------------------------- | --------------------------------- |
+| Azure Developer CLI (`azd`) | CLI Toolchain                     |
+| Bicep Orchestrator          | `main.bicep` (Subscription scope) |
+| Workload Module             | `workload.bicep`                  |
+| Security Module             | `security.bicep`                  |
+| Monitoring Module           | `logAnalytics.bicep`              |
+| Connectivity Module         | `connectivity.bicep`              |
+| DevCenter Core Module       | `devCenter.bicep`                 |
+| Project Module              | `project.bicep`                   |
+| Setup Scripts               | `setUp.sh` / `setUp.ps1`          |
+| Transform Script            | `transform-bdat.ps1`              |
+| Deployment Parameters       | `main.parameters.json`            |
 
 ### 2.8 Container & Orchestration Infrastructure
 
@@ -149,37 +149,37 @@ infrastructure is present in the repository.
 
 ### 2.9 Integration & Catalog Infrastructure
 
-| Component | Resource Type | 
-| --------------------------------- | ------------------------------------------------------------ | 
-| DevCenter Catalog — `customTasks` | `Microsoft.DevCenter/devcenters/catalogs@2026-01-01-preview` | 
-| eShop Environments Catalog | `Microsoft.DevCenter/projects/catalogs@2026-01-01-preview` | 
-| eShop DevBox Images Catalog | `Microsoft.DevCenter/projects/catalogs@2026-01-01-preview` | 
+| Component                         | Resource Type                                                |
+| --------------------------------- | ------------------------------------------------------------ |
+| DevCenter Catalog — `customTasks` | `Microsoft.DevCenter/devcenters/catalogs@2026-01-01-preview` |
+| eShop Environments Catalog        | `Microsoft.DevCenter/projects/catalogs@2026-01-01-preview`   |
+| eShop DevBox Images Catalog       | `Microsoft.DevCenter/projects/catalogs@2026-01-01-preview`   |
 
 ### 2.10 Configuration Management
 
-| Component | Type | 
-| ---------------------------- | ------------------ | 
-| `azureResources.yaml` | YAML Configuration | 
-| `devcenter.yaml` | YAML Configuration | 
-| `security.yaml` | YAML Configuration | 
-| `azureResources.schema.json` | JSON Schema | 
-| `devcenter.schema.json` | JSON Schema | 
-| `security.schema.json` | JSON Schema | 
-| `main.parameters.json` | JSON Parameters | 
+| Component                    | Type               |
+| ---------------------------- | ------------------ |
+| `azureResources.yaml`        | YAML Configuration |
+| `devcenter.yaml`             | YAML Configuration |
+| `security.yaml`              | YAML Configuration |
+| `azureResources.schema.json` | JSON Schema        |
+| `devcenter.schema.json`      | JSON Schema        |
+| `security.schema.json`       | JSON Schema        |
+| `main.parameters.json`       | JSON Parameters    |
 
 ### 2.11 Platform Services
 
-| Component | Service / Feature | 
-| ---------------------------------------------- | -------------------------------------------------------------------- | 
-| DevCenter Environment Types (global) — dev | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` | 
-| DevCenter Environment Types (global) — staging | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` | 
-| DevCenter Environment Types (global) — uat | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` | 
-| eShop Project Environment Type — dev | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview` | 
-| eShop Project Environment Type — staging | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview` | 
-| eShop Project Environment Type — UAT | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview` | 
-| Azure Monitor Agent Install Feature | DevCenter Platform Feature | 
-| Microsoft Hosted Network Feature | DevCenter Platform Feature | 
-| Catalog Item Sync Feature | DevCenter Platform Feature | 
+| Component                                      | Service / Feature                                                    |
+| ---------------------------------------------- | -------------------------------------------------------------------- |
+| DevCenter Environment Types (global) — dev     | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` |
+| DevCenter Environment Types (global) — staging | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` |
+| DevCenter Environment Types (global) — uat     | `Microsoft.DevCenter/devcenters/environmentTypes@2026-01-01-preview` |
+| eShop Project Environment Type — dev           | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview`   |
+| eShop Project Environment Type — staging       | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview`   |
+| eShop Project Environment Type — UAT           | `Microsoft.DevCenter/projects/environmentTypes@2026-01-01-preview`   |
+| Azure Monitor Agent Install Feature            | DevCenter Platform Feature                                           |
+| Microsoft Hosted Network Feature               | DevCenter Platform Feature                                           |
+| Catalog Item Sync Feature                      | DevCenter Platform Feature                                           |
 
 ---
 
@@ -234,7 +234,7 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    style azSub fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style azSub fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style workloadRg fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
     style connectRg fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
 ```
@@ -512,7 +512,7 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    style sub fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style sub fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style workloadRg fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
     style connectRg fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
 ```
@@ -532,15 +532,15 @@ flowchart TB
 
 ### Maturity Heatmap
 
-| Capability | 
-| ---------------------------- | 
-| Infrastructure as Code | 
-| Configuration Management | 
-| Identity & Access Management | 
-| Observability | 
-| Landing Zone Alignment | 
-| Security Posture | 
-| Deployment Automation | 
+| Capability                   |
+| ---------------------------- |
+| Infrastructure as Code       |
+| Configuration Management     |
+| Identity & Access Management |
+| Observability                |
+| Landing Zone Alignment       |
+| Security Posture             |
+| Deployment Automation        |
 
 ### Summary
 
@@ -856,10 +856,10 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 
     style devWorkstation fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style subscriptionScope fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style monitoringDomain fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
-    style securityDomain fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
-    style workloadDomain fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style subscriptionScope fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style monitoringDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style securityDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style workloadDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style projectDomain fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
     style external fill:#F3F2F1,stroke:#8A8886,stroke-width:1px,color:#323130
 ```

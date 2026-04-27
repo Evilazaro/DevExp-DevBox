@@ -701,7 +701,6 @@ flowchart TB
     %%
 
     subgraph sub ["☁️ Azure Subscription"]
-        direction TB
         subgraph rg1 ["📦 Workload RG: devexp-workload"]
             DC("🖥️ DevCenter: devexp"):::core
             PROJ("📁 Project: eShop"):::core
@@ -811,15 +810,15 @@ the source files.
 
 ### 5.1 Application Services
 
-| Component | Description | Type | Technology | Version | Dependencies | API Endpoints | 
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------ | -------------------- | --------------------------- | ------------------------------------------ | ------------------------ | 
-| Orchestration Service | Subscription-scope ARM deployment orchestrator; deploys 3 RGs and 3 top-level modules; loads azureResources.yaml | Monolith | Azure Bicep / ARM | Bicep v0.x / ARM 2022-09-01 | Azure Subscription, azd CLI | ARM Deployments REST API | 
-| Workload Service | Deploys DevCenter and all configured projects from devcenter.yaml configuration | Microservice | Azure Bicep / ARM | Bicep v0.x | Log Analytics, Key Vault Secret | ARM Module Deployment | 
-| DevCenter Core Service | Provisions Azure DevCenter resource with identity, catalogs, envTypes, roles | Microservice | Azure DevCenter ARM | 2026-01-01-preview | Log Analytics, Key Vault | ARM DevCenter API | 
-| Project Service | Provisions a single DevCenter project with all sub-resources | Microservice | Azure DevCenter ARM | 2026-01-01-preview | DevCenter, Log Analytics, Key Vault Secret | ARM Projects API | 
-| Security Service | Provisions Key Vault and secret; outputs secret identifier for other services | Microservice | Azure Key Vault ARM | 2025-05-01 | Log Analytics | ARM KeyVault API | 
-| Monitoring Service | Provisions Log Analytics Workspace and AzureActivity solution | Microservice | Azure Monitor ARM | 2025-07-01 | None | ARM LogAnalytics API | 
-| Connectivity Service | Conditionally provisions VNet and NetworkConnection for Unmanaged pools | Microservice | Azure Networking ARM | 2025-05-01 | Log Analytics | ARM VirtualNetworks API | 
+| Component              | Description                                                                                                      | Type         | Technology           | Version                     | Dependencies                               | API Endpoints            |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------ | -------------------- | --------------------------- | ------------------------------------------ | ------------------------ |
+| Orchestration Service  | Subscription-scope ARM deployment orchestrator; deploys 3 RGs and 3 top-level modules; loads azureResources.yaml | Monolith     | Azure Bicep / ARM    | Bicep v0.x / ARM 2022-09-01 | Azure Subscription, azd CLI                | ARM Deployments REST API |
+| Workload Service       | Deploys DevCenter and all configured projects from devcenter.yaml configuration                                  | Microservice | Azure Bicep / ARM    | Bicep v0.x                  | Log Analytics, Key Vault Secret            | ARM Module Deployment    |
+| DevCenter Core Service | Provisions Azure DevCenter resource with identity, catalogs, envTypes, roles                                     | Microservice | Azure DevCenter ARM  | 2026-01-01-preview          | Log Analytics, Key Vault                   | ARM DevCenter API        |
+| Project Service        | Provisions a single DevCenter project with all sub-resources                                                     | Microservice | Azure DevCenter ARM  | 2026-01-01-preview          | DevCenter, Log Analytics, Key Vault Secret | ARM Projects API         |
+| Security Service       | Provisions Key Vault and secret; outputs secret identifier for other services                                    | Microservice | Azure Key Vault ARM  | 2025-05-01                  | Log Analytics                              | ARM KeyVault API         |
+| Monitoring Service     | Provisions Log Analytics Workspace and AzureActivity solution                                                    | Microservice | Azure Monitor ARM    | 2025-07-01                  | None                                       | ARM LogAnalytics API     |
+| Connectivity Service   | Conditionally provisions VNet and NetworkConnection for Unmanaged pools                                          | Microservice | Azure Networking ARM | 2025-05-01                  | Log Analytics                              | ARM VirtualNetworks API  |
 
 _Source traceability: infra/main.bicep:1-120, src/workload/workload.bicep:1-95,
 src/workload/core/devCenter.bicep:1-200,
@@ -829,19 +828,19 @@ src/connectivity/connectivity.bicep:1-120_
 
 ### 5.2 Application Components
 
-| Component | Description | Type | Technology | Version | Dependencies | API Endpoints | 
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------ | ----------------------------------------------- | ------------------ | ------------------------------------------- | ------------------------- | 
-| DevCenter Resource | Core platform resource; SystemAssigned identity; feature flags for catalog sync, MS-hosted network, Azure Monitor agent | Microservice | Microsoft.DevCenter/devcenters | 2026-01-01-preview | Log Analytics | DevCenter REST API | 
-| Catalog Component (DevCenter) | DevCenter-level catalog; Scheduled sync with GitHub (microsoft/devcenter-catalog); public repository | Microservice | Microsoft.DevCenter/devcenters/catalogs | 2026-01-01-preview | DevCenter, GitHub (public) | Catalog Sync API | 
-| EnvironmentType Component | DevCenter environment type (dev, staging, uat); display name matches name | Microservice | Microsoft.DevCenter/devcenters/environmentTypes | 2026-01-01-preview | DevCenter | Not detected | 
-| Project Resource | DevCenter project (eShop); SystemAssigned identity; owned by DevCenter | Microservice | Microsoft.DevCenter/projects | 2026-01-01-preview | DevCenter | Projects REST API | 
-| ProjectCatalog (environments) | Project-level catalog; environmentDefinition type; GitHub private repo (Evilazaro/eShop); gha-token auth | Microservice | Microsoft.DevCenter/projects/catalogs | 2026-01-01-preview | Project, Key Vault Secret, GitHub (private) | Catalog Sync API | 
-| ProjectCatalog (devboxImages) | Project-level catalog; imageDefinition type; GitHub private repo (Evilazaro/eShop); gha-token auth | Microservice | Microsoft.DevCenter/projects/catalogs | 2026-01-01-preview | Project, Key Vault Secret, GitHub (private) | Catalog Sync API | 
-| ProjectEnvironmentType | Project env type (dev, staging, uat); SystemAssigned identity; Contributor creator role; subscription deployment target | Microservice | Microsoft.DevCenter/projects/environmentTypes | 2026-01-01-preview | Project, DevCenter EnvironmentType | EnvironmentTypes REST API | 
-| ProjectPool (backend-engineer) | DevBox pool; SKU 32c128gb512ssd_v2; image eshop-backend-dev from devboxImages catalog; SSO + local admin | Microservice | Microsoft.DevCenter/projects/pools | 2026-01-01-preview | Project, devboxImages catalog | Pools REST API | 
-| ProjectPool (frontend-engineer) | DevBox pool; SKU 16c64gb256ssd_v2; image eshop-frontend-dev from devboxImages catalog; SSO + local admin | Microservice | Microsoft.DevCenter/projects/pools | 2026-01-01-preview | Project, devboxImages catalog | Pools REST API | 
-| Key Vault Resource | RBAC-authorized Key Vault; soft-delete 7 days; purge protection; standard SKU; name pattern ${name}-${unique}-kv | Microservice | Microsoft.KeyVault/vaults | 2025-05-01 | None | Key Vault REST API | 
-| NetworkConnection Component | DevCenter network connection linking VNet subnet to DevCenter (when Unmanaged) | Microservice | Microsoft.DevCenter/networkConnections | 2026-01-01-preview | VNet, DevCenter | NetworkConnections API | 
+| Component                       | Description                                                                                                             | Type         | Technology                                      | Version            | Dependencies                                | API Endpoints             |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------ | ----------------------------------------------- | ------------------ | ------------------------------------------- | ------------------------- |
+| DevCenter Resource              | Core platform resource; SystemAssigned identity; feature flags for catalog sync, MS-hosted network, Azure Monitor agent | Microservice | Microsoft.DevCenter/devcenters                  | 2026-01-01-preview | Log Analytics                               | DevCenter REST API        |
+| Catalog Component (DevCenter)   | DevCenter-level catalog; Scheduled sync with GitHub (microsoft/devcenter-catalog); public repository                    | Microservice | Microsoft.DevCenter/devcenters/catalogs         | 2026-01-01-preview | DevCenter, GitHub (public)                  | Catalog Sync API          |
+| EnvironmentType Component       | DevCenter environment type (dev, staging, uat); display name matches name                                               | Microservice | Microsoft.DevCenter/devcenters/environmentTypes | 2026-01-01-preview | DevCenter                                   | Not detected              |
+| Project Resource                | DevCenter project (eShop); SystemAssigned identity; owned by DevCenter                                                  | Microservice | Microsoft.DevCenter/projects                    | 2026-01-01-preview | DevCenter                                   | Projects REST API         |
+| ProjectCatalog (environments)   | Project-level catalog; environmentDefinition type; GitHub private repo (Evilazaro/eShop); gha-token auth                | Microservice | Microsoft.DevCenter/projects/catalogs           | 2026-01-01-preview | Project, Key Vault Secret, GitHub (private) | Catalog Sync API          |
+| ProjectCatalog (devboxImages)   | Project-level catalog; imageDefinition type; GitHub private repo (Evilazaro/eShop); gha-token auth                      | Microservice | Microsoft.DevCenter/projects/catalogs           | 2026-01-01-preview | Project, Key Vault Secret, GitHub (private) | Catalog Sync API          |
+| ProjectEnvironmentType          | Project env type (dev, staging, uat); SystemAssigned identity; Contributor creator role; subscription deployment target | Microservice | Microsoft.DevCenter/projects/environmentTypes   | 2026-01-01-preview | Project, DevCenter EnvironmentType          | EnvironmentTypes REST API |
+| ProjectPool (backend-engineer)  | DevBox pool; SKU 32c128gb512ssd_v2; image eshop-backend-dev from devboxImages catalog; SSO + local admin                | Microservice | Microsoft.DevCenter/projects/pools              | 2026-01-01-preview | Project, devboxImages catalog               | Pools REST API            |
+| ProjectPool (frontend-engineer) | DevBox pool; SKU 16c64gb256ssd_v2; image eshop-frontend-dev from devboxImages catalog; SSO + local admin                | Microservice | Microsoft.DevCenter/projects/pools              | 2026-01-01-preview | Project, devboxImages catalog               | Pools REST API            |
+| Key Vault Resource              | RBAC-authorized Key Vault; soft-delete 7 days; purge protection; standard SKU; name pattern ${name}-${unique}-kv        | Microservice | Microsoft.KeyVault/vaults                       | 2025-05-01         | None                                        | Key Vault REST API        |
+| NetworkConnection Component     | DevCenter network connection linking VNet subnet to DevCenter (when Unmanaged)                                          | Microservice | Microsoft.DevCenter/networkConnections          | 2026-01-01-preview | VNet, DevCenter                             | NetworkConnections API    |
 
 \*Source traceability: src/workload/core/devCenter.bicep:15-35,
 src/workload/core/catalog.bicep:1-80,
@@ -855,14 +854,14 @@ infra/settings/workload/devcenter.yaml:1-\*\*
 
 ### 5.3 Application Interfaces
 
-| Component | Description | Type | Technology | Version | Dependencies | API Endpoints | 
-| --------------------------------- | ---------------------------------------------------------------------------------------------- | ---------- | --------------------- | ------------ | ------------------ | -------------------- | 
-| azd Pre-Provision Hook | Shell script executed before ARM deployment; triggers setUp.sh (Linux) or setUp.ps1 (Windows) | Serverless | Azure Developer CLI | azd v1.x | azd CLI | Not detected | 
-| YAML Configuration Interface | `loadYamlContent()` binding in Bicep; reads devcenter.yaml, security.yaml, azureResources.yaml | Monolith | Bicep loadYamlContent | Bicep v0.x | YAML schema files | Not detected | 
-| Bicep Parameter Interface | Typed `param` declarations on each module; compile-time validated; user-defined types | Monolith | Azure Bicep | Bicep v0.x | None | Not detected | 
-| azd Output Interface | Named ARM `output` declarations surfaced as environment variables by azd | Monolith | Azure Developer CLI | azd v1.x | ARM Deployment | azd env get-values | 
-| ARM REST API Interface | Azure Resource Manager deployment API; subscription-scope targeted | Serverless | Azure ARM REST | 2022-09-01 | Azure Subscription | management.azure.com | 
-| GitHub Actions Workflow Interface | CI/CD pipeline consuming gha-token from Key Vault; triggers azd provision | Serverless | GitHub Actions | Not detected | Key Vault, azd | GitHub Actions API | 
+| Component                         | Description                                                                                    | Type       | Technology            | Version      | Dependencies       | API Endpoints        |
+| --------------------------------- | ---------------------------------------------------------------------------------------------- | ---------- | --------------------- | ------------ | ------------------ | -------------------- |
+| azd Pre-Provision Hook            | Shell script executed before ARM deployment; triggers setUp.sh (Linux) or setUp.ps1 (Windows)  | Serverless | Azure Developer CLI   | azd v1.x     | azd CLI            | Not detected         |
+| YAML Configuration Interface      | `loadYamlContent()` binding in Bicep; reads devcenter.yaml, security.yaml, azureResources.yaml | Monolith   | Bicep loadYamlContent | Bicep v0.x   | YAML schema files  | Not detected         |
+| Bicep Parameter Interface         | Typed `param` declarations on each module; compile-time validated; user-defined types          | Monolith   | Azure Bicep           | Bicep v0.x   | None               | Not detected         |
+| azd Output Interface              | Named ARM `output` declarations surfaced as environment variables by azd                       | Monolith   | Azure Developer CLI   | azd v1.x     | ARM Deployment     | azd env get-values   |
+| ARM REST API Interface            | Azure Resource Manager deployment API; subscription-scope targeted                             | Serverless | Azure ARM REST        | 2022-09-01   | Azure Subscription | management.azure.com |
+| GitHub Actions Workflow Interface | CI/CD pipeline consuming gha-token from Key Vault; triggers azd provision                      | Serverless | GitHub Actions        | Not detected | Key Vault, azd     | GitHub Actions API   |
 
 _Source traceability: azure.yaml:1-_, setUp.sh:1-_,
 scripts/transform-bdat.ps1:1-_, infra/main.bicep:1-20,
@@ -870,18 +869,18 @@ src/workload/workload.bicep:1-15\*
 
 ### 5.4 Application Collaborations
 
-| Component | Description | Type | Technology | Version | Dependencies | API Endpoints | 
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------ | -------------------------------------- | ------------------ | ------------------------------------ | ----------------------- | 
-| Orchestrator → Monitoring Collaboration | main.bicep passes logAnalyticsId to Security and Workload; serial dependency via module output | Monolith | Azure Bicep module output chaining | Bicep v0.x | Monitoring Service | ARM Module Output | 
-| Orchestrator → Security Collaboration | main.bicep passes logAnalyticsId to security module; receives keyVaultSecretIdentifier | Monolith | Azure Bicep module output chaining | Bicep v0.x | Security Service, Monitoring Service | ARM Module Output | 
-| Orchestrator → Workload Collaboration | main.bicep passes logAnalyticsId and keyVaultSecretIdentifier to workload module | Monolith | Azure Bicep module output chaining | Bicep v0.x | Workload Service, Security Service | ARM Module Output | 
-| DevCenter → Key Vault Collaboration | DevCenter catalogs consume secretIdentifier URI for GitHub PAT authentication | Microservice | Azure Key Vault Secret URI | 2025-05-01 | Key Vault, Secret | Key Vault Secrets URI | 
-| DevCenter → Log Analytics Collaboration | All platform resources emit diagnostic logs to shared Log Analytics Workspace | Microservice | Azure Monitor Diagnostic Settings | 2021-05-01-preview | Log Analytics | Diagnostic Settings API | 
-| Project → DevCenter Collaboration | Project resources declare devCenterName dependency; ARM implicit dependency via `existing` reference | Microservice | Azure DevCenter ARM | 2026-01-01-preview | DevCenter | Not detected | 
-| Pool → Catalog Collaboration | ProjectPool references image via ~Catalog~{catalogName}~{imageDefinition} URI | Microservice | Azure DevCenter Pool Image Reference | 2026-01-01-preview | ProjectCatalog | Not detected | 
-| Project → Connectivity Collaboration | project.bicep delegates VNet/NetworkConnection provisioning to connectivity.bicep | Microservice | Azure Bicep module composition | Bicep v0.x | Connectivity Service | Not detected | 
-| Security → Key Vault Collaboration | security.bicep conditionally creates or references existing Key Vault; always deploys secret | Microservice | Azure Key Vault ARM | 2025-05-01 | Key Vault | Not detected | 
-| Workload → Project Collaboration | workload.bicep iterates project array deploying one project.bicep per config entry | Microservice | Azure Bicep for-loop module deployment | Bicep v0.x | DevCenter, Projects | Not detected | 
+| Component                               | Description                                                                                          | Type         | Technology                             | Version            | Dependencies                         | API Endpoints           |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------ | -------------------------------------- | ------------------ | ------------------------------------ | ----------------------- |
+| Orchestrator → Monitoring Collaboration | main.bicep passes logAnalyticsId to Security and Workload; serial dependency via module output       | Monolith     | Azure Bicep module output chaining     | Bicep v0.x         | Monitoring Service                   | ARM Module Output       |
+| Orchestrator → Security Collaboration   | main.bicep passes logAnalyticsId to security module; receives keyVaultSecretIdentifier               | Monolith     | Azure Bicep module output chaining     | Bicep v0.x         | Security Service, Monitoring Service | ARM Module Output       |
+| Orchestrator → Workload Collaboration   | main.bicep passes logAnalyticsId and keyVaultSecretIdentifier to workload module                     | Monolith     | Azure Bicep module output chaining     | Bicep v0.x         | Workload Service, Security Service   | ARM Module Output       |
+| DevCenter → Key Vault Collaboration     | DevCenter catalogs consume secretIdentifier URI for GitHub PAT authentication                        | Microservice | Azure Key Vault Secret URI             | 2025-05-01         | Key Vault, Secret                    | Key Vault Secrets URI   |
+| DevCenter → Log Analytics Collaboration | All platform resources emit diagnostic logs to shared Log Analytics Workspace                        | Microservice | Azure Monitor Diagnostic Settings      | 2021-05-01-preview | Log Analytics                        | Diagnostic Settings API |
+| Project → DevCenter Collaboration       | Project resources declare devCenterName dependency; ARM implicit dependency via `existing` reference | Microservice | Azure DevCenter ARM                    | 2026-01-01-preview | DevCenter                            | Not detected            |
+| Pool → Catalog Collaboration            | ProjectPool references image via ~Catalog~{catalogName}~{imageDefinition} URI                        | Microservice | Azure DevCenter Pool Image Reference   | 2026-01-01-preview | ProjectCatalog                       | Not detected            |
+| Project → Connectivity Collaboration    | project.bicep delegates VNet/NetworkConnection provisioning to connectivity.bicep                    | Microservice | Azure Bicep module composition         | Bicep v0.x         | Connectivity Service                 | Not detected            |
+| Security → Key Vault Collaboration      | security.bicep conditionally creates or references existing Key Vault; always deploys secret         | Microservice | Azure Key Vault ARM                    | 2025-05-01         | Key Vault                            | Not detected            |
+| Workload → Project Collaboration        | workload.bicep iterates project array deploying one project.bicep per config entry                   | Microservice | Azure Bicep for-loop module deployment | Bicep v0.x         | DevCenter, Projects                  | Not detected            |
 
 _Source traceability: infra/main.bicep:50-120,
 src/workload/workload.bicep:40-95, src/workload/core/devCenter.bicep:80-200,
@@ -890,16 +889,16 @@ src/connectivity/connectivity.bicep:1-120_
 
 ### 5.5 Application Functions
 
-| Component | Description | Type | Technology | Version | Dependencies | API Endpoints | 
-| --------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------ | --------------------------------- | ------------------ | ---------------------------------------------------- | ----------------------- | 
-| DevBox Provisioning | Creates DevBox pools binding SKU and image from devboxImages catalog; enables self-service DevBox creation | Monolith | Azure DevCenter Pools ARM | 2026-01-01-preview | Project, Catalog (imageDefinition), Image Definition | Pools REST API | 
-| Catalog Synchronization | Schedules sync of catalog contents from GitHub/ADO; discovers environment and image definitions | Serverless | Azure DevCenter Catalog Sync | 2026-01-01-preview | GitHub/ADO, Key Vault (private repos) | Catalog Sync API | 
-| Environment Type Deployment | Creates dev/staging/uat types at DevCenter and project level with Contributor creator roles | Microservice | Azure DevCenter EnvType ARM | 2026-01-01-preview | DevCenter, Project | EnvironmentTypes API | 
-| Role Assignment Automation | Assigns RBAC roles to DevCenter/Project managed identities and org security groups at sub/RG scope | Microservice | Azure RBAC ARM | 2022-04-01 | Azure AD (principalId), Subscription/RG | Role Assignments API | 
-| Secret Management Function | Stores PAT token in Key Vault; provides secretIdentifier URI to catalog for auth | Microservice | Azure Key Vault Secrets ARM | 2025-05-01 | Key Vault | Key Vault Secrets API | 
-| Network Provisioning | Conditionally creates VNet with CIDR subnets and NetworkConnection (Unmanaged network type only) | Microservice | Azure Networking ARM | 2025-05-01 | None (when create=true) | VirtualNetworks API | 
-| Observability Configuration | Attaches allLogs+AllMetrics diagnostic settings from all resources to Log Analytics | Microservice | Azure Monitor Diagnostic Settings | 2021-05-01-preview | Log Analytics | Diagnostic Settings API | 
-| Configuration Loading | Reads and binds YAML config files at Bicep compile/deploy time via loadYamlContent() | Serverless | Bicep loadYamlContent | Bicep v0.x | YAML files, JSON Schema | Not detected | 
+| Component                   | Description                                                                                                | Type         | Technology                        | Version            | Dependencies                                         | API Endpoints           |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------ | --------------------------------- | ------------------ | ---------------------------------------------------- | ----------------------- |
+| DevBox Provisioning         | Creates DevBox pools binding SKU and image from devboxImages catalog; enables self-service DevBox creation | Monolith     | Azure DevCenter Pools ARM         | 2026-01-01-preview | Project, Catalog (imageDefinition), Image Definition | Pools REST API          |
+| Catalog Synchronization     | Schedules sync of catalog contents from GitHub/ADO; discovers environment and image definitions            | Serverless   | Azure DevCenter Catalog Sync      | 2026-01-01-preview | GitHub/ADO, Key Vault (private repos)                | Catalog Sync API        |
+| Environment Type Deployment | Creates dev/staging/uat types at DevCenter and project level with Contributor creator roles                | Microservice | Azure DevCenter EnvType ARM       | 2026-01-01-preview | DevCenter, Project                                   | EnvironmentTypes API    |
+| Role Assignment Automation  | Assigns RBAC roles to DevCenter/Project managed identities and org security groups at sub/RG scope         | Microservice | Azure RBAC ARM                    | 2022-04-01         | Azure AD (principalId), Subscription/RG              | Role Assignments API    |
+| Secret Management Function  | Stores PAT token in Key Vault; provides secretIdentifier URI to catalog for auth                           | Microservice | Azure Key Vault Secrets ARM       | 2025-05-01         | Key Vault                                            | Key Vault Secrets API   |
+| Network Provisioning        | Conditionally creates VNet with CIDR subnets and NetworkConnection (Unmanaged network type only)           | Microservice | Azure Networking ARM              | 2025-05-01         | None (when create=true)                              | VirtualNetworks API     |
+| Observability Configuration | Attaches allLogs+AllMetrics diagnostic settings from all resources to Log Analytics                        | Microservice | Azure Monitor Diagnostic Settings | 2021-05-01-preview | Log Analytics                                        | Diagnostic Settings API |
+| Configuration Loading       | Reads and binds YAML config files at Bicep compile/deploy time via loadYamlContent()                       | Serverless   | Bicep loadYamlContent             | Bicep v0.x         | YAML files, JSON Schema                              | Not detected            |
 
 _Source traceability: src/workload/project/projectPool.bicep:1-100,
 src/workload/core/catalog.bicep:30-70,
@@ -910,15 +909,15 @@ infra/main.bicep:15-25_
 
 ### 5.6 Application Interactions
 
-| Component | Description | Type | Technology | Version | Dependencies | API Endpoints | 
-| ------------------------ | -------------------------------------------------------------------------------------- | ------------ | -------------------------------- | ------------------ | ----------------------- | ----------------------- | 
-| azd Provision Chain | azd → preProvision hook → ARM deployment → RG creation → module deployments | Serverless | Azure Developer CLI | azd v1.x | Azure Subscription, azd | azd provision | 
-| Module Fan-Out | main.bicep triggers Monitoring, Security, Workload modules in dependency order | Monolith | Azure Bicep parallel deployment | Bicep v0.x | ARM | ARM Deployments API | 
-| Workload Fan-Out | workload.bicep deploys DevCenter Core then iterates N project deployments | Microservice | Azure Bicep for-loop | Bicep v0.x | DevCenter Core | Not detected | 
-| DevCenter Resource Chain | devCenter.bicep deploys catalogs, env types, role assignments in declaration order | Microservice | Azure Bicep sequential resources | Bicep v0.x | DevCenter Resource | Not detected | 
-| Project Resource Chain | project.bicep deploys: Connectivity → Catalogs → EnvTypes → Pools → RoleAssignments | Microservice | Azure Bicep with dependsOn | Bicep v0.x | Connectivity, Catalogs | Not detected | 
-| Diagnostic Pipeline | All resources push logs to Log Analytics via ARM diagnostic settings at creation | Microservice | Azure Monitor ARM | 2021-05-01-preview | Log Analytics | Diagnostic Settings API | 
-| YAML-to-Bicep Binding | loadYamlContent() invocation at compile time binds YAML config objects to Bicep params | Serverless | Bicep loadYamlContent | Bicep v0.x | YAML files | Not detected | 
+| Component                | Description                                                                            | Type         | Technology                       | Version            | Dependencies            | API Endpoints           |
+| ------------------------ | -------------------------------------------------------------------------------------- | ------------ | -------------------------------- | ------------------ | ----------------------- | ----------------------- |
+| azd Provision Chain      | azd → preProvision hook → ARM deployment → RG creation → module deployments            | Serverless   | Azure Developer CLI              | azd v1.x           | Azure Subscription, azd | azd provision           |
+| Module Fan-Out           | main.bicep triggers Monitoring, Security, Workload modules in dependency order         | Monolith     | Azure Bicep parallel deployment  | Bicep v0.x         | ARM                     | ARM Deployments API     |
+| Workload Fan-Out         | workload.bicep deploys DevCenter Core then iterates N project deployments              | Microservice | Azure Bicep for-loop             | Bicep v0.x         | DevCenter Core          | Not detected            |
+| DevCenter Resource Chain | devCenter.bicep deploys catalogs, env types, role assignments in declaration order     | Microservice | Azure Bicep sequential resources | Bicep v0.x         | DevCenter Resource      | Not detected            |
+| Project Resource Chain   | project.bicep deploys: Connectivity → Catalogs → EnvTypes → Pools → RoleAssignments    | Microservice | Azure Bicep with dependsOn       | Bicep v0.x         | Connectivity, Catalogs  | Not detected            |
+| Diagnostic Pipeline      | All resources push logs to Log Analytics via ARM diagnostic settings at creation       | Microservice | Azure Monitor ARM                | 2021-05-01-preview | Log Analytics           | Diagnostic Settings API |
+| YAML-to-Bicep Binding    | loadYamlContent() invocation at compile time binds YAML config objects to Bicep params | Serverless   | Bicep loadYamlContent            | Bicep v0.x         | YAML files              | Not detected            |
 
 _Source traceability: azure.yaml:1-_, infra/main.bicep:1-120,
 src/workload/workload.bicep:1-95, src/workload/core/devCenter.bicep:1-200,
@@ -926,15 +925,15 @@ src/workload/project/project.bicep:1-200\*
 
 ### 5.7 Application Events
 
-| Component | Description | Type | Technology | Version | Dependencies | API Endpoints | 
-| ------------------------------ | --------------------------------------------------------------------------------- | ---------- | ---------------------------- | ------------------ | ---------------------------------- | -------------------- | 
-| Pre-Provision Hook Trigger | azd fires preProvision hook; executes setUp.sh/setUp.ps1 before ARM deployment | Serverless | Azure Developer CLI hooks | azd v1.x | azd CLI | Not detected | 
-| ARM Deployment Start | Subscription-scope ARM deployment initiated by azd; creates deployment record | Serverless | Azure ARM | 2022-09-01 | Azure Subscription credentials | management.azure.com | 
-| Catalog Sync Trigger | Scheduled catalog sync event; pulls latest definitions from source repositories | Serverless | Azure DevCenter Catalog Sync | 2026-01-01-preview | GitHub/ADO connectivity, Key Vault | Catalog Sync API | 
-| Resource Provisioning Complete | ARM deployment completion; outputs published as azd env vars | Serverless | Azure Developer CLI | azd v1.x | ARM Deployment | azd env get-values | 
-| Secret Created Event | Key Vault secret creation logged to Log Analytics via allLogs diagnostic settings | Serverless | Azure Key Vault + Monitor | 2025-05-01 | Log Analytics | Not detected | 
-| Role Assignment Created | RBAC role assignment creation audited in Azure Activity Log and Log Analytics | Serverless | Azure RBAC + Monitor | 2022-04-01 | Log Analytics | Not detected | 
-| DevBox Pool Available | Pool creation completes; DevBoxes available in Microsoft Dev Portal | Serverless | Azure DevCenter | 2026-01-01-preview | Pool, Image Definition | Dev Portal | 
+| Component                      | Description                                                                       | Type       | Technology                   | Version            | Dependencies                       | API Endpoints        |
+| ------------------------------ | --------------------------------------------------------------------------------- | ---------- | ---------------------------- | ------------------ | ---------------------------------- | -------------------- |
+| Pre-Provision Hook Trigger     | azd fires preProvision hook; executes setUp.sh/setUp.ps1 before ARM deployment    | Serverless | Azure Developer CLI hooks    | azd v1.x           | azd CLI                            | Not detected         |
+| ARM Deployment Start           | Subscription-scope ARM deployment initiated by azd; creates deployment record     | Serverless | Azure ARM                    | 2022-09-01         | Azure Subscription credentials     | management.azure.com |
+| Catalog Sync Trigger           | Scheduled catalog sync event; pulls latest definitions from source repositories   | Serverless | Azure DevCenter Catalog Sync | 2026-01-01-preview | GitHub/ADO connectivity, Key Vault | Catalog Sync API     |
+| Resource Provisioning Complete | ARM deployment completion; outputs published as azd env vars                      | Serverless | Azure Developer CLI          | azd v1.x           | ARM Deployment                     | azd env get-values   |
+| Secret Created Event           | Key Vault secret creation logged to Log Analytics via allLogs diagnostic settings | Serverless | Azure Key Vault + Monitor    | 2025-05-01         | Log Analytics                      | Not detected         |
+| Role Assignment Created        | RBAC role assignment creation audited in Azure Activity Log and Log Analytics     | Serverless | Azure RBAC + Monitor         | 2022-04-01         | Log Analytics                      | Not detected         |
+| DevBox Pool Available          | Pool creation completes; DevBoxes available in Microsoft Dev Portal               | Serverless | Azure DevCenter              | 2026-01-01-preview | Pool, Image Definition             | Dev Portal           |
 
 _Source traceability: azure.yaml:1-_, setUp.sh:1-_,
 src/workload/core/catalog.bicep:35-55, src/security/secret.bicep:40-65,
@@ -943,19 +942,19 @@ src/workload/project/projectPool.bicep:1-100_
 
 ### 5.8 Application Data Objects
 
-| Component | Description | Type | Technology | Version | Dependencies | API Endpoints | 
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ----------------------- | ------------------ | -------------------------- | ----------------------- | 
-| DevCenterConfig | Root YAML config object; contains name, identity, featureFlags, roles, orgRoles, catalogs, environmentTypes, projects | Monolith | YAML / JSON Schema | Not detected | devcenter.schema.json | Not detected | 
-| ProjectConfig | Nested object within DevCenterConfig.projects; name, description, network, catalogs, pools, envTypes | Microservice | YAML / Bicep type | Not detected | DevCenterConfig | Not detected | 
-| PoolConfig | Nested object within ProjectConfig.pools; name, SKU, imageDefinitionName, catalogName | Microservice | YAML / Bicep type | Not detected | ProjectConfig | Not detected | 
-| SecurityConfig | security.yaml root object; keyVault settings, secret name, retention, RBAC flags | Microservice | YAML / JSON Schema | Not detected | security.schema.json | Not detected | 
-| ResourceOrganizationConfig | azureResources.yaml root object; workload/security/monitoring RG configs (create, name) | Microservice | YAML / JSON Schema | Not detected | azureResources.schema.json | Not detected | 
-| AzureRBACRole Type | Bicep UDT: `{ id: string, name: string? }`; used in role assignment arrays | Monolith | Bicep user-defined type | Bicep v0.x | None | Not detected | 
-| NetworkSettings Type | Bicep UDT: `{ name, virtualNetworkType, create, resourceGroupName, tags, addressPrefixes, subnets }` | Microservice | Bicep user-defined type | Bicep v0.x | None | Not detected | 
-| EnvironmentType Type | Bicep UDT: `{ name: string }`; used in env type modules | Microservice | Bicep user-defined type | Bicep v0.x | None | Not detected | 
-| AzdOutputContract | Set of ARM outputs: AZURE_DEV_CENTER_NAME, AZURE_DEV_CENTER_PROJECTS, AZURE_LOG_ANALYTICS_WORKSPACE_ID, AZURE_KEY_VAULT_NAME, AZURE_KEY_VAULT_SECRET_IDENTIFIER, AZURE_KEY_VAULT_ENDPOINT, RG names | Monolith | Azure Developer CLI | azd v1.x | ARM Deployment | azd env get-values | 
-| DiagnosticConfig | Inline ARM object: `{ workspaceId, logs[allLogs], metrics[AllMetrics] }`; applied to all observable resources | Microservice | Azure Monitor ARM | 2021-05-01-preview | Log Analytics | Diagnostic Settings API | 
-| CatalogConfig | Bicep param object with type (gitHub/adoGit), uri, branch, path, secretIdentifier, syncType=Scheduled | Microservice | Bicep object param | Bicep v0.x | None | Not detected | 
+| Component                  | Description                                                                                                                                                                                         | Type         | Technology              | Version            | Dependencies               | API Endpoints           |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ----------------------- | ------------------ | -------------------------- | ----------------------- |
+| DevCenterConfig            | Root YAML config object; contains name, identity, featureFlags, roles, orgRoles, catalogs, environmentTypes, projects                                                                               | Monolith     | YAML / JSON Schema      | Not detected       | devcenter.schema.json      | Not detected            |
+| ProjectConfig              | Nested object within DevCenterConfig.projects; name, description, network, catalogs, pools, envTypes                                                                                                | Microservice | YAML / Bicep type       | Not detected       | DevCenterConfig            | Not detected            |
+| PoolConfig                 | Nested object within ProjectConfig.pools; name, SKU, imageDefinitionName, catalogName                                                                                                               | Microservice | YAML / Bicep type       | Not detected       | ProjectConfig              | Not detected            |
+| SecurityConfig             | security.yaml root object; keyVault settings, secret name, retention, RBAC flags                                                                                                                    | Microservice | YAML / JSON Schema      | Not detected       | security.schema.json       | Not detected            |
+| ResourceOrganizationConfig | azureResources.yaml root object; workload/security/monitoring RG configs (create, name)                                                                                                             | Microservice | YAML / JSON Schema      | Not detected       | azureResources.schema.json | Not detected            |
+| AzureRBACRole Type         | Bicep UDT: `{ id: string, name: string? }`; used in role assignment arrays                                                                                                                          | Monolith     | Bicep user-defined type | Bicep v0.x         | None                       | Not detected            |
+| NetworkSettings Type       | Bicep UDT: `{ name, virtualNetworkType, create, resourceGroupName, tags, addressPrefixes, subnets }`                                                                                                | Microservice | Bicep user-defined type | Bicep v0.x         | None                       | Not detected            |
+| EnvironmentType Type       | Bicep UDT: `{ name: string }`; used in env type modules                                                                                                                                             | Microservice | Bicep user-defined type | Bicep v0.x         | None                       | Not detected            |
+| AzdOutputContract          | Set of ARM outputs: AZURE_DEV_CENTER_NAME, AZURE_DEV_CENTER_PROJECTS, AZURE_LOG_ANALYTICS_WORKSPACE_ID, AZURE_KEY_VAULT_NAME, AZURE_KEY_VAULT_SECRET_IDENTIFIER, AZURE_KEY_VAULT_ENDPOINT, RG names | Monolith     | Azure Developer CLI     | azd v1.x           | ARM Deployment             | azd env get-values      |
+| DiagnosticConfig           | Inline ARM object: `{ workspaceId, logs[allLogs], metrics[AllMetrics] }`; applied to all observable resources                                                                                       | Microservice | Azure Monitor ARM       | 2021-05-01-preview | Log Analytics              | Diagnostic Settings API |
+| CatalogConfig              | Bicep param object with type (gitHub/adoGit), uri, branch, path, secretIdentifier, syncType=Scheduled                                                                                               | Microservice | Bicep object param      | Bicep v0.x         | None                       | Not detected            |
 
 _Source traceability: infra/settings/workload/devcenter.yaml:1-_,
 infra/settings/security/security.yaml:1-_,
@@ -966,17 +965,17 @@ src/workload/core/catalog.bicep:1-35\*
 
 ### 5.9 Integration Patterns
 
-| Component | Description | Type | Technology | Version | Dependencies | API Endpoints | 
-| --------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------ | ---------------------------- | ------------------ | ----------------------- | ----------------------- | 
-| Configuration-as-Code Pattern | YAML files version-controlled under infra/settings/; bound via loadYamlContent() at deploy time | Monolith | Bicep loadYamlContent + YAML | Bicep v0.x | YAML files, JSON Schema | Not detected | 
-| IaC Module Composition Pattern | Hierarchical Bicep module chain with typed contracts; each module independently deployable | Monolith | Azure Bicep modules | Bicep v0.x | ARM | ARM Deployments API | 
-| Managed Identity Auth Pattern | SystemAssigned identities on all platform resources; no stored credentials; RBAC-based access | Microservice | Azure AD Managed Identity | Not detected | Azure AD | ARM Identity API | 
-| Output Chaining Pattern | ARM module outputs threaded through parent to child modules; creates implicit dependency graph | Monolith | Azure Bicep outputs | Bicep v0.x | ARM | Not detected | 
-| Scheduled Catalog Sync Pattern | Catalogs sync on schedule from source repos; decouples authoring from platform deployment lifecycle | Serverless | Azure DevCenter Catalog | 2026-01-01-preview | GitHub/ADO | Catalog API | 
-| Idempotent RBAC Pattern | Deterministic GUID generation for role assignments: guid(subscriptionId, rgId, principalId, roleId) | Microservice | Azure RBAC ARM | 2022-04-01 | Azure AD | Role Assignments API | 
-| Diagnostic Settings Pipeline Pattern | Consistent allLogs+AllMetrics diagnostic settings on all resources to central Log Analytics | Microservice | Azure Monitor ARM | 2021-05-01-preview | Log Analytics | Diagnostic Settings API | 
-| Conditional Resource Deployment Pattern | `if (condition)` guards on VNet, NetworkConnection, Key Vault creation based on config flags | Microservice | Azure Bicep conditional | Bicep v0.x | None | Not detected | 
-| Private Repo Auth Pattern | Key Vault secret URI (`secretIdentifier`) passed to catalog config for GitHub/ADO private repo access | Microservice | Azure Key Vault + DevCenter | 2025-05-01 | Key Vault | Key Vault Secrets URI | 
+| Component                               | Description                                                                                           | Type         | Technology                   | Version            | Dependencies            | API Endpoints           |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------ | ---------------------------- | ------------------ | ----------------------- | ----------------------- |
+| Configuration-as-Code Pattern           | YAML files version-controlled under infra/settings/; bound via loadYamlContent() at deploy time       | Monolith     | Bicep loadYamlContent + YAML | Bicep v0.x         | YAML files, JSON Schema | Not detected            |
+| IaC Module Composition Pattern          | Hierarchical Bicep module chain with typed contracts; each module independently deployable            | Monolith     | Azure Bicep modules          | Bicep v0.x         | ARM                     | ARM Deployments API     |
+| Managed Identity Auth Pattern           | SystemAssigned identities on all platform resources; no stored credentials; RBAC-based access         | Microservice | Azure AD Managed Identity    | Not detected       | Azure AD                | ARM Identity API        |
+| Output Chaining Pattern                 | ARM module outputs threaded through parent to child modules; creates implicit dependency graph        | Monolith     | Azure Bicep outputs          | Bicep v0.x         | ARM                     | Not detected            |
+| Scheduled Catalog Sync Pattern          | Catalogs sync on schedule from source repos; decouples authoring from platform deployment lifecycle   | Serverless   | Azure DevCenter Catalog      | 2026-01-01-preview | GitHub/ADO              | Catalog API             |
+| Idempotent RBAC Pattern                 | Deterministic GUID generation for role assignments: guid(subscriptionId, rgId, principalId, roleId)   | Microservice | Azure RBAC ARM               | 2022-04-01         | Azure AD                | Role Assignments API    |
+| Diagnostic Settings Pipeline Pattern    | Consistent allLogs+AllMetrics diagnostic settings on all resources to central Log Analytics           | Microservice | Azure Monitor ARM            | 2021-05-01-preview | Log Analytics           | Diagnostic Settings API |
+| Conditional Resource Deployment Pattern | `if (condition)` guards on VNet, NetworkConnection, Key Vault creation based on config flags          | Microservice | Azure Bicep conditional      | Bicep v0.x         | None                    | Not detected            |
+| Private Repo Auth Pattern               | Key Vault secret URI (`secretIdentifier`) passed to catalog config for GitHub/ADO private repo access | Microservice | Azure Key Vault + DevCenter  | 2025-05-01         | Key Vault               | Key Vault Secrets URI   |
 
 _Source traceability: infra/main.bicep:15-25, src/workload/workload.bicep:1-30,
 src/identity/devCenterRoleAssignment.bicep:25-40,
@@ -986,18 +985,18 @@ src/connectivity/connectivity.bicep:1-120, src/security/keyVault.bicep:1-80_
 
 ### 5.10 Service Contracts
 
-| Component | Description | Type | Technology | Version | Dependencies | API Endpoints | 
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------ | ---------- | ------------------------- | ------------------ | 
-| Orchestration Output Contract | Outputs: WORKLOAD/SECURITY/MONITORING_AZURE_RESOURCE_GROUP_NAME, AZURE_LOG_ANALYTICS_WORKSPACE_ID, AZURE_KEY_VAULT_NAME, AZURE_DEV_CENTER_NAME, AZURE_DEV_CENTER_PROJECTS | Monolith | Azure Bicep output | Bicep v0.x | All modules | azd env get-values | 
-| Monitoring Module Contract | Input: name, location, tags, sku, retentionInDays; Output: AZURE_LOG_ANALYTICS_WORKSPACE_ID | Microservice | Azure Bicep module | Bicep v0.x | None | Not detected | 
-| Security Module Contract | Input: name, logAnalyticsId, location, tags; Output: AZURE_KEY_VAULT_NAME, AZURE_KEY_VAULT_SECRET_IDENTIFIER, AZURE_KEY_VAULT_ENDPOINT | Microservice | Azure Bicep module | Bicep v0.x | Log Analytics | Not detected | 
-| Workload Module Contract | Input: logAnalyticsId, keyVaultSecretIdentifier, location, tags; Output: AZURE_DEV_CENTER_NAME, AZURE_DEV_CENTER_PROJECTS | Microservice | Azure Bicep module | Bicep v0.x | Log Analytics, Key Vault | Not detected | 
-| DevCenter Module Contract | Input: name, logAnalyticsId, identity, featureFlags, roles, orgRoles, catalogs, envTypes, projects, location, tags; Output: devCenterName, devCenterPrincipalId | Microservice | Azure Bicep module | Bicep v0.x | Log Analytics, Key Vault | Not detected | 
-| Project Module Contract | Input: devCenterName, name, logAnalyticsId, projectDescription, catalogs, projectEnvironmentTypes, projectPools, projectNetwork, secretIdentifier, securityRGName, identity, tags, location; Output: projectName, projectId | Microservice | Azure Bicep module | Bicep v0.x | DevCenter, Log Analytics | Not detected | 
-| Catalog Module Contract | Input: devCenterName, catalogConfig; Output: AZURE_DEV_CENTER_CATALOG_NAME, AZURE_DEV_CENTER_CATALOG_ID, AZURE_DEV_CENTER_CATALOG_TYPE | Microservice | Azure Bicep module | Bicep v0.x | DevCenter | Not detected | 
-| Connectivity Module Contract | Input: logAnalyticsId, location, tags, networkSettings; Output: AZURE_VIRTUAL_NETWORK, AZURE_NETWORK_CONNECTION | Microservice | Azure Bicep module | Bicep v0.x | Log Analytics | Not detected | 
-| YAML Schema Contract | JSON Schema files validate YAML config structure; azureResources.schema.json, devcenter.schema.json, security.schema.json | Monolith | JSON Schema / YAML | Draft-07 | YAML config files | Not detected | 
-| Role Assignment Contract | Input: principalId, roles[], principalType; Output: roleAssignmentIds[], principalId; idempotent via deterministic GUID | Microservice | Azure Bicep module | Bicep v0.x | Azure AD, Subscription/RG | Not detected | 
+| Component                     | Description                                                                                                                                                                                                                 | Type         | Technology         | Version    | Dependencies              | API Endpoints      |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------ | ---------- | ------------------------- | ------------------ |
+| Orchestration Output Contract | Outputs: WORKLOAD/SECURITY/MONITORING_AZURE_RESOURCE_GROUP_NAME, AZURE_LOG_ANALYTICS_WORKSPACE_ID, AZURE_KEY_VAULT_NAME, AZURE_DEV_CENTER_NAME, AZURE_DEV_CENTER_PROJECTS                                                   | Monolith     | Azure Bicep output | Bicep v0.x | All modules               | azd env get-values |
+| Monitoring Module Contract    | Input: name, location, tags, sku, retentionInDays; Output: AZURE_LOG_ANALYTICS_WORKSPACE_ID                                                                                                                                 | Microservice | Azure Bicep module | Bicep v0.x | None                      | Not detected       |
+| Security Module Contract      | Input: name, logAnalyticsId, location, tags; Output: AZURE_KEY_VAULT_NAME, AZURE_KEY_VAULT_SECRET_IDENTIFIER, AZURE_KEY_VAULT_ENDPOINT                                                                                      | Microservice | Azure Bicep module | Bicep v0.x | Log Analytics             | Not detected       |
+| Workload Module Contract      | Input: logAnalyticsId, keyVaultSecretIdentifier, location, tags; Output: AZURE_DEV_CENTER_NAME, AZURE_DEV_CENTER_PROJECTS                                                                                                   | Microservice | Azure Bicep module | Bicep v0.x | Log Analytics, Key Vault  | Not detected       |
+| DevCenter Module Contract     | Input: name, logAnalyticsId, identity, featureFlags, roles, orgRoles, catalogs, envTypes, projects, location, tags; Output: devCenterName, devCenterPrincipalId                                                             | Microservice | Azure Bicep module | Bicep v0.x | Log Analytics, Key Vault  | Not detected       |
+| Project Module Contract       | Input: devCenterName, name, logAnalyticsId, projectDescription, catalogs, projectEnvironmentTypes, projectPools, projectNetwork, secretIdentifier, securityRGName, identity, tags, location; Output: projectName, projectId | Microservice | Azure Bicep module | Bicep v0.x | DevCenter, Log Analytics  | Not detected       |
+| Catalog Module Contract       | Input: devCenterName, catalogConfig; Output: AZURE_DEV_CENTER_CATALOG_NAME, AZURE_DEV_CENTER_CATALOG_ID, AZURE_DEV_CENTER_CATALOG_TYPE                                                                                      | Microservice | Azure Bicep module | Bicep v0.x | DevCenter                 | Not detected       |
+| Connectivity Module Contract  | Input: logAnalyticsId, location, tags, networkSettings; Output: AZURE_VIRTUAL_NETWORK, AZURE_NETWORK_CONNECTION                                                                                                             | Microservice | Azure Bicep module | Bicep v0.x | Log Analytics             | Not detected       |
+| YAML Schema Contract          | JSON Schema files validate YAML config structure; azureResources.schema.json, devcenter.schema.json, security.schema.json                                                                                                   | Monolith     | JSON Schema / YAML | Draft-07   | YAML config files         | Not detected       |
+| Role Assignment Contract      | Input: principalId, roles[], principalType; Output: roleAssignmentIds[], principalId; idempotent via deterministic GUID                                                                                                     | Microservice | Azure Bicep module | Bicep v0.x | Azure AD, Subscription/RG | Not detected       |
 
 _Source traceability: infra/main.bicep:80-120,
 src/management/logAnalytics.bicep:1-20, src/security/security.bicep:1-30,
@@ -1009,19 +1008,19 @@ src/identity/orgRoleAssignment.bicep:1-55\*
 
 ### 5.11 Application Dependencies
 
-| Component | Description | Type | Technology | Version | Dependencies | API Endpoints | 
-| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------ | --------------------------------- | ------------------ | ------------------------------------- | ----------------------- | 
-| DevCenter → Log Analytics | DevCenter diagnostic settings require AZURE_LOG_ANALYTICS_WORKSPACE_ID; blocking deploy dependency | Microservice | Azure Monitor Diagnostic Settings | 2021-05-01-preview | Log Analytics Workspace | Diagnostic Settings API | 
-| DevCenter → Key Vault | DevCenter catalog secretIdentifier requires Key Vault secret to exist; blocking catalog auth dependency | Microservice | Azure Key Vault Secrets | 2025-05-01 | Key Vault, Secret | Key Vault URI | 
-| Project → DevCenter | Microsoft.DevCenter/projects requires parent DevCenter to exist; ARM implicit dependency | Microservice | Azure DevCenter ARM | 2026-01-01-preview | DevCenter Resource | Not detected | 
-| Pool → ProjectCatalog | ProjectPool image URI requires imageDefinition catalog to be synced; logical dependency | Microservice | Azure DevCenter Pools | 2026-01-01-preview | ProjectCatalog (imageDefinition type) | Pools API | 
-| NetworkConnection → VNet | NetworkConnection subnetId requires VNet subnet to exist; ARM resource dependency | Microservice | Azure Networking ARM | 2025-05-01 | Virtual Network | NetworkConnections API | 
-| Security → Log Analytics | Key Vault and Secret diagnostic settings require logAnalyticsId; blocking dependency | Microservice | Azure Monitor Diagnostic Settings | 2021-05-01-preview | Log Analytics Workspace | Diagnostic Settings API | 
-| Workload → Security | workload.bicep consumes keyVaultSecretIdentifier output from security module; serial dependency in main.bicep | Monolith | Azure Bicep output chaining | Bicep v0.x | Security Module | Not detected | 
-| Orchestration → Monitoring | All downstream modules depend on AZURE_LOG_ANALYTICS_WORKSPACE_ID; Monitoring is first deployment | Monolith | Azure Bicep output chaining | Bicep v0.x | Monitoring Module | Not detected | 
-| ProjectEnvironmentType → DevCenter EnvironmentType | Project env types must reference valid DevCenter env types (dev/staging/uat); name-based dependency | Microservice | Azure DevCenter ARM | 2026-01-01-preview | DevCenter EnvironmentType | Not detected | 
-| Catalog Sync → External Source | Catalog sync depends on GitHub/ADO connectivity and valid PAT token from Key Vault | Serverless | Azure DevCenter Catalog | 2026-01-01-preview | GitHub.com / ADO, Key Vault | GitHub/ADO API | 
-| azd → ARM | azd CLI depends on authenticated ARM API access (service principal or user credentials) | Serverless | Azure Developer CLI | azd v1.x | Azure Subscription, Azure AD | management.azure.com | 
+| Component                                          | Description                                                                                                   | Type         | Technology                        | Version            | Dependencies                          | API Endpoints           |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------ | --------------------------------- | ------------------ | ------------------------------------- | ----------------------- |
+| DevCenter → Log Analytics                          | DevCenter diagnostic settings require AZURE_LOG_ANALYTICS_WORKSPACE_ID; blocking deploy dependency            | Microservice | Azure Monitor Diagnostic Settings | 2021-05-01-preview | Log Analytics Workspace               | Diagnostic Settings API |
+| DevCenter → Key Vault                              | DevCenter catalog secretIdentifier requires Key Vault secret to exist; blocking catalog auth dependency       | Microservice | Azure Key Vault Secrets           | 2025-05-01         | Key Vault, Secret                     | Key Vault URI           |
+| Project → DevCenter                                | Microsoft.DevCenter/projects requires parent DevCenter to exist; ARM implicit dependency                      | Microservice | Azure DevCenter ARM               | 2026-01-01-preview | DevCenter Resource                    | Not detected            |
+| Pool → ProjectCatalog                              | ProjectPool image URI requires imageDefinition catalog to be synced; logical dependency                       | Microservice | Azure DevCenter Pools             | 2026-01-01-preview | ProjectCatalog (imageDefinition type) | Pools API               |
+| NetworkConnection → VNet                           | NetworkConnection subnetId requires VNet subnet to exist; ARM resource dependency                             | Microservice | Azure Networking ARM              | 2025-05-01         | Virtual Network                       | NetworkConnections API  |
+| Security → Log Analytics                           | Key Vault and Secret diagnostic settings require logAnalyticsId; blocking dependency                          | Microservice | Azure Monitor Diagnostic Settings | 2021-05-01-preview | Log Analytics Workspace               | Diagnostic Settings API |
+| Workload → Security                                | workload.bicep consumes keyVaultSecretIdentifier output from security module; serial dependency in main.bicep | Monolith     | Azure Bicep output chaining       | Bicep v0.x         | Security Module                       | Not detected            |
+| Orchestration → Monitoring                         | All downstream modules depend on AZURE_LOG_ANALYTICS_WORKSPACE_ID; Monitoring is first deployment             | Monolith     | Azure Bicep output chaining       | Bicep v0.x         | Monitoring Module                     | Not detected            |
+| ProjectEnvironmentType → DevCenter EnvironmentType | Project env types must reference valid DevCenter env types (dev/staging/uat); name-based dependency           | Microservice | Azure DevCenter ARM               | 2026-01-01-preview | DevCenter EnvironmentType             | Not detected            |
+| Catalog Sync → External Source                     | Catalog sync depends on GitHub/ADO connectivity and valid PAT token from Key Vault                            | Serverless   | Azure DevCenter Catalog           | 2026-01-01-preview | GitHub.com / ADO, Key Vault           | GitHub/ADO API          |
+| azd → ARM                                          | azd CLI depends on authenticated ARM API access (service principal or user credentials)                       | Serverless   | Azure Developer CLI               | azd v1.x           | Azure Subscription, Azure AD          | management.azure.com    |
 
 _Source traceability: src/workload/core/devCenter.bicep:60-120,
 src/workload/project/projectPool.bicep:40-65,

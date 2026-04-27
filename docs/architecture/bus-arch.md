@@ -151,9 +151,9 @@ flowchart TB
     classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
 
-    style prov fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
-    style config fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style secdom fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
+    style prov fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style config fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style secdom fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style opsdom fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
@@ -318,9 +318,9 @@ flowchart TB
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style org fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style pe fill:#EDEBE9,stroke:#0078D4,stroke-width:1px,color:#323130
-    style devteam fill:#EDEBE9,stroke:#107C10,stroke-width:1px,color:#323130
-    style platform fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
+    style pe fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
+    style devteam fill:#EDEBE9,stroke:#8A8886,stroke-width:1px,color:#323130
+    style platform fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style external fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
@@ -623,36 +623,36 @@ flowchart LR
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style init fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style found fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style secu fill:#F3F2F1,stroke:#FFB900,stroke-width:2px,color:#323130
-    style wl fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
-    style proj fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
+    style found fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style secu fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style wl fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style proj fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style consume fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ### As-Is State Analysis
 
-| Domain | As-Is State | 
-| --------------------- | ------------------------------------------------------------------------------------------------------------------- | 
-| Business Strategy | Fully articulated in README with platform objectives, features, and architecture overview | 
-| Business Capabilities | 8 capabilities operational via Bicep + YAML; all listed in README feature matrix with status ✅ Stable | 
-| Value Streams | 2 value streams operational; end-to-end automation confirmed via `azure.yaml` hooks and Bicep modules | 
-| Business Processes | 5 processes fully automated; Dev Center provisioning includes catalog sync, environment types, and role assignments | 
-| Business Services | 5 Azure services deployed with diagnostic settings; Dev Center has Azure Monitor agent enabled | 
-| Business Rules | 7 rules enforced at deployment time via Bicep type constraints and YAML Schema validation | 
-| Business Roles & RBAC | 9 RBAC roles assigned across subscription, resource group, and project scopes | 
-| KPI Tracking | Not formally implemented; no Azure Monitor dashboards, alert rules, or SLA definitions detected | 
-| Business Continuity | No RTO/RPO documentation, disaster recovery runbooks, or Key Vault backup schedules detected | 
+| Domain                | As-Is State                                                                                                         |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Business Strategy     | Fully articulated in README with platform objectives, features, and architecture overview                           |
+| Business Capabilities | 8 capabilities operational via Bicep + YAML; all listed in README feature matrix with status ✅ Stable              |
+| Value Streams         | 2 value streams operational; end-to-end automation confirmed via `azure.yaml` hooks and Bicep modules               |
+| Business Processes    | 5 processes fully automated; Dev Center provisioning includes catalog sync, environment types, and role assignments |
+| Business Services     | 5 Azure services deployed with diagnostic settings; Dev Center has Azure Monitor agent enabled                      |
+| Business Rules        | 7 rules enforced at deployment time via Bicep type constraints and YAML Schema validation                           |
+| Business Roles & RBAC | 9 RBAC roles assigned across subscription, resource group, and project scopes                                       |
+| KPI Tracking          | Not formally implemented; no Azure Monitor dashboards, alert rules, or SLA definitions detected                     |
+| Business Continuity   | No RTO/RPO documentation, disaster recovery runbooks, or Key Vault backup schedules detected                        |
 
 ### Gap Analysis
 
-| Gap | Description | Business Impact | 
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | 
-| KPI Dashboards | No Azure Monitor dashboards, Workbooks, or alert rules for deployment success rate, provisioning time, or Dev Box availability time | Medium — No visibility into platform health or SLA adherence | 
-| Automated Image Pipeline | No CI/CD pipeline for Dev Box image definitions; catalog sync updates require manual re-execution of `azd up` | Medium — Stale Dev Box images lead to developer environment drift | 
-| Business Continuity Plan | No documented RTO/RPO objectives, Key Vault backup schedule, or Dev Center recreation runbook | Low — Undocumented recovery procedures increase MTTR during incidents | 
-| Cost Governance Tooling | Tags are applied but no budget alerts or cost allocation reports are configured in Azure Cost Management | Medium — No automated cost anomaly detection despite tagging policy | 
-| Multi-Environment Differentiation | Dev, staging, and UAT environment types are defined but share identical resource SKUs and RBAC configurations | Low — No enforcement of environment-specific security or cost controls | 
+| Gap                               | Description                                                                                                                         | Business Impact                                                        |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| KPI Dashboards                    | No Azure Monitor dashboards, Workbooks, or alert rules for deployment success rate, provisioning time, or Dev Box availability time | Medium — No visibility into platform health or SLA adherence           |
+| Automated Image Pipeline          | No CI/CD pipeline for Dev Box image definitions; catalog sync updates require manual re-execution of `azd up`                       | Medium — Stale Dev Box images lead to developer environment drift      |
+| Business Continuity Plan          | No documented RTO/RPO objectives, Key Vault backup schedule, or Dev Center recreation runbook                                       | Low — Undocumented recovery procedures increase MTTR during incidents  |
+| Cost Governance Tooling           | Tags are applied but no budget alerts or cost allocation reports are configured in Azure Cost Management                            | Medium — No automated cost anomaly detection despite tagging policy    |
+| Multi-Environment Differentiation | Dev, staging, and UAT environment types are defined but share identical resource SKUs and RBAC configurations                       | Low — No enforcement of environment-specific security or cost controls |
 
 ### Summary
 
@@ -789,8 +789,8 @@ flowchart TB
     classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
     classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
 
-    style pe_vs fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style dev_vs fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
+    style pe_vs fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style dev_vs fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 ### 5.4 Business Processes
@@ -1010,8 +1010,8 @@ flowchart TB
     classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
 
     style config_layer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
-    style iac_layer fill:#F3F2F1,stroke:#0078D4,stroke-width:2px,color:#323130
-    style azure_layer fill:#F3F2F1,stroke:#107C10,stroke-width:2px,color:#323130
+    style iac_layer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style azure_layer fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
     style external fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
