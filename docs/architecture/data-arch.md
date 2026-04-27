@@ -522,10 +522,10 @@ without requiring additional tooling.
 The primary maturity ceiling is the absence of automated data lineage tracking
 and formal data contracts, which constrains the architecture to Level 2 for
 those capabilities. Before this pattern is applied to regulated or production
-workloads, three remediations are recommended: (1) add CI/CD schema validation
-gates using `ajv` or equivalent, (2) deploy Azure Policy for tag compliance
-enforcement, and (3) centralize the RBAC role GUID reference data in a shared
-parameters file to prevent stale identity references.
+workloads, three remediations are recommended: (1) **add CI/CD schema validation
+gates** using `ajv` or equivalent, (2) **deploy Azure Policy for tag compliance
+enforcement**, and (3) centralize the RBAC role GUID reference data in a shared
+parameters file to **prevent stale identity references**.
 
 ---
 
