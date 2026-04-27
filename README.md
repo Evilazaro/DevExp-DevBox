@@ -151,7 +151,7 @@ flowchart TB
     NetConn -->|"uses"| VNet
     VNet -->|"sends network logs to"| LogAnalytics
 
-    style devtools fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style devtools fill:#E6F5F0,stroke:#036B52,stroke-width:2px,color:#323130
     style devcenter fill:#E8F0FE,stroke:#0078D4,stroke-width:2px,color:#323130
     style support fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 
