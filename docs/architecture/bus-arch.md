@@ -1038,16 +1038,86 @@ flowchart TB
 The following dependency chain represents the mandatory sequential provisioning
 order enforced by Bicep `dependsOn` declarations and module output/input wiring:
 
-```
-azureResources.yaml
-  └─→ Resource Groups (workload, security, monitoring)
-        ├─→ Log Analytics Workspace
-        │     └─→ Key Vault (receives logAnalyticsId for diagnostics)
-        │           └─→ Dev Center (receives secretIdentifier for catalog auth)
-        │                 └─→ Projects (receive devCenterName)
-        │                       └─→ Dev Box Pools (receive projectName, networkConnectionName)
-        └─→ Virtual Network + Network Connection (for Unmanaged network projects)
-              └─→ Dev Box Pools (receive networkConnectionName)
+```mermaid
+---
+title: "DevExp-DevBox Provisioning Dependency Chain"
+config:
+  theme: base
+  look: classic
+  layout: dagre
+  themeVariables:
+    fontSize: '16px'
+  flowchart:
+    htmlLabels: true
+---
+flowchart TB
+    accTitle: DevExp-DevBox Provisioning Dependency Chain
+    accDescr: Sequential provisioning dependency chain. azureResources.yaml drives resource group creation. Resource groups spawn Log Analytics, Key Vault, Dev Center, Projects, Dev Box Pools in order. Virtual Network and Network Connection feed into Dev Box Pools in parallel. Nodes: AZ_Y=neutral, RG=core, LA=success, KV=warning, DC=success, PROJ=success, POOLS=success, VNET=core, NC=core. WCAG AA compliant.
+
+    %%
+    %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
+    %% (Semantic + Structural + Font + Accessibility Governance)
+    %%
+    %% PHASE 1 - FLUENT UI: All styling uses approved Fluent UI palette only
+    %% PHASE 2 - GROUPS: Every subgraph has semantic color via style directive
+    %% PHASE 3 - COMPONENTS: Every node has semantic classDef + icon prefix
+    %% PHASE 4 - ACCESSIBILITY: accTitle/accDescr present, WCAG AA contrast
+    %% PHASE 5 - STANDARD: Governance block present, classDefs centralized
+    %%
+
+    AZ_Y("📄 azureResources.yaml"):::neutral
+
+    subgraph rg["🗂️ Resource Groups"]
+        RG("🗂️ workload / security / monitoring"):::core
+    end
+
+    subgraph observability["📊 Observability"]
+        LA("📊 Log Analytics Workspace"):::success
+    end
+
+    subgraph security["🔑 Security"]
+        KV("🔑 Key Vault\n(receives logAnalyticsId)"):::warning
+    end
+
+    subgraph devcenter["🖥️ Dev Center"]
+        DC("🖥️ Dev Center\n(receives secretIdentifier)"):::success
+    end
+
+    subgraph projects["📋 Projects"]
+        PROJ("📋 Projects\n(receive devCenterName)"):::success
+    end
+
+    subgraph pools["💻 Dev Box Pools"]
+        POOLS("💻 Dev Box Pools\n(receive projectName,\nnetworkConnectionName)"):::success
+    end
+
+    subgraph networking["🌐 Networking (Unmanaged)"]
+        VNET("🌐 Virtual Network"):::core
+        NC("🔗 Network Connection"):::core
+    end
+
+    AZ_Y -->|drives| RG
+    RG -->|hosts| LA
+    LA -->|logAnalyticsId| KV
+    KV -->|secretIdentifier| DC
+    DC -->|devCenterName| PROJ
+    PROJ -->|projectName| POOLS
+    RG -->|hosts| VNET
+    VNET -->|attaches| NC
+    NC -->|networkConnectionName| POOLS
+
+    classDef core fill:#EFF6FC,stroke:#0078D4,stroke-width:2px,color:#323130
+    classDef success fill:#DFF6DD,stroke:#107C10,stroke-width:2px,color:#323130
+    classDef neutral fill:#FAFAFA,stroke:#8A8886,stroke-width:2px,color:#323130
+    classDef warning fill:#FFF4CE,stroke:#FFB900,stroke-width:2px,color:#323130
+
+    style rg fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style observability fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style security fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style devcenter fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style projects fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style pools fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
+    style networking fill:#F3F2F1,stroke:#8A8886,stroke-width:2px,color:#323130
 ```
 
 **Critical Dependencies (blocking if missing):**
