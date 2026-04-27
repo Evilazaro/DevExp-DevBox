@@ -14,11 +14,12 @@ module composition, orchestrated by the Azure Developer CLI (`azd`) and driven
 by YAML configuration files.
 
 The application services are not traditional long-running processes or REST
-APIs. Instead, they represent deployment-time orchestration services implemented
-as Bicep modules: a Workload Service, Security Service, Monitoring Service, and
-Connectivity Service. Each service encapsulates a bounded domain of Azure
-resource provisioning logic, exposing typed parameter contracts and structured
-output contracts consumed by peer services and the top-level orchestrator.
+APIs. Instead, they represent **deployment-time orchestration services**
+implemented as Bicep modules: a Workload Service, Security Service, Monitoring
+Service, and Connectivity Service. Each service encapsulates a bounded domain of
+Azure resource provisioning logic, exposing typed parameter contracts and
+structured output contracts consumed by peer services and the top-level
+orchestrator.
 
 This document covers the six requested sections of the canonical BDAT
 Application Architecture schema: Executive Summary (1), Architecture Landscape
@@ -28,14 +29,14 @@ the repository source files with full traceability to source locations.
 
 ### Strategic Alignment
 
-The architecture directly supports Contoso's strategic objective of accelerating
-developer onboarding and standardizing development environments across business
-units. By encoding all platform configuration as YAML files under
-`infra/settings/`, the platform enables self-service environment provisioning,
-reduces infrastructure drift, and enforces governance through centralized role
-assignments and catalog-based environment definitions. The integration with
-Azure Monitor (Log Analytics) across all services ensures observability at the
-platform level.
+The architecture directly supports Contoso's strategic objective of
+**accelerating developer onboarding and standardizing development environments**
+across business units. By encoding all platform configuration as YAML files
+under `infra/settings/`, the platform enables self-service environment
+provisioning, reduces infrastructure drift, and enforces governance through
+centralized role assignments and catalog-based environment definitions. The
+integration with Azure Monitor (Log Analytics) across all services ensures
+observability at the platform level.
 
 The platform aligns with the TOGAF Application Architecture principles of loose
 coupling (each Bicep module is independently deployable), high cohesion (each
@@ -465,7 +466,7 @@ Key Vault, `logAnalytics.bicep` manages only the Log Analytics Workspace and its
 solution, `catalog.bicep` manages only catalog resources. This enables
 independent testing, versioning, and replacement of modules.
 
-**Implications**: New resource types MUST be introduced as new modules.
+**Implications**: New resource types **MUST** be introduced as new modules.
 Cross-resource bundling (e.g., adding a storage account to `logAnalytics.bicep`)
 is prohibited.
 
@@ -483,8 +484,8 @@ src/management/logAnalytics.bicep:1-100, src/workload/core/catalog.bicep:1-80_
 `EnvironmentType`) are used consistently across identity, connectivity, and
 workload modules. This enables compile-time validation and IDE support.
 
-**Implications**: Module contracts MUST be versioned when breaking changes are
-introduced. Consumers MUST be updated synchronously.
+**Implications**: Module contracts **MUST** be versioned when breaking changes
+are introduced. Consumers **MUST** be updated synchronously.
 
 _Source traceability: src/identity/orgRoleAssignment.bicep:16-25,
 src/connectivity/vnet.bicep:12-35, src/workload/core/environmentType.bicep:7-12_
@@ -501,8 +502,8 @@ src/connectivity/vnet.bicep:12-35, src/workload/core/environmentType.bicep:7-12_
 identity principal ID, not to user accounts or application registrations.
 
 **Implications**: External secrets (e.g., PAT tokens for GitHub catalog access)
-MUST be stored in Key Vault and referenced via `secretIdentifier` URI — never
-inlined in configuration.
+**MUST** be stored in Key Vault and referenced via `secretIdentifier` URI —
+never inlined in configuration.
 
 _Source traceability: src/workload/core/devCenter.bicep:20-30,
 src/workload/project/project.bicep:15-25, src/security/secret.bicep:1-70_
@@ -518,9 +519,9 @@ src/workload/project/project.bicep:15-25, src/security/secret.bicep:1-70_
 workload.bicep, security.bicep) to bind YAML configuration. JSON Schema files
 validate configuration structure at edit time.
 
-**Implications**: New configuration parameters MUST be added to the appropriate
-YAML file and corresponding schema. Direct `param` injection of
-environment-specific values is prohibited.
+**Implications**: New configuration parameters **MUST** be added to the
+appropriate YAML file and corresponding schema. Direct `param` injection of
+environment-specific values is **prohibited**.
 
 _Source traceability: infra/main.bicep:15-25, src/workload/workload.bicep:1-15,
 infra/settings/workload/devcenter.schema.json:1-_,
@@ -537,9 +538,9 @@ consistently on DevCenter, VNet, Key Vault, Secret, and Log Analytics Workspace
 itself. The `logAnalyticsId` is threaded through all modules specifically to
 enable this.
 
-**Implications**: New modules MUST include a
-`Microsoft.Insights/diagnosticSettings` resource block. `logAnalyticsId` must be
-a required parameter on all new modules.
+**Implications**: New modules **MUST** include a
+`Microsoft.Insights/diagnosticSettings` resource block. `logAnalyticsId`
+**must** be a required parameter on all new modules.
 
 _Source traceability: src/workload/core/devCenter.bicep:130-170,
 src/connectivity/vnet.bicep:70-100, src/security/secret.bicep:40-65,
@@ -558,8 +559,9 @@ all role assignment modules ensures the same GUID is generated on every
 deployment for the same role/principal combination, preventing duplicate
 assignments.
 
-**Implications**: New role assignment modules MUST use the same deterministic
-GUID pattern. Imperative scripts invoked from hooks MUST be idempotent.
+**Implications**: New role assignment modules **MUST** use the same
+deterministic GUID pattern. Imperative scripts invoked from hooks **MUST** be
+idempotent.
 
 _Source traceability: src/identity/devCenterRoleAssignment.bicep:25-40,
 src/identity/orgRoleAssignment.bicep:28-35_
@@ -576,9 +578,9 @@ Administrator at subscription scope (required for environment type deployment),
 Key Vault Secrets User and Officer at RG scope. Project identities receive
 minimum required roles. Org groups receive DevCenter Project Admin only.
 
-**Implications**: New role assignments MUST be reviewed against the
-least-privilege principle. Subscription-scope Contributor assignments require
-explicit architectural justification documented in Section 6 (ADRs).
+**Implications**: New role assignments **MUST** be reviewed against the
+least-privilege principle. **Subscription-scope Contributor assignments**
+require explicit architectural justification documented in Section 6 (ADRs).
 
 _Source traceability: infra/settings/workload/devcenter.yaml:1-_,
 src/identity/devCenterRoleAssignment.bicep:1-60,
@@ -768,8 +770,8 @@ backend and frontend engineer personas, full observability via Log Analytics,
 and secure secret management via Key Vault. The platform successfully implements
 all seven architecture principles identified in Section 3, with particular
 strength in the areas of managed identity authentication, configuration-as-code,
-and universal observability. The deployment lifecycle is fully automated via
-`azd` with pre-provision hooks and YAML-driven configuration.
+and universal observability. The deployment lifecycle is **fully automated via
+`azd`** with pre-provision hooks and YAML-driven configuration.
 
 The primary gaps identified in the current state are organizational and
 operational rather than technical: the absence of Azure Policy governance

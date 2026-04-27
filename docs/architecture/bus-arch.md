@@ -8,12 +8,12 @@ DevExp-DevBox is a production-ready Azure Developer CLI (`azd`) accelerator that
 automates the end-to-end provisioning of enterprise-grade Microsoft Dev Box
 environments on Azure. The platform empowers Contoso's Platform Engineering team
 to deliver standardized, role-specific developer workstations at
-scale—eliminating manual environment setup and enforcing organizational security
-and governance standards through a single, YAML-driven configuration model. The
-Business Architecture analysis identifies **4 business strategies**, **8
-business capabilities**, **2 value streams**, **5 business processes**, **5
-platform services**, **9 business roles**, **7 business rules**, and **5 KPI
-targets** as the core components of this solution.
+scale—**eliminating manual environment setup** and **enforcing organizational
+security and governance standards** through a **single, YAML-driven
+configuration model**. The Business Architecture analysis identifies **4
+business strategies**, **8 business capabilities**, **2 value streams**, **5
+business processes**, **5 platform services**, **9 business roles**, **7
+business rules**, and **5 KPI targets** as the core components of this solution.
 
 The solution follows
 [Azure Landing Zone](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/)
@@ -386,7 +386,7 @@ new projects by editing YAML without Bicep expertise.
   `infra/settings/workload/devcenter.yaml`
 - Configuration schema violations are surfaced at authoring time through
   IDE-level JSON Schema validation
-- All configuration changes are tracked through Git commit history for
+- **All configuration changes are tracked through Git commit history** for
   compliance audits
 - Platform engineers do not need to understand Bicep to operate the platform
 
@@ -460,7 +460,7 @@ and reduces configuration drift.
 - All Azure resource definitions exist as Bicep modules under `src/`
 - `infra/main.bicep` orchestrates all module deployments at subscription scope
 - Bicep modules load configuration from YAML files using `loadYamlContent()`
-- The Azure Developer CLI (`azd`) is the sole supported deployment mechanism
+- **The Azure Developer CLI (`azd`) is the sole supported deployment mechanism**
 
 **Source:** infra/main.bicep:1-160, src/workload/workload.bicep:1-90,
 src/security/security.bicep:1-50
@@ -483,7 +483,7 @@ development teams.
 
 - Pre-provision hooks handle credential setup automatically before Bicep
   deployment
-- Role assignments are applied as part of the Bicep deployment — no
+- **Role assignments are applied as part of the Bicep deployment** — no
   post-deployment access grants needed
 - Dev Box pools are immediately available for developer use upon project
   deployment completion
@@ -509,10 +509,10 @@ deployment.
 
 - All resources receive all 8 mandatory tags at creation time via `union()` in
   Bicep
-- Azure Key Vault soft-delete and purge protection are always enabled regardless
-  of environment
-- RBAC authorization is mandated for Key Vault (no legacy vault access policies
-  permitted)
+- **Azure Key Vault soft-delete and purge protection are always enabled
+  regardless of environment**
+- **RBAC authorization is mandated for Key Vault** (no legacy vault access
+  policies permitted)
 - System Assigned managed identities are used exclusively; no shared service
   principals
 
@@ -912,8 +912,8 @@ orchestrated by `main.bicep`), and (3) Azure Services Layer (operational Azure
 resources).
 
 All inter-component dependencies flow through explicit Bicep module parameter
-passing—there are no undocumented runtime dependencies or implicit service
-discovery mechanisms. The `infra/main.bicep` orchestrator manages all
+passing—**there are no undocumented runtime dependencies or implicit service
+discovery mechanisms**. The `infra/main.bicep` orchestrator manages all
 cross-domain dependencies, ensuring that the Log Analytics Workspace is
 provisioned before Key Vault (which references its resource ID for diagnostic
 settings), and Key Vault is provisioned before the Dev Center (which references
@@ -1144,12 +1144,12 @@ flowchart TB
 
 The Dependencies & Integration analysis reveals a clean, three-tier layered
 architecture with explicit dependency management through Bicep parameter wiring
-and module output chaining. There are no undocumented runtime dependencies or
-implicit service discovery patterns—all integration touchpoints are declared in
-YAML configuration or Bicep modules and are fully traceable to source files. The
-integration health is strong for the deployment-time provisioning workflow, with
-five well-defined integration patterns (Configuration Binding, Module Output
-Chaining, Conditional Creation, Catalog Synchronization, RBAC Delegation)
+and module output chaining. There are **no undocumented runtime dependencies or
+implicit service discovery patterns**—all integration touchpoints are declared
+in YAML configuration or Bicep modules and are fully traceable to source files.
+The integration health is strong for the deployment-time provisioning workflow,
+with **five well-defined integration patterns** (Configuration Binding, Module
+Output Chaining, Conditional Creation, Catalog Synchronization, RBAC Delegation)
 covering all cross-component interactions.
 
 The primary integration gap is the absence of runtime data flow tracking after
