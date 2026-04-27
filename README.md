@@ -481,7 +481,7 @@ sub-modules driven by `devcenter.yaml`.
 
 ```mermaid
 ---
-title: "DevExp-DevBox Platform Architecture"
+title: "DevExp-DevBox Technology Architecture"
 config:
   theme: base
   look: classic
@@ -492,8 +492,8 @@ config:
     htmlLabels: true
 ---
 flowchart TB
-    accTitle: DevExp-DevBox Platform Architecture
-    accDescr: Shows the DevExp-DevBox platform spanning Developer Tooling, Workload, Security, and Monitoring Landing Zones with azd CLI orchestrating Bicep module deployments to Azure Dev Center, Key Vault, and Log Analytics Workspace. Developer=neutral, AzdCli=core, SetupScripts=neutral, DevCenter=core, VNet=neutral, BackendPool=success, FrontendPool=success, Catalogs=data, EnvTypes=neutral, KeyVault=danger, LogAnalytics=warning. devtools=neutral surface, workload=success zone, security=danger zone, monitoring=warning zone, eshopProject=Level2 neutral. WCAG AA compliant.
+    accTitle: DevExp-DevBox Technology Architecture
+    accDescr: TOGAF Technology Architecture View. Shows the DevExp-DevBox platform spanning Developer Tooling, Workload, Security, and Monitoring Azure Landing Zones with azd CLI orchestrating Bicep module deployments to Azure Dev Center, Key Vault, and Log Analytics Workspace. Target stakeholders: Platform Engineers, DevOps Teams, and Enterprise Architects. Provisioned via infra/main.bicep; configured via infra/settings/workload/devcenter.yaml. Developer=neutral, AzdCli=core, SetupScripts=neutral, DevCenter=core, VNet=neutral, BackendPool=success, FrontendPool=success, Catalogs=data, EnvTypes=neutral, KeyVault=danger, LogAnalytics=warning. devtools=neutral surface, workload=success zone, security=danger zone, monitoring=warning zone, eshopProject=Level2 neutral. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
