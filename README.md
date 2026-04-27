@@ -10,8 +10,6 @@ that automates the end-to-end provisioning of enterprise-grade Microsoft Dev Box
 environments on Azure, driven entirely by YAML configuration files with JSON
 Schema validation.
 
----
-
 ## 📖 Table of Contents
 
 - [Overview](#-overview)
@@ -20,16 +18,12 @@ Schema validation.
 - [Deployment](#-deployment)
 - [Requirements](#-requirements)
 - [Usage](#-usage)
-- [Configuration](#️-configuration)
-- [Architecture](#️-architecture)
+- [Configuration](#-configuration)
+- [Architecture](#-architecture)
 - [Contributing](#-contributing)
 - [License](#-license)
 
----
-
 ## 🔭 Overview
-
-**Overview**
 
 DevExp-DevBox is an Azure-native Infrastructure-as-Code (IaC) solution that
 provisions and manages Azure Dev Center resources, DevBox pools, project
@@ -49,8 +43,6 @@ assignments, Key Vault, and Log Analytics Workspace.
 > [!NOTE] This accelerator targets the **Contoso Developer Experience (DevExP)**
 > platform and is designed to be cloned, configured via YAML, and deployed with
 > zero Bicep modification for standard onboarding scenarios.
-
----
 
 ## ✨ Features
 
@@ -82,8 +74,6 @@ day one.
 | 🖥️ Cross-Platform Scripts        | Setup and cleanup scripts for Linux/macOS (Bash) and Windows (PowerShell)                                                     | ✅ Stable |
 | 🏷️ Mandatory Governance Tagging  | Enforces 8-field tag schema (`environment`, `division`, `team`, `project`, `costCenter`, `owner`, `landingZone`, `resources`) | ✅ Stable |
 
----
-
 ## 🚀 Quick Start
 
 **Overview**
@@ -112,7 +102,7 @@ azd env new ContosoDevExp
 ```bash
 azd env set AZURE_LOCATION eastus2
 azd env set SOURCE_CONTROL_PLATFORM github
-azd env set KEY_VAULT_SECRET "<your-github-personal-access-token>"
+azd env set KEY_VAULT_SECRET "$(gh auth token)"
 ```
 
 **4. Deploy the full platform:**
@@ -123,7 +113,7 @@ azd up
 
 **Expected Output:**
 
-```
+```text
 SUCCESS: Your up workflow to provision and deploy to Azure completed in 8 minutes 42 seconds.
 
 Outputs:
@@ -137,8 +127,6 @@ Outputs:
 > Access Administrator** role on the target Azure subscription before running
 > `azd up`. The deployment assigns RBAC roles at the subscription scope and
 > requires these permissions.
-
----
 
 ## 📦 Deployment
 
@@ -164,7 +152,7 @@ azd provision
 
 **Expected Output:**
 
-```
+```text
 Provisioning Azure resources (azd provision)
   (✓) Done: Resource group: devexp-workload-ContosoDevExp-eastus2-RG
   (✓) Done: Log Analytics workspace: logAnalytics-<unique>
@@ -184,15 +172,13 @@ SUCCESS: Your provision workflow to provision to Azure completed in 7 minutes 15
 
 **Expected Output:**
 
-```
+```text
 INFO: Removing role assignments...
 INFO: Deleting service principal...
 INFO: Removing GitHub secrets...
 INFO: Deleting resource groups...
 SUCCESS: Cleanup completed successfully.
 ```
-
----
 
 ## 📋 Requirements
 
@@ -222,8 +208,6 @@ dependencies at runtime and exit with an informative error if any are missing.
 | 🖥️ PowerShell          | `pwsh`                     | 5.1+ (7.4+ recommended) | [Install PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) |
 | 🔑 Azure RBAC          | Owner or Contributor + UAA | N/A                     | [Azure RBAC](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview)                   |
 
----
-
 ## 💻 Usage
 
 **Overview**
@@ -242,7 +226,7 @@ azd show
 
 **Expected Output:**
 
-```
+```text
 Name: ContosoDevExp
 Services:
   (no application services — IaC-only project)
@@ -272,14 +256,12 @@ azd down --purge
 
 **Expected Output:**
 
-```
+```text
 Deleting all resources and deployments associated with applications in Azure (azd down)
   (✓) Done: Deleting resource group: devexp-workload-ContosoDevExp-eastus2-RG
 
 SUCCESS: Your down workflow to delete resources in Azure completed in 2 minutes 30 seconds.
 ```
-
----
 
 ## ⚙️ Configuration
 
@@ -320,8 +302,6 @@ pools:
 ```bash
 azd provision
 ```
-
----
 
 ## 🏗️ Architecture
 
@@ -434,8 +414,6 @@ flowchart TB
 | 🔒 Azure Key Vault         | Stores the GitHub Access Token (`gha-token`) with RBAC authorization and purge protection    | `src/security/keyVault.bicep`               |
 | 📊 Log Analytics Workspace | Centralized telemetry sink receiving diagnostic logs from all platform resources             | `src/management/logAnalytics.bicep`         |
 
----
-
 ## 🤝 Contributing
 
 **Overview**
@@ -450,7 +428,7 @@ pull request.
 
 ```bash
 # Fork and clone the repository
-git clone https://github.com/<your-fork>/DevExp-DevBox.git
+git clone https://github.com/your-github-username/DevExp-DevBox.git
 cd DevExp-DevBox
 
 # Create a feature branch
@@ -459,7 +437,7 @@ git checkout -b feature/my-improvement
 # Deploy to your own test environment
 azd env new MyTestEnv
 azd env set AZURE_LOCATION eastus2
-azd env set KEY_VAULT_SECRET "<test-pat>"
+azd env set KEY_VAULT_SECRET "$(gh auth token)"
 azd up
 ```
 
@@ -478,8 +456,6 @@ azd up
 - Add meaningful resource tags following the 8-field governance tag schema
 - Test with both `SOURCE_CONTROL_PLATFORM=github` and
   `SOURCE_CONTROL_PLATFORM=adogit`
-
----
 
 ## 📄 License
 
