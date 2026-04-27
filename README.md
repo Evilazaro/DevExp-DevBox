@@ -82,7 +82,8 @@ Azure Developer CLI. A `preprovision` hook (`setUp.sh` on Linux/macOS or
 `setUp.ps1` on Windows) runs automatically before resource provisioning to
 handle source control authentication and environment validation.
 
-> [!WARNING] Ensure you are assigned the **Owner** or **Contributor + User
+> [!WARNING]
+> Ensure you are assigned the **Owner** or **Contributor + User
 > Access Administrator** role on the target Azure subscription before deploying.
 > The Bicep modules assign RBAC roles at the subscription scope and require
 > these permissions.
@@ -132,12 +133,6 @@ Outputs:
 - AZURE_KEY_VAULT_NAME: contoso-<unique>-kv
 - AZURE_LOG_ANALYTICS_WORKSPACE_NAME: logAnalytics-<unique>
 - WORKLOAD_AZURE_RESOURCE_GROUP_NAME: devexp-workload-ContosoDevExp-eastus2-RG
-```
-
-**Provision only (skip deploy step):**
-
-```bash
-azd provision
 ```
 
 **Tear down and clean up:**
