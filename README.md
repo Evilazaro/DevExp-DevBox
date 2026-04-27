@@ -82,8 +82,7 @@ Azure Developer CLI. A `preprovision` hook (`setUp.sh` on Linux/macOS or
 `setUp.ps1` on Windows) runs automatically before resource provisioning to
 handle source control authentication and environment validation.
 
-> [!WARNING]
-> Ensure you are assigned the **Owner** or **Contributor + User
+> [!WARNING] Ensure you are assigned the **Owner** or **Contributor + User
 > Access Administrator** role on the target Azure subscription before deploying.
 > The Bicep modules assign RBAC roles at the subscription scope and require
 > these permissions.
@@ -160,13 +159,15 @@ provision and operate the platform. All tools must be installed and
 authenticated before running `azd up`. The setup scripts validate for required
 dependencies at runtime and exit with an informative error if any are missing.
 
-> [!IMPORTANT] The deployment assigns Azure RBAC roles at the **subscription
+> [!IMPORTANT]
+> The deployment assigns Azure RBAC roles at the **subscription
 > scope**. The deploying identity must hold the **Owner** role or a combination
 > of **Contributor** and **User Access Administrator** on the target
 > subscription. Without these permissions, the Bicep deployment will fail during
 > the identity module execution.
 
-> [!TIP] Use `azd version` and `az version` to verify your installed tool
+> [!TIP]
+> Use `azd version` and `az version` to verify your installed tool
 > versions match the minimum requirements before running `azd up`.
 
 | 🛠️ Requirement         | 📦 Package / Tool          | 🔢 Minimum Version      | 🔗 Install Guide                                                                                           |
