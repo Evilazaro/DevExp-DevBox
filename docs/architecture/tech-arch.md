@@ -20,7 +20,7 @@ and its dependent resources.
 The technology stack is defined by a **zero-server, fully managed
 architecture**: no virtual machines are operated by the platform itself, no
 containers are provisioned, and no persistent compute exists beyond Azure's
-platform services. All provisioning is declarative and driven by YAML
+platform services. **All provisioning is declarative** and driven by YAML
 configuration files loaded at deployment time via Bicep's `loadYamlContent`
 construct. The infrastructure services span Azure DevCenter (the primary compute
 orchestrator for developer workstations), Azure Key Vault (secrets management),
@@ -295,8 +295,8 @@ environments and enables automated provisioning pipelines. Source:
 modules.
 
 **Implications:** Every new infrastructure component requires a corresponding
-Bicep module. Ad-hoc resource creation is prohibited. The `main.parameters.json`
-file must be updated for any new parameter.
+Bicep module. **Ad-hoc resource creation is prohibited.** The
+`main.parameters.json` file must be updated for any new parameter.
 
 ### Principle 2: Configuration as Code (CaC-First)
 
@@ -329,9 +329,9 @@ resource. Source: `src/workload/core/devCenter.bicep:152`
 (`identity.type: SystemAssigned`), `src/workload/project/project.bicep`.
 
 **Implications:** All new resources requiring access to Azure services must be
-provisioned with SystemAssigned or UserAssigned managed identities. Key Vault is
-used exclusively for external credentials (e.g., GitHub tokens) that cannot use
-managed identity.
+provisioned with SystemAssigned or UserAssigned managed identities. **Key Vault
+is used exclusively for external credentials** (e.g., GitHub tokens) that cannot
+use managed identity.
 
 ### Principle 4: Principle of Least Privilege (PoLP)
 
@@ -364,9 +364,9 @@ Source: `src/management/logAnalytics.bicep`,
 `src/workload/core/devCenter.bicep:174`, `src/security/secret.bicep:28`,
 `src/connectivity/vnet.bicep:65`.
 
-**Implications:** Every new Bicep module must include a `diagnosticSettings`
-resource. The Log Analytics Workspace ID must be passed as a module parameter to
-all infrastructure modules.
+**Implications:** **Every new Bicep module must include a `diagnosticSettings`
+resource.** The Log Analytics Workspace ID must be passed as a module parameter
+to all infrastructure modules.
 
 ### Principle 6: Azure Landing Zone Alignment
 
@@ -553,10 +553,10 @@ environments and simplifies initial provisioning.
 
 The primary architectural risk is the co-location of security (Key Vault) and
 monitoring (Log Analytics) resources with the workload domain, which limits RBAC
-granularity and cost attribution. The subscription-scope Contributor role
+granularity and cost attribution. The **subscription-scope Contributor role**
 assigned to the DevCenter managed identity is a recognized operational
-requirement but represents a potential privilege escalation path that should be
-addressed through custom role scoping in production. Governance maturity is
+requirement but represents a **potential privilege escalation path** that should
+be addressed through custom role scoping in production. Governance maturity is
 assessed at Level 3-4, with the next maturity milestone requiring automated
 policy enforcement and CI/CD-driven image validation pipelines.
 
@@ -883,8 +883,8 @@ flowchart TB
 - **Producer:** Key Vault Secret `gha-token` (TC-011) —
   `src/security/secret.bicep`
 - **Consumers:** DevCenter Catalog (TC-035), eShop Catalogs (TC-036, TC-037)
-- **Data:** Key Vault secret URI (`secretIdentifier` output) — never the raw
-  secret value
+- **Data:** Key Vault secret URI (`secretIdentifier` output) — **never the raw
+  secret value**
 - **Protocol:** Azure Key Vault secret reference (DevCenter resolves at catalog
   sync time)
 - **Dependency Resolution:** secretIdentifier output from security module passed
