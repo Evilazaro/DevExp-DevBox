@@ -411,8 +411,10 @@ azd env set KEY_VAULT_SECRET "$(gh auth token)"
 azd up
 ```
 
-> [!IMPORTANT]
-> Always validate JSON Schema compliance for YAML configuration changes. Each `infra/settings/` directory contains a `.schema.json` file that can be used with any JSON Schema validator to verify your configuration before deployment.
+> [!IMPORTANT] Always validate JSON Schema compliance for YAML configuration
+> changes. Each `infra/settings/` directory contains a `.schema.json` file that
+> can be used with any JSON Schema validator to verify your configuration before
+> deployment.
 
 **Contribution guidelines:**
 
