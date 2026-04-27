@@ -234,41 +234,194 @@ SUCCESS: Your down workflow to delete resources in Azure completed in 2 minutes 
 
 **Overview**
 
-All platform behaviour is controlled through three YAML configuration files
-under `infra/settings/`. Each file is validated by a co-located JSON Schema at
-design time, providing immediate feedback on configuration errors before
-deployment. Editing these files and running `azd provision` is the only workflow
-required for standard platform customization.
+All platform behaviour is controlled through three YAML configuration files under `infra/settings/`. Each file is validated by a co-located JSON Schema at design time, providing immediate feedback on configuration errors before deployment. Every feature of the platform — Dev Center provisioning, role-specific Dev Box pools, environment types, Key Vault security, virtual networking, RBAC, observability, governance tags, and source control integration — is driven exclusively through these files and `azd env` variables. No Bicep modification is needed for standard deployments.
 
-| 📄 File                                                      | 🏷️ Purpose                                                   | 🔧 Key Settings                                                                                            |
+| 📄 File | 🏷️ Purpose | 🔧 Key Settings |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| 📁 `infra/settings/resourceOrganization/azureResources.yaml` | Resource group topology and Azure Landing Zone configuration | `workload.create`, `security.create`, `monitoring.create`, resource group names, governance tags           |
-| 🔒 `infra/settings/security/security.yaml`                   | Azure Key Vault configuration                                | `keyVault.name`, `enablePurgeProtection`, `softDeleteRetentionInDays`, `enableRbacAuthorization`           |
-| 🏗️ `infra/settings/workload/devcenter.yaml`                  | Dev Center, projects, pools, catalogs, and environment types | `name`, `projects[*].pools`, `projects[*].network`, `projects[*].environmentTypes`, `projects[*].catalogs` |
+| 📁 `infra/settings/resourceOrganization/azureResources.yaml` | Resource group topology and Azure Landing Zone configuration | `workload.create`, `security.create`, `monitoring.create`, resource group names, governance tags |
+| 🔒 `infra/settings/security/security.yaml` | Azure Key Vault configuration | `keyVault.name`, `enablePurgeProtection`, `softDeleteRetentionInDays`, `enableRbacAuthorization` |
+| 🏗️ `infra/settings/workload/devcenter.yaml` | Dev Center, projects, pools, catalogs, and environment types | `name`, `projects[*].pools`, `projects[*].network`, `projects[*].environmentTypes`, `projects[*].catalogs` |
 
 **Environment variables (set via `azd env set`):**
 
-| 🔑 Variable                  | 📝 Description                                                       | ✅ Required |
+| 🔑 Variable | 📝 Description | ✅ Required |
 | ---------------------------- | -------------------------------------------------------------------- | ----------- |
-| 🌍 `AZURE_LOCATION`          | Azure region for deployment (e.g., `eastus2`)                        | ✅ Yes      |
-| 📛 `AZURE_ENV_NAME`          | Environment name used in resource naming (2–10 characters)           | ✅ Yes      |
-| 🔐 `KEY_VAULT_SECRET`        | GitHub Personal Access Token stored in Key Vault as `gha-token`      | ✅ Yes      |
+| 🌍 `AZURE_LOCATION` | Azure region for deployment (e.g., `eastus2`) | ✅ Yes |
+| 📛 `AZURE_ENV_NAME` | Environment name used in resource naming (2–10 characters) | ✅ Yes |
+| 🔐 `KEY_VAULT_SECRET` | GitHub Personal Access Token stored in Key Vault as `gha-token` | ✅ Yes |
 | 🐙 `SOURCE_CONTROL_PLATFORM` | Source control platform: `github` or `adogit` (defaults to `github`) | ⬜ Optional |
 
-**Add a new Dev Box pool (edit `infra/settings/workload/devcenter.yaml`):**
+### 🏗️ Dev Center Core Settings
+
+**Feature**: Azure Dev Center Provisioning — `infra/settings/workload/devcenter.yaml`
+
+Controls the Dev Center name, catalog item sync status, Azure Monitor agent installation, and the Microsoft-hosted network enablement. The system-assigned managed identity is declared here and drives all downstream RBAC assignments.
+
+```yaml
+name: 'devexp'
+catalogItemSyncEnableStatus: 'Enabled'
+microsoftHostedNetworkEnableStatus: 'Enabled'
+installAzureMonitorAgentEnableStatus: 'Enabled'
+identity:
+  type: 'SystemAssigned'
+```
+
+### 💻 Role-Specific Dev Box Pools
+
+**Feature**: Role-Specific Dev Box Pools — `infra/settings/workload/devcenter.yaml` → `projects[*].pools`
+
+Each pool targets a specific engineering role with a tailored VM SKU and image definition. The `eShop` project ships with two built-in pools:
 
 ```yaml
 pools:
+  - name: 'backend-engineer'
+    imageDefinitionName: 'eshop-backend-dev'
+    vmSku: general_i_32c128gb512ssd_v2   # 32 vCPU · 128 GB RAM · 512 GB SSD
+  - name: 'frontend-engineer'
+    imageDefinitionName: 'eshop-frontend-dev'
+    vmSku: general_i_16c64gb256ssd_v2    # 16 vCPU · 64 GB RAM · 256 GB SSD
+```
+
+To add a pool for a new role (e.g., data engineering), append an entry and redeploy:
+
+```yaml
   - name: 'data-engineer'
     imageDefinitionName: 'eshop-data-dev'
     vmSku: general_i_16c64gb256ssd_v2
 ```
 
-**Then redeploy:**
-
 ```bash
 azd provision
 ```
+
+### 🔄 Multi-Environment Types
+
+**Feature**: Multi-Environment Types — `infra/settings/workload/devcenter.yaml` → `environmentTypes` and `projects[*].environmentTypes`
+
+Defines the available deployment targets at both the Dev Center level (global) and per-project level. The default configuration ships `dev`, `staging`, and `UAT`. Set `deploymentTargetId` to a specific Azure subscription resource ID to route an environment to a different subscription:
+
+```yaml
+environmentTypes:
+  - name: 'dev'
+    deploymentTargetId: ''      # deploys to the default subscription
+  - name: 'staging'
+    deploymentTargetId: ''
+  - name: 'uat'
+    deploymentTargetId: ''
+```
+
+### 🔒 Key Vault Security Settings
+
+**Feature**: Azure Key Vault Integration — `infra/settings/security/security.yaml`
+
+Configures the Azure Key Vault used to store the source-control authentication token (`gha-token`). Purge protection, soft-delete retention, and RBAC authorization mode are all controlled here:
+
+```yaml
+keyVault:
+  name: contoso
+  secretName: gha-token
+  enablePurgeProtection: true
+  enableSoftDelete: true
+  softDeleteRetentionInDays: 7
+  enableRbacAuthorization: true
+```
+
+### 🌐 Virtual Network Configuration
+
+**Feature**: Virtual Network Support — `infra/settings/workload/devcenter.yaml` → `projects[*].network`
+
+Controls Dev Box network isolation per project. Set `create: true` to deploy a dedicated VNet; Dev Box pools connect automatically through the named subnet:
+
+```yaml
+network:
+  name: eShop
+  create: true
+  resourceGroupName: 'eShop-connectivity-RG'
+  virtualNetworkType: Managed
+  addressPrefixes:
+    - 10.0.0.0/16
+  subnets:
+    - name: eShop-subnet
+      properties:
+        addressPrefix: 10.0.1.0/24
+```
+
+### 🔑 Least-Privilege RBAC
+
+**Feature**: Least-Privilege RBAC — `infra/settings/workload/devcenter.yaml` → `identity.roleAssignments`
+
+Defines subscription- and resource-group-scoped role assignments granted to the Dev Center managed identity. The built-in set follows least-privilege principles:
+
+| 🏷️ Role | 🔍 Scope | 📝 Purpose |
+| -------------------------------- | ------------- | ---------------------------------------------------------------- |
+| 🔧 Contributor | Subscription | Manage Dev Center and project resources |
+| 🔑 User Access Administrator | Subscription | Assign Dev Box User roles to project members |
+| 🔒 Key Vault Secrets User | ResourceGroup | Read the `gha-token` secret at runtime |
+| 🔐 Key Vault Secrets Officer | ResourceGroup | Write secrets during provisioning |
+
+To add a role assignment, extend the `roleAssignments.devCenter` array in `devcenter.yaml` and redeploy with `azd provision`.
+
+### 📊 Centralized Observability
+
+**Feature**: Centralized Observability — `infra/settings/resourceOrganization/azureResources.yaml` → `monitoring.create`
+
+A Log Analytics Workspace is always provisioned alongside the platform. By default (`monitoring.create: false`) it co-locates in the Workload resource group. Set `create: true` to isolate it in a dedicated Monitoring resource group:
+
+```yaml
+monitoring:
+  create: false   # false = share the Workload resource group
+  name: devexp-workload
+```
+
+### 🏷️ Mandatory Governance Tags
+
+**Feature**: Mandatory Governance Tagging — `tags` blocks in all three YAML files
+
+Every Azure resource is tagged with an 8-field governance schema. Customize the values in each file's `tags` block to match your organization:
+
+```yaml
+tags:
+  environment: dev
+  division: Platforms
+  team: DevExP
+  project: Contoso-DevExp-DevBox
+  costCenter: IT
+  owner: Contoso
+  landingZone: Workload
+  resources: ResourceGroup
+```
+
+### 🗂️ Resource Group Organization
+
+**Feature**: Configuration-as-Code — `infra/settings/resourceOrganization/azureResources.yaml`
+
+Controls whether Security and Monitoring resources land in dedicated resource groups or share the Workload resource group. The default ships all three domains in a single resource group for simplicity:
+
+```yaml
+workload:
+  create: true
+  name: devexp-workload
+security:
+  create: false   # co-locate with workload RG
+monitoring:
+  create: false   # co-locate with workload RG
+```
+
+### 🐙 Source Control Platform
+
+**Feature**: GitHub & Azure DevOps Support — `SOURCE_CONTROL_PLATFORM` environment variable
+
+Controls which platform the `preprovision` hook (`setUp.sh` / `setUp.ps1`) authenticates against before deployment. Defaults to `github` if not set:
+
+```bash
+# GitHub (default)
+azd env set SOURCE_CONTROL_PLATFORM github
+
+# Azure DevOps
+azd env set SOURCE_CONTROL_PLATFORM adogit
+```
+
+Then run `azd provision` to apply the setting in the next deployment cycle.
 
 ## 🏗️ Architecture
 
