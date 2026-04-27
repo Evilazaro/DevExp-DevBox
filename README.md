@@ -39,7 +39,8 @@ principles, segmenting resources into three logical domains: **Workload**
 stack including a Dev Center, project pools, network connections, role
 assignments, Key Vault, and Log Analytics Workspace.
 
-> [!NOTE] This accelerator targets the **Contoso Developer Experience (DevExP)**
+> [!NOTE]  
+> This accelerator targets the **Contoso Developer Experience (DevExP)**
 > platform and is designed to be cloned, configured via YAML, and deployed with
 > zero Bicep modification for standard onboarding scenarios.
 
@@ -53,10 +54,11 @@ for enterprise engineering teams. By encoding all configuration as YAML under
 auditable environment provisioning that enforces organizational governance from
 day one.
 
-> [!TIP] All platform behaviour — Dev Center identity, project pools, network
-> topology, RBAC assignments, Key Vault settings, and resource group
-> organization — is controlled exclusively through YAML files. No Bicep editing
-> is required for standard deployments.
+> [!TIP]  
+> All platform behaviour — Dev Center identity, project pools, network topology,
+> RBAC assignments, Key Vault settings, and resource group organization — is
+> controlled exclusively through YAML files. No Bicep editing is required for
+> standard deployments.
 
 | 🏷️ Feature                       | 📝 Description                                                                                                                | ⚡ Status |
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------- |
@@ -82,10 +84,11 @@ Azure Developer CLI. A `preprovision` hook (`setUp.sh` on Linux/macOS or
 `setUp.ps1` on Windows) runs automatically before resource provisioning to
 handle source control authentication and environment validation.
 
-> [!WARNING] Ensure you are assigned the **Owner** or **Contributor + User
-> Access Administrator** role on the target Azure subscription before deploying.
-> The Bicep modules assign RBAC roles at the subscription scope and require
-> these permissions.
+> [!WARNING]  
+> Ensure you are assigned the **Owner** or **Contributor + User Access
+> Administrator** role on the target Azure subscription before deploying. The
+> Bicep modules assign RBAC roles at the subscription scope and require these
+> permissions.
 
 **Prerequisites:**
 
@@ -159,14 +162,16 @@ provision and operate the platform. All tools must be installed and
 authenticated before running `azd up`. The setup scripts validate for required
 dependencies at runtime and exit with an informative error if any are missing.
 
-> [!IMPORTANT] The deployment assigns Azure RBAC roles at the **subscription
-> scope**. The deploying identity must hold the **Owner** role or a combination
-> of **Contributor** and **User Access Administrator** on the target
-> subscription. Without these permissions, the Bicep deployment will fail during
-> the identity module execution.
+> [!IMPORTANT]  
+> The deployment assigns Azure RBAC roles at the **subscription scope**. The
+> deploying identity must hold the **Owner** role or a combination of
+> **Contributor** and **User Access Administrator** on the target subscription.
+> Without these permissions, the Bicep deployment will fail during the identity
+> module execution.
 
-> [!TIP] Use \zd version\ and \z version\ to verify your installed tool versions
-> match the minimum requirements before running \zd up\.
+> [!TIP]  
+> Use \zd version\ and \z version\ to verify your installed tool versions match
+> the minimum requirements before running \zd up\.
 
 | 🛠️ Requirement         | 📦 Package / Tool          | 🔢 Minimum Version      | 🔗 Install Guide                                                                                           |
 | ---------------------- | -------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- |
@@ -483,10 +488,12 @@ config:
   layout: dagre
   themeVariables:
     fontSize: '16px'
+  flowchart:
+    htmlLabels: true
 ---
 flowchart TB
     accTitle: DevExp-DevBox Platform Architecture
-    accDescr: Shows the DevExp-DevBox platform comprising Developer Tooling with Developer, Azure Developer CLI, and Setup Scripts provisioning Azure Landing Zone resources including Azure Dev Center, eShop Project with Backend Pool, Frontend Pool, Dev Catalogs, and Environment Types, a Virtual Network, Azure Key Vault in the Security Landing Zone, and a Log Analytics Workspace in the Monitoring Landing Zone.
+    accDescr: Shows the DevExp-DevBox platform spanning Developer Tooling, Workload, Security, and Monitoring Landing Zones with azd CLI orchestrating Bicep module deployments to Azure Dev Center, Key Vault, and Log Analytics Workspace. Developer=neutral, AzdCli=core, SetupScripts=neutral, DevCenter=core, VNet=neutral, BackendPool=success, FrontendPool=success, Catalogs=data, EnvTypes=neutral, KeyVault=warning, LogAnalytics=success. WCAG AA compliant.
 
     %%
     %% AZURE / FLUENT ARCHITECTURE PATTERN v2.0
@@ -593,10 +600,10 @@ azd env set KEY_VAULT_SECRET "$(gh auth token)"
 azd up
 ```
 
-> [!IMPORTANT] Always validate JSON Schema compliance for YAML configuration
-> changes. Each \infra/settings/\ directory contains a \.schema.json\ file that
-> can be used with any JSON Schema validator to verify your configuration before
-> deployment.
+> [!IMPORTANT]  
+> Always validate JSON Schema compliance for YAML configuration changes. Each
+> \infra/settings/\ directory contains a \.schema.json\ file that can be used
+> with any JSON Schema validator to verify your configuration before deployment.
 
 **Contribution guidelines:**
 
