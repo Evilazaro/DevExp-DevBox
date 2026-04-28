@@ -73,12 +73,11 @@ their interactions in the DevExp-DevBox platform.
 ```mermaid
 ---
 config:
-  description: "High-level architecture diagram showing actors, primary flows, and major components."
-  theme: base
-  align: center
-  fontFamily: "Segoe UI, Verdana, sans-serif"
-  fontSize: 16
-  themeVariables:
+    description: "High-level architecture diagram showing actors, primary flows, and major components."
+    theme: base
+    align: center
+    fontFamily: "Segoe UI, Verdana, sans-serif"
+    fontSize: 16
     primaryColor: "#0f6cbd"
     primaryTextColor: "#FFFFFF"
     primaryBorderColor: "#0f548c"
