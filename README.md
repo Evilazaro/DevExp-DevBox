@@ -79,6 +79,8 @@ config:
   fontFamily: "Segoe UI, Verdana, sans-serif"
   fontSize: 16
   edgeLabelBackground: "#FFFFFF"    # colorNeutralBackground1
+  noteBkgColor: "#fefbf4"           # colorPaletteMarigoldBackground1 (marigold.tint60)
+  noteTextColor: "#242424"          # colorNeutralForeground1 (grey[14])
   themeVariables:
     primaryColor: "#0f6cbd"           # colorBrandBackground (brandWeb[80])
     primaryTextColor: "#FFFFFF"       # colorNeutralForegroundOnBrand
@@ -89,8 +91,7 @@ config:
     tertiaryColor: "#f5f5f5"          # colorNeutralBackground3 (grey[96])
     tertiaryTextColor: "#424242"      # colorNeutralForeground2 (grey[26])
     tertiaryBorderColor: "#d1d1d1"    # colorNeutralStroke1 (grey[82])
-    noteBkgColor: "#fefbf4"           # colorPaletteMarigoldBackground1 (marigold.tint60)
-    noteTextColor: "#242424"          # colorNeutralForeground1 (grey[14])
+
     noteBorderColor: "#f9e2ae"        # colorPaletteMarigoldBorder1 (marigold.tint40)
     lineColor: "#616161"              # colorNeutralStrokeAccessible (grey[38])
     background: "#FFFFFF"             # colorNeutralBackground1
