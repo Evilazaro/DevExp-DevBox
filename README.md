@@ -78,29 +78,27 @@ config:
   align: center
   fontFamily: "Segoe UI, Verdana, sans-serif"
   fontSize: 16
-  edgeLabelBackground: "#FFFFFF"    # colorNeutralBackground1
+  textColor: "#242424"
+  primaryColor: "#0f6cbd"           # colorBrandBackground (brandWeb[80])
+  primaryTextColor: "#FFFFFF"       # colorNeutralForegroundOnBrand
+  primaryBorderColor: "#0f548c"     # colorBrandBackground3Static (brandWeb[60])
+  secondaryColor: "#ebf3fc"         # colorBrandBackground2 (brandWeb[160])
+  secondaryTextColor: "#242424"     # colorNeutralForeground1 (grey[14])
+  secondaryBorderColor: "#0f6cbd"   # colorBrandStroke1 (brandWeb[80])
+  tertiaryColor: "#f5f5f5"          # colorNeutralBackground3 (grey[96])
+  tertiaryTextColor: "#424242"      # colorNeutralForeground2 (grey[26])
+  tertiaryBorderColor: "#d1d1d1"    # colorNeutralStroke1 (grey[82])
   noteBkgColor: "#fefbf4"           # colorPaletteMarigoldBackground1 (marigold.tint60)
-  noteBorderColor: "#f9e2ae"        # colorPaletteMarigoldBorder1 (marigold.tint40)
   noteTextColor: "#242424"          # colorNeutralForeground1 (grey[14])
-  themeVariables:
-    primaryColor: "#0f6cbd"           # colorBrandBackground (brandWeb[80])
-    primaryTextColor: "#FFFFFF"       # colorNeutralForegroundOnBrand
-    primaryBorderColor: "#0f548c"     # colorBrandBackground3Static (brandWeb[60])
-    secondaryColor: "#ebf3fc"         # colorBrandBackground2 (brandWeb[160])
-    secondaryTextColor: "#242424"     # colorNeutralForeground1 (grey[14])
-    secondaryBorderColor: "#0f6cbd"   # colorBrandStroke1 (brandWeb[80])
-    tertiaryColor: "#f5f5f5"          # colorNeutralBackground3 (grey[96])
-    tertiaryTextColor: "#424242"      # colorNeutralForeground2 (grey[26])
-    tertiaryBorderColor: "#d1d1d1"    # colorNeutralStroke1 (grey[82])
-
-
-    lineColor: "#616161"              # colorNeutralStrokeAccessible (grey[38])
-    background: "#FFFFFF"             # colorNeutralBackground1
-    clusterBkg: "#fafafa"             # colorNeutralBackground2 (grey[98])
-    clusterBorder: "#e0e0e0"          # colorNeutralStroke2 (grey[88])
-    titleColor: "#242424"             # colorNeutralForeground1 (grey[14])
-    errorBkgColor: "#fdf3f4"          # colorStatusDangerBackground1 (cranberry.tint60)
-    errorTextColor: "#b10e1c"         # colorStatusDangerForeground1 (cranberry.shade10)
+  noteBorderColor: "#f9e2ae"        # colorPaletteMarigoldBorder1 (marigold.tint40)
+  lineColor: "#616161"              # colorNeutralStrokeAccessible (grey[38])
+  background: "#FFFFFF"             # colorNeutralBackground1
+  edgeLabelBackground: "#FFFFFF"    # colorNeutralBackground1
+  clusterBkg: "#fafafa"             # colorNeutralBackground2 (grey[98])
+  clusterBorder: "#e0e0e0"          # colorNeutralStroke2 (grey[88])
+  titleColor: "#242424"             # colorNeutralForeground1 (grey[14])
+  errorBkgColor: "#fdf3f4"          # colorStatusDangerBackground1 (cranberry.tint60)
+  errorTextColor: "#b10e1c"         # colorStatusDangerForeground1 (cranberry.shade10)
 ---
 flowchart TB
 
