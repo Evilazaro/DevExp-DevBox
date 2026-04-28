@@ -42,7 +42,7 @@ assignments, Key Vault, and Log Analytics Workspace.
 > [!NOTE]  
 > This accelerator targets the **Contoso Developer Experience (DevExP)**
 > platform and is designed to be cloned, configured via YAML, and deployed with
-> zero Bicep modification for standard onboarding scenarios.
+> **zero Bicep modification** for standard onboarding scenarios.
 
 ## ✨ Features
 
@@ -170,8 +170,8 @@ dependencies at runtime and exit with an informative error if any are missing.
 > module execution.
 
 > [!TIP]  
-> Use \zd version\ and \z version\ to verify your installed tool versions match
-> the minimum requirements before running \zd up\.
+> Use `azd version` and `az version` to verify your installed tool versions
+> match the minimum requirements before running `azd up`.
 
 | 🛠️ Requirement         | 📦 Package / Tool          | 🔢 Minimum Version      | 🔗 Install Guide                                                                                           |
 | ---------------------- | -------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- |
@@ -248,8 +248,8 @@ design time, providing immediate feedback on configuration errors before
 deployment. Every feature of the platform — Dev Center provisioning,
 role-specific Dev Box pools, environment types, Key Vault security, virtual
 networking, RBAC, observability, governance tags, and source control integration
-— is driven exclusively through these files and `azd env` variables. No Bicep
-modification is needed for standard deployments.
+— is driven exclusively through these files and `azd env` variables. **No Bicep
+modification is needed for standard deployments.**
 
 | 📄 File                                                      | 🏷️ Purpose                                                   | 🔧 Key Settings                                                                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
@@ -472,12 +472,12 @@ Then run `azd provision` to apply the setting in the next deployment cycle.
 
 **Overview**
 
-DevExp-DevBox implements a zero-server, fully managed architecture across three
-Azure Landing Zone domains: Workload (Dev Center and projects), Security (Key
-Vault), and Monitoring (Log Analytics). All provisioning is declarative — Bicep
-modules at `infra/main.bicep` orchestrate the Security, Monitoring, and Workload
-modules, with the Workload module further composing DevCenter core and project
-sub-modules driven by `devcenter.yaml`.
+DevExp-DevBox implements a **zero-server, fully managed architecture** across
+three Azure Landing Zone domains: Workload (Dev Center and projects), Security
+(Key Vault), and Monitoring (Log Analytics). **All provisioning is declarative**
+— Bicep modules at `infra/main.bicep` orchestrate the Security, Monitoring, and
+Workload modules, with the Workload module further composing DevCenter core and
+project sub-modules driven by `devcenter.yaml`.
 
 ```mermaid
 ---
@@ -603,12 +603,12 @@ azd up
 
 > [!IMPORTANT]  
 > Always validate JSON Schema compliance for YAML configuration changes. Each
-> \infra/settings/\ directory contains a \.schema.json\ file that can be used
+> `infra/settings/` directory contains a `.schema.json` file that can be used
 > with any JSON Schema validator to verify your configuration before deployment.
 
 **Contribution guidelines:**
 
-- Open an issue to discuss proposed changes before submitting a pull request
+- **Open an issue to discuss proposed changes** before submitting a pull request
 - Follow the existing Bicep module structure: one resource domain per module,
   typed parameters, documented outputs
 - Ensure all YAML changes pass JSON Schema validation against co-located
