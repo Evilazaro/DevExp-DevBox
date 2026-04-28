@@ -87,67 +87,50 @@ subscription scope.
 
 ```mermaid
 graph TB
-    subgraph subscription["Azure Subscription"]
-        direction TB
+    azd["azd up"] -->|"1 - preprovision hook"| setUp["setUp.sh / setUp.ps1"]
+    setUp -->|"2 - provision"| deploy["Bicep Deployment\nsubscription scope"]
 
-        subgraph monitoring_rg["Monitoring Resource Group"]
-            LAW["🔍 Log Analytics Workspace"]
-        end
+    deploy --> LAW
+    deploy --> KV
+    deploy --> DC
 
-        subgraph security_rg["Security Resource Group"]
-            KV["🔑 Azure Key Vault"]
-            Secret["🔒 PAT Secret\n(GitHub / ADO Token)"]
-            KV --> Secret
-        end
-
-        subgraph workload_rg["Workload Resource Group"]
-            DC["🖥️ Azure Dev Center"]
-
-            subgraph catalogs["Catalogs"]
-                CAT1["📦 customTasks\n(microsoft/devcenter-catalog)"]
-            end
-
-            subgraph env_types["Environment Types"]
-                ET1["dev"]
-                ET2["staging"]
-                ET3["uat"]
-            end
-
-            subgraph project["Project: eShop"]
-                PROJ["📁 eShop Project"]
-
-                subgraph pools["Dev Box Pools"]
-                    POOL1["💻 backend-engineer\ngeneral_i_32c128gb512ssd_v2"]
-                    POOL2["💻 frontend-engineer\ngeneral_i_16c64gb256ssd_v2"]
-                end
-
-                subgraph network["Connectivity"]
-                    VNET["🌐 Virtual Network\n10.0.0.0/16"]
-                    SUBNET["📡 eShop-subnet\n10.0.1.0/24"]
-                    NC["🔗 Network Connection"]
-                    VNET --> SUBNET
-                    NC --> VNET
-                end
-
-                subgraph rbac["RBAC Groups"]
-                    GRP1["👥 eShop Engineers\n(Dev Box User / Contributor)"]
-                end
-            end
-
-            DC --> catalogs
-            DC --> env_types
-            DC --> project
-            PROJ --> pools
-            PROJ --> network
-            PROJ --> rbac
-        end
-
-        monitoring_rg -->|"Diagnostic Logs"| workload_rg
-        security_rg -->|"Secret Identifier"| DC
+    subgraph monitoring["Monitoring Resource Group"]
+        LAW["Log Analytics Workspace"]
     end
 
-    azd["⚡ azd up"] -->|"1. preprovision hook"| setUp["setUp.sh / setUp.ps1"]
-    setUp -->|"2. provision"| subscription
+    subgraph security["Security Resource Group"]
+        KV["Azure Key Vault"]
+        Secret["PAT Secret - gha-token"]
+        KV --> Secret
+    end
+
+    subgraph workload["Workload Resource Group"]
+        DC["Azure Dev Center"]
+        CAT["Catalog - customTasks"]
+        ET1["Env Type - dev"]
+        ET2["Env Type - staging"]
+        ET3["Env Type - uat"]
+        PROJ["Project - eShop"]
+        POOL1["Pool - backend-engineer\n32 vCPU / 128 GB"]
+        POOL2["Pool - frontend-engineer\n16 vCPU / 64 GB"]
+        VNET["VNet 10.0.0.0/16"]
+        NC["Network Connection"]
+
+        DC --> CAT
+        DC --> ET1
+        DC --> ET2
+        DC --> ET3
+        DC --> PROJ
+        PROJ --> POOL1
+        PROJ --> POOL2
+        PROJ --> VNET
+        VNET --> NC
+        NC --> POOL1
+        NC --> POOL2
+    end
+
+    LAW -->|"Diagnostic Logs"| DC
+    KV -->|"Secret Identifier"| DC
 ```
 
 ### Component Interactions
