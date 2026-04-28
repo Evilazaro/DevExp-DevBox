@@ -74,6 +74,7 @@ resources across three logical landing zones.
 ```mermaid
 graph TD
     subgraph Subscription["Azure Subscription"]
+        direction TD
         subgraph WorkloadRG["Workload Resource Group"]
             DC["🖥️ Dev Center\n(devexp)"]
             DC --> P1["📦 Project: eShop"]
