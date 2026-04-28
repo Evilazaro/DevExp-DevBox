@@ -137,9 +137,9 @@ flowchart TB
   PlatformEngineer --> |"runs azd up"| azd
   azd --> |"pre-provision hook"| SetupScripts
   SetupScripts --> |"authenticates & retrieves token"| GitHub
-  azd --> |"deploys monitoring"| LogAnalytics
-  azd --> |"provisions secrets"| KeyVault
-  azd --> |"deploys Dev Center"| DevCenter
+  azd --> |"deploys monitoring"| MonitoringZone
+  azd --> |"provisions secrets"| SecurityZone
+  azd --> |"deploys Dev Center"| WorkloadZone
 
   %% Dev Center internal wiring
   DevCenter --> |"assigns permissions"| ManagedIdentity
