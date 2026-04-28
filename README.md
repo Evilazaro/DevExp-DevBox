@@ -111,7 +111,7 @@ flowchart TB
 
   %% ── Deployment Layer ─────────────────────────────────────────────────────────
   subgraph DEPLOY["🚀 Deployment Layer"]
-    AZD["⚙️ Azure Developer CLI<br/>(azd)"]:::alignment:::center
+    AZD["⚙️ Azure Developer CLI<br/>(azd)"]
     BICEP["📋 Bicep IaC<br/>Modules"]
   end
 
