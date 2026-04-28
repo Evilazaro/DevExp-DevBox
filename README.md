@@ -4,6 +4,7 @@
 ![Azure](https://img.shields.io/badge/Azure-Dev%20Box-0078d4?logo=microsoftazure&logoColor=white)
 ![Bicep](https://img.shields.io/badge/IaC-Bicep-038387?logo=microsoftazure&logoColor=white)
 ![azd](https://img.shields.io/badge/azd-Enabled-107c10?logo=microsoftazure&logoColor=white)
+![Version](https://img.shields.io/badge/version-0.10.0-0f548c.svg)
 
 **DevExp-DevBox** is an Infrastructure as Code (IaC) accelerator that provisions
 a fully configured
@@ -13,13 +14,13 @@ standardized, cloud-hosted developer workstations at scale.
 
 Platform engineers and development teams face significant toil when onboarding
 new contributors: installing tools, configuring networks, and granting the right
-permissions can take days. DevExp-DevBox solves this by automating the
+permissions can take days. **DevExp-DevBox** solves this by automating the
 end-to-end provisioning of Azure Dev Center, Dev Box projects, role-specific VM
 pools, secure networking, Key Vault–backed secrets, and Log Analytics
 monitoring—all driven by declarative YAML configuration files.
 
 The accelerator is built with **Azure Bicep** for infrastructure declaration,
-**Azure Developer CLI (`azd`)** for orchestration, and **PowerShell/Bash** setup
+**Azure Developer CLI (`azd`)** for orchestration, and PowerShell/Bash setup
 scripts that integrate with either GitHub or Azure DevOps. Developers gain a
 ready-to-use cloud workstation within minutes of a single `azd up` command.
 
@@ -69,22 +70,44 @@ ready-to-use cloud workstation within minutes of a single `azd up` command.
 **DevExp-DevBox** centers on Azure Dev Center as the developer platform hub. A
 **Platform Engineer** runs `azd up`, which triggers pre-provision setup scripts
 that authenticate to the chosen source control platform before deploying Bicep
-templates at subscription scope. The Bicep templates provision a Log Analytics
-Workspace for observability, a Key Vault for secrets, and a Dev Center workload
-that creates Dev Box Projects and role-specific Pools connected to per-project
-Virtual Networks. **Developers** authenticate to the Dev Center and request a
-cloud workstation from a pool; **CI/CD pipelines** can trigger the same `azd up`
-flow non-interactively.
+templates at subscription scope. The Bicep templates provision a **Log Analytics
+Workspace** for observability, a **Key Vault** for secrets, and a Dev Center
+workload that creates Dev Box Projects and role-specific Pools connected to
+per-project Virtual Networks. Developers authenticate to the Dev Center and
+request a cloud workstation from a pool; **CI/CD pipelines** can trigger the
+same `azd up` flow non-interactively.
+
+> [!TIP] Refer to the
+> [full architecture documentation](https://evilazaro.github.io/DevExp-DevBox/)
+> for detailed component guides and role configuration references.
 
 ```mermaid
 ---
 config:
   primaryColor: "#0f6cbd"
   primaryTextColor: "#FFFFFF"
-  primaryBorderColor: "#0078d4"
-  lineColor: "#242424"
-  secondaryColor: "#f5f5f5"
-  tertiaryColor: "#cfe4fa"
+  primaryBorderColor: "#0f548c"
+  secondaryColor: "#ebf3fc"
+  secondaryTextColor: "#242424"
+  secondaryBorderColor: "#0f6cbd"
+  tertiaryColor: "#f5f5f5"
+  tertiaryTextColor: "#424242"
+  tertiaryBorderColor: "#d1d1d1"
+  noteBkgColor: "#fefbf4"
+  noteTextColor: "#242424"
+  noteBorderColor: "#f9e2ae"
+  lineColor: "#616161"
+  background: "#FFFFFF"
+  edgeLabelBackground: "#FFFFFF"
+  clusterBkg: "#fafafa"
+  clusterBorder: "#e0e0e0"
+  titleColor: "#242424"
+  errorBkgColor: "#fdf3f4"
+  errorTextColor: "#b10e1c"
+  fontFamily: "'Segoe UI', Verdana, sans-serif"
+  fontSize: 16px
+  align: center
+  description: "High-level architecture diagram showing actors, primary flows, and major components."
 ---
 flowchart TB
 
@@ -104,7 +127,7 @@ flowchart TB
     Bicep["📐 Bicep Templates<br/>infra/main.bicep"]
   end
 
-  %% ── Platform Services ────────────────────────────────────────────
+  %% ── Azure Platform Services ──────────────────────────────────────
   subgraph Platform["☁️ Azure Platform Services"]
     LogA[("📊 Log Analytics<br/>Workspace")]
     KV[("🔐 Key Vault")]
@@ -139,13 +162,13 @@ flowchart TB
   NetConn -- "connects" --> VNet
   Dev -- "requests Dev Box" --> Pool
 
-  %% ── Styles ───────────────────────────────────────────────────────
-  classDef actor fill:#0f6cbd,stroke:#0078d4,color:#ffffff
-  classDef orchestration fill:#cfe4fa,stroke:#0078d4,color:#242424
-  classDef iac fill:#f5f5f5,stroke:#605e5c,color:#242424
-  classDef datastore fill:#038387,stroke:#025d60,color:#ffffff
-  classDef workload fill:#107c10,stroke:#0b5e0b,color:#ffffff
-  classDef network fill:#7160e8,stroke:#5b4bc4,color:#ffffff
+  %% ── Styles (Fluent UI v9 semantic tokens) ────────────────────────
+  classDef actor fill:#0f6cbd,stroke:#0f548c,color:#FFFFFF
+  classDef orchestration fill:#ebf3fc,stroke:#0f6cbd,color:#242424
+  classDef iac fill:#f5f5f5,stroke:#d1d1d1,color:#424242
+  classDef datastore fill:#038387,stroke:#025d60,color:#FFFFFF
+  classDef workload fill:#107c10,stroke:#0b5e0b,color:#FFFFFF
+  classDef network fill:#7160e8,stroke:#5b4bc4,color:#FFFFFF
 
   class PlatEng,Dev,CICD actor
   class AZD,SetUp orchestration
