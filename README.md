@@ -65,15 +65,15 @@ config:
   fontFamily: "Segoe UI, Verdana, sans-serif"
   fontSize: 16
   textColor: "#242424"
-  primaryColor: "#f5f5f5"
+  primaryColor: "#EBF3FC"
   primaryTextColor: "#242424"
-  primaryBorderColor: "#e0e0e0"
-  secondaryColor: "#dbdbdb"
+  primaryBorderColor: "#0F6CBD"
+  secondaryColor: "#F5F8FC"
   secondaryTextColor: "#242424"
-  secondaryBorderColor: "#d6d6d6"
-  tertiaryColor: "#d1d1d1"
+  secondaryBorderColor: "#D6E4F0"
+  tertiaryColor: "#EEF2F7"
   tertiaryTextColor: "#424242"
-  tertiaryBorderColor: "#b3b3b3"
+  tertiaryBorderColor: "#BFCFDF"
 ---
 flowchart TB
 
