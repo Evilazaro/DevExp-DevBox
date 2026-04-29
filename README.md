@@ -143,12 +143,18 @@ flowchart TB
   DEV -->|"creates Dev Box"| POOL
 
   %% ── Class definitions ────────────────────────────────────
+  %% colorBrandBackground2=#cfe4fa  colorBrandBackground=#0f6cbd  colorNeutralForeground1=#242424
   classDef actor fill:#cfe4fa,stroke:#0f6cbd,color:#242424
-  classDef external fill:#f5f0ff,stroke:#7160e8,color:#242424
+  %% colorNeutralBackground4=#f0f0f0  colorNeutralForeground3=#616161
+  classDef external fill:#f0f0f0,stroke:#616161,color:#242424
+  %% colorBrandBackground=#0f6cbd  colorBrandBackgroundHover=#115ea3  colorNeutralForegroundInverted=#ffffff
   classDef component fill:#0f6cbd,stroke:#115ea3,color:#ffffff
-  classDef datastore fill:#f0f0f0,stroke:#d1d1d1,color:#242424
-  classDef network fill:#ebebeb,stroke:#616161,color:#242424
-  classDef rbac fill:#f5f0ff,stroke:#7160e8,color:#242424
+  %% colorNeutralBackground3=#f5f5f5  colorNeutralStroke1=#d1d1d1
+  classDef datastore fill:#f5f5f5,stroke:#d1d1d1,color:#242424
+  %% colorNeutralBackground5=#e8e8e8  colorNeutralForeground3=#616161
+  classDef network fill:#e8e8e8,stroke:#616161,color:#242424
+  %% colorNeutralBackground4=#f0f0f0  colorNeutralStroke1=#d1d1d1
+  classDef rbac fill:#f0f0f0,stroke:#d1d1d1,color:#242424
 
   class PE,DEV actor
   class GH,AZD external
@@ -157,9 +163,13 @@ flowchart TB
   class VNET network
   class RBAC rbac
 
+  %% colorNeutralBackground3=#f5f5f5  colorNeutralStroke1=#d1d1d1
   style AzureSub fill:#f5f5f5,stroke:#d1d1d1,color:#242424
+  %% colorPaletteRedBackground2=#fde7e9  colorPaletteRedForeground2=#c50f1f
   style SecurityLayer fill:#fde7e9,stroke:#c50f1f,color:#242424
+  %% colorPaletteGreenBackground2=#dff6dd  colorPaletteGreenForeground2=#107c10
   style MonitoringLayer fill:#dff6dd,stroke:#107c10,color:#242424
+  %% colorBrandBackground2=#cfe4fa  colorBrandBackground=#0f6cbd
   style WorkloadLayer fill:#cfe4fa,stroke:#0f6cbd,color:#242424
 ```
 
