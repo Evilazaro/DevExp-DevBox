@@ -66,7 +66,7 @@ config:
   themeVariables:
     textColor: "#242424"
     primaryColor: "#d6d6d6"
-    primaryTextColor: "#575757"
+    primaryBorderColor: "#d6d6d6"
     secondaryColor: "#292929"
 ---
 flowchart TB
