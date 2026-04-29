@@ -67,71 +67,90 @@ config:
 ---
 flowchart TB
 
-  %% ── Actors ──────────────────────────────────────────────────────────────
+  %% ── External Actors ──────────────────────────────────────────────────────
+  DEVMGR(["👤 Dev Manager<br/>(Platform Team)"])
   DEV(["👤 Developer"])
-  MGR(["👤 Dev Manager"])
-  GH(["🌐 GitHub /<br/>Azure DevOps"])
+  GITREPO(["🌐 GitHub /<br/>Azure DevOps"])
+  AADGRP(["🔵 Azure AD Groups<br/>(Team Identities)"])
 
-  %% ── Orchestration Layer ──────────────────────────────────────────────────
-  subgraph ORCH["⚙️ Orchestration"]
-    AZD("⚡ Azure Developer CLI<br/>azd")
-    SETUP("📜 Setup Scripts<br/>setUp.sh / setUp.ps1")
+  %% ── Deployment Orchestration ─────────────────────────────────────────────
+  subgraph ORCH["⚙️ Deployment Orchestration"]
+    AZD("⚡ Azure Developer CLI<br/>azd up")
+    SCRIPTS("📜 setUp Scripts<br/>setUp.sh / setUp.ps1")
   end
 
-  %% ── Security Layer ───────────────────────────────────────────────────────
-  subgraph SEC["🔒 Security"]
-    KV("🔑 Azure Key Vault")
-    RBAC("🛡️ Azure RBAC and<br/>Managed Identity")
-  end
+  %% ── Azure Subscription (subscription-scope Bicep deployment) ─────────────
+  subgraph AZURE["☁️ Azure Subscription"]
 
-  %% ── Monitoring Layer ──────────────────────────────────────────────────────
-  subgraph MON["📊 Monitoring"]
-    LA[("📈 Log Analytics<br/>Workspace")]
-  end
+    %% Monitoring Landing Zone
+    subgraph MONRG["📊 Monitoring Resource Group"]
+      LA[("📈 Log Analytics Workspace")]
+    end
 
-  %% ── Azure Dev Center Platform ─────────────────────────────────────────────
-  subgraph PLATFORM["🏢 Azure Dev Center Platform"]
-    DCC("🏗️ Dev Center")
-    CAT("📚 Catalogs")
-    ET("🔖 Environment Types")
-    PROJ("📁 Dev Box Project")
-    POOL("💻 Dev Box Pool")
-    VNET("🌐 Virtual Network")
+    %% Security Landing Zone
+    subgraph SECRG["🔒 Security Resource Group"]
+      KV("🔑 Azure Key Vault<br/>(PAT token secret)")
+    end
+
+    %% Workload Landing Zone
+    subgraph WKRG["🏢 Workload Resource Group"]
+      DCC("🏗️ Dev Center<br/>(System-Assigned Identity)")
+      DCCCAT("📚 Dev Center Catalog<br/>(Task Definitions)")
+      NETCONN("🔌 Network Connection<br/>(VNet Attachment)")
+      PROJ("📁 Dev Box Project")
+      PROJCAT("🗺️ Project Catalog<br/>(Image & Env Definitions)")
+      POOL("💻 Dev Box Pool<br/>(Role-Specific VM SKU)")
+    end
+
+    %% Connectivity Landing Zone
+    subgraph CONNRG["🌐 Connectivity Resource Group"]
+      VNET("🌐 Virtual Network + Subnet")
+    end
+
   end
 
   %% ── Interactions ──────────────────────────────────────────────────────────
-  MGR -->|"Runs azd up"| AZD
-  AZD -->|"Triggers pre-provision hook"| SETUP
-  SETUP -->|"Configures environment"| AZD
-  AZD -->|"Provisions Bicep IaC"| DCC
-  AZD -->|"Provisions Bicep IaC"| KV
-  AZD -->|"Provisions Bicep IaC"| LA
-  DCC -->|"Reads secret token"| KV
-  DCC -.->|"Sends diagnostics"| LA
-  DCC -->|"Creates"| CAT
-  DCC -->|"Registers"| ET
-  DCC -->|"Creates"| PROJ
-  PROJ -->|"Provisions pool"| POOL
-  PROJ -->|"Connects via"| VNET
-  PROJ -->|"Assigns roles"| RBAC
-  GH -.->|"Provides catalog tasks"| CAT
-  DEV -->|"Accesses Dev Box"| POOL
+  DEVMGR -->|"runs azd up"| AZD
+  AZD -->|"executes pre-provision hook"| SCRIPTS
+  SCRIPTS -->|"authenticates source control<br/>& configures env vars"| AZD
+  AZD -->|"deploys Bicep at<br/>subscription scope"| DCC
+  AZD -->|"deploys Bicep"| KV
+  AZD -->|"deploys Bicep"| LA
+  AZD -->|"deploys Bicep"| VNET
+  DCC -->|"hosts"| DCCCAT
+  DCC -->|"attaches"| NETCONN
+  DCC -.->|"sends diagnostics"| LA
+  DCC -->|"reads PAT token for<br/>private catalog auth"| KV
+  NETCONN -->|"connects subnet to Dev Center"| VNET
+  GITREPO -.->|"syncs task definitions"| DCCCAT
+  GITREPO -.->|"syncs image &<br/>env definitions"| PROJCAT
+  DCC -->|"hosts"| PROJ
+  PROJ -->|"owns"| PROJCAT
+  PROJ -->|"provisions"| POOL
+  POOL -->|"resolves image from"| PROJCAT
+  POOL -->|"uses"| NETCONN
+  AADGRP -->|"Dev Box User /<br/>Env User RBAC roles"| PROJ
+  DEV -->|"accesses Dev Box<br/>via portal"| POOL
 
   %% ── Class Definitions ─────────────────────────────────────────────────────
-  classDef actor fill:#cce0f5,stroke:#0078d4,color:#242424,font-weight:bold
+  classDef actor fill:#cce0f5,stroke:#0f6cbd,color:#242424,font-weight:bold
+  classDef external fill:#fff4ce,stroke:#a18109,color:#242424
   classDef service fill:#f5f5f5,stroke:#d1d1d1,color:#242424
   classDef datastore fill:#dff6dd,stroke:#107c10,color:#242424
-  classDef external fill:#fff4ce,stroke:#a18109,color:#242424
+  classDef security fill:#fde7e9,stroke:#c50f1f,color:#242424
 
-  class DEV,MGR actor
-  class GH external
-  class AZD,SETUP,DCC,CAT,ET,PROJ,POOL,VNET,KV,RBAC service
+  class DEVMGR,DEV actor
+  class GITREPO,AADGRP external
+  class DCC,DCCCAT,NETCONN,PROJ,PROJCAT,POOL,VNET,AZD,SCRIPTS service
   class LA datastore
+  class KV security
 
   style ORCH fill:#fafafa,stroke:#d1d1d1,color:#242424
-  style SEC fill:#fff8f0,stroke:#d97706,color:#242424
-  style MON fill:#f0fff4,stroke:#107c10,color:#242424
-  style PLATFORM fill:#f0f8ff,stroke:#0078d4,color:#242424
+  style AZURE fill:#f0f6ff,stroke:#0f6cbd,color:#242424
+  style MONRG fill:#f0fff4,stroke:#107c10,color:#107c10
+  style SECRG fill:#fff8f0,stroke:#c50f1f,color:#c50f1f
+  style WKRG fill:#f0f4ff,stroke:#0f6cbd,color:#0f6cbd
+  style CONNRG fill:#f5f0ff,stroke:#6b69d6,color:#6b69d6
 ```
 
 ## Technologies Used
