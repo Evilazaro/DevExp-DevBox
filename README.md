@@ -141,6 +141,23 @@ Project --> |"attaches"| NetworkConn
 NetworkConn --> |"connects to"| VNet
 Developer --> |"provisions Dev Box"| Pool
 
+%% ── Class Definitions ───────────────────────────────────────────────────────
+classDef actor fill:#cce3f5,stroke:#0f6cbd,color:#242424
+classDef tooling fill:#e9d7f7,stroke:#6b2faa,color:#242424
+classDef external fill:#fff4d6,stroke:#835b00,color:#242424
+classDef devcenterNode fill:#0f6cbd,stroke:#0f6cbd,color:#ffffff
+classDef projectNode fill:#cff0bd,stroke:#107c10,color:#242424
+classDef infraNode fill:#f0f0f0,stroke:#616161,color:#242424
+classDef datastore fill:#f5f5f5,stroke:#0f6cbd,color:#242424
+
+%% ── Class Assignments ───────────────────────────────────────────────────────
+class PlatformEngineer,Developer actor
+class AZD,SetupScript tooling
+class GitHubADO external
+class DevCenter,Catalog,EnvType devcenterNode
+class Project,Pool,NetworkConn projectNode
+class VNet,RBAC infraNode
+class KeyVault,LogAnalytics datastore
 
 ```
 
