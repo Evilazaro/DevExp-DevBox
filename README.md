@@ -63,7 +63,6 @@ components.
 config:
   description: "High-level architecture diagram showing actors, primary flows, and major components."
   theme: base
-  theme: base
   themeVariables:
     textColor: "#242424"
     primaryColor: "#f5f5f5"
