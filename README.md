@@ -59,20 +59,21 @@ interactions between them during provisioning and daily developer usage.
 ```mermaid
 ---
 config:
+  description: "High-level architecture diagram showing actors, primary flows, and major components."
   theme: base
+  align: center
   fontFamily: "Segoe UI, Verdana, sans-serif"
-  fontSize: 14
-  primaryColor: "#EBF3FC"
+  fontSize: 16
+  textColor: "#242424"
+  primaryColor: "#f5f5f5"
   primaryTextColor: "#242424"
-  primaryBorderColor: "#0F6CBD"
-  secondaryColor: "#F5F5F5"
+  primaryBorderColor: "#e0e0e0"
+  secondaryColor: "#dbdbdb"
   secondaryTextColor: "#242424"
-  secondaryBorderColor: "#D1D1D1"
-  tertiaryColor: "#FAFAFA"
-  tertiaryTextColor: "#242424"
-  tertiaryBorderColor: "#C8C8C8"
-  edgeLabelBackground: "#FFFFFF"
-  lineColor: "#616161"
+  secondaryBorderColor: "#d6d6d6"
+  tertiaryColor: "#d1d1d1"
+  tertiaryTextColor: "#424242"
+  tertiaryBorderColor: "#b3b3b3"
 ---
 flowchart TB
 
