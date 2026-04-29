@@ -86,7 +86,7 @@ config:
   primaryColor: "#f5f5f5"
   primaryTextColor: "#FFFFFF"
   primaryBorderColor: "#e0e0e0"
-  secondaryColor: "#dbdbdb"
+  secondaryColor: "#d6d6d6"
   secondaryTextColor: "#242424"
   secondaryBorderColor: "#d6d6d6"
   tertiaryColor: "#d1d1d1"
@@ -146,8 +146,8 @@ flowchart TB
   classDef actor fill:#cfe4fa,stroke:#0f6cbd,color:#242424
   classDef external fill:#f5f0ff,stroke:#7160e8,color:#242424
   classDef component fill:#0f6cbd,stroke:#115ea3,color:#ffffff
-  classDef datastore fill:#fdfaf0,stroke:#b86c18,color:#242424
-  classDef network fill:#e0fbfb,stroke:#006666,color:#242424
+  classDef datastore fill:#f0f0f0,stroke:#d1d1d1,color:#242424
+  classDef network fill:#ebebeb,stroke:#616161,color:#242424
   classDef rbac fill:#f5f0ff,stroke:#7160e8,color:#242424
 
   class PE,DEV actor
