@@ -68,6 +68,7 @@ config:
     primaryColor: "#d6d6d6"
     primaryTextColor: "#575757"
     primaryBorderColor: "#ebebeb"
+    secondaryColor: "#292929"
 ---
 flowchart TB
 
