@@ -74,10 +74,10 @@ config:
   description: "High-level architecture diagram showing actors, primary flows, and major components."
   theme: base
   align: center
-  fontFamily: "Segoe UI, Verdana, sans-serif"
+  fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, system-ui, Apple Color Emoji, Segoe UI Emoji, sans-serif"
   fontSize: 16
   textColor: "#242424"
-  primaryColor: "#0f6cbd"
+  primaryColor: "#d6d6d6"
   primaryTextColor: "#FFFFFF"
   primaryBorderColor: "#0f548c"
   secondaryColor: "#ebf3fc"
