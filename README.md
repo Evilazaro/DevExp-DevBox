@@ -59,21 +59,20 @@ interactions between them during provisioning and daily developer usage.
 ```mermaid
 ---
 config:
-  description: "High-level architecture diagram showing actors, primary flows, and major components."
   theme: base
-  align: center
   fontFamily: "Segoe UI, Verdana, sans-serif"
-  fontSize: 16
-  textColor: "#242424"
-  primaryColor: "#f5f5f5"
-  primaryTextColor: "#FFFFFF"
-  primaryBorderColor: "#e0e0e0"
-  secondaryColor: "#dbdbdb"
+  fontSize: 14
+  primaryColor: "#EBF3FC"
+  primaryTextColor: "#242424"
+  primaryBorderColor: "#0F6CBD"
+  secondaryColor: "#F5F5F5"
   secondaryTextColor: "#242424"
-  secondaryBorderColor: "#d6d6d6"
-  tertiaryColor: "#d1d1d1"
-  tertiaryTextColor: "#424242"
-  tertiaryBorderColor: "#b3b3b3"
+  secondaryBorderColor: "#D1D1D1"
+  tertiaryColor: "#FAFAFA"
+  tertiaryTextColor: "#242424"
+  tertiaryBorderColor: "#C8C8C8"
+  edgeLabelBackground: "#FFFFFF"
+  lineColor: "#616161"
 ---
 flowchart TB
 
@@ -136,13 +135,13 @@ flowchart TB
 
   %% ── Class Definitions (Fluent UI React v9 tokens) ────────────────────────────
   classDef actorStyle fill:#0F6CBD,stroke:#115EA3,color:#FFFFFF
-  classDef externalStyle fill:#F0F0F0,stroke:#D1D1D1,color:#424242
-  classDef azdStyle fill:#FDE300,stroke:#6C6200,color:#6C6200
-  classDef devCenterStyle fill:#107C10,stroke:#0E700E,color:#FFFFFF
-  classDef projectStyle fill:#EBF3FC,stroke:#0F6CBD,color:#242424
-  classDef keyVaultStyle fill:#F7D9B5,stroke:#F7630C,color:#242424
-  classDef monitoringStyle fill:#E6BFDE,stroke:#8764B8,color:#242424
-  classDef networkStyle fill:#A9E9E2,stroke:#00B7C3,color:#242424
+  classDef externalStyle fill:#F5F5F5,stroke:#D1D1D1,color:#424242
+  classDef azdStyle fill:#FEF7B2,stroke:#6C6200,color:#242424
+  classDef devCenterStyle fill:#107C10,stroke:#054F01,color:#FFFFFF
+  classDef projectStyle fill:#CCE3F5,stroke:#0F6CBD,color:#003966
+  classDef keyVaultStyle fill:#FDEBD0,stroke:#C55A11,color:#5C2D00
+  classDef monitoringStyle fill:#EDE0F5,stroke:#6B3FA0,color:#2D0A4E
+  classDef networkStyle fill:#C9F0EC,stroke:#007A78,color:#003D3B
 
   %% ── Class Assignments ────────────────────────────────────────────────────────
   class PlatformEng,DevManager,Developer actorStyle
