@@ -64,9 +64,8 @@ config:
   description: "High-level architecture diagram showing actors, primary flows, and major components."
   theme: base
   themeVariables:
-    textColor: "#242424"
     primaryColor: "#d6d6d6"
-    primaryBorderColor: "#d6d6d6"
+    primaryBorderColor: "#242424"
     secondaryColor: "#292929"
 ---
 flowchart TB
