@@ -64,16 +64,17 @@ config:
   align: center
   fontFamily: "Segoe UI, Verdana, sans-serif"
   fontSize: 16
-  textColor: "#242424"
-  primaryColor: "#EBF3FC"
-  primaryTextColor: "#242424"
-  primaryBorderColor: "#0F6CBD"
-  secondaryColor: "#F5F8FC"
-  secondaryTextColor: "#242424"
-  secondaryBorderColor: "#D6E4F0"
-  tertiaryColor: "#EEF2F7"
-  tertiaryTextColor: "#424242"
-  tertiaryBorderColor: "#BFCFDF"
+  themeVariables:
+    textColor: "#242424"
+    primaryColor: "#EBF3FC"
+    primaryTextColor: "#242424"
+    primaryBorderColor: "#0F6CBD"
+    secondaryColor: "#F5F8FC"
+    secondaryTextColor: "#242424"
+    secondaryBorderColor: "#D6E4F0"
+    tertiaryColor: "#EEF2F7"
+    tertiaryTextColor: "#424242"
+    tertiaryBorderColor: "#BFCFDF"
 ---
 flowchart TB
 
