@@ -53,7 +53,22 @@ observability.
 
 ## Architecture
 
-The ContosoDevExp Dev Box Accelerator delivers a managed cloud workstation platform for three actor types: **Platform Engineers** who configure the platform, **Dev Managers** who manage team project settings, and **Dev Box Users** who connect to their cloud workstations. The central component is the **Azure Dev Center**, which hosts a **Dev Center Catalog** that syncs task definitions from GitHub or Azure DevOps on a scheduled basis, registers **Environment Types** (`dev`, `staging`, `uat`) for deployment targets, and provisions one or more **Dev Box Projects**. Each project contains role-specific **Dev Box Pools** (such as `backend-engineer` and `frontend-engineer`) and attaches a **Virtual Network** for network isolation. A **Managed Identity** assigned to the Dev Center authenticates passwordlessly to **Azure Key Vault**, which stores the source control Personal Access Token used for private catalog authentication. Both the Dev Center and its projects emit diagnostic logs and metrics to a **Log Analytics Workspace** for centralized observability. **Microsoft Entra ID** enforces RBAC policies at the Dev Center and project scopes, governing access for Dev Managers and Dev Box Users throughout the platform.
+The ContosoDevExp Dev Box Accelerator enables Platform Engineers and Dev Box
+Users to provision and manage Microsoft Dev Box environments on Azure. Platform
+Engineers interact with the system through the **Azure Developer CLI** (`azd`),
+which triggers cross-platform setup scripts (`setUp.sh` / `setUp.ps1`) that
+authenticate with GitHub or Azure DevOps before executing Bicep infrastructure
+templates. The templates deploy an **Azure Dev Center** as the central hub for
+all developer workstations. A **Managed Identity** assigned to the Dev Center
+authorizes passwordless access to **Azure Key Vault**, which stores the source
+control Personal Access Token used to authenticate private catalog repositories.
+A **Log Analytics Workspace** aggregates diagnostic signals from the Dev Center
+and its child resources. Within the Dev Center, one or more **Dev Box Projects**
+are created — each with its own **Virtual Network**, **Dev Center Catalog**
+synchronized from GitHub or Azure DevOps, and role-specific **Dev Box Pools**
+(for example, `backend-engineer` and `frontend-engineer` pools with appropriate
+VM SKUs). **Microsoft Entra ID** enforces RBAC policies at both the Dev Center
+and Project scopes, governing access for Dev Managers and Dev Box Users.
 
 ```mermaid
 ---
@@ -62,37 +77,41 @@ config:
   theme: base
   themeVariables:
     htmlLabels: true
-    fontFamily: "Segoe UI, system-ui, -apple-system, sans-serif"
+    fontFamily: "-apple-system, BlinkMacSystemFont, \"Segoe UI\", system-ui, \"Apple Color Emoji\", \"Segoe UI Emoji\", sans-serif"
     fontSize: 16
 ---
 flowchart TB
 
   %% ── Class Definitions ─────────────────────────────────────────────────────
-  %% Only classDefs actually assigned to nodes are declared.
-  %% actor:      blue tint50  — human users
-  %% external:   orange       — external systems
-  %% service:    grey         — generic Azure services / components
-  %% devops:     cornflower   — DevOps / catalog integration
-  %% identity:   marigold     — managed identity / Entra resources
-  %% monitor:    darkBlue     — monitoring / observability datastores
-  %% security:   red          — security datastores (Key Vault)
-  %% compute:    lightBlue    — compute resources (Dev Box Pools)
-  %% networking: steel        — networking resources (VNets)
-  classDef actor      fill:#d0e7f8,stroke:#0078d4,color:#242424,font-weight:bold
-  classDef external   fill:#fff9f5,stroke:#f7630c,color:#835b00,font-weight:bold
-  classDef service    fill:#f5f5f5,stroke:#616161,color:#242424,font-weight:bold
-  classDef devops     fill:#f7f9fe,stroke:#4f6bed,color:#182047,font-weight:bold
-  classDef identity   fill:#fefbf4,stroke:#eaa300,color:#463100,font-weight:bold
-  classDef monitor    fill:#eff4f9,stroke:#003966,color:#00111f,font-weight:bold
-  classDef security   fill:#fdf6f6,stroke:#d13438,color:#3f1011,font-weight:bold
-  classDef compute    fill:#f6fafe,stroke:#3a96dd,color:#112d42,font-weight:bold
-  classDef networking fill:#eff7f9,stroke:#005b70,color:#001b22,font-weight:bold
+  classDef actor        fill:#d0e7f8,stroke:#0078d4,color:#242424,font-weight:bold
+  classDef service      fill:#f5f5f5,stroke:#616161,color:#242424,font-weight:bold
+  classDef gateway      fill:#a6e9ed,stroke:#00b7c3,color:#001d1f,font-weight:bold
+  classDef datastore    fill:#f1faf1,stroke:#107c10,color:#0e700e,font-weight:bold
+  classDef external     fill:#fff9f5,stroke:#f7630c,color:#835b00,font-weight:bold
+  classDef ai           fill:#f7f4fb,stroke:#5c2e91,color:#46236e,font-weight:bold
+  classDef analytics    fill:#f0fafa,stroke:#038387,color:#012728,font-weight:bold
+  classDef compute      fill:#f6fafe,stroke:#3a96dd,color:#112d42,font-weight:bold
+  classDef containers   fill:#f2fafc,stroke:#0099bc,color:#002e38,font-weight:bold
+  classDef devops       fill:#f7f9fe,stroke:#4f6bed,color:#182047,font-weight:bold
+  classDef identity     fill:#fefbf4,stroke:#eaa300,color:#463100,font-weight:bold
+  classDef integration  fill:#f2fcfd,stroke:#00b7c3,color:#00373a,font-weight:bold
+  classDef iot          fill:#f9f8fc,stroke:#8764b8,color:#281e37,font-weight:bold
+  classDef monitor      fill:#eff4f9,stroke:#003966,color:#00111f,font-weight:bold
+  classDef networking   fill:#eff7f9,stroke:#005b70,color:#001b22,font-weight:bold
+  classDef security     fill:#fdf6f6,stroke:#d13438,color:#3f1011,font-weight:bold
+  classDef storage      fill:#f3fdf8,stroke:#00cc6a,color:#003d20,font-weight:bold
+  classDef web          fill:#f3f9fd,stroke:#0078d4,color:#002440,font-weight:bold
 
   %% ── Actors ─────────────────────────────────────────────────────────────────
   subgraph ACTORS["👥 Actors"]
     PLATENG(["👤 Platform Engineer"])
-    DEVMGR(["👥 Dev Manager"])
     DEVUSER(["👤 Dev Box User"])
+  end
+
+  %% ── Deployment Layer ────────────────────────────────────────────────────────
+  subgraph DEPLOY["⚙️ Deployment Layer"]
+    AZD(["⚙️ Azure Developer CLI"])
+    SCRIPTS("📜 Setup Scripts<br/>(setUp.sh / setUp.ps1)")
   end
 
   %% ── External Systems ────────────────────────────────────────────────────────
@@ -102,63 +121,64 @@ flowchart TB
     ENTRAID(["🔐 Microsoft Entra ID"])
   end
 
-  %% ── Governance and Observability ────────────────────────────────────────────
-  subgraph GOVLAYER["🔒 Governance and Observability"]
-    KV[("🔑 Azure Key Vault")]
+  %% ── Governance Layer ─────────────────────────────────────────────────────────
+  subgraph GOVLAYER["🔒 Governance Layer"]
+    KV("🔑 Azure Key Vault")
     MI("🪪 Managed Identity")
-    LAW[("📋 Log Analytics Workspace")]
+    LAW("📋 Log Analytics<br/>Workspace")
   end
 
-  %% ── Azure Dev Center ─────────────────────────────────────────────────────────
+  %% ── Dev Center Core ─────────────────────────────────────────────────────────
   subgraph DEVCENTER["🖥️ Azure Dev Center"]
     DC("🖥️ Dev Center")
     CATALOG("⚙️ Dev Center Catalog")
     ENVTYPE("📋 Environment Types<br/>(dev / staging / uat)")
   end
 
-  %% ── Dev Box Projects ─────────────────────────────────────────────────────────
+  %% ── Project Layer ───────────────────────────────────────────────────────────
   subgraph PROJECT_LAYER["📁 Dev Box Projects"]
     PROJECT("📁 Dev Box Project")
     POOL("🖥️ Dev Box Pools<br/>(backend / frontend)")
     VNET("🕸️ Virtual Network")
   end
 
-  %% ── Primary Flows ────────────────────────────────────────────────────────────
-  PLATENG -- "Configures platform"      --> DC
-  DEVMGR  -- "Manages project settings" --> PROJECT
-  DEVUSER -. "Connects to Dev Box" .->   POOL
+  %% ── Primary Flows ───────────────────────────────────────────────────────────
+  PLATENG   -- "Runs azd up"                --> AZD
+  AZD       -- "Triggers pre-provisioning"  --> SCRIPTS
+  SCRIPTS   -- "Authenticates with"         --> GITHUB
+  SCRIPTS   -- "Authenticates with"         --> ADO
+  AZD       -- "Deploys Bicep templates"    --> DC
+  DC        -- "Reads PAT secret"           --> KV
+  DC        -. "Emits diagnostics" .->       LAW
+  DC        -- "Attaches catalog"           --> CATALOG
+  CATALOG   -. "Syncs definitions" .->       GITHUB
+  CATALOG   -. "Syncs definitions" .->       ADO
+  DC        -- "Registers env types"        --> ENVTYPE
+  DC        -- "Creates projects"           --> PROJECT
+  PROJECT   -- "Provisions pools"           --> POOL
+  PROJECT   -- "Connects network"           --> VNET
+  MI        -- "Authorizes KV access"       --> KV
+  MI        -. "Assigned to" .->             DC
+  ENTRAID   -- "Validates RBAC roles"       --> DC
+  ENTRAID   -- "Validates RBAC roles"       --> PROJECT
+  DEVUSER   -. "Connects to Dev Box" .->     POOL
 
-  DC      -- "Hosts"                    --> CATALOG
-  DC      -- "Registers"                --> ENVTYPE
-  DC      -- "Provisions"               --> PROJECT
-  DC      -. "Sends diagnostics" .->     LAW
-
-  CATALOG -. "Syncs task definitions" .-> GITHUB
-  CATALOG -. "Syncs task definitions" .-> ADO
-
-  PROJECT -- "Contains"                 --> POOL
-  PROJECT -- "Attaches"                 --> VNET
-  PROJECT -. "Sends diagnostics" .->     LAW
-
-  MI      -. "Assigned to" .->           DC
-  MI      -- "Reads PAT secret"         --> KV
-
-  ENTRAID -- "Enforces RBAC roles"      --> DC
-  ENTRAID -- "Enforces RBAC roles"      --> PROJECT
-
-  %% ── Class Assignments ────────────────────────────────────────────────────────
-  class PLATENG,DEVMGR,DEVUSER actor
-  class GITHUB,ADO,ENTRAID external
-  class DC,ENVTYPE,PROJECT service
-  class CATALOG devops
-  class MI identity
+  %% ── Class Assignments ───────────────────────────────────────────────────────
+  class PLATENG,DEVUSER actor
+  class AZD,GITHUB,ADO,ENTRAID external
+  class SCRIPTS devops
   class KV security
+  class MI identity
   class LAW monitor
+  class DC,ENVTYPE service
+  class CATALOG devops
+  class PROJECT service
   class POOL compute
   class VNET networking
 
-  %% ── Subgraph Styles ──────────────────────────────────────────────────────────
+  %% ── Subgraph Styles ─────────────────────────────────────────────────────────
   style ACTORS        fill:#f0f0f0,stroke:#d1d1d1,color:#424242,stroke-width:2px
+  style DEPLOY        fill:#f0f0f0,stroke:#d1d1d1,color:#424242,stroke-width:2px
   style EXT           fill:#f0f0f0,stroke:#d1d1d1,color:#424242,stroke-width:2px
   style GOVLAYER      fill:#f0f0f0,stroke:#d1d1d1,color:#424242,stroke-width:2px
   style DEVCENTER     fill:#f0f0f0,stroke:#d1d1d1,color:#424242,stroke-width:2px
