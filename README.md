@@ -84,14 +84,15 @@ config:
   fontSize: 16
   textColor: "#242424"
   primaryColor: "#f5f5f5"
-  primaryTextColor: "#FFFFFF"
-  primaryBorderColor: "#e0e0e0"
-  secondaryColor: "#d1d1d1"
+  primaryTextColor: "#242424"
+  primaryBorderColor: "#d1d1d1"
+  secondaryColor: "#e8e8e8"
   secondaryTextColor: "#242424"
   secondaryBorderColor: "#d1d1d1"
-  tertiaryColor: "#d1d1d1"
-  tertiaryTextColor: "#424242"
-  tertiaryBorderColor: "#bdbdbd"
+  tertiaryColor: "#f0f0f0"
+  tertiaryTextColor: "#242424"
+  tertiaryBorderColor: "#d1d1d1"
+  edgeLabelBackground: "#ffffff"
 ---
 flowchart TB
 
@@ -106,12 +107,12 @@ flowchart TB
 
     %% Security layer
     subgraph SecurityLayer["🔒 Security Resource Group"]
-      KV[("🔑 Azure Key Vault")]
+      KV["🔑 Azure Key Vault"]
     end
 
     %% Monitoring layer
     subgraph MonitoringLayer["📊 Monitoring Resource Group"]
-      LA[("📈 Log Analytics Workspace")]
+      LA["📈 Log Analytics Workspace"]
     end
 
     %% Workload layer
@@ -143,17 +144,17 @@ flowchart TB
   DEV -->|"creates Dev Box"| POOL
 
   %% ── Class definitions ────────────────────────────────────
-  %% colorBrandBackground2=#cfe4fa  colorBrandBackground=#0f6cbd  colorNeutralForeground1=#242424
+  %% actor: colorBrandBackground2=#cfe4fa  colorBrandBackground=#0f6cbd  colorNeutralForeground1=#242424
   classDef actor fill:#cfe4fa,stroke:#0f6cbd,color:#242424
-  %% colorNeutralBackground4=#f0f0f0  colorNeutralForeground3=#616161
+  %% external: colorNeutralBackground4=#f0f0f0  colorNeutralForeground3=#616161
   classDef external fill:#f0f0f0,stroke:#616161,color:#242424
-  %% colorBrandBackground=#0f6cbd  colorBrandBackgroundHover=#115ea3  colorNeutralForegroundInverted=#ffffff
+  %% component: colorBrandBackground=#0f6cbd  colorBrandBackgroundHover=#115ea3  colorNeutralForegroundInverted=#ffffff
   classDef component fill:#0f6cbd,stroke:#115ea3,color:#ffffff
-  %% colorNeutralBackground3=#f5f5f5  colorNeutralStroke1=#d1d1d1
+  %% datastore: colorNeutralBackground3=#f5f5f5  colorNeutralStroke1=#d1d1d1
   classDef datastore fill:#f5f5f5,stroke:#d1d1d1,color:#242424
-  %% colorNeutralBackground5=#e8e8e8  colorNeutralForeground3=#616161
+  %% network: colorNeutralBackground5=#e8e8e8  colorNeutralForeground3=#616161
   classDef network fill:#e8e8e8,stroke:#616161,color:#242424
-  %% colorNeutralBackground4=#f0f0f0  colorNeutralStroke1=#d1d1d1
+  %% rbac: colorNeutralBackground4=#f0f0f0  colorNeutralStroke1=#d1d1d1
   classDef rbac fill:#f0f0f0,stroke:#d1d1d1,color:#242424
 
   class PE,DEV actor
@@ -163,13 +164,10 @@ flowchart TB
   class VNET network
   class RBAC rbac
 
-  %% colorNeutralBackground3=#f5f5f5  colorNeutralStroke1=#d1d1d1
+  %% subgraph fills: all Fluent UI v9 semantic tokens
   style AzureSub fill:#f5f5f5,stroke:#d1d1d1,color:#242424
-  %% colorPaletteRedBackground2=#fde7e9  colorPaletteRedForeground2=#c50f1f
   style SecurityLayer fill:#fde7e9,stroke:#c50f1f,color:#242424
-  %% colorPaletteGreenBackground2=#dff6dd  colorPaletteGreenForeground2=#107c10
   style MonitoringLayer fill:#dff6dd,stroke:#107c10,color:#242424
-  %% colorBrandBackground2=#cfe4fa  colorBrandBackground=#0f6cbd
   style WorkloadLayer fill:#cfe4fa,stroke:#0f6cbd,color:#242424
 ```
 
