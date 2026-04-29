@@ -86,12 +86,12 @@ config:
   primaryColor: "#f5f5f5"
   primaryTextColor: "#FFFFFF"
   primaryBorderColor: "#e0e0e0"
-  secondaryColor: "#d6d6d6"
+  secondaryColor: "#d1d1d1"
   secondaryTextColor: "#242424"
-  secondaryBorderColor: "#d6d6d6"
+  secondaryBorderColor: "#d1d1d1"
   tertiaryColor: "#d1d1d1"
   tertiaryTextColor: "#424242"
-  tertiaryBorderColor: "#b3b3b3"
+  tertiaryBorderColor: "#bdbdbd"
 ---
 flowchart TB
 
@@ -158,8 +158,8 @@ flowchart TB
   class RBAC rbac
 
   style AzureSub fill:#f5f5f5,stroke:#d1d1d1,color:#242424
-  style SecurityLayer fill:#fdf3f4,stroke:#c50f1f,color:#242424
-  style MonitoringLayer fill:#f1faf1,stroke:#107c10,color:#242424
+  style SecurityLayer fill:#fde7e9,stroke:#c50f1f,color:#242424
+  style MonitoringLayer fill:#dff6dd,stroke:#107c10,color:#242424
   style WorkloadLayer fill:#cfe4fa,stroke:#0f6cbd,color:#242424
 ```
 
