@@ -63,20 +63,12 @@ components.
 config:
   description: "High-level architecture diagram showing actors, primary flows, and major components."
   theme: base
+  theme: base
   themeVariables:
-    primaryColor: "#242424"
-    primaryTextColor: "#ffffff"
-    primaryBorderColor: "#115ea3"
-    lineColor: "#616161"
-    secondaryColor: "#cce0f5"
-    tertiaryColor: "#f5f5f5"
-    background: "#ffffff"
-    mainBkg: "#0f6cbd"
-    nodeBorder: "#115ea3"
-    clusterBkg: "#f5f5f5"
-    titleColor: "#242424"
-    edgeLabelBackground: "#ffffff"
-    fontFamily: "Segoe UI, system-ui, sans-serif"
+    textColor: "#242424"
+    primaryColor: "#f5f5f5"
+    primaryTextColor: "#FFFFFF"
+    primaryBorderColor: "#e0e0e0"
 ---
 flowchart TB
 
