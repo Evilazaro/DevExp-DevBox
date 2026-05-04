@@ -175,7 +175,10 @@ flowchart TB
 | PowerShell                | 5.1+    | Run setup scripts on Windows                                             |
 | Azure Subscription        | —       | Active subscription with Contributor and User Access Administrator roles |
 
-### Installation Steps
+> [!IMPORTANT] Ensure your Azure account has **Contributor** and **User Access
+> Administrator** roles at the subscription level before running any deployment.
+
+### Setup and Deployment
 
 1. Clone the repository:
 
@@ -184,55 +187,134 @@ git clone https://github.com/Evilazaro/DevExp-DevBox.git
 cd DevExp-DevBox
 ```
 
-2. Authenticate with Azure:
+2. Authenticate with Azure and GitHub:
 
 ```bash
 az login
 azd auth login
+gh auth login
 ```
 
-3. Initialize the azd environment:
+3. Run the setup script to initialize the environment and configure
+   authentication:
+
+```powershell
+# Windows (PowerShell)
+.\setUp.ps1 -EnvName "dev" -SourceControl "github"
+```
 
 ```bash
-azd init -e <environment-name>
+# Linux/macOS (Bash)
+./setUp.sh -e "dev" -s "github"
 ```
 
-4. Set the required environment variables:
-
-```bash
-azd env set AZURE_LOCATION <azure-region>
-azd env set KEY_VAULT_SECRET <github-personal-access-token>
-azd env set SOURCE_CONTROL_PLATFORM github
-```
-
-5. Provision all infrastructure:
+4. Deploy all infrastructure:
 
 ```bash
 azd up
 ```
 
-> [!IMPORTANT] Ensure your Azure account has **Contributor** and **User Access
-> Administrator** roles at the subscription level before running `azd up`.
+5. Verify the deployment outputs:
+
+```bash
+azd env get-values
+```
+
+> [!TIP] The setup scripts handle `azd init`, environment variable configuration
+> (`AZURE_LOCATION`, `KEY_VAULT_SECRET`, `SOURCE_CONTROL_PLATFORM`), and invoke
+> `azd up` automatically. Run them instead of performing each step manually.
+
+### Cleanup
+
+To tear down all provisioned resources, role assignments, service principals,
+and GitHub secrets:
+
+```powershell
+.\cleanSetUp.ps1 -EnvName "dev" -Location "eastus2"
+```
+
+> [!WARNING] Running `cleanSetUp.ps1` deletes all subscription deployments,
+> resource groups, role assignments, service principals, and GitHub secrets. Use
+> with caution in shared environments.
 
 ## Configuration
 
-The accelerator uses YAML files with JSON Schema validation for all resource
-configuration.
+The accelerator uses three YAML configuration files in `infra/settings/`, each
+validated by a companion JSON Schema.
 
-| Option                                                    | Default           | Description                                           |
-| --------------------------------------------------------- | ----------------- | ----------------------------------------------------- |
-| `devcenter.yaml` → `name`                                 | `devexp`          | Name of the Dev Center instance                       |
-| `devcenter.yaml` → `catalogItemSyncEnableStatus`          | `Enabled`         | Enable automatic catalog synchronization              |
-| `devcenter.yaml` → `microsoftHostedNetworkEnableStatus`   | `Enabled`         | Enable Microsoft-hosted networking for Dev Boxes      |
-| `devcenter.yaml` → `installAzureMonitorAgentEnableStatus` | `Enabled`         | Install Azure Monitor agent on Dev Boxes              |
-| `security.yaml` → `keyVault.name`                         | `contoso`         | Globally unique Key Vault name                        |
-| `security.yaml` → `keyVault.enablePurgeProtection`        | `true`            | Prevent permanent deletion of secrets                 |
-| `security.yaml` → `keyVault.softDeleteRetentionInDays`    | `7`               | Retention period for soft-deleted secrets (7-90 days) |
-| `azureResources.yaml` → `workload.name`                   | `devexp-workload` | Name prefix for the workload resource group           |
-| `azureResources.yaml` → `security.create`                 | `false`           | Create a separate security resource group             |
-| `azureResources.yaml` → `monitoring.create`               | `false`           | Create a separate monitoring resource group           |
+### Dev Center Configuration (`infra/settings/workload/devcenter.yaml`)
 
-Override configuration by editing the YAML files in `infra/settings/`:
+| Option                                  | Default                                                                | Description                                         |
+| --------------------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------- |
+| `name`                                  | `devexp`                                                               | Name of the Dev Center instance                     |
+| `catalogItemSyncEnableStatus`           | `Enabled`                                                              | Enable automatic catalog synchronization            |
+| `microsoftHostedNetworkEnableStatus`    | `Enabled`                                                              | Enable Microsoft-hosted networking for Dev Boxes    |
+| `installAzureMonitorAgentEnableStatus`  | `Enabled`                                                              | Install Azure Monitor agent on Dev Boxes            |
+| `identity.type`                         | `SystemAssigned`                                                       | Managed identity type for Dev Center authentication |
+| `identity.roleAssignments.devCenter`    | Contributor, User Access Administrator, Key Vault Secrets User/Officer | RBAC roles assigned to the Dev Center identity      |
+| `identity.roleAssignments.orgRoleTypes` | DevManager → DevCenter Project Admin                                   | Organizational role types mapped to Azure AD groups |
+
+### Project Configuration (`devcenter.yaml` → `projects[]`)
+
+| Option                                       | Example                                                | Description                                                             |
+| -------------------------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------- |
+| `name`                                       | `eShop`                                                | Project name within the Dev Center                                      |
+| `description`                                | `eShop project.`                                       | Description of the project purpose                                      |
+| `network.virtualNetworkType`                 | `Managed`                                              | Network type: `Managed` (Microsoft-hosted) or `Unmanaged` (custom VNet) |
+| `network.addressPrefixes`                    | `10.0.0.0/16`                                          | VNet address space (required for `Unmanaged` networks)                  |
+| `network.subnets[].properties.addressPrefix` | `10.0.1.0/24`                                          | Subnet address range for Dev Box connectivity                           |
+| `identity.type`                              | `SystemAssigned`                                       | Managed identity for project-level security                             |
+| `identity.roleAssignments[].azureRBACRoles`  | Contributor, Dev Box User, Deployment Environment User | RBAC roles assigned to project team Azure AD groups                     |
+
+### Pool Configuration (`devcenter.yaml` → `projects[].pools[]`)
+
+| Option                | Example                       | Description                                           |
+| --------------------- | ----------------------------- | ----------------------------------------------------- |
+| `name`                | `backend-engineer`            | Pool name identifying the role-specific configuration |
+| `imageDefinitionName` | `eshop-backend-dev`           | Dev Box image definition from a catalog               |
+| `vmSku`               | `general_i_32c128gb512ssd_v2` | VM SKU determining compute, memory, and storage       |
+
+### Catalog Configuration (`devcenter.yaml` → `catalogs[]` and `projects[].catalogs[]`)
+
+| Option          | Example                                                | Description                                                 |
+| --------------- | ------------------------------------------------------ | ----------------------------------------------------------- |
+| `name`          | `customTasks`                                          | Catalog display name                                        |
+| `type`          | `gitHub` / `imageDefinition` / `environmentDefinition` | Catalog source type                                         |
+| `sourceControl` | `gitHub` / `adoGit`                                    | Source control platform hosting the catalog                 |
+| `visibility`    | `public` / `private`                                   | Repository visibility (private requires token in Key Vault) |
+| `uri`           | `https://github.com/microsoft/devcenter-catalog.git`   | Repository URL                                              |
+| `branch`        | `main`                                                 | Branch to sync from                                         |
+| `path`          | `./Tasks`                                              | Path within the repository to sync                          |
+
+### Environment Types (`devcenter.yaml` → `environmentTypes[]`)
+
+| Option               | Example                               | Description                                             |
+| -------------------- | ------------------------------------- | ------------------------------------------------------- |
+| `name`               | `dev`, `staging`, `uat`               | Lifecycle stage name                                    |
+| `deploymentTargetId` | `""` (empty for default subscription) | Target subscription or management group for deployments |
+
+### Security Configuration (`infra/settings/security/security.yaml`)
+
+| Option                               | Default     | Description                                                 |
+| ------------------------------------ | ----------- | ----------------------------------------------------------- |
+| `create`                             | `true`      | Create a new Key Vault (set `false` to use an existing one) |
+| `keyVault.name`                      | `contoso`   | Globally unique Key Vault name                              |
+| `keyVault.secretName`                | `gha-token` | Name of the secret storing the source control token         |
+| `keyVault.enablePurgeProtection`     | `true`      | Prevent permanent deletion of secrets                       |
+| `keyVault.enableSoftDelete`          | `true`      | Allow recovery of deleted secrets                           |
+| `keyVault.softDeleteRetentionInDays` | `7`         | Retention period for soft-deleted secrets (7–90 days)       |
+| `keyVault.enableRbacAuthorization`   | `true`      | Use Azure RBAC instead of vault access policies             |
+
+### Resource Organization (`infra/settings/resourceOrganization/azureResources.yaml`)
+
+| Option              | Default           | Description                                                                |
+| ------------------- | ----------------- | -------------------------------------------------------------------------- |
+| `workload.create`   | `true`            | Create the workload resource group                                         |
+| `workload.name`     | `devexp-workload` | Name prefix for the workload resource group                                |
+| `security.create`   | `false`           | Create a separate security resource group (if `false`, uses workload RG)   |
+| `monitoring.create` | `false`           | Create a separate monitoring resource group (if `false`, uses workload RG) |
+
+### Example Override
 
 ```yaml
 # infra/settings/workload/devcenter.yaml
@@ -240,6 +322,18 @@ name: 'my-custom-devcenter'
 catalogItemSyncEnableStatus: 'Enabled'
 microsoftHostedNetworkEnableStatus: 'Enabled'
 installAzureMonitorAgentEnableStatus: 'Enabled'
+projects:
+  - name: 'myTeam'
+    description: 'Custom team project.'
+    network:
+      virtualNetworkType: Managed
+    pools:
+      - name: 'fullstack'
+        imageDefinitionName: 'team-dev-image'
+        vmSku: general_i_16c64gb256ssd_v2
+    environmentTypes:
+      - name: 'dev'
+        deploymentTargetId: ''
 ```
 
 > [!TIP] Use JSON Schema validation in your editor by referencing the schema
@@ -248,8 +342,8 @@ installAzureMonitorAgentEnableStatus: 'Enabled'
 
 ## Deployment
 
-1. Run the setup script to initialize the azd environment and configure
-   authentication:
+1. Run the setup script (handles authentication, environment creation, and
+   variable configuration):
 
 ```powershell
 # Windows (PowerShell)
@@ -261,13 +355,13 @@ installAzureMonitorAgentEnableStatus: 'Enabled'
 ./setUp.sh -e "prod" -s "github"
 ```
 
-2. Deploy infrastructure using Azure Developer CLI:
+2. Deploy infrastructure:
 
 ```bash
 azd up
 ```
 
-3. Verify the deployment outputs:
+3. Verify deployment:
 
 ```bash
 azd env get-values
@@ -275,16 +369,6 @@ azd env get-values
 
 4. Confirm resource provisioning in the Azure Portal by navigating to the
    workload resource group.
-
-5. To tear down all resources and clean up:
-
-```powershell
-.\cleanSetUp.ps1 -EnvName "prod" -Location "eastus2"
-```
-
-> [!WARNING] Running `cleanSetUp.ps1` deletes all subscription deployments, role
-> assignments, service principals, GitHub secrets, and resource groups. Use with
-> caution in shared environments.
 
 ## Usage
 
