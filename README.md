@@ -67,73 +67,84 @@ config:
   theme: base
   flowchart:
     htmlLabels: true
+    nodeSpacing: 60
+    rankSpacing: 50
   themeVariables:
-    fontSize: 16px
+    fontSize: 14px
+    fontFamily: "Segoe UI, system-ui, sans-serif"
+    primaryColor: "#0078D4"
+    primaryTextColor: "#242424"
+    primaryBorderColor: "#005A9E"
+    secondaryColor: "#F5F5F5"
+    tertiaryColor: "#E8F4FD"
+    lineColor: "#424242"
+    textColor: "#242424"
 ---
 flowchart TB
     %% C4 Container Diagram — DevExp-DevBox Accelerator
+    %% Styled with Microsoft Fluent UI design guidelines
 
     %% PERSONS / ACTORS
-    PlatformEngineer([<b>Platform Engineer</b><br>Person<br>Configures Dev Center,<br>projects, and pools])
-    Developer([<b>Developer</b><br>Person<br>Provisions and uses<br>Dev Box workstations])
+    PlatformEngineer([<b>👤 Platform Engineer</b><br><i>Configures Dev Center,<br>projects, and pools</i>])
+    Developer([<b>👤 Developer</b><br><i>Provisions and uses<br>Dev Box workstations</i>])
 
     %% EXTERNAL SYSTEMS
-    GitHub[\<b>GitHub</b><br>External System<br>Hosts catalogs for image<br>definitions and environments\]
-    AzureAD[\<b>Microsoft Entra ID</b><br>External System<br>Provides identity, groups,<br>and RBAC authentication\]
+    GitHub[\<b>🐙 GitHub</b><br><i>Hosts catalogs for image<br>definitions and environments</i>\]
+    AzureAD[\<b>🔑 Microsoft Entra ID</b><br><i>Provides identity, groups,<br>and RBAC authentication</i>\]
 
     %% SYSTEM BOUNDARY
-    subgraph SystemBoundary [<b>DevExp-DevBox Accelerator — System Boundary</b>]
+    subgraph SystemBoundary [<b>DevExp-DevBox Accelerator</b>]
         direction TB
 
         %% ORCHESTRATION LAYER
-        subgraph Orchestration [<b>Orchestration Layer</b>]
+        subgraph Orchestration [<b>⚙️ Orchestration</b>]
             direction LR
-            AZD[<b>Azure Developer CLI</b><br>Container<br>Orchestrates deployment<br>lifecycle via hooks]
-            SetupScripts[<b>Setup Scripts</b><br>Container<br>PowerShell and Bash scripts<br>for authentication and config]
+            AZD[<b>🔄 Azure Developer CLI</b><br><i>Orchestrates deployment<br>lifecycle via hooks</i>]
+            SetupScripts[<b>📜 Setup Scripts</b><br><i>PowerShell and Bash<br>authentication and config</i>]
         end
 
         %% INFRASTRUCTURE LAYER
-        subgraph Infrastructure [<b>Infrastructure Layer</b>]
+        subgraph Infrastructure [<b>🏗️ Infrastructure</b>]
             direction LR
-            BicepModules[<b>Bicep Modules</b><br>Container<br>Defines Azure resources<br>as Infrastructure as Code]
-            YAMLConfig[<b>YAML Configuration</b><br>Container<br>Declares Dev Center settings,<br>security, and resource org]
+            BicepModules[<b>📐 Bicep Modules</b><br><i>Defines Azure resources<br>as Infrastructure as Code</i>]
+            YAMLConfig[<b>📝 YAML Configuration</b><br><i>Declares Dev Center settings,<br>security, and resource org</i>]
         end
 
         %% WORKLOAD LAYER
-        subgraph Workload [<b>Workload Layer</b>]
+        subgraph Workload [<b>🖥️ Workload</b>]
             direction LR
-            DevCenter[(<b>Dev Center</b><br>Container<br>Manages Dev Box definitions,<br>catalogs, and environment types)]
-            Projects[(<b>Projects</b><br>Container<br>Organizes pools, identities,<br>and project-level catalogs)]
+            DevCenter[(<b>🖥️ Dev Center</b><br><i>Manages Dev Box definitions,<br>catalogs, and environment types</i>)]
+            Projects[(<b>📋 Projects</b><br><i>Organizes pools, identities,<br>and project-level catalogs</i>)]
         end
 
         %% SECURITY LAYER
-        subgraph Security [<b>Security Layer</b>]
+        subgraph Security [<b>🔐 Security</b>]
             direction LR
-            KeyVault[(<b>Azure Key Vault</b><br>Container<br>Stores secrets with RBAC,<br>soft-delete, and purge protection)]
-            RBAC(<b>RBAC Assignments</b><br>Container<br>Applies least-privilege roles<br>at subscription and RG scopes)
+            KeyVault[(<b>🔐 Azure Key Vault</b><br><i>Stores secrets with RBAC,<br>soft-delete, and purge protection</i>)]
+            RBAC(<b>🛡️ RBAC Assignments</b><br><i>Applies least-privilege roles<br>at subscription and RG scopes</i>)
         end
 
         %% CONNECTIVITY LAYER
-        subgraph Connectivity [<b>Connectivity Layer</b>]
+        subgraph Connectivity [<b>🌐 Connectivity</b>]
             direction LR
-            VNet[(<b>Virtual Network</b><br>Container<br>Provides network isolation<br>with configurable subnets)]
-            NetworkConn(<b>Network Connection</b><br>Container<br>Attaches Dev Center<br>to virtual networks)
+            VNet[(<b>🌐 Virtual Network</b><br><i>Provides network isolation<br>with configurable subnets</i>)]
+            NetworkConn(<b>🔗 Network Connection</b><br><i>Attaches Dev Center<br>to virtual networks</i>)
         end
 
         %% MONITORING LAYER
-        subgraph Monitoring [<b>Monitoring Layer</b>]
+        subgraph Monitoring [<b>📊 Monitoring</b>]
             direction LR
-            LogAnalytics[(<b>Log Analytics</b><br>Container<br>Collects diagnostics and<br>activity logs centrally)]
+            LogAnalytics[(<b>📊 Log Analytics</b><br><i>Collects diagnostics and<br>activity logs centrally</i>)]
         end
     end
 
     %% RELATIONSHIPS
-    PlatformEngineer -- "Runs azd up to provision" --> AZD
-    Developer -- "Requests Dev Box from" --> DevCenter
+    PlatformEngineer -- "Runs azd up" --> AZD
+    Developer -- "Requests Dev Box" --> DevCenter
 
     AZD -- "Executes preprovision" --> SetupScripts
-    AZD -- "Deploys infrastructure via" --> BicepModules
-    BicepModules -- "Reads settings from" --> YAMLConfig
+    AZD -- "Deploys via" --> BicepModules
+    BicepModules -- "Reads settings" --> YAMLConfig
 
     BicepModules -- "Provisions" --> DevCenter
     BicepModules -- "Provisions" --> Projects
@@ -143,14 +154,33 @@ flowchart TB
     BicepModules -- "Creates" --> NetworkConn
     BicepModules -- "Provisions" --> LogAnalytics
 
-    DevCenter -- "Syncs catalogs from" --> GitHub
+    DevCenter -- "Syncs catalogs" --> GitHub
     Projects -- "Authenticates via" --> AzureAD
     RBAC -- "Validates against" --> AzureAD
-    KeyVault -- "Stores GitHub token for" --> DevCenter
+    KeyVault -- "Stores token for" --> DevCenter
     DevCenter -- "Connects through" --> NetworkConn
-    NetworkConn -- "Routes traffic via" --> VNet
-    DevCenter -. "Sends diagnostics to" .-> LogAnalytics
-    KeyVault -. "Sends diagnostics to" .-> LogAnalytics
+    NetworkConn -- "Routes via" --> VNet
+    DevCenter -. "Diagnostics" .-> LogAnalytics
+    KeyVault -. "Diagnostics" .-> LogAnalytics
+
+    %% STYLES — Fluent UI category colors
+    classDef workloadStyle fill:#E8F4FD,stroke:#0078D4,stroke-width:2px,color:#242424
+    classDef securityStyle fill:#F0FFF0,stroke:#7FBA00,stroke-width:2px,color:#242424
+    classDef networkStyle fill:#E8FFFE,stroke:#0078D4,stroke-width:2px,color:#242424
+    classDef monitorStyle fill:#F0FFF0,stroke:#7FBA00,stroke-width:2px,color:#242424
+    classDef orchestrationStyle fill:#E8FFFE,stroke:#00B7C3,stroke-width:2px,color:#242424
+    classDef infraStyle fill:#E8F4FD,stroke:#0078D4,stroke-width:2px,color:#242424
+    classDef externalStyle fill:#FFF8E1,stroke:#DA3B01,stroke-width:2px,color:#242424
+    classDef actorStyle fill:#F5F5F5,stroke:#424242,stroke-width:2px,color:#242424
+
+    class DevCenter,Projects workloadStyle
+    class KeyVault,RBAC securityStyle
+    class VNet,NetworkConn networkStyle
+    class LogAnalytics monitorStyle
+    class AZD,SetupScripts orchestrationStyle
+    class BicepModules,YAMLConfig infraStyle
+    class GitHub,AzureAD externalStyle
+    class PlatformEngineer,Developer actorStyle
 ```
 
 ## Technologies Used
