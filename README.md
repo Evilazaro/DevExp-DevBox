@@ -195,34 +195,25 @@ azd auth login
 gh auth login
 ```
 
-3. Run the setup script to initialize the environment and configure
-   authentication:
-
-```powershell
-# Windows (PowerShell)
-.\setUp.ps1 -EnvName "dev" -SourceControl "github"
-```
+3. Initialize and deploy (the `preprovision` hook in `azure.yaml` automatically
+   runs the setup scripts to configure environment variables and
+   authentication):
 
 ```bash
-# Linux/macOS (Bash)
-./setUp.sh -e "dev" -s "github"
-```
-
-4. Deploy all infrastructure:
-
-```bash
+azd init
 azd up
 ```
 
-5. Verify the deployment outputs:
+4. Verify the deployment outputs:
 
 ```bash
 azd env get-values
 ```
 
-> [!TIP] The setup scripts handle `azd init`, environment variable configuration
-> (`AZURE_LOCATION`, `KEY_VAULT_SECRET`, `SOURCE_CONTROL_PLATFORM`), and invoke
-> `azd up` automatically. Run them instead of performing each step manually.
+> [!TIP] The `azd up` command triggers a `preprovision` hook that automatically
+> executes the setup scripts, handling environment variable configuration
+> (`AZURE_LOCATION`, `KEY_VAULT_SECRET`, `SOURCE_CONTROL_PLATFORM`) and platform
+> authentication before provisioning resources.
 
 ### Cleanup
 
@@ -342,33 +333,28 @@ projects:
 
 ## Deployment
 
-1. Run the setup script (handles authentication, environment creation, and
-   variable configuration):
-
-```powershell
-# Windows (PowerShell)
-.\setUp.ps1 -EnvName "prod" -SourceControl "github"
-```
-
-```bash
-# Linux/macOS (Bash)
-./setUp.sh -e "prod" -s "github"
-```
-
-2. Deploy infrastructure:
+All provisioning is handled through **Azure Developer CLI**. The `preprovision`
+hook in `azure.yaml` automatically runs the setup scripts before deployment.
 
 ```bash
 azd up
 ```
 
-3. Verify deployment:
+To target a specific environment:
+
+```bash
+azd env new prod
+azd up -e prod
+```
+
+Verify deployment:
 
 ```bash
 azd env get-values
 ```
 
-4. Confirm resource provisioning in the Azure Portal by navigating to the
-   workload resource group.
+Confirm resource provisioning in the Azure Portal by navigating to the workload
+resource group.
 
 ## Usage
 
