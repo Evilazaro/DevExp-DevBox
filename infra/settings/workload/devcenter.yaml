@@ -133,6 +133,32 @@ projects:
               name: 'Key Vault Secrets Officer'
               scope: ResourceGroup
 
+    # Platforms - selects which workstation platforms this project provisions.
+    # Microsoft Dev Box is now optional; Windows 365 Cloud PC can be enabled
+    # alongside it or on its own. Toggle each platform with its `enable` flag.
+    platforms:
+      # Microsoft Dev Box (optional). When disabled, no Dev Box pools are created
+      # for this project; the Dev Center and project resources still deploy.
+      devBox:
+        enable: true
+      # Windows 365 Cloud PC. Provisioned via Microsoft Graph by the
+      # scripts/Configure-Windows365.ps1 postprovision hook (no ARM/Bicep type exists).
+      cloudPc:
+        enable: true # Provision Windows 365 Cloud PCs for this project
+        licenseEdition: Enterprise # Windows 365 license edition (Enterprise | Frontline)
+        size: 8vCPU/32GB/256GB # Cloud PC size assigned through the per-user license
+        imageType: gallery # gallery | custom
+        # Gallery image id format: {publisher}_{offer}_{sku}. This value maps to
+        # "Windows 11 Enterprise + Microsoft 365 Apps". The postprovision script
+        # resolves it against the live Windows 365 gallery and warns if the SKU
+        # token has rotated.
+        imageId: MicrosoftWindowsDesktop_windows-ent-cpc_win11-24h2-ent-cpc-m365
+        imageDisplayName: Windows 11 Enterprise + Microsoft 365 Apps
+        joinType: azureADJoin # Microsoft Entra join (resolved from networkConnection domainJoinType 'AzureADJoin')
+        enableSingleSignOn: true
+        provisioningType: dedicated # dedicated | shared
+        region: '' # empty -> use the deployment location
+
     # Dev Box pools - collections of Dev Boxes with specific configurations
     # Best practice: Create role-specific pools with appropriate tools and settings
     pools:

@@ -472,6 +472,111 @@
                 }
             }
         },
+        "cloudPc": {
+            "type": "object",
+            "description": "Windows 365 Cloud PC configuration for a project. Provisioned via Microsoft Graph (deviceManagement/virtualEndpoint) by the postprovision hook.",
+            "additionalProperties": false,
+            "required": [
+                "enable"
+            ],
+            "properties": {
+                "enable": {
+                    "type": "boolean",
+                    "description": "Provision Windows 365 Cloud PCs for this project",
+                    "default": false
+                },
+                "licenseEdition": {
+                    "type": "string",
+                    "description": "Windows 365 license edition",
+                    "enum": [
+                        "Enterprise",
+                        "Frontline"
+                    ],
+                    "default": "Enterprise"
+                },
+                "size": {
+                    "type": "string",
+                    "description": "Cloud PC size assigned through the per-user license",
+                    "examples": [
+                        "2vCPU/8GB/128GB",
+                        "8vCPU/32GB/256GB"
+                    ]
+                },
+                "imageType": {
+                    "type": "string",
+                    "description": "Type of OS image",
+                    "enum": [
+                        "gallery",
+                        "custom"
+                    ],
+                    "default": "gallery"
+                },
+                "imageId": {
+                    "type": "string",
+                    "description": "Image identifier. Gallery format: {publisher}_{offer}_{sku}",
+                    "minLength": 1,
+                    "examples": [
+                        "MicrosoftWindowsDesktop_windows-ent-cpc_win11-24h2-ent-cpc-m365"
+                    ]
+                },
+                "imageDisplayName": {
+                    "type": "string",
+                    "description": "Display name of the OS image",
+                    "examples": [
+                        "Windows 11 Enterprise + Microsoft 365 Apps"
+                    ]
+                },
+                "joinType": {
+                    "type": "string",
+                    "description": "Domain join type. azureADJoin = Microsoft Entra join",
+                    "enum": [
+                        "azureADJoin",
+                        "hybridAzureADJoin"
+                    ],
+                    "default": "azureADJoin"
+                },
+                "enableSingleSignOn": {
+                    "type": "boolean",
+                    "description": "Enable single sign-on on the Cloud PC",
+                    "default": true
+                },
+                "provisioningType": {
+                    "type": "string",
+                    "description": "License model used when provisioning Cloud PCs",
+                    "enum": [
+                        "dedicated",
+                        "shared"
+                    ],
+                    "default": "dedicated"
+                },
+                "region": {
+                    "type": "string",
+                    "description": "Azure region for Microsoft-hosted Cloud PCs. Empty uses the deployment location."
+                }
+            }
+        },
+        "platforms": {
+            "type": "object",
+            "description": "Workstation platforms provisioned for a project (Microsoft Dev Box and/or Windows 365 Cloud PC)",
+            "additionalProperties": false,
+            "properties": {
+                "devBox": {
+                    "type": "object",
+                    "description": "Microsoft Dev Box platform (optional)",
+                    "additionalProperties": false,
+                    "properties": {
+                        "enable": {
+                            "type": "boolean",
+                            "description": "Provision Microsoft Dev Box pools for this project",
+                            "default": true
+                        }
+                    }
+                },
+                "cloudPc": {
+                    "$ref": "#/$defs/cloudPc"
+                }
+            }
+        },
         "project": {
             "type": "object",
             "description": "Dev Center project configuration",
@@ -501,6 +606,9 @@
                 },
                 "identity": {
                     "$ref": "#/$defs/projectIdentity"
+                },
+                "platforms": {
+                    "$ref": "#/$defs/platforms"
                 },
                 "pools": {
                     "type": "array",

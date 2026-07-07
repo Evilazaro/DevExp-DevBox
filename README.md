@@ -50,20 +50,85 @@ the primary Azure services touched (source: `infra/main.bicep`,
 
 ## Features
 
-| Feature                           | Description                                                                                                                                                                                                                                                                   |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| 🚀 One-command provisioning       | **`azd up` deploys the full Dev Center, projects, pools, and supporting services** at subscription scope (source: `azure.yaml`, `infra/main.bicep`).                                                                                                                          |
-| 🧩 Modular Bicep                  | **Bicep is split into `connectivity/`, `identity/`, `management/`, `security/`, and `workload/` modules** so consumers can disable a landing zone without forking (source: `src/`).                                                                                           |
-| 📝 YAML-driven configuration      | **Dev Center, projects, pools, environment types, catalogs, security, and resource organization are declared in human-readable YAML with JSON schemas** for validation (source: `infra/settings/**`).                                                                         |
-| 🏗️ Landing-zone segregation       | \*\*Workload, security, and monitoring resource groups are independently toggleable via `create: true                                                                                                                                                                         | false`flags** in`azureResources.yaml`(source:`infra/settings/resourceOrganization/azureResources.yaml`). |
-| 🔐 Key Vault secret integration   | **The pre-provision hook stores a GitHub/ADO token in Azure Key Vault** with purge protection, soft delete, and RBAC authorization enabled (source: `infra/settings/security/security.yaml`, `src/security/keyVault.bicep`).                                                  |
-| 📊 Log Analytics + diagnostics    | **A Log Analytics workspace plus `AzureActivity` solution and diagnostic settings are wired into every module** (source: `src/management/logAnalytics.bicep`).                                                                                                                |
-| 👥 Role-based access control      | **Dev Center, project, and resource-group role assignments are templated via dedicated identity modules** (source: `src/identity/devCenterRoleAssignment.bicep`, `src/identity/projectIdentityRoleAssignment.bicep`, `src/identity/orgRoleAssignment.bicep`).                 |
-| 🌐 Managed VNet connectivity      | **Per-project virtual networks, subnets, and Dev Center network connections are generated from declarative `network` blocks** in `devcenter.yaml` (source: `src/connectivity/connectivity.bicep`, `src/connectivity/vnet.bicep`, `src/connectivity/networkConnection.bicep`). |
-| 💼 Project-specific Dev Box pools | **Each project declares one or more pools that map an image definition to a VM SKU** (source: `infra/settings/workload/devcenter.yaml`, `src/workload/project/projectPool.bicep`).                                                                                            |
-| 🧹 Idempotent cleanup             | **`cleanSetUp.ps1` orchestrates subscription-deployment, role-assignment, credential, and GitHub-secret deletion** to revert the environment (source: `cleanSetUp.ps1`).                                                                                                      |
-| 🔁 Cross-platform setup           | **Bash (`setUp.sh`) and PowerShell (`setUp.ps1`) scripts are kept in sync** so Linux, macOS, and Windows engineers share the same workflow (source: `setUp.sh`, `setUp.ps1`, `azure.yaml`).                                                                                   |
-| 🔌 Source-control choice          | **GitHub and Azure DevOps Git (`adogit`) are both supported** via the `SOURCE_CONTROL_PLATFORM` environment variable (source: `setUp.sh`, `setUp.ps1`, `azure.yaml`).                                                                                                         |
+| Feature                           | Description                                                                                                                                                                                                                                                                                                                                                                                                        |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| 🚀 One-command provisioning       | **`azd up` deploys the full Dev Center, projects, pools, and supporting services** at subscription scope (source: `azure.yaml`, `infra/main.bicep`).                                                                                                                                                                                                                                                               |
+| 🧩 Modular Bicep                  | **Bicep is split into `connectivity/`, `identity/`, `management/`, `security/`, and `workload/` modules** so consumers can disable a landing zone without forking (source: `src/`).                                                                                                                                                                                                                                |
+| 📝 YAML-driven configuration      | **Dev Center, projects, pools, environment types, catalogs, security, and resource organization are declared in human-readable YAML with JSON schemas** for validation (source: `infra/settings/**`).                                                                                                                                                                                                              |
+| 🏗️ Landing-zone segregation       | \*\*Workload, security, and monitoring resource groups are independently toggleable via `create: true                                                                                                                                                                                                                                                                                                              | false`flags** in`azureResources.yaml`(source:`infra/settings/resourceOrganization/azureResources.yaml`). |
+| 🔐 Key Vault secret integration   | **The pre-provision hook stores a GitHub/ADO token in Azure Key Vault** with purge protection, soft delete, and RBAC authorization enabled (source: `infra/settings/security/security.yaml`, `src/security/keyVault.bicep`).                                                                                                                                                                                       |
+| 📊 Log Analytics + diagnostics    | **A Log Analytics workspace plus `AzureActivity` solution and diagnostic settings are wired into every module** (source: `src/management/logAnalytics.bicep`).                                                                                                                                                                                                                                                     |
+| 👥 Role-based access control      | **Dev Center, project, and resource-group role assignments are templated via dedicated identity modules** (source: `src/identity/devCenterRoleAssignment.bicep`, `src/identity/projectIdentityRoleAssignment.bicep`, `src/identity/orgRoleAssignment.bicep`).                                                                                                                                                      |
+| 🌐 Managed VNet connectivity      | **Per-project virtual networks, subnets, and Dev Center network connections are generated from declarative `network` blocks** in `devcenter.yaml` (source: `src/connectivity/connectivity.bicep`, `src/connectivity/vnet.bicep`, `src/connectivity/networkConnection.bicep`).                                                                                                                                      |
+| 💼 Project-specific Dev Box pools | **Each project declares one or more pools that map an image definition to a VM SKU** (source: `infra/settings/workload/devcenter.yaml`, `src/workload/project/projectPool.bicep`).                                                                                                                                                                                                                                 |
+| 🖥️ Windows 365 Cloud PCs          | **Each project can provision Windows 365 Enterprise Cloud PCs alongside (or instead of) Dev Box** via a per-project `platforms` toggle; the Cloud PC provisioning policy, Azure Network Connection, and group assignment are created through Microsoft Graph by a postprovision hook (source: `infra/settings/workload/devcenter.yaml`, `src/workload/cloudpc/cloudPc.bicep`, `scripts/Configure-Windows365.ps1`). |
+| 🧹 Idempotent cleanup             | **`cleanSetUp.ps1` orchestrates subscription-deployment, role-assignment, credential, and GitHub-secret deletion** to revert the environment (source: `cleanSetUp.ps1`).                                                                                                                                                                                                                                           |
+| 🔁 Cross-platform setup           | **Bash (`setUp.sh`) and PowerShell (`setUp.ps1`) scripts are kept in sync** so Linux, macOS, and Windows engineers share the same workflow (source: `setUp.sh`, `setUp.ps1`, `azure.yaml`).                                                                                                                                                                                                                        |
+| 🔌 Source-control choice          | **GitHub and Azure DevOps Git (`adogit`) are both supported** via the `SOURCE_CONTROL_PLATFORM` environment variable (source: `setUp.sh`, `setUp.ps1`, `azure.yaml`).                                                                                                                                                                                                                                              |
+
+## Windows 365 Cloud PCs
+
+The accelerator provisions **Microsoft Dev Box and/or Windows 365 Enterprise
+Cloud PCs per project**. Dev Box is now optional: each project selects its
+platforms through a `platforms` block in
+`infra/settings/workload/devcenter.yaml`.
+
+```yaml
+platforms:
+  devBox:
+    enable: true # optional - set false to skip Dev Box pools
+  cloudPc:
+    enable: true # provision Windows 365 Cloud PCs
+    licenseEdition: Enterprise
+    size: 8vCPU/32GB/256GB
+    imageType: gallery
+    imageId: MicrosoftWindowsDesktop_windows-ent-cpc_win11-24h2-ent-cpc-m365
+    imageDisplayName: Windows 11 Enterprise + Microsoft 365 Apps
+    joinType: azureADJoin # Microsoft Entra join
+    enableSingleSignOn: true
+    provisioningType: dedicated
+    region: "" # empty -> deployment location
+```
+
+### How it works
+
+Windows 365 Enterprise is managed through **Microsoft Graph**
+(`deviceManagement/virtualEndpoint`), which has **no ARM/Bicep resource types**.
+The accelerator therefore splits the work:
+
+- **Bicep** (`src/workload/cloudpc/cloudPc.bicep`) validates the configuration and
+  emits a provisioning contract (image, size, join type, network binding, target
+  group), surfaced as the `AZURE_CLOUD_PC_PROVISIONING` deployment output.
+- **Microsoft Graph script** (`scripts/Configure-Windows365.ps1`) runs as an `azd`
+  **postprovision** hook and idempotently upserts, for each enabled project:
+  1. an **Azure Network Connection** (only for `Unmanaged` project networks;
+     `Managed` networks use a Microsoft-hosted network with a region),
+  2. a **Cloud PC provisioning policy** (Microsoft Entra join, gallery image, SSO),
+  3. an **assignment** of the policy to the project's Microsoft Entra group.
+
+### Prerequisites
+
+- **Windows 365 Enterprise licenses** assigned to the members of the project's
+  Microsoft Entra group (licenses are per-user and are not provisioned by IaC).
+- A signed-in user with the **Windows 365 Administrator** role able to consent to
+  the `CloudPC.ReadWrite.All` delegated Graph scope.
+- **PowerShell 7+** (the hook installs `Microsoft.Graph.Authentication` if needed).
+
+### Deploy & manage
+
+```bash
+azd up      # provisions infrastructure, then the postprovision hook configures Cloud PCs
+```
+
+To (re)run the Windows 365 configuration on its own:
+
+```powershell
+pwsh -File ./scripts/Configure-Windows365.ps1
+```
+
+Cloud PCs provision **asynchronously** once the policy is assigned and the target
+users hold Windows 365 licenses. Manage them in the
+[Windows 365 admin center](https://learn.microsoft.com/windows-365/enterprise/).
 
 ## Architecture
 
@@ -356,15 +421,15 @@ monitoring:
 
 ```yaml
 projects:
-  - name: 'eShop'
-    description: 'eShop project.'
+  - name: "eShop"
+    description: "eShop project."
     # ... existing eShop config ...
-  - name: 'platformAPI'
-    description: 'Platform API team Dev Box project.'
+  - name: "platformAPI"
+    description: "Platform API team Dev Box project."
     network:
       name: platformAPI
       create: true
-      resourceGroupName: 'platformAPI-connectivity-RG'
+      resourceGroupName: "platformAPI-connectivity-RG"
       virtualNetworkType: Managed
       addressPrefixes:
         - 10.1.0.0/16
@@ -378,15 +443,15 @@ projects:
       type: SystemAssigned
       roleAssignments: []
     pools:
-      - name: 'api-engineer'
-        imageDefinitionName: 'platformapi-dev'
+      - name: "api-engineer"
+        imageDefinitionName: "platformapi-dev"
         vmSku: general_i_16c64gb256ssd_v2
     environmentTypes:
-      - name: 'dev'
-        deploymentTargetId: ''
+      - name: "dev"
+        deploymentTargetId: ""
     catalogs: []
     tags:
-      project: 'platformAPI'
+      project: "platformAPI"
 ```
 
 ```bash
