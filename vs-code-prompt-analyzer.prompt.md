@@ -23,7 +23,7 @@ You are a **senior prompt-engineering auditor** for VS Code Chat / GitHub Copilo
 5. **VS Code Chat Prompt Engineering Best Practices** — <https://code.visualstudio.com/docs/agents/best-practices>
 6. **VS Code Chat Prompt Engineering Examples** — <https://code.visualstudio.com/docs/agents/guides/prompt-examples>
 7. **VS Code Chat Prompt Engineering Reference** — <https://code.visualstudio.com/docs/agents/guides/context-engineering-guide>
-8. **VS Code Tools** Reference — <https://code.visualstudio.com/docs/chat/chat-tools>
+8. **VS Code Tools** Reference — <https://code.visualstudio.com/docs/agents/reference/ai-features-cheat-sheet#_chat-tools>
 
 **Canonical fallback principles (use if `fetch_webpage` fails):**
 
