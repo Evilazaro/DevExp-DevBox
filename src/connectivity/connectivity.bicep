@@ -65,8 +65,3 @@ output networkConnectionName string = networkConnectivityCreate
 
 @description('The type of virtual network (Managed or Unmanaged)')
 output networkType string = projectNetwork.virtualNetworkType
-
-@description('Resource ID of the first subnet for the Windows 365 Azure Network Connection (empty for Managed/Microsoft-hosted networks)')
-output subnetId string = (networkConnectivityCreate && length(virtualNetwork.outputs.AZURE_VIRTUAL_NETWORK.subnets) > 0)
-  ? virtualNetwork.outputs.AZURE_VIRTUAL_NETWORK.subnets[0].id
-  : ''

@@ -33,9 +33,6 @@ param securityResourceGroupName string
 @description('Managed identity configuration for the project')
 param identity Identity
 
-@description('Platform selection for the project (Microsoft Dev Box optional + Windows 365 Cloud PC)')
-param platforms Platforms
-
 @description('Tags to be applied to all resources')
 param tags Tags = {}
 
@@ -159,51 +156,6 @@ type PoolConfig = {
   vmSku: string
 }
 
-@description('Platform selection for the project')
-type Platforms = {
-  @description('Microsoft Dev Box platform toggle')
-  devBox: {
-    @description('Provision Dev Box pools for this project')
-    enable: bool
-  }
-
-  @description('Windows 365 Cloud PC configuration')
-  cloudPc: CloudPcPlatform
-}
-
-@description('Windows 365 Cloud PC configuration')
-type CloudPcPlatform = {
-  @description('Enable Windows 365 Cloud PCs for this project')
-  enable: bool
-
-  @description('Windows 365 license edition')
-  licenseEdition: string
-
-  @description('Cloud PC size assigned through the per-user license')
-  size: string
-
-  @description('Type of OS image (gallery or custom)')
-  imageType: string
-
-  @description('Image identifier. Gallery format: {publisher}_{offer}_{sku}')
-  imageId: string
-
-  @description('Display name of the OS image')
-  imageDisplayName: string
-
-  @description('Domain join type. azureADJoin = Microsoft Entra join')
-  joinType: string
-
-  @description('Enable single sign-on for the Cloud PC')
-  enableSingleSignOn: bool
-
-  @description('License model used when provisioning Cloud PCs')
-  provisioningType: string
-
-  @description('Optional Azure region override for Microsoft-hosted Cloud PCs')
-  region: string?
-}
-
 @description('Reference to existing DevCenter')
 resource devCenter 'Microsoft.DevCenter/devcenters@2026-01-01-preview' existing = {
   name: devCenterName
@@ -322,7 +274,7 @@ module connectivity '../../connectivity/connectivity.bicep' = {
 
 @description('Configure DevBox pools for the project')
 module pools 'projectPool.bicep' = [
-  for (pool, i) in projectPools: if (platforms.devBox.enable) {
+  for (pool, i) in projectPools: {
     scope: resourceGroup()
     params: {
       name: pool.name
@@ -340,24 +292,8 @@ module pools 'projectPool.bicep' = [
   }
 ]
 
-@description('Windows 365 Cloud PC provisioning contract for the project')
-module cloudPc '../cloudpc/cloudPc.bicep' = if (platforms.cloudPc.enable) {
-  scope: resourceGroup()
-  params: {
-    projectName: project.name
-    location: location
-    config: platforms.cloudPc
-    subnetId: connectivity.outputs.subnetId
-    userGroupId: identity.roleAssignments[0].azureADGroupId
-    tags: tags
-  }
-}
-
 @description('The name of the deployed project')
 output AZURE_PROJECT_NAME string = project.name
 
 @description('The resource ID of the deployed project')
 output AZURE_PROJECT_ID string = project.id
-
-@description('Windows 365 Cloud PC provisioning contract for the project (empty when Cloud PC is disabled)')
-output AZURE_PROJECT_CLOUD_PC object = platforms.cloudPc.enable ? cloudPc!.outputs.CLOUD_PC_CONTRACT : {}

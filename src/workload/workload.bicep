@@ -78,20 +78,6 @@ module projects 'project/project.bicep' = [
       secretIdentifier: secretIdentifier
       securityResourceGroupName: securityResourceGroupName
       identity: project.identity
-      platforms: project.?platforms ?? {
-        devBox: { enable: true }
-        cloudPc: {
-          enable: false
-          licenseEdition: 'Enterprise'
-          size: ''
-          imageType: 'gallery'
-          imageId: ''
-          imageDisplayName: ''
-          joinType: 'azureADJoin'
-          enableSingleSignOn: true
-          provisioningType: 'dedicated'
-        }
-      }
       tags: project.tags
       location: location
     }
@@ -101,9 +87,4 @@ module projects 'project/project.bicep' = [
 @description('List of project names deployed in the DevCenter')
 output AZURE_DEV_CENTER_PROJECTS array = [
   for (project, i) in devCenterSettings.projects: projects[i].outputs.AZURE_PROJECT_NAME
-]
-
-@description('Windows 365 Cloud PC provisioning contracts for all projects (consumed by the postprovision hook)')
-output AZURE_CLOUD_PC_PROVISIONING array = [
-  for (project, i) in devCenterSettings.projects: projects[i].outputs.AZURE_PROJECT_CLOUD_PC
 ]
