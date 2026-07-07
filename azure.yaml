@@ -51,3 +51,29 @@ hooks:
             Write-Output "bash not found; attempting to execute ./setUp.sh directly"
             & ./setUp.sh -e $env:AZURE_ENV_NAME -s $env:SOURCE_CONTROL_PLATFORM
         }
+
+  # Post-provision: configure Windows 365 Cloud PCs (ANC, provisioning policy,
+  # group assignment, and DSC customization parity) via Microsoft Graph for any
+  # project with platforms.cloudPc.enable = true. Non-fatal so a missing license
+  # or Graph consent does not fail `azd up`.
+  postprovision:
+    posix:
+      shell: sh
+      continueOnError: true
+      interactive: true
+      run: |
+        #!/bin/bash
+        set -e
+        if command -v pwsh >/dev/null 2>&1; then
+            pwsh -NoProfile -File ./scripts/Configure-Windows365.ps1
+        else
+            echo "pwsh (PowerShell 7+) not found; skipping Windows 365 Cloud PC configuration."
+            echo "Install PowerShell 7 and run: pwsh -File ./scripts/Configure-Windows365.ps1"
+        fi
+    windows:
+      shell: pwsh
+      continueOnError: true
+      interactive: true
+      run: |
+        $ErrorActionPreference = 'Stop'
+        ./scripts/Configure-Windows365.ps1

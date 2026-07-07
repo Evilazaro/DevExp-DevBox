@@ -33,6 +33,12 @@ param securityResourceGroupName string
 @description('Managed identity configuration for the project')
 param identity Identity
 
+@description('Platform selection for the project (Microsoft Dev Box optional + Windows 365 Cloud PC)')
+param platforms Platforms
+
+@description('Name of the shared Azure Compute Gallery for Windows 365 image definitions')
+param galleryName string = ''
+
 @description('Tags to be applied to all resources')
 param tags Tags = {}
 
@@ -156,6 +162,35 @@ type PoolConfig = {
   vmSku: string
 }
 
+@description('Platform selection for the project')
+type Platforms = {
+  @description('Microsoft Dev Box platform toggle')
+  devBox: {
+    @description('Provision Dev Box pools for this project')
+    enable: bool
+  }
+
+  @description('Windows 365 Cloud PC configuration')
+  cloudPc: CloudPcPlatform
+}
+
+@description('Windows 365 Cloud PC configuration')
+type CloudPcPlatform = {
+  enable: bool
+  licenseEdition: string
+  size: string
+  imageType: string
+  imageId: string
+  imageDisplayName: string
+  joinType: string
+  enableSingleSignOn: bool
+  provisioningType: string
+  region: string?
+  customizations: {
+    dscConfigurations: string[]?
+  }?
+}
+
 @description('Reference to existing DevCenter')
 resource devCenter 'Microsoft.DevCenter/devcenters@2026-01-01-preview' existing = {
   name: devCenterName
@@ -274,7 +309,7 @@ module connectivity '../../connectivity/connectivity.bicep' = {
 
 @description('Configure DevBox pools for the project')
 module pools 'projectPool.bicep' = [
-  for (pool, i) in projectPools: {
+  for (pool, i) in projectPools: if (platforms.devBox.enable) {
     scope: resourceGroup()
     params: {
       name: pool.name
@@ -292,8 +327,25 @@ module pools 'projectPool.bicep' = [
   }
 ]
 
+@description('Windows 365 Cloud PC module for the project')
+module cloudPc '../cloudpc/cloudPc.bicep' = if (platforms.cloudPc.enable) {
+  scope: resourceGroup()
+  params: {
+    projectName: project.name
+    location: location
+    config: platforms.cloudPc
+    galleryName: galleryName
+    subnetId: connectivity.outputs.subnetId
+    userGroupId: identity.roleAssignments[0].azureADGroupId
+    tags: tags
+  }
+}
+
 @description('The name of the deployed project')
 output AZURE_PROJECT_NAME string = project.name
 
 @description('The resource ID of the deployed project')
 output AZURE_PROJECT_ID string = project.id
+
+@description('Windows 365 Cloud PC provisioning contract for the project (empty when Cloud PC is disabled)')
+output AZURE_PROJECT_CLOUD_PC object = platforms.cloudPc.enable ? cloudPc!.outputs.CLOUD_PC_CONTRACT : {}

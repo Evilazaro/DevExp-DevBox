@@ -133,6 +133,30 @@ projects:
               name: 'Key Vault Secrets Officer'
               scope: ResourceGroup
 
+    # Platforms - selects which workstation platforms this project provisions.
+    # Microsoft Dev Box is now optional; Windows 365 Cloud PC can be enabled
+    # alongside it or on its own.
+    platforms:
+      devBox:
+        enable: true # Provision Microsoft Dev Box pools for this project
+      cloudPc:
+        enable: true # Provision Windows 365 Cloud PCs for this project
+        licenseEdition: Enterprise # Windows 365 license edition (Enterprise | Frontline)
+        size: 8vCPU/32GB/256GB # Cloud PC size assigned through the per-user license
+        imageType: gallery # gallery | custom (policy image; custom gallery is provisioned for org-published versions)
+        imageId: MicrosoftWindowsDesktop_windows-ent-cpc_win11-24h2-ent-cpc-m365 # Windows 11 Enterprise + Microsoft 365 Apps
+        imageDisplayName: Windows 11 Enterprise + Microsoft 365 Apps
+        joinType: azureADJoin # Microsoft Entra join (resolved from networkConnection domainJoinType 'AzureADJoin')
+        enableSingleSignOn: true
+        provisioningType: dedicated # dedicated | shared
+        region: '' # empty -> use the deployment location
+        # Customization parity with Dev Box: the SAME WinGet Configuration DSC
+        # files are applied to the Cloud PC at provisioning via winget configure.
+        customizations:
+          dscConfigurations:
+            - .configuration/devcenter/workloads/common-config.dsc.yaml
+            - .configuration/devcenter/workloads/common-backend-config.dsc.yaml
+
     # Dev Box pools - collections of Dev Boxes with specific configurations
     # Best practice: Create role-specific pools with appropriate tools and settings
     pools:

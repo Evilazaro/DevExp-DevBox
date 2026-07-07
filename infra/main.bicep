@@ -156,3 +156,6 @@ output AZURE_DEV_CENTER_NAME string = workload.outputs.AZURE_DEV_CENTER_NAME
 
 @description('List of project names deployed in the DevCenter')
 output AZURE_DEV_CENTER_PROJECTS array = workload.outputs.AZURE_DEV_CENTER_PROJECTS
+
+@description('Windows 365 Cloud PC provisioning contracts consumed by the postprovision configuration hook')
+output AZURE_CLOUD_PC_PROVISIONING array = workload.outputs.AZURE_CLOUD_PC_PROVISIONING
