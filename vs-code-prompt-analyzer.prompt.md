@@ -1,6 +1,6 @@
 ---
-agent: agent
-description: Analyze, score, fix, and refactor a VS Code .prompt.md file in place against the OpenAI, Anthropic, and GitHub Copilot prompt-engineering best practices.
+mode: agent
+description: Analyze, score, fix, and refactor a VS Code .prompt.md file in place against the OpenAI, Anthropic, and GitHub Copilot prompt-engineering best practices. Requires a target via ${file} or explicit path; ${selection} yields text-only output (no in-place write).
 tools: [todo, read, web/fetch, edit/createFile, edit/editFiles]
 ---
 
