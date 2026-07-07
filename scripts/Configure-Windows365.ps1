@@ -80,6 +80,16 @@ if ($contracts -isnot [System.Array]) { $contracts = @($contracts) }
 $enabled = @($contracts | Where-Object { $_ -and $_.enabled })
 if ($enabled.Count -eq 0) { Write-Info 'No projects have Windows 365 Cloud PC enabled. Nothing to do.'; return }
 
+# When invoked automatically by the azd postprovision hook, skip this interactive
+# Graph/Intune configuration unless explicitly requested - so routine
+# `azd provision` runs never prompt for sign-in. Configure on demand by running
+# the script directly, or by setting W365_CONFIGURE=true.
+if ($env:W365_FROM_HOOK -eq 'true' -and $env:W365_CONFIGURE -ne 'true') {
+    Write-Info 'Skipping Windows 365 configuration in the azd hook (interactive sign-in required).'
+    Write-Info 'To configure: run  pwsh -File ./scripts/Configure-Windows365.ps1  (or set W365_CONFIGURE=true).'
+    return
+}
+
 # ---------------------------------------------------------------------------
 # 2. Connect to Microsoft Graph (delegated)
 # ---------------------------------------------------------------------------
@@ -95,21 +105,32 @@ if (-not (Get-Module -ListAvailable -Name Microsoft.Graph.Authentication)) {
 }
 Import-Module Microsoft.Graph.Authentication -ErrorAction Stop
 
-Write-Info "Connecting to Microsoft Graph (scopes: $($graphScopes -join ', '))..."
-$connectParams = @{ Scopes = $graphScopes; NoWelcome = $true }
-# On Linux/WSL there is typically no browser, so use device-code auth. Do NOT
-# swallow output - the user must see the code + URL. Allow an override via
-# W365_USE_DEVICE_CODE=true for other headless hosts.
-if ($IsLinux -or $env:W365_USE_DEVICE_CODE -eq 'true') {
-    $connectParams.UseDeviceCode = $true
-    Write-Info 'Headless host detected - using device-code sign-in. Follow the URL/code below.'
+# Reuse an existing Graph session if it already carries the required scopes,
+# so repeat runs don't prompt for sign-in again.
+$existing = Get-MgContext
+$haveScopes = $existing -and (@($graphScopes | Where-Object { $_ -notin $existing.Scopes }).Count -eq 0)
+if ($haveScopes) {
+    Write-Info "Reusing existing Microsoft Graph session ($($existing.Account))."
 }
-Connect-MgGraph @connectParams
+else {
+    Write-Info "Connecting to Microsoft Graph (scopes: $($graphScopes -join ', '))..."
+    # ContextScope=CurrentUser persists the token cache to disk for this user, so
+    # after the first sign-in later runs reuse it silently (no re-prompt).
+    $connectParams = @{ Scopes = $graphScopes; NoWelcome = $true; ContextScope = 'CurrentUser' }
+    # On Linux/WSL there is typically no browser, so use device-code auth. Do NOT
+    # swallow output - the user must see the code + URL. Allow an override via
+    # W365_USE_DEVICE_CODE=true for other headless hosts.
+    if ($IsLinux -or $env:W365_USE_DEVICE_CODE -eq 'true') {
+        $connectParams.UseDeviceCode = $true
+        Write-Info 'First sign-in uses a device code; subsequent runs reuse the cached token.'
+    }
+    Connect-MgGraph @connectParams
 
-# Fail fast with a clear message if no session was established.
-if (-not (Get-MgContext)) {
-    Write-Note 'Microsoft Graph sign-in did not complete. Re-run: pwsh -File ./scripts/Configure-Windows365.ps1'
-    return
+    # Fail fast with a clear message if no session was established.
+    if (-not (Get-MgContext)) {
+        Write-Note 'Microsoft Graph sign-in did not complete. Re-run: pwsh -File ./scripts/Configure-Windows365.ps1'
+        return
+    }
 }
 
 function Invoke-Graph {

@@ -55,7 +55,9 @@ hooks:
   # Post-provision: configure Windows 365 Cloud PCs (ANC, provisioning policy,
   # group assignment, and DSC customization parity) via Microsoft Graph for any
   # project with platforms.cloudPc.enable = true. Non-fatal so a missing license
-  # or Graph consent does not fail `azd up`.
+  # or Graph consent does not fail `azd up`. The script SKIPS by default when run
+  # from this hook (interactive Graph sign-in required) - set W365_CONFIGURE=true
+  # to configure during provision, or run the script directly on demand.
   postprovision:
     posix:
       shell: sh
@@ -65,7 +67,7 @@ hooks:
         #!/bin/bash
         set -e
         if command -v pwsh >/dev/null 2>&1; then
-            pwsh -NoProfile -File ./scripts/Configure-Windows365.ps1
+            W365_FROM_HOOK=true pwsh -NoProfile -File ./scripts/Configure-Windows365.ps1
         else
             echo "pwsh (PowerShell 7+) not found; skipping Windows 365 Cloud PC configuration."
             echo "Install PowerShell 7 and run: pwsh -File ./scripts/Configure-Windows365.ps1"
@@ -76,4 +78,5 @@ hooks:
       interactive: true
       run: |
         $ErrorActionPreference = 'Stop'
+        $env:W365_FROM_HOOK = 'true'
         ./scripts/Configure-Windows365.ps1
