@@ -138,7 +138,7 @@ projects:
     # alongside it or on its own.
     platforms:
       devBox:
-        enable: true # Provision Microsoft Dev Box pools for this project
+        enable: false # Provision Microsoft Dev Box pools for this project
       cloudPc:
         enable: true # Provision Windows 365 Cloud PCs for this project
         licenseEdition: Enterprise # Windows 365 license edition (Enterprise | Frontline)
