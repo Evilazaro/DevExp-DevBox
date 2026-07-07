@@ -256,7 +256,7 @@
                     "examples": [
                         "dev",
                         "staging",
-                        "UAT",
+                        "uat",
                         "prod"
                     ]
                 },

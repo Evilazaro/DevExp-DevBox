@@ -174,7 +174,7 @@ projects:
         deploymentTargetId: ''
       - name: 'staging' # Staging environment
         deploymentTargetId: ''
-      - name: 'UAT' # User Acceptance Testing environment
+      - name: 'uat' # User Acceptance Testing environment
         deploymentTargetId: ''
 
     # Project-specific catalogs - repositories containing project configurations
