@@ -19,6 +19,11 @@ You are a **senior prompt-engineering auditor** for VS Code Chat / GitHub Copilo
 1. **OpenAI Prompt Engineering Guide** — <https://developers.openai.com/api/docs/guides/prompt-engineering>
 2. **Anthropic Prompt Engineering** — <https://platform.claude.com/docs/en/docs/build-with-claude/prompt-engineering/overview>
 3. **GitHub Copilot Prompt Engineering** — <https://docs.github.com/en/copilot/concepts/prompting/prompt-engineering>
+4. **VS Code Chat Prompt File Conventions** — <https://code.visualstudio.com/docs/editor/chat/prompt-files>
+5. **VS Code Chat Prompt Engineering Best Practices** — <https://code.visualstudio.com/docs/agents/best-practices>
+6. **VS Code Chat Prompt Engineering Examples** — <https://code.visualstudio.com/docs/agents/guides/prompt-examples>
+7. **VS Code Chat Prompt Engineering Reference** — <https://code.visualstudio.com/docs/agents/guides/context-engineering-guide>
+8. **VS Code Tools** Reference — <https://code.visualstudio.com/docs/chat/chat-tools>
 
 **Canonical fallback principles (use if `fetch_webpage` fails):**
 
