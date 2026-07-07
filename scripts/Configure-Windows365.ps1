@@ -36,9 +36,15 @@
     Microsoft Graph base URI. Windows 365 and Intune beta APIs live under /beta.
 
 .NOTES
+    Authentication is app-only (client credentials) - no interactive sign-in, so
+    it runs identically in WSL, Windows, or CI. The app registration is created
+    automatically (via Setup-Windows365App.ps1) when missing, and an EPHEMERAL
+    client secret is minted per run and used immediately - nothing is stored, so
+    no Key Vault permission is required.
+
     Requirements:
-    - PowerShell 7+, Microsoft.Graph.Authentication (installed automatically)
-    - A signed-in user with the Windows 365 + Intune admin roles
+    - PowerShell 7+ and Azure CLI (signed in to the target tenant)
+    - An identity that can create an app registration and grant admin consent
     - Windows 365 Enterprise licenses + an active Intune license on the tenant
 
     Caveat: WinGet Configuration applied by an Intune platform script runs in
@@ -50,6 +56,15 @@
 param(
     [Parameter(Mandatory = $false)]
     [string]$ProvisioningJson = $env:AZURE_CLOUD_PC_PROVISIONING,
+
+    [Parameter(Mandatory = $false)]
+    [string]$TenantId = $env:AZURE_TENANT_ID,
+
+    [Parameter(Mandatory = $false)]
+    [string]$ClientId = $env:AZURE_W365_CLIENT_ID,
+
+    [Parameter(Mandatory = $false)]
+    [string]$ClientSecret = $env:AZURE_W365_CLIENT_SECRET,
 
     [Parameter(Mandatory = $false)]
     [string]$GraphBaseUri = 'https://graph.microsoft.com/beta'
@@ -80,58 +95,66 @@ if ($contracts -isnot [System.Array]) { $contracts = @($contracts) }
 $enabled = @($contracts | Where-Object { $_ -and $_.enabled })
 if ($enabled.Count -eq 0) { Write-Info 'No projects have Windows 365 Cloud PC enabled. Nothing to do.'; return }
 
-# When invoked automatically by the azd postprovision hook, skip this interactive
-# Graph/Intune configuration unless explicitly requested - so routine
-# `azd provision` runs never prompt for sign-in. Configure on demand by running
-# the script directly, or by setting W365_CONFIGURE=true.
-if ($env:W365_FROM_HOOK -eq 'true' -and $env:W365_CONFIGURE -ne 'true') {
-    Write-Info 'Skipping Windows 365 configuration in the azd hook (interactive sign-in required).'
-    Write-Info 'To configure: run  pwsh -File ./scripts/Configure-Windows365.ps1  (or set W365_CONFIGURE=true).'
-    return
-}
-
 # ---------------------------------------------------------------------------
-# 2. Connect to Microsoft Graph (delegated)
+# 2. Acquire a Microsoft Graph token (app-only / client credentials)
+#    No interactive sign-in - identical behavior in WSL, Windows, and CI.
+#    The app registration is auto-created if missing, and an EPHEMERAL secret is
+#    minted per run and used immediately (nothing is stored - no Key Vault
+#    permission required).
 # ---------------------------------------------------------------------------
-$graphScopes = @('CloudPC.ReadWrite.All', 'Group.Read.All')
-if ($enabled | Where-Object { $_.dscConfigurations -and $_.dscConfigurations.Count -gt 0 }) {
-    # Extra scope requested only when customizations are configured (least privilege).
-    $graphScopes += 'DeviceManagementScripts.ReadWrite.All'
+if ([string]::IsNullOrWhiteSpace($TenantId)) {
+    try { $TenantId = (az account show --query tenantId -o tsv 2>$null) } catch { }
 }
 
-if (-not (Get-Module -ListAvailable -Name Microsoft.Graph.Authentication)) {
-    Write-Info 'Installing Microsoft.Graph.Authentication (CurrentUser scope)...'
-    Install-Module Microsoft.Graph.Authentication -Scope CurrentUser -Force -AllowClobber
-}
-Import-Module Microsoft.Graph.Authentication -ErrorAction Stop
+# Use explicitly-provided credentials if present; otherwise use the auto-managed
+# app registration with an ephemeral secret.
+if ([string]::IsNullOrWhiteSpace($ClientId) -or [string]::IsNullOrWhiteSpace($ClientSecret)) {
+    if (-not (Get-Command az -ErrorAction SilentlyContinue)) { Write-Note 'Azure CLI (az) is required; skipping.'; return }
 
-# Reuse an existing Graph session if it already carries the required scopes,
-# so repeat runs don't prompt for sign-in again.
-$existing = Get-MgContext
-$haveScopes = $existing -and (@($graphScopes | Where-Object { $_ -notin $existing.Scopes }).Count -eq 0)
-if ($haveScopes) {
-    Write-Info "Reusing existing Microsoft Graph session ($($existing.Account))."
-}
-else {
-    Write-Info "Connecting to Microsoft Graph (scopes: $($graphScopes -join ', '))..."
-    # ContextScope=CurrentUser persists the token cache to disk for this user, so
-    # after the first sign-in later runs reuse it silently (no re-prompt).
-    $connectParams = @{ Scopes = $graphScopes; NoWelcome = $true; ContextScope = 'CurrentUser' }
-    # On Linux/WSL there is typically no browser, so use device-code auth. Do NOT
-    # swallow output - the user must see the code + URL. Allow an override via
-    # W365_USE_DEVICE_CODE=true for other headless hosts.
-    if ($IsLinux -or $env:W365_USE_DEVICE_CODE -eq 'true') {
-        $connectParams.UseDeviceCode = $true
-        Write-Info 'First sign-in uses a device code; subsequent runs reuse the cached token.'
+    # Ensure the app registration exists (create + Graph permissions + admin consent).
+    $ClientId = (az ad app list --display-name 'DevExp-Windows365' --query "[0].appId" -o tsv 2>$null)
+    if ([string]::IsNullOrWhiteSpace($ClientId)) {
+        $setup = Join-Path $PSScriptRoot 'Setup-Windows365App.ps1'
+        Write-Info 'Windows 365 app registration not found - creating it automatically...'
+        try { & $setup } catch { Write-Note "Automatic app setup failed: $($_.Exception.Message)"; return }
+        $ClientId = (az ad app list --display-name 'DevExp-Windows365' --query "[0].appId" -o tsv 2>$null)
     }
-    Connect-MgGraph @connectParams
-
-    # Fail fast with a clear message if no session was established.
-    if (-not (Get-MgContext)) {
-        Write-Note 'Microsoft Graph sign-in did not complete. Re-run: pwsh -File ./scripts/Configure-Windows365.ps1'
+    if ([string]::IsNullOrWhiteSpace($ClientId)) {
+        Write-Note 'Could not create or resolve the app registration.'
+        Write-Note 'The deploying identity needs rights to create an app registration and grant admin consent. Skipping.'
         return
     }
+
+    # Mint an ephemeral client secret used only for this run (nothing is stored).
+    Write-Info 'Minting an ephemeral client secret...'
+    $ClientSecret = (az ad app credential reset --id $ClientId --display-name 'w365-ephemeral' --query password -o tsv 2>$null)
+    if ([string]::IsNullOrWhiteSpace($ClientSecret)) { Write-Note 'Could not create a client secret. Skipping.'; return }
+    Write-Info 'Waiting for the credential/consent to propagate...'
+    Start-Sleep -Seconds 20
 }
+
+if ([string]::IsNullOrWhiteSpace($TenantId)) { Write-Note 'Could not resolve the tenant ID. Skipping.'; return }
+
+Write-Info 'Acquiring Microsoft Graph token (app-only, client credentials)...'
+$graphToken = $null
+for ($attempt = 1; $attempt -le 6; $attempt++) {
+    try {
+        $tokenResponse = Invoke-RestMethod -Method POST -Uri "https://login.microsoftonline.com/$TenantId/oauth2/v2.0/token" -Body @{
+            client_id     = $ClientId
+            client_secret = $ClientSecret
+            scope         = 'https://graph.microsoft.com/.default'
+            grant_type    = 'client_credentials'
+        }
+        if ($tokenResponse.access_token) { $graphToken = $tokenResponse.access_token; break }
+    }
+    catch { }
+    if ($attempt -lt 6) { Write-Info "Token not ready (consent propagating); retrying in 15s ($attempt/6)..."; Start-Sleep -Seconds 15 }
+}
+if ([string]::IsNullOrWhiteSpace($graphToken)) {
+    Write-Note 'Could not acquire a Graph token (admin consent may still be propagating). Re-run to retry. Skipping.'
+    return
+}
+$graphHeaders = @{ Authorization = "Bearer $graphToken" }
 
 function Invoke-Graph {
     param(
@@ -140,9 +163,9 @@ function Invoke-Graph {
         [Parameter(Mandatory = $false)][object]$Body
     )
     $uri = if ($Path -match '^https?://') { $Path } else { "$GraphBaseUri$Path" }
-    $params = @{ Method = $Method; Uri = $uri }
+    $params = @{ Method = $Method; Uri = $uri; Headers = $graphHeaders }
     if ($Body) { $params.Body = ($Body | ConvertTo-Json -Depth 12); $params.ContentType = 'application/json' }
-    return Invoke-MgGraphRequest @params
+    return Invoke-RestMethod @params
 }
 
 function Resolve-GalleryImage {
@@ -217,23 +240,23 @@ foreach ($c in $enabled) {
     $imageId = if ($c.imageType -eq 'gallery') { Resolve-GalleryImage -ImageId $c.imageId -ImageDisplayName $c.imageDisplayName } else { $c.imageId }
 
     # 3b. Azure Network Connection - only when a customer subnet is supplied.
+    #     ANC creation requires DELEGATED Graph auth (app-only is not supported),
+    #     so it cannot run under this non-interactive path. Managed / Microsoft-
+    #     hosted projects (the default) need no ANC.
     $ancId = $null
     if ($c.networkType -eq 'azureNetworkConnection' -and -not [string]::IsNullOrWhiteSpace($c.subnetId)) {
         $ancName = $c.azureNetworkConnectionName
         $existingAnc = (Invoke-Graph -Method GET -Path '/deviceManagement/virtualEndpoint/onPremisesConnections').value |
         Where-Object { $_.displayName -eq $ancName } | Select-Object -First 1
-        if ($existingAnc) { $ancId = $existingAnc.id; Write-Info "Reusing Azure Network Connection '$ancName' ($ancId)." }
+        if ($existingAnc) {
+            $ancId = $existingAnc.id
+            Write-Info "Reusing Azure Network Connection '$ancName' ($ancId)."
+        }
         else {
-            $anc = Invoke-Graph -Method POST -Path '/deviceManagement/virtualEndpoint/onPremisesConnections' -Body @{
-                displayName      = $ancName
-                connectionType   = $c.joinType
-                subscriptionId   = $c.subscriptionId
-                resourceGroupId  = $c.resourceGroupId
-                virtualNetworkId = $c.virtualNetworkId
-                subnetId         = $c.subnetId
-            }
-            $ancId = $anc.id
-            Write-Info "Created Azure Network Connection '$ancName' ($ancId)."
+            Write-Note "Project '$($c.projectName)' uses an Unmanaged network, which needs an Azure Network Connection."
+            Write-Note 'Creating an ANC requires delegated auth and is not supported app-only. Create the ANC once in the'
+            Write-Note 'Windows 365 admin center (or via a delegated run), then re-run. Skipping this project.'
+            continue
         }
     }
 

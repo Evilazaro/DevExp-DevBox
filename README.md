@@ -118,9 +118,14 @@ so a Cloud PC receives the **same tooling** as a Dev Box, applied at provisionin
 
 - Per-user **Windows 365 Enterprise licenses** on the project's Entra group.
 - An **active Intune license** on the tenant (for customization scripts).
-- A signed-in user with **Windows 365** and **Intune** admin roles able to
-  consent to `CloudPC.ReadWrite.All` and `DeviceManagementScripts.ReadWrite.All`.
-- **PowerShell 7+** (the hook installs `Microsoft.Graph.Authentication`).
+- **PowerShell 7+** and **Azure CLI** available to the deployment shell.
+- The **deploying identity** must be able to create an app registration and grant
+  admin consent (Application Administrator + Privileged Role Administrator, or
+  Global Administrator). Configuration is then **fully automated and
+  non-interactive**: `azd provision` auto-creates the app registration (app-only
+  Graph auth), mints an **ephemeral** client secret per run (nothing is stored,
+  so no Key Vault permission is needed), and configures Cloud PCs - no manual
+  step and no sign-in prompt. Everything is idempotent across runs.
 
 ### Deploy & manage
 
