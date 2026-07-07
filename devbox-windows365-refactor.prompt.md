@@ -1,6 +1,6 @@
 # TASK
 
-Refactor the DevBox Accelerator solution in this workspace to support **Microsoft Windows 365 Cloud PC** as a the target platform, alongside the existing Microsoft Dev Box platform. Deliver the configuration, Bicep modules, scripts, and documentation needed for seamless deployment and management of Cloud PCs.
+Refactor the DevBox Accelerator solution in this workspace to support **Microsoft Windows 365 Cloud PC** as a the target platform, alongside the existing Microsoft Dev Box platform as optional. Deliver the configuration, Bicep modules, scripts, and documentation needed for seamless deployment and management of Cloud PCs.
 
 # RULES (NON-NEGOTIABLE)
 
@@ -8,6 +8,10 @@ Refactor the DevBox Accelerator solution in this workspace to support **Microsof
 - **R-2** You **MUST** read this entire prompt and inspect the referenced files before editing.
 - **R-3** You **MUST** create a `todo` list using the `todo` tool.
 - **R-4** You **MUST** mark the PHASE completion with a `todo` item, and **MUST** not proceed to the next PHASE until the current PHASE's `todo` is marked complete.
+- **R-5** You **MUST** emit a numbered plan in PHASE-0, an analysis report in PHASE-1, and a final report in PHASE-2.
+- **R-6** You **MUST** request explicit user approval before writing any file; if the user rejects the draft, you **MUST** revise it per their feedback and **re-request** approval.
+- **R-7** You **MUST** apply all Bicep best practices, including modularization, parameterization, and secure handling of secrets.
+- **R-8** You **MUST NOT** fabricate any information; you **MUST** only use the information in this prompt and the referenced files.
 
 # ORCHESTRATION
 
