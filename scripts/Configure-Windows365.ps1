@@ -96,7 +96,21 @@ if (-not (Get-Module -ListAvailable -Name Microsoft.Graph.Authentication)) {
 Import-Module Microsoft.Graph.Authentication -ErrorAction Stop
 
 Write-Info "Connecting to Microsoft Graph (scopes: $($graphScopes -join ', '))..."
-Connect-MgGraph -Scopes $graphScopes -NoWelcome | Out-Null
+$connectParams = @{ Scopes = $graphScopes; NoWelcome = $true }
+# On Linux/WSL there is typically no browser, so use device-code auth. Do NOT
+# swallow output - the user must see the code + URL. Allow an override via
+# W365_USE_DEVICE_CODE=true for other headless hosts.
+if ($IsLinux -or $env:W365_USE_DEVICE_CODE -eq 'true') {
+    $connectParams.UseDeviceCode = $true
+    Write-Info 'Headless host detected - using device-code sign-in. Follow the URL/code below.'
+}
+Connect-MgGraph @connectParams
+
+# Fail fast with a clear message if no session was established.
+if (-not (Get-MgContext)) {
+    Write-Note 'Microsoft Graph sign-in did not complete. Re-run: pwsh -File ./scripts/Configure-Windows365.ps1'
+    return
+}
 
 function Invoke-Graph {
     param(
