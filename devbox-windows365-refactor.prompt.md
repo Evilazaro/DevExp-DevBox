@@ -2,18 +2,8 @@
 agent: agent
 model: Claude Sonnet 4.5
 description: Refactor the DevBox Accelerator to add Microsoft Windows 365 Cloud PC as a target platform alongside optional Dev Box, delivering Bicep modules, config, scripts, and docs.
-argument-hint:
-tools:
-  [
-    vscode,
-    execute,
-    read,
-    edit/createFile,
-    edit/editFiles,
-    search/codebase,
-    web/fetch,
-    todo,
-  ]
+argument-hint: Optional Windows 365 scope — license/SKU, provisioning policy, image, network join type. Values omitted here are auto-discovered from the workspace config/files.
+tools: [read, edit/createFile, edit/editFiles, search/codebase, web/fetch, todo]
 ---
 
 # ROLE
@@ -50,7 +40,7 @@ You **MUST** attempt `web/fetch` on a reference once when a fact is needed; on f
 
 # REASONING DIRECTIVE
 
-Before emitting the PHASE-1 report, **think step-by-step inside a `<thinking>` scratchpad**: list existing components, Windows 365 gaps, and module boundaries. The `<thinking>` block **MUST NOT** appear in the final output.
+Before emitting the PHASE-1 report, **think step-by-step inside a `<thinking>` scratchpad**: list existing components, Windows 365 gaps, and module boundaries. The `<thinking>` block **MUST NOT** appear in the final output (verified by V-12).
 
 # RULES (NON-NEGOTIABLE)
 
@@ -58,7 +48,7 @@ Before emitting the PHASE-1 report, **think step-by-step inside a `<thinking>` s
 - **R-2** You **MUST** read this entire prompt and inspect the workspace files named in `# INPUT CONTRACT` before editing.
 - **R-3** You **MUST** create and maintain a to-do list (one item per PHASE) using the `todo` tool.
 - **R-4** You **MUST** mark each PHASE complete in the to-do list, and **MUST NOT** proceed to the next PHASE until the current one is complete.
-- **R-5** You **MUST** emit a numbered plan in PHASE-0, an analysis report in PHASE-1, and a final report in PHASE-2, per `# OUTPUT FORMAT`.
+- **R-5** You **MUST** emit a numbered plan in PHASE-0, an analysis report in PHASE-1, and a final report in PHASE-2, per `# OUTPUT FORMAT`; the `<thinking>` scratchpad **MUST NOT** appear in that output.
 - **R-6** You **MUST** request explicit user approval before writing any file; if rejected, revise per feedback and **re-request** approval; you **MUST NOT** write until approval is granted.
 - **R-7** You **MUST** apply all Bicep best practices — modularization, parameterization, and secure secret handling (no plaintext secrets; use `@secure()` and Key Vault references).
 - **R-8** You **MUST NOT** fabricate information; use only this prompt, the referenced files, and fetched reference material.
@@ -158,9 +148,9 @@ Do **not** proceed or guess until answered. If discovery had resolved every valu
 # Constraints
 
 - **C-1** You **MUST** start fresh and self-contained, and **MUST NOT** carry prior chat state. _(R-1)_
-- **C-2** You **MUST** inspect the `# INPUT CONTRACT` files before editing, and **MUST NOT** edit unseen files. _(R-2)_
+- **C-2** You **MUST** inspect the `# INPUT CONTRACT` files before editing using only the declared read/search tools, and **MUST NOT** edit unseen files. _(R-2)_
 - **C-3** You **MUST** maintain a per-PHASE to-do list and complete PHASEs in order, and **MUST NOT** skip or reorder. _(R-3, R-4)_
-- **C-4** You **MUST** emit the plan, analysis, and final report per `# OUTPUT FORMAT`, and **MUST NOT** omit any. _(R-5)_
+- **C-4** You **MUST** emit the plan, analysis, and final report per `# OUTPUT FORMAT` with no `<thinking>` block, and **MUST NOT** omit any required section. _(R-5)_
 - **C-5** You **MUST** obtain explicit approval before any write, and **MUST NOT** write otherwise. _(R-6)_
 - **C-6** You **MUST** apply Bicep best practices and secure secret handling, and **MUST NOT** emit plaintext secrets. _(R-7)_
 - **C-7** You **MUST** ground all output in prompt, files, and fetched references, and **MUST NOT** fabricate. _(R-8)_
@@ -198,3 +188,4 @@ Do **not** proceed or guess until answered. If discovery had resolved every valu
 | V-9  | Network degradation handled  | `web/fetch` failures flagged `G-NET`; no fabricated APIs                                                                     | C-9      |
 | V-10 | Discovery precedes questions | Workspace discovery runs first; any question round covers only unresolved values; no value found in config/files is re-asked | C-10     |
 | V-11 | Per-fact fetch integrity     | Each needed fact has its own fetch attempt; no failed-fetch reuse                                                            | C-11     |
+| V-12 | Thinking block excluded      | No `<thinking>` scratchpad appears anywhere in the emitted PHASE output                                                      | C-4      |
