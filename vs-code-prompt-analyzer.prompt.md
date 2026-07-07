@@ -172,7 +172,7 @@ The model **MUST** emit sections in this exact order, and **MUST NOT** include a
 - **C-12** You **MUST** attempt `web/fetch` once for each of THE GUIDES; on failure you **MUST** fall back to trained knowledge + canonical fallback and flag `G-NET`, and **MUST NOT** abort. _(R-6)_
 - **C-13** You **MUST** target ≥ 95 mean with zero open High defects; if not honestly reachable, halt via G-3, and **MUST NOT** ship a draft below threshold. _(R-8)_
 - **C-14** You **MUST** emit a before/after fenced block for every High-severity defect, and **MUST NOT** merge multiple defects into one block. _(R-9)_
-- **C-15** You **MUST NOT** call `edit/createFile` on an existing target path; you **MUST** use `replace_string_in_file` or `edit/editFiles` for in-place edits. `edit/createFile` is permitted **only** when the target path does not yet exist on disk. _(R-11)_
+- **C-15** You **MUST NOT** call `edit/createFile` on an existing target path; you **MUST** use `edit/editFiles` for in-place edits. `edit/createFile` is permitted **only** when the target path does not yet exist on disk. _(R-11)_
 
 # Gates
 
