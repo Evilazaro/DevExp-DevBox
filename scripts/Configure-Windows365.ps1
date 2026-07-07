@@ -111,14 +111,13 @@ if ([string]::IsNullOrWhiteSpace($TenantId)) {
 if ([string]::IsNullOrWhiteSpace($ClientId) -or [string]::IsNullOrWhiteSpace($ClientSecret)) {
     if (-not (Get-Command az -ErrorAction SilentlyContinue)) { Write-Note 'Azure CLI (az) is required; skipping.'; return }
 
-    # Ensure the app registration exists (create + Graph permissions + admin consent).
+    # Ensure the app registration exists with the current Graph permissions and
+    # admin consent. Idempotent - reconciles permissions on every run, so an
+    # existing app picks up newly-required scopes automatically.
+    $setup = Join-Path $PSScriptRoot 'Setup-Windows365App.ps1'
+    Write-Info 'Ensuring Windows 365 app registration and Graph permissions...'
+    try { & $setup } catch { Write-Note "App setup failed: $($_.Exception.Message)"; return }
     $ClientId = (az ad app list --display-name 'DevExp-Windows365' --query "[0].appId" -o tsv 2>$null)
-    if ([string]::IsNullOrWhiteSpace($ClientId)) {
-        $setup = Join-Path $PSScriptRoot 'Setup-Windows365App.ps1'
-        Write-Info 'Windows 365 app registration not found - creating it automatically...'
-        try { & $setup } catch { Write-Note "Automatic app setup failed: $($_.Exception.Message)"; return }
-        $ClientId = (az ad app list --display-name 'DevExp-Windows365' --query "[0].appId" -o tsv 2>$null)
-    }
     if ([string]::IsNullOrWhiteSpace($ClientId)) {
         Write-Note 'Could not create or resolve the app registration.'
         Write-Note 'The deploying identity needs rights to create an app registration and grant admin consent. Skipping.'
@@ -165,17 +164,29 @@ function Invoke-Graph {
     $uri = if ($Path -match '^https?://') { $Path } else { "$GraphBaseUri$Path" }
     $params = @{ Method = $Method; Uri = $uri; Headers = $graphHeaders }
     if ($Body) { $params.Body = ($Body | ConvertTo-Json -Depth 12); $params.ContentType = 'application/json' }
-    return Invoke-RestMethod @params
+    try { return Invoke-RestMethod @params }
+    catch {
+        $detail = $null
+        try { $detail = $_.ErrorDetails.Message } catch { }
+        if ($detail) { throw "Graph $Method $Path -> $detail" } else { throw }
+    }
 }
 
 function Resolve-GalleryImage {
     param([string]$ImageId, [string]$ImageDisplayName)
     try {
         $images = (Invoke-Graph -Method GET -Path '/deviceManagement/virtualEndpoint/galleryImages').value
-        if ($images | Where-Object { $_.id -eq $ImageId }) { return $ImageId }
+        # Return the gallery's canonical id (handles casing/format differences).
+        $byId = $images | Where-Object { $_.id -eq $ImageId } | Select-Object -First 1
+        if ($byId) { return $byId.id }
         $byName = $images | Where-Object { $_.displayName -eq $ImageDisplayName -and $_.status -eq 'supported' } | Select-Object -First 1
-        if ($byName) { Write-Note "imageId '$ImageId' not in gallery; using '$($byName.id)' (matched display name)."; return $byName.id }
-        Write-Note "Gallery image '$ImageId' not found; proceeding with the configured value."
+        if ($byName) { Write-Note "Using gallery image '$($byName.id)' (matched display name '$ImageDisplayName')."; return $byName.id }
+        # Fuzzy: newest supported Windows 11 + Microsoft 365 image.
+        $fuzzy = $images | Where-Object { $_.status -eq 'supported' -and $_.id -match 'win11' -and $_.id -match 'm365' } | Sort-Object id -Descending | Select-Object -First 1
+        if ($fuzzy) { Write-Note "Using gallery image '$($fuzzy.id)' (closest Windows 11 + M365 supported match)."; return $fuzzy.id }
+        $anySupported = $images | Where-Object { $_.status -eq 'supported' } | Select-Object -First 1
+        if ($anySupported) { Write-Note "Configured image not found; using first supported gallery image '$($anySupported.id)'."; return $anySupported.id }
+        Write-Note "No supported gallery images returned; using configured '$ImageId'."
         return $ImageId
     }
     catch { Write-Note "Could not query gallery images: $($_.Exception.Message). Using configured imageId."; return $ImageId }
@@ -234,7 +245,8 @@ winget configure --file `$dsc --accept-configuration-agreements --disable-intera
 # 3. Per-project configuration (idempotent upserts)
 # ---------------------------------------------------------------------------
 foreach ($c in $enabled) {
-    Write-Info "Configuring Windows 365 for project '$($c.projectName)'..."
+    try {
+        Write-Info "Configuring Windows 365 for project '$($c.projectName)'..."
 
     # 3a. Resolve the image (custom images are used as-is).
     $imageId = if ($c.imageType -eq 'gallery') { Resolve-GalleryImage -ImageId $c.imageId -ImageDisplayName $c.imageDisplayName } else { $c.imageId }
@@ -304,6 +316,11 @@ foreach ($c in $enabled) {
                 Set-CustomizationScript -ProjectName $c.projectName -DscUrl $dscUrl -GroupId $c.userGroupId
             }
         }
+    }
+    }
+    catch {
+        Write-Note "Failed to configure project '$($c.projectName)': $($_.Exception.Message)"
+        continue
     }
 }
 

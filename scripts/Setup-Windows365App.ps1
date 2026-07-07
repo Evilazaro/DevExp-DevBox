@@ -40,7 +40,7 @@ function Write-Info { param([string]$Message) Write-Host "[Windows365-Setup] $Me
 
 # Microsoft Graph well-known first-party application ID (stable, not tenant-specific).
 $graphAppId = '00000003-0000-0000-c000-000000000000'
-$requiredRoles = @('CloudPC.ReadWrite.All', 'DeviceManagementConfiguration.ReadWrite.All')
+$requiredRoles = @('CloudPC.ReadWrite.All', 'DeviceManagementScripts.ReadWrite.All')
 
 if (-not (Get-Command az -ErrorAction SilentlyContinue)) { throw 'Azure CLI (az) is required.' }
 
