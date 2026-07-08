@@ -115,7 +115,7 @@ projects:
       type: SystemAssigned # Managed identity type
       roleAssignments:
         - azureADGroupId: 'b9968440-0caf-40d8-ac36-52f159730eb7' # Azure AD group ID
-          azureADGroupName: 'eShop Engineers' # Azure AD group name
+          azureADGroupName: 'Project eShop' # Azure AD group name
           azureRBACRoles:
             - name: 'Contributor' # RBAC role name
               id: 'b24988ac-6180-42a0-ab88-20f7382dd24c' # RBAC role ID
