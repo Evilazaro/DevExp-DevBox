@@ -17,7 +17,7 @@
     Valid values: eastus, eastus2, westus, westus2, westus3, northeurope, westeurope
 
 .PARAMETER WorkloadName
-    The workload name prefix used in resource group naming. Defaults to 'devexp'.
+    The workload name prefix used in resource group naming. Defaults to 'devbox'.
 
 .EXAMPLE
     .\cleanUp.ps1
@@ -44,7 +44,7 @@ param(
 
     [Parameter(Mandatory = $false)]
     [ValidateNotNullOrEmpty()]
-    [string]$WorkloadName = "devexp"
+    [string]$WorkloadName = "devbox"
 )
 
 # Script Configuration
@@ -146,7 +146,7 @@ function Remove-AllResourceGroups {
         System.Boolean - True if all deletions initiated successfully, False otherwise.
 
     .EXAMPLE
-        Remove-AllResourceGroups -WorkloadName "devexp" -Environment "demo" -Location "eastus2"
+        Remove-AllResourceGroups -WorkloadName "devbox" -Environment "demo" -Location "eastus2"
     #>
     [CmdletBinding(SupportsShouldProcess)]
     [OutputType([bool])]

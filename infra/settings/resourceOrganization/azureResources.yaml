@@ -15,7 +15,7 @@
 # Main application resources for Dev Box workloads
 workload:
   create: true
-  name: devexp-workload
+  name: devbox-workload
   description: prodExp
   tags:
     environment: dev # Deployment environment (dev, test, prod)
@@ -33,7 +33,7 @@ workload:
 # Security-related resources (Key Vaults, NSGs, Defender, etc.)
 security:
   create: false
-  name: devexp-workload
+  name: devbox-workload
   description: prodExp
   tags:
     environment: dev # Deployment environment
@@ -51,7 +51,7 @@ security:
 # Monitoring and observability resources
 monitoring:
   create: false
-  name: devexp-workload
+  name: devbox-workload
   description: prodExp
   tags:
     environment: dev # Deployment environment

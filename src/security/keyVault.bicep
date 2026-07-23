@@ -41,7 +41,7 @@ type Tags = {
 }
 
 @description('Azure Key Vault')
-resource keyVault 'Microsoft.KeyVault/vaults@2025-05-01' = {
+resource keyVault 'Microsoft.KeyVault/vaults@2026-03-01-preview' = {
   name: '${keyvaultSettings.keyVault.name}-${unique}-kv'
   location: location
   tags: tags

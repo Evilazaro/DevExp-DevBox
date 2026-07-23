@@ -299,13 +299,13 @@ consumed by Bicep `loadYamlContent()` calls (source: `infra/main.bicep`,
 # every landing zone into its own resource group instead of consolidating them.
 workload:
   create: true
-  name: devexp-workload
+  name: devbox-workload
 security:
   create: true
-  name: devexp-security
+  name: devbox-security
 monitoring:
   create: true
-  name: devexp-monitoring
+  name: devbox-monitoring
 ```
 
 ## Deployment
@@ -406,10 +406,10 @@ group via the `securityRgName` / `monitoringRgName` selectors in
 # infra/settings/resourceOrganization/azureResources.yaml
 security:
   create: false
-  name: devexp-workload
+  name: devbox-workload
 monitoring:
   create: false
-  name: devexp-workload
+  name: devbox-workload
 ```
 
 ```bash

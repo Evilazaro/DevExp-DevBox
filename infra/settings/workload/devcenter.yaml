@@ -16,7 +16,7 @@
 # =============================================================================
 # Dev Center Core Settings
 # =============================================================================
-name: 'devexp'
+name: 'devbox'
 catalogItemSyncEnableStatus: 'Enabled'
 microsoftHostedNetworkEnableStatus: 'Enabled'
 installAzureMonitorAgentEnableStatus: 'Enabled'
