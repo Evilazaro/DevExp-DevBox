@@ -236,3 +236,49 @@ properties:
         description: Install Azure Storage Emulator for local development
       settings:
         id: Microsoft.Azure.StorageEmulator
+
+    # Resource: Docker Desktop
+    # Docker Desktop provides containerization capabilities for local development,
+    # enabling developers to build, test, and deploy containerized applications.
+    #
+    # Key integration points:
+    # - Local container image building and testing
+    # - Docker Compose for multi-container application orchestration
+    # - Integration with Azure Container Registry for image management
+    # - Support for Windows and Linux container modes
+    # - Kubernetes support via Docker Desktop for local k8s development
+    # - WSL2 backend for improved performance on Windows
+    #
+    # Development best practices:
+    # - Use .dockerignore to exclude unnecessary files from images
+    # - Create multi-stage Dockerfile for optimized image sizes
+    # - Leverage Docker Compose for local development environments
+    # - Test container images locally before pushing to registries
+    # - Implement proper health checks in container definitions
+    # - Use environment variables for configuration management
+    # - Document container build and run procedures
+    # - Keep container images minimal for faster deployments
+    # - Use Docker Desktop's built-in Kubernetes for local testing
+    #
+    # Common development scenarios:
+    # - Building and testing containerized applications
+    # - Local multi-container application development with Docker Compose
+    # - Container image validation before cloud deployment
+    # - Kubernetes application development and testing
+    # - Integration with CI/CD pipelines for container builds
+    #
+    # DSC-specific notes:
+    # - Installation may require system restart for WSL2 integration
+    # - Requires virtualization capabilities enabled in BIOS
+    # - Consider validating Docker daemon is running after installation
+    # - May need to configure resource limits for optimal performance
+    #
+    # Reference: https://www.docker.com/products/docker-desktop
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: Docker.DockerDesktop
+      directives:
+        allowPrerelease: true
+        description: Install Docker Desktop for containerized application development
+      settings:
+        id: Docker.DockerDesktop
+
