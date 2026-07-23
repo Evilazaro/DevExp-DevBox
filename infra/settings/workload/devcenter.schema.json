@@ -182,7 +182,7 @@
           "type": "string",
           "description": "Name of the environment type (e.g., dev, staging, prod)",
           "minLength": 1,
-          "examples": ["dev", "staging", "UAT", "prod"]
+          "examples": ["dev", "staging", "uat", "prod"]
         },
         "deploymentTargetId": {
           "type": "string",
