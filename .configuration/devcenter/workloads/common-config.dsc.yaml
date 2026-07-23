@@ -7,7 +7,7 @@
 #   This DSC configuration sets up a standard development environment with:
 #   - Development storage using Dev Drive
 #   - Source control tools (Git, GitHub CLI)
-#   - Development runtimes (.NET 9 SDK and Runtime)
+#   - Development runtimes (.NET 10 SDK and Runtime)
 #   - Development tools (VS Code, Node.js)
 #
 # Prerequisites:
@@ -116,12 +116,12 @@ properties:
     # - Benefits from Dev Drive configuration for large solution files
     # - Includes .NET CLI tools for Azure Functions development
     - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: Microsoft.DotNet.SDK.9
+      id: Microsoft.DotNet.SDK.10
       directives:
         allowPrerelease: true
-        description: Install .NET 9 SDK for application development
+        description: Install .NET 10 SDK for application development
       settings:
-        id: Microsoft.DotNet.SDK.9
+        id: Microsoft.DotNet.SDK.10
 
     # Resource: .NET Runtime 9
     # The .NET Runtime enables execution of .NET applications and is required
@@ -136,14 +136,14 @@ properties:
     # Note: While included in the SDK, explicit installation ensures availability
     # for tools that may require the runtime directly
     - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: Microsoft.DotNet.Runtime.9
+      id: Microsoft.DotNet.Runtime.10
       directives:
         allowPrerelease: true
-        description: Install .NET 9 Runtime
+        description: Install .NET 10 Runtime
       settings:
-        id: Microsoft.DotNet.Runtime.9
+        id: Microsoft.DotNet.Runtime.10
       dependsOn:
-        - Microsoft.DotNet.SDK.9 # Runtime is included in SDK, but explicit dependency ensures correct order
+        - Microsoft.DotNet.SDK.10 # Runtime is included in SDK, but explicit dependency ensures correct order
 
     # Resource: Node.js
     # Node.js is a JavaScript runtime environment essential for modern web development

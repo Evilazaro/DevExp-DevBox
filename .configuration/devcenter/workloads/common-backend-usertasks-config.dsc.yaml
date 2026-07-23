@@ -170,7 +170,7 @@ properties:
     - resource: PSDscResources/Script
       id: Ubuntu.DotNetSDK
       directives:
-        description: Install .NET 9 SDK and Runtime on Ubuntu
+        description: Install .NET 10 SDK and Runtime on Ubuntu
         securityContext: elevated # Requires admin rights to run WSL commands
       settings:
         SetScript: |

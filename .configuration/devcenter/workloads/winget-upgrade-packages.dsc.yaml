@@ -7,7 +7,7 @@
 #   This DSC configuration sets up a standard development environment with:
 #   - Development storage using Dev Drive
 #   - Source control tools (Git, GitHub CLI)
-#   - Development runtimes (.NET 9 SDK and Runtime)
+#   - Development runtimes (.NET 10 SDK and Runtime)
 #   - Development tools (VS Code, Node.js)
 #
 # Prerequisites:
